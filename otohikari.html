@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>オトヒカリ — 光の音柱</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;500;700&family=Cinzel:wght@400;700&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{background:#050510;color:#e0e8f0;font-family:'Zen Kaku Gothic New',sans-serif;overflow:hidden;height:100%;width:100%;touch-action:none;-webkit-user-select:none;user-select:none}
+  #c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;touch-action:none}
+  canvas{display:block;touch-action:none}
+  .ot{position:fixed;top:0;left:0;right:0;z-index:10;padding:20px 24px;background:linear-gradient(to bottom,rgba(5,5,16,0.92) 0%,rgba(5,5,16,0.4) 60%,transparent 100%);pointer-events:none}
+  .ta{display:flex;align-items:center;gap:14px}
+  .lg{width:44px;height:44px;border-radius:50%;flex-shrink:0;background:radial-gradient(circle at 40% 40%,#7fefb0,#2a8f5a);box-shadow:0 0 20px rgba(127,239,176,0.4),0 0 60px rgba(127,239,176,0.15);display:flex;align-items:center;justify-content:center;font-size:18px;animation:pg 3s ease-in-out infinite}
+  @keyframes pg{0%,100%{box-shadow:0 0 20px rgba(127,239,176,0.4),0 0 60px rgba(127,239,176,0.15)}50%{box-shadow:0 0 30px rgba(127,239,176,0.6),0 0 80px rgba(127,239,176,0.25)}}
+  .tt h1{font-family:'Cinzel',serif;font-size:20px;font-weight:400;letter-spacing:5px;color:#c0f0d8;text-shadow:0 0 30px rgba(127,239,176,0.3)}
+  .tt p{font-size:10px;font-weight:300;letter-spacing:2px;color:rgba(192,240,216,0.45);margin-top:2px}
+  .ob{position:fixed;bottom:0;left:0;right:0;z-index:10;padding:20px 24px 28px;background:linear-gradient(to top,rgba(5,5,16,0.92) 0%,rgba(5,5,16,0.4) 60%,transparent 100%);pointer-events:none}
+  .sb{display:flex;align-items:flex-end;justify-content:space-between}
+  .sl{display:flex;gap:28px}
+  .sn{font-family:'Cinzel',serif;font-size:26px;font-weight:700;color:#7fefb0;text-shadow:0 0 20px rgba(127,239,176,0.5);line-height:1}
+  .slb{font-size:9px;letter-spacing:1.5px;color:rgba(192,240,216,0.4);margin-top:3px;font-weight:300}
+  .fn{font-family:'Cinzel',serif;font-size:32px;font-weight:700;color:#7fefb0;text-shadow:0 0 30px rgba(127,239,176,0.4);line-height:1;text-align:right}
+  .fu{font-size:14px;color:rgba(192,240,216,0.5);font-weight:300}
+  .fl{font-size:9px;letter-spacing:1.5px;color:rgba(192,240,216,0.3);margin-top:2px;text-align:right}
+  .ins{position:fixed;bottom:110px;left:50%;transform:translateX(-50%);z-index:10;font-size:10px;letter-spacing:2px;color:rgba(192,240,216,0.2);pointer-events:none;animation:fh 5s ease-in-out infinite;white-space:nowrap}
+  @keyframes fh{0%,100%{opacity:0.2}50%{opacity:0.6}}
+  .tcl{position:fixed;top:90px;left:50%;transform:translateX(-50%);z-index:10;font-family:'Cinzel',serif;font-size:14px;letter-spacing:3px;color:rgba(192,240,216,0.35);pointer-events:none;text-align:center}
+  .tcl .ck{font-size:22px;color:rgba(127,239,176,0.6);display:block;margin-top:4px}
+</style>
+</head>
+<body>
+<div id="c"></div>
+<div class="ot"><div class="ta"><div class="lg">♪</div><div class="tt"><h1>OTOHIKARI</h1><p>光の音柱 ─ マスターマインドメンバーズ</p></div></div></div>
+<div class="tcl">シミュレーション<span class="ck" id="sc">03:36</span></div>
+<div class="ob"><div class="sb"><div class="sl"><div><div class="sn" id="ac">0</div><div class="slb">LISTENING NOW</div></div><div><div class="sn">22,000</div><div class="slb">MEMBERS</div></div></div><div><div class="fn">8.02 <span class="fu">Hz</span></div><div class="fl">TARGET SCHUMANN</div></div></div></div>
+<div class="ins">ドラッグで回転 ・ ピンチでズーム</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+document.addEventListener('gesturestart',e=>e.preventDefault(),{passive:false});
+document.addEventListener('gesturechange',e=>e.preventDefault(),{passive:false});
+document.addEventListener('gestureend',e=>e.preventDefault(),{passive:false});
+document.addEventListener('touchmove',e=>{if(e.touches.length>1)e.preventDefault();},{passive:false});
+
+// ═══ 海岸線 ═══
+const CL=[
+  [[35.8,-5.9],[36.8,3],[37.1,10.2],[32.9,12],[31.5,25],[31.3,32.3],[29.5,32.6],[27.2,33.8],[22,36.5],[15.5,40],[12.6,43.3],[11.5,43],[10.5,45],[8,46.5],[5,46],[2,45.3],[-1,41.5],[-4,39.5],[-6.8,39.3],[-10.3,40.3],[-15,40.5],[-21,35.5],[-25.5,33],[-29,32],[-33.5,27.2],[-34.8,20],[-33,17.9],[-29,16.5],[-26,14.5],[-22.5,14.3],[-17.8,12],[-12.3,13.8],[-8,13],[-5,12],[-4.7,9.8],[-5,7],[-1,5.5],[3,7],[4,7.3],[4.5,5.8],[6.3,3.3],[4.3,2.5],[4,1],[3.8,-0.5],[3.2,-5],[0.3,-9.3],[5.3,-4],[5.5,-1.5],[6.5,1.5],[7.5,4],[10,7],[10,1],[9.8,-1.5],[9,-7],[12.5,-13.5],[14.5,-16.5],[16,-16],[19.5,-17],[21.2,-17.1],[25,-14.5],[27.5,-13.2],[30,-10],[33,-8.5],[35,-6],[35.8,-5.9]],
+  [[36.1,-5.4],[36.7,-2.2],[37.4,-1.8],[38.5,-0.3],[39.5,0],[40.5,0.3],[41.3,2.2],[43.3,3],[43.5,4],[43.3,6.5],[43.8,7.5],[44.4,8.8],[45.5,13.5],[46,13.8],[46.5,15.5],[47,15.5],[47.5,16.5],[49,17],[50,14.5],[51.5,14.5],[54,10],[54.5,10.5],[55,12],[55.5,8.5],[56,11],[57,12],[56.5,16],[58,18.5],[59.5,18.5],[60.5,18],[63.5,20.5],[66,24],[68,20],[70,27],[70.5,30],[71.2,28],[69.5,18.5],[67,16],[63,5],[62,5.5],[61,5],[60,5.5],[58.5,5.5],[57.5,7],[58,8],[57,10],[56,8.5],[54.5,8.3],[53.5,6],[52.5,5],[51.5,3.8],[51,3.5],[50.5,1.5],[50,-5.5],[48.5,-5],[47.5,-2.5],[46.5,-1.5],[44,-1.5],[43.5,-1.8],[43,-3],[42.5,-8.8],[43.5,-8.2],[43.5,-8.5],[42,-8.9],[41,-8.5],[39.5,-9.5],[37,-7.5],[36.5,-6.3],[36.1,-5.4]],
+  [[42,27.5],[41,29],[41.5,32],[42,35.5],[42,41],[43.5,40],[45,37],[47,39.5],[45,50],[43,51],[40.5,53],[37.5,56],[37,54],[30.5,49],[29.5,48.5],[30.5,47.5],[31,43],[33.5,36],[32,34.5],[31.5,33.5]],
+  [[45,50],[47,52],[50,55],[52,59],[55,68],[55,73],[52,77],[48,80],[42,75],[39,68],[35,63],[25,62],[24,68.5],[23.5,68.2],[22.5,69],[21,72],[19,73],[15.5,74],[12,75],[8,77.5],[10,80],[13.5,80.3],[16,82],[19,85],[21.5,87],[22,89],[22.5,90],[21,92],[20,93],[16,95.5],[10,98.5],[6,100.5],[1.5,103.5],[1.3,104],[4,108],[7,110],[8.5,115],[10.5,119],[15,120],[18,120.5],[22.3,114.2],[23.5,117],[25,118.5],[27,121],[30,122.5],[31.5,121.5],[34.5,119.5],[36,120.5],[38,121],[39,118],[39.5,119.5],[41,122],[40.5,124.5],[43,131],[46,133.5],[48.5,135],[50,140],[52,141.5],[53.5,142.5],[55,138],[57,138.5],[59,143],[59.5,150],[61,153],[60,163],[62,164],[64,170],[65,176],[66,-180]],
+  [[66,180],[64,172],[62,167],[60,165],[58,162.5],[56,163],[54,159],[52,157],[51,157.5],[53,158.5],[56.5,162],[59.5,164],[62,177],[66,180]],
+  [[29.5,35],[28,35],[25,37],[20,40.5],[15.5,42.5],[12.5,45],[14,49],[16.5,53],[22,59.5],[25,56.5],[26.5,56],[24.5,54],[24,52],[25,50.5],[26,50],[27,49.5],[29.5,47.5],[29.5,35]],
+  [[43.4,145.5],[43.3,145],[44,144.3],[45,142],[45.5,141.9],[44,141.7],[43.2,141],[42.3,140],[42,140.5],[41.4,140.2],[41.8,141],[42,142.5],[42.5,143.5],[43,144.5],[43.4,145.5]],
+  [[41,140],[40.5,139.7],[39.5,140],[39,139.9],[38.5,139.5],[37.5,138.5],[37,137],[36.5,136.5],[36,136],[35.5,135.5],[35,135],[34.5,135],[34,135.2],[33.5,133.5],[33,132.8],[34,132],[34.5,132],[34.5,131.5],[34.8,131.8],[35,132],[35.3,133],[35.5,134],[35.7,135],[35.5,136],[35,137],[34.8,137.5],[35,138.5],[35.3,139.5],[35.6,140],[36,140.5],[37,141],[38,141.5],[39.5,140],[40,139.8],[41,140]],
+  [[34.3,134.5],[33.8,133],[33,132.7],[33,133],[33.3,134],[34.3,134.5]],
+  [[33.5,131.5],[33,131],[32.5,130.5],[31.5,131],[31,131.5],[32,131.5],[32.5,132],[33,132],[33.5,131.5]],
+  [[70,-141],[68,-135],[63,-136],[61,-139],[60,-140],[59.5,-139.5],[58,-136],[56.5,-132],[54.5,-130.5],[52,-128],[49,-123],[48.5,-124.5],[46,-124],[43,-124.5],[40,-124],[37.5,-122.5],[35,-121],[33,-117.5],[32.5,-117],[30,-115],[28,-112],[24.5,-112],[23,-110],[22.5,-110],[20,-105.5],[19,-105],[18,-103],[16,-96],[15.5,-93],[18.5,-88],[21.5,-87],[21,-90],[19.5,-91],[19,-92],[18.5,-94.5],[20,-97],[22.5,-97.5],[24,-97.5],[26,-97],[28.5,-96],[29.5,-94.5],[29,-89.5],[30,-89],[30.5,-88.5],[30,-85.5],[27.5,-82.5],[25,-81],[25,-80.5],[27,-80],[30.5,-81.5],[32,-81],[34.5,-77.5],[35.5,-75.5],[37,-76],[38.5,-75.5],[39.5,-74],[41,-72],[42,-71],[42,-70],[43.5,-70],[44.5,-67],[45,-67],[47,-68],[47.5,-64.5],[46,-60],[44.5,-63.5],[45.5,-61],[47,-61],[49,-64.5],[48.5,-59],[50,-57],[47.5,-53.5],[47,-55.5],[46.5,-53],[49,-58],[51,-55.5],[53.5,-56],[53,-60],[58.5,-63],[60,-65],[62,-66],[63.5,-68.5],[63,-78],[60,-82],[57,-79],[55,-82],[55,-85],[52,-80],[51,-80.5],[52,-79],[54,-72],[56,-61],[58,-62],[60.5,-65],[64,-75],[66,-62],[68,-53],[70,-54],[72,-55],[73,-58],[73,-71],[75,-80],[73,-86],[70,-92],[68.5,-96],[70,-102],[72,-109],[71,-117],[70,-128],[70,-141]],
+  [[12.5,-72],[12,-68],[10.5,-67],[10.5,-62],[8,-60],[7,-57],[5,-54],[3,-52],[1,-50],[-1,-48],[-3,-41],[-5,-35.5],[-8,-35],[-13,-38.5],[-18,-39.5],[-23,-41],[-25,-48.5],[-28,-48.5],[-33,-52.5],[-35,-57],[-38.5,-58],[-41,-63],[-43,-65],[-46,-67.5],[-48,-66],[-50,-68.5],[-52,-70],[-54,-70],[-55,-68.5],[-54.5,-65.5],[-52,-69.5],[-48,-75.5],[-44,-73],[-40,-73.5],[-38,-73.5],[-33,-72],[-30,-71.5],[-27,-71],[-23.5,-70.5],[-18.5,-70.5],[-15,-75.5],[-12,-77],[-6,-81],[-2,-80.5],[0,-80],[2,-78],[4,-77],[7,-77.5],[9,-76],[11,-75],[12.5,-72]],
+  [[-12.5,131],[-12,133],[-14.5,135.5],[-17,140.5],[-17.5,141],[-16.5,146],[-19,147],[-22,150],[-24,152.5],[-27.5,153.5],[-29,153.5],[-33.5,151.5],[-35,151],[-37,150],[-38.5,146],[-39,144.5],[-38,141],[-36,137],[-35,136.5],[-34.5,136],[-33,134],[-32,132.5],[-33.5,123],[-34,115.5],[-31,115.5],[-27,113.5],[-25,113.5],[-22.5,114],[-20,119],[-18,122],[-15,125],[-14,126],[-12.5,131]],
+  [[50.5,-5],[50,-3.5],[51,1],[52,1.5],[53,0.5],[54,-1],[55,-1.5],[55.5,-3],[57,-2],[58.5,-3],[58.5,-5],[57.5,-6],[56,-5.5],[55,-5],[54.5,-5.5],[53.5,-3],[52,-4.5],[51.5,-5],[50.5,-5]],
+  [[25.3,121.5],[24,121.5],[22.5,120.5],[22,120.8],[23,120],[25,121],[25.3,121.5]],
+  [[43,131],[42,130.5],[39.5,127.5],[38.5,128.5],[38,128],[37,126.5],[35,126],[34.5,127],[35,129],[36,129.5],[37,129.5],[38.5,128.5],[39,128],[40,128.5],[41,129],[43,131]],
+  [[9.8,80],[8,80],[6,80.5],[7,81.5],[9,81],[9.8,80]],
+  [[-12.5,49],[-15.5,46],[-18,44],[-22,43.5],[-25.5,45],[-23,47.5],[-19,49.5],[-16,50],[-12.5,49]],
+  [[5.5,95],[2,99],[-1,104],[-3,106],[-5.5,106],[-5,104],[-2,100],[1,97.5],[5.5,95]],
+  [[-6,106],[-6.5,107],[-7.5,110],[-8,112.5],[-8.5,114.5],[-8,114],[-7,110.5],[-6.5,108],[-6,106]],
+  [[7,117],[5,119],[2,118],[0,117.5],[-1,116],[-2.5,112],[-3,110.5],[-1,109.5],[1.5,110],[3,111],[5,115.5],[7,117]],
+  [[18.5,121],[16,120],[14.5,121],[12.5,124],[10,124],[9,126],[7,126],[6.5,122],[8,117],[10,119],[12,122],[14,122.5],[16.5,120.5],[18.5,121]],
+  [[60,-43],[63,-41],[66,-35],[70,-22],[72,-20],[76,-19],[78,-20],[80,-25],[82,-30],[83.5,-35],[83,-45],[81,-52],[78,-56],[76,-68],[73,-57],[70,-52],[66,-54],[62,-50],[60,-43]],
+  [[66.5,-18],[65,-14],[64,-14],[63.5,-18],[64,-22],[65.5,-24],[66.5,-22],[66.5,-18]],
+  [[-35,174],[-37,175.5],[-38.5,177],[-41,175],[-41.5,174],[-39,174],[-37.5,175],[-36,174.5],[-35,174]],
+  [[-41,173.5],[-42.5,172],[-44,170],[-46,167],[-46.5,168.5],[-45.5,170.5],[-44,172],[-42,174],[-41,174.5],[-41,173.5]],
+];
+
+// ═══ 会員データ ═══
+const PREF=[
+  {n:"北海道",lat:43.06,lng:141.35,pop:800},{n:"青森",lat:40.82,lng:140.74,pop:180},{n:"岩手",lat:39.70,lng:141.15,pop:160},{n:"宮城",lat:38.27,lng:140.87,pop:380},{n:"秋田",lat:39.72,lng:140.10,pop:130},{n:"山形",lat:38.24,lng:140.33,pop:140},{n:"福島",lat:37.75,lng:140.47,pop:250},{n:"茨城",lat:36.34,lng:140.45,pop:350},{n:"栃木",lat:36.57,lng:139.88,pop:260},{n:"群馬",lat:36.39,lng:139.06,pop:250},{n:"埼玉",lat:35.86,lng:139.65,pop:900},{n:"千葉",lat:35.61,lng:140.12,pop:780},{n:"東京",lat:35.68,lng:139.69,pop:2200},{n:"神奈川",lat:35.45,lng:139.64,pop:1100},{n:"新潟",lat:37.90,lng:139.02,pop:280},{n:"富山",lat:36.70,lng:137.21,pop:140},{n:"石川",lat:36.59,lng:136.63,pop:150},{n:"福井",lat:36.07,lng:136.22,pop:100},{n:"山梨",lat:35.66,lng:138.57,pop:110},{n:"長野",lat:36.23,lng:138.18,pop:280},{n:"岐阜",lat:35.39,lng:136.72,pop:260},{n:"静岡",lat:34.98,lng:138.38,pop:480},{n:"愛知",lat:35.18,lng:136.91,pop:1000},{n:"三重",lat:34.73,lng:136.51,pop:230},{n:"滋賀",lat:35.00,lng:135.87,pop:180},{n:"京都",lat:35.02,lng:135.76,pop:400},{n:"大阪",lat:34.69,lng:135.50,pop:1300},{n:"兵庫",lat:34.69,lng:135.18,pop:720},{n:"奈良",lat:34.69,lng:135.83,pop:180},{n:"和歌山",lat:34.23,lng:135.17,pop:120},{n:"鳥取",lat:35.50,lng:134.24,pop:80},{n:"島根",lat:35.47,lng:133.05,pop:90},{n:"岡山",lat:34.66,lng:133.93,pop:260},{n:"広島",lat:34.40,lng:132.46,pop:380},{n:"山口",lat:34.19,lng:131.47,pop:170},{n:"徳島",lat:34.07,lng:134.56,pop:100},{n:"香川",lat:34.34,lng:134.04,pop:130},{n:"愛媛",lat:33.84,lng:132.77,pop:180},{n:"高知",lat:33.56,lng:133.53,pop:90},{n:"福岡",lat:33.59,lng:130.40,pop:700},{n:"佐賀",lat:33.25,lng:130.30,pop:100},{n:"長崎",lat:32.74,lng:129.87,pop:170},{n:"熊本",lat:32.79,lng:130.74,pop:230},{n:"大分",lat:33.24,lng:131.61,pop:150},{n:"宮崎",lat:31.91,lng:131.42,pop:140},{n:"鹿児島",lat:31.56,lng:130.56,pop:210},{n:"沖縄",lat:26.34,lng:127.78,pop:200},
+];
+const OVERSEAS=[
+  {n:"ソウル",lat:37.55,lng:126.98,pop:30,tz:0},{n:"台北",lat:25.03,lng:121.57,pop:20,tz:-1},{n:"上海",lat:31.23,lng:121.47,pop:15,tz:-1},{n:"バンコク",lat:13.76,lng:100.50,pop:15,tz:-2},{n:"シンガポール",lat:1.35,lng:103.82,pop:12,tz:-1},{n:"ジャカルタ",lat:-6.21,lng:106.85,pop:8,tz:-2},{n:"ムンバイ",lat:19.08,lng:72.88,pop:8,tz:-3.5},
+  {n:"シドニー",lat:-33.87,lng:151.21,pop:15,tz:2},{n:"メルボルン",lat:-37.81,lng:144.96,pop:8,tz:2},{n:"オークランド",lat:-36.85,lng:174.76,pop:5,tz:4},
+  {n:"ロンドン",lat:51.51,lng:-0.13,pop:12,tz:-9},{n:"パリ",lat:48.86,lng:2.35,pop:10,tz:-8},{n:"ベルリン",lat:52.52,lng:13.41,pop:8,tz:-8},{n:"バルセロナ",lat:41.39,lng:2.17,pop:5,tz:-8},{n:"ストックホルム",lat:59.33,lng:18.07,pop:3,tz:-8},
+  {n:"LA",lat:33.94,lng:-118.24,pop:20,tz:-17},{n:"NY",lat:40.71,lng:-74.01,pop:15,tz:-14},{n:"ホノルル",lat:21.31,lng:-157.86,pop:12,tz:-19},{n:"バンクーバー",lat:49.28,lng:-123.12,pop:8,tz:-17},{n:"SF",lat:37.77,lng:-122.42,pop:5,tz:-17},
+  {n:"サンパウロ",lat:-23.55,lng:-46.63,pop:5,tz:-12},{n:"バリ",lat:-8.34,lng:115.09,pop:10,tz:-1},{n:"ドバイ",lat:25.20,lng:55.27,pop:3,tz:-5},
+];
+
+function weightedRandomTime(){
+  const r=Math.random();
+  if(r<0.05)return Math.floor(Math.random()*180);
+  if(r<0.20)return 180+Math.floor(Math.random()*180);
+  if(r<0.85)return 360+Math.floor(Math.random()*720);
+  return 1080+Math.floor(Math.random()*360);
+}
+
+function generateAllMembers(){
+  const m=[];
+  PREF.forEach(p=>{const n=Math.max(1,Math.round(p.pop/150));for(let i=0;i<n;i++)m.push({lat:p.lat+(Math.random()-0.5)*0.6,lng:p.lng+(Math.random()-0.5)*0.6,phase:Math.random()*Math.PI*2,intensity:0.4+Math.random()*0.6,connectMinute:weightedRandomTime()});});
+  OVERSEAS.forEach(p=>{const n=Math.max(1,Math.round(p.pop/10));for(let i=0;i<n;i++){let jm=weightedRandomTime()-(p.tz*60);if(jm<0)jm+=1440;if(jm>=1440)jm-=1440;m.push({lat:p.lat+(Math.random()-0.5)*1.5,lng:p.lng+(Math.random()-0.5)*1.5,phase:Math.random()*Math.PI*2,intensity:0.4+Math.random()*0.6,connectMinute:jm});}});
+  m.sort((a,b)=>a.connectMinute-b.connectMinute);
+  return m;
+}
+
+// ═══ Three.js ═══
+const container=document.getElementById('c');
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(45,window.innerWidth/window.innerHeight,0.1,1000);
+camera.position.set(0,0.3,4.5);
+const renderer=new THREE.WebGLRenderer({antialias:true});
+renderer.setSize(window.innerWidth,window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+renderer.setClearColor(0x050510);
+container.appendChild(renderer.domElement);
+
+// ── 地球 ──
+const earth=new THREE.Mesh(new THREE.SphereGeometry(1,64,64),new THREE.MeshBasicMaterial({color:0x060a12}));
+scene.add(earth);
+earth.add(new THREE.Mesh(new THREE.SphereGeometry(1.001,36,18),new THREE.MeshBasicMaterial({color:0x0e2e24,wireframe:true,transparent:true,opacity:0.06})));
+
+function ll2v(lat,lng,r){const phi=(90-lat)*Math.PI/180,theta=(lng+180)*Math.PI/180;return new THREE.Vector3(-r*Math.sin(phi)*Math.cos(theta),r*Math.cos(phi),r*Math.sin(phi)*Math.sin(theta));}
+
+// 陸地塗りつぶし
+const landMat=new THREE.MeshBasicMaterial({color:0x0c1e18,transparent:true,opacity:0.7,side:THREE.DoubleSide});
+CL.forEach(poly=>{
+  if(poly.length<3)return;
+  const verts=poly.map(p=>ll2v(p[0],p[1],1.0015));
+  const center=new THREE.Vector3();verts.forEach(v=>center.add(v));center.divideScalar(verts.length).normalize().multiplyScalar(1.0015);
+  const pos=[];
+  for(let i=0;i<verts.length;i++){const nx=verts[(i+1)%verts.length];pos.push(center.x,center.y,center.z,verts[i].x,verts[i].y,verts[i].z,nx.x,nx.y,nx.z);}
+  const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));g.computeVertexNormals();
+  earth.add(new THREE.Mesh(g,landMat));
+});
+// 海岸線ライン
+const cMat=new THREE.LineBasicMaterial({color:0x1a6b50,transparent:true,opacity:0.45});
+CL.forEach(line=>{earth.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(line.map(p=>ll2v(p[0],p[1],1.003))),cMat));});
+
+// 大気グロー（青系）
+scene.add(new THREE.Mesh(new THREE.SphereGeometry(1.06,64,64),new THREE.ShaderMaterial({
+  vertexShader:`varying vec3 vN,vP;void main(){vN=normalize(normalMatrix*normal);vP=(modelViewMatrix*vec4(position,1.0)).xyz;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,
+  fragmentShader:`varying vec3 vN,vP;void main(){float f=1.0-max(dot(vN,normalize(-vP)),0.0);f=pow(f,4.0);gl_FragColor=vec4(0.12,0.5,0.35,f*0.3);}`,
+  transparent:true,side:THREE.FrontSide,depthWrite:false,
+})));
+
+// ═══ ホタル ═══
+const allMembers=generateAllMembers();
+const MAX_PTS=allMembers.length;
+const fPos=new Float32Array(MAX_PTS*3),fSz=new Float32Array(MAX_PTS),fPh=new Float32Array(MAX_PTS),fIn=new Float32Array(MAX_PTS),fBorn=new Float32Array(MAX_PTS);
+allMembers.forEach((m,i)=>{const v=ll2v(m.lat,m.lng,1.015);fPos[i*3]=v.x;fPos[i*3+1]=v.y;fPos[i*3+2]=v.z;fSz[i]=1.2+m.intensity*1.8;fPh[i]=m.phase;fIn[i]=m.intensity;fBorn[i]=0;});
+const fG=new THREE.BufferGeometry();
+fG.setAttribute('position',new THREE.BufferAttribute(fPos,3));
+fG.setAttribute('aSize',new THREE.BufferAttribute(fSz,1));
+fG.setAttribute('aPhase',new THREE.BufferAttribute(fPh,1));
+fG.setAttribute('aInt',new THREE.BufferAttribute(fIn,1));
+fG.setAttribute('aBorn',new THREE.BufferAttribute(fBorn,1));
+fG.setDrawRange(0,0);
+
+const ffMat=new THREE.ShaderMaterial({
+  vertexShader:`attribute float aSize,aPhase,aInt,aBorn;varying float vPh,vIn,vBorn;uniform float uTime;
+  void main(){vPh=aPhase;vIn=aInt;vBorn=aBorn;vec4 mv=modelViewMatrix*vec4(position,1.0);float age=uTime-aBorn;float a=clamp(age/2.0,0.0,1.0);gl_PointSize=aSize*(80.0/-mv.z)*a;gl_Position=projectionMatrix*mv;}`,
+  fragmentShader:`uniform float uTime;varying float vPh,vIn,vBorn;
+  void main(){float d=length(gl_PointCoord-0.5);if(d>0.5)discard;float age=uTime-vBorn;float a=clamp(age/2.0,0.0,1.0);
+  float pulse=sin(uTime*1.0+vPh)*0.3+0.7;float breathe=sin(uTime*0.25+vPh*0.6)*0.2+0.8;float glow=pulse*breathe*a;
+  float alpha=smoothstep(0.5,0.05,d);float core=smoothstep(0.25,0.0,d);float b=alpha*glow*vIn*0.55;
+  vec3 col=mix(vec3(0.15,0.65,0.4),vec3(0.5,1.0,0.6),core);gl_FragColor=vec4(col*b,b);}`,
+  uniforms:{uTime:{value:0}},transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,
+});
+earth.add(new THREE.Points(fG,ffMat));
+
+// ═══ 電離層グリッド共振 ═══
+const IONO_R=1.08;
+
+// 球面上に均等分布する点（フィボナッチ球） - 少なめで繊細に
+function fibSphere(n,r){
+  const pts=[],g=Math.PI*(3-Math.sqrt(5));
+  for(let i=0;i<n;i++){const y=1-(i/(n-1))*2,rad=Math.sqrt(1-y*y),t=g*i;
+    pts.push(new THREE.Vector3(Math.cos(t)*rad*r,y*r,Math.sin(t)*rad*r));}
+  return pts;
+}
+const GP=fibSphere(80,IONO_R); // 80点で繊細なグリッド
+
+// 近傍3点で三角形を構築（少なめに）
+function buildTris(){
+  const tris=[],used=new Set();
+  for(let i=0;i<GP.length;i++){
+    const d=[];
+    for(let j=0;j<GP.length;j++){if(j!==i)d.push({j,d:GP[i].distanceToSquared(GP[j])});}
+    d.sort((a,b)=>a.d-b.d);
+    // 最近傍3点だけで三角形（密度を下げる）
+    for(let a=0;a<Math.min(3,d.length);a++){
+      for(let b=a+1;b<Math.min(4,d.length);b++){
+        const key=[i,d[a].j,d[b].j].sort().join('-');
+        if(!used.has(key)){used.add(key);tris.push([i,d[a].j,d[b].j]);}
+      }
+    }
+  }
+  return tris;
+}
+const TRIS=buildTris();
+
+// 常設の電離層グリッド（辺のみ・非常に薄い）を球全体に
+const permEdgeSet=new Set();
+const permLinePos=[];
+for(const tri of TRIS){
+  [[tri[0],tri[1]],[tri[1],tri[2]],[tri[2],tri[0]]].forEach(e=>{
+    const key=e[0]<e[1]?e[0]+'-'+e[1]:e[1]+'-'+e[0];
+    if(!permEdgeSet.has(key)){permEdgeSet.add(key);
+      permLinePos.push(GP[e[0]].x,GP[e[0]].y,GP[e[0]].z,GP[e[1]].x,GP[e[1]].y,GP[e[1]].z);
+    }
+  });
+}
+const permLineG=new THREE.BufferGeometry();
+permLineG.setAttribute('position',new THREE.Float32BufferAttribute(permLinePos,3));
+const permLineMat=new THREE.LineBasicMaterial({color:0x2060a0,transparent:true,opacity:0.08,blending:THREE.AdditiveBlending,depthWrite:false});
+const permGrid=new THREE.LineSegments(permLineG,permLineMat);
+earth.add(permGrid);
+
+// 共振パルス：球全体のグリッドが波のように光る
+const gridWaves=[];
+
+function spawnGridWave(time){
+  const group=new THREE.Group();
+
+  // 全三角形からランダムに30〜50%を選択（球全体に分布）
+  const ratio=0.3+Math.random()*0.2;
+  const selected=TRIS.filter(()=>Math.random()<ratio);
+  if(selected.length<5)return;
+
+  // エッジライン（繊細に）
+  const edgeSet=new Set(),linePos=[];
+  for(const tri of selected){
+    [[tri[0],tri[1]],[tri[1],tri[2]],[tri[2],tri[0]]].forEach(e=>{
+      const key=e[0]<e[1]?e[0]+'-'+e[1]:e[1]+'-'+e[0];
+      if(!edgeSet.has(key)){edgeSet.add(key);
+        linePos.push(GP[e[0]].x,GP[e[0]].y,GP[e[0]].z,GP[e[1]].x,GP[e[1]].y,GP[e[1]].z);
+      }
+    });
+  }
+  const lG=new THREE.BufferGeometry();
+  lG.setAttribute('position',new THREE.Float32BufferAttribute(linePos,3));
+  const lM=new THREE.LineBasicMaterial({color:0x50b0f0,transparent:true,opacity:0,blending:THREE.AdditiveBlending,depthWrite:false});
+  group.add(new THREE.LineSegments(lG,lM));
+
+  // 反射三角形（選ばれた中のさらに10〜20%が「反射」して光る面）
+  const reflectRatio=0.1+Math.random()*0.1;
+  const reflectTris=selected.filter(()=>Math.random()<reflectRatio);
+  if(reflectTris.length>0){
+    const fPos=[];
+    for(const tri of reflectTris){
+      const p0=GP[tri[0]],p1=GP[tri[1]],p2=GP[tri[2]];
+      fPos.push(p0.x,p0.y,p0.z,p1.x,p1.y,p1.z,p2.x,p2.y,p2.z);
+    }
+    const fG=new THREE.BufferGeometry();
+    fG.setAttribute('position',new THREE.Float32BufferAttribute(fPos,3));
+    const fM=new THREE.MeshBasicMaterial({color:0x80d0ff,transparent:true,opacity:0,side:THREE.DoubleSide,blending:THREE.AdditiveBlending,depthWrite:false});
+    group.add(new THREE.Mesh(fG,fM));
+  }
+
+  earth.add(group);
+  gridWaves.push({group,birthTime:time,lifetime:3+Math.random()*2}); // 3〜5秒
+
+  // 常に1個だけ存在（前のを即削除）
+  while(gridWaves.length>1){
+    const old=gridWaves.shift();
+    earth.remove(old.group);old.group.children.forEach(c=>{c.geometry.dispose();c.material.dispose();});
+  }
+}
+
+function updateGridWaves(time){
+  for(let i=gridWaves.length-1;i>=0;i--){
+    const w=gridWaves[i];
+    const age=time-w.birthTime;
+    if(age>=w.lifetime){
+      earth.remove(w.group);w.group.children.forEach(c=>{c.geometry.dispose();c.material.dispose();});
+      gridWaves.splice(i,1);continue;
+    }
+    // フェードイン(0.8s) → 維持 → フェードアウト(1.2s)
+    let o;
+    if(age<0.8) o=age/0.8;
+    else if(age>w.lifetime-1.2) o=(w.lifetime-age)/1.2;
+    else o=1.0;
+    o*=0.85+0.15*Math.sin(time*1.2+w.birthTime*2.0);
+
+    w.group.children.forEach(c=>{
+      if(c.isLineSegments) c.material.opacity=o*0.35; // しっかり見えるライン
+      else if(c.isMesh) c.material.opacity=o*0.2; // 反射三角形もしっかり
+    });
+  }
+}
+
+// 星
+const sP=new Float32Array(1500*3);
+for(let i=0;i<1500;i++){const r=40+Math.random()*80,t=Math.random()*Math.PI*2,p=Math.acos(2*Math.random()-1);sP[i*3]=r*Math.sin(p)*Math.cos(t);sP[i*3+1]=r*Math.sin(p)*Math.sin(t);sP[i*3+2]=r*Math.cos(p);}
+const stG=new THREE.BufferGeometry();stG.setAttribute('position',new THREE.BufferAttribute(sP,3));
+scene.add(new THREE.Points(stG,new THREE.PointsMaterial({color:0x556677,size:0.12,sizeAttenuation:true})));
+
+// ═══ 操作 ═══
+let dragging=false,prevX=0,prevY=0,velX=0,velY=0,rotX=0.3,rotY=-2.55,targetZ=4.5,lastPinch=0;
+earth.rotation.x=rotX;earth.rotation.y=rotY;
+container.addEventListener('mousedown',e=>{dragging=true;prevX=e.clientX;prevY=e.clientY;velX=velY=0;});
+container.addEventListener('mousemove',e=>{if(!dragging)return;velY=(e.clientX-prevX)*0.005;velX=(e.clientY-prevY)*0.003;rotY+=velY;rotX+=velX;rotX=Math.max(-1.2,Math.min(1.2,rotX));prevX=e.clientX;prevY=e.clientY;});
+container.addEventListener('mouseup',()=>dragging=false);
+container.addEventListener('mouseleave',()=>dragging=false);
+container.addEventListener('touchstart',e=>{e.preventDefault();if(e.touches.length===1){dragging=true;prevX=e.touches[0].clientX;prevY=e.touches[0].clientY;velX=velY=0;}else if(e.touches.length===2){dragging=false;const dx=e.touches[0].clientX-e.touches[1].clientX,dy=e.touches[0].clientY-e.touches[1].clientY;lastPinch=Math.sqrt(dx*dx+dy*dy);}},{passive:false});
+container.addEventListener('touchmove',e=>{e.preventDefault();if(e.touches.length===1&&dragging){velY=(e.touches[0].clientX-prevX)*0.005;velX=(e.touches[0].clientY-prevY)*0.003;rotY+=velY;rotX+=velX;rotX=Math.max(-1.2,Math.min(1.2,rotX));prevX=e.touches[0].clientX;prevY=e.touches[0].clientY;}else if(e.touches.length===2){const dx=e.touches[0].clientX-e.touches[1].clientX,dy=e.touches[0].clientY-e.touches[1].clientY,dist=Math.sqrt(dx*dx+dy*dy);if(lastPinch>0){targetZ+=(lastPinch-dist)*0.02;targetZ=Math.max(1.8,Math.min(10,targetZ));}lastPinch=dist;}},{passive:false});
+container.addEventListener('touchend',e=>{e.preventDefault();if(e.touches.length===0){dragging=false;lastPinch=0;}},{passive:false});
+container.addEventListener('wheel',e=>{e.preventDefault();targetZ+=e.deltaY*0.003;targetZ=Math.max(1.8,Math.min(10,targetZ));},{passive:false});
+
+// ═══ アニメーション ═══
+const acEl=document.getElementById('ac'),clockEl=document.getElementById('sc');
+const clock=new THREE.Clock();
+const SIM_SPEED=10;
+let simMinute=0,activeCount=0,nextMemberIdx=0,lastGridTime=0;
+const GRID_INTERVAL=20; // 20秒ごとにグリッド共振
+const GRID_FIRST_DELAY=20; // 最初の20秒はグリッドなし
+
+function simTimeStr(min){const t=(3*60+36+min)%(24*60),h=Math.floor(t/60),m=t%60;return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0');}
+
+function animate(){
+  requestAnimationFrame(animate);
+  const dt=clock.getDelta(),t=clock.getElapsedTime();
+  ffMat.uniforms.uTime.value=t;
+
+  simMinute+=dt*SIM_SPEED;
+  if(simMinute>=1440){
+    simMinute=0;nextMemberIdx=0;activeCount=0;fG.setDrawRange(0,0);
+    while(gridWaves.length>0){const w=gridWaves.pop();earth.remove(w.group);w.group.children.forEach(c=>{c.geometry.dispose();c.material.dispose();});}
+  }
+
+  while(nextMemberIdx<MAX_PTS&&allMembers[nextMemberIdx].connectMinute<=simMinute){
+    const ba=fG.getAttribute('aBorn');ba.array[nextMemberIdx]=t;ba.needsUpdate=true;
+    nextMemberIdx++;activeCount++;fG.setDrawRange(0,nextMemberIdx);
+  }
+
+  acEl.textContent=activeCount.toLocaleString();
+  clockEl.textContent=simTimeStr(Math.floor(simMinute));
+
+  // グリッド共振（最初の20秒は出さない → その後20秒ごと）
+  if(t>GRID_FIRST_DELAY && t-lastGridTime>GRID_INTERVAL){
+    spawnGridWave(t);
+    lastGridTime=t;
+  }
+  updateGridWaves(t);
+
+  if(!dragging){velX*=0.94;velY*=0.94;rotY+=velY;rotX+=velX;rotY+=0.0006;}
+  earth.rotation.y+=(rotY-earth.rotation.y)*0.1;
+  earth.rotation.x+=(rotX-earth.rotation.x)*0.1;
+  camera.position.z+=(targetZ-camera.position.z)*0.08;
+  renderer.render(scene,camera);
+}
+animate();
+window.addEventListener('resize',()=>{camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);});
+</script>
+</body>
+</html>
