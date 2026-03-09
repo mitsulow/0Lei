@@ -35,9 +35,18 @@ except ImportError:
 # ============================================================
 
 # トムスク（sos70.ru）の周波数グラフ画像
-TOMSK_SRF_URL = "https://sos70.ru/new/srf.jpg"
-# Cumiana（イタリア）のスペクトログラム
-CUMIANA_URL = "http://www.vlf.it/cumiana/723.601_Cumiana_RT_EF_latest.jpg"
+TOMSK_SRF_URL = "https://sos70.ru/provider.php?file=srf.jpg"
+# トムスクの他の画像（スペクトログラム、振幅、Q値）
+TOMSK_SHM_URL = "https://sos70.ru/provider.php?file=shm.jpg"
+TOMSK_SRA_URL = "https://sos70.ru/provider.php?file=sra.jpg"
+# Cumiana（イタリア）のスペクトログラム — 30分ごと更新
+CUMIANA_URL = "http://www.vlf.it/cumiana/723601.601_VLF_SEQ_Cumiana.jpg"
+# Cumianaのフォールバック候補
+CUMIANA_FALLBACK_URLS = [
+    "http://www.vlf.it/cumiana/723601.601_VLF_SEQ_Cumiana.jpg",
+    "http://www.vlf.it/cumiana/723.601_Cumiana_RT_EF_latest.jpg",
+    "http://www.vlf.it/cumiana/723601.601_VLF_multistripD_Cumiana.jpg",
+]
 
 # 各ソースのタイムアウト（秒）
 TIMEOUT = 20
@@ -323,6 +332,14 @@ def analyze_cumiana(img):
     Hz値の精密な読み取りはスペクトログラムの解像度的に難しいため、
     主に「トムスクデータの補完・検証」用。
     """
+    if img is None:
+        # フォールバックURLを試す
+        for fallback_url in CUMIANA_FALLBACK_URLS:
+            img = fetch_image(fallback_url)
+            if img:
+                print(f"[OK] Cumiana fallback succeeded: {fallback_url}")
+                break
+    
     if img is None:
         return None
     
