@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Schumann Resonance — いま、地球の鼓動</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Mono:wght@300;400&family=Zen+Kaku+Gothic+New:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #060609;
+  --surface: #0c0c14;
+  --border: rgba(255,255,255,0.05);
+  --text: #d8d4e0;
+  --text2: rgba(216,212,224,0.45);
+  --text3: rgba(216,212,224,0.2);
+  --f1: #e8e4ec;
+  --f2: #d4c85a;
+  --f3: #c85a5a;
+  --f4: #5ac878;
+  --accent: #5ac8c0;
+  --accent-dim: rgba(90,200,192,0.08);
+}
+* { margin:0; padding:0; box-sizing:border-box }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  font-weight: 300;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Ambient ── */
+.ambient {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 40% at 25% 15%, rgba(90,200,192,0.02), transparent 70%),
+    radial-gradient(ellipse 40% 50% at 75% 85%, rgba(90,200,192,0.015), transparent 70%);
+}
+
+.wrap { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; padding: 0 20px }
+
+/* ── Header ── */
+.header {
+  text-align: center;
+  padding: 48px 0 32px;
+}
+.header-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: var(--accent);
+  opacity: 0.5;
+}
+.header h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(28px, 6vw, 44px);
+  letter-spacing: 2px;
+  margin-top: 8px;
+  color: var(--text);
+}
+.header h1 em {
+  font-style: italic;
+  color: var(--accent);
+}
+.header-src {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: var(--text3);
+  margin-top: 10px;
+}
+
+/* ── Status ── */
+.status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 0 28px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--text3);
+}
+.pulse {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--text3);
+  transition: all 0.4s;
+}
+.pulse.on {
+  background: var(--accent);
+  box-shadow: 0 0 8px rgba(90,200,192,0.5);
+  animation: pulsate 2s ease-in-out infinite;
+}
+.pulse.err { background: var(--f3); animation: none }
+@keyframes pulsate {
+  0%,100% { box-shadow: 0 0 0 0 rgba(90,200,192,0.3) }
+  50% { box-shadow: 0 0 0 6px rgba(90,200,192,0) }
+}
+
+/* ── Hero Hz ── */
+.hero {
+  text-align: center;
+  padding: 24px 0 32px;
+}
+.hero-label {
+  font-size: 12px;
+  color: var(--text2);
+  letter-spacing: 1px;
+}
+.hero-hz {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(72px, 20vw, 140px);
+  line-height: 1;
+  color: var(--f1);
+  transition: color 0.5s;
+  min-height: 1.1em;
+}
+.hero-hz.loading {
+  color: var(--text3);
+  font-size: clamp(36px, 10vw, 60px);
+  animation: loadFade 1.8s ease-in-out infinite;
+}
+.hero-hz.err { color: var(--f3) }
+@keyframes loadFade { 0%,100%{opacity:0.2} 50%{opacity:0.6} }
+.hero-unit {
+  font-family: 'DM Mono', monospace;
+  font-size: 14px;
+  color: var(--text2);
+  letter-spacing: 4px;
+}
+.hero-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--text3);
+  margin-top: 6px;
+  min-height: 1.2em;
+}
+
+/* ── Modes Grid ── */
+.modes {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.mode-cell {
+  background: var(--surface);
+  padding: 20px 8px;
+  text-align: center;
+  transition: background 0.3s;
+}
+.mode-cell:hover { background: rgba(255,255,255,0.02) }
+.mode-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  margin: 0 auto 8px;
+  opacity: 0.4;
+}
+.mode-cell[data-mode="1"] .mode-dot { background: var(--f1) }
+.mode-cell[data-mode="2"] .mode-dot { background: var(--f2) }
+.mode-cell[data-mode="3"] .mode-dot { background: var(--f3) }
+.mode-cell[data-mode="4"] .mode-dot { background: var(--f4) }
+.mode-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--text3);
+  margin-bottom: 6px;
+}
+.mode-hz {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(22px, 5vw, 30px);
+  color: var(--text);
+  transition: color 0.3s;
+}
+.mode-cell[data-mode="1"] .mode-hz { color: var(--f1) }
+.mode-cell[data-mode="2"] .mode-hz { color: var(--f2) }
+.mode-cell[data-mode="3"] .mode-hz { color: var(--f3) }
+.mode-cell[data-mode="4"] .mode-hz { color: var(--f4) }
+.mode-hz.na { color: var(--text3); font-size: 14px }
+.mode-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  color: var(--text3);
+  margin-top: 4px;
+}
+
+/* ── Averages ── */
+.avgs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.avg-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 16px;
+  text-align: center;
+  transition: border-color 0.3s;
+}
+.avg-card:hover { border-color: rgba(255,255,255,0.08) }
+.avg-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--text3);
+  margin-bottom: 8px;
+}
+.avg-hz {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(32px, 8vw, 48px);
+  line-height: 1;
+  color: var(--text);
+}
+.avg-hz.na { color: var(--text3); font-size: 16px }
+.avg-unit {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--text3);
+  margin-top: 4px;
+}
+.avg-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: var(--text3);
+  margin-top: 6px;
+}
+
+/* ── Footer ── */
+.footer {
+  text-align: center;
+  padding: 32px 0 20px;
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  color: var(--text3);
+  line-height: 2;
+}
+
+/* ── Log ── */
+.log-btn {
+  display: block;
+  margin: 0 auto 8px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 4px 12px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: var(--text3);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.log-btn:hover { border-color: rgba(255,255,255,0.1); color: var(--text2) }
+.log-box {
+  display: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  max-height: 180px;
+  overflow-y: auto;
+  margin-bottom: 16px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  line-height: 1.8;
+  color: var(--text2);
+}
+.log-box.open { display: block }
+.log-box .ts { color: var(--text3) }
+.log-box .ok { color: var(--accent) }
+.log-box .ng { color: var(--f3) }
+
+
+@media (max-width: 480px) {
+  .modes { grid-template-columns: repeat(2, 1fr) }
+  .avgs { grid-template-columns: 1fr }
+}
+</style>
+</head>
+<body>
+<div class="ambient"></div>
+<div class="wrap">
+
+  <header class="header">
+    <div class="header-sub">Earth Frequency</div>
+    <h1>Schumann <em>Resonance</em></h1>
+    <div class="header-src">Tomsk State University — sos70.ru</div>
+  </header>
+
+  <div class="status">
+    <div class="pulse" id="pulse"></div>
+    <span id="statusText">CONNECTING</span>
+    <span style="margin-left:auto" id="timerText"></span>
+  </div>
+
+  <section class="hero">
+    <div class="hero-label">いま、地球の鼓動</div>
+    <div class="hero-hz loading" id="heroHz">接続中</div>
+    <div class="hero-unit">Hz</div>
+    <div class="hero-sub" id="heroSub"></div>
+  </section>
+
+  <section class="modes">
+    <div class="mode-cell" data-mode="1">
+      <div class="mode-dot"></div>
+      <div class="mode-label">F1</div>
+      <div class="mode-hz na" id="mHz1">—</div>
+      <div class="mode-sub" id="mSub1"></div>
+    </div>
+    <div class="mode-cell" data-mode="2">
+      <div class="mode-dot"></div>
+      <div class="mode-label">F2</div>
+      <div class="mode-hz na" id="mHz2">—</div>
+      <div class="mode-sub" id="mSub2"></div>
+    </div>
+    <div class="mode-cell" data-mode="3">
+      <div class="mode-dot"></div>
+      <div class="mode-label">F3</div>
+      <div class="mode-hz na" id="mHz3">—</div>
+      <div class="mode-sub" id="mSub3"></div>
+    </div>
+    <div class="mode-cell" data-mode="4">
+      <div class="mode-dot"></div>
+      <div class="mode-label">F4</div>
+      <div class="mode-hz na" id="mHz4">—</div>
+      <div class="mode-sub" id="mSub4"></div>
+    </div>
+  </section>
+
+  <section class="avgs">
+    <div class="avg-card">
+      <div class="avg-label">24H AVERAGE</div>
+      <div class="avg-hz na" id="avg24">蓄積中</div>
+      <div class="avg-unit">Hz</div>
+      <div class="avg-sub" id="avg24sub"></div>
+    </div>
+    <div class="avg-card">
+      <div class="avg-label" id="monthLabel">MONTHLY</div>
+      <div class="avg-hz na" id="avgMonth">蓄積中</div>
+      <div class="avg-unit">Hz</div>
+      <div class="avg-sub" id="avgMonthSub"></div>
+    </div>
+  </section>
+
+  <button class="log-btn" onclick="document.getElementById('logBox').classList.toggle('open')">ログの取得</button>
+  <div class="log-box" id="logBox"></div>
+
+  <footer class="footer">
+    Source: Space Observing System 70, Tomsk State University<br>
+    Auto-refresh 5 min — Client-side pixel extraction
+  </footer>
+
+</div>
+
+
+<script>
+const JSON_URL = './schumann.json';
+const REFRESH_MS = 5 * 60 * 1000;
+let nextAt = 0, lastHz = null;
+
+function monthKey() { const d=new Date(); return `sr_${d.getFullYear()}_${String(d.getMonth()+1).padStart(2,'0')}` }
+function loadMonthly() { try{const r=localStorage.getItem(monthKey());if(r)return JSON.parse(r)}catch(e){} return{readings:[]} }
+function saveReading(hz) { const d=loadMonthly();d.readings.push({t:Date.now(),hz});if(d.readings.length>10000)d.readings=d.readings.slice(-10000);try{localStorage.setItem(monthKey(),JSON.stringify(d))}catch(e){} }
+function monthlyAvg() { const d=loadMonthly();if(!d.readings.length)return null;return{avg:d.readings.reduce((a,r)=>a+r.hz,0)/d.readings.length,count:d.readings.length} }
+
+function ts() { return new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit',second:'2-digit'}) }
+function log(msg,type='ok') {
+  const el=document.getElementById('logBox');
+  el.innerHTML+=`<div><span class="ts">[${ts()}]</span> <span class="${type}">${msg}</span></div>`;
+  el.scrollTop=el.scrollHeight;
+  if(el.children.length>60) el.removeChild(el.children[0]);
+}
+
+async function update() {
+  log('── 更新 ──');
+  const hero=document.getElementById('heroHz');
+  hero.className='hero-hz loading'; hero.textContent='取得中';
+
+  try {
+    const r=await fetch(JSON_URL+'?_='+Date.now(),{cache:'no-store'});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const data=await r.json();
+    log(`✓ JSON取得 (${data.zone||''})`);
+
+    const m=data.modes||{};
+
+    // Hero (F1)
+    if(m.f1!=null) {
+      lastHz=m.f1;
+      hero.className='hero-hz'; hero.textContent=m.f1.toFixed(2);
+      document.getElementById('pulse').className='pulse on';
+      document.getElementById('statusText').textContent='LIVE';
+      saveReading(m.f1);
+    } else {
+      hero.className='hero-hz err'; hero.textContent=lastHz?lastHz.toFixed(2)+'?':'——';
+      document.getElementById('pulse').className='pulse err';
+      document.getElementById('statusText').textContent='F1 UNAVAILABLE';
+    }
+
+    // 4 Modes
+    [['f1',1],['f2',2],['f3',3],['f4',4]].forEach(([key,i])=>{
+      const hz=m[key];
+      const el=document.getElementById('mHz'+i);
+      const sub=document.getElementById('mSub'+i);
+      if(hz!=null) { el.textContent=hz.toFixed(2);el.className='mode-hz';sub.textContent=hz.toFixed(2)+' Hz';log(`F${i}: ${hz.toFixed(2)} Hz`) }
+      else { el.textContent='—';el.className='mode-hz na';sub.textContent='' }
+    });
+
+    // 24h avg from server
+    if(data.avg24!=null) {
+      const e=document.getElementById('avg24');
+      e.textContent=data.avg24.toFixed(2);e.className='avg-hz';
+      document.getElementById('avg24sub').textContent=`${data.avg24_points||'?'} points`;
+    }
+
+    // Monthly avg (localStorage)
+    const mo=monthlyAvg();
+    if(mo) {
+      const e=document.getElementById('avgMonth');
+      e.textContent=mo.avg.toFixed(2);e.className='avg-hz';
+      const n=new Date(), mn=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+      document.getElementById('monthLabel').textContent=`${n.getFullYear()}年${mn[n.getMonth()]}`;
+      document.getElementById('avgMonthSub').textContent=`${mo.count} readings`;
+    }
+
+    // Timestamp
+    if(data.timestamp) {
+      const dt=new Date(data.timestamp);
+      document.getElementById('heroSub').textContent='最新取得時刻 '+dt.toLocaleString('ja-JP',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'});
+    }
+
+  } catch(e) {
+    log(`✗ ${e.message}`,'ng');
+    document.getElementById('pulse').className='pulse err';
+    document.getElementById('statusText').textContent='ERROR';
+    hero.className='hero-hz err'; hero.textContent='ERROR';
+  }
+  scheduleNext();
+}
+
+function scheduleNext() { nextAt=Date.now()+REFRESH_MS; setTimeout(update,REFRESH_MS) }
+setInterval(()=>{ const r=Math.max(0,nextAt-Date.now()),m=Math.floor(r/60000),s=Math.floor((r%60000)/1000);document.getElementById('timerText').textContent=`${m}:${String(s).padStart(2,'0')}` },1000);
+
+// Init monthly
+(function(){ const mo=monthlyAvg();if(mo){const e=document.getElementById('avgMonth');e.textContent=mo.avg.toFixed(2);e.className='avg-hz';const n=new Date(),mn=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];document.getElementById('monthLabel').textContent=`${n.getFullYear()}年${mn[n.getMonth()]}`;document.getElementById('avgMonthSub').textContent=`${mo.count} readings`} })();
+
+log('Schumann Resonance Monitor 起動');
+update();
+</script>
+</body>
+</html>
