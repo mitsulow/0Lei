@@ -1,12 +1,20 @@
 {
-  "timestamp": "2026-03-09T22:59:34.572450Z",
-  "zone": "6h(65-75%)",
+  "timestamp_utc": "2026-03-09T23:50:44Z",
+  "timestamp_jst": "2026-03-10 08:50",
+  "version": 2,
+  "method": "luminosity_peak",
   "modes": {
-    "f1": 7.92,
-    "f2": 13.13,
-    "f3": 20.58,
-    "f4": 25.29
+    "F1": null,
+    "F2": null,
+    "F3": null,
+    "F4": null
   },
-  "avg24": 7.83,
-  "avg24_points": 148
+  "details": {
+    "tomsk": {},
+    "cumiana": null
+  },
+  "sources": {
+    "primary": "Tomsk/sos70.ru (luminosity peak detection)",
+    "secondary": "Cumiana/vlf.it (activity verification)"
+  }
 }
