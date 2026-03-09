@@ -2,475 +2,796 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Schumann Resonance — いま、地球の鼓動</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Mono:wght@300;400&family=Zen+Kaku+Gothic+New:wght@300;400;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>いまの地球の鼓動</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Noto+Sans+JP:wght@300;400;600&display=swap');
+
 :root {
-  --bg: #060609;
-  --surface: #0c0c14;
-  --border: rgba(255,255,255,0.05);
-  --text: #d8d4e0;
-  --text2: rgba(216,212,224,0.45);
-  --text3: rgba(216,212,224,0.2);
-  --f1: #e8e4ec;
-  --f2: #d4c85a;
-  --f3: #c85a5a;
-  --f4: #5ac878;
-  --accent: #5ac8c0;
-  --accent-dim: rgba(90,200,192,0.08);
+  --bg: #06090f;
+  --surface: #0d1117;
+  --border: rgba(74,158,237,0.08);
+  --earth: #4a9eed;
+  --earth-dim: #2a5e8d;
+  --gold: #c4a265;
+  --gold-dim: rgba(196,162,101,0.15);
+  --f1: #e8e8e8;
+  --f2: #f0e060;
+  --f3: #e85050;
+  --f4: #50c878;
+  --text: #c8cdd5;
+  --dim: #5a6575;
+  --green: #50c878;
+  --warn: #e8a040;
+  --err: #e85050;
 }
-* { margin:0; padding:0; box-sizing:border-box }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: 'Zen Kaku Gothic New', sans-serif;
-  font-weight: 300;
+  font-family: 'Noto Sans JP', sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
 }
 
-/* ── Ambient ── */
-.ambient {
-  position: fixed; inset: 0; z-index: 0; pointer-events: none;
-  background:
-    radial-gradient(ellipse 60% 40% at 25% 15%, rgba(90,200,192,0.02), transparent 70%),
-    radial-gradient(ellipse 40% 50% at 75% 85%, rgba(90,200,192,0.015), transparent 70%);
+/* === 背景パーティクル === */
+.bg-glow {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none; z-index: 0;
+  background: 
+    radial-gradient(ellipse at 30% 20%, rgba(74,158,237,0.03) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 80%, rgba(196,162,101,0.02) 0%, transparent 60%);
 }
 
-.wrap { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; padding: 0 20px }
+.container {
+  position: relative; z-index: 1;
+  max-width: 480px; margin: 0 auto;
+  padding: 16px 12px 40px;
+}
 
-/* ── Header ── */
-.header {
+/* === ヘッダー === */
+.mmm {
   text-align: center;
-  padding: 48px 0 32px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: 3px;
+  color: var(--gold);
+  padding: 6px 0;
+  border-top: 1px solid var(--gold-dim);
+  border-bottom: 1px solid var(--gold-dim);
+  margin-bottom: 16px;
+  opacity: 0.8;
 }
-.header-sub {
-  font-family: 'DM Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 6px;
-  text-transform: uppercase;
-  color: var(--accent);
-  opacity: 0.5;
-}
-.header h1 {
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 300;
-  font-size: clamp(28px, 6vw, 44px);
+
+.title {
+  text-align: center;
+  font-size: 13px; font-weight: 300;
+  color: var(--dim);
   letter-spacing: 2px;
-  margin-top: 8px;
-  color: var(--text);
-}
-.header h1 em {
-  font-style: italic;
-  color: var(--accent);
-}
-.header-src {
-  font-family: 'DM Mono', monospace;
-  font-size: 9px;
-  color: var(--text3);
-  margin-top: 10px;
+  margin-bottom: 4px;
 }
 
-/* ── Status ── */
-.status {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  padding: 4px 0 28px;
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  color: var(--text3);
-}
-.pulse {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: var(--text3);
-  transition: all 0.4s;
-}
-.pulse.on {
-  background: var(--accent);
-  box-shadow: 0 0 8px rgba(90,200,192,0.5);
-  animation: pulsate 2s ease-in-out infinite;
-}
-.pulse.err { background: var(--f3); animation: none }
-@keyframes pulsate {
-  0%,100% { box-shadow: 0 0 0 0 rgba(90,200,192,0.3) }
-  50% { box-shadow: 0 0 0 6px rgba(90,200,192,0) }
-}
-
-/* ── Hero Hz ── */
-.hero {
+/* === メインHz表示 === */
+.hz-main {
   text-align: center;
-  padding: 24px 0 32px;
-}
-.hero-label {
-  font-size: 12px;
-  color: var(--text2);
-  letter-spacing: 1px;
-}
-.hero-hz {
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 300;
-  font-size: clamp(72px, 20vw, 140px);
-  line-height: 1;
-  color: #4a9eed;
-  transition: color 0.5s;
-  min-height: 1.1em;
-}
-.hero-hz.loading {
-  color: var(--text3);
-  font-size: clamp(36px, 10vw, 60px);
-  animation: loadFade 1.8s ease-in-out infinite;
-}
-.hero-hz.err { color: var(--f3) }
-@keyframes loadFade { 0%,100%{opacity:0.2} 50%{opacity:0.6} }
-.hero-unit {
-  font-family: 'DM Mono', monospace;
-  font-size: 14px;
-  color: var(--text2);
-  letter-spacing: 4px;
-}
-.hero-sub {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  color: var(--text3);
-  margin-top: 6px;
-  min-height: 1.2em;
+  padding: 16px 0 8px;
 }
 
-/* ── Modes Grid ── */
+.hz-main .value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 64px; font-weight: 700;
+  color: var(--earth);
+  line-height: 1;
+  text-shadow: 0 0 40px rgba(74,158,237,0.2);
+}
+
+.hz-main .unit {
+  font-size: 18px; font-weight: 300;
+  color: var(--earth-dim);
+  margin-left: 4px;
+}
+
+.hz-main .label {
+  font-size: 11px; color: var(--dim);
+  margin-top: 4px;
+}
+
+/* === 4モード表示 === */
 .modes {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  overflow: hidden;
-  margin-bottom: 20px;
-}
-.mode-cell {
-  background: var(--surface);
-  padding: 20px 8px;
-  text-align: center;
-  transition: background 0.3s;
-}
-.mode-cell:hover { background: rgba(255,255,255,0.02) }
-.mode-dot {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  margin: 0 auto 8px;
-  opacity: 0.4;
-}
-.mode-cell[data-mode="1"] .mode-dot { background: var(--f1) }
-.mode-cell[data-mode="2"] .mode-dot { background: var(--f2) }
-.mode-cell[data-mode="3"] .mode-dot { background: var(--f3) }
-.mode-cell[data-mode="4"] .mode-dot { background: var(--f4) }
-.mode-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 2px;
-  color: var(--text3);
-  margin-bottom: 6px;
-}
-.mode-hz {
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 300;
-  font-size: clamp(22px, 5vw, 30px);
-  color: var(--text);
-  transition: color 0.3s;
-}
-.mode-cell[data-mode="1"] .mode-hz { color: var(--f1) }
-.mode-cell[data-mode="2"] .mode-hz { color: var(--f2) }
-.mode-cell[data-mode="3"] .mode-hz { color: var(--f3) }
-.mode-cell[data-mode="4"] .mode-hz { color: var(--f4) }
-.mode-hz.na { color: var(--text3); font-size: 14px }
-.mode-sub {
-  font-family: 'DM Mono', monospace;
-  font-size: 8px;
-  color: var(--text3);
-  margin-top: 4px;
+  gap: 6px;
+  margin: 16px 0;
 }
 
-/* ── Averages ── */
-.avgs {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-.avg-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 20px 16px;
-  text-align: center;
-  transition: border-color 0.3s;
-}
-.avg-card:hover { border-color: rgba(255,255,255,0.08) }
-.avg-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 2px;
-  color: var(--text3);
-  margin-bottom: 8px;
-}
-.avg-hz {
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 300;
-  font-size: clamp(32px, 8vw, 48px);
-  line-height: 1;
-  color: var(--text);
-}
-.avg-hz.na { color: var(--text3); font-size: 16px }
-.avg-unit {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  color: var(--text3);
-  margin-top: 4px;
-}
-.avg-sub {
-  font-family: 'DM Mono', monospace;
-  font-size: 9px;
-  color: var(--text3);
-  margin-top: 6px;
-}
-
-/* ── Master Mind Members ── */
-.mmm {
-  text-align: center;
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 400;
-  font-size: clamp(20px, 5vw, 32px);
-  letter-spacing: 3px;
-  color: var(--accent);
-  padding: 28px 0;
-  text-shadow: 0 0 30px rgba(90,200,192,0.15);
-}
-
-/* ── Footer ── */
-.footer {
-  text-align: center;
-  padding: 32px 0 20px;
-  font-family: 'DM Mono', monospace;
-  font-size: 8px;
-  color: var(--text3);
-  line-height: 2;
-}
-
-/* ── Log ── */
-.log-btn {
-  display: block;
-  margin: 0 auto 8px;
-  background: none;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 4px 12px;
-  font-family: 'DM Mono', monospace;
-  font-size: 9px;
-  color: var(--text3);
-  cursor: pointer;
-  transition: all 0.3s;
-}
-.log-btn:hover { border-color: rgba(255,255,255,0.1); color: var(--text2) }
-.log-box {
-  display: none;
+.mode-card {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 12px;
-  max-height: 180px;
-  overflow-y: auto;
-  margin-bottom: 16px;
-  font-family: 'DM Mono', monospace;
+  padding: 10px 4px;
+  text-align: center;
+}
+
+.mode-card .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-bottom: 4px;
+}
+
+.mode-card .mode-hz {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px; font-weight: 600;
+  color: var(--text);
+  display: block;
+}
+
+.mode-card .mode-name {
+  font-size: 9px;
+  color: var(--dim);
+  letter-spacing: 1px;
+}
+
+.mode-card .conf {
+  font-size: 8px;
+  color: var(--dim);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* === ステータス === */
+.status-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
   font-size: 10px;
-  line-height: 1.8;
-  color: var(--text2);
+  color: var(--dim);
+  border-bottom: 1px solid rgba(255,255,255,0.03);
 }
-.log-box.open { display: block }
-.log-box .ts { color: var(--text3) }
-.log-box .ok { color: var(--accent) }
-.log-box .ng { color: var(--f3) }
 
-
-@media (max-width: 480px) {
-  .modes { grid-template-columns: repeat(2, 1fr) }
-  .avgs { grid-template-columns: 1fr }
+.status-row .badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  padding: 2px 8px;
+  border-radius: 10px;
 }
+
+.badge.ok { background: rgba(80,200,120,0.1); color: var(--green); }
+.badge.warn { background: rgba(232,160,64,0.1); color: var(--warn); }
+.badge.err { background: rgba(232,80,80,0.1); color: var(--err); }
+
+/* === 平均値 === */
+.averages {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.avg-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+}
+
+.avg-card .avg-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 20px; font-weight: 600;
+  color: var(--earth);
+}
+
+.avg-card .avg-label {
+  font-size: 9px; color: var(--dim);
+  margin-top: 2px;
+}
+
+/* === グラフ === */
+.chart-section {
+  margin: 20px 0 12px;
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.chart-title {
+  font-size: 11px;
+  color: var(--dim);
+  letter-spacing: 1px;
+}
+
+.chart-toggles {
+  display: flex;
+  gap: 4px;
+}
+
+.toggle-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  padding: 2px 8px;
+  border: 1px solid;
+  border-radius: 10px;
+  background: transparent;
+  cursor: pointer;
+  opacity: 0.4;
+  transition: opacity 0.2s;
+}
+.toggle-btn.active { opacity: 1; }
+.toggle-btn[data-mode="F1"] { color: var(--f1); border-color: var(--f1); }
+.toggle-btn[data-mode="F2"] { color: var(--f2); border-color: var(--f2); }
+.toggle-btn[data-mode="F3"] { color: var(--f3); border-color: var(--f3); }
+.toggle-btn[data-mode="F4"] { color: var(--f4); border-color: var(--f4); }
+
+.chart-container {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+canvas#chart {
+  width: 100%;
+  height: 200px;
+  display: block;
+}
+
+.chart-time-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 8px;
+  color: var(--dim);
+  font-family: 'JetBrains Mono', monospace;
+  margin-top: 4px;
+  padding: 0 4px;
+}
+
+/* === ソースインジケータ === */
+.sources {
+  margin: 16px 0;
+  padding: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.source-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+  font-size: 10px;
+}
+
+.source-name { color: var(--dim); }
+
+/* === フッター === */
+.footer {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 12px;
+  border-top: 1px solid var(--gold-dim);
+}
+
+.footer .mmm-bottom {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: 3px;
+  color: var(--gold); opacity: 0.8;
+}
+
+.footer .time {
+  font-size: 10px; color: var(--dim);
+  margin-top: 6px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.footer .version {
+  font-size: 8px; color: rgba(255,255,255,0.15);
+  margin-top: 4px;
+}
+
+/* === ツールチップ === */
+.tooltip {
+  display: none;
+  position: absolute;
+  background: rgba(13,17,23,0.95);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--text);
+  pointer-events: none;
+  z-index: 10;
+  white-space: nowrap;
+}
+
+/* === アニメーション === */
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.loading { animation: pulse 1.5s ease-in-out infinite; }
 </style>
 </head>
 <body>
-<div class="ambient"></div>
-<div class="wrap">
 
-  <div class="mmm">⚡ Master Mind Members ⚡</div>
+<div class="bg-glow"></div>
 
-  <header class="header">
-    <div class="header-sub">Earth Frequency</div>
-    <h1>Schumann <em>Resonance</em></h1>
-  </header>
+<div class="container">
 
-  <div class="status">
-    <div class="pulse" id="pulse"></div>
-    <span id="statusText">CONNECTING</span>
-    <span style="margin-left:auto" id="timerText"></span>
+  <!-- ヘッダー -->
+  <div class="mmm">⚡ MASTER MIND MEMBERS ⚡</div>
+  <div class="title">いまの地球の鼓動</div>
+
+  <!-- メインHz -->
+  <div class="hz-main">
+    <span class="value loading" id="mainHz">--.-</span><span class="unit">Hz</span>
+    <div class="label">第1モード基本周波数</div>
   </div>
 
-  <section class="hero">
-    <div class="hero-label">いまの地球の鼓動</div>
-    <div class="hero-hz loading" id="heroHz">接続中</div>
-    <div class="hero-unit">Hz</div>
-    <div class="hero-sub" id="heroSub"></div>
-  </section>
+  <!-- 4モード -->
+  <div class="modes">
+    <div class="mode-card">
+      <span class="dot" style="background:var(--f1)"></span>
+      <span class="mode-hz" id="f1">--</span>
+      <span class="mode-name">F1</span>
+      <span class="conf" id="f1c"></span>
+    </div>
+    <div class="mode-card">
+      <span class="dot" style="background:var(--f2)"></span>
+      <span class="mode-hz" id="f2">--</span>
+      <span class="mode-name">F2</span>
+      <span class="conf" id="f2c"></span>
+    </div>
+    <div class="mode-card">
+      <span class="dot" style="background:var(--f3)"></span>
+      <span class="mode-hz" id="f3">--</span>
+      <span class="mode-name">F3</span>
+      <span class="conf" id="f3c"></span>
+    </div>
+    <div class="mode-card">
+      <span class="dot" style="background:var(--f4)"></span>
+      <span class="mode-hz" id="f4">--</span>
+      <span class="mode-name">F4</span>
+      <span class="conf" id="f4c"></span>
+    </div>
+  </div>
 
-  <section class="modes">
-    <div class="mode-cell" data-mode="1">
-      <div class="mode-dot"></div>
-      <div class="mode-label">F1</div>
-      <div class="mode-hz na" id="mHz1">—</div>
-      <div class="mode-sub" id="mSub1"></div>
-    </div>
-    <div class="mode-cell" data-mode="2">
-      <div class="mode-dot"></div>
-      <div class="mode-label">F2</div>
-      <div class="mode-hz na" id="mHz2">—</div>
-      <div class="mode-sub" id="mSub2"></div>
-    </div>
-    <div class="mode-cell" data-mode="3">
-      <div class="mode-dot"></div>
-      <div class="mode-label">F3</div>
-      <div class="mode-hz na" id="mHz3">—</div>
-      <div class="mode-sub" id="mSub3"></div>
-    </div>
-    <div class="mode-cell" data-mode="4">
-      <div class="mode-dot"></div>
-      <div class="mode-label">F4</div>
-      <div class="mode-hz na" id="mHz4">—</div>
-      <div class="mode-sub" id="mSub4"></div>
-    </div>
-  </section>
+  <!-- ステータス行 -->
+  <div class="status-row">
+    <span>検出方式</span>
+    <span class="badge ok" id="methodBadge">v2 輝度ピーク</span>
+  </div>
 
-  <section class="avgs">
+  <!-- 平均値 -->
+  <div class="averages">
     <div class="avg-card">
-      <div class="avg-label">24H AVERAGE</div>
-      <div class="avg-hz na" id="avg24">蓄積中</div>
-      <div class="avg-unit">Hz</div>
-      <div class="avg-sub" id="avg24sub"></div>
+      <div class="avg-value" id="avg24h">--.-</div>
+      <div class="avg-label">24時間平均 (F1)</div>
     </div>
     <div class="avg-card">
-      <div class="avg-label" id="monthLabel">MONTHLY</div>
-      <div class="avg-hz na" id="avgMonth">蓄積中</div>
-      <div class="avg-unit">Hz</div>
-      <div class="avg-sub" id="avgMonthSub"></div>
+      <div class="avg-value" id="avg7d">--.-</div>
+      <div class="avg-label">7日間平均 (F1)</div>
     </div>
-  </section>
+  </div>
 
-  <div class="mmm">⚡ Master Mind Members ⚡</div>
+  <!-- 折れ線グラフ -->
+  <div class="chart-section">
+    <div class="chart-header">
+      <span class="chart-title">過去72時間</span>
+      <div class="chart-toggles">
+        <button class="toggle-btn active" data-mode="F1" onclick="toggleMode('F1',this)">F1</button>
+        <button class="toggle-btn" data-mode="F2" onclick="toggleMode('F2',this)">F2</button>
+        <button class="toggle-btn" data-mode="F3" onclick="toggleMode('F3',this)">F3</button>
+        <button class="toggle-btn" data-mode="F4" onclick="toggleMode('F4',this)">F4</button>
+      </div>
+    </div>
+    <div class="chart-container">
+      <canvas id="chart"></canvas>
+      <div class="tooltip" id="tooltip"></div>
+    </div>
+    <div class="chart-time-labels">
+      <span id="t72h">-72h</span>
+      <span id="t48h">-48h</span>
+      <span id="t24h">-24h</span>
+      <span>now</span>
+    </div>
+  </div>
 
-  <button class="log-btn" onclick="document.getElementById('logBox').classList.toggle('open')">ログの取得</button>
-  <div class="log-box" id="logBox"></div>
+  <!-- ソース状態 -->
+  <div class="sources">
+    <div class="source-item">
+      <span class="source-name">Tomsk (sos70.ru)</span>
+      <span class="badge" id="srcTomsk">—</span>
+    </div>
+    <div class="source-item">
+      <span class="source-name">Cumiana (vlf.it)</span>
+      <span class="badge" id="srcCumiana">—</span>
+    </div>
+  </div>
 
-  <footer class="footer">
-    Auto-refresh 5 min
-  </footer>
+  <!-- フッター -->
+  <div class="footer">
+    <div class="mmm-bottom">⚡ MASTER MIND MEMBERS ⚡</div>
+    <div class="time" id="lastUpdate">最新取得: --</div>
+    <div class="version">Schumann Monitor v2 — luminosity peak detection</div>
+  </div>
 
 </div>
 
-
 <script>
-const JSON_URL = './schumann.json';
-const REFRESH_MS = 5 * 60 * 1000;
-let nextAt = 0, lastHz = null;
+// ============================================================
+// データ読み込みと表示
+// ============================================================
 
-function monthKey() { const d=new Date(); return `sr_${d.getFullYear()}_${String(d.getMonth()+1).padStart(2,'0')}` }
-function loadMonthly() { try{const r=localStorage.getItem(monthKey());if(r)return JSON.parse(r)}catch(e){} return{readings:[]} }
-function saveReading(hz) { const d=loadMonthly();d.readings.push({t:Date.now(),hz});if(d.readings.length>10000)d.readings=d.readings.slice(-10000);try{localStorage.setItem(monthKey(),JSON.stringify(d))}catch(e){} }
-function monthlyAvg() { const d=loadMonthly();if(!d.readings.length)return null;return{avg:d.readings.reduce((a,r)=>a+r.hz,0)/d.readings.length,count:d.readings.length} }
+const JSON_URL = 'schumann.json';
+const HISTORY_URL = 'schumann_history.json';
 
-function ts() { return new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit',second:'2-digit'}) }
-function log(msg,type='ok') {
-  const el=document.getElementById('logBox');
-  el.innerHTML+=`<div><span class="ts">[${ts()}]</span> <span class="${type}">${msg}</span></div>`;
-  el.scrollTop=el.scrollHeight;
-  if(el.children.length>60) el.removeChild(el.children[0]);
-}
+// グラフ表示状態
+let showModes = { F1: true, F2: false, F3: false, F4: false };
+let historyData = [];
 
-async function update() {
-  log('── 更新 ──');
-  const hero=document.getElementById('heroHz');
-  hero.className='hero-hz loading'; hero.textContent='取得中';
+const COLORS = {
+  F1: '#e8e8e8',
+  F2: '#f0e060',
+  F3: '#e85050',
+  F4: '#50c878'
+};
 
+const HZ_RANGES = {
+  F1: [6, 10],
+  F2: [12, 16],
+  F3: [18, 23],
+  F4: [24, 29]
+};
+
+// === データ取得 ===
+
+async function fetchJSON(url) {
   try {
-    const r=await fetch(JSON_URL+'?_='+Date.now(),{cache:'no-store'});
-    if(!r.ok) throw new Error('HTTP '+r.status);
-    const data=await r.json();
-    log(`✓ JSON取得 (${data.zone||''})`);
-
-    const m=data.modes||{};
-
-    // Hero (F1)
-    if(m.f1!=null) {
-      lastHz=m.f1;
-      hero.className='hero-hz'; hero.textContent=m.f1.toFixed(2);
-      document.getElementById('pulse').className='pulse on';
-      document.getElementById('statusText').textContent='LIVE';
-      saveReading(m.f1);
-    } else {
-      hero.className='hero-hz err'; hero.textContent=lastHz?lastHz.toFixed(2)+'?':'——';
-      document.getElementById('pulse').className='pulse err';
-      document.getElementById('statusText').textContent='F1 UNAVAILABLE';
-    }
-
-    // 4 Modes
-    [['f1',1],['f2',2],['f3',3],['f4',4]].forEach(([key,i])=>{
-      const hz=m[key];
-      const el=document.getElementById('mHz'+i);
-      const sub=document.getElementById('mSub'+i);
-      if(hz!=null) { el.textContent=hz.toFixed(2);el.className='mode-hz';sub.textContent=hz.toFixed(2)+' Hz';log(`F${i}: ${hz.toFixed(2)} Hz`) }
-      else { el.textContent='—';el.className='mode-hz na';sub.textContent='' }
-    });
-
-    // 24h avg from server
-    if(data.avg24!=null) {
-      const e=document.getElementById('avg24');
-      e.textContent=data.avg24.toFixed(2);e.className='avg-hz';
-      document.getElementById('avg24sub').textContent=`${data.avg24_points||'?'} points`;
-    }
-
-    // Monthly avg (localStorage)
-    const mo=monthlyAvg();
-    if(mo) {
-      const e=document.getElementById('avgMonth');
-      e.textContent=mo.avg.toFixed(2);e.className='avg-hz';
-      const n=new Date(), mn=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
-      document.getElementById('monthLabel').textContent=`${n.getFullYear()}年${mn[n.getMonth()]}`;
-      document.getElementById('avgMonthSub').textContent=`${mo.count} readings`;
-    }
-
-    // Timestamp
-    if(data.timestamp) {
-      const dt=new Date(data.timestamp);
-      document.getElementById('heroSub').textContent='最新取得時刻 '+dt.toLocaleString('ja-JP',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'});
-    }
-
+    const r = await fetch(url + '?t=' + Date.now());
+    if (!r.ok) return null;
+    return await r.json();
   } catch(e) {
-    log(`✗ ${e.message}`,'ng');
-    document.getElementById('pulse').className='pulse err';
-    document.getElementById('statusText').textContent='ERROR';
-    hero.className='hero-hz err'; hero.textContent='ERROR';
+    console.warn('Fetch failed:', url, e);
+    return null;
   }
-  scheduleNext();
 }
 
-function scheduleNext() { nextAt=Date.now()+REFRESH_MS; setTimeout(update,REFRESH_MS) }
-setInterval(()=>{ const r=Math.max(0,nextAt-Date.now()),m=Math.floor(r/60000),s=Math.floor((r%60000)/1000);document.getElementById('timerText').textContent=`${m}:${String(s).padStart(2,'0')}` },1000);
+async function loadData() {
+  const [current, history] = await Promise.all([
+    fetchJSON(JSON_URL),
+    fetchJSON(HISTORY_URL)
+  ]);
+  
+  if (current) updateCurrent(current);
+  if (history) {
+    historyData = history;
+    updateAverages(history);
+    drawChart();
+  }
+}
 
-// Init monthly
-(function(){ const mo=monthlyAvg();if(mo){const e=document.getElementById('avgMonth');e.textContent=mo.avg.toFixed(2);e.className='avg-hz';const n=new Date(),mn=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];document.getElementById('monthLabel').textContent=`${n.getFullYear()}年${mn[n.getMonth()]}`;document.getElementById('avgMonthSub').textContent=`${mo.count} readings`} })();
+// === 現在値の表示更新 ===
 
-log('Schumann Resonance Monitor 起動');
-update();
+function updateCurrent(data) {
+  const modes = data.modes || {};
+  
+  // メインHz
+  const el = document.getElementById('mainHz');
+  if (modes.F1 != null) {
+    el.textContent = modes.F1.toFixed(2);
+    el.classList.remove('loading');
+  } else {
+    el.textContent = '--.-';
+  }
+  
+  // 4モード
+  ['F1','F2','F3','F4'].forEach(m => {
+    const hz = modes[m];
+    document.getElementById(m.toLowerCase()).textContent = 
+      hz != null ? hz.toFixed(1) : '--';
+    
+    // 信頼度表示
+    const detail = data.details?.tomsk?.[m];
+    const confEl = document.getElementById(m.toLowerCase() + 'c');
+    if (detail && detail.confidence != null) {
+      const pct = Math.round(detail.confidence * 100);
+      confEl.textContent = pct + '%';
+      confEl.style.color = pct > 60 ? 'var(--green)' : pct > 30 ? 'var(--warn)' : 'var(--err)';
+    }
+  });
+  
+  // 検出方式
+  const method = data.method || 'unknown';
+  document.getElementById('methodBadge').textContent = 
+    method === 'luminosity_peak' ? 'v2 輝度ピーク' : method;
+  
+  // ソース状態
+  const tomsk = data.details?.tomsk;
+  const cumiana = data.details?.cumiana;
+  
+  const srcTomsk = document.getElementById('srcTomsk');
+  if (tomsk && Object.keys(tomsk).some(k => tomsk[k] && tomsk[k].hz)) {
+    srcTomsk.className = 'badge ok';
+    srcTomsk.textContent = '● 稼働中';
+  } else {
+    srcTomsk.className = 'badge err';
+    srcTomsk.textContent = '● 停止';
+  }
+  
+  const srcCumiana = document.getElementById('srcCumiana');
+  if (cumiana && cumiana.status === 'ok') {
+    srcCumiana.className = 'badge ok';
+    srcCumiana.textContent = '● Lv.' + (cumiana.activity_level || 0);
+  } else {
+    srcCumiana.className = 'badge warn';
+    srcCumiana.textContent = '● 未取得';
+  }
+  
+  // 最終更新時刻
+  document.getElementById('lastUpdate').textContent = 
+    '最新取得: ' + (data.timestamp_jst || '--');
+}
+
+// === 平均値計算 ===
+
+function updateAverages(history) {
+  if (!history || history.length === 0) return;
+  
+  const now = new Date();
+  
+  // 24時間平均
+  const h24 = history.filter(h => {
+    const t = new Date(h.timestamp);
+    return (now - t) < 24 * 3600 * 1000 && h.F1 != null;
+  });
+  
+  if (h24.length > 0) {
+    const avg = h24.reduce((s, h) => s + h.F1, 0) / h24.length;
+    document.getElementById('avg24h').textContent = avg.toFixed(2);
+  }
+  
+  // 7日平均
+  const h7d = history.filter(h => {
+    const t = new Date(h.timestamp);
+    return (now - t) < 7 * 24 * 3600 * 1000 && h.F1 != null;
+  });
+  
+  if (h7d.length > 0) {
+    const avg = h7d.reduce((s, h) => s + h.F1, 0) / h7d.length;
+    document.getElementById('avg7d').textContent = avg.toFixed(2);
+  }
+}
+
+// === 折れ線グラフ ===
+
+function drawChart() {
+  const canvas = document.getElementById('chart');
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = 200 * dpr;
+  canvas.style.height = '200px';
+  
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  
+  const W = rect.width;
+  const H = 200;
+  const PAD = { top: 8, right: 8, bottom: 4, left: 36 };
+  const pw = W - PAD.left - PAD.right;
+  const ph = H - PAD.top - PAD.bottom;
+  
+  // 背景
+  ctx.fillStyle = 'transparent';
+  ctx.clearRect(0, 0, W, H);
+  
+  // 72時間前〜今のタイムレンジ
+  const now = Date.now();
+  const t72h = now - 72 * 3600 * 1000;
+  
+  // 有効なモードを描画
+  const activeModes = Object.keys(showModes).filter(m => showModes[m]);
+  if (activeModes.length === 0 || historyData.length === 0) return;
+  
+  // Hz範囲を決定（表示モードに合わせる）
+  let hzMin = Infinity, hzMax = -Infinity;
+  activeModes.forEach(m => {
+    const range = HZ_RANGES[m];
+    hzMin = Math.min(hzMin, range[0]);
+    hzMax = Math.max(hzMax, range[1]);
+  });
+  
+  // グリッドライン
+  ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+  ctx.lineWidth = 0.5;
+  const hzStep = hzMax - hzMin > 10 ? 5 : 2;
+  for (let hz = Math.ceil(hzMin); hz <= hzMax; hz += hzStep) {
+    const y = PAD.top + ph - (hz - hzMin) / (hzMax - hzMin) * ph;
+    ctx.beginPath();
+    ctx.moveTo(PAD.left, y);
+    ctx.lineTo(PAD.left + pw, y);
+    ctx.stroke();
+    
+    // ラベル
+    ctx.fillStyle = 'rgba(255,255,255,0.2)';
+    ctx.font = '9px JetBrains Mono, monospace';
+    ctx.textAlign = 'right';
+    ctx.fillText(hz + '', PAD.left - 4, y + 3);
+  }
+  
+  // 基準線 7.83Hz（F1表示時のみ）
+  if (showModes.F1 && hzMin < 7.83 && hzMax > 7.83) {
+    const y783 = PAD.top + ph - (7.83 - hzMin) / (hzMax - hzMin) * ph;
+    ctx.strokeStyle = 'rgba(74,158,237,0.2)';
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath();
+    ctx.moveTo(PAD.left, y783);
+    ctx.lineTo(PAD.left + pw, y783);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    
+    ctx.fillStyle = 'rgba(74,158,237,0.3)';
+    ctx.font = '8px JetBrains Mono, monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText('7.83', PAD.left + 2, y783 - 3);
+  }
+  
+  // 8.02Hz目標線（F1表示時のみ）
+  if (showModes.F1 && hzMin < 8.02 && hzMax > 8.02) {
+    const y802 = PAD.top + ph - (8.02 - hzMin) / (hzMax - hzMin) * ph;
+    ctx.strokeStyle = 'rgba(196,162,101,0.25)';
+    ctx.setLineDash([2, 3]);
+    ctx.beginPath();
+    ctx.moveTo(PAD.left, y802);
+    ctx.lineTo(PAD.left + pw, y802);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    
+    ctx.fillStyle = 'rgba(196,162,101,0.4)';
+    ctx.font = '8px JetBrains Mono, monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText('8.02 ✦', PAD.left + 2, y802 - 3);
+  }
+  
+  // データプロット
+  activeModes.forEach(mode => {
+    const points = historyData
+      .filter(h => h[mode] != null)
+      .map(h => ({
+        t: new Date(h.timestamp).getTime(),
+        v: h[mode]
+      }))
+      .filter(p => p.t >= t72h && p.t <= now)
+      .sort((a, b) => a.t - b.t);
+    
+    if (points.length < 2) return;
+    
+    ctx.strokeStyle = COLORS[mode];
+    ctx.lineWidth = 1.5;
+    ctx.lineJoin = 'round';
+    ctx.beginPath();
+    
+    points.forEach((p, i) => {
+      const x = PAD.left + (p.t - t72h) / (now - t72h) * pw;
+      const y = PAD.top + ph - (p.v - hzMin) / (hzMax - hzMin) * ph;
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    });
+    
+    ctx.stroke();
+    
+    // 最新点にドット
+    const last = points[points.length - 1];
+    const lx = PAD.left + (last.t - t72h) / (now - t72h) * pw;
+    const ly = PAD.top + ph - (last.v - hzMin) / (hzMax - hzMin) * ph;
+    ctx.fillStyle = COLORS[mode];
+    ctx.beginPath();
+    ctx.arc(lx, ly, 3, 0, Math.PI * 2);
+    ctx.fill();
+  });
+  
+  // 時間軸ラベル更新
+  const fmt = d => {
+    const dt = new Date(d);
+    return (dt.getMonth()+1) + '/' + dt.getDate() + ' ' + 
+           String(dt.getHours()).padStart(2,'0') + ':00';
+  };
+  document.getElementById('t72h').textContent = fmt(t72h);
+  document.getElementById('t48h').textContent = fmt(now - 48*3600*1000);
+  document.getElementById('t24h').textContent = fmt(now - 24*3600*1000);
+}
+
+// === トグルボタン ===
+
+function toggleMode(mode, btn) {
+  showModes[mode] = !showModes[mode];
+  btn.classList.toggle('active');
+  drawChart();
+}
+
+// === ツールチップ（タッチ/マウス） ===
+
+(function() {
+  const canvas = document.getElementById('chart');
+  const tooltip = document.getElementById('tooltip');
+  
+  function showTip(clientX) {
+    if (historyData.length === 0) return;
+    
+    const rect = canvas.getBoundingClientRect();
+    const x = clientX - rect.left;
+    const PAD_LEFT = 36;
+    const pw = rect.width - PAD_LEFT - 8;
+    
+    if (x < PAD_LEFT || x > PAD_LEFT + pw) {
+      tooltip.style.display = 'none';
+      return;
+    }
+    
+    const ratio = (x - PAD_LEFT) / pw;
+    const now = Date.now();
+    const t72h = now - 72 * 3600 * 1000;
+    const targetT = t72h + ratio * (now - t72h);
+    
+    // 最も近いデータポイントを探す
+    let closest = null, minDist = Infinity;
+    historyData.forEach(h => {
+      const t = new Date(h.timestamp).getTime();
+      const d = Math.abs(t - targetT);
+      if (d < minDist) { minDist = d; closest = h; }
+    });
+    
+    if (!closest || minDist > 15 * 60 * 1000) {
+      tooltip.style.display = 'none';
+      return;
+    }
+    
+    const dt = new Date(closest.timestamp);
+    const timeStr = (dt.getMonth()+1) + '/' + dt.getDate() + ' ' +
+                    String(dt.getHours()).padStart(2,'0') + ':' +
+                    String(dt.getMinutes()).padStart(2,'0');
+    
+    let lines = [timeStr];
+    ['F1','F2','F3','F4'].forEach(m => {
+      if (showModes[m] && closest[m] != null) {
+        lines.push(m + ': ' + closest[m].toFixed(2) + ' Hz');
+      }
+    });
+    
+    tooltip.innerHTML = lines.join('<br>');
+    tooltip.style.display = 'block';
+    tooltip.style.left = Math.min(x, rect.width - 120) + 'px';
+    tooltip.style.top = '8px';
+  }
+  
+  canvas.addEventListener('mousemove', e => showTip(e.clientX));
+  canvas.addEventListener('touchmove', e => {
+    e.preventDefault();
+    showTip(e.touches[0].clientX);
+  });
+  canvas.addEventListener('mouseleave', () => tooltip.style.display = 'none');
+  canvas.addEventListener('touchend', () => tooltip.style.display = 'none');
+})();
+
+// === 初期化 & 自動更新 ===
+
+loadData();
+setInterval(loadData, 5 * 60 * 1000); // 5分ごとに自動更新
+window.addEventListener('resize', drawChart);
 </script>
+
 </body>
 </html>
