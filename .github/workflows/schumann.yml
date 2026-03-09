@@ -1,34 +1,39 @@
-name: Schumann Resonance Fetcher
+name: Schumann Resonance Monitor v2
 
 on:
   schedule:
-    - cron: '*/5 * * * *'  # Every 5 minutes
-  workflow_dispatch:  # Manual trigger button
+    # 5分ごとに実行
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+    # 手動実行も可能
+
+permissions:
+  contents: write
 
 jobs:
   fetch:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-
+    timeout-minutes: 3
+    
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Python
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-
-      - name: Install Pillow
-        run: pip install Pillow
-
+      
+      - name: Install dependencies
+        run: pip install Pillow numpy
+      
       - name: Fetch Schumann data
         run: python fetch_schumann.py
-
-      - name: Commit results
+      
+      - name: Commit and push
         run: |
           git config user.name "Schumann Bot"
-          git config user.email "bot@schumann.local"
+          git config user.email "bot@schumann.earth"
           git add schumann.json schumann_history.json
-          git diff --staged --quiet || git commit -m "📡 $(date -u '+%Y-%m-%d %H:%M') UTC"
+          git diff --staged --quiet || git commit -m "🌍 Update $(date -u +%Y-%m-%dT%H:%M:%SZ)"
           git push
