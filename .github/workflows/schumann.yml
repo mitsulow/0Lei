@@ -1,0 +1,34 @@
+name: Schumann Resonance Fetcher
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'  # Every 5 minutes
+  workflow_dispatch:  # Manual trigger button
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Pillow
+        run: pip install Pillow
+
+      - name: Fetch Schumann data
+        run: python fetch_schumann.py
+
+      - name: Commit results
+        run: |
+          git config user.name "Schumann Bot"
+          git config user.email "bot@schumann.local"
+          git add schumann.json schumann_history.json
+          git diff --staged --quiet || git commit -m "📡 $(date -u '+%Y-%m-%d %H:%M') UTC"
+          git push
