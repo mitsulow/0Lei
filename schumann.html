@@ -237,6 +237,18 @@ body {
   margin-top: 6px;
 }
 
+/* ── Master Mind Members ── */
+.mmm {
+  text-align: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-size: clamp(20px, 5vw, 32px);
+  letter-spacing: 3px;
+  color: var(--accent);
+  padding: 28px 0;
+  text-shadow: 0 0 30px rgba(90,200,192,0.15);
+}
+
 /* ── Footer ── */
 .footer {
   text-align: center;
@@ -295,7 +307,6 @@ body {
   <header class="header">
     <div class="header-sub">Earth Frequency</div>
     <h1>Schumann <em>Resonance</em></h1>
-    <div class="header-src">Tomsk State University — sos70.ru</div>
   </header>
 
   <div class="status">
@@ -305,7 +316,7 @@ body {
   </div>
 
   <section class="hero">
-    <div class="hero-label">いま、地球の鼓動</div>
+    <div class="hero-label">いまの地球の鼓動</div>
     <div class="hero-hz loading" id="heroHz">接続中</div>
     <div class="hero-unit">Hz</div>
     <div class="hero-sub" id="heroSub"></div>
@@ -353,12 +364,13 @@ body {
     </div>
   </section>
 
+  <div class="mmm">⚡ Master Mind Members ⚡</div>
+
   <button class="log-btn" onclick="document.getElementById('logBox').classList.toggle('open')">ログの取得</button>
   <div class="log-box" id="logBox"></div>
 
   <footer class="footer">
-    Source: Space Observing System 70, Tomsk State University<br>
-    Auto-refresh 5 min — Client-side pixel extraction
+    Auto-refresh 5 min
   </footer>
 
 </div>
