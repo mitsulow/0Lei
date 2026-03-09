@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>シューマン共振 リアルタイム Hz モニター</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=JetBrains+Mono:wght@300;400;500&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#06060e;--card:#0e0e1c;
+    --card-border:rgba(90,240,232,0.1);--card-border-hi:rgba(90,240,232,0.3);
+    --text:#e0dced;--text2:rgba(224,220,237,0.5);--text3:rgba(224,220,237,0.25);
+    --cyan:#5af0e8;--cyan-dim:rgba(90,240,232,0.15);
+    --gold:#f0c85a;--gold-dim:rgba(240,200,90,0.12);
+    --violet:#785aff;--rose:#ff5a8a;--rose-dim:rgba(255,90,138,0.15);
+    --mode1:#ffffff;--mode2:#e8e84a;--mode3:#e84a4a;--mode4:#4ae84a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:'Noto Sans JP',sans-serif;min-height:100vh;overflow-x:hidden}
+  .ambient{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 70% 50% at 30% 20%,rgba(90,240,232,.03),transparent 70%),radial-gradient(ellipse 50% 60% at 70% 80%,rgba(120,90,255,.03),transparent 70%);animation:ambP 15s ease-in-out infinite alternate}
+  @keyframes ambP{0%{opacity:.5}100%{opacity:1}}
+  .wrap{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 20px}
+  .hdr{text-align:center;padding:36px 0 12px}
+  .hdr-eye{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--cyan);opacity:.6}
+  .hdr-line{height:1px;max-width:260px;margin:8px auto 12px;background:linear-gradient(90deg,transparent,var(--cyan),var(--gold),transparent);opacity:.4}
+  .hdr h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(26px,5vw,42px);letter-spacing:1px}
+  .hdr h1 em{font-style:italic;font-weight:300;background:linear-gradient(135deg,var(--cyan),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .hdr-src{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text2);margin-top:8px}
+  .hdr-src a{color:var(--violet);text-decoration:none;border-bottom:1px solid rgba(120,90,255,.3)}
+  .status-bar{display:flex;justify-content:center;align-items:center;gap:24px;padding:8px 0 16px;flex-wrap:wrap}
+  .status-item{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);display:flex;align-items:center;gap:6px}
+  .dot{width:5px;height:5px;border-radius:50%;background:var(--cyan);animation:dotP 2s ease-in-out infinite}
+  .dot.off{background:var(--rose);animation:none}
+  @keyframes dotP{0%,100%{box-shadow:0 0 0 0 rgba(90,240,232,.4)}50%{box-shadow:0 0 0 5px rgba(90,240,232,0)}}
+
+  .tier-current{text-align:center;padding:16px 0 20px;border:1px solid var(--card-border);border-radius:16px;background:linear-gradient(180deg,rgba(90,240,232,.02),transparent);margin-bottom:16px}
+  .tier-current .label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--text3)}
+  .tier-current .hz{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(80px,18vw,160px);line-height:1;color:var(--cyan);text-shadow:0 0 60px rgba(90,240,232,.15);transition:color .6s;min-height:1.1em}
+  .tier-current .hz.stale{color:var(--text3);text-shadow:none}
+  .tier-current .hz.error{color:var(--rose)}
+  .tier-current .hz.loading{color:var(--text3);text-shadow:none;animation:loadP 1.5s ease-in-out infinite;font-size:clamp(40px,9vw,72px)}
+  .tier-current .unit{font-family:'JetBrains Mono',monospace;font-size:16px;letter-spacing:3px;color:var(--text2)}
+  @keyframes loadP{0%,100%{opacity:.3}50%{opacity:.8}}
+  .loading-sub{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);text-align:center;animation:loadP 1.5s ease-in-out infinite;margin-top:4px}
+
+  /* ── 4-MODE SOUND PANEL ── */
+  .sound-panel{padding:8px 0 20px}
+  .sound-panel-title{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--text3);text-align:center;margin-bottom:12px}
+  .sound-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:600px;margin:0 auto}
+  .mode-btn{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    padding:12px 8px;border-radius:10px;cursor:pointer;transition:all .3s;
+    text-align:center;border:1px solid var(--card-border);background:var(--card);
+    display:flex;flex-direction:column;align-items:center;gap:4px;
+  }
+  .mode-btn:hover{transform:translateY(-1px)}
+  .mode-btn .m-dot{width:10px;height:10px;border-radius:50%;opacity:.5;transition:all .3s}
+  .mode-btn .m-name{color:var(--text2);font-size:9px;letter-spacing:1px}
+  .mode-btn .m-hz{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--text);transition:color .3s}
+  .mode-btn .m-audible{font-size:8px;color:var(--text3)}
+  .mode-btn .m-status{font-size:8px;color:var(--text3);letter-spacing:1px}
+  .mode-btn.on{box-shadow:0 0 20px rgba(255,255,255,.05)}
+  .mode-btn.on .m-dot{opacity:1;box-shadow:0 0 8px currentColor}
+  .mode-btn.on .m-status{color:var(--cyan)}
+  .mode-btn.m1{--mc:var(--mode1)}.mode-btn.m1 .m-dot{background:var(--mode1)}.mode-btn.m1.on{border-color:rgba(255,255,255,.3)}.mode-btn.m1.on .m-hz{color:var(--mode1)}
+  .mode-btn.m2{--mc:var(--mode2)}.mode-btn.m2 .m-dot{background:var(--mode2)}.mode-btn.m2.on{border-color:rgba(232,232,74,.3)}.mode-btn.m2.on .m-hz{color:var(--mode2)}
+  .mode-btn.m3{--mc:var(--mode3)}.mode-btn.m3 .m-dot{background:var(--mode3)}.mode-btn.m3.on{border-color:rgba(232,74,74,.3)}.mode-btn.m3.on .m-hz{color:var(--mode3)}
+  .mode-btn.m4{--mc:var(--mode4)}.mode-btn.m4 .m-dot{background:var(--mode4)}.mode-btn.m4.on{border-color:rgba(74,232,74,.3)}.mode-btn.m4.on .m-hz{color:var(--mode4)}
+  .sound-grid-phi{max-width:600px;margin:8px auto 0;display:flex;justify-content:center}
+  .mode-btn.m5{width:100%;max-width:400px;background:linear-gradient(180deg,rgba(240,200,90,.06),var(--card));border-color:rgba(240,200,90,.2)}
+  .mode-btn.m5 .m-dot{background:var(--gold);box-shadow:0 0 6px rgba(240,200,90,.3)}
+  .mode-btn.m5 .m-name{color:var(--gold);font-size:10px;letter-spacing:2px}
+  .mode-btn.m5 .m-formula{font-size:9px;color:var(--text3);margin:-2px 0 2px}
+  .mode-btn.m5.on{border-color:rgba(240,200,90,.5);box-shadow:0 0 30px rgba(240,200,90,.1)}
+  .mode-btn.m5.on .m-hz{color:var(--gold)}
+  .mode-btn.m5.on .m-dot{box-shadow:0 0 12px rgba(240,200,90,.5)}
+  .sound-hint{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text3);text-align:center;margin-top:10px}
+
+  .tier-avg-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+  .tier-avg{text-align:center;padding:18px 12px;border:1px solid var(--card-border);border-radius:12px;background:var(--card);transition:border-color .3s}
+  .tier-avg:hover{border-color:var(--card-border-hi)}
+  .tier-avg .label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--text3);margin-bottom:6px}
+  .tier-avg .hz{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(36px,8vw,56px);line-height:1.1;color:var(--text)}
+  .tier-avg .hz.na{color:var(--text3);font-size:18px}
+  .tier-avg .unit{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);margin-top:2px}
+  .tier-avg .sub{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text3);margin-top:6px}
+
+  .target-row{display:flex;justify-content:center;align-items:center;gap:16px;padding:12px 0 4px;flex-wrap:wrap}
+  .target-box{text-align:center;padding:10px 18px;border:1px solid var(--card-border);border-radius:10px;background:var(--card);min-width:100px}
+  .target-box .lbl{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--text3);margin-bottom:3px}
+  .target-box .val{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300}
+  .target-box .val.g{color:var(--gold)}
+  .target-arrow{color:var(--text3);font-size:16px;animation:arrP 2s ease-in-out infinite}
+  @keyframes arrP{0%,100%{opacity:.3;transform:translateX(0)}50%{opacity:.7;transform:translateX(3px)}}
+  .diff-badge{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text2);padding:6px 12px;border-radius:6px;background:var(--gold-dim)}
+
+  .graph-section{padding:8px 0 24px}
+  .graph-card{border:1px solid var(--card-border);border-radius:14px;background:var(--card);overflow:hidden;transition:border-color .3s}
+  .graph-card:hover{border-color:var(--card-border-hi)}
+  .graph-card-hdr{display:flex;justify-content:space-between;align-items:center;padding:14px 18px 8px}
+  .graph-card-hdr .title{font-size:13px}
+  .badge{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:2px;padding:3px 8px;border-radius:4px;background:var(--cyan-dim);color:var(--cyan);border:1px solid rgba(90,240,232,.15)}
+  .badge.err{background:var(--rose-dim);color:var(--rose);border-color:rgba(255,90,138,.2)}
+  .graph-card-body{padding:0 18px 18px}
+  .graph-card-body img{width:100%;height:auto;border-radius:8px;border:1px solid rgba(90,240,232,.06);background:#000;cursor:zoom-in;transition:transform .3s}
+  .graph-card-body img:hover{transform:scale(1.003)}
+  .graph-desc{font-size:11px;color:var(--text2);line-height:1.8;margin-top:8px}
+
+  .log-section{padding:0 0 24px}
+  .log-toggle{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;color:var(--text3);background:none;border:1px solid var(--card-border);border-radius:6px;padding:6px 14px;cursor:pointer;transition:all .3s;display:block;margin:0 auto 10px}
+  .log-toggle:hover{border-color:var(--card-border-hi);color:var(--text2)}
+  .log-card{border:1px solid var(--card-border);border-radius:12px;background:var(--card);padding:16px;max-height:200px;overflow-y:auto;display:none}
+  .log-card.open{display:block}
+  .log-card::-webkit-scrollbar{width:4px}
+  .log-card::-webkit-scrollbar-thumb{background:rgba(90,240,232,.15);border-radius:2px}
+  .log-title{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:8px}
+  .log-entry{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text2);line-height:1.9;border-bottom:1px solid rgba(255,255,255,.02)}
+  .log-entry .ts{color:var(--text3)}.log-entry .ok{color:var(--cyan)}.log-entry .ng{color:var(--rose)}
+
+  .info-section{padding:0 0 40px}
+  .info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+  .info-card{border:1px solid var(--card-border);border-radius:10px;padding:18px;background:var(--card);transition:border-color .3s,transform .3s}
+  .info-card:hover{border-color:var(--card-border-hi);transform:translateY(-1px)}
+  .info-card .ic{font-size:16px;margin-bottom:6px}
+  .info-card .it{font-size:12px;font-weight:500;margin-bottom:4px}
+  .info-card .id{font-size:11px;color:var(--text2);line-height:1.8}
+  #analyzeCanvas{display:none}
+  .ftr{text-align:center;padding:20px;border-top:1px solid var(--card-border);font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text3);line-height:2.2}
+  .lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:999;cursor:zoom-out;align-items:center;justify-content:center;padding:20px}
+  .lb.on{display:flex}
+  .lb img{max-width:95%;max-height:95vh;object-fit:contain;border-radius:6px}
+  @media(max-width:600px){
+    .target-arrow{display:none}
+    .tier-current .hz{font-size:72px}
+    .tier-avg-row{grid-template-columns:1fr}
+    .sound-grid{grid-template-columns:repeat(2,1fr)}
+  }
+</style>
+</head>
+<body>
+<div class="ambient"></div>
+<div class="wrap">
+  <header class="hdr">
+    <div class="hdr-eye">EARTH FREQUENCY ── LIVE EXTRACTION</div>
+    <div class="hdr-line"></div>
+    <h1>Schumann <em>Resonance</em></h1>
+    <p class="hdr-src">Source: <a href="https://sos70.ru" target="_blank">Tomsk State University</a> ── 4-mode pixel analysis</p>
+  </header>
+  <div class="status-bar">
+    <div class="status-item"><div class="dot off" id="statusDot"></div><span id="statusText">WAITING</span></div>
+    <div class="status-item" id="lastUpdateText">──</div>
+    <div class="status-item" id="countdownText"></div>
+  </div>
+
+  <section class="tiers">
+    <div class="tier-current">
+      <div class="label">いま、地球の鼓動</div>
+      <div class="hz loading" id="heroHz">計算中</div>
+      <div class="unit">Hz</div>
+      <div class="loading-sub" id="loadingSub">トムスクから画像を取得しています...</div>
+    </div>
+
+    <!-- 5-MODE SOUND PANEL -->
+    <div class="sound-panel">
+      <div class="sound-panel-title">♪ SCHUMANN HARMONICS ── タップで再生</div>
+      <div class="sound-grid">
+        <button class="mode-btn m1" id="modeBtn1" onclick="toggleMode(0)">
+          <div class="m-dot"></div>
+          <div class="m-name">MODE 1</div>
+          <div class="m-hz" id="modeHz1">—</div>
+          <div class="m-audible" id="modeAud1"></div>
+          <div class="m-status" id="modeSt1">OFF</div>
+        </button>
+        <button class="mode-btn m2" id="modeBtn2" onclick="toggleMode(1)">
+          <div class="m-dot"></div>
+          <div class="m-name">MODE 2</div>
+          <div class="m-hz" id="modeHz2">—</div>
+          <div class="m-audible" id="modeAud2"></div>
+          <div class="m-status" id="modeSt2">OFF</div>
+        </button>
+        <button class="mode-btn m3" id="modeBtn3" onclick="toggleMode(2)">
+          <div class="m-dot"></div>
+          <div class="m-name">MODE 3</div>
+          <div class="m-hz" id="modeHz3">—</div>
+          <div class="m-audible" id="modeAud3"></div>
+          <div class="m-status" id="modeSt3">OFF</div>
+        </button>
+        <button class="mode-btn m4" id="modeBtn4" onclick="toggleMode(3)">
+          <div class="m-dot"></div>
+          <div class="m-name">MODE 4</div>
+          <div class="m-hz" id="modeHz4">—</div>
+          <div class="m-audible" id="modeAud4"></div>
+          <div class="m-status" id="modeSt4">OFF</div>
+        </button>
+      </div>
+      <div class="sound-grid-phi">
+        <button class="mode-btn m5" id="modeBtn5" onclick="toggleMode(4)">
+          <div class="m-dot"></div>
+          <div class="m-name">MUSICA HARMONIA</div>
+          <div class="m-formula">Mode1 × φ⁸</div>
+          <div class="m-hz" id="modeHz5">—</div>
+          <div class="m-audible" id="modeAud5"></div>
+          <div class="m-status" id="modeSt5">OFF</div>
+        </button>
+      </div>
+      <div class="sound-hint">複数同時にタップしてハーモニーを作れます</div>
+    </div>
+
+    <div class="tier-avg-row">
+      <div class="tier-avg">
+        <div class="label">24時間 平均</div>
+        <div class="hz na" id="avg24Hz">計測中...</div>
+        <div class="unit">Hz</div>
+        <div class="sub" id="avg24Sub"></div>
+      </div>
+      <div class="tier-avg">
+        <div class="label" id="monthLabel">今月の平均</div>
+        <div class="hz na" id="avgMonthHz">蓄積中...</div>
+        <div class="unit">Hz</div>
+        <div class="sub" id="avgMonthSub"></div>
+      </div>
+    </div>
+    <div class="target-row">
+      <div class="target-box"><div class="lbl">DETECTED</div><div class="val" id="detectedVal" style="color:var(--cyan)">—</div></div>
+      <div class="target-arrow">→</div>
+      <div class="target-box"><div class="lbl">みつろう理論 TARGET</div><div class="val g">8.02</div></div>
+      <div class="diff-badge" id="diffText">Δ = —</div>
+    </div>
+  </section>
+
+  <section class="graph-section">
+    <div class="graph-card">
+      <div class="graph-card-hdr">
+        <span class="title">周波数グラフ（トムスク srf.jpg）</span>
+        <span class="badge" id="graphBadge">LOADING</span>
+      </div>
+      <div class="graph-card-body">
+        <img id="graphImg" src="" alt="Schumann Resonance Frequencies" onclick="openLb(this)">
+        <p class="graph-desc">白＝第1モード、黄＝第2モード、赤＝第3モード、緑＝第4モード。各色のピクセルを解析してHz値を抽出。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="log-section">
+    <button class="log-toggle" onclick="document.getElementById('logCard').classList.toggle('open')">ANALYSIS LOG ▾</button>
+    <div class="log-card" id="logCard"><div class="log-title">LOG</div></div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-grid">
+      <div class="info-card"><div class="ic">🔬</div><div class="it">4モード解析</div><div class="id">白ピクセル＝Mode1、黄ピクセル＝Mode2、赤ピクセル＝Mode3、緑ピクセル＝Mode4。各色のY座標からHz値を抽出。</div></div>
+      <div class="info-card"><div class="ic">♪</div><div class="it">シューマン・ハーモニクス</div><div class="id">各モードを6オクターブ上（×64）に変換して再生。ボタンを複数押してリアルタイムのシューマン和音を体験できます。</div></div>
+      <div class="info-card"><div class="ic">🎯</div><div class="it">7.83 → 8.02 Hz</div><div class="id">みつろう理論：地球の恒星日基準のリアル1秒で計算するとミトコンドリアの回転は8回転＝8.02Hz。</div></div>
+    </div>
+  </section>
+</div>
+<footer class="ftr">Data: Space Observing System 70, Tomsk State University (sos70.ru)<br>Auto-refresh: 5 min ── Client-side Canvas pixel extraction ── 4-mode harmonic analysis</footer>
+<div class="lb" id="lb" onclick="closeLb()"><img id="lbImg" src=""></div>
+<canvas id="analyzeCanvas"></canvas>
+
+<script>
+const TOMSK_SRF_URL='https://sos70.ru/provider.php?file=srf.jpg';
+const CORS_PROXIES=[
+  u=>'https://corsproxy.io/?'+encodeURIComponent(u),
+  u=>'https://api.allorigins.win/raw?url='+encodeURIComponent(u),
+  u=>'https://api.codetabs.com/v1/proxy?quest='+encodeURIComponent(u),
+];
+const REFRESH_MS=5*60*1000, TARGET_HZ=8.02, OCTAVES=6, MULTIPLIER=Math.pow(2,OCTAVES); // 2^6=64
+let lastHz=null, nextRefreshAt=0;
+
+// Monthly storage
+function getMonthKey(){const d=new Date();return`sr_${d.getFullYear()}_${String(d.getMonth()+1).padStart(2,'0')}`}
+function loadMonthly(){try{const r=localStorage.getItem(getMonthKey());if(r)return JSON.parse(r)}catch(e){}return{readings:[]}}
+function saveReading(hz){const d=loadMonthly();d.readings.push({t:Date.now(),hz});if(d.readings.length>10000)d.readings=d.readings.slice(-10000);try{localStorage.setItem(getMonthKey(),JSON.stringify(d))}catch(e){}}
+function getMonthlyAvg(){const d=loadMonthly();if(!d.readings.length)return null;return{avg:d.readings.reduce((a,r)=>a+r.hz,0)/d.readings.length,count:d.readings.length}}
+
+function ts(){return new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit',second:'2-digit'})}
+function addLog(msg,type='ok'){const e=document.createElement('div');e.className='log-entry';e.innerHTML=`<span class="ts">[${ts()}]</span> <span class="${type}">${msg}</span>`;const c=document.getElementById('logCard');c.appendChild(e);c.scrollTop=c.scrollHeight;if(c.children.length>52)c.removeChild(c.children[1])}
+
+async function fetchBlob(url){
+  const cb=`&_cb=${Date.now()}_${Math.random().toString(36).slice(2,8)}`;
+  for(let i=0;i<CORS_PROXIES.length;i++){
+    const pu=CORS_PROXIES[i](url+cb);
+    try{
+      addLog(`Proxy ${i+1}/${CORS_PROXIES.length} 接続中...`);
+      const r=await fetch(pu,{signal:AbortSignal.timeout(15000),cache:'no-store',headers:{'Cache-Control':'no-cache,no-store','Pragma':'no-cache'}});
+      if(!r.ok)throw new Error('HTTP '+r.status);
+      const b=await r.blob();if(b.size<5000)throw new Error('Small:'+b.size);
+      addLog(`取得成功 (${(b.size/1024).toFixed(1)}KB)`);return b;
+    }catch(e){addLog(`Proxy ${i+1} 失敗: ${e.message}`,'ng')}
+  }
+  return null;
+}
+
+// ══════════════════════════════════════
+//  4-MODE PIXEL ANALYSIS
+// ══════════════════════════════════════
+// Color detection for each mode in the Tomsk graph:
+// Mode 1 (F1): WHITE  - high R, high G, high B, roughly equal
+// Mode 2 (F2): YELLOW - high R, high G, low B
+// Mode 3 (F3): RED    - high R, low G, low B
+// Mode 4 (F4): GREEN  - low R, high G, low B
+
+function analyze(img){
+  const cv=document.getElementById('analyzeCanvas'),cx=cv.getContext('2d',{willReadFrequently:true});
+  cv.width=img.naturalWidth;cv.height=img.naturalHeight;
+  cx.drawImage(img,0,0);
+  const w=cv.width,h=cv.height;
+  addLog(`画像: ${w}x${h}px`);
+
+  // Plot boundaries
+  let pL=Math.floor(w*.08),pR=Math.floor(w*.95);
+  for(let x=Math.floor(w*.03);x<Math.floor(w*.15);x++){let dk=0;for(let y=Math.floor(h*.1);y<Math.floor(h*.4);y+=3){const d=cx.getImageData(x,y,1,1).data;if(d[0]<40&&d[1]<40&&d[2]<40)dk++}if(dk>15){pL=x;break}}
+  for(let x=w-Math.floor(w*.02);x>Math.floor(w*.8);x--){let dk=0;for(let y=Math.floor(h*.1);y<Math.floor(h*.4);y+=3){const d=cx.getImageData(x,y,1,1).data;if(d[0]<40&&d[1]<40&&d[2]<40)dk++}if(dk>15){pR=x;break}}
+
+  // Full image scan area (all modes use full height)
+  const plotTop=Math.floor(h*.04), plotBot=Math.floor(h*.95);
+
+  // F1 grid detection (for Mode 1 calibration)
+  let f1T=Math.floor(h*.06),f1B=Math.floor(h*.44);
+  let gRows=[];
+  for(let y=Math.floor(h*.03);y<Math.floor(h*.50);y++){let lp=0;for(let x=pL+10;x<pL+Math.floor((pR-pL)*.3);x+=4){const d=cx.getImageData(x,y,1,1).data;if(d[0]>30&&d[0]<140&&d[1]>30&&d[1]<140&&d[2]>30&&d[2]<140)lp++}if(lp>20)gRows.push(y)}
+  if(gRows.length>0){
+    let gLines=[],cl=[gRows[0]];
+    for(let i=1;i<gRows.length;i++){if(gRows[i]-gRows[i-1]<=4)cl.push(gRows[i]);else{gLines.push(Math.round(cl.reduce((a,b)=>a+b,0)/cl.length));cl=[gRows[i]]}}
+    gLines.push(Math.round(cl.reduce((a,b)=>a+b,0)/cl.length));
+    addLog(`Grid: ${gLines.length} lines`);
+    if(gLines.length>=5){
+      const sp=gLines[1]-gLines[0];let f1L=[gLines[0]];
+      for(let i=1;i<gLines.length;i++){if(gLines[i]-gLines[i-1]<sp*2.5)f1L.push(gLines[i]);else break}
+      if(f1L.length>=4){f1T=f1L[0];f1B=f1L[f1L.length-1]}
+    }
+  }
+
+  // Y-axis calibrations for each mode zone
+  // From Tomsk srf.jpg layout:
+  //   F1 (white):  left axis  8.30 → 7.20 Hz (top half)
+  //   F2 (yellow): right axis ~14.40 → ~13.00 Hz (shares area with F1 in top half)
+  //   F3 (red):    left axis  ~21.10 → ~18.30 Hz (middle area, around 45-70% of image height)
+  //   F4 (green):  right axis ~26.90 → ~24.00 Hz (bottom portion)
+  //
+  // From actual 1006x340 image:
+  //   F3 label "F3" is at left side around y=62-65% of height (~215px)
+  //   Red line (F3) oscillates between ~19.42 and ~20.54 → roughly y=48% to y=68%
+  //   Green line (F4) is below, roughly y=65% to y=90%
+
+  const modes = [
+    { name:'Mode1', yTop:f1T, yBot:f1B, hzTop:8.30, hzBot:7.20,
+      match:(r,g,b)=> r>190&&g>190&&b>190&&Math.max(Math.abs(r-g),Math.abs(r-b),Math.abs(g-b))<55 },
+    { name:'Mode2', yTop:f1T, yBot:f1B, hzTop:14.40, hzBot:13.00,
+      match:(r,g,b)=> r>150&&g>130&&b<110&&r>b*1.6&&g>b*1.3 },
+    { name:'Mode3', yTop:Math.floor(h*.42), yBot:Math.floor(h*.72), hzTop:21.10, hzBot:18.30,
+      match:(r,g,b)=> r>100&&g<90&&b<90&&r>g*1.4&&r>b*1.4 },
+    { name:'Mode4', yTop:Math.floor(h*.60), yBot:Math.floor(h*.95), hzTop:26.90, hzBot:24.00,
+      match:(r,g,b)=> g>80&&r<100&&b<100&&g>r*1.15&&g>b*1.15 },
+  ];
+
+  const pw=pR-pL;
+  // Scan at 85-92% of plot width to avoid "S70 OS" watermark at far right
+  const scanXstart=Math.floor(pL+pw*.85), scanXend=Math.floor(pL+pw*.92);
+  const results={};
+
+  // DEBUG: Sample pixel colors in Mode3 zone at multiple X positions
+  const debugPositions=[
+    Math.floor(pL+pw*.50),  // middle of plot
+    Math.floor(pL+pw*.70),  // 70%
+    Math.floor(pL+pw*.88),  // 88% (our scan area)
+  ];
+  for(const debugX of debugPositions){
+    const m3yTop=Math.floor(h*.42), m3yBot=Math.floor(h*.72);
+    let redSamples=[];
+    for(let y=m3yTop;y<m3yBot;y+=2){
+      const d=cx.getImageData(debugX,y,1,1).data;
+      const r=d[0],g=d[1],b=d[2];
+      if(r>50&&r>g&&r>b) redSamples.push({y,r,g,b});
+    }
+    if(redSamples.length>0){
+      const top3=redSamples.sort((a,b)=>((b.r-b.g)+(b.r-b.b))-((a.r-a.g)+(a.r-a.b))).slice(0,3);
+      addLog(`DEBUG x=${debugX}: ${redSamples.length} reddish in y${m3yTop}-${m3yBot}`);
+      top3.forEach(s=>addLog(`  y=${s.y} RGB(${s.r},${s.g},${s.b})`));
+    } else {
+      let allSamples=[];
+      for(let y=m3yTop;y<m3yBot;y+=4){
+        const d=cx.getImageData(debugX,y,1,1).data;
+        if(d[0]>20||d[1]>20||d[2]>20) allSamples.push({y,r:d[0],g:d[1],b:d[2]});
+      }
+      addLog(`DEBUG x=${debugX}: 0 reddish. Non-black=${allSamples.length}`,'ng');
+      allSamples.slice(0,5).forEach(s=>addLog(`  y=${s.y} RGB(${s.r},${s.g},${s.b})`));
+    }
+  }
+  addLog(`Scan range: x[${scanXstart}..${scanXend}], pL=${pL}, pR=${pR}`);
+
+  for(const mode of modes){
+    const mH=mode.yBot-mode.yTop;
+    if(mH<=0){results[mode.name]=null;continue}
+    const yToHz=y=>mode.hzTop-((y-mode.yTop)/mH)*(mode.hzTop-mode.hzBot);
+    let vals=[];
+    for(let x=scanXstart;x<=scanXend;x++){
+      let colY=[];
+      for(let y=mode.yTop;y<mode.yBot;y++){
+        const d=cx.getImageData(x,y,1,1).data;
+        if(mode.match(d[0],d[1],d[2])) colY.push(y);
+      }
+      if(colY.length>0){
+        colY.sort((a,b)=>a-b);
+        const hz=yToHz(colY[Math.floor(colY.length/2)]);
+        const lo=mode.hzBot-1, hi=mode.hzTop+1;
+        if(hz>=lo&&hz<=hi) vals.push(hz);
+      }
+    }
+    if(vals.length>=2){
+      vals.sort((a,b)=>a-b);
+      const med=vals[Math.floor(vals.length/2)];
+      results[mode.name]=Math.round(med*100)/100;
+      addLog(`★ ${mode.name}: ${med.toFixed(2)} Hz (${vals.length} pts)`);
+    } else {
+      results[mode.name]=null;
+      addLog(`${mode.name}: 検出不足 (${vals.length} pts)`,'ng');
+    }
+  }
+
+  // 24h avg for Mode1 only (avoid watermark at right edge)
+  const d3S=Math.floor(pL+pw*(2/3)),d3E=Math.floor(pL+pw*.92);
+  const m1=modes[0], m1H=m1.yBot-m1.yTop;
+  const m1yToHz=y=>m1.hzTop-((y-m1.yTop)/m1H)*(m1.hzTop-m1.hzBot);
+  let dayVals=[];
+  for(let x=d3S;x<=d3E;x+=4){
+    let colY=[];
+    for(let y=m1.yTop;y<m1.yBot;y++){const d=cx.getImageData(x,y,1,1).data;if(m1.match(d[0],d[1],d[2]))colY.push(y)}
+    if(colY.length>0){colY.sort((a,b)=>a-b);const hz=m1yToHz(colY[Math.floor(colY.length/2)]);if(hz>=6.5&&hz<=9.5)dayVals.push(hz)}
+  }
+  let avg24=null;
+  if(dayVals.length>=10){
+    const mn=dayVals.reduce((a,b)=>a+b,0)/dayVals.length;
+    const sd=Math.sqrt(dayVals.reduce((a,v)=>a+(v-mn)**2,0)/dayVals.length);
+    const flt=dayVals.filter(v=>Math.abs(v-mn)<sd*2);
+    avg24=flt.reduce((a,b)=>a+b,0)/flt.length;
+    addLog(`★ 24h avg: ${avg24.toFixed(2)} Hz (${flt.length} pts)`);
+  }
+
+  return {modes:results, avg24, dayPts:dayVals.length};
+}
+
+// ══════════════════════════════════════
+//  UI
+// ══════════════════════════════════════
+const modeData=[
+  {hz:null,name:'Mode1'},{hz:null,name:'Mode2'},{hz:null,name:'Mode3'},{hz:null,name:'Mode4'},
+  {hz:null,name:'MusicaHarmonia'}
+];
+const PHI=1.6180339887; // Golden ratio
+const PHI8=Math.pow(PHI,8); // φ⁸ ≈ 46.979
+
+function updateUI(res){
+  const hEl=document.getElementById('heroHz'),dot=document.getElementById('statusDot'),stxt=document.getElementById('statusText');
+  document.getElementById('loadingSub').style.display='none';
+
+  const m1=res&&res.modes?res.modes.Mode1:null;
+  if(m1!==null){
+    lastHz=m1;
+    hEl.className='hz';hEl.textContent=m1.toFixed(2);
+    dot.className='dot';stxt.textContent='LIVE';
+    document.getElementById('detectedVal').textContent=m1.toFixed(2);
+    const diff=TARGET_HZ-m1;
+    document.getElementById('diffText').textContent=`Δ = ${diff>0?'+':''}${diff.toFixed(2)} Hz`;
+    saveReading(m1);
+
+    if(res.avg24!==null){const e=document.getElementById('avg24Hz');e.textContent=res.avg24.toFixed(2);e.className='hz';document.getElementById('avg24Sub').textContent=`${res.dayPts} data points`}
+    const mo=getMonthlyAvg();
+    if(mo){const e=document.getElementById('avgMonthHz');e.textContent=mo.avg.toFixed(2);e.className='hz';const n=new Date(),mn=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];document.getElementById('monthLabel').textContent=`${n.getFullYear()}年${mn[n.getMonth()]} 平均`;document.getElementById('avgMonthSub').textContent=`${mo.count} readings`}
+  } else {
+    hEl.className='hz stale';hEl.textContent=lastHz?lastHz.toFixed(2)+'?':'——';
+    dot.className='dot off';stxt.textContent='ANALYSIS FAILED';
+  }
+
+  // Update mode buttons (1-4 from pixel analysis)
+  ['Mode1','Mode2','Mode3','Mode4'].forEach((name,i)=>{
+    const hz=res&&res.modes?res.modes[name]:null;
+    modeData[i].hz=hz;
+    document.getElementById('modeHz'+(i+1)).textContent=hz!==null?hz.toFixed(2):'—';
+    const audHz=hz!==null?(hz*MULTIPLIER).toFixed(1):'—';
+    document.getElementById('modeAud'+(i+1)).textContent=hz!==null?`×2⁶→ ${audHz}Hz`:'';
+    if(hz!==null&&oscillators[i]){
+      oscillators[i].frequency.setTargetAtTime(hz*MULTIPLIER,audioCtx.currentTime,0.3);
+    }
+  });
+
+  // Mode 5: Musica Harmonia = Mode1 × φ⁸ (no octave shift)
+  const m1hz=res&&res.modes?res.modes.Mode1:null;
+  if(m1hz!==null){
+    const mhHz=Math.round(m1hz*PHI8*100)/100;
+    modeData[4].hz=mhHz;
+    document.getElementById('modeHz5').textContent=mhHz.toFixed(2);
+    document.getElementById('modeAud5').textContent=`${m1hz.toFixed(2)} × φ⁸ = ${mhHz.toFixed(1)}Hz`;
+    if(oscillators[4]){
+      oscillators[4].frequency.setTargetAtTime(mhHz,audioCtx.currentTime,0.3);
+    }
+  } else {
+    modeData[4].hz=null;
+    document.getElementById('modeHz5').textContent='—';
+    document.getElementById('modeAud5').textContent='';
+  }
+
+  document.getElementById('lastUpdateText').textContent=`Updated: ${ts()}`;
+}
+
+// ══════════════════════════════════════
+//  MAIN CYCLE
+// ══════════════════════════════════════
+async function update(){
+  addLog('── 更新開始 ──');
+  const heroHz=document.getElementById('heroHz'),loadingSub=document.getElementById('loadingSub');
+  heroHz.className='hz loading';heroHz.textContent='計算中';
+  loadingSub.style.display='block';loadingSub.textContent='トムスクから画像を取得しています...';
+  document.getElementById('statusText').textContent='FETCHING...';
+
+  const blob=await fetchBlob(TOMSK_SRF_URL);
+  if(!blob){
+    addLog('全プロキシ失敗','ng');
+    document.getElementById('statusDot').className='dot off';document.getElementById('statusText').textContent='OFFLINE';
+    heroHz.className='hz error';heroHz.textContent='OFFLINE';loadingSub.textContent='接続できません。5分後に再試行。';
+    document.getElementById('graphBadge').className='badge err';document.getElementById('graphBadge').textContent='ERROR';
+    scheduleNext();return;
+  }
+  loadingSub.textContent='画像を解析中...4モードのピクセルを検出しています...';
+  const bu=URL.createObjectURL(blob);
+  document.getElementById('graphImg').src=bu;
+  document.getElementById('graphBadge').className='badge';document.getElementById('graphBadge').textContent='LIVE';
+
+  const im=new Image();im.crossOrigin='anonymous';
+  im.onload=()=>{
+    loadingSub.textContent='Hz値を計算しています...';
+    addLog('4モード ピクセル解析開始...');
+    setTimeout(()=>{try{updateUI(analyze(im))}catch(e){addLog('Error: '+e.message,'ng')}URL.revokeObjectURL(bu);scheduleNext()},100);
+  };
+  im.onerror=()=>{addLog('Image load失敗','ng');scheduleNext()};
+  im.src=bu;
+}
+
+function scheduleNext(){nextRefreshAt=Date.now()+REFRESH_MS;setTimeout(update,REFRESH_MS)}
+setInterval(()=>{const r=Math.max(0,nextRefreshAt-Date.now()),m=Math.floor(r/60000),s=Math.floor((r%60000)/1000);document.getElementById('countdownText').textContent=`Next: ${m}:${String(s).padStart(2,'0')}`},1000);
+function openLb(i){document.getElementById('lbImg').src=i.src;document.getElementById('lb').classList.add('on')}
+function closeLb(){document.getElementById('lb').classList.remove('on')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLb()});
+
+// Init monthly
+(function(){const mo=getMonthlyAvg();if(mo){const e=document.getElementById('avgMonthHz');e.textContent=mo.avg.toFixed(2);e.className='hz';const n=new Date(),mn=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];document.getElementById('monthLabel').textContent=`${n.getFullYear()}年${mn[n.getMonth()]} 平均`;document.getElementById('avgMonthSub').textContent=`${mo.count} readings`}})();
+
+// ══════════════════════════════════════
+//  5-MODE SOUND ENGINE
+//  Mode 1-4: ×2⁶ (6 octaves up)
+//  Mode 5 (Musica Harmonia): Mode1 × φ⁸ (no octave shift)
+// ══════════════════════════════════════
+let audioCtx=null;
+const oscillators=[null,null,null,null,null];
+const gains=[null,null,null,null,null];
+const playing=[false,false,false,false,false];
+
+function toggleMode(idx){
+  if(playing[idx]) stopMode(idx);
+  else startMode(idx);
+}
+
+function startMode(idx){
+  const baseHz=modeData[idx].hz;
+  if(baseHz===null){addLog(`${modeData[idx].name}: Hz未検出のため再生不可`,'ng');return}
+  if(!audioCtx) audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+  if(audioCtx.state==='suspended') audioCtx.resume();
+
+  // Mode 0-3: 6 octaves up. Mode 4 (Musica Harmonia): direct Hz, no octave shift
+  const audHz = idx===4 ? baseHz : baseHz*MULTIPLIER;
+
+  const osc=audioCtx.createOscillator();
+  osc.type='sine';osc.frequency.value=audHz;
+  const gain=audioCtx.createGain();
+  gain.gain.value=0;gain.gain.setTargetAtTime(0.2,audioCtx.currentTime,0.4);
+  osc.connect(gain);gain.connect(audioCtx.destination);osc.start();
+
+  oscillators[idx]=osc;gains[idx]=gain;playing[idx]=true;
+  document.getElementById('modeBtn'+(idx+1)).classList.add('on');
+  document.getElementById('modeSt'+(idx+1)).textContent='♪ ON';
+
+  if(idx===4){
+    addLog(`♪ MUSICA HARMONIA: ${modeData[0].hz?.toFixed(2)} × φ⁸ = ${audHz.toFixed(1)}Hz 再生`);
+  } else {
+    addLog(`♪ Mode${idx+1}: ${baseHz.toFixed(2)}Hz × 2⁶ = ${audHz.toFixed(1)}Hz 再生`);
+  }
+}
+
+function stopMode(idx){
+  if(gains[idx]){
+    gains[idx].gain.setTargetAtTime(0,audioCtx.currentTime,0.3);
+    const osc=oscillators[idx];
+    setTimeout(()=>{try{osc.stop()}catch(e){}},500);
+  }
+  oscillators[idx]=null;gains[idx]=null;playing[idx]=false;
+  document.getElementById('modeBtn'+(idx+1)).classList.remove('on');
+  document.getElementById('modeSt'+(idx+1)).textContent='OFF';
+  if(idx===4) addLog('MUSICA HARMONIA 停止');
+  else addLog(`Mode${idx+1} 停止`);
+}
+
+addLog('シューマン共振 Hz モニター v6.0 ── MUSICA HARMONIA 起動');
+update();
+</script>
+</body>
+</html>
