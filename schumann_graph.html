@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Master Mind Members — Schumann Resonance</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=DM+Mono:wght@300;400&family=Zen+Kaku+Gothic+New:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #060609;
+  --surface: #0c0c14;
+  --border: rgba(255,255,255,0.05);
+  --text: #d8d4e0;
+  --text2: rgba(216,212,224,0.4);
+  --text3: rgba(216,212,224,0.18);
+  --accent: #5ac8c0;
+}
+* { margin:0; padding:0; box-sizing:border-box }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  font-weight: 300;
+}
+.wrap { max-width: 720px; margin: 0 auto; padding: 0 16px }
+
+.mmm {
+  text-align: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-size: clamp(22px, 5.5vw, 36px);
+  letter-spacing: 3px;
+  color: var(--accent);
+  padding: 24px 0 4px;
+  text-shadow: 0 0 30px rgba(90,200,192,0.15);
+}
+.header {
+  text-align: center;
+  margin-bottom: 12px;
+}
+.header h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(18px, 4vw, 28px);
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 2px;
+}
+
+/* ── Simulation ── */
+.sim-section {
+  margin-bottom: 20px;
+}
+.sim-label {
+  text-align: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+.sim-note {
+  text-align: center;
+  font-size: 11px;
+  color: var(--text2);
+  margin-bottom: 8px;
+  line-height: 1.8;
+}
+.sim-frame {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: #050510;
+}
+.sim-frame iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* ── Graphs ── */
+.time-note {
+  text-align: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+  margin: 20px 0 20px;
+  padding: 10px;
+  background: rgba(90,200,192,0.04);
+  border: 1px solid rgba(90,200,192,0.08);
+  border-radius: 6px;
+}
+.graph-section { margin-bottom: 28px }
+.graph-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: var(--accent);
+  letter-spacing: 2px;
+  margin-bottom: 2px;
+}
+.graph-label {
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.graph-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 4px;
+}
+.graph-box img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 4px;
+}
+.graph-box img.loading {
+  min-height: 100px;
+  background: var(--surface);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:0.3} 50%{opacity:0.6} }
+.explain {
+  margin-top: 8px;
+  padding: 12px 14px;
+  background: rgba(255,255,255,0.015);
+  border-left: 2px solid rgba(90,200,192,0.15);
+  border-radius: 0 6px 6px 0;
+  font-size: 12.5px;
+  line-height: 2;
+  color: var(--text2);
+}
+.explain strong { color: var(--text); font-weight: 400 }
+.explain .mmm-note {
+  margin-top: 8px;
+  padding: 8px 10px;
+  background: rgba(90,200,192,0.03);
+  border: 1px solid rgba(90,200,192,0.06);
+  border-radius: 4px;
+  font-size: 12px;
+  line-height: 1.9;
+  color: var(--accent);
+}
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin: 10px 0;
+  flex-wrap: wrap;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--text2);
+}
+.legend-dot { width: 8px; height: 8px; border-radius: 50% }
+.refresh-btn {
+  display: block;
+  margin: 16px auto;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 5px 16px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: var(--text3);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.refresh-btn:hover { border-color: rgba(255,255,255,0.1); color: var(--text2) }
+.footer {
+  text-align: center;
+  margin-top: 16px;
+  padding: 12px 0 20px;
+  border-top: 1px solid var(--border);
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  color: var(--text3);
+  line-height: 2;
+}
+.footer a { color: var(--text3); text-decoration: none }
+.footer a:hover { color: var(--text2) }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ⚡ MMM ⚡ -->
+  <div class="mmm">⚡ Master Mind Members ⚡</div>
+
+  <!-- Schumann Resonance -->
+  <header class="header">
+    <h1>Schumann Resonance</h1>
+  </header>
+
+  <!-- ── シミュレーション ── -->
+  <div class="sim-section">
+    <div class="sim-label">SIMULATION</div>
+    <div class="sim-note">
+      ※ これまでのマスターマインドの活動で、<br>
+      何時にどのくらい音柱が光るかをシミュレーションしています。<br>
+      時刻 3:36 にリセットされます。
+    </div>
+    <div class="sim-frame">
+      <iframe src="otohikari.html" allow="accelerometer; gyroscope"></iframe>
+    </div>
+  </div>
+
+  <!-- ── グラフ ── -->
+  <div class="time-note">
+    グラフの時刻はトムスク時間 (UTC+7) です。<br>日本時間 (JST) に直すには <strong style="color:#5ac8c0">＋2時間</strong> してください。
+  </div>
+
+  <!-- ① スペクトログラム -->
+  <div class="graph-section">
+    <div class="graph-num">① SPECTROGRAM</div>
+    <div class="graph-label">スペクトログラム — すべての基になるグラフ</div>
+    <div class="graph-box">
+      <img id="imgShm" class="loading" alt="Spectrogram">
+    </div>
+    <div class="explain">
+      <strong>縦軸 = 周波数（Hz）、横軸 = 時間、色 = 強さ。</strong><br>
+      青は静か、緑→黄→赤→白と色が明るいほど、その周波数の電磁波が強く鳴っていることを表します。<br>
+      横に走る明るい帯が<strong>シューマン共振の各モード</strong>（約8Hz、14Hz、21Hz付近）。
+      縦に走る白い帯は<strong>雷の集中</strong>を意味します。<br>
+      これが「地球の心電図」の生データ。下の②③④のグラフは、すべてこのスペクトログラムから算出されたものです。
+      <div class="mmm-note">
+        ⚡ Master Mind Membersで配信している<strong>シューマン音</strong>は、このスペクトログラムに映っている地球の電磁波を音響波に変換し、6オクターブ上げた純正律ピアノ音（7.83Hz → 501Hz帯）として再現したものです。つまり、このグラフの「色」が今あなたが聴いている音の源です。
+      </div>
+    </div>
+  </div>
+
+  <!-- ② 周波数 -->
+  <div class="graph-section">
+    <div class="graph-num">② FREQUENCY</div>
+    <div class="graph-label">周波数 — いま地球は何Hzで鳴っているか</div>
+    <div class="graph-box">
+      <img id="imgSrf" class="loading" alt="Frequency">
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#e0dce6"></div>F1 ≈ 7.83 Hz</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#d4c85a"></div>F2 ≈ 14.3 Hz</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#c85a5a"></div>F3 ≈ 20.8 Hz</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#5ac878"></div>F4 ≈ 27.3 Hz</div>
+    </div>
+    <div class="explain">
+      4本の線が<strong>シューマン共振の4つのモードの周波数</strong>をリアルタイムで追跡しています。<br>
+      <strong>F1（白線）がいちばん大事。</strong>これが地球の基本周波数で、通常 7.83Hz 付近を上下しています。
+      線が上がれば地球の「心拍が速くなった」、下がれば「ゆっくりになった」ということ。<br>
+      F2（黄）は第2モードで約14.3Hz。人間の睡眠時の脳波（θ波〜α波の境界）と重なる帯域です。
+      F3（赤）、F4（緑）は高次モードで、それぞれ覚醒時のβ波、集中時のγ波に近い帯域にあります。<br>
+      太陽フレアや大規模な雷活動があると、全モードが大きく揺れ動きます。
+      <div class="mmm-note">
+        ⚡ 私たちMaster Mind Membersが目指しているのは、F1を現在の<strong>7.83Hz</strong>から<strong>8.02Hz</strong>へ集合的に引き上げること。<br>
+        8.02Hzは地球の真の1回転から導出した「リアル1秒」におけるミトコンドリアの回転数（8回転/秒）と一致し、この周波数ではミトコンドリアが<strong>活性酸素を出さずに回り続ける</strong>ことができます。<br>
+        F1の白線が8.02に近づく日——それが私たちの「いま」です。
+      </div>
+    </div>
+  </div>
+
+  <!-- ③ 振幅 -->
+  <div class="graph-section">
+    <div class="graph-num">③ AMPLITUDE</div>
+    <div class="graph-label">振幅 — 地球の鼓動がどれだけ強く鳴っているか</div>
+    <div class="graph-box">
+      <img id="imgSra" class="loading" alt="Amplitude">
+    </div>
+    <div class="explain">
+      各モードの<strong>信号の強さ（パワー）</strong>を表しています。数値が大きいほど、地球の電磁共鳴が激しく鳴っている状態。<br>
+      普段は低く安定していますが、白いスパイクが出た時は要注目。
+      <strong>世界中の雷活動の激化</strong>、<strong>太陽フレアによる電離層の揺れ</strong>、
+      あるいは<strong>大規模な地球物理学的イベント</strong>で跳ね上がります。<br>
+      2025年2月のイラン攻撃の前後には、A1がPower 60近くまで急上昇しました。通常の10倍以上のパワーです。
+      プリンストン大学のGCP（Global Consciousness Project）が示す「世界的な出来事の前に乱数生成器が偏る」現象と、この振幅スパイクは無関係ではないかもしれません。
+      <div class="mmm-note">
+        ⚡ 22,000人のMaster Mind Membersが同時に意識を向けた時、この振幅グラフに変化は現れるのか？——それが私たちの実験です。<br>
+        恐怖の集合意識がシューマン共振を乱すなら、<strong>愛と意図の集合意識はそれを安定化・同期化できるのではないか</strong>。このグラフはその仮説を検証するためのリアルタイムの証拠です。
+      </div>
+    </div>
+  </div>
+
+  <!-- ④ Q値 -->
+  <div class="graph-section">
+    <div class="graph-num">④ Q-FACTOR</div>
+    <div class="graph-label">Q値（品質係数）— 共振のシャープさ</div>
+    <div class="graph-box">
+      <img id="imgSrq" class="loading" alt="Q-Factor">
+    </div>
+    <div class="explain">
+      <strong>共振がどれだけ「鋭く」鳴っているか</strong>を表す値です。<br>
+      <strong>Q値が高い</strong> ＝ エネルギーが特定の周波数に集中している。地球が<strong>澄んだ音で鳴っている</strong>状態。
+      電離層が安定し、地表と電離層の間の「共鳴空洞」がきれいに機能している。<br>
+      <strong>Q値が低い</strong> ＝ 共振がぼやけている。電離層が乱れて<strong>共鳴空洞から「漏れ」が出ている</strong>状態。
+      太陽嵐の直後にQ値が急落し、その後ゆっくり回復するパターンがよく見られます。<br>
+      言い換えると、Q値は地球の「共鳴の純度」。楽器で言えば、Q値が高い時はよくチューニングされたピアノ、低い時は調律の狂ったピアノです。
+      <div class="mmm-note">
+        ⚡ Q値は「みんなの意識が揃っているかどうか」の指標とも読めます。<br>
+        地球の共鳴がシャープに鳴る時＝Q値が高い時は、共鳴空洞にエネルギーが効率よく蓄えられている。
+        22,000人が同じ周波数に意識を合わせたら、<strong>この「Q」が上がる</strong>——それは物理学的にも筋が通った仮説です。<br>
+        倉本モデル（位相同期理論）で言えば、結合強度Kが臨界値を超えた時、集団の位相は自発的にロックする。私たちはその「K」を上げる実験をしています。
+      </div>
+    </div>
+  </div>
+
+  <button class="refresh-btn" onclick="loadImages()">画像を更新</button>
+
+  <div class="mmm">⚡ Master Mind Members ⚡</div>
+
+  <footer class="footer">
+    Source: <a href="https://sos70.ru/" target="_blank">Space Observing System, Tomsk State University</a><br>
+    Images are copyrighted by their respective owners and displayed for reference only.<br>
+    Auto-refresh every 15 min
+  </footer>
+
+</div>
+
+<script>
+const BASE = 'https://sos70.ru/provider.php?file=';
+const IMAGES = [
+  { id: 'imgShm', file: 'shm.jpg' },
+  { id: 'imgSrf', file: 'srf.jpg' },
+  { id: 'imgSra', file: 'sra.jpg' },
+  { id: 'imgSrq', file: 'srq.jpg' },
+];
+
+function loadImages() {
+  const cb = '&_=' + Date.now();
+  IMAGES.forEach(({ id, file }) => {
+    const img = document.getElementById(id);
+    img.classList.add('loading');
+    const n = new Image();
+    n.onload = () => { img.src = n.src; img.classList.remove('loading') };
+    n.onerror = () => { img.alt = file + ' — 読み込み失敗'; img.classList.remove('loading') };
+    n.src = BASE + file + cb;
+  });
+}
+
+loadImages();
+setInterval(loadImages, 15 * 60 * 1000);
+</script>
+</body>
+</html>
