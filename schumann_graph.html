@@ -23,7 +23,6 @@ body {
   font-weight: 300;
 }
 .wrap { max-width: 720px; margin: 0 auto; padding: 0 16px }
-
 .mmm {
   text-align: center;
   font-family: 'Cormorant Garamond', serif;
@@ -36,7 +35,7 @@ body {
 }
 .header {
   text-align: center;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 }
 .header h1 {
   font-family: 'Cormorant Garamond', serif;
@@ -45,47 +44,12 @@ body {
   color: rgba(255,255,255,0.5);
   letter-spacing: 2px;
 }
-
-/* ── Simulation ── */
-.sim-section {
-  margin-bottom: 20px;
-}
-.sim-label {
-  text-align: center;
-  font-family: 'DM Mono', monospace;
-  font-size: 12px;
-  letter-spacing: 2px;
-  color: var(--accent);
-  margin-bottom: 4px;
-}
-.sim-note {
-  text-align: center;
-  font-size: 11px;
-  color: var(--text2);
-  margin-bottom: 8px;
-  line-height: 1.8;
-}
-.sim-frame {
-  width: 100%;
-  aspect-ratio: 16 / 10;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  overflow: hidden;
-  background: #050510;
-}
-.sim-frame iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-}
-
-/* ── Graphs ── */
 .time-note {
   text-align: center;
   font-family: 'DM Mono', monospace;
   font-size: 11px;
   color: var(--accent);
-  margin: 20px 0 20px;
+  margin-bottom: 24px;
   padding: 10px;
   background: rgba(90,200,192,0.04);
   border: 1px solid rgba(90,200,192,0.08);
@@ -192,39 +156,19 @@ body {
 <body>
 <div class="wrap">
 
-  <!-- ⚡ MMM ⚡ -->
   <div class="mmm">⚡ Master Mind Members ⚡</div>
-
-  <!-- Schumann Resonance -->
   <header class="header">
     <h1>Schumann Resonance</h1>
   </header>
 
-  <!-- ── シミュレーション ── -->
-  <div class="sim-section">
-    <div class="sim-label">SIMULATION</div>
-    <div class="sim-note">
-      ※ これまでのマスターマインドの活動で、<br>
-      何時にどのくらい音柱が光るかをシミュレーションしています。<br>
-      時刻 3:36 にリセットされます。
-    </div>
-    <div class="sim-frame">
-      <iframe src="otohikari.html" allow="accelerometer; gyroscope"></iframe>
-    </div>
-  </div>
-
-  <!-- ── グラフ ── -->
   <div class="time-note">
     グラフの時刻はトムスク時間 (UTC+7) です。<br>日本時間 (JST) に直すには <strong style="color:#5ac8c0">＋2時間</strong> してください。
   </div>
 
-  <!-- ① スペクトログラム -->
   <div class="graph-section">
     <div class="graph-num">① SPECTROGRAM</div>
     <div class="graph-label">スペクトログラム — すべての基になるグラフ</div>
-    <div class="graph-box">
-      <img id="imgShm" class="loading" alt="Spectrogram">
-    </div>
+    <div class="graph-box"><img id="imgShm" class="loading" alt="Spectrogram"></div>
     <div class="explain">
       <strong>縦軸 = 周波数（Hz）、横軸 = 時間、色 = 強さ。</strong><br>
       青は静か、緑→黄→赤→白と色が明るいほど、その周波数の電磁波が強く鳴っていることを表します。<br>
@@ -237,13 +181,10 @@ body {
     </div>
   </div>
 
-  <!-- ② 周波数 -->
   <div class="graph-section">
     <div class="graph-num">② FREQUENCY</div>
     <div class="graph-label">周波数 — いま地球は何Hzで鳴っているか</div>
-    <div class="graph-box">
-      <img id="imgSrf" class="loading" alt="Frequency">
-    </div>
+    <div class="graph-box"><img id="imgSrf" class="loading" alt="Frequency"></div>
     <div class="legend">
       <div class="legend-item"><div class="legend-dot" style="background:#e0dce6"></div>F1 ≈ 7.83 Hz</div>
       <div class="legend-item"><div class="legend-dot" style="background:#d4c85a"></div>F2 ≈ 14.3 Hz</div>
@@ -265,13 +206,10 @@ body {
     </div>
   </div>
 
-  <!-- ③ 振幅 -->
   <div class="graph-section">
     <div class="graph-num">③ AMPLITUDE</div>
     <div class="graph-label">振幅 — 地球の鼓動がどれだけ強く鳴っているか</div>
-    <div class="graph-box">
-      <img id="imgSra" class="loading" alt="Amplitude">
-    </div>
+    <div class="graph-box"><img id="imgSra" class="loading" alt="Amplitude"></div>
     <div class="explain">
       各モードの<strong>信号の強さ（パワー）</strong>を表しています。数値が大きいほど、地球の電磁共鳴が激しく鳴っている状態。<br>
       普段は低く安定していますが、白いスパイクが出た時は要注目。
@@ -286,13 +224,10 @@ body {
     </div>
   </div>
 
-  <!-- ④ Q値 -->
   <div class="graph-section">
     <div class="graph-num">④ Q-FACTOR</div>
     <div class="graph-label">Q値（品質係数）— 共振のシャープさ</div>
-    <div class="graph-box">
-      <img id="imgSrq" class="loading" alt="Q-Factor">
-    </div>
+    <div class="graph-box"><img id="imgSrq" class="loading" alt="Q-Factor"></div>
     <div class="explain">
       <strong>共振がどれだけ「鋭く」鳴っているか</strong>を表す値です。<br>
       <strong>Q値が高い</strong> ＝ エネルギーが特定の周波数に集中している。地球が<strong>澄んだ音で鳴っている</strong>状態。
@@ -329,7 +264,6 @@ const IMAGES = [
   { id: 'imgSra', file: 'sra.jpg' },
   { id: 'imgSrq', file: 'srq.jpg' },
 ];
-
 function loadImages() {
   const cb = '&_=' + Date.now();
   IMAGES.forEach(({ id, file }) => {
@@ -341,7 +275,6 @@ function loadImages() {
     n.src = BASE + file + cb;
   });
 }
-
 loadImages();
 setInterval(loadImages, 15 * 60 * 1000);
 </script>
