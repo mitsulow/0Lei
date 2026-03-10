@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>地球コンデンサーと地震前兆</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Zen Maru Gothic', sans-serif;
+    background: #0a0a1a;
+    color: #e0e0e0;
+    overflow-x: hidden;
+  }
+
+  .scene {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px 16px;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 1.6em;
+    font-weight: 900;
+    margin-bottom: 8px;
+    background: linear-gradient(135deg, #4fc3f7, #81d4fa, #b3e5fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .subtitle {
+    text-align: center;
+    font-size: 0.95em;
+    color: #78909c;
+    margin-bottom: 30px;
+  }
+
+  /* ===== DIAGRAM CONTAINER ===== */
+  .diagram-wrap {
+    position: relative;
+    background: linear-gradient(180deg,
+      #0d1b3e 0%,
+      #0a1025 30%,
+      #080c18 60%,
+      #1a1206 85%,
+      #2a1a08 92%,
+      #3d2510 100%
+    );
+    border-radius: 20px;
+    padding: 20px 16px;
+    margin-bottom: 24px;
+    overflow: hidden;
+    border: 1px solid rgba(100,150,255,0.15);
+  }
+
+  .diagram {
+    position: relative;
+    width: 100%;
+    height: 520px;
+  }
+
+  /* ===== LAYERS ===== */
+  .layer-label {
+    position: absolute;
+    left: 8px;
+    font-size: 0.7em;
+    color: #90a4ae;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  .height-label {
+    position: absolute;
+    right: 8px;
+    font-size: 0.65em;
+    color: #607d8b;
+  }
+
+  /* Ionosphere */
+  .ionosphere-zone {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    border-bottom: 2px dashed rgba(100,200,255,0.3);
+  }
+
+  .iono-label { top: 8px; }
+  .iono-height { top: 80px; }
+
+  /* Atmosphere */
+  .atmo-zone {
+    position: absolute;
+    top: 100px;
+    left: 0;
+    right: 0;
+    height: 280px;
+  }
+
+  .atmo-label { top: 108px; }
+
+  /* Ground */
+  .ground-zone {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 140px;
+    background: linear-gradient(180deg,
+      rgba(60,40,10,0.6) 0%,
+      rgba(80,50,15,0.8) 40%,
+      rgba(50,30,10,0.9) 100%
+    );
+    border-radius: 0 0 12px 12px;
+  }
+
+  .ground-label { bottom: 125px; left: 8px !important; color: #a08060; }
+
+  /* ===== CHARGES ===== */
+  .charge {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 1.1em;
+    z-index: 2;
+  }
+
+  .plus {
+    background: radial-gradient(circle, #ff6b6b, #d32f2f);
+    color: #fff;
+    box-shadow: 0 0 12px rgba(255,80,80,0.5);
+  }
+
+  .minus {
+    background: radial-gradient(circle, #64b5f6, #1565c0);
+    color: #fff;
+    box-shadow: 0 0 12px rgba(80,150,255,0.5);
+  }
+
+  .charge-small {
+    width: 22px;
+    height: 22px;
+    font-size: 0.9em;
+  }
+
+  /* ===== ARROWS ===== */
+  .voltage-bar {
+    position: absolute;
+    right: 55px;
+    top: 50px;
+    height: 340px;
+    width: 3px;
+    background: linear-gradient(180deg, #ff5252, #448aff);
+    z-index: 1;
+  }
+
+  .voltage-bar::before {
+    content: '＋ 高い';
+    position: absolute;
+    top: -22px;
+    left: -28px;
+    font-size: 0.6em;
+    color: #ff8a80;
+    white-space: nowrap;
+  }
+
+  .voltage-bar::after {
+    content: '－ 低い';
+    position: absolute;
+    bottom: -22px;
+    left: -28px;
+    font-size: 0.6em;
+    color: #82b1ff;
+    white-space: nowrap;
+  }
+
+  .voltage-label {
+    position: absolute;
+    right: 18px;
+    top: 200px;
+    font-size: 0.75em;
+    font-weight: 700;
+    color: #ffab40;
+    writing-mode: vertical-rl;
+    letter-spacing: 0.1em;
+  }
+
+  /* ===== CAPACITOR SYMBOL ===== */
+  .cap-symbol {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 3;
+  }
+
+  .cap-top {
+    top: 92px;
+    width: 200px;
+    height: 4px;
+    background: #ff5252;
+    border-radius: 2px;
+    box-shadow: 0 0 8px rgba(255,82,82,0.4);
+  }
+
+  .cap-bottom {
+    bottom: 140px;
+    width: 200px;
+    height: 4px;
+    background: #448aff;
+    border-radius: 2px;
+    box-shadow: 0 0 8px rgba(68,138,255,0.4);
+  }
+
+  .plate-label {
+    position: absolute;
+    font-size: 0.7em;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .plate-label-top {
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #ff8a80;
+  }
+
+  .plate-label-bottom {
+    bottom: 144px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #82b1ff;
+  }
+
+  /* ===== E-FIELD ARROWS ===== */
+  .efield-arrow {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    background: repeating-linear-gradient(
+      180deg,
+      rgba(255,255,100,0.6) 0px,
+      rgba(255,255,100,0.6) 6px,
+      transparent 6px,
+      transparent 12px
+    );
+    z-index: 1;
+  }
+
+  .efield-arrow::after {
+    content: '▼';
+    position: absolute;
+    bottom: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255,255,100,0.7);
+    font-size: 0.7em;
+  }
+
+  .efield-1 { top: 130px; height: 60px; left: 35%; }
+  .efield-2 { top: 180px; height: 60px; left: 50%; }
+  .efield-3 { top: 150px; height: 60px; left: 65%; }
+
+  .efield-label {
+    position: absolute;
+    top: 240px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.65em;
+    color: rgba(255,255,100,0.7);
+    white-space: nowrap;
+  }
+
+  /* ===== LIGHTNING ===== */
+  .lightning-icon {
+    position: absolute;
+    font-size: 1.8em;
+    animation: flash 3s ease-in-out infinite;
+    z-index: 3;
+  }
+
+  @keyframes flash {
+    0%, 85%, 100% { opacity: 0.2; }
+    90% { opacity: 1; }
+  }
+
+  .lightning-1 { top: 280px; left: 15%; animation-delay: 0s; }
+  .lightning-2 { top: 300px; left: 78%; animation-delay: 1.5s; }
+
+  /* ===== SECTION 2: EARTHQUAKE ===== */
+  .section-title {
+    font-size: 1.3em;
+    font-weight: 900;
+    text-align: center;
+    margin: 30px 0 12px;
+    color: #ffab40;
+  }
+
+  .section-subtitle {
+    text-align: center;
+    font-size: 0.85em;
+    color: #78909c;
+    margin-bottom: 20px;
+  }
+
+  /* Earthquake diagram */
+  .eq-diagram {
+    position: relative;
+    width: 100%;
+    height: 540px;
+  }
+
+  /* Supercritical water zone */
+  .sc-water {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 50px;
+    background: radial-gradient(ellipse, rgba(255,150,50,0.6), rgba(255,80,20,0.2), transparent);
+    border-radius: 50%;
+    animation: pulse-sc 2s ease-in-out infinite;
+    z-index: 2;
+  }
+
+  @keyframes pulse-sc {
+    0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.7; }
+    50% { transform: translateX(-50%) scale(1.2); opacity: 1; }
+  }
+
+  .sc-label {
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.65em;
+    color: #ffab40;
+    white-space: nowrap;
+    z-index: 3;
+    text-align: center;
+    line-height: 1.3;
+  }
+
+  /* Rising positive charges */
+  .rising-charge {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ff6b6b, #d32f2f);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 0.85em;
+    z-index: 3;
+    animation: rise 3s ease-out infinite;
+    box-shadow: 0 0 10px rgba(255,80,80,0.6);
+  }
+
+  @keyframes rise {
+    0% { transform: translateY(0); opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { transform: translateY(-100px); opacity: 0; }
+  }
+
+  .rc1 { bottom: 70px; left: 46%; animation-delay: 0s; }
+  .rc2 { bottom: 75px; left: 52%; animation-delay: 0.8s; }
+  .rc3 { bottom: 65px; left: 49%; animation-delay: 1.6s; }
+
+  /* Polarity flip zone */
+  .flip-zone {
+    position: absolute;
+    bottom: 138px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 160px;
+    height: 30px;
+    border: 2px dashed #ff5252;
+    border-radius: 8px;
+    z-index: 2;
+    animation: pulse-flip 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-flip {
+    0%, 100% { border-color: rgba(255,82,82,0.4); }
+    50% { border-color: rgba(255,82,82,0.9); }
+  }
+
+  .flip-label {
+    position: absolute;
+    bottom: 170px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.7em;
+    color: #ff8a80;
+    white-space: nowrap;
+    z-index: 3;
+    text-align: center;
+    font-weight: 700;
+  }
+
+  /* Electron descent */
+  .electron-fall {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #64b5f6, #1565c0);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 0.8em;
+    z-index: 3;
+    animation: fall 3.5s ease-in infinite;
+    box-shadow: 0 0 10px rgba(80,150,255,0.6);
+  }
+
+  @keyframes fall {
+    0% { transform: translateY(0); opacity: 0; }
+    15% { opacity: 1; }
+    85% { opacity: 1; }
+    100% { transform: translateY(120px); opacity: 0; }
+  }
+
+  .ef1 { top: 85px; left: 40%; animation-delay: 0s; }
+  .ef2 { top: 80px; left: 50%; animation-delay: 1s; }
+  .ef3 { top: 90px; left: 58%; animation-delay: 2s; }
+
+  .fall-label {
+    position: absolute;
+    top: 140px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.65em;
+    color: #82b1ff;
+    white-space: nowrap;
+    z-index: 3;
+    text-align: center;
+    font-weight: 700;
+  }
+
+  /* Down arrows for electron fall */
+  .fall-arrow {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #64b5f6;
+    font-size: 1.5em;
+    animation: arrow-pulse 1.5s ease-in-out infinite;
+    z-index: 2;
+  }
+
+  @keyframes arrow-pulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.8; }
+  }
+
+  .fa1 { top: 115px; animation-delay: 0s; }
+  .fa2 { top: 155px; animation-delay: 0.3s; }
+  .fa3 { top: 195px; animation-delay: 0.6s; }
+
+  /* Ionosphere drop indicator */
+  .drop-zone {
+    position: absolute;
+    top: 60px;
+    right: 50px;
+    z-index: 3;
+  }
+
+  .drop-arrow {
+    font-size: 2em;
+    color: #ffab40;
+    animation: drop-bounce 1.5s ease-in-out infinite;
+  }
+
+  @keyframes drop-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(10px); }
+  }
+
+  .drop-text {
+    font-size: 0.65em;
+    color: #ffab40;
+    text-align: center;
+    font-weight: 700;
+  }
+
+  /* ===== SUMMARY CARDS ===== */
+  .summary {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 28px;
+  }
+
+  .card {
+    background: rgba(255,255,255,0.04);
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .card-title {
+    font-weight: 900;
+    font-size: 1.05em;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .card-title .emoji { font-size: 1.3em; }
+
+  .card p {
+    font-size: 0.9em;
+    line-height: 1.8;
+    color: #b0bec5;
+  }
+
+  .card strong {
+    color: #e0e0e0;
+  }
+
+  .highlight-blue { color: #64b5f6; }
+  .highlight-red { color: #ff8a80; }
+  .highlight-yellow { color: #ffd54f; }
+  .highlight-orange { color: #ffab40; }
+
+  /* ===== STEP FLOW ===== */
+  .step-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .step {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .step-num {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 0.85em;
+  }
+
+  .step-1 .step-num { background: rgba(255,150,50,0.2); color: #ffab40; }
+  .step-2 .step-num { background: rgba(255,82,82,0.2); color: #ff8a80; }
+  .step-3 .step-num { background: rgba(68,138,255,0.2); color: #82b1ff; }
+  .step-4 .step-num { background: rgba(255,213,79,0.2); color: #ffd54f; }
+
+  .step-text {
+    font-size: 0.88em;
+    line-height: 1.6;
+    color: #b0bec5;
+  }
+
+  .arrow-down {
+    text-align: center;
+    font-size: 1.2em;
+    color: #546e7a;
+    margin: -4px 0;
+  }
+
+  /* ===== SCHUMANN NOTE ===== */
+  .schumann-note {
+    margin-top: 28px;
+    background: linear-gradient(135deg, rgba(100,50,200,0.1), rgba(50,100,200,0.1));
+    border: 1px solid rgba(130,100,255,0.2);
+    border-radius: 16px;
+    padding: 20px;
+  }
+
+  .schumann-note .card-title {
+    color: #b388ff;
+  }
+
+  .schumann-note p {
+    font-size: 0.88em;
+    line-height: 1.8;
+    color: #b0bec5;
+  }
+
+  /* Stars background */
+  .stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    overflow: hidden;
+  }
+
+  .star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: #fff;
+    border-radius: 50%;
+    opacity: 0.4;
+  }
+</style>
+</head>
+<body>
+
+<div class="scene">
+
+  <h1>地球は巨大なコンデンサー</h1>
+  <p class="subtitle">地震の1時間前、空の電子が降りてくる</p>
+
+  <!-- ===== DIAGRAM 1: NORMAL STATE ===== -->
+  <div class="section-title" style="margin-top:10px;">① ふだんの地球</div>
+  <div class="section-subtitle">地面＝マイナス、電離層＝プラス</div>
+
+  <div class="diagram-wrap">
+    <div class="diagram">
+      <!-- Stars -->
+      <div class="stars">
+        <div class="star" style="top:10px;left:20%"></div>
+        <div class="star" style="top:25px;left:45%"></div>
+        <div class="star" style="top:15px;left:70%"></div>
+        <div class="star" style="top:35px;left:85%"></div>
+        <div class="star" style="top:5px;left:55%"></div>
+      </div>
+
+      <!-- Ionosphere zone -->
+      <div class="ionosphere-zone"></div>
+      <div class="layer-label iono-label">電離層（F層）</div>
+      <div class="height-label iono-height">〜300km</div>
+
+      <!-- Atmosphere -->
+      <div class="atmo-zone"></div>
+      <div class="layer-label atmo-label">大気（絶縁体）</div>
+
+      <!-- Ground -->
+      <div class="ground-zone"></div>
+      <div class="layer-label ground-label">地面・地殻</div>
+
+      <!-- Capacitor plates -->
+      <div class="cap-symbol cap-top" style="top:95px;"></div>
+      <div class="cap-symbol cap-bottom" style="bottom:138px;"></div>
+      <div class="plate-label plate-label-top">プラス極板 ＋＋＋＋＋</div>
+      <div class="plate-label plate-label-bottom">マイナス極板 −−−−−</div>
+
+      <!-- Plus charges in ionosphere -->
+      <div class="charge plus charge-small" style="top:40px;left:18%;">＋</div>
+      <div class="charge plus charge-small" style="top:50px;left:32%;">＋</div>
+      <div class="charge plus charge-small" style="top:35px;left:46%;">＋</div>
+      <div class="charge plus charge-small" style="top:55px;left:60%;">＋</div>
+      <div class="charge plus charge-small" style="top:42px;left:74%;">＋</div>
+
+      <!-- Minus charges on ground surface -->
+      <div class="charge minus charge-small" style="bottom:125px;left:15%;">−</div>
+      <div class="charge minus charge-small" style="bottom:128px;left:28%;">−</div>
+      <div class="charge minus charge-small" style="bottom:122px;left:42%;">−</div>
+      <div class="charge minus charge-small" style="bottom:130px;left:56%;">−</div>
+      <div class="charge minus charge-small" style="bottom:126px;left:70%;">−</div>
+
+      <!-- E-field arrows -->
+      <div class="efield-arrow efield-1"></div>
+      <div class="efield-arrow efield-2"></div>
+      <div class="efield-arrow efield-3"></div>
+      <div class="efield-label">電場 ↓ 100V/m</div>
+
+      <!-- Voltage bar -->
+      <div class="voltage-bar"></div>
+      <div class="voltage-label">約30万V</div>
+
+      <!-- Lightning -->
+      <div class="lightning-icon lightning-1">⚡</div>
+      <div class="lightning-icon lightning-2">⚡</div>
+    </div>
+  </div>
+
+  <!-- ===== EXPLANATION 1 ===== -->
+  <div class="card">
+    <div class="card-title"><span class="emoji">🔋</span>ざっくり言うと</div>
+    <p>
+      地球は<strong>超でっかい電池（コンデンサー）</strong>。<br>
+      <span class="highlight-blue">地面 → マイナス（電子いっぱい）</span><br>
+      <span class="highlight-red">電離層 → プラス（イオンいっぱい）</span><br>
+      間の大気は絶縁体で、電位差は<span class="highlight-yellow">約30万ボルト</span>。<br>
+      この電池を<strong>世界中の雷⚡が充電</strong>し続けてる。
+    </p>
+  </div>
+
+  <!-- ===== DIAGRAM 2: EARTHQUAKE ===== -->
+  <div class="section-title">② 地震の1時間前</div>
+  <div class="section-subtitle">地面のマイナスが局所的にプラスに反転！</div>
+
+  <div class="diagram-wrap">
+    <div class="eq-diagram">
+      <!-- Stars -->
+      <div class="stars">
+        <div class="star" style="top:12px;left:25%"></div>
+        <div class="star" style="top:20px;left:50%"></div>
+        <div class="star" style="top:8px;left:75%"></div>
+      </div>
+
+      <!-- Ionosphere zone -->
+      <div class="ionosphere-zone"></div>
+      <div class="layer-label iono-label">電離層（F層）</div>
+      <div class="height-label iono-height">〜300km</div>
+
+      <!-- Atmosphere -->
+      <div class="atmo-zone"></div>
+
+      <!-- Ground -->
+      <div class="ground-zone"></div>
+      <div class="layer-label ground-label">地面・地殻</div>
+
+      <!-- Plus charges still in ionosphere (but some falling) -->
+      <div class="charge plus charge-small" style="top:40px;left:15%;">＋</div>
+      <div class="charge plus charge-small" style="top:50px;left:75%;">＋</div>
+
+      <!-- Normal minus on ground sides -->
+      <div class="charge minus charge-small" style="bottom:125px;left:10%;">−</div>
+      <div class="charge minus charge-small" style="bottom:128px;left:75%;">−</div>
+
+      <!-- Flipped plus on ground CENTER -->
+      <div class="charge plus" style="bottom:123px;left:40%;animation:pulse-flip 1.5s infinite;">＋</div>
+      <div class="charge plus" style="bottom:127px;left:50%;animation:pulse-flip 1.5s infinite;animation-delay:0.3s;">＋</div>
+      <div class="charge plus" style="bottom:121px;left:60%;animation:pulse-flip 1.5s infinite;animation-delay:0.6s;">＋</div>
+
+      <!-- Flip zone highlight -->
+      <div class="flip-zone"></div>
+      <div class="flip-label">⚠ ここだけプラスに反転！</div>
+
+      <!-- Supercritical water -->
+      <div class="sc-water"></div>
+      <div class="sc-label">🔥 超臨界水<br>（374℃ 220気圧）</div>
+
+      <!-- Rising positive charges from deep -->
+      <div class="rising-charge rc1">＋</div>
+      <div class="rising-charge rc2">＋</div>
+      <div class="rising-charge rc3">＋</div>
+
+      <!-- Falling electrons from ionosphere -->
+      <div class="electron-fall ef1">−</div>
+      <div class="electron-fall ef2">−</div>
+      <div class="electron-fall ef3">−</div>
+      <div class="fall-label">電子が引き寄せられて降下 ↓</div>
+
+      <!-- Fall arrows -->
+      <div class="fall-arrow fa1">↓</div>
+      <div class="fall-arrow fa2">↓</div>
+      <div class="fall-arrow fa3">↓</div>
+
+      <!-- Ionosphere drop -->
+      <div class="drop-zone">
+        <div class="drop-arrow">⬇</div>
+        <div class="drop-text">電離層が<br>約20km降下</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== STEP BY STEP ===== -->
+  <div class="card">
+    <div class="card-title"><span class="emoji">📖</span>何が起きてるか（4ステップ）</div>
+    <div class="step-flow">
+      <div class="step step-1">
+        <div class="step-num">1</div>
+        <div class="step-text">断層の深部で岩が壊れ始める。水が<span class="highlight-orange">超臨界状態</span>になり、ナノ粒子から電子が剥がれて<span class="highlight-red">プラスの粒子</span>が大量発生</div>
+      </div>
+      <div class="arrow-down">↓</div>
+      <div class="step step-2">
+        <div class="step-num">2</div>
+        <div class="step-text">プラスの電気的影響が岩の隙間を通じて地表へリレー。ふだん<span class="highlight-blue">マイナスの地面</span>が、震源の真上だけ<span class="highlight-red">プラスに反転</span></div>
+      </div>
+      <div class="arrow-down">↓</div>
+      <div class="step step-3">
+        <div class="step-num">3</div>
+        <div class="step-text">上空300kmの電離層から見ると「あそこだけ急にプラス！」。<span class="highlight-blue">電子（マイナス）が引き寄せられて降りてくる</span>。電離層が約20km降下</div>
+      </div>
+      <div class="arrow-down">↓</div>
+      <div class="step step-4">
+        <div class="step-num">4</div>
+        <div class="step-text">GPS衛星の電波で電子密度の異常を検出 → <span class="highlight-yellow">地震の約1時間前に警報可能</span>（OHBシステム）</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== KEY POINT ===== -->
+  <div class="card">
+    <div class="card-title"><span class="emoji">💡</span>つまり「正電荷」って？</div>
+    <p>
+      陽子が飛び出すわけじゃない。<br>
+      超臨界水の中で<strong>ナノ粒子が電子を失って＋に帯電</strong>したもの。<br>
+      その＋の影響が地殻の亀裂を伝って地表に届くと、<br>
+      地面の電子（−）と打ち消し合って、<br>
+      <span class="highlight-red">その場所だけコンデンサーの極性がひっくり返る</span>。
+    </p>
+  </div>
+
+  <!-- ===== SCHUMANN CONNECTION ===== -->
+  <div class="schumann-note">
+    <div class="card-title"><span class="emoji">🌍</span>シューマン共振との接点</div>
+    <p>
+      シューマン共振は、まさにこの<strong>地面（−）と電離層（＋）に挟まれた空洞</strong>を共振器として使っている電磁波。<br><br>
+      地震前に電離層が局所的に20km下がるということは、<strong>共振器の形が変わる</strong>ということ。<br>
+      → 共振周波数にも影響するはず。<br><br>
+      22,000人の磁力計ネットワークは、GPS電子密度解析とは<strong>別の物理レイヤー</strong>から同じ現象を捉えうるアプローチ。
+    </p>
+  </div>
+
+</div>
+
+</body>
+</html>
