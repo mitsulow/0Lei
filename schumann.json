@@ -1,41 +1,46 @@
 {
-  "timestamp_utc": "2026-03-10T00:03:46Z",
-  "timestamp_jst": "2026-03-10 09:03",
-  "version": 2,
-  "method": "luminosity_peak",
+  "timestamp_utc": "2026-03-10T00:23:01Z",
+  "timestamp_jst": "2026-03-10 09:23",
+  "version": 3,
+  "method": "color_primary",
+  "zone": "6h(65-75%)",
   "modes": {
-    "F1": 8.61,
-    "F2": 13.58,
-    "F3": 22.25,
-    "F4": 27.47
+    "F1": 7.89,
+    "F2": 13.13,
+    "F3": 20.5,
+    "F4": 25.34
   },
+  "avg24": 7.83,
   "details": {
     "tomsk": {
       "F1": {
-        "hz": 8.61,
+        "hz": 7.89,
         "confidence": 1.0,
-        "samples": 9
+        "samples": 95,
+        "method": "color"
       },
       "F2": {
-        "hz": 13.58,
-        "confidence": 0.84,
-        "samples": 5
+        "hz": 13.13,
+        "confidence": 1.0,
+        "samples": 15,
+        "method": "color"
       },
       "F3": {
-        "hz": 22.25,
-        "confidence": 0.97,
-        "samples": 9
+        "hz": 20.5,
+        "confidence": 1.0,
+        "samples": 93,
+        "method": "color"
       },
       "F4": {
-        "hz": 27.47,
+        "hz": 25.34,
         "confidence": 1.0,
-        "samples": 9
+        "samples": 95,
+        "method": "color"
       }
     },
-    "cumiana": null
-  },
-  "sources": {
-    "primary": "Tomsk/sos70.ru (luminosity peak detection)",
-    "secondary": "Cumiana/vlf.it (activity verification)"
+    "cumiana": {
+      "source": "Cumiana",
+      "status": "unavailable"
+    }
   }
 }
