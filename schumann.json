@@ -1,40 +1,40 @@
 {
-  "timestamp_utc": "2026-03-11T23:52:26Z",
-  "timestamp_jst": "2026-03-12 08:52",
+  "timestamp_utc": "2026-03-12T05:06:58Z",
+  "timestamp_jst": "2026-03-12 14:06",
   "version": 3,
   "method": "color_primary",
-  "zone": "6h(65-75%)",
+  "zone": "recent(75-85%)",
   "modes": {
-    "F1": 7.44,
-    "F2": 13.08,
-    "F3": 19.37,
-    "F4": 24.8
+    "F1": 7.39,
+    "F2": 13.58,
+    "F3": 18.9,
+    "F4": 24.85
   },
-  "avg24": 7.65,
+  "avg24": 7.62,
   "details": {
     "tomsk": {
       "F1": {
-        "hz": 7.44,
+        "hz": 7.39,
         "confidence": 1.0,
-        "samples": 88,
+        "samples": 57,
         "method": "color"
       },
       "F2": {
-        "hz": 13.08,
-        "confidence": 0.13,
-        "samples": 2,
-        "method": "color"
+        "hz": 13.58,
+        "confidence": 0.6,
+        "samples": 5,
+        "method": "luminosity_fallback"
       },
       "F3": {
-        "hz": 19.37,
+        "hz": 18.9,
         "confidence": 1.0,
-        "samples": 85,
+        "samples": 58,
         "method": "color"
       },
       "F4": {
-        "hz": 24.8,
+        "hz": 24.85,
         "confidence": 1.0,
-        "samples": 95,
+        "samples": 94,
         "method": "color"
       }
     },
