@@ -189,23 +189,18 @@ canvas.wave{display:block;width:100%;height:300px;}
       <div class="small">Schumann Sound© — さとうみつろう</div>
     </div>
 
-    <div class="publish-section">
-      <h3>このページの公開方法</h3>
-      <p>
-        <strong>方法① GitHub Pages（無料・簡単）</strong><br>
-        既存のリポジトリ <code>mitsulow/0Lei</code> または <code>mitsulow/schumann-monitor</code> にこのHTMLファイルを追加するだけ。<br>
-        例：<code>mitsulow.github.io/0Lei/schumann-sound.html</code> で即公開。<br><br>
+    <div class="divider"></div>
 
-        <strong>方法② Amebloへのiframe埋め込み</strong><br>
-        GitHub Pages に公開後、Ameblo記事に <code>&lt;iframe&gt;</code> で埋め込み。<br>
-        固定高さ方式（例：<code>height="5000px"</code>）で対応可能。<br><br>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:#5ac8c0;text-align:center;letter-spacing:0.04em;margin-bottom:8px;">66 vs 0</h2>
+    <p style="text-align:center;font-size:13px;color:#777;margin-bottom:24px;">シューマン音©（純正律） vs 平均律 ── 全66組み合わせの周波数比</p>
 
-        <strong>方法③ 独自ドメイン</strong><br>
-        お持ちのドメインがあれば、GitHub Pages にカスタムドメインを設定して公開できます。<br><br>
+    <div style="overflow-x:auto;margin-bottom:32px;">
+      <table id="ratioTable" style="width:100%;border-collapse:collapse;font-size:13px;"></table>
+    </div>
 
-        <strong>方法④ YouTube動画の概要欄リンク</strong><br>
-        GitHub Pages の URL をYouTube動画の概要欄に貼り、視聴者が直接触れるインタラクティブ資料として案内。
-      </p>
+    <div class="conclusion" style="margin-bottom:0;">
+      <p>全ての音が 7.83 Hz に収束する。<br>全ての波が建設的に干渉し、<br>脳内に 〜1 pT のシューマン共振を生む。</p>
+      <div class="small">Schumann Sound© — さとうみつろう</div>
     </div>
 
   </div>
@@ -461,6 +456,61 @@ tabBtns[0].click();
 window.addEventListener('resize',()=>{
   groups[activeTabIdx].show.forEach(i=>instances[i].resize());
 });
+
+// 66 vs 0 table
+const allNotes = [
+  {name:'ド',  num:1,den:1},
+  {name:'ド#', num:17,den:16},
+  {name:'レ',  num:9,den:8},
+  {name:'レ#', num:19,den:16},
+  {name:'ミ',  num:5,den:4},
+  {name:'ファ', num:4,den:3},
+  {name:'ファ#',num:11,den:8},
+  {name:'ソ',  num:3,den:2},
+  {name:'ソ#', num:13,den:8},
+  {name:'ラ',  num:5,den:3},
+  {name:'シ♭', num:7,den:4},
+  {name:'シ',  num:15,den:8},
+];
+
+function gcd(a,b){while(b){[a,b]=[b,a%b];}return a;}
+
+const tbl = document.getElementById('ratioTable');
+let html = '<thead><tr>'
+  +'<th style="padding:8px 6px;text-align:center;color:#5ac8c0;border-bottom:1px solid rgba(90,200,192,0.2);font-weight:500;width:36px;">No</th>'
+  +'<th style="padding:8px 6px;text-align:center;color:#5ac8c0;border-bottom:1px solid rgba(90,200,192,0.2);font-weight:500;">音の組</th>'
+  +'<th style="padding:8px 6px;text-align:center;color:#5ac8c0;border-bottom:1px solid rgba(90,200,192,0.2);font-weight:500;">純正律</th>'
+  +'<th style="padding:8px 6px;text-align:center;color:#5ac8c0;border-bottom:1px solid rgba(90,200,192,0.2);font-weight:500;">平均律</th>'
+  +'</tr></thead><tbody>';
+
+let cnt=0;
+for(let i=0;i<allNotes.length;i++){
+  for(let j=i+1;j<allNotes.length;j++){
+    cnt++;
+    const a=allNotes[i], b=allNotes[j];
+    const rNum = b.num * a.den;
+    const rDen = b.den * a.num;
+    const g = gcd(rNum, rDen);
+    const fn = rNum/g, fd = rDen/g;
+    const semi = j - i;
+    const eq = Math.pow(2, semi/12).toFixed(6);
+    const isExpand = (a.name==='ファ'&&a.num===4) || (b.name==='ファ'&&b.num===4) || a.name==='ラ' || b.name==='ラ';
+    const rowBg = isExpand ? 'rgba(90,200,192,0.04)' : 'transparent';
+    html += '<tr style="background:'+rowBg+';border-bottom:1px solid rgba(255,255,255,0.03);">'
+      +'<td style="padding:6px;text-align:center;color:#555;font-size:11px;">'+cnt+'</td>'
+      +'<td style="padding:6px;text-align:center;color:#e8e6e0;font-weight:500;">'+a.name+' → '+b.name+'</td>'
+      +'<td style="padding:6px;text-align:center;color:#5ac8c0;font-weight:500;font-family:\'Cormorant Garamond\',serif;font-size:15px;">'+fn+':'+fd+'</td>'
+      +'<td style="padding:6px;text-align:center;color:#E24B4A;font-size:11px;">'+eq+'…</td>'
+      +'</tr>';
+  }
+}
+html += '</tbody>';
+html += '<tr><td colspan="4" style="padding:16px 8px;text-align:center;border-top:1px solid rgba(90,200,192,0.2);">'
+  +'<span style="color:#5ac8c0;font-weight:500;font-size:15px;">純正律：66/66 整数比 ✓</span>'
+  +'<span style="color:#555;margin:0 12px;">vs</span>'
+  +'<span style="color:#E24B4A;font-weight:500;font-size:15px;">平均律：0/66 整数比 ✗</span>'
+  +'</td></tr>';
+tbl.innerHTML = html;
 
 })();
 </script>
