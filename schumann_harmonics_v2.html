@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>シューマン音© 倍音・展開音・理論</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#060609;color:#e8e6e0;font-family:'Noto Sans JP',sans-serif;min-height:100vh;overflow-x:hidden;}
+.container{max-width:920px;margin:0 auto;padding:32px 20px 80px;}
+
+h1{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;color:#5ac8c0;text-align:center;margin-bottom:6px;letter-spacing:0.06em;}
+.subtitle{text-align:center;font-size:13px;color:#777;margin-bottom:36px;letter-spacing:0.02em;}
+
+.group-tabs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:28px;}
+.group-tab{padding:10px 20px;border-radius:8px;font-size:14px;cursor:pointer;transition:all 0.25s;border:1px solid rgba(90,200,192,0.2);background:transparent;color:#777;font-family:'Noto Sans JP',sans-serif;}
+.group-tab:hover{border-color:rgba(90,200,192,0.4);color:#bbb;}
+.group-tab.active{border-color:#5ac8c0;color:#5ac8c0;background:rgba(90,200,192,0.08);}
+
+.chart-section{display:none;margin-bottom:32px;animation:fadeIn 0.35s ease;}
+.chart-section.visible{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+.chart-title{font-size:16px;font-weight:500;color:#5ac8c0;margin-bottom:10px;padding-left:4px;}
+.chart-box{position:relative;width:100%;background:rgba(255,255,255,0.015);border:1px solid rgba(255,255,255,0.05);border-radius:12px;padding:12px 10px 8px;margin-bottom:10px;}
+canvas.wave{display:block;width:100%;height:300px;}
+
+.btn-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px;}
+.harm-btn{padding:8px 14px;border-radius:8px;font-size:13px;cursor:pointer;transition:all 0.2s;border:1px solid rgba(255,255,255,0.1);background:transparent;color:#555;font-family:'Noto Sans JP',sans-serif;user-select:none;}
+.harm-btn:hover{border-color:rgba(255,255,255,0.25);color:#999;}
+.harm-btn.on{background:var(--bc);border-color:var(--c);color:#fff;}
+.ctrl-btn{padding:8px 14px;border-radius:8px;font-size:13px;cursor:pointer;transition:all 0.2s;border:1px solid rgba(90,200,192,0.25);background:transparent;color:#5ac8c0;font-family:'Noto Sans JP',sans-serif;}
+.ctrl-btn:hover{background:rgba(90,200,192,0.08);}
+.legend-row{display:flex;flex-wrap:wrap;gap:10px;min-height:20px;margin:4px 0 0;font-size:12px;}
+.legend-item{display:flex;align-items:center;gap:4px;}
+.legend-line{width:16px;height:3px;border-radius:1px;}
+
+.relation-box{margin-top:16px;padding:20px;border-radius:12px;border:1px solid rgba(90,200,192,0.15);background:rgba(90,200,192,0.03);display:none;line-height:2.1;font-size:14px;}
+.relation-box.visible{display:block;}
+.note-tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:500;margin:0 2px;}
+
+.divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(90,200,192,0.2),transparent);margin:48px 0 40px;}
+
+.theory{max-width:800px;margin:0 auto;}
+.theory h2{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:#5ac8c0;margin-bottom:24px;text-align:center;letter-spacing:0.04em;}
+.theory-step{margin-bottom:32px;padding:24px;border-radius:12px;border:1px solid rgba(255,255,255,0.05);background:rgba(255,255,255,0.015);position:relative;overflow:hidden;}
+.theory-step::before{content:attr(data-num);position:absolute;top:12px;right:16px;font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:700;color:rgba(90,200,192,0.08);line-height:1;}
+.step-title{font-size:15px;font-weight:500;color:#5ac8c0;margin-bottom:10px;}
+.step-body{font-size:14px;line-height:2;color:#bbb;}
+.step-body strong{color:#e8e6e0;font-weight:500;}
+.step-body .hl{color:#5ac8c0;font-weight:500;}
+.step-body .warn{color:#E24B4A;}
+.step-body .ok{color:#6BBF5E;}
+
+.ref-box{margin-top:32px;padding:20px;border-radius:12px;border:1px solid rgba(90,200,192,0.12);background:rgba(90,200,192,0.02);}
+.ref-title{font-size:14px;font-weight:500;color:#5ac8c0;margin-bottom:8px;}
+.ref-body{font-size:13px;line-height:1.9;color:#999;}
+.ref-body a{color:#5ac8c0;text-decoration:none;border-bottom:1px solid rgba(90,200,192,0.3);}
+.ref-body a:hover{border-color:#5ac8c0;}
+
+.conclusion{margin-top:40px;text-align:center;padding:32px;border-radius:16px;border:1px solid rgba(90,200,192,0.2);background:rgba(90,200,192,0.04);}
+.conclusion p{font-family:'Cormorant Garamond',serif;font-size:22px;color:#5ac8c0;line-height:1.8;font-weight:500;}
+.conclusion .small{font-size:13px;color:#777;font-family:'Noto Sans JP',sans-serif;margin-top:12px;}
+
+.sound-ind{position:fixed;bottom:20px;right:20px;padding:8px 16px;border-radius:8px;background:rgba(90,200,192,0.15);border:1px solid rgba(90,200,192,0.3);color:#5ac8c0;font-size:12px;opacity:0;transition:opacity 0.3s;pointer-events:none;z-index:100;}
+.sound-ind.show{opacity:1;}
+
+.publish-section{margin-top:48px;padding:24px;border-radius:12px;border:1px solid rgba(255,255,255,0.05);background:rgba(255,255,255,0.015);}
+.publish-section h3{font-size:15px;font-weight:500;color:#5ac8c0;margin-bottom:12px;}
+.publish-section p{font-size:13px;line-height:2;color:#999;}
+.publish-section code{background:rgba(90,200,192,0.1);color:#5ac8c0;padding:2px 6px;border-radius:4px;font-size:12px;font-family:monospace;}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <h1>Schumann Sound©</h1>
+  <p class="subtitle">シューマン音© ── 倍音・展開音と脳波コヒーレンスの理論<br>基準：7.83 Hz × 2⁵ = 250.56 Hz（ド）</p>
+
+  <div class="group-tabs" id="groupTabs"></div>
+
+  <div class="chart-section" id="sec1">
+    <div class="chart-title">① 基音「ド」の倍音列（素数倍音 第19倍音まで）</div>
+    <div class="chart-box"><canvas class="wave" id="c1"></canvas></div>
+    <div class="btn-row" id="btns1"></div>
+    <div class="legend-row" id="leg1"></div>
+  </div>
+
+  <div class="chart-section" id="sec2">
+    <div class="chart-title">② 「ソ」の倍音列 → シ・レ</div>
+    <div class="chart-box"><canvas class="wave" id="c2"></canvas></div>
+    <div class="btn-row" id="btns2"></div>
+    <div class="legend-row" id="leg2"></div>
+  </div>
+
+  <div class="chart-section" id="sec3">
+    <div class="chart-title">③ 展開音 ──「ファ」基音 → ラ・ド</div>
+    <div class="chart-box"><canvas class="wave" id="c3"></canvas></div>
+    <div class="btn-row" id="btns3"></div>
+    <div class="legend-row" id="leg3"></div>
+  </div>
+
+  <div class="relation-box" id="relation"></div>
+
+  <div class="divider"></div>
+
+  <div class="theory">
+    <h2>Why Schumann Sound© Works</h2>
+
+    <div class="theory-step" data-num="01">
+      <div class="step-title">音を聴くと、脳に磁場が生まれる</div>
+      <div class="step-body">
+        音波が耳に入ると、蝸牛（かぎゅう）のトノトピー配列に従い、<strong>各周波数に対応した聴覚野ニューロンが発火</strong>する。<br>
+        ニューロンの発火＝<strong>電子（イオン電流）の流れ</strong>。<br>
+        電流が流れれば、必ず<strong>微弱な磁場</strong>が形成される（アンペールの法則）。<br>
+        この磁場は MEG（脳磁図）で計測可能な <span class="hl">〜100 fT〜数 pT</span> のオーダー。
+      </div>
+    </div>
+
+    <div class="theory-step" data-num="02">
+      <div class="step-title">平均律では山と山が打ち消し合う</div>
+      <div class="step-body">
+        現代の標準チューニング＝<strong>12平均律（A = 440 Hz）</strong>。<br>
+        平均律の各音は <strong>2<sup>n/12</sup></strong> という無理数比で構成されている。<br>
+        これは数学的に<strong>永遠に整数比にならない</strong>。<br><br>
+        つまり、複数の音が同時に鳴った時——<br>
+        <span class="warn">波のピーク（山）とピーク（山）が揃わない。</span><br>
+        <span class="warn">むしろ位相がズレて打ち消し合う（destructive interference）。</span><br><br>
+        脳内で生じた微弱磁場も同様に<strong>相殺され、コヒーレントなピークが生まれない</strong>。
+      </div>
+    </div>
+
+    <div class="theory-step" data-num="03">
+      <div class="step-title">純正律なら全ての波が整数比で揃う</div>
+      <div class="step-body">
+        シューマン音©は<strong>完全純正律（D-dur）</strong>。<br>
+        全ての音程が<strong>整数比</strong>（3/2、5/4、7/4、11/8 …）で構成される。<br><br>
+        上のグラフで確認した通り：<br>
+        ① ドの倍音列 → 第19倍音まで8音<br>
+        ② ソの倍音列 → レ・シの2音<br>
+        ③ 展開音ファ → ラ・ドの2音<br>
+        <span class="ok">→ 12音すべてが整数比のネットワークで結ばれる。</span><br><br>
+        基音の <strong>1λ（1波長）の端点で、全ての倍音の波がぴったり0に戻る</strong>。<br>
+        これが<strong>コヒーレンス（位相同期）</strong>。
+      </div>
+    </div>
+
+    <div class="theory-step" data-num="04">
+      <div class="step-title">7.83 Hz で三角波のピークが収束する</div>
+      <div class="step-body">
+        シューマン音©の基準周波数 = <span class="hl">7.83 Hz</span>（シューマン共振 第1モード）。<br><br>
+        全ての音が 7.83 Hz の整数倍で構成されているため、<br>
+        <strong>7.83 Hz の1周期ごとに、全波のピークが同期的に重なり合う</strong>。<br><br>
+        各倍音の脳内磁場が個別には極めて微弱でも、<br>
+        純正律の整数比により <span class="hl">7.83 Hz で三角波状にピークが積み上がる</span>。<br>
+        88鍵すべてが同位相で<strong>建設的干渉（constructive interference）</strong>を起こし、<br>
+        脳内で <span class="hl">〜1 pT の 7.83 Hz コヒーレント磁場</span> を実現する。
+      </div>
+    </div>
+
+    <div class="theory-step" data-num="05">
+      <div class="step-title">弱い磁場ほど精密に効く ── Zavadskis et al. 2026</div>
+      <div class="step-body">
+        ルートヴィヒ・ボルツマン研究所（ウィーン）の最新研究<br>
+        <strong>Zavadskis et al. 2026（Scientific Reports）</strong> が示したこと：<br><br>
+        ミトコンドリアの<strong>外膜 VDAC</strong>（電位依存性アニオンチャネル）は<br>
+        ゲーティング電位がわずか <span class="hl">〜25 mV</span>。<br><br>
+        <span class="ok">弱い磁場（〜1 pT）→ VDAC を精密に開閉制御できる。</span><br>
+        <span class="warn">強い磁場 → 内膜（180 mV）まで破壊し、ミトコンドリアを損傷。</span><br><br>
+        つまり：<strong>弱い方が精密に効く。</strong><br><br>
+        シューマン音©が脳内で生成する <span class="hl">〜1 pT / 7.83 Hz</span> のコヒーレント磁場は、<br>
+        まさにこの<strong>VDAC の精密制御レンジ</strong>にぴったり収まる。<br>
+        シューマン共振第1モード（7.83 Hz）のみが対象——第2・第3モードではない。
+      </div>
+    </div>
+
+    <div class="ref-box">
+      <div class="ref-title">参考文献</div>
+      <div class="ref-body">
+        Zavadskis, S. et al. (2026). Weak magnetic fields modulate VDAC gating in isolated mitochondria. <em>Scientific Reports</em>. Ludwig Boltzmann Institute, Vienna.<br><br>
+        シューマン音©は、さとうみつろう氏が開発した D-dur 完全純正律 × シューマン共振の音楽メソッドです。<br>
+        基準周波数 7.83 Hz（第1モード）を6オクターブ上（×64 = 501.12 Hz）に転調し、A = 375.84 Hz、第19倍音まで素数倍音を含む88鍵システム。
+      </div>
+    </div>
+
+    <div class="conclusion">
+      <p>全ての音が 7.83 Hz に収束する。<br>全ての波が建設的に干渉し、<br>脳内に 〜1 pT のシューマン共振を生む。</p>
+      <div class="small">Schumann Sound© — さとうみつろう</div>
+    </div>
+
+    <div class="publish-section">
+      <h3>このページの公開方法</h3>
+      <p>
+        <strong>方法① GitHub Pages（無料・簡単）</strong><br>
+        既存のリポジトリ <code>mitsulow/0Lei</code> または <code>mitsulow/schumann-monitor</code> にこのHTMLファイルを追加するだけ。<br>
+        例：<code>mitsulow.github.io/0Lei/schumann-sound.html</code> で即公開。<br><br>
+
+        <strong>方法② Amebloへのiframe埋め込み</strong><br>
+        GitHub Pages に公開後、Ameblo記事に <code>&lt;iframe&gt;</code> で埋め込み。<br>
+        固定高さ方式（例：<code>height="5000px"</code>）で対応可能。<br><br>
+
+        <strong>方法③ 独自ドメイン</strong><br>
+        お持ちのドメインがあれば、GitHub Pages にカスタムドメインを設定して公開できます。<br><br>
+
+        <strong>方法④ YouTube動画の概要欄リンク</strong><br>
+        GitHub Pages の URL をYouTube動画の概要欄に貼り、視聴者が直接触れるインタラクティブ資料として案内。
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<div class="sound-ind" id="soundInd"></div>
+
+<script>
+(function(){
+
+const BASE_HZ = 250.56;
+
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+let activeOscs = {};
+
+function playTone(id, freq){
+  if(activeOscs[id]) stopTone(id);
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = 'sine';
+  osc.frequency.value = freq;
+  gain.gain.value = 0;
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.start();
+  gain.gain.linearRampToValueAtTime(0.12, audioCtx.currentTime + 0.06);
+  activeOscs[id] = { osc, gain };
+  showSound(freq.toFixed(1) + ' Hz');
+}
+
+function stopTone(id){
+  if(!activeOscs[id]) return;
+  const {osc,gain} = activeOscs[id];
+  gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.12);
+  setTimeout(()=>{ try{osc.stop();}catch(e){} }, 160);
+  delete activeOscs[id];
+}
+
+const soundEl = document.getElementById('soundInd');
+let soundTimer;
+function showSound(t){
+  soundEl.textContent = t;
+  soundEl.classList.add('show');
+  clearTimeout(soundTimer);
+  soundTimer = setTimeout(()=>soundEl.classList.remove('show'), 1500);
+}
+
+const charts = [
+  {
+    id:1, sec:'sec1', canvas:'c1', btns:'btns1', legend:'leg1',
+    baseName:'ド', baseHz:BASE_HZ,
+    baseLabel:'← 1λ（ド：250.56 Hz） →',
+    harmonics:[
+      {n:1,  label:'基音', note:'ド',    color:'#e8e6e0', w:3},
+      {n:3,  label:'第3',  note:'ソ',    color:'#E24B4A', w:2.5},
+      {n:5,  label:'第5',  note:'ミ',    color:'#4A9EF0', w:2},
+      {n:7,  label:'第7',  note:'シ♭',   color:'#6BBF5E', w:1.8},
+      {n:11, label:'第11', note:'ファ#', color:'#D4A229', w:1.5},
+      {n:13, label:'第13', note:'ソ#',   color:'#9B6BD4', w:1.5},
+      {n:17, label:'第17', note:'ド#',   color:'#E07040', w:1.3},
+      {n:19, label:'第19', note:'レ#',   color:'#D4578A', w:1.3},
+    ]
+  },
+  {
+    id:2, sec:'sec2', canvas:'c2', btns:'btns2', legend:'leg2',
+    baseName:'ソ', baseHz:BASE_HZ*3/2,
+    baseLabel:'← 1λ（ソ：375.84 Hz） →',
+    harmonics:[
+      {n:1, label:'基音', note:'ソ', color:'#e8e6e0', w:3},
+      {n:3, label:'第3',  note:'レ', color:'#E24B4A', w:2.5},
+      {n:5, label:'第5',  note:'シ', color:'#4A9EF0', w:2},
+    ]
+  },
+  {
+    id:3, sec:'sec3', canvas:'c3', btns:'btns3', legend:'leg3',
+    baseName:'ファ', baseHz:BASE_HZ*4/3,
+    baseLabel:'← 1λ（ファ：334.08 Hz） →',
+    harmonics:[
+      {n:1, label:'基音', note:'ファ', color:'#e8e6e0', w:3},
+      {n:3, label:'第3',  note:'ド',   color:'#E24B4A', w:2.5},
+      {n:5, label:'第5',  note:'ラ',   color:'#4A9EF0', w:2},
+    ]
+  }
+];
+
+function setupChart(cfg){
+  const canvas = document.getElementById(cfg.canvas);
+  const ctx = canvas.getContext('2d');
+  const btnsEl = document.getElementById(cfg.btns);
+  const legEl = document.getElementById(cfg.legend);
+  const active = {};
+  cfg.harmonics.forEach(h=>active[h.n]=false);
+
+  const L=50, T=14, B=262;
+  function RR(){ return (canvas.width/2)-16; }
+
+  function draw(){
+    const cw=canvas.width/2, ch=canvas.height/2;
+    const RIGHT=RR(), midY=(T+B)/2, xLen=RIGHT-L, yA=(B-T)/2*0.82;
+    ctx.clearRect(0,0,cw,ch);
+
+    ctx.font='11px "Noto Sans JP",sans-serif';
+    ctx.textAlign='right';
+    [1.0,0.5,-0.5,-1.0].forEach(v=>{
+      const y=midY-v*yA;
+      ctx.beginPath();ctx.setLineDash([4,4]);ctx.strokeStyle='rgba(255,255,255,0.06)';ctx.lineWidth=0.5;
+      ctx.moveTo(L,y);ctx.lineTo(RIGHT,y);ctx.stroke();ctx.setLineDash([]);
+      ctx.fillStyle='#555';ctx.fillText(v.toFixed(1),L-6,y+4);
+    });
+    ctx.beginPath();ctx.strokeStyle='rgba(255,255,255,0.1)';ctx.lineWidth=0.5;
+    ctx.moveTo(L,midY);ctx.lineTo(RIGHT,midY);ctx.stroke();
+    ctx.fillStyle='#555';ctx.fillText('0',L-6,midY+4);
+
+    ctx.lineWidth=1.5;ctx.strokeStyle='rgba(90,200,192,0.3)';
+    ctx.beginPath();ctx.moveTo(L,T-4);ctx.lineTo(L,B+4);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(RIGHT,T-4);ctx.lineTo(RIGHT,B+4);ctx.stroke();
+
+    cfg.harmonics.forEach(h=>{
+      if(!active[h.n])return;
+      ctx.beginPath();ctx.strokeStyle=h.color;ctx.lineWidth=h.w;ctx.lineCap='round';ctx.globalAlpha=0.85;
+      for(let i=0;i<=900;i++){
+        const t=i/900,x=L+t*xLen,y=midY-(1/h.n)*Math.sin(2*Math.PI*h.n*t)*yA;
+        i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+      }
+      ctx.stroke();ctx.globalAlpha=1;
+    });
+
+    ctx.textAlign='center';ctx.font='12px "Noto Sans JP",sans-serif';ctx.fillStyle='#5ac8c0';
+    ctx.fillText(cfg.baseLabel,(L+RIGHT)/2,B+20);
+  }
+
+  function updateLeg(){
+    legEl.innerHTML='';
+    cfg.harmonics.forEach(h=>{
+      if(!active[h.n])return;
+      const d=document.createElement('div');d.className='legend-item';
+      d.innerHTML='<span class="legend-line" style="background:'+h.color+'"></span><span style="color:'+h.color+';font-weight:500;">'+h.label+'（'+h.note+'）</span>';
+      legEl.appendChild(d);
+    });
+  }
+
+  function resize(){
+    const r=canvas.parentElement.getBoundingClientRect();
+    canvas.width=r.width*2;canvas.height=300*2;
+    ctx.setTransform(2,0,0,2,0,0);draw();
+  }
+
+  cfg.harmonics.forEach(h=>{
+    const btn=document.createElement('button');
+    btn.className='harm-btn';
+    btn.textContent=h.label+' '+h.note;
+    btn.style.setProperty('--c',h.color);
+    btn.style.setProperty('--bc',h.color+'22');
+    let freq=cfg.baseHz*h.n;
+    while(freq>5000)freq/=2;
+    const tid=cfg.id+'_'+h.n;
+
+    btn.addEventListener('click',()=>{
+      if(audioCtx.state==='suspended')audioCtx.resume();
+      active[h.n]=!active[h.n];
+      btn.classList.toggle('on',active[h.n]);
+      if(active[h.n])playTone(tid,freq);else stopTone(tid);
+      draw();updateLeg();
+    });
+    btnsEl.appendChild(btn);
+  });
+
+  const allBtn=document.createElement('button');allBtn.className='ctrl-btn';allBtn.textContent='全表示';
+  allBtn.addEventListener('click',()=>{
+    if(audioCtx.state==='suspended')audioCtx.resume();
+    cfg.harmonics.forEach(h=>{
+      active[h.n]=true;
+      let f=cfg.baseHz*h.n;while(f>5000)f/=2;
+      playTone(cfg.id+'_'+h.n,f);
+    });
+    btnsEl.querySelectorAll('.harm-btn').forEach(b=>b.classList.add('on'));
+    draw();updateLeg();
+  });
+  btnsEl.appendChild(allBtn);
+
+  const clrBtn=document.createElement('button');clrBtn.className='ctrl-btn';clrBtn.textContent='クリア';
+  clrBtn.addEventListener('click',()=>{
+    cfg.harmonics.forEach(h=>{active[h.n]=false;stopTone(cfg.id+'_'+h.n);});
+    btnsEl.querySelectorAll('.harm-btn').forEach(b=>b.classList.remove('on'));
+    draw();updateLeg();
+  });
+  btnsEl.appendChild(clrBtn);
+
+  return {
+    resize, draw,
+    show(){ document.getElementById(cfg.sec).classList.add('visible'); resize(); },
+    hide(){
+      document.getElementById(cfg.sec).classList.remove('visible');
+      cfg.harmonics.forEach(h=>{active[h.n]=false;stopTone(cfg.id+'_'+h.n);});
+      btnsEl.querySelectorAll('.harm-btn').forEach(b=>b.classList.remove('on'));
+      updateLeg();
+    }
+  };
+}
+
+const instances = charts.map(c=>setupChart(c));
+
+const groups = [
+  {label:'① ド → 倍音列', show:[0]},
+  {label:'② ソ → シ・レ', show:[1]},
+  {label:'③ ファ → ラ・ド', show:[2]},
+  {label:'全体を表示', show:[0,1,2]},
+];
+
+const tabsEl = document.getElementById('groupTabs');
+let activeTabIdx = 0;
+const tabBtns = [];
+
+groups.forEach((g,gi)=>{
+  const btn=document.createElement('button');btn.className='group-tab';btn.textContent=g.label;
+  btn.addEventListener('click',()=>{
+    activeTabIdx=gi;
+    tabBtns.forEach((b,i)=>b.classList.toggle('active',i===gi));
+    instances.forEach(inst=>inst.hide());
+    g.show.forEach(i=>instances[i].show());
+    const rel=document.getElementById('relation');
+    if(g.show.length===3){
+      rel.classList.add('visible');
+      rel.innerHTML=
+        '<div style="font-weight:500;color:#5ac8c0;margin-bottom:8px;">12音の完成</div>'
+        +'① ド基音 → '
+        +'<span class="note-tag" style="background:#E24B4A22;color:#E24B4A;">ソ</span>'
+        +'<span class="note-tag" style="background:#4A9EF022;color:#4A9EF0;">ミ</span>'
+        +'<span class="note-tag" style="background:#6BBF5E22;color:#6BBF5E;">シ♭</span>'
+        +'<span class="note-tag" style="background:#D4A22922;color:#D4A229;">ファ#</span>'
+        +'<span class="note-tag" style="background:#9B6BD422;color:#9B6BD4;">ソ#</span>'
+        +'<span class="note-tag" style="background:#E0704022;color:#E07040;">ド#</span>'
+        +'<span class="note-tag" style="background:#D4578A22;color:#D4578A;">レ#</span>'
+        +'<br>'
+        +'② ソ基音 → '
+        +'<span class="note-tag" style="background:#E24B4A22;color:#E24B4A;">レ</span>'
+        +'<span class="note-tag" style="background:#4A9EF022;color:#4A9EF0;">シ</span>'
+        +'<br>'
+        +'③ ファ基音（展開音） → '
+        +'<span class="note-tag" style="background:#E24B4A22;color:#E24B4A;">ド</span>'
+        +'<span class="note-tag" style="background:#4A9EF022;color:#4A9EF0;">ラ</span>'
+        +'<br><br>'
+        +'<span style="color:#5ac8c0;font-weight:500;">→ 12音すべてが純正律の整数比でコヒーレント</span>';
+    } else {
+      rel.classList.remove('visible');
+    }
+  });
+  tabBtns.push(btn);
+  tabsEl.appendChild(btn);
+});
+
+tabBtns[0].click();
+window.addEventListener('resize',()=>{
+  groups[activeTabIdx].show.forEach(i=>instances[i].resize());
+});
+
+})();
+</script>
+</body>
+</html>
