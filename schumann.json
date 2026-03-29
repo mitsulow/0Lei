@@ -1,6 +1,6 @@
 {
-  "timestamp_utc": "2026-03-28T23:48:10Z",
-  "timestamp_jst": "2026-03-29 08:48",
+  "timestamp_utc": "2026-03-29T00:03:38Z",
+  "timestamp_jst": "2026-03-29 09:03",
   "version": 3,
   "method": "color_primary",
   "zone": "6h(65-75%)",
@@ -16,7 +16,7 @@
       "F1": {
         "hz": 7.84,
         "confidence": 1.0,
-        "samples": 89,
+        "samples": 91,
         "method": "color"
       },
       "F2": {
@@ -28,7 +28,7 @@
       "F3": {
         "hz": 20.25,
         "confidence": 1.0,
-        "samples": 89,
+        "samples": 91,
         "method": "color"
       },
       "F4": {
