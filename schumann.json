@@ -1,6 +1,6 @@
 {
-  "timestamp_utc": "2026-04-04T13:59:42Z",
-  "timestamp_jst": "2026-04-04 22:59",
+  "timestamp_utc": "2026-04-04T14:35:54Z",
+  "timestamp_jst": "2026-04-04 23:35",
   "version": 3,
   "method": "color_primary",
   "zone": "latest(85-92%)",
@@ -21,8 +21,8 @@
       },
       "F2": {
         "hz": 13.26,
-        "confidence": 0.27,
-        "samples": 4,
+        "confidence": 0.2,
+        "samples": 3,
         "method": "color"
       },
       "F3": {
