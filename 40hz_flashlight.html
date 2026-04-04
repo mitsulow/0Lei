@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>40Hz γ Flashlight</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#0a0a0f;color:#c8c8d8;font-family:system-ui,-apple-system,sans-serif;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;user-select:none;-webkit-user-select:none}
+  .w{max-width:400px;width:100%;text-align:center}
+  h1{font-size:3em;font-weight:200;color:#e8e8e8;letter-spacing:.1em;margin-bottom:4px}
+  .sub{font-size:.78em;color:#555;letter-spacing:.2em;margin-bottom:36px}
+  .ring{width:180px;height:180px;border-radius:50%;border:2px solid #1e1e2e;display:flex;align-items:center;justify-content:center;margin:0 auto 28px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .3s}
+  .ring.on{border-color:rgba(255,255,255,.4);box-shadow:0 0 60px rgba(255,255,255,.08)}
+  .ring .t{font-size:1.3em;font-weight:300;color:#555;letter-spacing:.15em;transition:color .3s}
+  .ring.on .t{color:#fff}
+  .tmr{font-size:2.2em;font-weight:200;color:#555;margin-bottom:28px;font-variant-numeric:tabular-nums}
+  .tmr.on{color:#e8e8e8}
+  .row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+  .b{font-size:.85em;padding:8px 16px;border:1px solid #1e1e2e;border-radius:6px;background:#12121a;color:#555;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .2s}
+  .b:active,.b.s{border-color:rgba(255,255,255,.3);color:#e8e8e8}
+  .chk{display:flex;align-items:center;justify-content:center;gap:8px;margin:8px 0;font-size:.78em;color:#555}
+  .chk input{accent-color:#fff}
+  .msg{margin-top:16px;padding:12px;border-radius:8px;font-size:.78em;line-height:1.6;display:none}
+  .msg.e{background:rgba(153,68,68,.1);border:1px solid rgba(153,68,68,.3);color:#a44}
+  .msg.g{background:rgba(68,153,68,.1);border:1px solid rgba(68,153,68,.3);color:#6a6}
+  .msg.v{display:block}
+  .inf{margin-top:24px;padding:14px;background:#12121a;border:1px solid #1e1e2e;border-radius:8px;text-align:left;font-size:.72em;line-height:1.8;color:#555}
+  .inf .r{color:#994444;font-weight:500}
+  .sf{position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:-1;pointer-events:none}
+</style>
+</head>
+<body>
+<div class="sf" id="sf"></div>
+<div class="w">
+  <h1>40 Hz</h1>
+  <div class="sub">γ FLASHLIGHT — MIT GENUS</div>
+  <div class="ring" id="ring">
+    <div class="t" id="lbl">START</div>
+  </div>
+  <div class="tmr" id="tmr">05:00</div>
+  <div class="row">
+    <button class="b" onclick="setD(60,this)">1m</button>
+    <button class="b s" onclick="setD(300,this)">5m</button>
+    <button class="b" onclick="setD(600,this)">10m</button>
+    <button class="b" onclick="setD(1200,this)">20m</button>
+    <button class="b" onclick="setD(0,this)">∞</button>
+  </div>
+  <div class="chk">
+    <input type="checkbox" id="sc">
+    <label for="sc">画面明滅モード（ライトの代わりに画面が光る）</label>
+  </div>
+  <div class="msg e" id="em"></div>
+  <div class="msg g" id="gm"></div>
+  <div class="inf">
+    <span class="r">⚠ 光感受性てんかんの方は使用禁止</span><br>
+    不快を感じたら即停止<br><br>
+    <b>使い方：</b> STARTでカメラ許可 → 背面LEDが40Hz点滅<br>
+    壁や天井に反射させて間接光として使用<br>
+    直接目に向けないこと<br><br>
+    <b>必須：</b> https:// で開くこと（file://では動作しません）<br>
+    ブラウザはChromeを推奨
+  </div>
+</div>
+<script>
+let track=null,tok=false,run=false,iv=null,lit=false,ti=null,sec=0,dur=300;
+function sE(s){const e=document.getElementById('em');e.textContent=s;e.classList.add('v')}
+function hE(){document.getElementById('em').classList.remove('v')}
+function sG(s){const e=document.getElementById('gm');e.textContent=s;e.classList.add('v');setTimeout(()=>e.classList.remove('v'),3000)}
+
+async function gT(){
+  if(track)return tok;
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
+    sE('このブラウザはカメラAPIに非対応です');return false;
+  }
+  if(!window.isSecureContext){
+    sE('https:// で開いてください。file:// や content:// ではライトを制御できません。画面明滅モードをお使いください。');
+    return false;
+  }
+  const tries=[
+    {video:{facingMode:{exact:'environment'}}},
+    {video:{facingMode:'environment'}},
+    {video:true}
+  ];
+  let stream=null;
+  for(const c of tries){
+    try{stream=await navigator.mediaDevices.getUserMedia(c);break;}catch(e){stream=null;}
+  }
+  if(!stream){sE('カメラへのアクセスが許可されませんでした。ブラウザの設定からカメラを許可してください。');return false;}
+  track=stream.getVideoTracks()[0];
+  if(!track){sE('ビデオトラック取得失敗');return false;}
+  await new Promise(r=>setTimeout(r,800));
+  const caps=track.getCapabilities?track.getCapabilities():{};
+  if(!caps.torch){sE('この端末のカメラにトーチ機能がありません。画面明滅モードをお使いください。');return false;}
+  tok=true;
+  try{
+    await track.applyConstraints({advanced:[{torch:true}]});
+    await new Promise(r=>setTimeout(r,150));
+    await track.applyConstraints({advanced:[{torch:false}]});
+  }catch(e){tok=false;sE('トーチ制御に失敗: '+e.message);return false;}
+  sG('✓ ライト準備完了');
+  return true;
+}
+
+async function sT(v){if(!track||!tok)return;try{await track.applyConstraints({advanced:[{torch:v}]});}catch(e){}}
+
+function tk(){
+  lit=!lit;
+  if(tok)sT(lit);
+  if(document.getElementById('sc').checked)
+    document.getElementById('sf').style.background=lit?'rgba(255,255,255,0.85)':'#000';
+}
+
+function uT(){
+  const e=document.getElementById('tmr');
+  if(dur>0){const r=Math.max(0,dur-sec);e.textContent=`${String(Math.floor(r/60)).padStart(2,'0')}:${String(r%60).padStart(2,'0')}`;}
+  else{e.textContent=`${String(Math.floor(sec/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`;}
+}
+
+function go(){
+  iv=setInterval(tk,12.5);
+  sec=0;uT();
+  ti=setInterval(()=>{sec++;uT();if(dur>0&&sec>=dur)st();},1000);
+  run=true;
+  document.getElementById('ring').classList.add('on');
+  document.getElementById('lbl').textContent='STOP';
+  document.getElementById('tmr').classList.add('on');
+}
+
+function st(){
+  if(iv){clearInterval(iv);iv=null;}
+  if(ti){clearInterval(ti);ti=null;}
+  run=false;lit=false;sT(false);
+  document.getElementById('sf').style.background='#000';
+  document.getElementById('ring').classList.remove('on');
+  document.getElementById('lbl').textContent='START';
+  document.getElementById('tmr').classList.remove('on');
+  uT();
+}
+
+document.getElementById('ring').addEventListener('click',async()=>{
+  if(run){st();return;}
+  hE();
+  if(!track){
+    const ok=await gT();
+    if(!ok&&!document.getElementById('sc').checked){
+      document.getElementById('sc').checked=true;
+    }
+  }
+  if(!tok&&!document.getElementById('sc').checked){
+    sE('ライトも画面も無効です。画面明滅をONにしてください');return;
+  }
+  go();
+});
+
+function setD(s,btn){dur=s;sec=0;uT();document.querySelectorAll('.b').forEach(b=>b.classList.remove('s'));btn.classList.add('s');}
+uT();
+</script>
+</body>
+</html>
