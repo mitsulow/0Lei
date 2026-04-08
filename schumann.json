@@ -1,20 +1,20 @@
 {
-  "timestamp_utc": "2026-04-08T14:12:02Z",
-  "timestamp_jst": "2026-04-08 23:12",
+  "timestamp_utc": "2026-04-08T15:43:13Z",
+  "timestamp_jst": "2026-04-09 00:43",
   "version": 3,
   "method": "color_primary",
   "zone": "latest(85-92%)",
   "modes": {
-    "F1": 7.63,
+    "F1": 7.67,
     "F2": 13.71,
     "F3": 18.85,
     "F4": 24.73
   },
-  "avg24": 7.89,
+  "avg24": 7.91,
   "details": {
     "tomsk": {
       "F1": {
-        "hz": 7.63,
+        "hz": 7.67,
         "confidence": 1.0,
         "samples": 67,
         "method": "color"
