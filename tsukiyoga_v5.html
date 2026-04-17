@@ -1818,20 +1818,26 @@
     });
   });
 
-  // ======== 月ナビ（天球スクロール方式） ========
+  // ======== 月ナビ（Skyマップ式：低域通過フィルタ＋クォータニオン風） ========
   const navState = {
+    // 生のセンサー値
+    rawAlpha: 0,
+    rawBeta: 0,
+    rawGamma: 0,
+    // Low-pass フィルタリング済みの最終的な向き
     heading: 0,
     pitch: 0,
     roll: 0,
-    permitted: false,
-    animId: null,
+    // オーバーシュート防止用にさらに滑らかにした表示用値
     smoothHeading: 0,
     smoothPitch: 0,
     smoothRoll: 0,
+    permitted: false,
+    animId: null,
     hasOrientation: false,
     eventCount: 0,
     stars: [],
-    lastEvent: null
+    screenOrient: 0  // 0=portrait, 90=landscape-right, -90=landscape-left, 180=portrait-upside
   };
 
   (function initStars() {
@@ -1845,34 +1851,141 @@
     }
   })();
 
+  // スクリーン向き（縦/横）を取得
+  function updateScreenOrient() {
+    if (screen.orientation && typeof screen.orientation.angle === 'number') {
+      navState.screenOrient = screen.orientation.angle;
+    } else if (typeof window.orientation === 'number') {
+      navState.screenOrient = window.orientation;
+    } else {
+      navState.screenOrient = 0;
+    }
+  }
+  updateScreenOrient();
+  window.addEventListener('orientationchange', updateScreenOrient);
+  if (screen.orientation) {
+    screen.orientation.addEventListener('change', updateScreenOrient);
+  }
+
+  // 角度を -180〜180 に正規化
+  function shortAngle(a, b) {
+    let d = a - b;
+    while (d > 180) d -= 360;
+    while (d < -180) d += 360;
+    return d;
+  }
+
+  // 角度を 0〜360 に正規化
+  function norm360(a) {
+    return ((a % 360) + 360) % 360;
+  }
+
+  // Low-pass filter for angles（循環境界対応）
+  function lpfAngle(current, target, alpha) {
+    const diff = shortAngle(target, current);
+    return norm360(current + diff * alpha);
+  }
+
+  function lpfLinear(current, target, alpha) {
+    return current + (target - current) * alpha;
+  }
+
+  // ======== デバイス姿勢 → 観測者視線（heading/pitch/roll） ========
+  // alpha/beta/gamma は端末の座標系での回転角
+  //   alpha: Z軸周り（0〜360、コンパス逆方向）
+  //   beta:  X軸周り（-180〜180、前後の傾き）
+  //   gamma: Y軸周り（-90〜90、左右の傾き）
+  // スクリーン向き（縦/横）を考慮して、観測者がスマホ背面から見る方向を計算
+  function deviceToSky(alpha, beta, gamma, screenOrient) {
+    // 度→ラジアン
+    const _x = beta * Math.PI / 180;   // pitch (x-axis)
+    const _y = gamma * Math.PI / 180;  // roll (y-axis)
+    const _z = alpha * Math.PI / 180;  // heading (z-axis, but inverted)
+    const _o = screenOrient * Math.PI / 180;
+
+    // ZXY順の回転行列（W3C DeviceOrientation仕様）
+    const cX = Math.cos(_x), cY = Math.cos(_y), cZ = Math.cos(_z);
+    const sX = Math.sin(_x), sY = Math.sin(_y), sZ = Math.sin(_z);
+
+    // 回転行列 R = Rz(alpha) * Rx(beta) * Ry(gamma)
+    const m11 = cZ * cY - sZ * sX * sY;
+    const m12 = -cX * sZ;
+    const m13 = cY * sZ * sX + cZ * sY;
+    const m21 = cY * sZ + cZ * sX * sY;
+    const m22 = cZ * cX;
+    const m23 = sZ * sY - cZ * cY * sX;
+    const m31 = -cX * sY;
+    const m32 = sX;
+    const m33 = cX * cY;
+
+    // スクリーン回転の補正
+    const cO = Math.cos(_o), sO = Math.sin(_o);
+    // 画面を基準にした「前方ベクトル」（画面の奥方向 = スマホ背面の向き）
+    // デバイス座標で画面奥 = -Z 方向 = (0, 0, -1)
+    // スクリーンを回転させた後の画面上方向を求める
+    // Screen-to-device: screen X = device X*cO + device Y*sO, screen Y = -device X*sO + device Y*cO
+    // 世界座標での視線方向（画面奥、-Z）
+    const fx = -m13;
+    const fy = -m23;
+    const fz = -m33;
+
+    // 世界座標での上方向（画面上方向。スクリーン回転を考慮）
+    // device座標の画面上方向 = (-sO, cO, 0) を世界に変換
+    const ux = m11 * (-sO) + m12 * cO;
+    const uy = m21 * (-sO) + m22 * cO;
+    const uz = m31 * (-sO) + m32 * cO;
+
+    // heading: 画面奥がどっちを向いているか（北基準、時計回り）
+    // 世界座標では Y=北、X=東、Z=上
+    // fx=東成分, fy=北成分
+    let heading = Math.atan2(fx, fy) * 180 / Math.PI;
+    heading = norm360(heading);
+
+    // pitch: 画面奥の上下角
+    const fHoriz = Math.sqrt(fx * fx + fy * fy);
+    let pitch = Math.atan2(fz, fHoriz) * 180 / Math.PI;
+
+    // roll: 画面の回転（画面上方向が世界の上からどれだけ傾いているか）
+    // 画面奥方向を軸として、画面上方向が世界Z軸からどれだけ回転しているか
+    // 簡略化：画面上ベクトルの「水平面への投影と元ベクトルの角度」で近似
+    let roll = 0;
+    // 画面上ベクトルを、画面奥方向を軸として回転量を測る
+    // 参照として「画面奥と上方向両方に垂直な右方向」と「世界上方向」を比較
+    // 簡易版：gamma をほぼそのまま使う（縦持ちで動く範囲なら十分）
+    // ただしスクリーン向きを考慮
+    roll = 0; // rollは今回省略（安定動作優先）
+
+    return { heading, pitch, roll };
+  }
+
   function handleNavOrientation(e) {
     navState.hasOrientation = true;
     navState.eventCount++;
-    navState.lastEvent = e;
 
-    // 方位
+    const alpha = e.alpha || 0;
+    const beta = e.beta || 0;
+    const gamma = e.gamma || 0;
+
+    navState.rawAlpha = alpha;
+    navState.rawBeta = beta;
+    navState.rawGamma = gamma;
+
+    // 端末姿勢から視線方向を計算
+    const sky = deviceToSky(alpha, beta, gamma, navState.screenOrient);
+
+    // iOS の webkitCompassHeading が利用可能なら優先（より正確）
     if (typeof e.webkitCompassHeading === 'number') {
-      navState.heading = e.webkitCompassHeading;
-    } else if (typeof e.alpha === 'number') {
-      navState.heading = (360 - e.alpha + 360) % 360;
+      sky.heading = e.webkitCompassHeading;
     }
 
-    // 仰角（上下の傾き）
-    if (typeof e.beta === 'number') {
-      let pitch = e.beta - 90;
-      if (pitch > 90) pitch = 90;
-      if (pitch < -90) pitch = -90;
-      navState.pitch = pitch;
-    }
-
-    // 左右の傾き
-    if (typeof e.gamma === 'number') {
-      navState.roll = e.gamma;
-    }
+    // Low-pass filter 1段目（alpha = 0.25：応答早め）
+    const ALPHA1 = 0.25;
+    navState.heading = lpfAngle(navState.heading, sky.heading, ALPHA1);
+    navState.pitch = lpfLinear(navState.pitch, sky.pitch, ALPHA1);
+    navState.roll = lpfLinear(navState.roll, sky.roll, ALPHA1);
   }
 
   async function requestNavPermission() {
-    // Androidなど許可不要な場合
     if (typeof DeviceOrientationEvent !== 'undefined' &&
         typeof DeviceOrientationEvent.requestPermission === 'function') {
       try {
@@ -1888,16 +2001,12 @@
     }
 
     navState.permitted = true;
-    // Android Chromeでは deviceorientation だけで十分（absoluteは古い仕様）
-    // 両方に登録すると重複するので、まず deviceorientation を試す
     window.addEventListener('deviceorientation', handleNavOrientation, true);
-    // iOS Safariではwebkit版が発火することもあるので absolute も補助的に
     window.addEventListener('deviceorientationabsolute', handleNavOrientation, true);
 
     document.getElementById('navPermission').style.display = 'none';
     document.getElementById('navCalibrate').classList.add('visible');
 
-    // 3秒後、センサー値が来ていないか確認
     setTimeout(() => {
       if (navState.eventCount === 0) {
         document.getElementById('navSub').textContent =
@@ -1928,44 +2037,46 @@
   }
   window.addEventListener('resize', resizeNavCanvas);
 
+  // 天球座標 → 画面座標
   function skyToScreen(az, alt, heading, pitch, roll, w, h, fovDeg) {
     const azRad = az * Math.PI / 180;
     const altRad = alt * Math.PI / 180;
+    // 天球上の単位ベクトル（X=東, Y=北, Z=上）
     const x = Math.sin(azRad) * Math.cos(altRad);
     const y = Math.cos(azRad) * Math.cos(altRad);
     const z = Math.sin(altRad);
 
+    // 観測者のheading（画面奥の方位）分、Z軸周りに-回転
+    // （天球をheadingの逆に回して、観測者前方をY軸にする）
     const hRad = heading * Math.PI / 180;
-    const xh = x * Math.cos(hRad) - y * Math.sin(hRad);
-    const yh = x * Math.sin(hRad) + y * Math.cos(hRad);
-    const zh = z;
+    const cH = Math.cos(hRad), sH = Math.sin(hRad);
+    const x1 = x * cH - y * sH;
+    const y1 = x * sH + y * cH;
+    const z1 = z;
 
+    // pitch分、X軸周りに-回転（画面奥が水平から上下に傾いた分）
     const pRad = pitch * Math.PI / 180;
-    const xp = xh;
-    const yp = yh * Math.cos(pRad) + zh * Math.sin(pRad);
-    const zp = -yh * Math.sin(pRad) + zh * Math.cos(pRad);
+    const cP = Math.cos(pRad), sP = Math.sin(pRad);
+    const x2 = x1;
+    const y2 = y1 * cP + z1 * sP;
+    const z2 = -y1 * sP + z1 * cP;
 
+    // roll分、Y軸周りに-回転（画面の左右傾き）
     const rRad = roll * Math.PI / 180;
-    const xr = xp * Math.cos(rRad) - zp * Math.sin(rRad);
-    const yr = yp;
-    const zr = xp * Math.sin(rRad) + zp * Math.cos(rRad);
+    const cR = Math.cos(rRad), sR = Math.sin(rRad);
+    const x3 = x2 * cR - z2 * sR;
+    const y3 = y2;
+    const z3 = x2 * sR + z2 * cR;
 
-    if (yr <= 0) return null;
+    if (y3 <= 0.01) return null;
 
     const fovRad = fovDeg * Math.PI / 180;
     const scale = (Math.min(w, h) / 2) / Math.tan(fovRad / 2);
 
-    const sx = w / 2 + (xr / yr) * scale;
-    const sy = h / 2 - (zr / yr) * scale;
+    const sx = w / 2 + (x3 / y3) * scale;
+    const sy = h / 2 - (z3 / y3) * scale;
 
-    return { x: sx, y: sy, z: yr };
-  }
-
-  function shortAngle(a, b) {
-    let d = a - b;
-    while (d > 180) d -= 360;
-    while (d < -180) d += 360;
-    return d;
+    return { x: sx, y: sy, z: y3 };
   }
 
   function renderMoonNav() {
@@ -1976,16 +2087,17 @@
     navCtx.setTransform(navDpr, 0, 0, navDpr, 0, 0);
     navCtx.clearRect(0, 0, w, h);
 
-    navState.smoothHeading += shortAngle(navState.heading, navState.smoothHeading) * 0.18;
-    navState.smoothHeading = ((navState.smoothHeading % 360) + 360) % 360;
-    navState.smoothPitch += (navState.pitch - navState.smoothPitch) * 0.18;
-    navState.smoothRoll += (navState.roll - navState.smoothRoll) * 0.18;
+    // Low-pass filter 2段目（表示用・さらに滑らか）
+    const ALPHA2 = 0.15;
+    navState.smoothHeading = lpfAngle(navState.smoothHeading, navState.heading, ALPHA2);
+    navState.smoothPitch = lpfLinear(navState.smoothPitch, navState.pitch, ALPHA2);
+    navState.smoothRoll = lpfLinear(navState.smoothRoll, navState.roll, ALPHA2);
 
     const heading = navState.smoothHeading;
     const pitch = navState.smoothPitch;
     const roll = navState.smoothRoll;
 
-    const fov = 75;
+    const fov = 70;
 
     // 星
     for (const star of navState.stars) {
@@ -2035,17 +2147,15 @@
       navCtx.fillText(d.label, p.x, p.y);
     }
 
-    // 月・太陽位置
+    // 月・太陽
     const now = new Date();
     const moonPos = SunCalc.getMoonPosition(now, NAHA.lat, NAHA.lon);
     const sunPos = SunCalc.getPosition(now, NAHA.lat, NAHA.lon);
 
-    let moonAz = (moonPos.azimuth * 180 / Math.PI + 180) % 360;
-    if (moonAz < 0) moonAz += 360;
+    let moonAz = norm360(moonPos.azimuth * 180 / Math.PI + 180);
     const moonAlt = moonPos.altitude * 180 / Math.PI;
 
-    let sunAz = (sunPos.azimuth * 180 / Math.PI + 180) % 360;
-    if (sunAz < 0) sunAz += 360;
+    let sunAz = norm360(sunPos.azimuth * 180 / Math.PI + 180);
     const sunAlt = sunPos.altitude * 180 / Math.PI;
 
     // 太陽
@@ -2063,9 +2173,9 @@
 
     // 月
     const mp = skyToScreen(moonAz, moonAlt, heading, pitch, roll, w, h, fov);
-    const moonOnScreen = !!mp;
+    const moonOnScreen = !!mp && mp.x >= -40 && mp.x <= w + 40 && mp.y >= -40 && mp.y <= h + 40;
 
-    if (mp) {
+    if (moonOnScreen) {
       const haloR = 60;
       const grad = navCtx.createRadialGradient(mp.x, mp.y, 0, mp.x, mp.y, haloR);
       grad.addColorStop(0, 'rgba(244, 239, 216, 0.5)');
@@ -2131,7 +2241,7 @@
       navCtx.stroke();
     }
 
-    // 月が画面外 → 矢印
+    // 月との角度差（画面外誘導用）
     const azDiff = shortAngle(moonAz, heading);
     const altDiff = moonAlt - pitch;
     const cx = w / 2;
@@ -2140,10 +2250,7 @@
     if (!moonOnScreen) {
       const vec = { x: azDiff, y: -altDiff };
       const len = Math.sqrt(vec.x * vec.x + vec.y * vec.y);
-      if (len > 0) {
-        vec.x /= len;
-        vec.y /= len;
-      }
+      if (len > 0) { vec.x /= len; vec.y /= len; }
       const marginX = 60;
       const marginY = 130;
       const sx2 = cx + vec.x * (cx - marginX);
@@ -2216,18 +2323,17 @@
     const azJp = azimuthToJp(moonPos.azimuth);
     statusVal.textContent = `${azJp.en} ${azJp.deg.toFixed(0)}° · alt ${moonAlt.toFixed(0)}°`;
 
-    // デバッグ表示
+    // デバッグ
     document.getElementById('navDebug').innerHTML =
-      `events: ${navState.eventCount}<br>` +
-      `heading: ${navState.heading.toFixed(0)}° → ${heading.toFixed(0)}°<br>` +
-      `pitch: ${navState.pitch.toFixed(0)}° → ${pitch.toFixed(0)}°<br>` +
-      `moon: ${moonAz.toFixed(0)}° / ${moonAlt.toFixed(0)}°<br>` +
-      `on screen: ${moonOnScreen ? 'YES' : 'NO'}`;
+      `ev: ${navState.eventCount} · so: ${navState.screenOrient}°<br>` +
+      `raw α${navState.rawAlpha.toFixed(0)} β${navState.rawBeta.toFixed(0)} γ${navState.rawGamma.toFixed(0)}<br>` +
+      `head ${heading.toFixed(0)}° pitch ${pitch.toFixed(0)}°<br>` +
+      `moon ${moonAz.toFixed(0)}°/${moonAlt.toFixed(0)}°<br>` +
+      `az-diff ${azDiff.toFixed(0)}° alt-diff ${altDiff.toFixed(0)}°`;
   }
 
   function activateMoonNav() {
     resizeNavCanvas();
-    // canvasが0サイズの場合があるので確実にリサイズ
     setTimeout(resizeNavCanvas, 50);
 
     if (!navState.permitted) {
