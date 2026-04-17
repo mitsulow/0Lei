@@ -1819,30 +1819,26 @@
   });
 
   // ======== 月ナビ（天球スクロール方式） ========
-  // スマホの方位・仰角に応じて、天球全体を画面上で逆方向に動かす
-  // → 「スマホを動かしたら星空が動く」＝本物のプラネタリウム感
-
   const navState = {
-    heading: 0,      // スマホの方位（度、0=北）
-    pitch: 0,        // スマホの仰角（度、水平=0、上=+、下=-）
-    roll: 0,         // スマホの左右傾き（度、画面水平=0）
+    heading: 0,
+    pitch: 0,
+    roll: 0,
     permitted: false,
     animId: null,
-    smoothHeading: 0,  // 補間用
+    smoothHeading: 0,
     smoothPitch: 0,
     smoothRoll: 0,
     hasOrientation: false,
-    stars: []
+    eventCount: 0,
+    stars: [],
+    lastEvent: null
   };
 
-  // 固定の星空を生成（一度だけ）
   (function initStars() {
-    // 天球上の星（赤経・赤緯ではなく方位・高度ベースで配置）
-    // 360x180の天球全体に散らす
     for (let i = 0; i < 300; i++) {
       navState.stars.push({
         az: Math.random() * 360,
-        alt: -60 + Math.random() * 150, // 高度 -60 〜 90
+        alt: -60 + Math.random() * 150,
         brightness: 0.3 + Math.random() * 0.7,
         size: 0.5 + Math.random() * 1.8
       });
@@ -1851,24 +1847,17 @@
 
   function handleNavOrientation(e) {
     navState.hasOrientation = true;
+    navState.eventCount++;
+    navState.lastEvent = e;
 
-    // iOS: webkitCompassHeading が正確
+    // 方位
     if (typeof e.webkitCompassHeading === 'number') {
       navState.heading = e.webkitCompassHeading;
     } else if (typeof e.alpha === 'number') {
-      // Android: alpha は画面上方向が指している方位（ただし仕様がバラバラ）
-      // alpha=0 のとき、デバイス前方が北を指す想定
-      // 多くの機器では (360 - alpha) で北基準の時計回り
       navState.heading = (360 - e.alpha + 360) % 360;
     }
 
-    // beta: 前後の傾き（-180〜180）
-    // スマホを縦に立てて前に傾けると beta: 90 前後
-    // スマホを水平にすると beta: 0
-    // 我々が欲しい pitch: スマホ背面の向きがどれだけ上を向いているか
-    // beta = 90 で背面が水平方向（地平線を指す）→ pitch = 0
-    // beta = 0 で背面が下を指す → pitch = -90
-    // beta = 180 で背面が上を指す → pitch = 90
+    // 仰角（上下の傾き）
     if (typeof e.beta === 'number') {
       let pitch = e.beta - 90;
       if (pitch > 90) pitch = 90;
@@ -1876,13 +1865,14 @@
       navState.pitch = pitch;
     }
 
-    // gamma: 左右の傾き（-90〜90）
+    // 左右の傾き
     if (typeof e.gamma === 'number') {
       navState.roll = e.gamma;
     }
   }
 
   async function requestNavPermission() {
+    // Androidなど許可不要な場合
     if (typeof DeviceOrientationEvent !== 'undefined' &&
         typeof DeviceOrientationEvent.requestPermission === 'function') {
       try {
@@ -1898,18 +1888,22 @@
     }
 
     navState.permitted = true;
-    window.addEventListener('deviceorientationabsolute', handleNavOrientation, true);
+    // Android Chromeでは deviceorientation だけで十分（absoluteは古い仕様）
+    // 両方に登録すると重複するので、まず deviceorientation を試す
     window.addEventListener('deviceorientation', handleNavOrientation, true);
+    // iOS Safariではwebkit版が発火することもあるので absolute も補助的に
+    window.addEventListener('deviceorientationabsolute', handleNavOrientation, true);
+
     document.getElementById('navPermission').style.display = 'none';
     document.getElementById('navCalibrate').classList.add('visible');
 
-    // 5秒たってもセンサー値が来なかったら警告
+    // 3秒後、センサー値が来ていないか確認
     setTimeout(() => {
-      if (!navState.hasOrientation) {
+      if (navState.eventCount === 0) {
         document.getElementById('navSub').textContent =
-          'センサーの値が受信できていません · 端末を振ってみて';
+          'センサー受信なし · 端末を振ってみて';
       }
-    }, 5000);
+    }, 3000);
 
     return true;
   }
@@ -1920,7 +1914,6 @@
     alert('スマホを空中で「8の字」を描くように数回振ってください。これで方位センサーの精度が上がります。');
   });
 
-  // キャンバスセットアップ
   const navCanvas = document.getElementById('navCanvas');
   const navCtx = navCanvas.getContext('2d');
   let navDpr = window.devicePixelRatio || 1;
@@ -1928,58 +1921,46 @@
   function resizeNavCanvas() {
     const w = window.innerWidth;
     const h = window.innerHeight - 62;
-    navCanvas.width = w * navDpr;
-    navCanvas.height = h * navDpr;
+    navCanvas.width = Math.max(1, w * navDpr);
+    navCanvas.height = Math.max(1, h * navDpr);
     navCanvas.style.width = w + 'px';
     navCanvas.style.height = h + 'px';
   }
   window.addEventListener('resize', resizeNavCanvas);
 
-  // 天球座標(az,alt)を画面座標に変換
-  // 観測者の視線方向: heading/pitch
-  // スマホの画面水平軸の傾き: roll
   function skyToScreen(az, alt, heading, pitch, roll, w, h, fovDeg) {
-    // 天球上の点の単位ベクトル（北=Y軸、東=X軸、上=Z軸）
     const azRad = az * Math.PI / 180;
     const altRad = alt * Math.PI / 180;
-    const x = Math.sin(azRad) * Math.cos(altRad); // 東成分
-    const y = Math.cos(azRad) * Math.cos(altRad); // 北成分
-    const z = Math.sin(altRad);                   // 上成分
+    const x = Math.sin(azRad) * Math.cos(altRad);
+    const y = Math.cos(azRad) * Math.cos(altRad);
+    const z = Math.sin(altRad);
 
-    // 観測者視線方向に合わせて座標系を回転
-    // まず heading 分 Y軸周り（北基準）に回転：観測者の前方がY軸になるように
     const hRad = heading * Math.PI / 180;
     const xh = x * Math.cos(hRad) - y * Math.sin(hRad);
     const yh = x * Math.sin(hRad) + y * Math.cos(hRad);
     const zh = z;
 
-    // 次に pitch 分 X軸周り（東基準）に回転：観測者の視線方向に
     const pRad = pitch * Math.PI / 180;
     const xp = xh;
     const yp = yh * Math.cos(pRad) + zh * Math.sin(pRad);
     const zp = -yh * Math.sin(pRad) + zh * Math.cos(pRad);
 
-    // roll 分 Y軸周り（視線軸）に回転：画面水平を保つ
     const rRad = roll * Math.PI / 180;
     const xr = xp * Math.cos(rRad) - zp * Math.sin(rRad);
     const yr = yp;
     const zr = xp * Math.sin(rRad) + zp * Math.cos(rRad);
 
-    // yr が視線方向（前方）。yr > 0 なら前方にある
     if (yr <= 0) return null;
 
-    // 投影：FOV度が画面の短辺に対応
     const fovRad = fovDeg * Math.PI / 180;
     const scale = (Math.min(w, h) / 2) / Math.tan(fovRad / 2);
 
-    // スクリーン座標
     const sx = w / 2 + (xr / yr) * scale;
     const sy = h / 2 - (zr / yr) * scale;
 
     return { x: sx, y: sy, z: yr };
   }
 
-  // 角度差を -180〜180 に正規化
   function shortAngle(a, b) {
     let d = a - b;
     while (d > 180) d -= 360;
@@ -1995,7 +1976,6 @@
     navCtx.setTransform(navDpr, 0, 0, navDpr, 0, 0);
     navCtx.clearRect(0, 0, w, h);
 
-    // 方位・仰角を滑らかに補間
     navState.smoothHeading += shortAngle(navState.heading, navState.smoothHeading) * 0.18;
     navState.smoothHeading = ((navState.smoothHeading % 360) + 360) % 360;
     navState.smoothPitch += (navState.pitch - navState.smoothPitch) * 0.18;
@@ -2007,7 +1987,7 @@
 
     const fov = 75;
 
-    // 星を描画
+    // 星
     for (const star of navState.stars) {
       const p = skyToScreen(star.az, star.alt, heading, pitch, roll, w, h, fov);
       if (!p) continue;
@@ -2018,32 +1998,14 @@
       navCtx.fill();
     }
 
-    // 方位マーカー（地平線上のN/E/S/W）
-    const dirs = [
-      { az: 0,   label: 'N', color: 'rgba(200,120,120,0.7)' },
-      { az: 90,  label: 'E', color: 'rgba(150,180,220,0.55)' },
-      { az: 180, label: 'S', color: 'rgba(150,180,220,0.55)' },
-      { az: 270, label: 'W', color: 'rgba(150,180,220,0.55)' }
-    ];
-    navCtx.font = '14px "Cinzel", serif';
-    navCtx.textAlign = 'center';
-    navCtx.textBaseline = 'middle';
-    for (const d of dirs) {
-      const p = skyToScreen(d.az, 0, heading, pitch, roll, w, h, fov);
-      if (!p) continue;
-      if (p.x < 0 || p.x > w || p.y < 0 || p.y > h) continue;
-      navCtx.fillStyle = d.color;
-      navCtx.fillText(d.label, p.x, p.y);
-    }
-
-    // 地平線を描画（薄く）
-    navCtx.strokeStyle = 'rgba(110, 196, 245, 0.2)';
+    // 地平線
+    navCtx.strokeStyle = 'rgba(110, 196, 245, 0.25)';
     navCtx.lineWidth = 1;
     navCtx.beginPath();
     let prevP = null;
-    for (let az = 0; az <= 360; az += 5) {
+    for (let az = 0; az <= 360; az += 3) {
       const p = skyToScreen(az, 0, heading, pitch, roll, w, h, fov);
-      if (p && p.x >= 0 && p.x <= w && p.y >= 0 && p.y <= h) {
+      if (p && p.x >= -50 && p.x <= w + 50 && p.y >= -50 && p.y <= h + 50) {
         if (prevP) {
           navCtx.moveTo(prevP.x, prevP.y);
           navCtx.lineTo(p.x, p.y);
@@ -2055,7 +2017,25 @@
     }
     navCtx.stroke();
 
-    // 月と太陽の位置
+    // 方位マーカー
+    const dirs = [
+      { az: 0,   label: 'N', color: 'rgba(220,140,140,0.85)' },
+      { az: 90,  label: 'E', color: 'rgba(160,190,230,0.7)' },
+      { az: 180, label: 'S', color: 'rgba(160,190,230,0.7)' },
+      { az: 270, label: 'W', color: 'rgba(160,190,230,0.7)' }
+    ];
+    navCtx.font = 'bold 16px "Cinzel", serif';
+    navCtx.textAlign = 'center';
+    navCtx.textBaseline = 'middle';
+    for (const d of dirs) {
+      const p = skyToScreen(d.az, 0, heading, pitch, roll, w, h, fov);
+      if (!p) continue;
+      if (p.x < 0 || p.x > w || p.y < 0 || p.y > h) continue;
+      navCtx.fillStyle = d.color;
+      navCtx.fillText(d.label, p.x, p.y);
+    }
+
+    // 月・太陽位置
     const now = new Date();
     const moonPos = SunCalc.getMoonPosition(now, NAHA.lat, NAHA.lon);
     const sunPos = SunCalc.getPosition(now, NAHA.lat, NAHA.lon);
@@ -2068,27 +2048,24 @@
     if (sunAz < 0) sunAz += 360;
     const sunAlt = sunPos.altitude * 180 / Math.PI;
 
-    // 太陽を描画（地平線下でも淡く位置を示す）
+    // 太陽
     const sp = skyToScreen(sunAz, sunAlt, heading, pitch, roll, w, h, fov);
     if (sp) {
-      const ringR = 22;
       navCtx.beginPath();
-      navCtx.arc(sp.x, sp.y, ringR, 0, Math.PI * 2);
+      navCtx.arc(sp.x, sp.y, 22, 0, Math.PI * 2);
       navCtx.strokeStyle = sunAlt > 0 ? 'rgba(255, 200, 100, 0.8)' : 'rgba(255, 180, 90, 0.35)';
       navCtx.lineWidth = 1.5;
       navCtx.stroke();
-      // テキスト
       navCtx.fillStyle = sunAlt > 0 ? 'rgba(255, 200, 100, 0.9)' : 'rgba(255, 180, 90, 0.5)';
-      navCtx.font = '10px "Cinzel", serif';
+      navCtx.font = '14px serif';
       navCtx.fillText('☀', sp.x, sp.y);
     }
 
-    // 月を描画
+    // 月
     const mp = skyToScreen(moonAz, moonAlt, heading, pitch, roll, w, h, fov);
     const moonOnScreen = !!mp;
 
     if (mp) {
-      // 月のハロー
       const haloR = 60;
       const grad = navCtx.createRadialGradient(mp.x, mp.y, 0, mp.x, mp.y, haloR);
       grad.addColorStop(0, 'rgba(244, 239, 216, 0.5)');
@@ -2099,7 +2076,6 @@
       navCtx.arc(mp.x, mp.y, haloR, 0, Math.PI * 2);
       navCtx.fill();
 
-      // 月本体（satellite-bright）
       const moonR = 28;
       const mg = navCtx.createRadialGradient(mp.x - 8, mp.y - 8, 0, mp.x, mp.y, moonR);
       mg.addColorStop(0, '#faf5e0');
@@ -2110,7 +2086,6 @@
       navCtx.arc(mp.x, mp.y, moonR, 0, Math.PI * 2);
       navCtx.fill();
 
-      // クレーター風の陰影
       navCtx.fillStyle = 'rgba(0,0,0,0.12)';
       navCtx.beginPath();
       navCtx.arc(mp.x - 6, mp.y - 4, 3, 0, Math.PI * 2);
@@ -2119,48 +2094,36 @@
       navCtx.arc(mp.x + 8, mp.y + 6, 2.5, 0, Math.PI * 2);
       navCtx.fill();
 
-      // 月の満ち欠けの影（太陽方向で決まる）
-      // 簡易：太陽が月の左にあれば右半分が欠ける、右にあれば左半分が欠ける
-      // 月の照らされ具合
+      // 満ち欠け
       const illum = SunCalc.getMoonIllumination(now);
-      // phase: 0=新月, 0.25=上弦, 0.5=満月, 0.75=下弦
       const phase = illum.phase;
-      // 影を描画
       navCtx.save();
       navCtx.beginPath();
       navCtx.arc(mp.x, mp.y, moonR, 0, Math.PI * 2);
       navCtx.clip();
-
       navCtx.fillStyle = 'rgba(5, 8, 24, 0.92)';
       if (phase < 0.5) {
-        // 新月→満月：右が明るい、左が影
-        // phase=0: 全影、phase=0.25: 半影(左半分)、phase=0.5: 無影
         const shadowX = mp.x - moonR + phase * 4 * moonR;
-        const shadowR = moonR + 2;
         navCtx.beginPath();
         navCtx.ellipse(shadowX, mp.y,
           Math.abs(Math.cos(phase * Math.PI)) * moonR, moonR,
           0, 0, Math.PI * 2);
         navCtx.fill();
-        // 影の左側全部
         navCtx.fillRect(mp.x - moonR - 5, mp.y - moonR - 5,
           Math.min(moonR * 2 + 10, shadowX - (mp.x - moonR - 5)), moonR * 2 + 10);
       } else {
-        // 満月→新月：左が明るい、右が影
         const shadowX = mp.x - moonR + (phase - 0.5) * 4 * moonR;
         navCtx.beginPath();
         navCtx.ellipse(shadowX, mp.y,
           Math.abs(Math.cos(phase * Math.PI)) * moonR, moonR,
           0, 0, Math.PI * 2);
         navCtx.fill();
-        // 影の右側全部
         const shadowStart = Math.max(shadowX, mp.x - moonR - 5);
         navCtx.fillRect(shadowStart, mp.y - moonR - 5,
           mp.x + moonR + 5 - shadowStart, moonR * 2 + 10);
       }
       navCtx.restore();
 
-      // 月の輪郭
       navCtx.strokeStyle = 'rgba(244, 239, 216, 0.4)';
       navCtx.lineWidth = 1;
       navCtx.beginPath();
@@ -2168,18 +2131,13 @@
       navCtx.stroke();
     }
 
-    // 月が画面外なら、画面端に矢印で誘導
-    // スマホ方向と月方向の差を計算
+    // 月が画面外 → 矢印
     const azDiff = shortAngle(moonAz, heading);
     const altDiff = moonAlt - pitch;
-
     const cx = w / 2;
     const cy = h / 2;
 
     if (!moonOnScreen) {
-      // 月がどちらの方向にあるか
-      // FOVの半分より大きく外れている
-      // 画面端に矢印を配置
       const vec = { x: azDiff, y: -altDiff };
       const len = Math.sqrt(vec.x * vec.x + vec.y * vec.y);
       if (len > 0) {
@@ -2188,15 +2146,12 @@
       }
       const marginX = 60;
       const marginY = 130;
-      const sx = cx + vec.x * (cx - marginX);
-      const sy = cy + vec.y * (cy - marginY);
+      const sx2 = cx + vec.x * (cx - marginX);
+      const sy2 = cy + vec.y * (cy - marginY);
 
-      // 青いリング＋矢印
       navCtx.save();
-      navCtx.translate(sx, sy);
+      navCtx.translate(sx2, sy2);
       navCtx.rotate(Math.atan2(vec.y, vec.x) + Math.PI / 2);
-
-      // リング
       navCtx.beginPath();
       navCtx.arc(0, 0, 22, 0, Math.PI * 2);
       navCtx.strokeStyle = 'rgba(110, 196, 245, 0.6)';
@@ -2204,8 +2159,6 @@
       navCtx.lineWidth = 2;
       navCtx.stroke();
       navCtx.setLineDash([]);
-
-      // 矢印（上向き）
       navCtx.beginPath();
       navCtx.moveTo(0, -18);
       navCtx.lineTo(-8, -8);
@@ -2215,17 +2168,15 @@
       navCtx.lineWidth = 2.5;
       navCtx.lineCap = 'round';
       navCtx.stroke();
-
       navCtx.restore();
     }
 
-    // ======== UIテキスト更新 ========
+    // UIテキスト
     const headline = document.getElementById('navHeadline');
     const sub = document.getElementById('navSub');
     const statusVal = document.getElementById('navStatusValue');
 
     if (moonOnScreen) {
-      // 画面内
       const distFromCenter = Math.sqrt(
         Math.pow((mp.x - cx) / cx, 2) +
         Math.pow((mp.y - cy) / cy, 2)
@@ -2265,15 +2216,20 @@
     const azJp = azimuthToJp(moonPos.azimuth);
     statusVal.textContent = `${azJp.en} ${azJp.deg.toFixed(0)}° · alt ${moonAlt.toFixed(0)}°`;
 
-    // デバッグ表示（方位センサー確認用）
+    // デバッグ表示
     document.getElementById('navDebug').innerHTML =
-      `head: ${heading.toFixed(0)}°<br>` +
-      `pitch: ${pitch.toFixed(0)}°<br>` +
-      `moon: ${moonAz.toFixed(0)}°/${moonAlt.toFixed(0)}°`;
+      `events: ${navState.eventCount}<br>` +
+      `heading: ${navState.heading.toFixed(0)}° → ${heading.toFixed(0)}°<br>` +
+      `pitch: ${navState.pitch.toFixed(0)}° → ${pitch.toFixed(0)}°<br>` +
+      `moon: ${moonAz.toFixed(0)}° / ${moonAlt.toFixed(0)}°<br>` +
+      `on screen: ${moonOnScreen ? 'YES' : 'NO'}`;
   }
 
   function activateMoonNav() {
     resizeNavCanvas();
+    // canvasが0サイズの場合があるので確実にリサイズ
+    setTimeout(resizeNavCanvas, 50);
+
     if (!navState.permitted) {
       document.getElementById('navPermission').style.display = 'block';
       return;
