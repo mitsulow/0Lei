@@ -166,12 +166,21 @@
 
   .brand-text h1 {
     font-family: 'Shippori Mincho', serif;
-    font-size: 1.05rem;
+    font-size: 1.25rem;
     font-weight: 600;
-    letter-spacing: 0.35em;
+    letter-spacing: 0.4em;
     color: #a0d4f5;
     text-shadow: 0 0 20px rgba(110, 196, 245, 0.3);
     line-height: 1;
+  }
+
+  .brand-catch {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.56rem;
+    letter-spacing: 0.18em;
+    color: rgba(201, 169, 97, 0.72);
+    line-height: 1.5;
+    margin-bottom: 5px;
   }
 
   .brand-text .sub {
@@ -900,34 +909,71 @@
 
   .next-seiten-card {
     margin-bottom: 1.5rem;
-    padding: 0.9rem;
+    padding: 1.1rem 0.9rem 1rem;
     background: linear-gradient(180deg, rgba(10, 20, 40, 0.6), rgba(10, 20, 40, 0.3));
     border: 1px solid rgba(201, 169, 97, 0.2);
     border-radius: 4px;
     text-align: center;
+    position: relative;
   }
 
-  .next-label {
-    font-size: 0.6rem;
-    letter-spacing: 0.35em;
-    color: var(--ink-faint);
-    margin-bottom: 0.4rem;
-  }
-
-  .next-name {
+  .phase-segment-label {
     font-family: 'Shippori Mincho', serif;
-    font-size: 1.2rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.35em;
+    color: rgba(201, 169, 97, 0.78);
+    margin-bottom: 0.55rem;
+  }
+
+  .phase-segment-flow {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.92rem;
+    letter-spacing: 0.22em;
+    color: var(--moon-white);
+    margin-bottom: 1rem;
+    opacity: 0.95;
+  }
+
+  .phase-segment-flow .arrow {
+    color: rgba(201, 169, 97, 0.55);
+    margin: 0 0.35em;
+    font-family: serif;
+    font-weight: 300;
+  }
+
+  .phase-next-main {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    color: rgba(244, 239, 216, 0.75);
+    margin-bottom: 0.35rem;
+  }
+
+  .phase-next-main .phase-next-name {
+    font-size: 1.05rem;
     letter-spacing: 0.25em;
     color: var(--moon-white);
-    margin-bottom: 0.3rem;
   }
 
-  .next-time {
+  .phase-next-time {
     font-family: 'Cinzel', serif;
     font-size: 0.8rem;
     letter-spacing: 0.15em;
     color: var(--gold);
+    margin-bottom: 0.9rem;
   }
+
+  .phase-lunar-divider {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.3em;
+    color: rgba(160, 190, 230, 0.5);
+    padding-top: 0.6rem;
+    border-top: 1px solid rgba(201, 169, 97, 0.12);
+  }
+
+  /* 旧表示（互換用・非表示） */
+  .next-label, .next-name, .next-time { display: none; }
 
   .cal-nav-row {
     display: flex;
@@ -1084,8 +1130,8 @@
   <div class="brand">
     <div class="brand-mark"></div>
     <div class="brand-text">
-      <h1>ツキヨガ</h1>
-      <div class="sub">tsukiyoga</div>
+      <div class="brand-catch">月 を 想 う 。 月 を 感 じ る 。<br>女 性 の た め の</div>
+      <h1>ツ キ ヨ ガ</h1>
     </div>
   </div>
 </div>
@@ -1125,16 +1171,6 @@
     <div class="memo-modal-header">
       <div class="memo-modal-date" id="memoDate">—</div>
       <button class="memo-modal-close" id="memoClose">×</button>
-    </div>
-    <div class="memo-seiten-tags">
-      <div class="memo-section-label">今 日 の 聖 点</div>
-      <div class="memo-tags-row">
-        <label class="seiten-tag" data-kind="tsukitachi"><input type="checkbox" value="tsukitachi"><span>つ き た ち</span></label>
-        <label class="seiten-tag" data-kind="katamini"><input type="checkbox" value="katamini"><span>か た み に</span></label>
-        <label class="seiten-tag" data-kind="kumanashi"><input type="checkbox" value="kumanashi"><span>く ま な し</span></label>
-        <label class="seiten-tag" data-kind="ariake"><input type="checkbox" value="ariake"><span>あ り あ け</span></label>
-        <label class="seiten-tag" data-kind="hanasakari"><input type="checkbox" value="hanasakari"><span>は な さ か り</span></label>
-      </div>
     </div>
     <div class="memo-section-label">メ モ</div>
     <textarea class="memo-textarea" id="memoTextarea" placeholder="月 と の 対 話 · 心 の 動 き ..."></textarea>
@@ -1215,9 +1251,13 @@
       <div class="today-phase-jp" id="calTodayPhase">—</div>
     </div>
     <div class="next-seiten-card">
-      <div class="next-label">次 の 聖 点</div>
-      <div class="next-name" id="nextSeitenName">—</div>
-      <div class="next-time" id="nextSeitenTime">—</div>
+      <div class="phase-segment-label" id="phaseSegmentLabel">—</div>
+      <div class="phase-segment-flow" id="phaseSegmentFlow">—</div>
+      <div class="phase-next-main">
+        次 は 『 <span class="phase-next-name" id="nextSeitenName">—</span> 』
+      </div>
+      <div class="phase-next-time" id="nextSeitenTime">—</div>
+      <div class="phase-lunar-divider" id="phaseLunar">—</div>
     </div>
     <div class="cal-nav-row">
       <button class="cal-nav" id="prevMonth">‹</button>
@@ -1227,10 +1267,10 @@
     <div class="cal-grid" id="calGrid"></div>
     <div class="cal-footer">
       <div class="cal-footer-text">
-        つ き た ち ・ か た み に<br>
-        く ま な し ・ あ り あ け
+        つ き た ち ・ か た み に ・ く ま な し<br>
+        あ り あ け ・ は な さ か り
       </div>
-      <div class="cal-footer-mark">— 月 の 四 聖 点 —</div>
+      <div class="cal-footer-mark">— 月 の 五 つ の 時 —</div>
       <button class="inner-moon-btn" id="innerMoonBtn">
         <span class="flower">❀</span><span>内 側 の ツ キ を 登 録</span>
       </button>
@@ -3026,6 +3066,43 @@
     return { name:'つきたち', date: new Date(date.getTime() + (SYNODIC_MONTH - age) * 86400000), days: SYNODIC_MONTH - age };
   }
 
+  // 4区分のフェーズセグメント（案B・動詞的）
+  function getPhaseSegment(date) {
+    const age = getMoonAge(date);
+    const ratio = age / SYNODIC_MONTH;
+    if (ratio < 0.25) {
+      return { label: '生 ま れ て 行 く 期 間', from: 'つきたち', to: 'かたみに' };
+    } else if (ratio < 0.5) {
+      return { label: '満 ち て 行 く 期 間',   from: 'かたみに', to: 'くまなし' };
+    } else if (ratio < 0.75) {
+      return { label: '放 っ て 行 く 期 間',   from: 'くまなし', to: 'ありあけ' };
+    } else {
+      return { label: '整 え て 行 く 期 間',   from: 'ありあけ', to: 'つきたち' };
+    }
+  }
+
+  // 簡易旧暦計算（閏月・節気なし、±1日精度）
+  // 前回の新月日を特定し、そこからの経過日数+1 = 旧暦の日
+  // 旧暦の月 = 新月日の新暦月から近似（20日以降なら同月、以前なら前月）
+  function getLunarDate(date) {
+    const dayMs = 86400000;
+    const daysSinceBase = (date.getTime() - BASE_NEW_MOON) / dayMs;
+    const cycleCount = Math.floor(daysSinceBase / SYNODIC_MONTH);
+    const lastNewMoonMs = BASE_NEW_MOON + cycleCount * SYNODIC_MONTH * dayMs;
+    const lastNewMoon = new Date(lastNewMoonMs);
+
+    // 日付の0時基準で比較（時刻ズレを吸収）
+    const lnmMidnight = new Date(lastNewMoon.getFullYear(), lastNewMoon.getMonth(), lastNewMoon.getDate()).getTime();
+    const targetMidnight = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
+    const lunarDay = Math.round((targetMidnight - lnmMidnight) / dayMs) + 1;
+
+    const nmMonth = lastNewMoon.getMonth() + 1;
+    const nmDay = lastNewMoon.getDate();
+    let lunarMonth = nmDay >= 20 ? nmMonth : nmMonth - 1;
+    if (lunarMonth < 1) lunarMonth = 12;
+    return { month: lunarMonth, day: lunarDay };
+  }
+
   function updateCalendarView() {
     const now = new Date();
     const age = getMoonAge(now);
@@ -3038,12 +3115,25 @@
     document.getElementById('calTodayAge').textContent = age.toFixed(1);
     document.getElementById('calTodayPhase').textContent = phase.jp;
     applyMoonShadow(document.getElementById('todayMoonShadow'), age / SYNODIC_MONTH);
+
+    // 4区分のフェーズ
+    const seg = getPhaseSegment(now);
+    document.getElementById('phaseSegmentLabel').textContent = `— ${seg.label} —`;
+    document.getElementById('phaseSegmentFlow').innerHTML =
+      `${seg.from.split('').join(' ')} <span class="arrow">→</span> ${seg.to.split('').join(' ')}`;
+
+    // 次の聖点
     const next = getNextSeiten(now);
-    document.getElementById('nextSeitenName').textContent = next.name;
+    document.getElementById('nextSeitenName').textContent = next.name.split('').join(' ');
     const d = Math.floor(next.days);
     const h = Math.floor((next.days - d) * 24);
     document.getElementById('nextSeitenTime').textContent =
       `${next.date.getMonth() + 1}月${next.date.getDate()}日 · あと ${d}日 ${h}時間`;
+
+    // 旧暦
+    const lunar = getLunarDate(now);
+    document.getElementById('phaseLunar').textContent = `— 旧 暦 ${lunar.month} 月 ${lunar.day} 日 —`;
+
     renderCal(calYear, calMonth);
   }
 
@@ -3139,32 +3229,19 @@
   function openMemoModal(dateStr) {
     const modal = document.getElementById('memoModal');
     const key = `tsukiyoga-memo-${dateStr}`;
-    const stored = JSON.parse(localStorage.getItem(key) || '{"seitenTags":[],"text":""}');
+    const raw = localStorage.getItem(key);
+    // 互換性：旧形式（{seitenTags, text}）と新形式（文字列 or {text}）両方に対応
+    let text = '';
+    if (raw) {
+      try {
+        const parsed = JSON.parse(raw);
+        text = (typeof parsed === 'string') ? parsed : (parsed.text || '');
+      } catch { text = raw; }
+    }
 
-    // YYYY-MM-DD → YYYY年M月D日
     const [y, m, d] = dateStr.split('-');
     document.getElementById('memoDate').textContent = `${y}年${parseInt(m)}月${parseInt(d)}日`;
-    document.getElementById('memoTextarea').value = stored.text || '';
-
-    // チェックボックス復元
-    document.querySelectorAll('#memoModal .seiten-tag input').forEach(cb => {
-      cb.checked = stored.seitenTags.includes(cb.value);
-    });
-
-    // 新規メモのとき、その日の聖点＋はなさかりを自動チェック
-    if (!localStorage.getItem(key)) {
-      const dateObj = new Date(dateStr + 'T12:00:00');
-      const age = getMoonAge(dateObj);
-      const phase = getPhaseName(age);
-      if (phase.key) {
-        const cb = document.querySelector(`#memoModal .seiten-tag input[value="${phase.key}"]`);
-        if (cb) cb.checked = true;
-      }
-      if (getHanasakariLevel(dateObj)) {
-        const cb = document.querySelector(`#memoModal .seiten-tag input[value="hanasakari"]`);
-        if (cb) cb.checked = true;
-      }
-    }
+    document.getElementById('memoTextarea').value = text;
 
     modal.classList.add('active');
     modal.dataset.date = dateStr;
@@ -3174,12 +3251,10 @@
     const modal = document.getElementById('memoModal');
     const dateStr = modal.dataset.date;
     const text = document.getElementById('memoTextarea').value.trim();
-    const tags = Array.from(document.querySelectorAll('#memoModal .seiten-tag input:checked'))
-      .map(cb => cb.value);
-    if (text === '' && tags.length === 0) {
+    if (text === '') {
       localStorage.removeItem(`tsukiyoga-memo-${dateStr}`);
     } else {
-      localStorage.setItem(`tsukiyoga-memo-${dateStr}`, JSON.stringify({ seitenTags: tags, text }));
+      localStorage.setItem(`tsukiyoga-memo-${dateStr}`, JSON.stringify({ text }));
     }
     modal.classList.remove('active');
     renderCal(calYear, calMonth);
