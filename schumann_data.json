@@ -1,20 +1,20 @@
 {
-  "timestamp": "2026-04-17T20:38:04.890098+00:00",
+  "timestamp": "2026-04-17T21:26:27.919410+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.78,
-      "confidence": 80
+      "hz": 7.75,
+      "confidence": 85
     },
     "F2": {
-      "hz": 14.2,
+      "hz": 13.0,
       "confidence": 80
     },
     "F3": {
-      "hz": 20.1,
+      "hz": 20.3,
       "confidence": 75
     },
     "F4": {
@@ -28,13 +28,13 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "17日午後に強い擾乱あり、F3が一時急降下。右端ではF1は上昇傾向、F4は低め安定。F5データなし。",
+  "notes": "17日の12-18時頃に強い擾乱が見られ、F3・F4で大きな変動。右端ではF1が回復傾向、F4は低位で安定。F5はグラフに表示なし。",
   "polarization": {
-    "state": "left",
-    "state_jp": "左回転（夜）",
-    "japan_hour": 5.63,
-    "tomsk_hour": 2.23,
-    "is_day_japan": false,
+    "state": "right",
+    "state_jp": "右回転（昼）",
+    "japan_hour": 6.43,
+    "tomsk_hour": 3.03,
+    "is_day_japan": true,
     "is_day_tomsk": false
   }
 }
