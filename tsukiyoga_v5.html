@@ -1075,11 +1075,23 @@
 
   .cal-seiten-mark {
     position: absolute;
-    top: 2px;
+    top: 3px;
     right: 3px;
-    font-size: 0.72rem;
-    line-height: 1;
-    filter: drop-shadow(0 0 2px rgba(255, 200, 120, 0.4));
+    min-width: 15px;
+    height: 15px;
+    padding: 0 3px;
+    border: 1px solid rgba(201, 169, 97, 0.85);
+    border-radius: 50%;
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    font-weight: 600;
+    color: rgba(230, 200, 130, 1);
+    line-height: 13px;
+    text-align: center;
+    background: rgba(10, 20, 40, 0.55);
+    box-shadow: 0 0 6px rgba(201, 169, 97, 0.35);
+    letter-spacing: 0;
+    box-sizing: border-box;
   }
 
   /* はなさかり期間の横バー（案②：背景に薄桜色の帯） */
@@ -2987,22 +2999,50 @@
   let calYear = new Date().getFullYear();
   let calMonth = new Date().getMonth();
 
+  // ======== SunCalc二分探索による精密聖点時刻計算 ========
+  // 指定時刻から見て、次に targetPhase(0=新月/0.25=上弦/0.5=満月/0.75=下弦) に到達する瞬間を
+  // ±数分精度で計算する。月の軌道は楕円なので均等4分割より遥かに正確。
+  function findNextSeitenTime(from, targetPhase) {
+    const DAY_MS = 86400000;
+    const fromMs = from.getTime();
+    const curPhase = SunCalc.getMoonIllumination(from).phase;
+    // 現在のphaseからtargetまでの進行量（0〜1、常に未来方向）
+    let delta = targetPhase - curPhase;
+    if (delta <= 0.0001) delta += 1;  // 次の周期
+    // 概算到達時刻（phase変化は厳密には不均等だが、初期値として十分）
+    const approxMs = fromMs + delta * SYNODIC_MONTH * DAY_MS;
+    // 前後1.5日の範囲で二分探索（phaseが targetPhase を下から上に跨ぐ瞬間）
+    let lo = approxMs - DAY_MS * 1.5;
+    let hi = approxMs + DAY_MS * 1.5;
+    for (let i = 0; i < 50; i++) {
+      const mid = (lo + hi) / 2;
+      const phase = SunCalc.getMoonIllumination(new Date(mid)).phase;
+      // 循環を考慮した差分
+      let diff = phase - targetPhase;
+      if (diff > 0.5) diff -= 1;
+      if (diff < -0.5) diff += 1;
+      if (diff < 0) lo = mid; else hi = mid;
+    }
+    return new Date((lo + hi) / 2);
+  }
+
   function getNextSeiten(date) {
-    const age = getMoonAge(date);
     const targets = [
-      { name:'つきたち', age: 0 },
-      { name:'かたみに', age: SYNODIC_MONTH * 0.25 },
-      { name:'くまなし', age: SYNODIC_MONTH * 0.5 },
-      { name:'ありあけ', age: SYNODIC_MONTH * 0.75 },
-      { name:'つきたち', age: SYNODIC_MONTH }
+      { name: 'つきたち', phase: 0.0 },
+      { name: 'かたみに', phase: 0.25 },
+      { name: 'くまなし', phase: 0.5 },
+      { name: 'ありあけ', phase: 0.75 }
     ];
+    // 各ターゲットの次の到達時刻を精密計算し、最も近いものを選ぶ
+    let nearest = null;
     for (const t of targets) {
-      if (t.age > age + 0.01) {
-        const days = t.age - age;
-        return { name: t.name, date: new Date(date.getTime() + days * 86400000), days };
+      const time = findNextSeitenTime(date, t.phase);
+      if (!nearest || time.getTime() < nearest.date.getTime()) {
+        nearest = { name: t.name, date: time };
       }
     }
-    return { name:'つきたち', date: new Date(date.getTime() + (SYNODIC_MONTH - age) * 86400000), days: SYNODIC_MONTH - age };
+    const days = (nearest.date.getTime() - date.getTime()) / 86400000;
+    return { name: nearest.name, date: nearest.date, days };
   }
 
   // 4区分のフェーズセグメント（案B・動詞的、数字は 0/3/6/9）
@@ -3076,38 +3116,32 @@
     renderCal(calYear, calMonth);
   }
 
-  // 聖点絵文字（案D・生命サイクル）
-  const SEITEN_EMOJI = {
-    tsukitachi: '🌱',  // 芽
-    katamini:   '🌿',  // 若葉
-    kumanashi:  '🌸',  // 満開
-    ariake:     '🍂'   // 結実
+  // 聖点の表示数字（0/3/6/9 = ツキヨガの重力リズム）
+  const SEITEN_NUM = {
+    tsukitachi: '0',
+    katamini:   '3',
+    kumanashi:  '6',
+    ariake:     '9'
   };
 
-  // ある月の各聖点が「どの日に訪れるか」を事前計算（1日につき1つだけマーク）
-  // 各聖点のターゲット月齢（0, 7.38, 14.77, 22.15）を、その日の中で跨いだ日を1日だけ選ぶ
+  // ある月の各聖点が「どの日に訪れるか」を精密計算（SunCalc二分探索ベース）
+  // 1日につき1つだけマーク、実際の天文イベント時刻を使用
   function getSeitenDaysInMonth(year, month) {
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const targetAges = [
-      { key: 'tsukitachi', age: 0 },
-      { key: 'katamini',   age: SYNODIC_MONTH * 0.25 },
-      { key: 'kumanashi',  age: SYNODIC_MONTH * 0.5 },
-      { key: 'ariake',     age: SYNODIC_MONTH * 0.75 }
+    const targets = [
+      { key: 'tsukitachi', phase: 0.0 },
+      { key: 'katamini',   phase: 0.25 },
+      { key: 'kumanashi',  phase: 0.5 },
+      { key: 'ariake',     phase: 0.75 }
     ];
     const result = {}; // { day: phaseKey }
-    for (const t of targetAges) {
-      // その月の中で、|月齢差| が最小の日を1つ特定
-      let bestDay = -1, bestDist = Infinity;
-      for (let d = 1; d <= daysInMonth; d++) {
-        const noon = new Date(year, month, d, 12, 0, 0);
-        const age = getMoonAge(noon);
-        // 循環距離
-        let dist = Math.abs(age - t.age);
-        if (dist > SYNODIC_MONTH / 2) dist = SYNODIC_MONTH - dist;
-        if (dist < bestDist) { bestDist = dist; bestDay = d; }
+    // 月の始まり5日前から探索開始
+    const searchStart = new Date(year, month, 1, 0, 0, 0);
+    searchStart.setDate(searchStart.getDate() - 5);
+    for (const t of targets) {
+      const time = findNextSeitenTime(searchStart, t.phase);
+      if (time.getFullYear() === year && time.getMonth() === month) {
+        result[time.getDate()] = t.key;
       }
-      // 1日以内なら採用（その月に聖点がない場合は除外）
-      if (bestDay > 0 && bestDist < 0.7) result[bestDay] = t.key;
     }
     return result;
   }
@@ -3179,7 +3213,7 @@
       if (seitenKey) {
         const mark = document.createElement('div');
         mark.className = 'cal-seiten-mark';
-        mark.textContent = SEITEN_EMOJI[seitenKey] || '✦';
+        mark.textContent = SEITEN_NUM[seitenKey] || '';
         el.appendChild(mark);
       }
 
