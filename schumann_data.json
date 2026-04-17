@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-17T05:13:54.055636+00:00",
+  "timestamp": "2026-04-17T07:05:00.101907+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -7,33 +7,33 @@
   "modes": {
     "F1": {
       "hz": 7.71,
-      "confidence": 85
-    },
-    "F2": {
-      "hz": 14.16,
       "confidence": 80
     },
-    "F3": {
-      "hz": 20.2,
+    "F2": {
+      "hz": 14.0,
       "confidence": 75
+    },
+    "F3": {
+      "hz": 19.5,
+      "confidence": 70
     },
     "F4": {
       "hz": 25.2,
-      "confidence": 70
+      "confidence": 65
     },
     "F5": {
-      "hz": 33.8,
-      "confidence": 30
+      "hz": null,
+      "confidence": 0
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "15日夕方に強い広帯域擾乱（スペクトログラムで飽和）あり。以降F1中心周波数はやや低下傾向。F5は折れ線に表示されず推定値。",
+  "notes": "17.04.2026の13時頃までのデータ。F1は7.7Hz付近で推移し右端で下降傾向。F3(赤)は大きく変動し右端で急落。16日の15-19時頃にスペクトログラムで強い広帯域ノイズ(局所干渉)が見られる。F5のデータは表示なし。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 14.22,
-    "tomsk_hour": 10.82,
+    "japan_hour": 16.08,
+    "tomsk_hour": 12.68,
     "is_day_japan": true,
     "is_day_tomsk": true
   }
