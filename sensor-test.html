@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>センサーテスト</title>
+<style>
+  body {
+    background: #000;
+    color: #fff;
+    font-family: monospace;
+    padding: 20px;
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.8;
+  }
+  button {
+    background: #222;
+    color: #fff;
+    border: 1px solid #666;
+    padding: 15px 30px;
+    font-size: 16px;
+    margin: 10px 0;
+    cursor: pointer;
+  }
+  .val {
+    color: #6ec4f5;
+    font-weight: bold;
+  }
+  .event-counter {
+    color: #ffd86b;
+  }
+  .status {
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #444;
+  }
+  .ok { color: #5fd67a; }
+  .ng { color: #ff6666; }
+  .moved {
+    color: #ffd86b;
+    animation: flash 0.5s;
+  }
+  @keyframes flash {
+    0% { background: #333; }
+    100% { background: transparent; }
+  }
+</style>
+</head>
+<body>
+<h1>センサーテスト</h1>
+
+<div class="status" id="status">
+  <div>HTTPS: <span id="httpsStatus">?</span></div>
+  <div>Secure Context: <span id="secureStatus">?</span></div>
+  <div>DeviceOrientationEvent: <span id="doeStatus">?</span></div>
+  <div>requestPermission: <span id="rpStatus">?</span></div>
+  <div>User Agent: <span id="uaStatus" style="font-size:10px;"></span></div>
+</div>
+
+<button id="permitBtn">センサーを許可</button>
+<button id="addListenerBtn">リスナー追加(allow無し)</button>
+
+<h2>受信イベント数</h2>
+<div>deviceorientation: <span class="event-counter" id="evCount">0</span></div>
+<div>deviceorientationabsolute: <span class="event-counter" id="evAbsCount">0</span></div>
+<div>devicemotion: <span class="event-counter" id="evMotionCount">0</span></div>
+
+<h2>最新の値</h2>
+<div>alpha: <span class="val" id="alpha">—</span></div>
+<div>beta: <span class="val" id="beta">—</span></div>
+<div>gamma: <span class="val" id="gamma">—</span></div>
+<div>absolute: <span class="val" id="absolute">—</span></div>
+<div>webkitCompassHeading: <span class="val" id="wch">—</span></div>
+
+<h2>スマホを動かしてください</h2>
+<div id="movement">—</div>
+
+<script>
+  // 初期ステータス
+  document.getElementById('httpsStatus').textContent = location.protocol;
+  document.getElementById('httpsStatus').className = location.protocol === 'https:' ? 'ok' : 'ng';
+
+  document.getElementById('secureStatus').textContent = window.isSecureContext ? 'YES' : 'NO';
+  document.getElementById('secureStatus').className = window.isSecureContext ? 'ok' : 'ng';
+
+  document.getElementById('doeStatus').textContent =
+    typeof DeviceOrientationEvent !== 'undefined' ? 'AVAILABLE' : 'NOT AVAILABLE';
+  document.getElementById('doeStatus').className =
+    typeof DeviceOrientationEvent !== 'undefined' ? 'ok' : 'ng';
+
+  const hasRP = typeof DeviceOrientationEvent !== 'undefined' &&
+                typeof DeviceOrientationEvent.requestPermission === 'function';
+  document.getElementById('rpStatus').textContent = hasRP ? 'REQUIRED (iOS)' : 'NOT REQUIRED';
+
+  document.getElementById('uaStatus').textContent = navigator.userAgent;
+
+  let evCount = 0;
+  let evAbsCount = 0;
+  let evMotionCount = 0;
+  let lastAlpha = null, lastBeta = null;
+  let maxChange = 0;
+
+  function handleOrientation(e) {
+    evCount++;
+    document.getElementById('evCount').textContent = evCount;
+    updateValues(e);
+  }
+
+  function handleOrientationAbs(e) {
+    evAbsCount++;
+    document.getElementById('evAbsCount').textContent = evAbsCount;
+    updateValues(e);
+  }
+
+  function handleMotion(e) {
+    evMotionCount++;
+    document.getElementById('evMotionCount').textContent = evMotionCount;
+  }
+
+  function updateValues(e) {
+    document.getElementById('alpha').textContent = e.alpha != null ? e.alpha.toFixed(2) : 'null';
+    document.getElementById('beta').textContent = e.beta != null ? e.beta.toFixed(2) : 'null';
+    document.getElementById('gamma').textContent = e.gamma != null ? e.gamma.toFixed(2) : 'null';
+    document.getElementById('absolute').textContent = e.absolute !== undefined ? e.absolute : 'undefined';
+    document.getElementById('wch').textContent = typeof e.webkitCompassHeading === 'number' ?
+      e.webkitCompassHeading.toFixed(2) : 'undefined';
+
+    // 動きを検出
+    if (lastAlpha != null && e.alpha != null) {
+      const change = Math.abs(e.alpha - lastAlpha);
+      if (change > 1 && change < 350) {
+        maxChange = Math.max(maxChange, change);
+        const mv = document.getElementById('movement');
+        mv.textContent = '動いてます！最大変化: ' + maxChange.toFixed(1) + '°';
+        mv.className = 'moved';
+      }
+    }
+    lastAlpha = e.alpha;
+  }
+
+  document.getElementById('permitBtn').addEventListener('click', async () => {
+    if (hasRP) {
+      try {
+        const result = await DeviceOrientationEvent.requestPermission();
+        alert('結果: ' + result);
+        if (result !== 'granted') return;
+      } catch (err) {
+        alert('エラー: ' + err.message);
+        return;
+      }
+    } else {
+      alert('このブラウザは許可不要です');
+    }
+
+    addListeners();
+  });
+
+  document.getElementById('addListenerBtn').addEventListener('click', addListeners);
+
+  function addListeners() {
+    window.addEventListener('deviceorientation', handleOrientation, true);
+    window.addEventListener('deviceorientationabsolute', handleOrientationAbs, true);
+    window.addEventListener('devicemotion', handleMotion, true);
+    document.getElementById('movement').textContent = 'リスナー追加済み。スマホを振ってみて';
+  }
+</script>
+</body>
+</html>
