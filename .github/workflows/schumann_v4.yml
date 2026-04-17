@@ -1,0 +1,39 @@
+name: Schumann Resonance v4 (Claude Vision)
+
+on:
+  schedule:
+    # 15分ごと
+    - cron: "*/15 * * * *"
+  workflow_dispatch: # 手動実行も可能
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install anthropic
+
+      - name: Fetch and analyze
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python fetch_schumann_v4.py
+
+      - name: Commit results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add schumann_data.json schumann_history.json latest_spectrogram.jpg || true
+          git diff --staged --quiet || git commit -m "Update Schumann data $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git push
