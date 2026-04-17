@@ -146,11 +146,11 @@
   .brand {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
   }
 
   .brand-mark {
-    width: 36px; height: 36px;
+    width: 40px; height: 40px;
     border-radius: 50%;
     background: radial-gradient(circle at 40% 40%, #6ec4f5, #1a5fa0);
     box-shadow: 0 0 20px rgba(110, 196, 245, 0.4),
@@ -166,31 +166,25 @@
 
   .brand-text h1 {
     font-family: 'Shippori Mincho', serif;
-    font-size: 1.25rem;
+    font-size: 1.3rem;
     font-weight: 600;
     letter-spacing: 0.4em;
     color: #a0d4f5;
     text-shadow: 0 0 20px rgba(110, 196, 245, 0.3);
     line-height: 1;
+    margin-bottom: 4px;
   }
 
   .brand-catch {
     font-family: 'Shippori Mincho', serif;
-    font-size: 0.56rem;
-    letter-spacing: 0.18em;
-    color: rgba(201, 169, 97, 0.72);
-    line-height: 1.5;
-    margin-bottom: 5px;
+    font-size: 0.54rem;
+    letter-spacing: 0.14em;
+    color: rgba(201, 169, 97, 0.7);
+    line-height: 1.3;
+    white-space: nowrap;
   }
 
-  .brand-text .sub {
-    font-family: 'Cinzel', serif;
-    font-size: 0.6rem;
-    letter-spacing: 0.3em;
-    color: rgba(160, 212, 245, 0.5);
-    margin-top: 3px;
-    text-transform: lowercase;
-  }
+  .brand-text .sub { display: none; }
 
   /* 月位置の直感テキスト（画面中央下寄り） */
   .moon-position-text {
@@ -919,19 +913,28 @@
 
   .phase-segment-label {
     font-family: 'Shippori Mincho', serif;
-    font-size: 0.72rem;
-    letter-spacing: 0.35em;
-    color: rgba(201, 169, 97, 0.78);
-    margin-bottom: 0.55rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    color: rgba(201, 169, 97, 0.72);
+    margin-bottom: 1rem;
   }
 
   .phase-segment-flow {
     font-family: 'Shippori Mincho', serif;
-    font-size: 0.92rem;
-    letter-spacing: 0.22em;
+    font-size: 1.0rem;
+    letter-spacing: 0.2em;
     color: var(--moon-white);
-    margin-bottom: 1rem;
-    opacity: 0.95;
+    margin-bottom: 0.5rem;
+    opacity: 0.98;
+  }
+
+  .phase-segment-flow .seiten-num {
+    font-family: 'Cinzel', serif;
+    font-size: 0.78em;
+    color: rgba(201, 169, 97, 0.95);
+    margin: 0 0.12em 0 0.18em;
+    letter-spacing: 0;
+    vertical-align: 0.04em;
   }
 
   .phase-segment-flow .arrow {
@@ -1072,11 +1075,25 @@
 
   .cal-seiten-mark {
     position: absolute;
-    top: 1px;
-    right: 2px;
-    font-size: 0.5rem;
-    color: #c04848;
+    top: 2px;
+    right: 3px;
+    font-size: 0.72rem;
     line-height: 1;
+    filter: drop-shadow(0 0 2px rgba(255, 200, 120, 0.4));
+  }
+
+  /* はなさかり期間の横バー（案②：背景に薄桜色の帯） */
+  .cal-day.hanasakari-day,
+  .cal-day.hanasakari-peak {
+    box-shadow: inset 0 -2px 0 var(--sakura-dim);
+  }
+  .cal-day.hana-left {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+  .cal-day.hana-right {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
   }
 
   .cal-footer {
@@ -1130,8 +1147,8 @@
   <div class="brand">
     <div class="brand-mark"></div>
     <div class="brand-text">
-      <div class="brand-catch">月 を 想 う 。 月 を 感 じ る 。<br>女 性 の た め の</div>
       <h1>ツ キ ヨ ガ</h1>
+      <div class="brand-catch">月 を 想 う ・ 月 を 感 じ る ・ 女 性 の た め の</div>
     </div>
   </div>
 </div>
@@ -1251,8 +1268,8 @@
       <div class="today-phase-jp" id="calTodayPhase">—</div>
     </div>
     <div class="next-seiten-card">
-      <div class="phase-segment-label" id="phaseSegmentLabel">—</div>
       <div class="phase-segment-flow" id="phaseSegmentFlow">—</div>
+      <div class="phase-segment-label" id="phaseSegmentLabel">—</div>
       <div class="phase-next-main">
         次 は 『 <span class="phase-next-name" id="nextSeitenName">—</span> 』
       </div>
@@ -1876,163 +1893,85 @@
   const personGroup = new THREE.Group();
   earthStatic.add(personGroup);
 
-  const personMat = new THREE.MeshPhongMaterial({
-    color: 0xfff4c8,
-    emissive: 0xd8a948,
-    emissiveIntensity: 0.85,
-    shininess: 120,
-    specular: 0xffe088
-  });
-
-  const personAccentMat = new THREE.MeshPhongMaterial({
-    color: 0xffd86b,
-    emissive: 0xe8a948,
-    emissiveIntensity: 1.0,
-    shininess: 120
-  });
-
-  // 昼のヨガ姿（立ち・ウルドゥヴァハスターサナ風・両手を天に）
+  // ========= 丸みのある光の存在（ガンダム風人形から置き換え） =========
+  // 昼：外殻の金色オーブ＋白い明るいコア
   const dayGroup = new THREE.Group();
   personGroup.add(dayGroup);
 
-  const dHead = new THREE.Mesh(new THREE.SphereGeometry(0.038, 20, 20), personMat);
-  dHead.position.y = 0.48;
-  dayGroup.add(dHead);
-
-  const crownRingMat = new THREE.MeshBasicMaterial({ color: 0xffd86b });
-  const dCrown = new THREE.Mesh(
-    new THREE.TorusGeometry(0.026, 0.003, 6, 24),
-    crownRingMat
+  const dayOrb = new THREE.Mesh(
+    new THREE.SphereGeometry(0.045, 48, 48),
+    new THREE.MeshBasicMaterial({
+      color: 0xffd88a,
+      transparent: true,
+      opacity: 0.85
+    })
   );
-  dCrown.position.y = 0.535;
-  dCrown.rotation.x = Math.PI / 2;
-  dayGroup.add(dCrown);
+  dayOrb.position.y = 0.085;
+  dayGroup.add(dayOrb);
 
-  const dNeck = new THREE.Mesh(new THREE.CylinderGeometry(0.010, 0.014, 0.025, 8), personMat);
-  dNeck.position.y = 0.445;
-  dayGroup.add(dNeck);
-
-  const dTorsoUpper = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.032, 0.022, 0.10, 16),
-    personMat
+  const dayCore = new THREE.Mesh(
+    new THREE.SphereGeometry(0.024, 48, 48),
+    new THREE.MeshBasicMaterial({
+      color: 0xffffee,
+      transparent: true,
+      opacity: 1.0
+    })
   );
-  dTorsoUpper.position.y = 0.38;
-  dayGroup.add(dTorsoUpper);
+  dayCore.position.y = 0.085;
+  dayGroup.add(dayCore);
 
-  const dTorsoLower = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.022, 0.030, 0.11, 16),
-    personMat
+  // 地面との接点の滴（潰れた球でなめらかな付け根）
+  const dayBase = new THREE.Mesh(
+    new THREE.SphereGeometry(0.022, 32, 32),
+    new THREE.MeshBasicMaterial({
+      color: 0xffcf78,
+      transparent: true,
+      opacity: 0.7
+    })
   );
-  dTorsoLower.position.y = 0.27;
-  dayGroup.add(dTorsoLower);
+  dayBase.scale.set(1, 0.45, 1);
+  dayBase.position.y = 0.012;
+  dayGroup.add(dayBase);
 
-  const dWaist = new THREE.Mesh(new THREE.TorusGeometry(0.024, 0.005, 6, 16), personAccentMat);
-  dWaist.position.y = 0.215;
-  dWaist.rotation.x = Math.PI / 2;
-  dayGroup.add(dWaist);
-
-  const dArmL = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.009, 0.24, 10), personMat);
-  dArmL.position.set(-0.025, 0.52, 0);
-  dArmL.rotation.z = 0.12;
-  dayGroup.add(dArmL);
-
-  const dArmR = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.009, 0.24, 10), personMat);
-  dArmR.position.set(0.025, 0.52, 0);
-  dArmR.rotation.z = -0.12;
-  dayGroup.add(dArmR);
-
-  const dHands = new THREE.Mesh(new THREE.SphereGeometry(0.016, 12, 12), personAccentMat);
-  dHands.position.y = 0.66;
-  dayGroup.add(dHands);
-
-  const dLegR = new THREE.Mesh(new THREE.CylinderGeometry(0.019, 0.014, 0.22, 10), personMat);
-  dLegR.position.set(0.018, 0.10, 0);
-  dayGroup.add(dLegR);
-
-  const dLegL = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.013, 0.18, 10), personMat);
-  dLegL.position.set(-0.032, 0.15, 0.01);
-  dLegL.rotation.z = 0.32;
-  dayGroup.add(dLegL);
-
-  // 夜の瞑想姿（座禅・蓮華座）
+  // 夜：柔らかい青白の瞑想オーブ
   const nightGroup = new THREE.Group();
   nightGroup.visible = false;
   personGroup.add(nightGroup);
 
-  const nHead = new THREE.Mesh(new THREE.SphereGeometry(0.040, 20, 20), personMat);
-  nHead.position.y = 0.31;
-  nightGroup.add(nHead);
-
-  const nCrown = new THREE.Mesh(
-    new THREE.SphereGeometry(0.012, 12, 12),
-    new THREE.MeshBasicMaterial({ color: 0xffffcc })
+  const nightOrb = new THREE.Mesh(
+    new THREE.SphereGeometry(0.042, 48, 48),
+    new THREE.MeshBasicMaterial({
+      color: 0xbfd6f5,
+      transparent: true,
+      opacity: 0.75
+    })
   );
-  nCrown.position.y = 0.365;
-  nightGroup.add(nCrown);
+  nightOrb.position.y = 0.065;
+  nightGroup.add(nightOrb);
 
-  const nCrownRing = new THREE.Mesh(
-    new THREE.TorusGeometry(0.020, 0.002, 6, 20),
-    crownRingMat
+  const nightCore = new THREE.Mesh(
+    new THREE.SphereGeometry(0.02, 48, 48),
+    new THREE.MeshBasicMaterial({
+      color: 0xf0f5ff,
+      transparent: true,
+      opacity: 1.0
+    })
   );
-  nCrownRing.position.y = 0.365;
-  nCrownRing.rotation.x = Math.PI / 2;
-  nightGroup.add(nCrownRing);
+  nightCore.position.y = 0.065;
+  nightGroup.add(nightCore);
 
-  const nNeck = new THREE.Mesh(new THREE.CylinderGeometry(0.010, 0.014, 0.02, 8), personMat);
-  nNeck.position.y = 0.275;
-  nightGroup.add(nNeck);
-
-  const nTorso = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.030, 0.045, 0.14, 16),
-    personMat
+  // 夜の地面との接点
+  const nightBase = new THREE.Mesh(
+    new THREE.SphereGeometry(0.025, 32, 32),
+    new THREE.MeshBasicMaterial({
+      color: 0x9fc4ec,
+      transparent: true,
+      opacity: 0.55
+    })
   );
-  nTorso.position.y = 0.19;
-  nightGroup.add(nTorso);
-
-  const nWaist = new THREE.Mesh(new THREE.TorusGeometry(0.038, 0.005, 6, 20), personAccentMat);
-  nWaist.position.y = 0.12;
-  nWaist.rotation.x = Math.PI / 2;
-  nightGroup.add(nWaist);
-
-  const nArmL = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.010, 0.14, 10), personMat);
-  nArmL.position.set(-0.040, 0.18, 0.02);
-  nArmL.rotation.z = 0.7;
-  nArmL.rotation.x = -0.3;
-  nightGroup.add(nArmL);
-
-  const nArmR = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.010, 0.14, 10), personMat);
-  nArmR.position.set(0.040, 0.18, 0.02);
-  nArmR.rotation.z = -0.7;
-  nArmR.rotation.x = -0.3;
-  nightGroup.add(nArmR);
-
-  const nHands = new THREE.Mesh(
-    new THREE.SphereGeometry(0.022, 12, 12),
-    personAccentMat
-  );
-  nHands.scale.set(1.4, 0.8, 1);
-  nHands.position.set(0, 0.11, 0.055);
-  nightGroup.add(nHands);
-
-  // 蓮華座（左右に開いた脚の底部）
-  const nLotusBase = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.07, 0.08, 0.04, 16),
-    personMat
-  );
-  nLotusBase.position.y = 0.03;
-  nightGroup.add(nLotusBase);
-
-  // 蓮の花弁風の装飾
-  for (let i = 0; i < 8; i++) {
-    const petal = new THREE.Mesh(
-      new THREE.SphereGeometry(0.022, 8, 8),
-      personAccentMat
-    );
-    const ang = (i / 8) * Math.PI * 2;
-    petal.scale.set(1, 0.4, 0.6);
-    petal.position.set(Math.cos(ang) * 0.075, 0.015, Math.sin(ang) * 0.075);
-    nightGroup.add(petal);
-  }
+  nightBase.scale.set(1, 0.4, 1);
+  nightBase.position.y = 0.012;
+  nightGroup.add(nightBase);
 
   // 人のまわりの淡いオーラ
   const personAuraMat = new THREE.SpriteMaterial({
@@ -3066,18 +3005,18 @@
     return { name:'つきたち', date: new Date(date.getTime() + (SYNODIC_MONTH - age) * 86400000), days: SYNODIC_MONTH - age };
   }
 
-  // 4区分のフェーズセグメント（案B・動詞的）
+  // 4区分のフェーズセグメント（案B・動詞的、数字は 0/3/6/9）
   function getPhaseSegment(date) {
     const age = getMoonAge(date);
     const ratio = age / SYNODIC_MONTH;
     if (ratio < 0.25) {
-      return { label: '生 ま れ て 行 く 期 間', from: 'つきたち', to: 'かたみに' };
+      return { label: '生 ま れ て 行 く 期 間', from: 'つきたち', fromNum: 0, to: 'かたみに', toNum: 3 };
     } else if (ratio < 0.5) {
-      return { label: '満 ち て 行 く 期 間',   from: 'かたみに', to: 'くまなし' };
+      return { label: '満 ち て 行 く 期 間',   from: 'かたみに', fromNum: 3, to: 'くまなし', toNum: 6 };
     } else if (ratio < 0.75) {
-      return { label: '放 っ て 行 く 期 間',   from: 'くまなし', to: 'ありあけ' };
+      return { label: '放 っ て 行 く 期 間',   from: 'くまなし', fromNum: 6, to: 'ありあけ', toNum: 9 };
     } else {
-      return { label: '整 え て 行 く 期 間',   from: 'ありあけ', to: 'つきたち' };
+      return { label: '整 え て 行 く 期 間',   from: 'ありあけ', fromNum: 9, to: 'つきたち', toNum: 0 };
     }
   }
 
@@ -3120,7 +3059,7 @@
     const seg = getPhaseSegment(now);
     document.getElementById('phaseSegmentLabel').textContent = `— ${seg.label} —`;
     document.getElementById('phaseSegmentFlow').innerHTML =
-      `${seg.from.split('').join(' ')} <span class="arrow">→</span> ${seg.to.split('').join(' ')}`;
+      `${seg.from.split('').join(' ')}<span class="seiten-num">${seg.fromNum}</span> <span class="arrow">→</span> ${seg.to.split('').join(' ')}<span class="seiten-num">${seg.toNum}</span>`;
 
     // 次の聖点
     const next = getNextSeiten(now);
@@ -3135,6 +3074,42 @@
     document.getElementById('phaseLunar').textContent = `— 旧 暦 ${lunar.month} 月 ${lunar.day} 日 —`;
 
     renderCal(calYear, calMonth);
+  }
+
+  // 聖点絵文字（案D・生命サイクル）
+  const SEITEN_EMOJI = {
+    tsukitachi: '🌱',  // 芽
+    katamini:   '🌿',  // 若葉
+    kumanashi:  '🌸',  // 満開
+    ariake:     '🍂'   // 結実
+  };
+
+  // ある月の各聖点が「どの日に訪れるか」を事前計算（1日につき1つだけマーク）
+  // 各聖点のターゲット月齢（0, 7.38, 14.77, 22.15）を、その日の中で跨いだ日を1日だけ選ぶ
+  function getSeitenDaysInMonth(year, month) {
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const targetAges = [
+      { key: 'tsukitachi', age: 0 },
+      { key: 'katamini',   age: SYNODIC_MONTH * 0.25 },
+      { key: 'kumanashi',  age: SYNODIC_MONTH * 0.5 },
+      { key: 'ariake',     age: SYNODIC_MONTH * 0.75 }
+    ];
+    const result = {}; // { day: phaseKey }
+    for (const t of targetAges) {
+      // その月の中で、|月齢差| が最小の日を1つ特定
+      let bestDay = -1, bestDist = Infinity;
+      for (let d = 1; d <= daysInMonth; d++) {
+        const noon = new Date(year, month, d, 12, 0, 0);
+        const age = getMoonAge(noon);
+        // 循環距離
+        let dist = Math.abs(age - t.age);
+        if (dist > SYNODIC_MONTH / 2) dist = SYNODIC_MONTH - dist;
+        if (dist < bestDist) { bestDist = dist; bestDay = d; }
+      }
+      // 1日以内なら採用（その月に聖点がない場合は除外）
+      if (bestDay > 0 && bestDist < 0.7) result[bestDay] = t.key;
+    }
+    return result;
   }
 
   function renderCal(year, month) {
@@ -3153,6 +3128,8 @@
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     const startWd = new Date(year, month, 1).getDay();
     const today = new Date();
+    const seitenMap = getSeitenDaysInMonth(year, month);  // { day: phaseKey }
+
     for (let i = 0; i < startWd; i++) {
       const el = document.createElement('div');
       el.className = 'cal-day empty';
@@ -3161,19 +3138,32 @@
     for (let d = 1; d <= daysInMonth; d++) {
       const cellDate = new Date(year, month, d, 12, 0, 0);
       const age = getMoonAge(cellDate);
-      const phase = getPhaseName(age);
       const hanaLevel = getHanasakariLevel(cellDate);
+      // はなさかり帯の左右端判定（週またぎ・期間の両端）
+      let hanaLeftEnd = false, hanaRightEnd = false;
+      if (hanaLevel) {
+        const prevDate = new Date(year, month, d - 1, 12, 0, 0);
+        const nextDate = new Date(year, month, d + 1, 12, 0, 0);
+        const prevHana = getHanasakariLevel(prevDate);
+        const nextHana = getHanasakariLevel(nextDate);
+        const cellWd = (startWd + d - 1) % 7;
+        hanaLeftEnd = !prevHana || cellWd === 0;
+        hanaRightEnd = !nextHana || cellWd === 6;
+      }
       const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
       const hasMemo = !!localStorage.getItem(`tsukiyoga-memo-${dateStr}`);
+      const seitenKey = seitenMap[d];
 
       const el = document.createElement('div');
       el.className = 'cal-day';
       if (year === today.getFullYear() && month === today.getMonth() && d === today.getDate()) {
         el.classList.add('today');
       }
-      if (phase.key) el.classList.add('seiten-day');
+      if (seitenKey) el.classList.add('seiten-day');
       if (hanaLevel === 'peak') el.classList.add('hanasakari-peak');
       else if (hanaLevel === 'wing') el.classList.add('hanasakari-day');
+      if (hanaLeftEnd) el.classList.add('hana-left');
+      if (hanaRightEnd) el.classList.add('hana-right');
 
       const num = document.createElement('div');
       num.className = 'cal-day-num';
@@ -3186,10 +3176,10 @@
       el.appendChild(moon);
       applyMoonShadow(moon.querySelector('.cal-moon-icon-shadow'), age / SYNODIC_MONTH);
 
-      if (phase.key) {
+      if (seitenKey) {
         const mark = document.createElement('div');
         mark.className = 'cal-seiten-mark';
-        mark.textContent = '✦';
+        mark.textContent = SEITEN_EMOJI[seitenKey] || '✦';
         el.appendChild(mark);
       }
 
