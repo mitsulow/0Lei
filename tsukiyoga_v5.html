@@ -1405,7 +1405,7 @@
   scene.fog = new THREE.FogExp2(0x030818, 0.02);
 
   const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 200);
-  camera.position.set(0, 0, 4.5);
+  camera.position.set(0, 0, 8.0);
   camera.lookAt(0, 0, 0);
 
   // ライト
@@ -2157,8 +2157,8 @@
     autoRotateSpeed: 0.0008,
     lastResonanceTime: 0,
     hintShown: true,
-    targetZoom: 4.5,
-    currentZoom: 4.5
+    targetZoom: 8.0,
+    currentZoom: 8.0
   };
 
   // ======== タッチ/マウス操作 ========
@@ -2609,6 +2609,16 @@
     document.getElementById('navPermission').style.display = 'none';
     document.getElementById('navCalibrate').classList.add('visible');
 
+    // ★フリーズ回避：許可と同時に描画ループを起動する
+    // （これをしないと、タブを切り替えて戻るまでactivateMoonNavが再実行されず画面が固まる）
+    if (navState.animId) cancelAnimationFrame(navState.animId);
+    (function navLoop() {
+      if (document.getElementById('moonnavView').classList.contains('active')) {
+        renderMoonNav();
+      }
+      navState.animId = requestAnimationFrame(navLoop);
+    })();
+
     setTimeout(() => {
       if (navState.eventCount === 0) {
         document.getElementById('navSub').textContent =
@@ -2826,33 +2836,62 @@
       navCtx.arc(mp.x + 8, mp.y + 6, 2.5, 0, Math.PI * 2);
       navCtx.fill();
 
-      // 満ち欠け
+      // 満ち欠け（正統な月相描画：terminatorの楕円で合成）
+      // SunCalc phase: 0=新月, 0.25=上弦, 0.5=満月, 0.75=下弦
       const illum = SunCalc.getMoonIllumination(now);
       const phase = illum.phase;
+
       navCtx.save();
       navCtx.beginPath();
       navCtx.arc(mp.x, mp.y, moonR, 0, Math.PI * 2);
       navCtx.clip();
-      navCtx.fillStyle = 'rgba(5, 8, 24, 0.92)';
+
+      const shadowColor = 'rgba(5, 8, 24, 0.93)';
+      navCtx.fillStyle = shadowColor;
+
+      // terminator楕円の横半径：phase=0で+moonR, phase=0.25で0, phase=0.5で-moonR, phase=0.75で0, phase=1で+moonR
+      const termR = Math.cos(phase * 2 * Math.PI) * moonR;
+
       if (phase < 0.5) {
-        const shadowX = mp.x - moonR + phase * 4 * moonR;
-        navCtx.beginPath();
-        navCtx.ellipse(shadowX, mp.y,
-          Math.abs(Math.cos(phase * Math.PI)) * moonR, moonR,
-          0, 0, Math.PI * 2);
-        navCtx.fill();
-        navCtx.fillRect(mp.x - moonR - 5, mp.y - moonR - 5,
-          Math.min(moonR * 2 + 10, shadowX - (mp.x - moonR - 5)), moonR * 2 + 10);
+        // 新月→満月：北半球では右側から明るくなる＝影は左半分
+        // 左半分を影で塗る
+        navCtx.fillRect(mp.x - moonR - 2, mp.y - moonR - 2, moonR + 2, moonR * 2 + 4);
+        if (termR > 0) {
+          // phase<0.25（三日月）：影が右側にも凸に入り込む → 右側にterminator楕円を影で追加
+          navCtx.beginPath();
+          navCtx.ellipse(mp.x, mp.y, termR, moonR, 0, -Math.PI / 2, Math.PI / 2);
+          navCtx.closePath();
+          navCtx.fill();
+        } else if (termR < 0) {
+          // phase>0.25（十三夜方向）：左半分の影をterminator楕円で削る
+          navCtx.save();
+          navCtx.globalCompositeOperation = 'destination-out';
+          navCtx.beginPath();
+          navCtx.ellipse(mp.x, mp.y, -termR, moonR, 0, Math.PI / 2, -Math.PI / 2, true);
+          navCtx.closePath();
+          navCtx.fill();
+          navCtx.restore();
+        }
       } else {
-        const shadowX = mp.x - moonR + (phase - 0.5) * 4 * moonR;
-        navCtx.beginPath();
-        navCtx.ellipse(shadowX, mp.y,
-          Math.abs(Math.cos(phase * Math.PI)) * moonR, moonR,
-          0, 0, Math.PI * 2);
-        navCtx.fill();
-        const shadowStart = Math.max(shadowX, mp.x - moonR - 5);
-        navCtx.fillRect(shadowStart, mp.y - moonR - 5,
-          mp.x + moonR + 5 - shadowStart, moonR * 2 + 10);
+        // 満月→新月：北半球では右側から欠けていく＝影は右半分
+        // 右半分を影で塗る
+        navCtx.fillRect(mp.x, mp.y - moonR - 2, moonR + 2, moonR * 2 + 4);
+        if (termR < 0) {
+          // phase<0.75（居待月方向）：右半分の影をterminator楕円で削る
+          navCtx.save();
+          navCtx.globalCompositeOperation = 'destination-out';
+          navCtx.beginPath();
+          navCtx.ellipse(mp.x, mp.y, -termR, moonR, 0, -Math.PI / 2, Math.PI / 2);
+          navCtx.closePath();
+          navCtx.fill();
+          navCtx.restore();
+        } else if (termR > 0) {
+          // phase>0.75（有明）：左側にもterminator楕円を影で追加
+          navCtx.beginPath();
+          navCtx.ellipse(mp.x, mp.y, termR, moonR, 0, Math.PI / 2, -Math.PI / 2, true);
+          navCtx.closePath();
+          navCtx.fill();
+        }
       }
       navCtx.restore();
 
@@ -3282,8 +3321,8 @@
     const moonAltitude = Math.atan2(mp.y, Math.sqrt(mp.x * mp.x + mp.z * mp.z));
     state.userRotX = -moonAltitude * 0.4;
     // 地球と月が両方画面に収まるように引く
-    state.targetZoom = 5.8;
-    state.currentZoom = 5.8;
+    state.targetZoom = 8.0;
+    state.currentZoom = 8.0;
   })();
 
   animate();
