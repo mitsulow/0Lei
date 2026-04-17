@@ -25,9 +25,7 @@
     --confidence-mid: #f0c674;
     --confidence-low: #ff8fb1;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
   html, body {
     background: var(--bg-void);
     color: var(--text-primary);
@@ -37,179 +35,100 @@
     min-height: 100vh;
     overflow-x: hidden;
   }
-
-  /* 背景：深い宇宙の電磁波 */
   body::before {
     content: "";
-    position: fixed;
-    inset: 0;
+    position: fixed; inset: 0;
     background:
       radial-gradient(ellipse at 20% 10%, rgba(124, 249, 212, 0.08), transparent 50%),
       radial-gradient(ellipse at 80% 80%, rgba(167, 139, 250, 0.08), transparent 50%),
       radial-gradient(ellipse at 50% 50%, rgba(240, 198, 116, 0.03), transparent 60%);
-    pointer-events: none;
-    z-index: 0;
+    pointer-events: none; z-index: 0;
   }
-
   body::after {
     content: "";
-    position: fixed;
-    inset: 0;
+    position: fixed; inset: 0;
     background-image:
       linear-gradient(rgba(160, 140, 255, 0.015) 1px, transparent 1px),
       linear-gradient(90deg, rgba(160, 140, 255, 0.015) 1px, transparent 1px);
     background-size: 60px 60px;
-    pointer-events: none;
-    z-index: 0;
+    pointer-events: none; z-index: 0;
   }
-
-  .wrap {
-    position: relative;
-    z-index: 1;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 3rem 1.5rem 6rem;
-  }
-
-  /* === ヘッダー === */
-  header {
-    text-align: center;
-    padding: 2rem 0 3rem;
-    position: relative;
-  }
-
+  .wrap { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+  header { text-align: center; padding: 2rem 0 3rem; }
   .mmm-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
+    display: inline-flex; align-items: center; gap: 0.5rem;
     font-family: "JetBrains Mono", monospace;
-    font-size: 0.75rem;
-    letter-spacing: 0.2em;
+    font-size: 0.75rem; letter-spacing: 0.2em;
     color: var(--accent-gold);
     border: 1px solid rgba(240, 198, 116, 0.3);
-    padding: 0.4rem 1rem;
-    border-radius: 100px;
+    padding: 0.4rem 1rem; border-radius: 100px;
     margin-bottom: 1.5rem;
   }
-
-  .mmm-badge .bolt {
-    color: var(--accent-gold);
-    filter: drop-shadow(0 0 4px rgba(240, 198, 116, 0.6));
-  }
-
   h1 {
     font-family: "Cormorant Garamond", serif;
     font-size: clamp(2.2rem, 5vw, 3.8rem);
-    font-weight: 300;
-    letter-spacing: 0.02em;
-    line-height: 1.1;
-    color: var(--text-primary);
-    margin-bottom: 0.5rem;
+    font-weight: 300; letter-spacing: 0.02em;
+    line-height: 1.1; margin-bottom: 0.5rem;
   }
-
-  h1 em {
-    font-style: italic;
-    color: var(--accent-aurora);
-    font-weight: 400;
-  }
-
+  h1 em { font-style: italic; color: var(--accent-aurora); font-weight: 400; }
   .subtitle {
     font-family: "Noto Serif JP", serif;
-    font-size: 0.95rem;
-    color: var(--text-muted);
-    letter-spacing: 0.1em;
-    margin-top: 0.75rem;
+    font-size: 0.95rem; color: var(--text-muted);
+    letter-spacing: 0.1em; margin-top: 0.75rem;
   }
-
   .last-update {
     font-family: "JetBrains Mono", monospace;
-    font-size: 0.7rem;
-    color: var(--text-dim);
-    letter-spacing: 0.15em;
-    margin-top: 1.5rem;
+    font-size: 0.7rem; color: var(--text-dim);
+    letter-spacing: 0.15em; margin-top: 1.5rem;
   }
-
-  .last-update .live-dot {
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    background: var(--accent-aurora);
-    border-radius: 50%;
-    margin-right: 0.5rem;
-    box-shadow: 0 0 8px var(--accent-aurora);
-    animation: pulse 2s ease-in-out infinite;
-    vertical-align: middle;
+  .live-dot {
+    display: inline-block; width: 8px; height: 8px;
+    background: var(--accent-aurora); border-radius: 50%;
+    margin-right: 0.5rem; box-shadow: 0 0 8px var(--accent-aurora);
+    animation: pulse 2s ease-in-out infinite; vertical-align: middle;
   }
-
   @keyframes pulse {
     0%, 100% { opacity: 0.4; transform: scale(0.8); }
     50% { opacity: 1; transform: scale(1.1); }
   }
-
-  /* === 偏光バナー === */
-  .polarization-banner {
-    background: var(--bg-card);
-    backdrop-filter: blur(10px);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 1.5rem 2rem;
-    margin-bottom: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 2rem;
-    flex-wrap: wrap;
-    position: relative;
-    overflow: hidden;
+  .disclaimer {
+    background: rgba(240, 198, 116, 0.05);
+    border: 1px solid rgba(240, 198, 116, 0.2);
+    border-radius: 12px; padding: 1rem 1.5rem; margin-bottom: 2rem;
+    font-family: "Noto Serif JP", serif;
+    font-size: 0.85rem; line-height: 1.7; color: var(--text-muted);
   }
-
+  .disclaimer strong { color: var(--accent-gold); font-weight: 500; }
+  .polarization-banner {
+    background: var(--bg-card); backdrop-filter: blur(10px);
+    border: 1px solid var(--border); border-radius: 16px;
+    padding: 1.5rem 2rem; margin-bottom: 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 2rem; flex-wrap: wrap;
+  }
   .polarization-banner.day {
     border-color: rgba(240, 198, 116, 0.3);
-    background:
-      linear-gradient(135deg, rgba(240, 198, 116, 0.08), transparent),
-      var(--bg-card);
+    background: linear-gradient(135deg, rgba(240, 198, 116, 0.08), transparent), var(--bg-card);
   }
-
   .polarization-banner.night {
     border-color: rgba(167, 139, 250, 0.3);
-    background:
-      linear-gradient(135deg, rgba(167, 139, 250, 0.08), transparent),
-      var(--bg-card);
+    background: linear-gradient(135deg, rgba(167, 139, 250, 0.08), transparent), var(--bg-card);
   }
-
-  .polarization-info {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-  }
-
+  .polarization-info { display: flex; align-items: center; gap: 1.5rem; }
   .rotation-viz {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    border: 2px solid currentColor;
-    position: relative;
-    flex-shrink: 0;
+    width: 56px; height: 56px; border-radius: 50%;
+    border: 2px solid currentColor; position: relative; flex-shrink: 0;
   }
-
   .polarization-banner.day .rotation-viz { color: var(--accent-gold); }
   .polarization-banner.night .rotation-viz { color: var(--accent-violet); }
-
   .rotation-viz::before {
-    content: "";
-    position: absolute;
-    top: -2px;
-    left: 50%;
-    width: 4px;
-    height: 12px;
-    background: currentColor;
-    border-radius: 2px;
+    content: ""; position: absolute;
+    top: -2px; left: 50%; width: 4px; height: 12px;
+    background: currentColor; border-radius: 2px;
     transform-origin: 50% 32px;
   }
-
   .rotation-viz.rotate-right::before { animation: rotateRight 4s linear infinite; }
   .rotation-viz.rotate-left::before { animation: rotateLeft 4s linear infinite; }
-
   @keyframes rotateRight {
     from { transform: translateX(-50%) rotate(0deg); }
     to { transform: translateX(-50%) rotate(360deg); }
@@ -218,292 +137,241 @@
     from { transform: translateX(-50%) rotate(0deg); }
     to { transform: translateX(-50%) rotate(-360deg); }
   }
-
   .polarization-text h3 {
     font-family: "Cormorant Garamond", serif;
-    font-size: 1.5rem;
-    font-weight: 400;
-    font-style: italic;
+    font-size: 1.5rem; font-weight: 400; font-style: italic;
     margin-bottom: 0.25rem;
   }
-
   .polarization-text p {
     font-family: "Noto Serif JP", serif;
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    line-height: 1.5;
+    font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;
   }
-
   .polarization-meta {
     font-family: "JetBrains Mono", monospace;
-    font-size: 0.7rem;
-    color: var(--text-dim);
-    text-align: right;
+    font-size: 0.7rem; color: var(--text-dim); text-align: right;
   }
-
-  /* === モード数値カード === */
   .modes-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 1rem;
-    margin-bottom: 3rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem; margin-bottom: 2rem;
   }
-
   .mode-card {
-    background: var(--bg-card);
-    backdrop-filter: blur(10px);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1.5rem 1.25rem;
-    position: relative;
-    overflow: hidden;
+    background: var(--bg-card); backdrop-filter: blur(10px);
+    border: 1px solid var(--border); border-radius: 12px;
+    padding: 1.5rem 1.25rem; position: relative; overflow: hidden;
     transition: border-color 0.3s ease, transform 0.3s ease;
   }
-
-  .mode-card:hover {
-    border-color: var(--border-glow);
-    transform: translateY(-2px);
-  }
-
+  .mode-card:hover { border-color: var(--border-glow); transform: translateY(-2px); }
   .mode-card::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
+    content: ""; position: absolute;
+    top: 0; left: 0; right: 0; height: 2px;
     background: linear-gradient(90deg, transparent, var(--accent-aurora), transparent);
     opacity: 0.5;
   }
-
   .mode-label {
     font-family: "JetBrains Mono", monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.2em;
-    color: var(--text-muted);
-    margin-bottom: 0.5rem;
+    font-size: 0.7rem; letter-spacing: 0.2em;
+    color: var(--text-muted); margin-bottom: 0.5rem;
   }
-
   .mode-name {
     font-family: "Cormorant Garamond", serif;
-    font-size: 0.95rem;
-    font-style: italic;
-    color: var(--text-dim);
-    margin-bottom: 0.75rem;
+    font-size: 0.95rem; font-style: italic;
+    color: var(--text-dim); margin-bottom: 0.75rem;
   }
-
   .mode-value {
     font-family: "Cormorant Garamond", serif;
-    font-size: 2.8rem;
-    font-weight: 300;
-    line-height: 1;
-    color: var(--accent-aurora);
-    letter-spacing: -0.02em;
+    font-size: 2.6rem; font-weight: 300; line-height: 1;
+    color: var(--accent-aurora); letter-spacing: -0.02em;
   }
-
-  .mode-value .unit {
-    font-size: 1.1rem;
-    color: var(--text-muted);
-    margin-left: 0.25rem;
-    letter-spacing: 0;
-  }
-
-  .mode-value.na {
-    color: var(--text-dim);
-    font-size: 1.5rem;
-    padding: 0.75rem 0;
-  }
-
+  .mode-value .unit { font-size: 1rem; color: var(--text-muted); margin-left: 0.25rem; }
+  .mode-value.na { color: var(--text-dim); font-size: 1.5rem; padding: 0.75rem 0; }
   .confidence-bar {
-    height: 3px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 2px;
-    margin-top: 1rem;
-    overflow: hidden;
+    height: 3px; background: rgba(255, 255, 255, 0.05);
+    border-radius: 2px; margin-top: 1rem; overflow: hidden;
   }
-
-  .confidence-fill {
-    height: 100%;
-    border-radius: 2px;
-    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
+  .confidence-fill { height: 100%; border-radius: 2px; transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
   .confidence-fill.high { background: var(--confidence-high); box-shadow: 0 0 6px var(--confidence-high); }
   .confidence-fill.mid { background: var(--confidence-mid); box-shadow: 0 0 6px var(--confidence-mid); }
   .confidence-fill.low { background: var(--confidence-low); box-shadow: 0 0 6px var(--confidence-low); }
-
   .confidence-label {
     font-family: "JetBrains Mono", monospace;
-    font-size: 0.65rem;
-    color: var(--text-dim);
-    letter-spacing: 0.15em;
-    margin-top: 0.5rem;
-    display: flex;
-    justify-content: space-between;
+    font-size: 0.65rem; color: var(--text-dim); letter-spacing: 0.15em;
+    margin-top: 0.5rem; display: flex; justify-content: space-between;
   }
-
-  /* === セクションタイトル === */
+  .play-btn {
+    width: 100%; margin-top: 0.75rem; padding: 0.6rem 0.75rem;
+    background: rgba(124, 249, 212, 0.08);
+    border: 1px solid rgba(124, 249, 212, 0.3);
+    color: var(--accent-aurora); border-radius: 8px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.7rem; letter-spacing: 0.15em;
+    cursor: pointer; transition: all 0.2s ease;
+    display: flex; align-items: center; justify-content: center;
+    gap: 0.5rem;
+  }
+  .play-btn:hover {
+    background: rgba(124, 249, 212, 0.15);
+    border-color: var(--accent-aurora);
+  }
+  .play-btn.playing {
+    background: rgba(124, 249, 212, 0.2);
+    border-color: var(--accent-aurora);
+    box-shadow: 0 0 12px rgba(124, 249, 212, 0.3);
+  }
+  .play-btn .note {
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic; font-size: 0.75rem; color: var(--text-muted);
+  }
+  .manual-panel {
+    background: var(--bg-card); backdrop-filter: blur(10px);
+    border: 1px solid var(--border); border-radius: 12px;
+    padding: 1.5rem 1.75rem; margin-bottom: 3rem;
+  }
+  .manual-panel h3 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 1.3rem; font-weight: 400; font-style: italic;
+    color: var(--accent-violet); margin-bottom: 0.35rem;
+  }
+  .manual-panel .manual-sub {
+    font-family: "Noto Serif JP", serif;
+    font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1.25rem;
+  }
+  .manual-row { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; }
+  .manual-input {
+    flex: 1; min-width: 140px; padding: 0.7rem 1rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border); border-radius: 8px;
+    color: var(--text-primary);
+    font-family: "JetBrains Mono", monospace; font-size: 1rem;
+  }
+  .manual-input:focus { outline: none; border-color: var(--accent-violet); }
+  .manual-octave {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.75rem; color: var(--text-muted);
+  }
+  .manual-octave input {
+    width: 60px; padding: 0.5rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border); border-radius: 6px;
+    color: var(--text-primary);
+    font-family: "JetBrains Mono", monospace; text-align: center;
+  }
+  .manual-btn {
+    padding: 0.7rem 1.5rem;
+    background: rgba(167, 139, 250, 0.15);
+    border: 1px solid var(--accent-violet);
+    color: var(--accent-violet); border-radius: 8px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.75rem; letter-spacing: 0.15em;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .manual-btn:hover { background: rgba(167, 139, 250, 0.3); }
+  .manual-btn.playing { background: var(--accent-violet); color: var(--bg-void); }
+  .manual-display {
+    margin-top: 1rem; padding: 0.75rem 1rem;
+    background: rgba(0, 0, 0, 0.2); border-radius: 8px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.8rem; color: var(--text-muted);
+  }
+  .manual-display strong { color: var(--accent-aurora); }
   .section-title {
     font-family: "Cormorant Garamond", serif;
-    font-size: 1.8rem;
-    font-weight: 400;
-    font-style: italic;
+    font-size: 1.8rem; font-weight: 400; font-style: italic;
     color: var(--text-primary);
-    margin: 3rem 0 1.5rem;
-    padding-bottom: 0.75rem;
+    margin: 3rem 0 1.5rem; padding-bottom: 0.75rem;
     border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
+    display: flex; align-items: baseline; justify-content: space-between;
+    flex-wrap: wrap; gap: 0.5rem;
   }
-
   .section-title .section-sub {
     font-family: "JetBrains Mono", monospace;
-    font-size: 0.7rem;
-    font-style: normal;
-    color: var(--text-dim);
-    letter-spacing: 0.2em;
+    font-size: 0.7rem; font-style: normal;
+    color: var(--text-dim); letter-spacing: 0.2em;
   }
-
-  /* === 画像＋解説セクション === */
-  .graph-section {
-    display: grid;
-    gap: 2rem;
-    margin-bottom: 2rem;
-  }
-
+  .graph-section { display: grid; gap: 2rem; margin-bottom: 2rem; }
   .graph-card {
-    background: var(--bg-card);
-    backdrop-filter: blur(10px);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    overflow: hidden;
-    display: grid;
-    grid-template-columns: 1fr;
+    background: var(--bg-card); backdrop-filter: blur(10px);
+    border: 1px solid var(--border); border-radius: 16px;
+    overflow: hidden; display: grid; grid-template-columns: 1fr;
   }
-
   @media (min-width: 768px) {
-    .graph-card {
-      grid-template-columns: 1.3fr 1fr;
-    }
+    .graph-card { grid-template-columns: 1.3fr 1fr; }
   }
-
   .graph-image-wrap {
-    position: relative;
-    background: #000;
-    padding: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 200px;
+    position: relative; background: #000; padding: 1rem;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    min-height: 200px; gap: 0.75rem;
   }
-
   .graph-image-wrap img {
-    max-width: 100%;
-    max-height: 400px;
-    height: auto;
-    display: block;
-    border-radius: 8px;
+    max-width: 100%; max-height: 400px; height: auto;
+    display: block; border-radius: 8px;
   }
-
-  .graph-description {
-    padding: 2rem;
+  .jst-hint {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.65rem; letter-spacing: 0.15em;
+    color: var(--accent-gold);
+    background: rgba(240, 198, 116, 0.08);
+    border: 1px solid rgba(240, 198, 116, 0.2);
+    border-radius: 6px; padding: 0.4rem 0.75rem; text-align: center;
+    line-height: 1.6;
   }
-
+  .jst-hint em { color: var(--text-muted); font-style: normal; }
+  .graph-description { padding: 2rem; }
   .graph-description h3 {
     font-family: "Cormorant Garamond", serif;
-    font-size: 1.5rem;
-    font-weight: 500;
-    color: var(--accent-aurora);
-    margin-bottom: 0.5rem;
+    font-size: 1.5rem; font-weight: 500;
+    color: var(--accent-aurora); margin-bottom: 0.5rem;
   }
-
   .graph-description .graph-sub {
     font-family: "JetBrains Mono", monospace;
-    font-size: 0.7rem;
-    color: var(--text-dim);
-    letter-spacing: 0.2em;
-    margin-bottom: 1.5rem;
+    font-size: 0.7rem; color: var(--text-dim);
+    letter-spacing: 0.2em; margin-bottom: 1.5rem;
   }
-
   .graph-description p {
     font-family: "Noto Serif JP", serif;
-    font-size: 0.9rem;
-    line-height: 1.8;
-    color: var(--text-muted);
-    margin-bottom: 1rem;
+    font-size: 0.9rem; line-height: 1.8;
+    color: var(--text-muted); margin-bottom: 1rem;
   }
-
   .graph-description .mmm-note {
-    margin-top: 1.5rem;
-    padding: 1rem;
+    margin-top: 1.5rem; padding: 1rem;
     background: rgba(240, 198, 116, 0.05);
-    border-left: 2px solid var(--accent-gold);
-    border-radius: 4px;
+    border-left: 2px solid var(--accent-gold); border-radius: 4px;
   }
-
   .graph-description .mmm-note h4 {
     font-family: "Cormorant Garamond", serif;
-    font-size: 0.95rem;
-    font-style: italic;
-    color: var(--accent-gold);
-    margin-bottom: 0.4rem;
+    font-size: 0.95rem; font-style: italic;
+    color: var(--accent-gold); margin-bottom: 0.4rem;
   }
-
-  .graph-description .mmm-note p {
-    font-size: 0.85rem;
-    margin: 0;
-    color: var(--text-muted);
-  }
-
-  /* === ノート＆フッター === */
+  .graph-description .mmm-note p { font-size: 0.85rem; margin: 0; color: var(--text-muted); }
   .observation {
-    background: var(--bg-card);
-    backdrop-filter: blur(10px);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1.5rem 2rem;
-    margin: 2rem 0;
+    background: var(--bg-card); backdrop-filter: blur(10px);
+    border: 1px solid var(--border); border-radius: 12px;
+    padding: 1.5rem 2rem; margin: 2rem 0;
     font-family: "Noto Serif JP", serif;
-    font-size: 0.9rem;
-    line-height: 1.7;
-    color: var(--text-muted);
+    font-size: 0.9rem; line-height: 1.7; color: var(--text-muted);
   }
-
-  .observation strong {
-    color: var(--accent-aurora);
-    font-weight: 500;
-  }
-
+  .observation strong { color: var(--accent-aurora); font-weight: 500; }
   footer {
-    text-align: center;
-    margin-top: 4rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--border);
+    text-align: center; margin-top: 4rem;
+    padding-top: 2rem; border-top: 1px solid var(--border);
     font-family: "JetBrains Mono", monospace;
-    font-size: 0.7rem;
-    color: var(--text-dim);
-    letter-spacing: 0.15em;
-    line-height: 1.8;
+    font-size: 0.7rem; color: var(--text-dim);
+    letter-spacing: 0.15em; line-height: 1.8;
   }
-
   footer a {
-    color: var(--accent-violet);
-    text-decoration: none;
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.2s;
+    color: var(--accent-violet); text-decoration: none;
+    border-bottom: 1px solid transparent; transition: border-color 0.2s;
   }
   footer a:hover { border-color: var(--accent-violet); }
-
   .error-banner {
     background: rgba(255, 143, 177, 0.08);
     border: 1px solid rgba(255, 143, 177, 0.3);
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-    font-family: "Noto Serif JP", serif;
-    color: var(--accent-rose);
+    border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem;
+    font-family: "Noto Serif JP", serif; color: var(--accent-rose);
     display: none;
   }
-
   .error-banner.visible { display: block; }
 </style>
 </head>
@@ -511,11 +379,8 @@
 
 <div class="wrap">
 
-  <!-- ヘッダー -->
   <header>
-    <div class="mmm-badge">
-      <span class="bolt">⚡</span> MASTER MIND MEMBERS <span class="bolt">⚡</span>
-    </div>
+    <div class="mmm-badge">⚡ MASTER MIND MEMBERS ⚡</div>
     <h1>Schumann Resonance <em>Live</em></h1>
     <div class="subtitle">地球の鼓動を、Claude 4.7 の目で読み取る</div>
     <div class="last-update">
@@ -524,12 +389,13 @@
     </div>
   </header>
 
-  <!-- エラーバナー -->
-  <div class="error-banner" id="error-banner">
-    データ取得中にエラーが発生しました。しばらく時間をおいて再度ご確認ください。
+  <div class="disclaimer">
+    <strong>※ 数値は Claude 4.7 による自動読み取りです。</strong>
+    精度に限界があるため、正確な値は下部の「② Frequency」グラフからご自身で読み取ってください。信頼度（緑・黄・赤のバー）が低い場合は特にご注意を。
   </div>
 
-  <!-- 偏光状態バナー -->
+  <div class="error-banner" id="error-banner">データ取得中にエラーが発生しました。</div>
+
   <div class="polarization-banner" id="polarization-banner">
     <div class="polarization-info">
       <div class="rotation-viz" id="rotation-viz"></div>
@@ -539,25 +405,36 @@
       </div>
     </div>
     <div class="polarization-meta" id="polarization-meta">
-      JST --:--<br>
-      TOMSK --:--
+      JST --:--<br>TOMSK --:--
     </div>
   </div>
 
-  <!-- モード数値カード -->
   <section>
-    <div class="modes-grid" id="modes-grid">
-      <!-- JavaScriptで動的生成 -->
-    </div>
+    <div class="modes-grid" id="modes-grid"></div>
   </section>
 
-  <!-- 観察メモ -->
+  <div class="manual-panel">
+    <h3>Manual Tuner</h3>
+    <div class="manual-sub">任意の周波数を入力して、可聴域に変換して聴く</div>
+    <div class="manual-row">
+      <input type="number" class="manual-input" id="manual-hz" placeholder="例：7.88" step="0.01" min="0.1" max="10000" value="7.83">
+      <div class="manual-octave">
+        <span>×2^</span>
+        <input type="number" id="manual-oct" value="6" min="0" max="12" step="1">
+        <span>オクターブ</span>
+      </div>
+      <button class="manual-btn" id="manual-btn">▶ PLAY</button>
+    </div>
+    <div class="manual-display">
+      入力: <strong id="manual-in">7.83</strong> Hz  →  再生: <strong id="manual-out">501.12</strong> Hz
+    </div>
+  </div>
+
   <div class="observation" id="observation" style="display:none;">
     <strong>Claude 4.7 の観察：</strong>
     <span id="observation-text"></span>
   </div>
 
-  <!-- 画像＋解説セクション -->
   <h2 class="section-title">
     <span>4つの窓から見る地球の磁気圏</span>
     <span class="section-sub">TOMSK / RUSSIA</span>
@@ -565,16 +442,18 @@
 
   <div class="graph-section">
 
-    <!-- ① スペクトログラム -->
     <article class="graph-card">
       <div class="graph-image-wrap">
-        <img src="latest_spectrogram.jpg" alt="シューマン共振スペクトログラム"
-             onerror="this.src='https://sos70.ru/provider.php?file=shm.jpg'">
+        <img src="latest_spectrogram.jpg" alt="スペクトログラム" onerror="this.src='https://sos70.ru/provider.php?file=shm.jpg'">
+        <div class="jst-hint">
+          ⏰ <em>グラフの時刻（UTC）+ 9時間 = 日本時間（JST）</em><br>
+          UTC 0時 → JST 9時 / UTC 12時 → JST 21時
+        </div>
       </div>
       <div class="graph-description">
         <h3>① Spectrogram</h3>
         <div class="graph-sub">周波数 × 時間 × 強度</div>
-        <p>横軸は時刻、縦軸は周波数（Hz）、色の明るさがパワーを表します。横に走る4〜5本の明るい帯が、それぞれF1〜F5のモード。帯の太さや鋭さから、各モードの安定度が読めます。</p>
+        <p>横軸は時刻（UTC）、縦軸は周波数（Hz）、色の明るさがパワーを表します。横に走る4〜5本の明るい帯が F1〜F5 のモード。帯の太さや鋭さから、各モードの安定度が読めます。</p>
         <p>縦方向に走る明るい線は、Q-burst と呼ばれる巨大雷放電の痕跡。全帯域で一斉にパワーが跳ね上がる瞬間です。</p>
         <div class="mmm-note">
           <h4>MMM との関わり</h4>
@@ -583,16 +462,19 @@
       </div>
     </article>
 
-    <!-- ② 周波数 -->
     <article class="graph-card">
       <div class="graph-image-wrap">
-        <img src="https://sos70.ru/provider.php?file=srf.jpg" alt="周波数グラフ">
+        <img src="latest_linegraph.jpg" alt="周波数グラフ" onerror="this.src='https://sos70.ru/provider.php?file=srf.jpg'">
+        <div class="jst-hint">
+          ⏰ <em>グラフの時刻（UTC）+ 9時間 = 日本時間（JST）</em><br>
+          このグラフが数値読み取りのメインソース
+        </div>
       </div>
       <div class="graph-description">
         <h3>② Frequency</h3>
-        <div class="graph-sub">各モードの中心周波数の推移</div>
+        <div class="graph-sub">各モードの中心周波数の推移（メイン）</div>
         <p>理論値は F1: 7.83Hz, F2: 14.1Hz, F3: 20.3Hz, F4: 26.4Hz, F5: 33.8Hz。周波数の変動は主に電離層の形状・高さに依存します。空洞のサイズが変わると共振周波数が動く。</p>
-        <p>F1 はQ値が低く変動幅が大きい、F3 はQ値が高く細い線で安定——という個性が現れます。</p>
+        <p>F1 はQ値が低く変動幅が大きい、F3 はQ値が高く細い線で安定——という個性が現れます。<strong>上部の数値はこのグラフから自動読み取りしています。</strong></p>
         <div class="mmm-note">
           <h4>MMM との関わり</h4>
           <p>シューマン音© の目標は 7.83Hz → 8.02Hz への引き上げ。F1 の長期変動に、MMM の集合的意図の痕跡が残るかを追跡しています。</p>
@@ -600,10 +482,13 @@
       </div>
     </article>
 
-    <!-- ③ 振幅 -->
     <article class="graph-card">
       <div class="graph-image-wrap">
         <img src="https://sos70.ru/provider.php?file=sra.jpg" alt="振幅グラフ">
+        <div class="jst-hint">
+          ⏰ <em>グラフの時刻（UTC）+ 9時間 = 日本時間（JST）</em><br>
+          UTC 8時ピーク → JST 17時 / UTC 15時ピーク → 翌JST 0時
+        </div>
       </div>
       <div class="graph-description">
         <h3>③ Amplitude</h3>
@@ -617,10 +502,12 @@
       </div>
     </article>
 
-    <!-- ④ Q値 -->
     <article class="graph-card">
       <div class="graph-image-wrap">
         <img src="https://sos70.ru/provider.php?file=srq.jpg" alt="Q値グラフ">
+        <div class="jst-hint">
+          ⏰ <em>グラフの時刻（UTC）+ 9時間 = 日本時間（JST）</em>
+        </div>
       </div>
       <div class="graph-description">
         <h3>④ Quality Factor</h3>
@@ -638,7 +525,7 @@
 
   <footer>
     <p>DATA SOURCE: Tomsk State University (sos70.ru) / ANALYSIS: Claude Opus 4.7 Vision</p>
-    <p>UPDATED EVERY 15 MINUTES · VIA GITHUB ACTIONS</p>
+    <p>PRIMARY: Line Graph (srf.jpg) · UPDATED EVERY 15 MINUTES</p>
     <p style="margin-top:1rem;">
       <a href="https://mitsulow.github.io/0Lei/">0Lei</a> ·
       <a href="https://ameblo.jp/mitsulow">Blog</a> ·
@@ -657,9 +544,60 @@
     F5: { name: "Fifth harmonic", theory: 33.8 },
   };
 
+  // === Audio ===
+  let audioCtx = null;
+  const activeOscillators = {};
+
+  function getAudioCtx() {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioCtx.state === "suspended") audioCtx.resume();
+    return audioCtx;
+  }
+
+  function startTone(key, freq) {
+    const ctx = getAudioCtx();
+    if (activeOscillators[key]) stopTone(key);
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = "sine";
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.15, ctx.currentTime + 0.05);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    activeOscillators[key] = { osc, gain };
+  }
+
+  function stopTone(key) {
+    if (!activeOscillators[key]) return;
+    const ctx = getAudioCtx();
+    const { osc, gain } = activeOscillators[key];
+    gain.gain.cancelScheduledValues(ctx.currentTime);
+    gain.gain.setValueAtTime(gain.gain.value, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.05);
+    osc.stop(ctx.currentTime + 0.1);
+    delete activeOscillators[key];
+  }
+
+  function toggleTone(key, freq, btn) {
+    if (activeOscillators[key]) {
+      stopTone(key);
+      btn.classList.remove("playing");
+      btn.innerHTML = btn.dataset.originalText;
+    } else {
+      startTone(key, freq);
+      btn.classList.add("playing");
+      btn.dataset.originalText = btn.innerHTML;
+      btn.innerHTML = "■ STOP <span class='note'>" + freq.toFixed(2) + " Hz</span>";
+    }
+  }
+
+  // === Data ===
   async function loadData() {
     try {
-      // キャッシュ回避
       const res = await fetch("schumann_data.json?t=" + Date.now());
       if (!res.ok) throw new Error("Data fetch failed");
       const data = await res.json();
@@ -667,21 +605,19 @@
     } catch (err) {
       console.error(err);
       document.getElementById("error-banner").classList.add("visible");
-      // フォールバック：偏光だけでも表示
       renderPolarizationFallback();
+      renderModesFromTheory();
     }
   }
 
   function renderPolarizationFallback() {
     const now = new Date();
     const jstHour = (now.getUTCHours() + 9) % 24 + now.getUTCMinutes() / 60;
+    const tomskHour = (now.getUTCHours() + 5.6) % 24 + now.getUTCMinutes() / 60;
     const isDay = jstHour >= 6 && jstHour <= 18;
     renderPolarization({
       state: isDay ? "right" : "left",
-      state_jp: isDay ? "右回転（昼）" : "左回転（夜）",
-      japan_hour: jstHour,
-      tomsk_hour: ((now.getUTCHours() + 5.6 + now.getUTCMinutes() / 60) % 24),
-      is_day_japan: isDay
+      japan_hour: jstHour, tomsk_hour: tomskHour, is_day_japan: isDay,
     });
   }
 
@@ -691,29 +627,17 @@
       document.getElementById("error-banner").textContent =
         "データ取得エラー: " + (data.error || "unknown");
       renderPolarizationFallback();
-      renderModesEmpty();
+      renderModesFromTheory();
       return;
     }
-
-    // タイムスタンプ
     const ts = new Date(data.timestamp);
     const jst = new Intl.DateTimeFormat("ja-JP", {
       year: "numeric", month: "2-digit", day: "2-digit",
-      hour: "2-digit", minute: "2-digit",
-      timeZone: "Asia/Tokyo"
+      hour: "2-digit", minute: "2-digit", timeZone: "Asia/Tokyo"
     }).format(ts);
-    document.getElementById("last-update").textContent =
-      "UPDATED " + jst + " JST";
-
-    // モード
+    document.getElementById("last-update").textContent = "UPDATED " + jst + " JST";
     renderModes(data.modes);
-
-    // 偏光
-    if (data.polarization) {
-      renderPolarization(data.polarization);
-    }
-
-    // 観察メモ
+    if (data.polarization) renderPolarization(data.polarization);
     if (data.notes) {
       document.getElementById("observation").style.display = "block";
       document.getElementById("observation-text").textContent = data.notes;
@@ -728,50 +652,63 @@
       const hz = mode.hz;
       const conf = mode.confidence ?? 0;
       const info = MODE_INFO[key];
-
       const confClass = conf >= 75 ? "high" : conf >= 50 ? "mid" : "low";
       const confLabel = conf >= 75 ? "HIGH" : conf >= 50 ? "MID" : "LOW";
-
+      const playHz = hz != null ? hz : info.theory;
+      const audibleHz = playHz * 64;
       const hzDisplay = (hz != null)
         ? `<span>${hz.toFixed(2)}</span><span class="unit">Hz</span>`
         : '<span class="na">— Hz —</span>';
-
-      grid.innerHTML += `
-        <div class="mode-card">
-          <div class="mode-label">${key} · ${info.theory.toFixed(2)} Hz</div>
-          <div class="mode-name">${info.name}</div>
-          <div class="mode-value ${hz == null ? 'na' : ''}">${hzDisplay}</div>
-          <div class="confidence-bar">
-            <div class="confidence-fill ${confClass}" style="width:${conf}%"></div>
-          </div>
-          <div class="confidence-label">
-            <span>CONFIDENCE</span>
-            <span>${conf}% · ${confLabel}</span>
-          </div>
+      const card = document.createElement("div");
+      card.className = "mode-card";
+      card.innerHTML = `
+        <div class="mode-label">${key} · ${info.theory.toFixed(2)} Hz</div>
+        <div class="mode-name">${info.name}</div>
+        <div class="mode-value ${hz == null ? 'na' : ''}">${hzDisplay}</div>
+        <div class="confidence-bar">
+          <div class="confidence-fill ${confClass}" style="width:${conf}%"></div>
         </div>
+        <div class="confidence-label">
+          <span>CONFIDENCE</span>
+          <span>${conf}% · ${confLabel}</span>
+        </div>
+        <button class="play-btn" data-key="${key}" data-freq="${audibleHz}">
+          ▶ PLAY <span class="note">×64 = ${audibleHz.toFixed(2)} Hz</span>
+        </button>
       `;
+      grid.appendChild(card);
+    });
+    grid.querySelectorAll(".play-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        toggleTone(btn.dataset.key, parseFloat(btn.dataset.freq), btn);
+      });
     });
   }
 
-  function renderModesEmpty() {
+  function renderModesFromTheory() {
     const grid = document.getElementById("modes-grid");
     grid.innerHTML = "";
     ["F1", "F2", "F3", "F4", "F5"].forEach(key => {
       const info = MODE_INFO[key];
-      grid.innerHTML += `
-        <div class="mode-card">
-          <div class="mode-label">${key} · ${info.theory.toFixed(2)} Hz</div>
-          <div class="mode-name">${info.name}</div>
-          <div class="mode-value na">— Hz —</div>
-          <div class="confidence-bar">
-            <div class="confidence-fill low" style="width:0%"></div>
-          </div>
-          <div class="confidence-label">
-            <span>CONFIDENCE</span>
-            <span>—</span>
-          </div>
-        </div>
+      const audibleHz = info.theory * 64;
+      const card = document.createElement("div");
+      card.className = "mode-card";
+      card.innerHTML = `
+        <div class="mode-label">${key} · ${info.theory.toFixed(2)} Hz</div>
+        <div class="mode-name">${info.name}</div>
+        <div class="mode-value na">— Hz —</div>
+        <div class="confidence-bar"><div class="confidence-fill low" style="width:0%"></div></div>
+        <div class="confidence-label"><span>CONFIDENCE</span><span>—</span></div>
+        <button class="play-btn" data-key="${key}" data-freq="${audibleHz}">
+          ▶ PLAY <span class="note">理論値 ×64 = ${audibleHz.toFixed(2)} Hz</span>
+        </button>
       `;
+      grid.appendChild(card);
+    });
+    grid.querySelectorAll(".play-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        toggleTone(btn.dataset.key, parseFloat(btn.dataset.freq), btn);
+      });
     });
   }
 
@@ -781,15 +718,11 @@
     const state = document.getElementById("polarization-state");
     const desc = document.getElementById("polarization-desc");
     const meta = document.getElementById("polarization-meta");
-
     const isDay = pol.is_day_japan ?? (pol.state === "right");
-
     banner.classList.remove("day", "night");
     banner.classList.add(isDay ? "day" : "night");
-
     viz.classList.remove("rotate-right", "rotate-left");
     viz.classList.add(isDay ? "rotate-right" : "rotate-left");
-
     if (isDay) {
       state.textContent = "いま磁場は、右に回っている";
       desc.textContent = "日本は昼。シューマン共振の磁場偏光は右回転優位の状態です（Sentman 1987）。";
@@ -797,21 +730,58 @@
       state.textContent = "いま磁場は、左に回っている";
       desc.textContent = "日本は夜。シューマン共振の磁場偏光は左回転優位の状態です。夜中の3時は、最も深くなる時間。";
     }
-
     const fmtHour = (h) => {
       const hh = Math.floor(h);
       const mm = Math.floor((h - hh) * 60);
       return String(hh).padStart(2, "0") + ":" + String(mm).padStart(2, "0");
     };
-    meta.innerHTML =
-      "JST " + fmtHour(pol.japan_hour) + "<br>" +
-      "TOMSK " + fmtHour(pol.tomsk_hour);
+    meta.innerHTML = "JST " + fmtHour(pol.japan_hour) + "<br>TOMSK " + fmtHour(pol.tomsk_hour);
   }
 
-  // 初期ロード
-  loadData();
+  // === 手動入力 ===
+  function updateManualDisplay() {
+    const inputHz = parseFloat(document.getElementById("manual-hz").value) || 0;
+    const oct = parseInt(document.getElementById("manual-oct").value) || 0;
+    const outHz = inputHz * Math.pow(2, oct);
+    document.getElementById("manual-in").textContent = inputHz.toFixed(2);
+    document.getElementById("manual-out").textContent = outHz.toFixed(2);
+    return outHz;
+  }
 
-  // 5分ごとにリロード（データ自体は15分ごとだが、念のため）
+  document.getElementById("manual-hz").addEventListener("input", () => {
+    const outHz = updateManualDisplay();
+    if (activeOscillators["manual"] && outHz > 0 && outHz < 20000) {
+      activeOscillators["manual"].osc.frequency.setValueAtTime(outHz, getAudioCtx().currentTime);
+    }
+  });
+
+  document.getElementById("manual-oct").addEventListener("input", () => {
+    const outHz = updateManualDisplay();
+    if (activeOscillators["manual"] && outHz > 0 && outHz < 20000) {
+      activeOscillators["manual"].osc.frequency.setValueAtTime(outHz, getAudioCtx().currentTime);
+    }
+  });
+
+  document.getElementById("manual-btn").addEventListener("click", () => {
+    const btn = document.getElementById("manual-btn");
+    const outHz = updateManualDisplay();
+    if (activeOscillators["manual"]) {
+      stopTone("manual");
+      btn.classList.remove("playing");
+      btn.innerHTML = "▶ PLAY";
+    } else {
+      if (outHz <= 0 || outHz >= 20000) {
+        alert("可聴域（20〜20000Hz）に収まる値を入力してください");
+        return;
+      }
+      startTone("manual", outHz);
+      btn.classList.add("playing");
+      btn.innerHTML = "■ STOP";
+    }
+  });
+
+  updateManualDisplay();
+  loadData();
   setInterval(loadData, 5 * 60 * 1000);
 </script>
 
