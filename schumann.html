@@ -3,383 +3,817 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Schumann Resonance — いま、地球の鼓動</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Mono:wght@300;400&family=Zen+Kaku+Gothic+New:wght@300;400;500&display=swap" rel="stylesheet">
+<title>Schumann Resonance Live — 地球の鼓動</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@300;400;500&family=Noto+Serif+JP:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #060609;
-  --surface: #0c0c14;
-  --border: rgba(255,255,255,0.05);
-  --text: #d8d4e0;
-  --text2: rgba(216,212,224,0.45);
-  --text3: rgba(216,212,224,0.2);
-  --f1: #e8e4ec;
-  --f2: #d4c85a;
-  --f3: #c85a5a;
-  --f4: #5ac878;
-  --accent: #5ac8c0;
-  --accent-dim: rgba(90,200,192,0.08);
-}
-* { margin:0; padding:0; box-sizing:border-box }
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Zen Kaku Gothic New', sans-serif;
-  font-weight: 300;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-.ambient {
-  position: fixed; inset: 0; z-index: 0; pointer-events: none;
-  background:
-    radial-gradient(ellipse 60% 40% at 25% 15%, rgba(90,200,192,0.02), transparent 70%),
-    radial-gradient(ellipse 40% 50% at 75% 85%, rgba(90,200,192,0.015), transparent 70%);
-}
-.wrap { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; padding: 0 20px }
+  :root {
+    --bg-void: #05060e;
+    --bg-deep: #0a0c1a;
+    --bg-card: rgba(15, 18, 35, 0.6);
+    --border: rgba(160, 140, 255, 0.12);
+    --border-glow: rgba(160, 140, 255, 0.35);
+    --text-primary: #e8e4f0;
+    --text-muted: #8a86a0;
+    --text-dim: #555270;
+    --accent-aurora: #7cf9d4;
+    --accent-violet: #a78bfa;
+    --accent-gold: #f0c674;
+    --accent-rose: #ff8fb1;
+    --confidence-high: #7cf9d4;
+    --confidence-mid: #f0c674;
+    --confidence-low: #ff8fb1;
+  }
 
-.mmm {
-  text-align: center;
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 400;
-  font-size: clamp(22px, 5.5vw, 36px);
-  letter-spacing: 3px;
-  color: var(--accent);
-  padding: 28px 0 6px;
-  text-shadow: 0 0 30px rgba(90,200,192,0.15);
-}
-.header {
-  text-align: center;
-  padding: 2px 0 16px;
-}
-.header-sub {
-  font-family: 'DM Mono', monospace;
-  font-size: 8px;
-  letter-spacing: 5px;
-  text-transform: uppercase;
-  color: var(--text3);
-  opacity: 0.5;
-}
-.header h1 {
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 300;
-  font-size: clamp(20px, 4.5vw, 32px);
-  letter-spacing: 2px;
-  margin-top: 3px;
-  color: rgba(255,255,255,0.55);
-}
-.status {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  padding: 0 0 12px;
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  color: var(--text3);
-}
-.pulse {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: var(--text3);
-  transition: all 0.4s;
-}
-.pulse.on {
-  background: var(--accent);
-  box-shadow: 0 0 8px rgba(90,200,192,0.5);
-  animation: pulsate 2s ease-in-out infinite;
-}
-.pulse.err { background: var(--f3); animation: none }
-@keyframes pulsate {
-  0%,100% { box-shadow: 0 0 0 0 rgba(90,200,192,0.3) }
-  50% { box-shadow: 0 0 0 6px rgba(90,200,192,0) }
-}
-.hero {
-  text-align: center;
-  padding: 8px 0 20px;
-}
-.hero-label {
-  font-size: 12px;
-  color: var(--text2);
-  letter-spacing: 1px;
-}
-.hero-hz {
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 300;
-  font-size: clamp(72px, 20vw, 140px);
-  line-height: 1;
-  color: #4a9eed;
-  transition: color 0.5s;
-  min-height: 1.1em;
-}
-.hero-hz.loading {
-  color: var(--text3);
-  font-size: clamp(36px, 10vw, 60px);
-  animation: loadFade 1.8s ease-in-out infinite;
-}
-.hero-hz.err { color: var(--f3) }
-@keyframes loadFade { 0%,100%{opacity:0.2} 50%{opacity:0.6} }
-.hero-unit {
-  font-family: 'DM Mono', monospace;
-  font-size: 14px;
-  color: var(--text2);
-  letter-spacing: 4px;
-}
-.hero-sub {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  color: var(--text3);
-  margin-top: 6px;
-  min-height: 1.2em;
-}
-.modes {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  overflow: hidden;
-  margin-bottom: 14px;
-}
-.mode-cell {
-  background: var(--surface);
-  padding: 16px 8px;
-  text-align: center;
-  transition: background 0.3s;
-}
-.mode-cell:hover { background: rgba(255,255,255,0.02) }
-.mode-dot {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  margin: 0 auto 6px;
-  opacity: 0.4;
-}
-.mode-cell[data-mode="1"] .mode-dot { background: var(--f1) }
-.mode-cell[data-mode="2"] .mode-dot { background: var(--f2) }
-.mode-cell[data-mode="3"] .mode-dot { background: var(--f3) }
-.mode-cell[data-mode="4"] .mode-dot { background: var(--f4) }
-.mode-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 2px;
-  color: var(--text3);
-  margin-bottom: 4px;
-}
-.mode-hz {
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 300;
-  font-size: clamp(22px, 5vw, 30px);
-  color: var(--text);
-  transition: color 0.3s;
-}
-.mode-cell[data-mode="1"] .mode-hz { color: var(--f1) }
-.mode-cell[data-mode="2"] .mode-hz { color: var(--f2) }
-.mode-cell[data-mode="3"] .mode-hz { color: var(--f3) }
-.mode-cell[data-mode="4"] .mode-hz { color: var(--f4) }
-.mode-hz.na { color: var(--text3); font-size: 14px }
-.mode-sub {
-  font-family: 'DM Mono', monospace;
-  font-size: 8px;
-  color: var(--text3);
-  margin-top: 3px;
-}
-.avgs {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 14px;
-}
-.avg-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 16px 16px;
-  text-align: center;
-  transition: border-color 0.3s;
-}
-.avg-card:hover { border-color: rgba(255,255,255,0.08) }
-.avg-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 2px;
-  color: var(--text3);
-  margin-bottom: 6px;
-}
-.avg-hz {
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 300;
-  font-size: clamp(32px, 8vw, 48px);
-  line-height: 1;
-  color: var(--text);
-}
-.avg-hz.na { color: var(--text3); font-size: 16px }
-.avg-unit {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  color: var(--text3);
-  margin-top: 4px;
-}
-.avg-sub {
-  font-family: 'DM Mono', monospace;
-  font-size: 9px;
-  color: var(--text3);
-  margin-top: 4px;
-}
-.footer {
-  text-align: center;
-  padding: 20px 0 16px;
-  font-family: 'DM Mono', monospace;
-  font-size: 8px;
-  color: var(--text3);
-  line-height: 2;
-}
-.log-btn {
-  display: block;
-  margin: 0 auto 8px;
-  background: none;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 4px 12px;
-  font-family: 'DM Mono', monospace;
-  font-size: 9px;
-  color: var(--text3);
-  cursor: pointer;
-  transition: all 0.3s;
-}
-.log-btn:hover { border-color: rgba(255,255,255,0.1); color: var(--text2) }
-.log-box {
-  display: none;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 12px;
-  max-height: 180px;
-  overflow-y: auto;
-  margin-bottom: 16px;
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  line-height: 1.8;
-  color: var(--text2);
-}
-.log-box.open { display: block }
-.log-box .ts { color: var(--text3) }
-.log-box .ok { color: var(--accent) }
-.log-box .ng { color: var(--f3) }
-@media (max-width: 480px) {
-  .modes { grid-template-columns: repeat(2, 1fr) }
-  .avgs { grid-template-columns: 1fr }
-}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--bg-void);
+    color: var(--text-primary);
+    font-family: "Cormorant Garamond", "Noto Serif JP", serif;
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* 背景：深い宇宙の電磁波 */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 10%, rgba(124, 249, 212, 0.08), transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(167, 139, 250, 0.08), transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(240, 198, 116, 0.03), transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(160, 140, 255, 0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(160, 140, 255, 0.015) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 6rem;
+  }
+
+  /* === ヘッダー === */
+  header {
+    text-align: center;
+    padding: 2rem 0 3rem;
+    position: relative;
+  }
+
+  .mmm-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: var(--accent-gold);
+    border: 1px solid rgba(240, 198, 116, 0.3);
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    margin-bottom: 1.5rem;
+  }
+
+  .mmm-badge .bolt {
+    color: var(--accent-gold);
+    filter: drop-shadow(0 0 4px rgba(240, 198, 116, 0.6));
+  }
+
+  h1 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 300;
+    letter-spacing: 0.02em;
+    line-height: 1.1;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--accent-aurora);
+    font-weight: 400;
+  }
+
+  .subtitle {
+    font-family: "Noto Serif JP", serif;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    margin-top: 0.75rem;
+  }
+
+  .last-update {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    letter-spacing: 0.15em;
+    margin-top: 1.5rem;
+  }
+
+  .last-update .live-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: var(--accent-aurora);
+    border-radius: 50%;
+    margin-right: 0.5rem;
+    box-shadow: 0 0 8px var(--accent-aurora);
+    animation: pulse 2s ease-in-out infinite;
+    vertical-align: middle;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.1); }
+  }
+
+  /* === 偏光バナー === */
+  .polarization-banner {
+    background: var(--bg-card);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .polarization-banner.day {
+    border-color: rgba(240, 198, 116, 0.3);
+    background:
+      linear-gradient(135deg, rgba(240, 198, 116, 0.08), transparent),
+      var(--bg-card);
+  }
+
+  .polarization-banner.night {
+    border-color: rgba(167, 139, 250, 0.3);
+    background:
+      linear-gradient(135deg, rgba(167, 139, 250, 0.08), transparent),
+      var(--bg-card);
+  }
+
+  .polarization-info {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .rotation-viz {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .polarization-banner.day .rotation-viz { color: var(--accent-gold); }
+  .polarization-banner.night .rotation-viz { color: var(--accent-violet); }
+
+  .rotation-viz::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    width: 4px;
+    height: 12px;
+    background: currentColor;
+    border-radius: 2px;
+    transform-origin: 50% 32px;
+  }
+
+  .rotation-viz.rotate-right::before { animation: rotateRight 4s linear infinite; }
+  .rotation-viz.rotate-left::before { animation: rotateLeft 4s linear infinite; }
+
+  @keyframes rotateRight {
+    from { transform: translateX(-50%) rotate(0deg); }
+    to { transform: translateX(-50%) rotate(360deg); }
+  }
+  @keyframes rotateLeft {
+    from { transform: translateX(-50%) rotate(0deg); }
+    to { transform: translateX(-50%) rotate(-360deg); }
+  }
+
+  .polarization-text h3 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    font-style: italic;
+    margin-bottom: 0.25rem;
+  }
+
+  .polarization-text p {
+    font-family: "Noto Serif JP", serif;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .polarization-meta {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    text-align: right;
+  }
+
+  /* === モード数値カード === */
+  .modes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+
+  .mode-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem 1.25rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .mode-card:hover {
+    border-color: var(--border-glow);
+    transform: translateY(-2px);
+  }
+
+  .mode-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-aurora), transparent);
+    opacity: 0.5;
+  }
+
+  .mode-label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .mode-name {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 0.95rem;
+    font-style: italic;
+    color: var(--text-dim);
+    margin-bottom: 0.75rem;
+  }
+
+  .mode-value {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 2.8rem;
+    font-weight: 300;
+    line-height: 1;
+    color: var(--accent-aurora);
+    letter-spacing: -0.02em;
+  }
+
+  .mode-value .unit {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-left: 0.25rem;
+    letter-spacing: 0;
+  }
+
+  .mode-value.na {
+    color: var(--text-dim);
+    font-size: 1.5rem;
+    padding: 0.75rem 0;
+  }
+
+  .confidence-bar {
+    height: 3px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 2px;
+    margin-top: 1rem;
+    overflow: hidden;
+  }
+
+  .confidence-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .confidence-fill.high { background: var(--confidence-high); box-shadow: 0 0 6px var(--confidence-high); }
+  .confidence-fill.mid { background: var(--confidence-mid); box-shadow: 0 0 6px var(--confidence-mid); }
+  .confidence-fill.low { background: var(--confidence-low); box-shadow: 0 0 6px var(--confidence-low); }
+
+  .confidence-label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    letter-spacing: 0.15em;
+    margin-top: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* === セクションタイトル === */
+  .section-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 1.8rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--text-primary);
+    margin: 3rem 0 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  .section-title .section-sub {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.7rem;
+    font-style: normal;
+    color: var(--text-dim);
+    letter-spacing: 0.2em;
+  }
+
+  /* === 画像＋解説セクション === */
+  .graph-section {
+    display: grid;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .graph-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 768px) {
+    .graph-card {
+      grid-template-columns: 1.3fr 1fr;
+    }
+  }
+
+  .graph-image-wrap {
+    position: relative;
+    background: #000;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+  }
+
+  .graph-image-wrap img {
+    max-width: 100%;
+    max-height: 400px;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+  }
+
+  .graph-description {
+    padding: 2rem;
+  }
+
+  .graph-description h3 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--accent-aurora);
+    margin-bottom: 0.5rem;
+  }
+
+  .graph-description .graph-sub {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    letter-spacing: 0.2em;
+    margin-bottom: 1.5rem;
+  }
+
+  .graph-description p {
+    font-family: "Noto Serif JP", serif;
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+
+  .graph-description .mmm-note {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: rgba(240, 198, 116, 0.05);
+    border-left: 2px solid var(--accent-gold);
+    border-radius: 4px;
+  }
+
+  .graph-description .mmm-note h4 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 0.95rem;
+    font-style: italic;
+    color: var(--accent-gold);
+    margin-bottom: 0.4rem;
+  }
+
+  .graph-description .mmm-note p {
+    font-size: 0.85rem;
+    margin: 0;
+    color: var(--text-muted);
+  }
+
+  /* === ノート＆フッター === */
+  .observation {
+    background: var(--bg-card);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    margin: 2rem 0;
+    font-family: "Noto Serif JP", serif;
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--text-muted);
+  }
+
+  .observation strong {
+    color: var(--accent-aurora);
+    font-weight: 500;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    letter-spacing: 0.15em;
+    line-height: 1.8;
+  }
+
+  footer a {
+    color: var(--accent-violet);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+  }
+  footer a:hover { border-color: var(--accent-violet); }
+
+  .error-banner {
+    background: rgba(255, 143, 177, 0.08);
+    border: 1px solid rgba(255, 143, 177, 0.3);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    font-family: "Noto Serif JP", serif;
+    color: var(--accent-rose);
+    display: none;
+  }
+
+  .error-banner.visible { display: block; }
 </style>
 </head>
 <body>
-<div class="ambient"></div>
+
 <div class="wrap">
-  <div class="mmm">⚡ Master Mind Members ⚡</div>
-  <header class="header">
-    <div class="header-sub">Earth Frequency</div>
-    <h1>Schumann Resonance</h1>
+
+  <!-- ヘッダー -->
+  <header>
+    <div class="mmm-badge">
+      <span class="bolt">⚡</span> MASTER MIND MEMBERS <span class="bolt">⚡</span>
+    </div>
+    <h1>Schumann Resonance <em>Live</em></h1>
+    <div class="subtitle">地球の鼓動を、Claude 4.7 の目で読み取る</div>
+    <div class="last-update">
+      <span class="live-dot"></span>
+      <span id="last-update">Loading...</span>
+    </div>
   </header>
-  <div class="status">
-    <div class="pulse" id="pulse"></div>
-    <span id="statusText">CONNECTING</span>
-    <span style="margin-left:auto" id="timerText"></span>
+
+  <!-- エラーバナー -->
+  <div class="error-banner" id="error-banner">
+    データ取得中にエラーが発生しました。しばらく時間をおいて再度ご確認ください。
   </div>
-  <section class="hero">
-    <div class="hero-label">いまの地球の鼓動</div>
-    <div class="hero-hz loading" id="heroHz">接続中</div>
-    <div class="hero-unit">Hz</div>
-    <div class="hero-sub" id="heroSub"></div>
+
+  <!-- 偏光状態バナー -->
+  <div class="polarization-banner" id="polarization-banner">
+    <div class="polarization-info">
+      <div class="rotation-viz" id="rotation-viz"></div>
+      <div class="polarization-text">
+        <h3 id="polarization-state">計測中…</h3>
+        <p id="polarization-desc">シューマン共振の磁場偏光は、昼は右回転、夜は左回転に切り替わります（Sentman 1987）</p>
+      </div>
+    </div>
+    <div class="polarization-meta" id="polarization-meta">
+      JST --:--<br>
+      TOMSK --:--
+    </div>
+  </div>
+
+  <!-- モード数値カード -->
+  <section>
+    <div class="modes-grid" id="modes-grid">
+      <!-- JavaScriptで動的生成 -->
+    </div>
   </section>
-  <section class="modes">
-    <div class="mode-cell" data-mode="1"><div class="mode-dot"></div><div class="mode-label">F1</div><div class="mode-hz na" id="mHz1">—</div><div class="mode-sub" id="mSub1"></div></div>
-    <div class="mode-cell" data-mode="2"><div class="mode-dot"></div><div class="mode-label">F2</div><div class="mode-hz na" id="mHz2">—</div><div class="mode-sub" id="mSub2"></div></div>
-    <div class="mode-cell" data-mode="3"><div class="mode-dot"></div><div class="mode-label">F3</div><div class="mode-hz na" id="mHz3">—</div><div class="mode-sub" id="mSub3"></div></div>
-    <div class="mode-cell" data-mode="4"><div class="mode-dot"></div><div class="mode-label">F4</div><div class="mode-hz na" id="mHz4">—</div><div class="mode-sub" id="mSub4"></div></div>
-  </section>
-  <section class="avgs">
-    <div class="avg-card"><div class="avg-label">24H AVERAGE</div><div class="avg-hz na" id="avg24">蓄積中</div><div class="avg-unit">Hz</div><div class="avg-sub" id="avg24sub"></div></div>
-    <div class="avg-card"><div class="avg-label" id="monthLabel">MONTHLY</div><div class="avg-hz na" id="avgMonth">蓄積中</div><div class="avg-unit">Hz</div><div class="avg-sub" id="avgMonthSub"></div></div>
-  </section>
-  <div class="mmm">⚡ Master Mind Members ⚡</div>
-  <button class="log-btn" onclick="document.getElementById('logBox').classList.toggle('open')">ログの取得</button>
-  <div class="log-box" id="logBox"></div>
-  <footer class="footer">Auto-refresh 5 min</footer>
+
+  <!-- 観察メモ -->
+  <div class="observation" id="observation" style="display:none;">
+    <strong>Claude 4.7 の観察：</strong>
+    <span id="observation-text"></span>
+  </div>
+
+  <!-- 画像＋解説セクション -->
+  <h2 class="section-title">
+    <span>4つの窓から見る地球の磁気圏</span>
+    <span class="section-sub">TOMSK / RUSSIA</span>
+  </h2>
+
+  <div class="graph-section">
+
+    <!-- ① スペクトログラム -->
+    <article class="graph-card">
+      <div class="graph-image-wrap">
+        <img src="latest_spectrogram.jpg" alt="シューマン共振スペクトログラム"
+             onerror="this.src='https://sos70.ru/provider.php?file=shm.jpg'">
+      </div>
+      <div class="graph-description">
+        <h3>① Spectrogram</h3>
+        <div class="graph-sub">周波数 × 時間 × 強度</div>
+        <p>横軸は時刻、縦軸は周波数（Hz）、色の明るさがパワーを表します。横に走る4〜5本の明るい帯が、それぞれF1〜F5のモード。帯の太さや鋭さから、各モードの安定度が読めます。</p>
+        <p>縦方向に走る明るい線は、Q-burst と呼ばれる巨大雷放電の痕跡。全帯域で一斉にパワーが跳ね上がる瞬間です。</p>
+        <div class="mmm-note">
+          <h4>MMM との関わり</h4>
+          <p>MMM の活動時間帯にスペクトログラムで異常パターンが現れるかを追うことで、集合的な電磁場への影響を視覚的に検証できます。</p>
+        </div>
+      </div>
+    </article>
+
+    <!-- ② 周波数 -->
+    <article class="graph-card">
+      <div class="graph-image-wrap">
+        <img src="https://sos70.ru/provider.php?file=srf.jpg" alt="周波数グラフ">
+      </div>
+      <div class="graph-description">
+        <h3>② Frequency</h3>
+        <div class="graph-sub">各モードの中心周波数の推移</div>
+        <p>理論値は F1: 7.83Hz, F2: 14.1Hz, F3: 20.3Hz, F4: 26.4Hz, F5: 33.8Hz。周波数の変動は主に電離層の形状・高さに依存します。空洞のサイズが変わると共振周波数が動く。</p>
+        <p>F1 はQ値が低く変動幅が大きい、F3 はQ値が高く細い線で安定——という個性が現れます。</p>
+        <div class="mmm-note">
+          <h4>MMM との関わり</h4>
+          <p>シューマン音© の目標は 7.83Hz → 8.02Hz への引き上げ。F1 の長期変動に、MMM の集合的意図の痕跡が残るかを追跡しています。</p>
+        </div>
+      </div>
+    </article>
+
+    <!-- ③ 振幅 -->
+    <article class="graph-card">
+      <div class="graph-image-wrap">
+        <img src="https://sos70.ru/provider.php?file=sra.jpg" alt="振幅グラフ">
+      </div>
+      <div class="graph-description">
+        <h3>③ Amplitude</h3>
+        <div class="graph-sub">共振エネルギーの強さ（pT）</div>
+        <p>振幅は全球の雷活動の強度そのもの。UTC 8時（東南アジア午後）、15時（アフリカ午後）、21時（南米午後）に、それぞれ振幅のピークが現れます。3大雷活動中心のリズムが振幅に刻まれています。</p>
+        <p>単位は <em>ピコテスラ</em>（pT）。地球磁場の約10億分の1という途方もない微弱さ。</p>
+        <div class="mmm-note">
+          <h4>MMM との関わり</h4>
+          <p>集合的な意図が電磁エネルギー注入として作用するなら、周波数より振幅に先に出る可能性があります。MMM 活動時間帯の振幅スパイクが注目ポイント。</p>
+        </div>
+      </div>
+    </article>
+
+    <!-- ④ Q値 -->
+    <article class="graph-card">
+      <div class="graph-image-wrap">
+        <img src="https://sos70.ru/provider.php?file=srq.jpg" alt="Q値グラフ">
+      </div>
+      <div class="graph-description">
+        <h3>④ Quality Factor</h3>
+        <div class="graph-sub">共振の鋭さ・持続性</div>
+        <p>Q値は「共振がどれだけ鋭いか」の指標。地球のシューマン共振の Q 値は F1 で 4〜6 と非常に低く、雷が止まれば数秒で減衰する「漏れだらけの共振器」です。</p>
+        <p>Q 値が低いということは、外部からの駆動力に対して共振周波数が<em>動きやすい</em>ということ。太陽フレアや地磁気嵐で Q 値が跳ね上がり、電離層の状態を映す鏡になります。</p>
+        <div class="mmm-note">
+          <h4>MMM との関わり</h4>
+          <p>Q 値は電離層の状態に敏感。MMM の活動で電離層に何らかの変化が起きるなら、周波数そのものより Q 値の変動パターンに先行して現れる可能性があります。</p>
+        </div>
+      </div>
+    </article>
+
+  </div>
+
+  <footer>
+    <p>DATA SOURCE: Tomsk State University (sos70.ru) / ANALYSIS: Claude Opus 4.7 Vision</p>
+    <p>UPDATED EVERY 15 MINUTES · VIA GITHUB ACTIONS</p>
+    <p style="margin-top:1rem;">
+      <a href="https://mitsulow.github.io/0Lei/">0Lei</a> ·
+      <a href="https://ameblo.jp/mitsulow">Blog</a> ·
+      <span style="color:var(--accent-gold);">⚡ MMM ⚡</span>
+    </p>
+  </footer>
+
 </div>
+
 <script>
-const JSON_URL='./schumann.json';
-const REFRESH_MS=5*60*1000;
-let nextAt=0,lastHz=null;
+  const MODE_INFO = {
+    F1: { name: "Fundamental", theory: 7.83 },
+    F2: { name: "Second harmonic", theory: 14.1 },
+    F3: { name: "Third harmonic", theory: 20.3 },
+    F4: { name: "Fourth harmonic", theory: 26.4 },
+    F5: { name: "Fifth harmonic", theory: 33.8 },
+  };
 
-function gm(modes,key){const u=key.toUpperCase(),l=key.toLowerCase();if(modes[u]!=null)return modes[u];if(modes[l]!=null)return modes[l];return null}
-
-function monthKey(){const d=new Date();return`sr_${d.getFullYear()}_${String(d.getMonth()+1).padStart(2,'0')}`}
-function loadMonthly(){try{const r=localStorage.getItem(monthKey());if(r)return JSON.parse(r)}catch(e){}return{readings:[]}}
-function saveReading(hz){const d=loadMonthly();d.readings.push({t:Date.now(),hz});if(d.readings.length>10000)d.readings=d.readings.slice(-10000);try{localStorage.setItem(monthKey(),JSON.stringify(d))}catch(e){}}
-function monthlyAvg(){const d=loadMonthly();if(!d.readings.length)return null;return{avg:d.readings.reduce((a,r)=>a+r.hz,0)/d.readings.length,count:d.readings.length}}
-
-function ts(){return new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit',second:'2-digit'})}
-function log(msg,type='ok'){const el=document.getElementById('logBox');el.innerHTML+=`<div><span class="ts">[${ts()}]</span> <span class="${type}">${msg}</span></div>`;el.scrollTop=el.scrollHeight;if(el.children.length>60)el.removeChild(el.children[0])}
-
-async function update(){
-  log('── 更新 ──');
-  const hero=document.getElementById('heroHz');
-  hero.className='hero-hz loading';hero.textContent='取得中';
-  try{
-    const r=await fetch(JSON_URL+'?_='+Date.now(),{cache:'no-store'});
-    if(!r.ok)throw new Error('HTTP '+r.status);
-    const data=await r.json();
-    log(`✓ JSON取得 (${data.zone||data.method||''})`);
-    const m=data.modes||{};
-    const f1=gm(m,'f1');
-    if(f1!=null){
-      lastHz=f1;hero.className='hero-hz';hero.textContent=f1.toFixed(2);
-      document.getElementById('pulse').className='pulse on';
-      document.getElementById('statusText').textContent='LIVE';
-      saveReading(f1);
-    }else{
-      hero.className='hero-hz err';hero.textContent=lastHz?lastHz.toFixed(2)+'?':'——';
-      document.getElementById('pulse').className='pulse err';
-      document.getElementById('statusText').textContent='F1 UNAVAILABLE';
+  async function loadData() {
+    try {
+      // キャッシュ回避
+      const res = await fetch("schumann_data.json?t=" + Date.now());
+      if (!res.ok) throw new Error("Data fetch failed");
+      const data = await res.json();
+      renderData(data);
+    } catch (err) {
+      console.error(err);
+      document.getElementById("error-banner").classList.add("visible");
+      // フォールバック：偏光だけでも表示
+      renderPolarizationFallback();
     }
-    ['f1','f2','f3','f4'].forEach((key,i)=>{
-      const n=i+1,hz=gm(m,key);
-      const el=document.getElementById('mHz'+n),sub=document.getElementById('mSub'+n);
-      if(hz!=null){el.textContent=hz.toFixed(2);el.className='mode-hz';sub.textContent=hz.toFixed(2)+' Hz';log(`F${n}: ${hz.toFixed(2)} Hz`)}
-      else{el.textContent='—';el.className='mode-hz na';sub.textContent=''}
-    });
-    if(data.avg24!=null){
-      const e=document.getElementById('avg24');
-      e.textContent=data.avg24.toFixed(2);e.className='avg-hz';
-      document.getElementById('avg24sub').textContent=`${data.avg24_points||'?'} points`;
-    }
-    const mo=monthlyAvg();
-    if(mo){
-      const e=document.getElementById('avgMonth');
-      e.textContent=mo.avg.toFixed(2);e.className='avg-hz';
-      const n=new Date(),mn=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
-      document.getElementById('monthLabel').textContent=`${n.getFullYear()}年${mn[n.getMonth()]}`;
-      document.getElementById('avgMonthSub').textContent=`${mo.count} readings`;
-    }
-    const tstamp=data.timestamp_jst||data.timestamp;
-    if(tstamp){
-      let display=data.timestamp_jst||new Date(tstamp).toLocaleString('ja-JP',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'});
-      document.getElementById('heroSub').textContent='最新取得時刻 '+display;
-    }
-  }catch(e){
-    log(`✗ ${e.message}`,'ng');
-    document.getElementById('pulse').className='pulse err';
-    document.getElementById('statusText').textContent='ERROR';
-    hero.className='hero-hz err';hero.textContent='ERROR';
   }
-  scheduleNext();
-}
 
-function scheduleNext(){nextAt=Date.now()+REFRESH_MS;setTimeout(update,REFRESH_MS)}
-setInterval(()=>{const r=Math.max(0,nextAt-Date.now()),m=Math.floor(r/60000),s=Math.floor((r%60000)/1000);document.getElementById('timerText').textContent=`${m}:${String(s).padStart(2,'0')}`},1000);
+  function renderPolarizationFallback() {
+    const now = new Date();
+    const jstHour = (now.getUTCHours() + 9) % 24 + now.getUTCMinutes() / 60;
+    const isDay = jstHour >= 6 && jstHour <= 18;
+    renderPolarization({
+      state: isDay ? "right" : "left",
+      state_jp: isDay ? "右回転（昼）" : "左回転（夜）",
+      japan_hour: jstHour,
+      tomsk_hour: ((now.getUTCHours() + 5.6 + now.getUTCMinutes() / 60) % 24),
+      is_day_japan: isDay
+    });
+  }
 
-(function(){const mo=monthlyAvg();if(mo){const e=document.getElementById('avgMonth');e.textContent=mo.avg.toFixed(2);e.className='avg-hz';const n=new Date(),mn=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];document.getElementById('monthLabel').textContent=`${n.getFullYear()}年${mn[n.getMonth()]}`;document.getElementById('avgMonthSub').textContent=`${mo.count} readings`}})();
+  function renderData(data) {
+    if (data.status === "error") {
+      document.getElementById("error-banner").classList.add("visible");
+      document.getElementById("error-banner").textContent =
+        "データ取得エラー: " + (data.error || "unknown");
+      renderPolarizationFallback();
+      renderModesEmpty();
+      return;
+    }
 
-log('Schumann Monitor v3 起動');
-update();
+    // タイムスタンプ
+    const ts = new Date(data.timestamp);
+    const jst = new Intl.DateTimeFormat("ja-JP", {
+      year: "numeric", month: "2-digit", day: "2-digit",
+      hour: "2-digit", minute: "2-digit",
+      timeZone: "Asia/Tokyo"
+    }).format(ts);
+    document.getElementById("last-update").textContent =
+      "UPDATED " + jst + " JST";
+
+    // モード
+    renderModes(data.modes);
+
+    // 偏光
+    if (data.polarization) {
+      renderPolarization(data.polarization);
+    }
+
+    // 観察メモ
+    if (data.notes) {
+      document.getElementById("observation").style.display = "block";
+      document.getElementById("observation-text").textContent = data.notes;
+    }
+  }
+
+  function renderModes(modes) {
+    const grid = document.getElementById("modes-grid");
+    grid.innerHTML = "";
+    ["F1", "F2", "F3", "F4", "F5"].forEach(key => {
+      const mode = modes?.[key] || {};
+      const hz = mode.hz;
+      const conf = mode.confidence ?? 0;
+      const info = MODE_INFO[key];
+
+      const confClass = conf >= 75 ? "high" : conf >= 50 ? "mid" : "low";
+      const confLabel = conf >= 75 ? "HIGH" : conf >= 50 ? "MID" : "LOW";
+
+      const hzDisplay = (hz != null)
+        ? `<span>${hz.toFixed(2)}</span><span class="unit">Hz</span>`
+        : '<span class="na">— Hz —</span>';
+
+      grid.innerHTML += `
+        <div class="mode-card">
+          <div class="mode-label">${key} · ${info.theory.toFixed(2)} Hz</div>
+          <div class="mode-name">${info.name}</div>
+          <div class="mode-value ${hz == null ? 'na' : ''}">${hzDisplay}</div>
+          <div class="confidence-bar">
+            <div class="confidence-fill ${confClass}" style="width:${conf}%"></div>
+          </div>
+          <div class="confidence-label">
+            <span>CONFIDENCE</span>
+            <span>${conf}% · ${confLabel}</span>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  function renderModesEmpty() {
+    const grid = document.getElementById("modes-grid");
+    grid.innerHTML = "";
+    ["F1", "F2", "F3", "F4", "F5"].forEach(key => {
+      const info = MODE_INFO[key];
+      grid.innerHTML += `
+        <div class="mode-card">
+          <div class="mode-label">${key} · ${info.theory.toFixed(2)} Hz</div>
+          <div class="mode-name">${info.name}</div>
+          <div class="mode-value na">— Hz —</div>
+          <div class="confidence-bar">
+            <div class="confidence-fill low" style="width:0%"></div>
+          </div>
+          <div class="confidence-label">
+            <span>CONFIDENCE</span>
+            <span>—</span>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  function renderPolarization(pol) {
+    const banner = document.getElementById("polarization-banner");
+    const viz = document.getElementById("rotation-viz");
+    const state = document.getElementById("polarization-state");
+    const desc = document.getElementById("polarization-desc");
+    const meta = document.getElementById("polarization-meta");
+
+    const isDay = pol.is_day_japan ?? (pol.state === "right");
+
+    banner.classList.remove("day", "night");
+    banner.classList.add(isDay ? "day" : "night");
+
+    viz.classList.remove("rotate-right", "rotate-left");
+    viz.classList.add(isDay ? "rotate-right" : "rotate-left");
+
+    if (isDay) {
+      state.textContent = "いま磁場は、右に回っている";
+      desc.textContent = "日本は昼。シューマン共振の磁場偏光は右回転優位の状態です（Sentman 1987）。";
+    } else {
+      state.textContent = "いま磁場は、左に回っている";
+      desc.textContent = "日本は夜。シューマン共振の磁場偏光は左回転優位の状態です。夜中の3時は、最も深くなる時間。";
+    }
+
+    const fmtHour = (h) => {
+      const hh = Math.floor(h);
+      const mm = Math.floor((h - hh) * 60);
+      return String(hh).padStart(2, "0") + ":" + String(mm).padStart(2, "0");
+    };
+    meta.innerHTML =
+      "JST " + fmtHour(pol.japan_hour) + "<br>" +
+      "TOMSK " + fmtHour(pol.tomsk_hour);
+  }
+
+  // 初期ロード
+  loadData();
+
+  // 5分ごとにリロード（データ自体は15分ごとだが、念のため）
+  setInterval(loadData, 5 * 60 * 1000);
 </script>
+
 </body>
 </html>
