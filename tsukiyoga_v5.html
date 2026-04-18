@@ -3871,5 +3871,16 @@
 })();
 </script>
 
+<!-- ======== Service Worker 登録（PWA判定のため必須） ======== -->
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch((err) => {
+      console.log('SW registration failed:', err);
+    });
+  });
+}
+</script>
+
 </body>
 </html>
