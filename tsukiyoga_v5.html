@@ -166,22 +166,22 @@
 
   .brand-text h1 {
     font-family: 'Shippori Mincho', serif;
-    font-size: 1.3rem;
+    font-size: 1.35rem;
     font-weight: 600;
     letter-spacing: 0.4em;
     color: #a0d4f5;
     text-shadow: 0 0 20px rgba(110, 196, 245, 0.3);
     line-height: 1;
-    margin-bottom: 4px;
   }
 
   .brand-catch {
     font-family: 'Shippori Mincho', serif;
-    font-size: 0.54rem;
-    letter-spacing: 0.14em;
-    color: rgba(201, 169, 97, 0.7);
+    font-size: 0.58rem;
+    letter-spacing: 0.18em;
+    color: rgba(201, 169, 97, 0.72);
     line-height: 1.3;
     white-space: nowrap;
+    margin-bottom: 5px;
   }
 
   .brand-text .sub { display: none; }
@@ -407,6 +407,53 @@
     font-weight: 600;
     letter-spacing: 0.25em;
     color: var(--moon-white);
+  }
+
+  .memo-modal-date-group {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .memo-modal-lunar {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    color: rgba(160, 190, 230, 0.55);
+  }
+
+  /* 潮汐表示（満潮・干潮時刻） */
+  .memo-modal-tide {
+    margin-top: 6px;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: rgba(170, 200, 230, 0.72);
+    line-height: 1.7;
+  }
+  .memo-modal-tide:empty { display: none; }
+  .memo-modal-tide .tide-row {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+  }
+  .memo-modal-tide .tide-label {
+    color: rgba(201, 169, 97, 0.8);
+    min-width: 3.2em;
+    letter-spacing: 0.35em;
+    font-size: 0.68rem;
+  }
+  .memo-modal-tide .tide-times {
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.12em;
+    font-size: 0.78rem;
+  }
+  .memo-modal-tide .tide-port {
+    font-size: 0.6rem;
+    opacity: 0.55;
+    letter-spacing: 0.3em;
+    margin-top: 2px;
+    color: rgba(160, 190, 230, 0.6);
   }
 
   .memo-modal-close {
@@ -958,6 +1005,13 @@
     color: var(--moon-white);
   }
 
+  .phase-next-main .phase-next-point {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    color: rgba(201, 169, 97, 0.8);
+    margin-left: 0.1em;
+  }
+
   .phase-next-time {
     font-family: 'Cinzel', serif;
     font-size: 0.8rem;
@@ -1159,8 +1213,8 @@
   <div class="brand">
     <div class="brand-mark"></div>
     <div class="brand-text">
+      <div class="brand-catch">月 を 想 う 。 女 性 の た め の</div>
       <h1>ツ キ ヨ ガ</h1>
-      <div class="brand-catch">月 を 想 う ・ 月 を 感 じ る ・ 女 性 の た め の</div>
     </div>
   </div>
 </div>
@@ -1198,11 +1252,15 @@
   <div class="memo-modal-backdrop"></div>
   <div class="memo-modal-content">
     <div class="memo-modal-header">
-      <div class="memo-modal-date" id="memoDate">—</div>
+      <div class="memo-modal-date-group">
+        <div class="memo-modal-date" id="memoDate">—</div>
+        <div class="memo-modal-lunar" id="memoLunar"></div>
+        <div class="memo-modal-tide" id="memoTide"></div>
+      </div>
       <button class="memo-modal-close" id="memoClose">×</button>
     </div>
     <div class="memo-section-label">メ モ</div>
-    <textarea class="memo-textarea" id="memoTextarea" placeholder="月 と の 対 話 · 心 の 動 き ..."></textarea>
+    <textarea class="memo-textarea" id="memoTextarea" placeholder="ツ キ と 対 話 、 心 の 動 き を 記 す 。"></textarea>
     <div class="memo-modal-footer">
       <button class="memo-btn memo-btn-delete" id="memoDelete">削 除</button>
       <button class="memo-btn memo-btn-save" id="memoSave">保 存</button>
@@ -1363,6 +1421,7 @@
         userLocation.lon = pos.coords.longitude;
         userLocation.obtained = true;
         userLocation.name = '現在地';
+        invalidateNearestPort();  // 潮汐用の最寄り港を再計算させる
         // 各ビューを更新
         if (typeof repositionPersonForLocation === 'function') repositionPersonForLocation();
         if (typeof updateData === 'function') updateData();
@@ -1376,6 +1435,79 @@
   }
   // 起動から1秒後に試行（UIが先に出るように）
   setTimeout(tryGeolocate, 1000);
+
+  // ======== 潮汐データ（気象庁） ========
+  // GitHub Pagesに静的JSONとして配置。月1回 GitHub Actions が更新。
+  let tidePortsMeta = null;       // ports.json の内容
+  let tidePortsPromise = null;    // 重複ロード防止
+  const tideDataCache = {};        // {code-year: {days: {...}}}
+  let nearestPortCache = null;    // 位置から算出した最寄り港
+
+  async function loadTidePorts() {
+    if (tidePortsMeta) return tidePortsMeta;
+    if (tidePortsPromise) return tidePortsPromise;
+    tidePortsPromise = fetch('./data/tide/ports.json')
+      .then(r => r.ok ? r.json() : null)
+      .then(d => { tidePortsMeta = d; return d; })
+      .catch(() => null);
+    return tidePortsPromise;
+  }
+
+  function haversineKm(lat1, lon1, lat2, lon2) {
+    const R = 6371;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = Math.sin(dLat / 2) ** 2 +
+              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+              Math.sin(dLon / 2) ** 2;
+    return 2 * R * Math.asin(Math.sqrt(a));
+  }
+
+  function findNearestPort() {
+    if (!tidePortsMeta || !tidePortsMeta.ports) return null;
+    let nearest = null, minDist = Infinity;
+    for (const p of tidePortsMeta.ports) {
+      const d = haversineKm(userLocation.lat, userLocation.lon, p.lat, p.lon);
+      if (d < minDist) { minDist = d; nearest = { ...p, distKm: d }; }
+    }
+    // 最寄り港から500km以上離れてたら対象外（海外・日本外など）
+    if (!nearest || nearest.distKm > 500) return null;
+    return nearest;
+  }
+
+  async function loadTideDataFor(code, year) {
+    const key = `${code}-${year}`;
+    if (tideDataCache[key]) return tideDataCache[key];
+    try {
+      const r = await fetch(`./data/tide/${year}/${code}.json`);
+      if (!r.ok) return null;
+      const data = await r.json();
+      tideDataCache[key] = data;
+      return data;
+    } catch { return null; }
+  }
+
+  // dateStr: "YYYY-MM-DD" の日のその地点の潮汐を返す
+  // 戻り値: { port: {code,name,...}, high: [["HH:MM", cm], ...], low: [...] } または null
+  async function getTideForDate(dateStr) {
+    await loadTidePorts();
+    if (!nearestPortCache) nearestPortCache = findNearestPort();
+    if (!nearestPortCache) return null;
+    const year = parseInt(dateStr.slice(0, 4), 10);
+    const data = await loadTideDataFor(nearestPortCache.code, year);
+    if (!data || !data.days || !data.days[dateStr]) return null;
+    return {
+      port: nearestPortCache,
+      high: data.days[dateStr].high || [],
+      low:  data.days[dateStr].low  || []
+    };
+  }
+
+  // 位置情報が変わったら最寄り港を再計算するためのフック
+  function invalidateNearestPort() { nearestPortCache = null; }
+
+  // ports.json を先読み（UIを先に出してから非同期で）
+  setTimeout(loadTidePorts, 1500);
 
   function getMoonAge(date) {
     const diff = (date.getTime() - BASE_NEW_MOON) / 86400000;
@@ -2634,6 +2766,7 @@
         userLocation.lon = pos.coords.longitude;
         userLocation.obtained = true;
         userLocation.name = '現在地';
+        invalidateNearestPort();
         repositionPersonForLocation();
         updateData();
         updateCalendarView();
@@ -3101,9 +3234,17 @@
     document.getElementById('phaseSegmentFlow').innerHTML =
       `${seg.from.split('').join(' ')}<span class="seiten-num">${seg.fromNum}</span> <span class="arrow">→</span> ${seg.to.split('').join(' ')}<span class="seiten-num">${seg.toNum}</span>`;
 
-    // 次の聖点
+    // 次の聖点（天文用語を併記）
+    const POINT_NAME_JP = {
+      'つきたち': '新月点',
+      'かたみに': '上弦点',
+      'くまなし': '満月点',
+      'ありあけ': '下弦点'
+    };
     const next = getNextSeiten(now);
-    document.getElementById('nextSeitenName').textContent = next.name.split('').join(' ');
+    const pointName = POINT_NAME_JP[next.name] || '';
+    document.getElementById('nextSeitenName').innerHTML =
+      `${next.name.split('').join(' ')}<span class="phase-next-point">（${pointName}）</span>`;
     const d = Math.floor(next.days);
     const h = Math.floor((next.days - d) * 24);
     document.getElementById('nextSeitenTime').textContent =
@@ -3265,7 +3406,26 @@
 
     const [y, m, d] = dateStr.split('-');
     document.getElementById('memoDate').textContent = `${y}年${parseInt(m)}月${parseInt(d)}日`;
+    // 旧暦表示（その日の旧暦月日）
+    const lunar = getLunarDate(new Date(dateStr + 'T12:00:00'));
+    document.getElementById('memoLunar').textContent = `旧 暦 ${lunar.month} 月 ${lunar.day} 日`;
     document.getElementById('memoTextarea').value = text;
+
+    // 潮汐表示（非同期・失敗時は非表示）
+    const tideEl = document.getElementById('memoTide');
+    tideEl.innerHTML = '';  // 開くたびクリア
+    getTideForDate(dateStr).then(tide => {
+      // 別の日に開き直された場合は無視
+      if (modal.dataset.date !== dateStr) return;
+      if (!tide) return;
+      const fmt = arr => arr.map(([t]) => t).join('　　');
+      const highStr = tide.high.length ? fmt(tide.high) : '—';
+      const lowStr  = tide.low.length  ? fmt(tide.low)  : '—';
+      tideEl.innerHTML =
+        `<div class="tide-row"><span class="tide-label">満 潮</span><span class="tide-times">${highStr}</span></div>` +
+        `<div class="tide-row"><span class="tide-label">干 潮</span><span class="tide-times">${lowStr}</span></div>` +
+        `<div class="tide-port">— ${tide.port.name}</div>`;
+    }).catch(() => { /* サイレント */ });
 
     modal.classList.add('active');
     modal.dataset.date = dateStr;
