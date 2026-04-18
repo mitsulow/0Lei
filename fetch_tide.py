@@ -154,7 +154,7 @@ def main():
     if now.month >= 11:
         years.append(now.year + 1)
 
-    root = Path(__file__).resolve().parent.parent  # リポジトリルート
+    root = Path(__file__).resolve().parent  # リポジトリルート
     base_out = root / "data" / "tide"
     base_out.mkdir(parents=True, exist_ok=True)
 
