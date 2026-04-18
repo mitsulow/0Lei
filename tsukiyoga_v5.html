@@ -3766,6 +3766,34 @@
     color: var(--gold);
     background: rgba(201, 169, 97, 0.08);
   }
+
+  /* 手動インストール手順（Aダメな人向け） */
+  .pwa-manual-steps {
+    margin-top: 12px;
+    padding: 10px 12px;
+    border: 1px solid rgba(138, 160, 184, 0.2);
+    border-radius: 8px;
+    background: rgba(10, 20, 40, 0.4);
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    line-height: 1.8;
+    color: rgba(200, 220, 240, 0.65);
+  }
+  .pwa-manual-steps .pwa-manual-title {
+    color: rgba(201, 169, 97, 0.75);
+    font-size: 0.62rem;
+    letter-spacing: 0.3em;
+    margin-bottom: 4px;
+  }
+  .pwa-manual-steps .pwa-key {
+    display: inline-block;
+    padding: 0 6px;
+    background: rgba(201, 169, 97, 0.15);
+    border-radius: 3px;
+    color: var(--gold);
+    font-family: 'Cinzel', serif;
+    margin: 0 2px;
+  }
 </style>
 
 <div class="pwa-banner" id="pwaBanner">
@@ -3781,6 +3809,7 @@
     <button class="pwa-btn" id="pwaDismiss">あ と で</button>
     <button class="pwa-btn pwa-btn-primary" id="pwaInstall">追 加</button>
   </div>
+  <div class="pwa-manual-steps" id="pwaManualSteps"></div>
 </div>
 
 <script>
@@ -3819,20 +3848,38 @@
   });
 
   function show() {
+    const manualEl = document.getElementById('pwaManualSteps');
     if (isIOS) {
-      // iOSはbeforeinstallpromptが無いので、手順を図解
-      body.innerHTML =
-        '月 の リ ズ ム を 、 い つ で も そ ば に 。<br>' +
-        '下 の <span class="pwa-share-icon">⎘</span> を 押 し 、<br>' +
-        '「 ホ ー ム 画 面 に 追 加 」 を 選 ぶ 。';
-      btnInstall.style.display = 'none';  // iOSは自動追加できないので「追加」ボタンは隠す
-      btnDismiss.textContent = '閉 じ る';
-    } else if (isAndroid && deferredPrompt) {
-      body.innerHTML = '月 の リ ズ ム を 、 い つ で も そ ば に 。<br>ア プ リ と し て 追 加 で き ま す 。';
-    } else {
-      // PCやその他：手動追加を案内
-      body.innerHTML = '月 の リ ズ ム を 、 い つ で も そ ば に 。<br>ブ ラ ウ ザ の メ ニ ュ ー か ら 「 ホ ー ム 画 面 に 追 加 」 で 。';
+      // iOS Safari：共有ボタン経由のみ
+      body.innerHTML = '月 の リ ズ ム を 、 い つ で も そ ば に 。';
       btnInstall.style.display = 'none';
+      btnDismiss.textContent = '閉 じ る';
+      manualEl.innerHTML =
+        '<div class="pwa-manual-title">iPhone の 追 加 方 法</div>' +
+        '① 下 の <span class="pwa-key">⎘</span> 共 有 ボ タ ン を 押 す<br>' +
+        '② 「 ホ ー ム 画 面 に 追 加 」 を 選 ぶ';
+    } else if (isAndroid && deferredPrompt) {
+      // Android：ワンタップ追加が使える
+      body.innerHTML = '月 の リ ズ ム を 、 い つ で も そ ば に 。<br>ア プ リ と し て 追 加 で き ま す 。';
+      manualEl.innerHTML =
+        '<div class="pwa-manual-title">う ま く 動 か な い 時</div>' +
+        '右 上 <span class="pwa-key">︙</span> → 「 ホ ー ム 画 面 に 追 加 」';
+    } else if (isAndroid) {
+      // Android だが beforeinstallprompt が発火していない
+      body.innerHTML = '月 の リ ズ ム を 、 い つ で も そ ば に 。';
+      btnInstall.style.display = 'none';
+      manualEl.innerHTML =
+        '<div class="pwa-manual-title">Android の 追 加 方 法</div>' +
+        '① 右 上 の <span class="pwa-key">︙</span> を 押 す<br>' +
+        '② 「 ホ ー ム 画 面 に 追 加 」 を 選 ぶ';
+    } else {
+      // PCやその他
+      body.innerHTML = '月 の リ ズ ム を 、 い つ で も そ ば に 。';
+      btnInstall.style.display = 'none';
+      manualEl.innerHTML =
+        '<div class="pwa-manual-title">追 加 の 手 順</div>' +
+        'ブ ラ ウ ザ の メ ニ ュ ー か ら<br>' +
+        '「 ホ ー ム 画 面 に 追 加 」 を 選 ん で く だ さ い 。';
     }
     banner.classList.add('visible');
   }
