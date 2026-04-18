@@ -1,25 +1,25 @@
 {
-  "timestamp": "2026-04-18T12:03:03.199956+00:00",
+  "timestamp": "2026-04-18T13:35:09.114225+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.71,
+      "hz": 7.5,
       "confidence": 80
     },
     "F2": {
-      "hz": 13.4,
-      "confidence": 85
-    },
-    "F3": {
-      "hz": 19.48,
+      "hz": 14.0,
       "confidence": 80
     },
-    "F4": {
-      "hz": 24.46,
+    "F3": {
+      "hz": 20.3,
       "confidence": 75
+    },
+    "F4": {
+      "hz": 24.0,
+      "confidence": 70
     },
     "F5": {
       "hz": null,
@@ -28,13 +28,13 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "18.04終端付近の値。F1は白線で約7.7Hz付近まで低下、F2(黄)は13.4Hz付近、F3(赤)は19.5Hz付近、F4(緑)は24.5Hz付近に下降傾向。F5は本グラフに描画なし。17日午後にスペクトログラム上で強い広帯域擾乱が確認される。",
+  "notes": "18日後半にF4が急落し24Hz付近まで低下。17日前半に強い擾乱が見られ、スペクトログラムでも12-15時付近に広帯域ノイズ。F5の線は本グラフには表示されていない。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 21.05,
-    "tomsk_hour": 17.65,
+    "japan_hour": 22.58,
+    "tomsk_hour": 19.18,
     "is_day_japan": false,
-    "is_day_tomsk": true
+    "is_day_tomsk": false
   }
 }
