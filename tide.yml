@@ -22,7 +22,7 @@ jobs:
           python-version: '3.11'
 
       - name: Fetch JMA tide data
-        run: python scripts/fetch_tide.py
+        run: python fetch_tide.py
 
       - name: Commit and push if changed
         run: |
