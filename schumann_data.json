@@ -1,25 +1,25 @@
 {
-  "timestamp": "2026-04-18T22:38:40.735562+00:00",
+  "timestamp": "2026-04-18T23:18:17.977479+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.85,
+      "hz": 7.88,
       "confidence": 85
     },
     "F2": {
-      "hz": 14.3,
+      "hz": 13.0,
       "confidence": 80
     },
     "F3": {
-      "hz": 19.7,
-      "confidence": 75
+      "hz": 20.4,
+      "confidence": 80
     },
     "F4": {
-      "hz": 24.9,
-      "confidence": 70
+      "hz": 24.8,
+      "confidence": 75
     },
     "F5": {
       "hz": null,
@@ -28,12 +28,12 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "18日夜から19日早朝にかけて強い擾乱（スペクトログラムに白い帯）が見られ、その後F3が上昇傾向。F4は安定。F5はデータなし。",
+  "notes": "18日夜(19-23時)に強い擾乱が見られ、スペクトログラムに広帯域の強発光。右端ではF1-F4とも比較的安定。F5は本グラフに表示なし。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 7.63,
-    "tomsk_hour": 4.23,
+    "japan_hour": 8.3,
+    "tomsk_hour": 4.9,
     "is_day_japan": true,
     "is_day_tomsk": false
   }
