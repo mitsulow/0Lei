@@ -1,40 +1,40 @@
 {
-  "timestamp": "2026-04-18T08:05:06.085222+00:00",
+  "timestamp": "2026-04-18T09:04:11.370601+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.88,
+      "hz": 7.8,
       "confidence": 85
     },
     "F2": {
-      "hz": 13.6,
+      "hz": 13.7,
       "confidence": 80
     },
     "F3": {
-      "hz": 20.2,
+      "hz": 20.1,
       "confidence": 75
     },
     "F4": {
-      "hz": 24.2,
-      "confidence": 65
+      "hz": 24.3,
+      "confidence": 70
     },
     "F5": {
-      "hz": 33.0,
-      "confidence": 30
+      "hz": null,
+      "confidence": 0
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "F1は右端で上昇傾向、7.88Hz付近。F2,F3は下降後やや回復。17日に顕著な擾乱（干渉線）あり、18日後半はデータ欠損帯が見られる。F5は表示範囲外のため信頼度低い。",
+  "notes": "17日午後に強い擾乱あり。F4は18日以降低値で安定。F1は右端で約7.8Hz付近に収束。F5は画像に表示なし。",
   "polarization": {
-    "state": "right",
-    "state_jp": "右回転（昼）",
-    "japan_hour": 17.08,
-    "tomsk_hour": 13.68,
-    "is_day_japan": true,
+    "state": "left",
+    "state_jp": "左回転（夜）",
+    "japan_hour": 18.07,
+    "tomsk_hour": 14.67,
+    "is_day_japan": false,
     "is_day_tomsk": true
   }
 }
