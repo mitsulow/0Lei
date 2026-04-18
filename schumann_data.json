@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-18T11:38:24.658548+00:00",
+  "timestamp": "2026-04-18T12:03:03.199956+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -7,33 +7,33 @@
   "modes": {
     "F1": {
       "hz": 7.71,
-      "confidence": 85
-    },
-    "F2": {
-      "hz": 13.7,
       "confidence": 80
     },
+    "F2": {
+      "hz": 13.4,
+      "confidence": 85
+    },
     "F3": {
-      "hz": 19.8,
-      "confidence": 75
+      "hz": 19.48,
+      "confidence": 80
     },
     "F4": {
-      "hz": 24.4,
-      "confidence": 70
+      "hz": 24.46,
+      "confidence": 75
     },
     "F5": {
-      "hz": 0,
+      "hz": null,
       "confidence": 0
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "17日昼頃に顕著な周波数擾乱が見られ、F3・F4が大きく変動。右端ではF1は7.7Hz付近に低下傾向。F5は本グラフに表示なし。スペクトログラムでは8Hz帯と14Hz帯の基本共振が明瞭。",
+  "notes": "18.04終端付近の値。F1は白線で約7.7Hz付近まで低下、F2(黄)は13.4Hz付近、F3(赤)は19.5Hz付近、F4(緑)は24.5Hz付近に下降傾向。F5は本グラフに描画なし。17日午後にスペクトログラム上で強い広帯域擾乱が確認される。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 20.63,
-    "tomsk_hour": 17.23,
+    "japan_hour": 21.05,
+    "tomsk_hour": 17.65,
     "is_day_japan": false,
     "is_day_tomsk": true
   }
