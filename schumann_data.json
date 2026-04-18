@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-18T17:59:14.549608+00:00",
+  "timestamp": "2026-04-18T18:57:59.896376+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -7,33 +7,33 @@
   "modes": {
     "F1": {
       "hz": 7.95,
-      "confidence": 80
+      "confidence": 85
     },
     "F2": {
-      "hz": 13.6,
-      "confidence": 75
+      "hz": 14.2,
+      "confidence": 80
     },
     "F3": {
-      "hz": 19.9,
+      "hz": 20.4,
       "confidence": 75
     },
     "F4": {
-      "hz": 24.9,
+      "hz": 25.0,
       "confidence": 70
     },
     "F5": {
-      "hz": 0,
-      "confidence": 0
+      "hz": 33.8,
+      "confidence": 30
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端でF1が上昇傾向。18日夜に大きな変動、スペクトログラムでも19-22時に強い白色擾乱が見られる。19日はデータ欠損。",
+  "notes": "18日夜～19日未明にかけてF1が上昇傾向、F3も急上昇。スペクトログラムでは19-23時頃に強い広帯域の擾乱（干渉または局地的ノイズ）が見られる。F5は折れ線に明瞭な線がなく信頼度低。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 2.98,
-    "tomsk_hour": 23.58,
+    "japan_hour": 3.95,
+    "tomsk_hour": 0.55,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
