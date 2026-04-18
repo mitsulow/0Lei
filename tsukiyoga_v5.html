@@ -4,6 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>ツキヨガ · 月はいまどこに</title>
+
+<!-- PWA -->
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#030818">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ツキヨガ">
+<link rel="apple-touch-icon" href="./icons/icon-180.png">
+<link rel="apple-touch-icon" sizes="152x152" href="./icons/icon-152.png">
+<link rel="apple-touch-icon" sizes="120x120" href="./icons/icon-120.png">
+<link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700&family=Cinzel:wght@400;600&family=Shippori+Mincho:wght@400;600;700&display=swap" rel="stylesheet">
@@ -3667,5 +3679,197 @@
     document.getElementById('rotHint').classList.add('hidden');
   }, 8000);
 </script>
+
+<!-- ======== PWA インストールバナー ======== -->
+<style>
+  .pwa-banner {
+    position: fixed;
+    left: 50%;
+    bottom: 16px;
+    transform: translateX(-50%) translateY(calc(100% + 30px));
+    width: calc(100% - 24px);
+    max-width: 420px;
+    background: linear-gradient(180deg, #0a1428 0%, #030818 100%);
+    border: 1px solid rgba(201, 169, 97, 0.35);
+    border-radius: 14px;
+    padding: 16px 18px 14px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(201, 169, 97, 0.15);
+    z-index: 9999;
+    opacity: 0;
+    transition: transform 0.6s cubic-bezier(0.2, 0.9, 0.3, 1), opacity 0.6s ease;
+    font-family: 'Shippori Mincho', serif;
+    color: var(--moon-white);
+  }
+  .pwa-banner.visible {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+  .pwa-banner-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .pwa-banner-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    flex-shrink: 0;
+    background: #030818;
+    border: 1px solid rgba(201, 169, 97, 0.3);
+  }
+  .pwa-banner-title {
+    font-size: 0.95rem;
+    letter-spacing: 0.2em;
+    font-weight: 600;
+    color: var(--moon-white);
+  }
+  .pwa-banner-subtitle {
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    color: rgba(201, 169, 97, 0.75);
+    margin-top: 2px;
+  }
+  .pwa-banner-body {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    line-height: 1.7;
+    color: rgba(200, 220, 240, 0.7);
+    margin-bottom: 12px;
+  }
+  .pwa-banner-body .pwa-share-icon {
+    display: inline-block;
+    margin: 0 2px;
+    font-family: -apple-system, sans-serif;
+    color: var(--gold);
+    font-size: 0.85rem;
+    vertical-align: middle;
+  }
+  .pwa-banner-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+  }
+  .pwa-btn {
+    background: none;
+    border: 1px solid rgba(138, 160, 184, 0.3);
+    color: var(--ink-dim);
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.25em;
+    padding: 7px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+  .pwa-btn-primary {
+    border-color: rgba(201, 169, 97, 0.6);
+    color: var(--gold);
+    background: rgba(201, 169, 97, 0.08);
+  }
+</style>
+
+<div class="pwa-banner" id="pwaBanner">
+  <div class="pwa-banner-header">
+    <img class="pwa-banner-icon" src="./icons/icon-120.png" alt="">
+    <div>
+      <div class="pwa-banner-title">ツ キ ヨ ガ</div>
+      <div class="pwa-banner-subtitle">ホ ー ム 画 面 へ</div>
+    </div>
+  </div>
+  <div class="pwa-banner-body" id="pwaBannerBody"></div>
+  <div class="pwa-banner-actions">
+    <button class="pwa-btn" id="pwaDismiss">あ と で</button>
+    <button class="pwa-btn pwa-btn-primary" id="pwaInstall">追 加</button>
+  </div>
+</div>
+
+<script>
+(function() {
+  const banner = document.getElementById('pwaBanner');
+  const body = document.getElementById('pwaBannerBody');
+  const btnInstall = document.getElementById('pwaInstall');
+  const btnDismiss = document.getElementById('pwaDismiss');
+
+  // すでにスタンドアロンで起動中（＝インストール済み）なら出さない
+  const isStandalone =
+    window.matchMedia('(display-mode: standalone)').matches ||
+    window.navigator.standalone === true;
+  if (isStandalone) return;
+
+  // 「あとで」を押した履歴があれば1日間非表示
+  const DISMISS_KEY = 'tsukiyoga-pwa-dismissed-at';
+  const dismissedAt = parseInt(localStorage.getItem(DISMISS_KEY) || '0', 10);
+  if (dismissedAt && Date.now() - dismissedAt < 24 * 60 * 60 * 1000) return;
+
+  const ua = navigator.userAgent;
+  const isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+  const isAndroid = /Android/.test(ua);
+
+  // Chrome系の beforeinstallprompt を捕まえる
+  let deferredPrompt = null;
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+  });
+
+  // インストール完了通知
+  window.addEventListener('appinstalled', () => {
+    hide();
+    localStorage.setItem(DISMISS_KEY, String(Date.now()));
+  });
+
+  function show() {
+    if (isIOS) {
+      // iOSはbeforeinstallpromptが無いので、手順を図解
+      body.innerHTML =
+        '月 の リ ズ ム を 、 い つ で も そ ば に 。<br>' +
+        '下 の <span class="pwa-share-icon">⎘</span> を 押 し 、<br>' +
+        '「 ホ ー ム 画 面 に 追 加 」 を 選 ぶ 。';
+      btnInstall.style.display = 'none';  // iOSは自動追加できないので「追加」ボタンは隠す
+      btnDismiss.textContent = '閉 じ る';
+    } else if (isAndroid && deferredPrompt) {
+      body.innerHTML = '月 の リ ズ ム を 、 い つ で も そ ば に 。<br>ア プ リ と し て 追 加 で き ま す 。';
+    } else {
+      // PCやその他：手動追加を案内
+      body.innerHTML = '月 の リ ズ ム を 、 い つ で も そ ば に 。<br>ブ ラ ウ ザ の メ ニ ュ ー か ら 「 ホ ー ム 画 面 に 追 加 」 で 。';
+      btnInstall.style.display = 'none';
+    }
+    banner.classList.add('visible');
+  }
+
+  function hide() {
+    banner.classList.remove('visible');
+  }
+
+  btnInstall.addEventListener('click', async () => {
+    if (!deferredPrompt) { hide(); return; }
+    deferredPrompt.prompt();
+    try {
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'dismissed') {
+        localStorage.setItem(DISMISS_KEY, String(Date.now()));
+      }
+    } catch {}
+    deferredPrompt = null;
+    hide();
+  });
+
+  btnDismiss.addEventListener('click', () => {
+    localStorage.setItem(DISMISS_KEY, String(Date.now()));
+    hide();
+  });
+
+  // 3秒後にふわっと表示
+  setTimeout(() => {
+    // Android で beforeinstallprompt がまだ来てない場合は少し待つ
+    if (isAndroid && !deferredPrompt) {
+      setTimeout(show, 1500);
+    } else {
+      show();
+    }
+  }, 3000);
+})();
+</script>
+
 </body>
 </html>

@@ -1,0 +1,33 @@
+{
+  "name": "ツキヨガ",
+  "short_name": "ツキヨガ",
+  "description": "月のリズムを、いつでもそばに。",
+  "start_url": "./tsukiyoga_v5.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#030818",
+  "theme_color": "#030818",
+  "lang": "ja",
+  "categories": ["lifestyle", "health", "productivity"],
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
