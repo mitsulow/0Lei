@@ -422,6 +422,51 @@
     color: rgba(160, 190, 230, 0.55);
   }
 
+  /* 聖点到達時刻（0/3/6/9バッジがある日） */
+  .memo-modal-seiten {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Shippori Mincho', serif;
+    padding: 6px 10px;
+    border: 1px solid rgba(201, 169, 97, 0.25);
+    border-radius: 6px;
+    background: rgba(201, 169, 97, 0.04);
+  }
+  .memo-modal-seiten:empty { display: none; }
+  .memo-modal-seiten .seiten-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    color: var(--gold);
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    background: rgba(201, 169, 97, 0.1);
+    flex-shrink: 0;
+  }
+  .memo-modal-seiten .seiten-name {
+    color: var(--gold);
+    font-size: 0.92rem;
+    letter-spacing: 0.22em;
+  }
+  .memo-modal-seiten .seiten-astro {
+    color: rgba(201, 169, 97, 0.55);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+  }
+  .memo-modal-seiten .seiten-time {
+    color: var(--moon-white);
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    letter-spacing: 0.12em;
+    margin-left: auto;
+  }
+
   /* 潮汐表示（満潮・干潮時刻） */
   .memo-modal-tide {
     margin-top: 6px;
@@ -1255,6 +1300,7 @@
       <div class="memo-modal-date-group">
         <div class="memo-modal-date" id="memoDate">—</div>
         <div class="memo-modal-lunar" id="memoLunar"></div>
+        <div class="memo-modal-seiten" id="memoSeiten"></div>
         <div class="memo-modal-tide" id="memoTide"></div>
       </div>
       <button class="memo-modal-close" id="memoClose">×</button>
@@ -3410,6 +3456,32 @@
     const lunar = getLunarDate(new Date(dateStr + 'T12:00:00'));
     document.getElementById('memoLunar').textContent = `旧 暦 ${lunar.month} 月 ${lunar.day} 日`;
     document.getElementById('memoTextarea').value = text;
+
+    // 聖点到達時刻の表示（0/3/6/9バッジがある日のみ）
+    const seitenEl = document.getElementById('memoSeiten');
+    seitenEl.innerHTML = '';
+    const seitenMap = getSeitenDaysInMonth(parseInt(y), parseInt(m) - 1);
+    const phaseKey = seitenMap[parseInt(d)];
+    if (phaseKey) {
+      const PHASE_META = {
+        tsukitachi: { phase: 0.0,  name: 'つきたち', astroName: '新 月 点', num: '0' },
+        katamini:   { phase: 0.25, name: 'かたみに', astroName: '上 弦 点', num: '3' },
+        kumanashi:  { phase: 0.5,  name: 'くまなし', astroName: '満 月 点', num: '6' },
+        ariake:     { phase: 0.75, name: 'ありあけ', astroName: '下 弦 点', num: '9' }
+      };
+      const meta = PHASE_META[phaseKey];
+      // 月初5日前から探索して該当聖点の到達時刻を精密計算
+      const searchStart = new Date(parseInt(y), parseInt(m) - 1, 1);
+      searchStart.setDate(searchStart.getDate() - 5);
+      const seitenTime = findNextSeitenTime(searchStart, meta.phase);
+      const hh = String(seitenTime.getHours()).padStart(2, '0');
+      const mm = String(seitenTime.getMinutes()).padStart(2, '0');
+      seitenEl.innerHTML =
+        `<span class="seiten-badge">${meta.num}</span>` +
+        `<span class="seiten-name">${meta.name}</span>` +
+        `<span class="seiten-astro">${meta.astroName}</span>` +
+        `<span class="seiten-time">${hh}:${mm}</span>`;
+    }
 
     // 潮汐表示（非同期・失敗時は非表示）
     const tideEl = document.getElementById('memoTide');
