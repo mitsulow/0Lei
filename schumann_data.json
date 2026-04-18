@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-18T05:56:21.256347+00:00",
+  "timestamp": "2026-04-18T07:02:38.359953+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -10,30 +10,30 @@
       "confidence": 85
     },
     "F2": {
-      "hz": 13.0,
+      "hz": 14.0,
       "confidence": 80
     },
     "F3": {
-      "hz": 19.1,
-      "confidence": 80
+      "hz": 19.8,
+      "confidence": 75
     },
     "F4": {
       "hz": 24.7,
-      "confidence": 75
+      "confidence": 65
     },
     "F5": {
-      "hz": 0,
-      "confidence": 0
+      "hz": 33.8,
+      "confidence": 30
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "17日12-18時頃に強い擾乱・広帯域ノイズが見られる。右端ではF2が13Hz付近まで低下、F3も19Hz付近で通常より低め。F5は折れ線に表示なし。全体として中程度の活動度。",
+  "notes": "17日夕方に強い擾乱が見られ、F3が急低下。右端ではF1は7.7Hz付近に回復、F2は14Hz前後で安定。F4はやや低め。F5は判読困難。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 14.93,
-    "tomsk_hour": 11.53,
+    "japan_hour": 16.03,
+    "tomsk_hour": 12.63,
     "is_day_japan": true,
     "is_day_tomsk": true
   }
