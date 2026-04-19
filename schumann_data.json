@@ -1,24 +1,24 @@
 {
-  "timestamp": "2026-04-19T20:29:32.311053+00:00",
+  "timestamp": "2026-04-19T21:03:49.725802+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.95,
-      "confidence": 85
+      "hz": 7.91,
+      "confidence": 88
     },
     "F2": {
-      "hz": 14.4,
-      "confidence": 80
+      "hz": 14.2,
+      "confidence": 85
     },
     "F3": {
-      "hz": 19.95,
+      "hz": 20.54,
       "confidence": 80
     },
     "F4": {
-      "hz": 24.75,
+      "hz": 24.9,
       "confidence": 70
     },
     "F5": {
@@ -28,13 +28,13 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "18-19日にかけてデータ欠損あり。F1は7.9Hz付近で安定、F2は14.4Hz付近とやや高め。F3は20Hz付近で変動大。F5は表示範囲外で読取不可。スペクトログラムでは19日午前と午後に強い擾乱・ホワイトアウトが見られる。",
+  "notes": "19日夜から20日早朝にかけて周波数上昇傾向。F1は約7.9Hz付近で安定。スペクトログラムでは19日昼〜夕方に強い擾乱（白飛び）あり。F5は表示範囲外で読取不可。",
   "polarization": {
-    "state": "left",
-    "state_jp": "左回転（夜）",
-    "japan_hour": 5.48,
-    "tomsk_hour": 2.08,
-    "is_day_japan": false,
+    "state": "right",
+    "state_jp": "右回転（昼）",
+    "japan_hour": 6.05,
+    "tomsk_hour": 2.65,
+    "is_day_japan": true,
     "is_day_tomsk": false
   }
 }
