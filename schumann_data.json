@@ -1,39 +1,39 @@
 {
-  "timestamp": "2026-04-19T10:49:15.379525+00:00",
+  "timestamp": "2026-04-19T11:29:52.861050+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.7,
-      "confidence": 85
-    },
-    "F2": {
-      "hz": 13.2,
+      "hz": 7.85,
       "confidence": 80
     },
-    "F3": {
-      "hz": 19.6,
+    "F2": {
+      "hz": 14.3,
       "confidence": 75
     },
-    "F4": {
-      "hz": 25.6,
+    "F3": {
+      "hz": 20.4,
       "confidence": 70
     },
+    "F4": {
+      "hz": 24.7,
+      "confidence": 65
+    },
     "F5": {
-      "hz": null,
+      "hz": 0,
       "confidence": 0
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "19.04の右端付近ではF1は約7.70Hz付近で安定、F2は13.2Hz付近、F3は19.6Hz付近で変動が大きい。スペクトログラムでは11-17時に強い広帯域ノイズ/データ欠損が見られ、信頼度はやや低下。F5の線は判別困難。",
+  "notes": "19日後半に各モードが急上昇傾向。スペクトログラムでは19日11時以降に4Hz以下と12-20Hz帯で強い信号、上部周波数帯は欠損領域あり。F5は表示範囲外で読み取り不可。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 19.82,
-    "tomsk_hour": 16.42,
+    "japan_hour": 20.48,
+    "tomsk_hour": 17.08,
     "is_day_japan": false,
     "is_day_tomsk": true
   }
