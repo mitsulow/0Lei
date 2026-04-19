@@ -1,40 +1,40 @@
 {
-  "timestamp": "2026-04-19T11:59:40.305904+00:00",
+  "timestamp": "2026-04-19T13:13:13.937703+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.56,
-      "confidence": 80
+      "hz": 7.95,
+      "confidence": 88
     },
     "F2": {
-      "hz": 13.4,
-      "confidence": 80
+      "hz": 14.4,
+      "confidence": 85
     },
     "F3": {
-      "hz": 19.98,
-      "confidence": 75
+      "hz": 20.3,
+      "confidence": 80
     },
     "F4": {
-      "hz": 24.7,
-      "confidence": 70
+      "hz": 25.1,
+      "confidence": 75
     },
     "F5": {
-      "hz": 33.8,
-      "confidence": 20
+      "hz": null,
+      "confidence": 0
     }
   },
   "amplitude_level": "high",
   "strongest_mode": "F1",
-  "notes": "19.04の午前以降スペクトログラムで広帯域の強い擾乱が見られ、地磁気活動が活発。F1は7.5Hz付近まで低下、F2も13.4Hz付近に下がっており、電離層条件の変化を示唆。F5は折れ線に明示されず信頼度低。",
+  "notes": "19日後半にF1が上昇傾向で約7.95Hz。スペクトログラムでは19日11時以降に広帯域の強い擾乱（白飛び）が見られ、地磁気活動または観測系の飽和を示唆。F5は本グラフに表示なし。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 20.98,
-    "tomsk_hour": 17.58,
+    "japan_hour": 22.22,
+    "tomsk_hour": 18.82,
     "is_day_japan": false,
-    "is_day_tomsk": true
+    "is_day_tomsk": false
   }
 }
