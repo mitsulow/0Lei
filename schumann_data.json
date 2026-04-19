@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-19T16:07:13.880686+00:00",
+  "timestamp": "2026-04-19T16:57:33.097885+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -14,7 +14,7 @@
       "confidence": 80
     },
     "F3": {
-      "hz": 19.98,
+      "hz": 19.8,
       "confidence": 75
     },
     "F4": {
@@ -28,12 +28,12 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "19.04に大きなデータ欠損と擾乱あり。右端ではF1～F4の値は安定に回復。スペクトログラムでは11-18時頃に強いノイズ/障害が見られる。F5は表示範囲外で読み取り不可。",
+  "notes": "19日後半にスペクトログラムで強い広帯域擾乱が見られ、データ欠損領域も多い。右端付近のF1は約7.85Hz、F2は14.2Hz付近で安定。F3は赤線で変動大きめ。F5のトレースは本グラフに含まれず。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 1.12,
-    "tomsk_hour": 21.72,
+    "japan_hour": 1.95,
+    "tomsk_hour": 22.55,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
