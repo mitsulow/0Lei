@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-19T14:05:06.296862+00:00",
+  "timestamp": "2026-04-19T14:57:17.575957+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -7,33 +7,33 @@
   "modes": {
     "F1": {
       "hz": 7.85,
-      "confidence": 88
+      "confidence": 85
     },
     "F2": {
       "hz": 14.2,
-      "confidence": 82
+      "confidence": 80
     },
     "F3": {
       "hz": 20.3,
       "confidence": 75
     },
     "F4": {
-      "hz": 24.8,
+      "hz": 24.9,
       "confidence": 70
     },
     "F5": {
-      "hz": 33.8,
-      "confidence": 30
+      "hz": null,
+      "confidence": 0
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "19日午前に大きなデータ欠損領域あり。スペクトログラムでは19日昼過ぎに強い広帯域擾乱が見られる。右端のF1は約7.85Hzで安定、F3は変動が大きい。F5は本グラフに明示されず信頼度低い。",
+  "notes": "19日午前から午後にかけてスペクトログラム上で強い広帯域ノイズ/データ欠損が見られる。右端ではF1は約7.85Hz付近で安定、F2は14.2Hz付近、F3は20.3Hz付近、F4は24.9Hz付近。F5は本グラフに表示されていない。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 23.08,
-    "tomsk_hour": 19.68,
+    "japan_hour": 23.95,
+    "tomsk_hour": 20.55,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
