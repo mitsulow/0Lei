@@ -1,25 +1,25 @@
 {
-  "timestamp": "2026-04-20T18:56:11.189952+00:00",
+  "timestamp": "2026-04-20T19:58:23.144631+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.92,
-      "confidence": 85
+      "hz": 7.88,
+      "confidence": 88
     },
     "F2": {
-      "hz": 14.4,
-      "confidence": 80
+      "hz": 14.2,
+      "confidence": 82
     },
     "F3": {
-      "hz": 19.92,
-      "confidence": 75
+      "hz": 19.95,
+      "confidence": 80
     },
     "F4": {
-      "hz": 24.79,
-      "confidence": 70
+      "hz": 24.75,
+      "confidence": 75
     },
     "F5": {
       "hz": null,
@@ -28,12 +28,12 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "19日昼に大きなデータ欠損（スペクトログラムで白飛び）あり。右端（20日後半）では各モードとも概ね安定した値に回復。F5は折れ線グラフに表示されていないため読み取り不可。F3（赤）は19日に変動が大きかったが最新時刻では19.9Hz付近に収束。",
+  "notes": "19日の11-18時に強い電波干渉（スペクトログラムの白色飽和領域）が見られる。右端の最新値は比較的安定しており、F1は7.88Hz付近で推移。F5のデータは表示されていない。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 3.93,
-    "tomsk_hour": 0.53,
+    "japan_hour": 4.97,
+    "tomsk_hour": 1.57,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
