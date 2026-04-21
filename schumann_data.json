@@ -1,21 +1,21 @@
 {
-  "timestamp": "2026-04-21T15:58:49.527404+00:00",
+  "timestamp": "2026-04-21T17:06:32.721489+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.92,
-      "confidence": 88
-    },
-    "F2": {
-      "hz": 14.35,
+      "hz": 7.88,
       "confidence": 85
     },
+    "F2": {
+      "hz": 14.15,
+      "confidence": 80
+    },
     "F3": {
-      "hz": 20.7,
-      "confidence": 82
+      "hz": 20.3,
+      "confidence": 70
     },
     "F4": {
       "hz": 24.79,
@@ -28,12 +28,12 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端の値を読み取り。19日11-18時にデータ欠損/異常スパイク有り。F5は本グラフに表示されていない。全体的に周波数は安定しているが、F3（赤）は右端で上昇傾向。",
+  "notes": "4/19の11-18時に大規模なデータ欠損（白飛び）あり。右端時刻ではF1-F4の各線は明瞭に読み取れるが、F5は本グラフに表示されていない。スペクトログラムでは8Hz付近のバンドが全期間で明瞭、20Hz以上は弱め。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 0.97,
-    "tomsk_hour": 21.57,
+    "japan_hour": 2.1,
+    "tomsk_hour": 22.7,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
