@@ -1,24 +1,24 @@
 {
-  "timestamp": "2026-04-21T23:35:06.526096+00:00",
+  "timestamp": "2026-04-22T00:06:43.593060+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.9,
-      "confidence": 85
+      "hz": 8.0,
+      "confidence": 88
     },
     "F2": {
       "hz": 13.6,
-      "confidence": 80
+      "confidence": 82
     },
     "F3": {
-      "hz": 19.9,
+      "hz": 19.0,
       "confidence": 80
     },
     "F4": {
-      "hz": 24.79,
+      "hz": 24.76,
       "confidence": 75
     },
     "F5": {
@@ -28,12 +28,12 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端でF1は約7.9Hz付近で安定。F2は13.5Hz付近まで低下傾向。F3は20Hz付近で変動大。F4は24.8Hz付近。スペクトログラムでは8Hz帯と12-15Hz帯の基本モードが明瞭、21日午前中に広帯域の強い擾乱あり。F5は本グラフに表示なし。",
+  "notes": "右端でF1は8.0Hz付近まで上昇傾向。F2は13.6Hz付近に低下、F3も19.0Hz付近へ低下。F4は24.76Hz付近で下降。F5のデータは本グラフには表示されていない。スペクトログラムでは8Hz帯が明瞭、21日後半に強い広帯域ノイズあり。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 8.58,
-    "tomsk_hour": 5.18,
+    "japan_hour": 9.1,
+    "tomsk_hour": 5.7,
     "is_day_japan": true,
     "is_day_tomsk": false
   }
