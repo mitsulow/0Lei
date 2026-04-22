@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-22T22:03:37.562563+00:00",
+  "timestamp": "2026-04-22T23:05:42.096870+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -10,30 +10,30 @@
       "confidence": 85
     },
     "F2": {
-      "hz": 12.6,
-      "confidence": 75
+      "hz": 13.0,
+      "confidence": 80
     },
     "F3": {
       "hz": 20.0,
       "confidence": 80
     },
     "F4": {
-      "hz": 24.77,
-      "confidence": 80
+      "hz": 24.78,
+      "confidence": 75
     },
     "F5": {
-      "hz": null,
-      "confidence": 0
+      "hz": 33.0,
+      "confidence": 20
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "F2が13Hz付近まで低下、F3も右端で下降傾向。21日朝から22日午前にかけて広帯域で強い擾乱（スペクトログラムで縦縞状の強信号）が見られる。右端でデータ欠損が始まっている。",
+  "notes": "F2が低下傾向で13Hz付近まで下がっている。F3も20Hz前後で変動。スペクトログラムでは21日昼頃と22-23日にかけて低周波帯(0-8Hz)に強い活動が見られる。F5は本グラフに表示なし。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 7.05,
-    "tomsk_hour": 3.65,
+    "japan_hour": 8.08,
+    "tomsk_hour": 4.68,
     "is_day_japan": true,
     "is_day_tomsk": false
   }
