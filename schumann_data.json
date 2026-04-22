@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-22T11:43:36.861572+00:00",
+  "timestamp": "2026-04-22T12:46:04.700133+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -10,11 +10,11 @@
       "confidence": 85
     },
     "F2": {
-      "hz": 13.7,
-      "confidence": 75
+      "hz": 13.4,
+      "confidence": 80
     },
     "F3": {
-      "hz": 19.4,
+      "hz": 19.7,
       "confidence": 80
     },
     "F4": {
@@ -28,13 +28,13 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "F1は7.82Hz付近で安定。20-21日にかけてF2,F3の周波数が上昇する変動が見られ、22日には低下傾向。スペクトログラムでは8Hz帯と14Hz帯が明瞭、21日午前に広帯域ノイズあり。F5は表示範囲外で読み取り不可。",
+  "notes": "F1は7.8Hz付近で安定。F2は13.4Hz付近、F3は19.7Hz付近で推移。20-21日にかけて周波数上昇が見られ、22日は低下傾向。スペクトログラムでは8Hz帯と14Hz帯が明瞭、24Hz付近に水平線状のノイズあり。F5は表示範囲外で読み取り不可。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 20.72,
-    "tomsk_hour": 17.32,
+    "japan_hour": 21.77,
+    "tomsk_hour": 18.37,
     "is_day_japan": false,
-    "is_day_tomsk": true
+    "is_day_tomsk": false
   }
 }
