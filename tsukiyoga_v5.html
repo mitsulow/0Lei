@@ -75,7 +75,6 @@
         const H = siderealTime(d, lw) - c.ra;
         return { azimuth: azimuthF(H, phi, c.dec), altitude: altitudeF(H, phi, c.dec) };
       },
-      // 月の月齢・照らされ具合
       getMoonIllumination: function(date) {
         const d = toDays(date);
         const s = sunCoords(d);
@@ -91,7 +90,6 @@
           angle: angle
         };
       },
-      // 太陽位置（方位・高度）から太陽の空間方向ベクトルを得るのに使う
       getSunEquatorial: function(date) {
         const d = toDays(date);
         return sunCoords(d);
@@ -142,7 +140,6 @@
     touch-action: none;
   }
 
-  /* ヘッダー */
   .top-bar {
     position: fixed;
     top: 0; left: 0; right: 0;
@@ -157,53 +154,39 @@
 
   .brand {
     display: flex;
-    align-items: center;
-    gap: 14px;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
-  .brand-mark {
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 40% 40%, #6ec4f5, #1a5fa0);
-    box-shadow: 0 0 20px rgba(110, 196, 245, 0.4),
-                0 0 50px rgba(110, 196, 245, 0.15);
-    animation: brandPulse 3s ease-in-out infinite;
-    flex-shrink: 0;
-  }
-
-  @keyframes brandPulse {
-    0%, 100% { box-shadow: 0 0 20px rgba(110, 196, 245, 0.4), 0 0 50px rgba(110, 196, 245, 0.15); }
-    50% { box-shadow: 0 0 28px rgba(110, 196, 245, 0.6), 0 0 70px rgba(110, 196, 245, 0.25); }
-  }
+  .brand-mark { display: none; }
 
   .brand-text h1 {
     font-family: 'Shippori Mincho', serif;
-    font-size: 1.35rem;
-    font-weight: 600;
+    font-size: 1.35rem; font-weight: 600;
     letter-spacing: 0.4em;
     color: #a0d4f5;
     text-shadow: 0 0 20px rgba(110, 196, 245, 0.3);
     line-height: 1;
+    text-indent: 0.4em;
   }
 
   .brand-catch {
     font-family: 'Shippori Mincho', serif;
-    font-size: 0.58rem;
-    letter-spacing: 0.18em;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
     color: rgba(201, 169, 97, 0.72);
     line-height: 1.3;
     white-space: nowrap;
-    margin-bottom: 5px;
+    margin-bottom: 6px;
+    text-indent: 0.25em;
   }
 
   .brand-text .sub { display: none; }
 
-  /* 月位置の直感テキスト（画面中央下寄り） */
   .moon-position-text {
     position: fixed;
     bottom: 180px;
-    left: 0;
-    right: 0;
+    left: 0; right: 0;
     z-index: 8;
     text-align: center;
     pointer-events: none;
@@ -220,8 +203,7 @@
 
   .moon-where {
     font-family: 'Shippori Mincho', serif;
-    font-size: 1.9rem;
-    font-weight: 500;
+    font-size: 1.9rem; font-weight: 500;
     letter-spacing: 0.2em;
     color: var(--moon-white);
     line-height: 1.2;
@@ -237,12 +219,10 @@
     margin-top: 0.3rem;
   }
 
-  /* 下部インフォバー */
   .info-bar {
     position: fixed;
     bottom: 62px;
-    left: 0;
-    right: 0;
+    left: 0; right: 0;
     z-index: 9;
     padding: 12px 20px;
     background: linear-gradient(to top,
@@ -256,25 +236,19 @@
     pointer-events: none;
   }
 
-  .info-item {
-    text-align: center;
-    flex: 1;
-  }
-
+  .info-item { text-align: center; flex: 1; }
   .info-label {
     font-size: 0.56rem;
     letter-spacing: 0.3em;
     color: rgba(138, 160, 184, 0.6);
     margin-bottom: 2px;
   }
-
   .info-val {
     font-family: 'Cinzel', serif;
     font-size: 0.85rem;
     letter-spacing: 0.08em;
     color: var(--seiten);
   }
-
   .info-val-jp {
     font-family: 'Shippori Mincho', serif;
     font-size: 0.75rem;
@@ -282,11 +256,9 @@
     color: var(--seiten);
   }
 
-  /* コンパスボタン */
   .compass-btn {
     position: fixed;
-    top: 16px;
-    right: 18px;
+    top: 16px; right: 18px;
     z-index: 11;
     background: rgba(3, 8, 24, 0.6);
     backdrop-filter: blur(8px);
@@ -314,7 +286,6 @@
     50% { box-shadow: 0 0 0 6px rgba(201, 169, 97, 0); }
   }
 
-  /* タブバー */
   .tab-bar {
     position: fixed;
     bottom: 0; left: 0; right: 0;
@@ -328,8 +299,7 @@
 
   .tab-btn {
     flex: 1;
-    background: none;
-    border: none;
+    background: none; border: none;
     color: rgba(138, 160, 184, 0.5);
     font-family: inherit;
     cursor: pointer;
@@ -348,9 +318,7 @@
   .tab-btn.active::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 25%;
-    right: 25%;
+    top: 0; left: 25%; right: 25%;
     height: 1px;
     background: linear-gradient(90deg, transparent, var(--blue), transparent);
   }
@@ -369,7 +337,7 @@
     margin-top: 1px;
   }
 
-  /* ======== メモモーダル ======== */
+  /* メモモーダル */
   .memo-modal {
     position: fixed;
     inset: 0;
@@ -378,7 +346,6 @@
     align-items: flex-end;
     justify-content: center;
   }
-
   .memo-modal.active { display: flex; }
 
   .memo-modal-backdrop {
@@ -390,8 +357,7 @@
 
   .memo-modal-content {
     position: relative;
-    width: 100%;
-    max-width: 480px;
+    width: 100%; max-width: 480px;
     background: linear-gradient(180deg, #0a1428 0%, #030818 100%);
     border-top: 1px solid rgba(201, 169, 97, 0.3);
     border-radius: 20px 20px 0 0;
@@ -429,12 +395,18 @@
 
   .memo-modal-lunar {
     font-family: 'Shippori Mincho', serif;
-    font-size: 0.7rem;
-    letter-spacing: 0.25em;
-    color: rgba(160, 190, 230, 0.55);
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    color: rgba(160, 190, 230, 0.65);
+    line-height: 1.5;
   }
 
-  /* 聖点到達時刻（0/3/6/9バッジがある日） */
+  .memo-modal-lunar .lunar-name {
+    color: rgba(160, 190, 230, 0.55);
+    letter-spacing: 0.25em;
+    margin-left: 0.5em;
+  }
+
   .memo-modal-seiten {
     margin-top: 10px;
     display: flex;
@@ -451,8 +423,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 24px;
-    height: 24px;
+    width: 24px; height: 24px;
     border: 1px solid var(--gold);
     border-radius: 50%;
     color: var(--gold);
@@ -479,7 +450,6 @@
     margin-left: auto;
   }
 
-  /* 潮汐表示（満潮・干潮時刻） */
   .memo-modal-tide {
     margin-top: 6px;
     font-family: 'Shippori Mincho', serif;
@@ -490,9 +460,7 @@
   }
   .memo-modal-tide:empty { display: none; }
   .memo-modal-tide .tide-row {
-    display: flex;
-    gap: 10px;
-    align-items: baseline;
+    display: flex; gap: 10px; align-items: baseline;
   }
   .memo-modal-tide .tide-label {
     color: rgba(201, 169, 97, 0.8);
@@ -517,8 +485,7 @@
     background: none;
     border: 1px solid rgba(138, 160, 184, 0.3);
     color: var(--ink-dim);
-    width: 30px;
-    height: 30px;
+    width: 30px; height: 30px;
     border-radius: 50%;
     font-size: 1.2rem;
     cursor: pointer;
@@ -535,48 +502,6 @@
     text-transform: uppercase;
   }
 
-  .memo-seiten-tags {
-    margin-bottom: 1rem;
-  }
-
-  .memo-tags-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-
-  .seiten-tag {
-    display: inline-flex;
-    align-items: center;
-    padding: 6px 12px;
-    background: rgba(110, 196, 245, 0.06);
-    border: 1px solid rgba(110, 196, 245, 0.2);
-    border-radius: 16px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .seiten-tag input {
-    display: none;
-  }
-
-  .seiten-tag span {
-    font-family: 'Shippori Mincho', serif;
-    font-size: 0.72rem;
-    letter-spacing: 0.2em;
-    color: var(--ink-dim);
-    transition: color 0.2s;
-  }
-
-  .seiten-tag:has(input:checked) {
-    background: rgba(201, 169, 97, 0.15);
-    border-color: var(--gold);
-  }
-
-  .seiten-tag:has(input:checked) span {
-    color: var(--seiten);
-  }
-
   .memo-textarea {
     width: 100%;
     min-height: 120px;
@@ -591,14 +516,8 @@
     resize: vertical;
     outline: none;
   }
-
-  .memo-textarea:focus {
-    border-color: var(--blue);
-  }
-
-  .memo-textarea::placeholder {
-    color: rgba(138, 160, 184, 0.4);
-  }
+  .memo-textarea:focus { border-color: var(--blue); }
+  .memo-textarea::placeholder { color: rgba(138, 160, 184, 0.4); }
 
   .memo-modal-footer {
     display: flex;
@@ -616,32 +535,26 @@
     cursor: pointer;
     border: 1px solid;
   }
-
   .memo-btn-save {
     background: linear-gradient(180deg, rgba(201, 169, 97, 0.2), rgba(201, 169, 97, 0.08));
     border-color: var(--gold);
     color: var(--moon-white);
   }
-
   .memo-btn-delete {
     background: transparent;
     border-color: rgba(192, 72, 72, 0.4);
     color: rgba(192, 72, 72, 0.8);
   }
 
-  /* メモが書かれている日のマーク */
   .cal-day-memo-dot {
     position: absolute;
-    bottom: 2px;
-    right: 3px;
-    width: 4px;
-    height: 4px;
+    bottom: 2px; right: 3px;
+    width: 4px; height: 4px;
     border-radius: 50%;
     background: var(--gold);
     box-shadow: 0 0 3px var(--gold);
   }
 
-  /* ======== はなさかり（内側のツキ）======== */
   .cal-day.hanasakari-day {
     background: linear-gradient(135deg, rgba(255, 175, 205, 0.10) 0%, rgba(255, 175, 205, 0.04) 100%);
   }
@@ -651,15 +564,13 @@
   }
   .cal-hanasakari-mark {
     position: absolute;
-    top: 1px;
-    left: 2px;
+    top: 1px; left: 2px;
     font-size: 0.55rem;
     color: var(--sakura);
     line-height: 1;
     text-shadow: 0 0 4px rgba(255, 175, 205, 0.7);
   }
 
-  /* メモモーダル内の「はなさかり」タグだけ桜色 */
   .seiten-tag[data-kind="hanasakari"] {
     background: rgba(255, 175, 205, 0.06);
     border-color: rgba(255, 175, 205, 0.3);
@@ -672,7 +583,6 @@
     color: var(--sakura);
   }
 
-  /* 「内側のツキ」設定モーダル */
   .inner-moon-btn {
     display: inline-flex;
     align-items: center;
@@ -688,9 +598,7 @@
     color: var(--sakura);
     cursor: pointer;
   }
-  .inner-moon-btn:hover {
-    background: rgba(255, 175, 205, 0.12);
-  }
+  .inner-moon-btn:hover { background: rgba(255, 175, 205, 0.12); }
   .inner-moon-btn .flower {
     font-size: 0.85rem;
     color: var(--sakura);
@@ -705,17 +613,43 @@
     line-height: 1.8;
   }
   .inner-moon-status.set { color: var(--sakura-dim); }
+  .inner-moon-status .needs-update-msg {
+    color: var(--sakura);
+    text-shadow: 0 0 8px rgba(255, 175, 205, 0.4);
+    display: inline-block;
+    margin-top: 0.2rem;
+  }
+  .inner-moon-status .peak-now {
+    color: var(--sakura);
+    font-weight: 600;
+    font-size: 1.1em;
+    letter-spacing: 0.3em;
+    text-shadow: 0 0 12px rgba(255, 175, 205, 0.6);
+    display: inline-block;
+    margin-top: 0.3rem;
+  }
+  .inner-moon-status.needs-update {
+    animation: needsUpdateGlow 2.5s ease-in-out infinite;
+  }
+  @keyframes needsUpdateGlow {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
 
   .inner-modal-intro {
     font-family: 'Shippori Mincho', serif;
-    font-size: 0.82rem;
-    line-height: 2;
+    font-size: 0.95rem;
+    line-height: 1.8;
     letter-spacing: 0.15em;
     color: var(--ink-dim);
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    padding: 0.8rem 0;
   }
   .inner-modal-intro .accent {
     color: var(--sakura);
+    font-weight: 600;
+    font-size: 1.05em;
   }
 
   .inner-date-input {
@@ -731,9 +665,7 @@
     outline: none;
     color-scheme: dark;
   }
-  .inner-date-input:focus {
-    border-color: var(--sakura);
-  }
+  .inner-date-input:focus { border-color: var(--sakura); }
 
   .memo-btn-sakura {
     background: linear-gradient(180deg, rgba(255, 175, 205, 0.22), rgba(255, 175, 205, 0.08));
@@ -741,7 +673,7 @@
     color: var(--moon-white);
   }
 
-  /* ======== 月ナビビュー ======== */
+  /* 月ナビビュー */
   .moonnav-view {
     position: fixed;
     inset: 0 0 62px 0;
@@ -750,23 +682,18 @@
     display: none;
     overflow: hidden;
   }
-
   .moonnav-view.active { display: block; }
 
   #navCanvas {
     position: absolute;
     inset: 0;
-    width: 100%;
-    height: 100%;
+    width: 100%; height: 100%;
     display: block;
   }
 
-  /* 指示テキスト */
   .nav-instruction {
     position: absolute;
-    top: 90px;
-    left: 0;
-    right: 0;
+    top: 90px; left: 0; right: 0;
     text-align: center;
     z-index: 10;
     padding: 0 20px;
@@ -800,9 +727,7 @@
 
   .nav-status {
     position: absolute;
-    bottom: 20px;
-    left: 0;
-    right: 0;
+    bottom: 20px; left: 0; right: 0;
     text-align: center;
     pointer-events: none;
     z-index: 10;
@@ -826,8 +751,7 @@
 
   .nav-permission {
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
     z-index: 20;
@@ -866,8 +790,7 @@
 
   .nav-calibrate {
     position: absolute;
-    top: 16px;
-    right: 16px;
+    top: 16px; right: 16px;
     z-index: 15;
     background: rgba(3, 8, 24, 0.6);
     backdrop-filter: blur(8px);
@@ -881,13 +804,11 @@
     cursor: pointer;
     display: none;
   }
-
   .nav-calibrate.visible { display: block; }
 
   .nav-debug {
     position: absolute;
-    top: 16px;
-    left: 16px;
+    top: 16px; left: 16px;
     z-index: 15;
     font-family: 'Cinzel', serif;
     font-size: 0.55rem;
@@ -907,7 +828,6 @@
     overflow-x: hidden;
     display: none;
   }
-
   .calendar-view.active { display: block; }
 
   .cal-container {
@@ -924,6 +844,8 @@
     margin-bottom: 1.5rem;
   }
 
+  /* ★v6: カレンダーヘッダーのブランドキャッチ（cal-title-en内に統合済み） */
+
   .cal-title-jp {
     font-family: 'Shippori Mincho', serif;
     font-size: 1.4rem;
@@ -934,11 +856,11 @@
   }
 
   .cal-title-en {
-    font-family: 'Cinzel', serif;
-    font-style: italic;
-    font-size: 0.7rem;
-    letter-spacing: 0.3em;
-    color: rgba(201, 169, 97, 0.6);
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.25em;
+    color: rgba(201, 169, 97, 0.55);
+    text-indent: 0.25em;
   }
 
   .today-moon { text-align: center; margin-bottom: 1.8rem; }
@@ -952,8 +874,7 @@
   }
 
   .today-big-moon {
-    width: 130px;
-    height: 130px;
+    width: 130px; height: 130px;
     border-radius: 50%;
     margin: 0.8rem auto;
     position: relative;
@@ -977,8 +898,7 @@
       radial-gradient(circle at 50% 70%, rgba(0,0,0,0.12) 0%, transparent 5%);
   }
   .today-moon-shadow {
-    position: absolute;
-    inset: 0;
+    position: absolute; inset: 0;
     background: #0a0a12;
     border-radius: 50%;
   }
@@ -1005,9 +925,10 @@
     color: var(--seiten);
   }
 
+  /* ★v6: 現在地カード（「いま」の聖点期間を大きく表示） */
   .next-seiten-card {
     margin-bottom: 1.5rem;
-    padding: 1.1rem 0.9rem 1rem;
+    padding: 1.2rem 0.9rem 1rem;
     background: linear-gradient(180deg, rgba(10, 20, 40, 0.6), rgba(10, 20, 40, 0.3));
     border: 1px solid rgba(201, 169, 97, 0.2);
     border-radius: 4px;
@@ -1015,38 +936,86 @@
     position: relative;
   }
 
+  /* 今の聖点名を大きく */
+  .phase-current-name {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: 0.35em;
+    color: var(--moon-white);
+    text-shadow: 0 0 20px rgba(244, 239, 216, 0.15);
+    margin-bottom: 0.35rem;
+    text-indent: 0.35em;
+  }
+
   .phase-segment-label {
     font-family: 'Shippori Mincho', serif;
-    font-size: 0.7rem;
+    font-size: 0.72rem;
     letter-spacing: 0.3em;
-    color: rgba(201, 169, 97, 0.72);
+    color: rgba(201, 169, 97, 0.75);
     margin-bottom: 1rem;
   }
 
-  .phase-segment-flow {
+  /* ★v6: プログレスバー */
+  .phase-progress-wrap {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 0.6rem;
+    align-items: center;
+    margin: 0 auto 0.9rem;
+    max-width: 340px;
+    padding: 0 0.3rem;
+  }
+
+  .phase-progress-end {
     font-family: 'Shippori Mincho', serif;
-    font-size: 1.0rem;
-    letter-spacing: 0.2em;
-    color: var(--moon-white);
-    margin-bottom: 0.5rem;
-    opacity: 0.98;
+    font-size: 0.82rem;
+    letter-spacing: 0.15em;
+    color: rgba(244, 239, 216, 0.82);
+    white-space: nowrap;
   }
 
-  .phase-segment-flow .seiten-num {
+  .phase-progress-end .end-num {
     font-family: 'Cinzel', serif;
-    font-size: 0.78em;
-    color: rgba(201, 169, 97, 0.95);
-    margin: 0 0.12em 0 0.18em;
-    letter-spacing: 0;
-    vertical-align: 0.04em;
+    font-size: 0.92rem;
+    color: var(--gold);
+    margin: 0 0.2em;
   }
 
-  .phase-segment-flow .arrow {
-    color: rgba(201, 169, 97, 0.55);
-    margin: 0 0.35em;
-    font-family: serif;
-    font-weight: 300;
+  .phase-progress-bar {
+    position: relative;
+    height: 18px;
+    display: flex;
+    align-items: center;
   }
+
+  .phase-progress-track {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+      rgba(201, 169, 97, 0.7) 0%,
+      rgba(201, 169, 97, 0.2) 50%,
+      rgba(201, 169, 97, 0.7) 100%);
+    transform: translateY(-50%);
+  }
+
+  .phase-progress-dot {
+    position: absolute;
+    top: 50%;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #f4efd8, #c9a961);
+    box-shadow: 0 0 12px rgba(244, 239, 216, 0.6), 0 0 4px rgba(201, 169, 97, 0.8);
+    transform: translate(-50%, -50%);
+    transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* 旧形式との互換（もう使わないが、元のセレクタが他所で参照される可能性に備えて残す） */
+  .phase-segment-flow { display: none; }
 
   .phase-next-main {
     font-family: 'Shippori Mincho', serif;
@@ -1086,7 +1055,12 @@
     border-top: 1px solid rgba(201, 169, 97, 0.12);
   }
 
-  /* 旧表示（互換用・非表示） */
+  .phase-lunar-divider .lunar-today-name {
+    color: rgba(160, 190, 230, 0.5);
+    letter-spacing: 0.25em;
+    margin-left: 0.5em;
+  }
+
   .next-label, .next-name, .next-time { display: none; }
 
   .cal-nav-row {
@@ -1101,8 +1075,7 @@
     background: none;
     border: 1px solid rgba(201, 169, 97, 0.3);
     color: var(--gold);
-    width: 30px;
-    height: 30px;
+    width: 30px; height: 30px;
     border-radius: 50%;
     cursor: pointer;
     font-family: inherit;
@@ -1167,8 +1140,7 @@
   .cal-day.today .cal-day-num { color: var(--moon-white); }
 
   .cal-moon-icon {
-    width: 14px;
-    height: 14px;
+    width: 14px; height: 14px;
     border-radius: 50%;
     margin-top: 2px;
     position: relative;
@@ -1178,18 +1150,15 @@
   }
   .cal-moon-icon-lit { position: absolute; inset: 0; background: #e8dfb8; }
   .cal-moon-icon-shadow {
-    position: absolute;
-    inset: 0;
+    position: absolute; inset: 0;
     background: #0a0a12;
     border-radius: 50%;
   }
 
   .cal-seiten-mark {
     position: absolute;
-    top: 3px;
-    right: 3px;
-    min-width: 15px;
-    height: 15px;
+    top: 3px; right: 3px;
+    min-width: 15px; height: 15px;
     padding: 0 3px;
     border: 1px solid rgba(201, 169, 97, 0.85);
     border-radius: 50%;
@@ -1205,7 +1174,6 @@
     box-sizing: border-box;
   }
 
-  /* はなさかり期間の横バー（案②：背景に薄桜色の帯） */
   .cal-day.hanasakari-day,
   .cal-day.hanasakari-peak {
     box-shadow: inset 0 -2px 0 var(--sakura-dim);
@@ -1233,6 +1201,77 @@
     line-height: 2;
   }
 
+  /* ★v6: 5聖点を時計配置で（楕円・月の軌道に見立てて） */
+  .seiten-clock {
+    position: relative;
+    width: 260px;
+    height: 210px;
+    margin: 0.5rem auto 1.2rem;
+  }
+  .sc-ring {
+    position: absolute;
+    inset: 18px;
+    border: 1px solid rgba(201, 169, 97, 0.22);
+    border-radius: 50%;
+    box-shadow: inset 0 0 24px rgba(201, 169, 97, 0.06),
+                0 0 20px rgba(201, 169, 97, 0.04);
+  }
+  .sc-ring::before {
+    content: '';
+    position: absolute;
+    inset: 14px;
+    border: 1px dashed rgba(201, 169, 97, 0.1);
+    border-radius: 50%;
+  }
+  .sc-pos {
+    position: absolute;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    color: var(--seiten);
+    text-align: center;
+    line-height: 1.3;
+    white-space: nowrap;
+    text-shadow: 0 0 8px rgba(212, 194, 138, 0.2);
+  }
+  .sc-num {
+    display: block;
+    font-family: 'Cinzel', serif;
+    font-size: 0.82rem;
+    color: var(--gold);
+    margin-top: 2px;
+    letter-spacing: 0.05em;
+  }
+  .sc-12 { top: 0;    left: 50%; transform: translateX(-50%); }
+  .sc-3  { right: -4px; top: 50%; transform: translateY(-50%); }
+  .sc-6  { bottom: 0; left: 50%; transform: translateX(-50%); }
+  .sc-9  { left: -4px; top: 50%; transform: translateY(-50%); }
+  .sc-center {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  .sc-flower {
+    font-size: 2rem;
+    color: var(--sakura);
+    text-shadow: 0 0 16px rgba(255, 175, 205, 0.65),
+                 0 0 4px rgba(255, 175, 205, 0.9);
+    line-height: 1;
+    animation: flowerPulse 4s ease-in-out infinite;
+  }
+  @keyframes flowerPulse {
+    0%, 100% { text-shadow: 0 0 16px rgba(255, 175, 205, 0.65), 0 0 4px rgba(255, 175, 205, 0.9); }
+    50% { text-shadow: 0 0 24px rgba(255, 175, 205, 0.85), 0 0 6px rgba(255, 175, 205, 1); }
+  }
+  .sc-label {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    color: var(--sakura-dim);
+    margin-top: 0.4rem;
+  }
+
   .cal-footer-mark {
     font-family: 'Cinzel', serif;
     font-style: italic;
@@ -1242,7 +1281,6 @@
     margin-top: 0.5rem;
   }
 
-  /* ガイド（初回の小さいヒント） */
   .rotation-hint {
     position: fixed;
     top: 85px;
@@ -1265,30 +1303,25 @@
 
 <canvas id="mainCanvas"></canvas>
 
-<!-- ヘッダー -->
 <div class="top-bar">
   <div class="brand">
-    <div class="brand-mark"></div>
     <div class="brand-text">
-      <div class="brand-catch">月 を 想 う 。 女 性 の た め の</div>
+      <div class="brand-catch">月 を 想 う 、 女 性 の た め の</div>
       <h1>ツ キ ヨ ガ</h1>
     </div>
   </div>
 </div>
 
-<!-- 回転ヒント -->
 <div class="rotation-hint" id="rotHint">
   指 で 回 転 ・ ピ ン チ で ズ ー ム
 </div>
 
-<!-- 月位置テキスト -->
 <div class="moon-position-text">
   <div class="moon-prefix">月 は い ま</div>
   <div class="moon-where" id="moonWhere">—</div>
   <div class="moon-where-sub" id="moonWhereSub">—</div>
 </div>
 
-<!-- 下部インフォ -->
 <div class="info-bar">
   <div class="info-item">
     <div class="info-label">月 齢</div>
@@ -1304,7 +1337,7 @@
   </div>
 </div>
 
-<!-- カレンダーのメモモーダル -->
+<!-- メモモーダル -->
 <div class="memo-modal" id="memoModal">
   <div class="memo-modal-backdrop"></div>
   <div class="memo-modal-content">
@@ -1331,16 +1364,13 @@
   <div class="memo-modal-backdrop"></div>
   <div class="memo-modal-content">
     <div class="memo-modal-header">
-      <div class="memo-modal-date">❀ 内 側 の ツ キ</div>
+      <div class="memo-modal-date" id="innerModalTitle">❀ 内 な る ツ キ ❀</div>
       <button class="memo-modal-close" id="innerClose">×</button>
     </div>
     <div class="inner-modal-intro">
-      月 は <span class="accent">外 側 の リ ズ ム</span> 。<br>
-      そ し て も う 一 つ 、 <span class="accent">内 側 の ツ キ</span> が あ り ま す 。<br>
-      前 回 の 生 理 開 始 日 を 教 え て く だ さ い 。<br>
-      そ こ か ら 次 の 「 は な さ か り 」 の 5 日 間 を カ レ ン ダ ー に 灯 し ま す 。
+      あ な た が 、 一 番 美 し く な る <span class="accent">5 日 間</span> 。
     </div>
-    <div class="memo-section-label">前 回 の 生 理 開 始 日</div>
+    <div class="memo-section-label">先 月 の 生 理 開 始 日 を 入 力</div>
     <input type="date" class="inner-date-input" id="innerDateInput">
     <div class="memo-modal-footer">
       <button class="memo-btn memo-btn-delete" id="innerClear">登 録 解 除</button>
@@ -1378,12 +1408,12 @@
   <div class="nav-debug" id="navDebug"></div>
 </div>
 
-<!-- カレンダービュー -->
+<!-- カレンダービュー ★v6変更箇所★ -->
 <div class="calendar-view" id="calendarView">
   <div class="cal-container">
     <div class="cal-header">
-      <div class="cal-title-jp">月 相 暦</div>
-      <div class="cal-title-en">lunar calendar</div>
+      <div class="cal-title-jp">月 の 暦</div>
+      <div class="cal-title-en">月 を 想 う 、 女 性 の た め の ツ キ ヨ ガ</div>
     </div>
     <div class="today-moon">
       <div class="today-date-str" id="calTodayDate">—</div>
@@ -1395,15 +1425,31 @@
       <div class="today-age-label">MOON AGE</div>
       <div class="today-phase-jp" id="calTodayPhase">—</div>
     </div>
+
+    <!-- ★v6: 現在地カード -->
     <div class="next-seiten-card">
-      <div class="phase-segment-flow" id="phaseSegmentFlow">—</div>
+      <!-- いまいる聖点の名前を大きく -->
+      <div class="phase-current-name" id="phaseCurrentName">—</div>
+      <!-- どういう期間かを直感的に -->
       <div class="phase-segment-label" id="phaseSegmentLabel">—</div>
+      <!-- プログレスバー：左=始点、右=終点、ドットが月齢に応じて移動 -->
+      <div class="phase-progress-wrap">
+        <div class="phase-progress-end" id="phaseStart">— <span class="end-num">0</span></div>
+        <div class="phase-progress-bar">
+          <div class="phase-progress-track"></div>
+          <div class="phase-progress-dot" id="phaseProgressDot"></div>
+        </div>
+        <div class="phase-progress-end" id="phaseEnd"><span class="end-num">3</span> —</div>
+      </div>
+      <!-- 次の聖点（そのまま残す） -->
       <div class="phase-next-main">
         次 は 『 <span class="phase-next-name" id="nextSeitenName">—</span> 』
       </div>
       <div class="phase-next-time" id="nextSeitenTime">—</div>
+      <!-- 旧暦（今日） -->
       <div class="phase-lunar-divider" id="phaseLunar">—</div>
     </div>
+
     <div class="cal-nav-row">
       <button class="cal-nav" id="prevMonth">‹</button>
       <div class="cal-month-title" id="calMonthTitle">—</div>
@@ -1411,66 +1457,108 @@
     </div>
     <div class="cal-grid" id="calGrid"></div>
     <div class="cal-footer">
-      <div class="cal-footer-text">
-        つ き た ち ・ か た み に ・ く ま な し<br>
-        あ り あ け ・ は な さ か り
+      <div class="seiten-clock">
+        <div class="sc-ring"></div>
+        <div class="sc-pos sc-12">つ き た ち<span class="sc-num">0</span></div>
+        <div class="sc-pos sc-3">か た み に<span class="sc-num">3</span></div>
+        <div class="sc-pos sc-6">く ま な し<span class="sc-num">6</span></div>
+        <div class="sc-pos sc-9">あ り あ け<span class="sc-num">9</span></div>
+        <div class="sc-center">
+          <div class="sc-flower">❀</div>
+          <div class="sc-label">は な さ か り</div>
+        </div>
       </div>
       <div class="cal-footer-mark">— 月 の 五 つ の 時 —</div>
       <button class="inner-moon-btn" id="innerMoonBtn">
-        <span class="flower">❀</span><span>内 側 の ツ キ を 登 録</span>
+        <span class="flower">❀</span><span id="innerMoonBtnLabel">内 な る ツ キ を 登 録</span><span class="flower">❀</span>
       </button>
       <div class="inner-moon-status" id="innerMoonStatus">未 登 録</div>
     </div>
   </div>
 </div>
 
-<!-- タブバー -->
+<!-- ★v6: タブバー順序変更（暦 → 月ナビ → 地球） -->
 <div class="tab-bar">
-  <button class="tab-btn active" data-view="main">
-    <div class="tab-icon">◐</div>
-    <div class="tab-label">地 球</div>
-    <div class="tab-en">earth</div>
+  <button class="tab-btn active" data-view="calendar">
+    <div class="tab-icon">✦</div>
+    <div class="tab-label">暦</div>
+    <div class="tab-en">calendar</div>
   </button>
   <button class="tab-btn" data-view="moonnav">
     <div class="tab-icon">⊙</div>
     <div class="tab-label">月 ナ ビ</div>
     <div class="tab-en">navigate</div>
   </button>
-  <button class="tab-btn" data-view="calendar">
-    <div class="tab-icon">✦</div>
-    <div class="tab-label">暦</div>
-    <div class="tab-en">calendar</div>
+  <button class="tab-btn" data-view="main">
+    <div class="tab-icon">◐</div>
+    <div class="tab-label">宙</div>
+    <div class="tab-en">SORA</div>
   </button>
 </div>
-
 <script>
   // ======== 定数 ========
-  // デフォルトは那覇、位置情報が取れたら上書き
   const userLocation = {
     lat: 26.2124, lon: 127.6809, name: '那覇',
-    obtained: false  // ユーザー位置情報取得済みフラグ
+    obtained: false
   };
-  // 互換のため NAHA も残す（参照箇所多数）
   const NAHA = userLocation;
 
   const SYNODIC_MONTH = 29.530588853;
   const BASE_NEW_MOON = new Date('2000-01-06T18:14:00Z').getTime();
 
-  // ======== 五聖点定数（つきたち・かたみに・くまなし・ありあけ・はなさかり） ========
-  // 外側の4聖点（月齢ベース）
+  // ★v6: 30日の月名辞書（旧暦の日付 → 月名）
+  // 25-28日は月の出時刻の厳密版：ホシアヒ→ナゴリヅキ→アカツキ→アケボノ
+  const MOON_NAMES_30 = {
+    1:  { name: 'ツキタチ',       kanji: '月立ち',      seiten: 'tsukitachi' },
+    2:  { name: 'フツカヅキ',     kanji: '二日月' },
+    3:  { name: 'ミカヅキ',       kanji: '三日月' },
+    4:  { name: 'マユヅキ',       kanji: '眉月' },
+    5:  { name: 'ユウヅキ',       kanji: '夕月' },
+    6:  { name: 'ムイカヅキ',     kanji: '六日月' },
+    7:  { name: 'カタミニ',       kanji: '互に',        seiten: 'katamini' },
+    8:  { name: 'ヨイヅキ',       kanji: '宵月' },
+    9:  { name: 'ココノカヅキ',   kanji: '九日月' },
+    10: { name: 'トカンヤ',       kanji: '十日夜' },
+    11: { name: 'ジュウイチヤ',   kanji: '十一夜' },
+    12: { name: 'ジュウニヤ',     kanji: '十二夜' },
+    13: { name: 'アタラヨ',       kanji: '可惜夜',      note: '月ぬ美しゃ十日三日' },
+    14: { name: 'マチヨイ',       kanji: '待宵' },
+    15: { name: 'クマナシ',       kanji: '隈無し',      seiten: 'kumanashi' },
+    16: { name: 'イザヨイ',       kanji: '十六夜' },
+    17: { name: 'タチマチ',       kanji: '立待月' },
+    18: { name: 'イマチ',         kanji: '居待月' },
+    19: { name: 'ネマチ',         kanji: '寝待月' },
+    20: { name: 'フケマチ',       kanji: '更待月' },
+    21: { name: 'ニジュウイチヤ', kanji: '二十一夜' },
+    22: { name: 'ニジュウニヤ',   kanji: '二十二夜' },
+    23: { name: 'アリアケ',       kanji: '有明',        seiten: 'ariake' },
+    24: { name: 'ニジュウヨヤ',   kanji: '二十四夜' },
+    25: { name: 'ホシアヒ',       kanji: '星合' },
+    26: { name: 'ナゴリヅキ',     kanji: '名残月' },
+    27: { name: 'アカツキ',       kanji: '暁' },
+    28: { name: 'アケボノ',       kanji: '曙' },
+    29: { name: 'ツゴモリ',       kanji: '晦・月籠' },
+    30: { name: 'ミソカ',         kanji: '晦日' }
+  };
+
+  // 旧暦の日から月名を取得
+  function getMoonNameForLunarDay(lunarDay) {
+    // 30日より多い場合は30日扱い（旧暦は29または30日）
+    const d = Math.min(Math.max(1, lunarDay), 30);
+    return MOON_NAMES_30[d] || MOON_NAMES_30[1];
+  }
+
+  // ======== 聖点定数 ========
   const SEITEN_OUTER = [
     { key: 'tsukitachi', name: 'つきたち', en: 'new moon',     ageRatio: 0.0 },
     { key: 'katamini',   name: 'かたみに', en: 'first quarter',ageRatio: 0.2 },
     { key: 'kumanashi',  name: 'くまなし', en: 'full moon',    ageRatio: 0.4 },
     { key: 'ariake',     name: 'ありあけ', en: 'last quarter', ageRatio: 0.6 }
   ];
-  // 内側の1聖点（個人の生理周期ベース）
   const SEITEN_INNER = { key: 'hanasakari', name: 'はなさかり', en: 'flower peak' };
-  // メモタグの5つのラベル用に互換性維持
   const FIVE_SEITEN = [...SEITEN_OUTER, SEITEN_INNER];
 
   // ======== 位置情報取得 ========
-  // 初回読み込み時に一度だけ取得を試みる
   function tryGeolocate() {
     if (!navigator.geolocation) return;
     navigator.geolocation.getCurrentPosition(
@@ -1479,27 +1567,22 @@
         userLocation.lon = pos.coords.longitude;
         userLocation.obtained = true;
         userLocation.name = '現在地';
-        invalidateNearestPort();  // 潮汐用の最寄り港を再計算させる
-        // 各ビューを更新
+        invalidateNearestPort();
         if (typeof repositionPersonForLocation === 'function') repositionPersonForLocation();
         if (typeof updateData === 'function') updateData();
         if (typeof updateCalendarView === 'function') updateCalendarView();
       },
-      (err) => {
-        console.log('位置情報取得失敗、那覇のまま:', err.message);
-      },
+      (err) => { console.log('位置情報取得失敗、那覇のまま:', err.message); },
       { enableHighAccuracy: false, timeout: 10000, maximumAge: 60 * 60 * 1000 }
     );
   }
-  // 起動から1秒後に試行（UIが先に出るように）
   setTimeout(tryGeolocate, 1000);
 
-  // ======== 潮汐データ（気象庁） ========
-  // GitHub Pagesに静的JSONとして配置。月1回 GitHub Actions が更新。
-  let tidePortsMeta = null;       // ports.json の内容
-  let tidePortsPromise = null;    // 重複ロード防止
-  const tideDataCache = {};        // {code-year: {days: {...}}}
-  let nearestPortCache = null;    // 位置から算出した最寄り港
+  // ======== 潮汐データ ========
+  let tidePortsMeta = null;
+  let tidePortsPromise = null;
+  const tideDataCache = {};
+  let nearestPortCache = null;
 
   async function loadTidePorts() {
     if (tidePortsMeta) return tidePortsMeta;
@@ -1528,7 +1611,6 @@
       const d = haversineKm(userLocation.lat, userLocation.lon, p.lat, p.lon);
       if (d < minDist) { minDist = d; nearest = { ...p, distKm: d }; }
     }
-    // 最寄り港から500km以上離れてたら対象外（海外・日本外など）
     if (!nearest || nearest.distKm > 500) return null;
     return nearest;
   }
@@ -1545,8 +1627,6 @@
     } catch { return null; }
   }
 
-  // dateStr: "YYYY-MM-DD" の日のその地点の潮汐を返す
-  // 戻り値: { port: {code,name,...}, high: [["HH:MM", cm], ...], low: [...] } または null
   async function getTideForDate(dateStr) {
     await loadTidePorts();
     if (!nearestPortCache) nearestPortCache = findNearestPort();
@@ -1561,10 +1641,7 @@
     };
   }
 
-  // 位置情報が変わったら最寄り港を再計算するためのフック
   function invalidateNearestPort() { nearestPortCache = null; }
-
-  // ports.json を先読み（UIを先に出してから非同期で）
   setTimeout(loadTidePorts, 1500);
 
   function getMoonAge(date) {
@@ -1574,11 +1651,8 @@
   }
 
   function getPhaseName(age) {
-    // 29.53日を5分割：1聖点あたり約5.9日
-    // 各聖点の「時期」は前後1日強（±1日）をその聖点とみなす
-    const ratio = age / SYNODIC_MONTH; // 0〜1
-    const seg = 1 / 5;                   // 0.2
-    const seitenWindow = 0.035;          // ±1日の聖点窓
+    const ratio = age / SYNODIC_MONTH;
+    const seitenWindow = 0.035;
 
     for (const s of SEITEN_OUTER) {
       const dist = Math.min(
@@ -1591,7 +1665,6 @@
       }
     }
 
-    // 聖点の中間
     if (ratio < 0.2) return { jp: '三日月', en: 'waxing crescent', key: null };
     if (ratio < 0.4) return { jp: '上弦過ぎ', en: 'waxing gibbous', key: null };
     if (ratio < 0.6) return { jp: '満ち過ぎ', en: 'waning gibbous', key: null };
@@ -1599,11 +1672,15 @@
     return { jp: '細い有明', en: 'balsamic', key: null };
   }
 
-  // ======== はなさかり（内側のツキ）計算 ========
+  // はなさかり
+  // 入力：先月の生理開始日 P
+  // 計算：P + 29.53 + 14日 = 今月の排卵日 O
+  // O ± 2日（計5日間）が「はなさかり」
+  // ★先月の排卵日（P + 14）は既に過ぎているので計算対象にしない
   const PERIOD_STORAGE_KEY = 'tsukiyoga-last-period';
-  const MENSTRUAL_CYCLE = 29.53;  // 朔望月と同期
-  const OVULATION_OFFSET = 14;    // 生理開始から排卵日まで
-  const HANASAKARI_RADIUS = 2;    // ±2日（中心＋両翼 = 5日間）
+  const MENSTRUAL_CYCLE = 29.53;
+  const OVULATION_OFFSET = 14;
+  const HANASAKARI_RADIUS = 2;
 
   function getLastPeriod() {
     const stored = localStorage.getItem(PERIOD_STORAGE_KEY);
@@ -1611,24 +1688,19 @@
     const d = new Date(stored + 'T12:00:00');
     return isNaN(d.getTime()) ? null : d;
   }
+  function setLastPeriod(isoDate) { localStorage.setItem(PERIOD_STORAGE_KEY, isoDate); }
+  function clearLastPeriod() { localStorage.removeItem(PERIOD_STORAGE_KEY); }
 
-  function setLastPeriod(isoDate) {
-    localStorage.setItem(PERIOD_STORAGE_KEY, isoDate);
-  }
-
-  function clearLastPeriod() {
-    localStorage.removeItem(PERIOD_STORAGE_KEY);
-  }
-
-  // 指定日のはなさかりレベル: 'peak' | 'wing' | null
   function getHanasakariLevel(date) {
     const last = getLastPeriod();
     if (!last) return null;
     const dayMs = 86400000;
     const diffDays = (date.getTime() - last.getTime()) / dayMs;
-    // 最も近い排卵日を推定（未来方向も過去方向もOK）
-    const cycles = Math.round((diffDays - OVULATION_OFFSET) / MENSTRUAL_CYCLE);
-    // ★排卵日を当日正午に丸める（29.53の小数ドリフトを吸収し、各周期で peak=1日・wing=4日を保証）
+    // 「先月の生理日」以降の排卵日を計算する：cyclesは1以上に固定
+    // cycles=1 → 今月の排卵日（先月のP + 29.53 + 14日）
+    // cycles=2 → 来月の排卵日
+    let cycles = Math.round((diffDays - OVULATION_OFFSET) / MENSTRUAL_CYCLE);
+    if (cycles < 1) cycles = 1;  // 先月の排卵日（cycles=0）は対象外
     const ovulationDayOffset = Math.round(OVULATION_OFFSET + cycles * MENSTRUAL_CYCLE);
     const dist = Math.abs(diffDays - ovulationDayOffset);
     if (dist < 0.5) return 'peak';
@@ -1636,18 +1708,28 @@
     return null;
   }
 
+  // 次の「はなさかりピーク（排卵日）」を計算して返す（今月/来月）
+  function getNextOvulationDate() {
+    const last = getLastPeriod();
+    if (!last) return null;
+    const dayMs = 86400000;
+    const now = new Date();
+    const diffDays = (now.getTime() - last.getTime()) / dayMs;
+    let cycles = Math.round((diffDays - OVULATION_OFFSET) / MENSTRUAL_CYCLE);
+    if (cycles < 1) cycles = 1;
+    // 今月のピークを過ぎてたら来月へ
+    const thisMonthOffset = OVULATION_OFFSET + cycles * MENSTRUAL_CYCLE;
+    if (diffDays > thisMonthOffset + HANASAKARI_RADIUS) cycles += 1;
+    const finalOffset = OVULATION_OFFSET + cycles * MENSTRUAL_CYCLE;
+    return new Date(last.getTime() + finalOffset * dayMs);
+  }
+
   function applyMoonShadow(el, phase) {
-    // phase: 0=新月 0.25=上弦 0.5=満月 0.75=下弦
-    // 影をシンプルな半円で表現（scaleXで幅調整、transformOriginで左右どちら側か）
     if (phase < 0.5) {
-      // 新月→満月：左が影、右が明るい
-      // phase=0 : 全面影（scaleX=1）
-      // phase=0.5 : 影なし（scaleX=0）
       const coverage = 1 - phase * 2;
       el.style.transformOrigin = 'left center';
       el.style.transform = `scaleX(${coverage})`;
     } else {
-      // 満月→新月：右が影、左が明るい
       const coverage = (phase - 0.5) * 2;
       el.style.transformOrigin = 'right center';
       el.style.transform = `scaleX(${coverage})`;
@@ -1667,13 +1749,10 @@
   camera.position.set(0, 0, 8.0);
   camera.lookAt(0, 0, 0);
 
-  // ライト
   scene.add(new THREE.AmbientLight(0x283850, 1.0));
-  // 太陽光（earthGroup内に配置される。月の満ち欠けと地球の昼夜をこの光で表現）
   const sunLight = new THREE.DirectionalLight(0xfff4dc, 1.2);
   sunLight.position.set(8, 3, 6);
 
-  // 星空
   function initStars() {
     const count = 500;
     const geo = new THREE.BufferGeometry();
@@ -1695,11 +1774,9 @@
   }
   initStars();
 
-  // ======== 地球（自分が立っている星） ========
   const EARTH_R = 1;
   const IONO_R = 1.08;
 
-  // 緯度経度→3Dベクトル（先に定義）
   function latLonToVec3(lat, lon, r) {
     const phi = (90 - lat) * Math.PI / 180;
     const theta = (lon + 180) * Math.PI / 180;
@@ -1713,43 +1790,29 @@
   const earthGroup = new THREE.Group();
   scene.add(earthGroup);
 
-  // 地球本体（停止・月太陽との関係が正確）
   const earthStatic = new THREE.Group();
   earthGroup.add(earthStatic);
 
-  // 電離層グリッド専用（別グループで生命感のために自動回転）
   const ionoGroup = new THREE.Group();
   earthGroup.add(ionoGroup);
 
-  // 太陽光は earthGroup の子にして、その内部座標系で配置
   earthGroup.add(sunLight);
   earthGroup.add(sunLight.target);
 
-  // 地球本体（太陽光で昼夜が表現される・テカリ控えめ）
   const earthMat = new THREE.MeshPhongMaterial({
-    color: 0x0a1a30,
-    emissive: 0x030812,
-    emissiveIntensity: 0.2,
-    shininess: 8,
-    specular: 0x1a3a5a
+    color: 0x0a1a30, emissive: 0x030812, emissiveIntensity: 0.2,
+    shininess: 8, specular: 0x1a3a5a
   });
-  const earthMesh = new THREE.Mesh(
-    new THREE.SphereGeometry(EARTH_R, 64, 64),
-    earthMat
-  );
+  const earthMesh = new THREE.Mesh(new THREE.SphereGeometry(EARTH_R, 64, 64), earthMat);
   earthStatic.add(earthMesh);
 
-  // 地表面の緑グリッド（大陸の輪郭 - オトヒカリ方式）
   const surfaceGridMat = new THREE.LineBasicMaterial({
-    color: 0x5fd67a,
-    transparent: true,
-    opacity: 0.55,
+    color: 0x5fd67a, transparent: true, opacity: 0.55,
     blending: THREE.AdditiveBlending
   });
 
-  // 主要大陸の輪郭（緯度,経度ペアの配列）
+  // 海岸線データ（v5と同じ）
   const COASTLINES = [
-    // アフリカ
     [[35.8,-5.9],[36.8,3.0],[37.1,10.2],[32.9,12.0],[31.5,25.0],[31.3,32.3],
      [29.5,32.6],[27.2,33.8],[22.0,36.5],[15.5,40.0],[12.6,43.3],[11.5,43.0],
      [10.5,45.0],[8.0,46.5],[5.0,46.0],[2.0,45.3],[-1.0,41.5],[-4.0,39.5],
@@ -1761,8 +1824,6 @@
      [6.5,1.5],[7.5,4.0],[10.0,7.0],[10.0,1.0],[9.8,-1.5],[9.0,-7.0],
      [12.5,-13.5],[14.5,-16.5],[16.0,-16.0],[19.5,-17.0],[21.2,-17.1],
      [25.0,-14.5],[27.5,-13.2],[30.0,-10.0],[33.0,-8.5],[35.0,-6.0],[35.8,-5.9]],
-
-    // ヨーロッパ
     [[36.1,-5.4],[36.7,-2.2],[37.4,-1.8],[38.5,-0.3],[39.5,0.0],[40.5,0.3],
      [41.3,2.2],[43.3,3.0],[43.5,4.0],[43.3,6.5],[43.8,7.5],[44.4,8.8],
      [42.0,9.5],[39.0,9.0],[38.0,12.5],[38.2,15.5],[40.0,18.5],[42.5,18.5],
@@ -1777,8 +1838,6 @@
      [54.5,8.3],[53.5,6.0],[52.5,5.0],[51.5,3.8],[51.0,3.5],[50.5,1.5],
      [50.0,-5.5],[48.5,-5.0],[47.5,-2.5],[46.5,-1.5],[44.0,-1.5],[43.5,-1.8],
      [43.0,-3.0],[42.5,-8.8],[39.5,-9.5],[37.0,-7.5],[36.5,-6.3],[36.1,-5.4]],
-
-    // アジア・ユーラシア東部
     [[42.0,27.5],[44.0,27.0],[46.0,30.5],[47.0,35.5],[45.0,36.0],[43.0,39.8],
      [41.0,41.5],[41.5,46.5],[42.5,48.0],[37.0,49.0],[30.5,48.5],[26.5,50.0],
      [25.0,54.5],[24.5,56.5],[25.3,60.5],[22.5,60.5],[20.0,58.5],[18.5,56.0],
@@ -1795,8 +1854,6 @@
      [60.0,29.0],[58.5,24.0],[56.0,21.0],[56.5,19.0],[55.5,21.0],[54.0,20.0],
      [46.5,31.0],[45.5,33.5],[44.5,34.0],[45.0,36.5],[44.0,37.5],[42.0,41.5],
      [41.0,42.0],[41.5,41.0],[42.0,27.5]],
-
-    // 北米
     [[50.0,-57.0],[51.5,-55.5],[53.0,-56.0],[54.5,-57.0],[55.0,-59.5],[55.5,-61.0],
      [58.5,-62.5],[60.0,-64.5],[60.5,-77.0],[62.5,-78.0],[60.5,-82.0],[55.0,-82.5],
      [51.0,-80.0],[46.0,-82.5],[41.5,-81.5],[41.0,-83.0],[43.5,-82.0],[44.0,-76.5],
@@ -1815,8 +1872,6 @@
      [55.0,-131.0],[50.5,-128.0],[49.0,-123.0],[51.0,-127.5],[54.0,-130.5],
      [57.5,-134.0],[60.5,-148.0],[58.5,-154.0],[55.0,-160.0],[58.0,-161.5],
      [61.5,-166.0],[65.5,-166.5],[66.5,-162.0],[70.5,-162.0],[71.5,-156.0]],
-
-    // 南米
     [[11.0,-72.0],[12.5,-72.0],[12.0,-68.5],[10.5,-66.5],[10.5,-63.0],[9.0,-60.0],
      [5.0,-52.0],[2.0,-50.0],[-3.0,-44.5],[-7.0,-34.5],[-12.0,-38.0],
      [-18.0,-39.5],[-23.0,-41.5],[-28.0,-48.5],[-34.5,-54.0],[-41.0,-64.5],
@@ -1825,8 +1880,6 @@
      [-14.0,-76.0],[-8.5,-79.0],[-4.5,-81.0],[-0.5,-80.5],[1.5,-79.0],
      [2.5,-78.0],[5.0,-77.0],[7.5,-77.5],[8.5,-77.0],[10.0,-75.5],
      [11.0,-74.5],[11.5,-73.0],[11.0,-72.0]],
-
-    // オーストラリア
     [[-10.5,142.0],[-14.5,144.0],[-18.0,146.0],[-20.5,148.5],[-23.5,150.5],
      [-26.0,153.0],[-28.5,153.5],[-32.5,152.5],[-35.5,150.5],[-37.5,149.0],
      [-38.0,145.5],[-38.5,142.0],[-37.0,140.0],[-35.0,138.5],[-34.0,135.5],
@@ -1834,50 +1887,31 @@
      [-31.0,115.5],[-28.0,114.0],[-25.0,113.5],[-22.0,114.0],[-20.0,116.5],
      [-18.0,122.0],[-16.0,123.5],[-14.0,126.5],[-12.0,130.5],[-11.5,132.5],
      [-12.5,136.5],[-14.5,135.5],[-17.0,139.0],[-13.5,142.0],[-10.5,142.0]],
-
-    // 日本（本州）
     [[41.5,141.0],[40.5,141.5],[39.0,142.0],[37.5,141.0],[36.0,140.8],
      [35.0,140.5],[34.5,139.5],[34.8,138.5],[34.5,137.0],[34.0,136.5],
      [33.5,135.5],[34.0,135.0],[34.5,134.0],[34.5,132.5],[34.0,131.5],
      [33.5,130.8],[34.5,131.0],[35.5,132.5],[36.5,133.0],[37.5,137.0],
      [37.8,138.5],[38.5,139.5],[39.5,140.0],[40.5,140.0],[41.5,141.0]],
-    // 北海道
     [[45.5,141.5],[45.5,142.5],[44.5,144.5],[44.0,145.5],[43.0,145.5],
      [42.0,143.0],[42.0,140.5],[43.0,140.0],[44.5,140.5],[45.5,141.5]],
-    // 九州
     [[33.0,129.5],[32.5,130.0],[31.5,131.5],[31.0,131.0],[31.5,130.0],
      [32.0,129.5],[33.0,129.5]],
-    // 四国
     [[34.0,132.5],[33.5,134.5],[33.0,134.0],[33.0,132.5],[34.0,132.5]],
-
-    // 朝鮮半島
     [[43.0,129.5],[41.5,129.5],[39.5,127.5],[38.0,128.5],[36.0,129.5],
      [35.0,129.0],[34.5,126.5],[36.0,126.5],[38.0,125.0],[40.0,124.5],
      [41.0,125.5],[42.5,130.5],[43.0,129.5]],
-
-    // インドネシア・スマトラ
     [[5.0,95.0],[4.0,98.0],[1.0,102.5],[-2.5,104.5],[-5.5,105.0],
      [-5.5,102.5],[-3.0,100.0],[0.0,97.5],[3.0,96.0],[5.0,95.0]],
-
-    // ボルネオ
     [[7.0,117.0],[5.0,119.0],[3.0,118.5],[0.0,117.5],[-2.5,113.0],
      [-3.5,111.5],[-1.0,109.5],[2.0,109.5],[5.0,114.0],[7.0,117.0]],
-
-    // イギリス
     [[58.5,-3.0],[58.0,-1.5],[56.0,-2.0],[53.5,0.5],[51.5,1.5],
      [50.5,-3.5],[50.0,-5.0],[52.0,-5.5],[54.5,-4.5],[56.0,-6.0],
      [58.5,-5.0],[58.5,-3.0]],
-
-    // マダガスカル
     [[-12.0,49.5],[-15.0,50.0],[-20.0,48.5],[-25.5,45.5],[-25.0,44.0],
      [-20.0,44.0],[-15.5,46.5],[-12.0,49.5]],
-
-    // グリーンランド（簡略）
     [[83.0,-30.0],[82.0,-20.0],[78.0,-15.0],[72.0,-22.0],[65.0,-38.0],
      [60.0,-44.0],[62.0,-50.0],[68.0,-53.0],[73.0,-56.0],[78.0,-60.0],
      [82.0,-40.0],[83.0,-30.0]],
-
-    // ニュージーランド（北島・南島）
     [[-34.5,173.0],[-37.0,175.5],[-41.0,174.0],[-39.5,174.0],[-34.5,173.0]],
     [[-41.5,173.5],[-45.0,171.0],[-46.5,168.0],[-44.0,168.0],[-41.5,173.5]]
   ];
@@ -1893,20 +1927,12 @@
     }
   }
 
-  // 大気の淡い青い発光
   const atmosMat = new THREE.MeshBasicMaterial({
-    color: 0x6ec4f5,
-    transparent: true,
-    opacity: 0.08,
-    side: THREE.BackSide
+    color: 0x6ec4f5, transparent: true, opacity: 0.08, side: THREE.BackSide
   });
-  const atmosphere = new THREE.Mesh(
-    new THREE.SphereGeometry(EARTH_R * 1.05, 48, 48),
-    atmosMat
-  );
+  const atmosphere = new THREE.Mesh(new THREE.SphereGeometry(EARTH_R * 1.05, 48, 48), atmosMat);
   earthStatic.add(atmosphere);
 
-  // ======== 電離層グリッド（青・三角形・共振） ========
   function fibSphere(n, r) {
     const pts = [];
     const g = Math.PI * (3 - Math.sqrt(5));
@@ -1915,9 +1941,7 @@
       const rad = Math.sqrt(1 - y * y);
       const t = g * i;
       pts.push(new THREE.Vector3(
-        Math.cos(t) * rad * r,
-        y * r,
-        Math.sin(t) * rad * r
+        Math.cos(t) * rad * r, y * r, Math.sin(t) * rad * r
       ));
     }
     return pts;
@@ -1948,7 +1972,6 @@
   }
   const TRIS = buildTris();
 
-  // 常設の薄いグリッド線
   const permEdgeSet = new Set();
   const permLinePositions = [];
   for (const tri of TRIS) {
@@ -1963,12 +1986,9 @@
     }
   }
   const permLineGeo = new THREE.BufferGeometry();
-  permLineGeo.setAttribute('position',
-    new THREE.Float32BufferAttribute(permLinePositions, 3));
+  permLineGeo.setAttribute('position', new THREE.Float32BufferAttribute(permLinePositions, 3));
   const permLineMat = new THREE.LineBasicMaterial({
-    color: 0x2060a0,
-    transparent: true,
-    opacity: 0.12,
+    color: 0x2060a0, transparent: true, opacity: 0.12,
     blending: THREE.AdditiveBlending
   });
   ionoGroup.add(new THREE.LineSegments(permLineGeo, permLineMat));
@@ -1981,12 +2001,8 @@
     const usedIdx = new Set();
     while (selectedTris.length < count && selectedTris.length < TRIS.length) {
       const idx = Math.floor(Math.random() * TRIS.length);
-      if (!usedIdx.has(idx)) {
-        usedIdx.add(idx);
-        selectedTris.push(TRIS[idx]);
-      }
+      if (!usedIdx.has(idx)) { usedIdx.add(idx); selectedTris.push(TRIS[idx]); }
     }
-
     const linePositions = [];
     const facePositions = [];
     for (const tri of selectedTris) {
@@ -1996,7 +2012,6 @@
       linePositions.push(p3.x,p3.y,p3.z, p1.x,p1.y,p1.z);
       facePositions.push(p1.x,p1.y,p1.z, p2.x,p2.y,p2.z, p3.x,p3.y,p3.z);
     }
-
     const lineGeo = new THREE.BufferGeometry();
     lineGeo.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
     const lineMat = new THREE.LineBasicMaterial({
@@ -2004,7 +2019,6 @@
     });
     const lines = new THREE.LineSegments(lineGeo, lineMat);
     ionoGroup.add(lines);
-
     const faceGeo = new THREE.BufferGeometry();
     faceGeo.setAttribute('position', new THREE.Float32BufferAttribute(facePositions, 3));
     const faceMat = new THREE.MeshBasicMaterial({
@@ -2013,7 +2027,6 @@
     });
     const face = new THREE.Mesh(faceGeo, faceMat);
     ionoGroup.add(face);
-
     activeResonances.push({
       lines, face, startTime: now,
       duration: 3.5 + Math.random() * 1.5
@@ -2025,12 +2038,9 @@
       const r = activeResonances[i];
       const t = (now - r.startTime) / r.duration;
       if (t >= 1) {
-        ionoGroup.remove(r.lines);
-        ionoGroup.remove(r.face);
-        r.lines.geometry.dispose();
-        r.lines.material.dispose();
-        r.face.geometry.dispose();
-        r.face.material.dispose();
+        ionoGroup.remove(r.lines); ionoGroup.remove(r.face);
+        r.lines.geometry.dispose(); r.lines.material.dispose();
+        r.face.geometry.dispose(); r.face.material.dispose();
         activeResonances.splice(i, 1);
         continue;
       }
@@ -2043,10 +2053,8 @@
     }
   }
 
-  // 海岸線を追加
   addCoastlines();
 
-  // ======== 那覇の光る点 ========
   const nahaPos = latLonToVec3(NAHA.lat, NAHA.lon, EARTH_R * 1.015);
 
   const nahaCore = new THREE.Mesh(
@@ -2080,7 +2088,6 @@
   nahaHalo.position.copy(nahaPos);
   earthStatic.add(nahaHalo);
 
-  // 光の柱（オトヒカリ継承）
   const pillarStart = nahaPos.clone();
   const pillarEnd = nahaPos.clone().multiplyScalar(1.18);
   const pillarGeo = new THREE.BufferGeometry().setFromPoints([pillarStart, pillarEnd]);
@@ -2091,91 +2098,123 @@
   const pillar = new THREE.Line(pillarGeo, pillarMat);
   earthStatic.add(pillar);
 
-  // ======== 人形（昼：立ちヨガ女神 / 夜：座禅瞑想） ========
+  // 人形（昼：立ち姿のヨガ女神 / 夜：座禅の瞑想）
   const personGroup = new THREE.Group();
   earthStatic.add(personGroup);
 
-  // ========= 丸みのある光の存在（ガンダム風人形から置き換え） =========
-  // 昼：外殻の金色オーブ＋白い明るいコア
+  // ★v6: 女性シルエット（昼・立ち姿、金色の光）
   const dayGroup = new THREE.Group();
   personGroup.add(dayGroup);
 
-  const dayOrb = new THREE.Mesh(
-    new THREE.SphereGeometry(0.045, 48, 48),
-    new THREE.MeshBasicMaterial({
-      color: 0xffd88a,
-      transparent: true,
-      opacity: 0.85
-    })
+  // 髪（頭の後ろに長く、縦にしっかり伸ばす）
+  const dayHair = new THREE.Mesh(
+    new THREE.SphereGeometry(0.03, 16, 16),
+    new THREE.MeshBasicMaterial({ color: 0x9e7838, transparent: true, opacity: 0.85 })
   );
-  dayOrb.position.y = 0.085;
-  dayGroup.add(dayOrb);
+  dayHair.position.set(0, 0.145, -0.008);
+  dayHair.scale.set(0.9, 2.3, 0.75);
+  dayGroup.add(dayHair);
 
-  const dayCore = new THREE.Mesh(
-    new THREE.SphereGeometry(0.024, 48, 48),
-    new THREE.MeshBasicMaterial({
-      color: 0xffffee,
-      transparent: true,
-      opacity: 1.0
-    })
+  // 頭（小さめにして人体比率を保つ）
+  const dayHead = new THREE.Mesh(
+    new THREE.SphereGeometry(0.022, 20, 20),
+    new THREE.MeshBasicMaterial({ color: 0xfff0c8, transparent: true, opacity: 0.98 })
   );
-  dayCore.position.y = 0.085;
-  dayGroup.add(dayCore);
+  dayHead.position.y = 0.18;
+  dayGroup.add(dayHead);
 
-  // 地面との接点の滴（潰れた球でなめらかな付け根）
-  const dayBase = new THREE.Mesh(
-    new THREE.SphereGeometry(0.022, 32, 32),
-    new THREE.MeshBasicMaterial({
-      color: 0xffcf78,
-      transparent: true,
-      opacity: 0.7
-    })
+  // 体（ウエストで絞る：胸幅0.022→ウエスト0.013、長さ0.11）
+  const dayBody = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.022, 0.013, 0.11, 16),
+    new THREE.MeshBasicMaterial({ color: 0xffd88a, transparent: true, opacity: 0.92 })
   );
-  dayBase.scale.set(1, 0.45, 1);
-  dayBase.position.y = 0.012;
-  dayGroup.add(dayBase);
+  dayBody.position.y = 0.105;
+  dayGroup.add(dayBody);
 
-  // 夜：柔らかい青白の瞑想オーブ
+  // 腕（V字にはっきり広げる：マウンテン・ポーズ）
+  const armMat = new THREE.MeshBasicMaterial({ color: 0xffd88a, transparent: true, opacity: 0.9 });
+  const dayArmL = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.005, 0.085, 10), armMat);
+  dayArmL.position.set(-0.038, 0.135, 0);
+  dayArmL.rotation.z = Math.PI / 2.5;
+  dayGroup.add(dayArmL);
+  const dayArmR = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.005, 0.085, 10), armMat);
+  dayArmR.position.set(0.038, 0.135, 0);
+  dayArmR.rotation.z = -Math.PI / 2.5;
+  dayGroup.add(dayArmR);
+
+  // スカート/ドレス（しっかり広がる円錐）
+  const daySkirt = new THREE.Mesh(
+    new THREE.ConeGeometry(0.062, 0.1, 24),
+    new THREE.MeshBasicMaterial({ color: 0xffcf78, transparent: true, opacity: 0.88 })
+  );
+  daySkirt.position.y = 0.05;
+  dayGroup.add(daySkirt);
+
+  // 足元のグロー
+  const dayGlow = new THREE.Mesh(
+    new THREE.SphereGeometry(0.035, 24, 24),
+    new THREE.MeshBasicMaterial({ color: 0xfff0a0, transparent: true, opacity: 0.5 })
+  );
+  dayGlow.scale.set(1.3, 0.25, 1.3);
+  dayGlow.position.y = 0.003;
+  dayGroup.add(dayGlow);
+
+  // ★v6: 女性シルエット（夜・座禅の瞑想、青白い光）
   const nightGroup = new THREE.Group();
   nightGroup.visible = false;
   personGroup.add(nightGroup);
 
-  const nightOrb = new THREE.Mesh(
-    new THREE.SphereGeometry(0.042, 48, 48),
-    new THREE.MeshBasicMaterial({
-      color: 0xbfd6f5,
-      transparent: true,
-      opacity: 0.75
-    })
+  // 頭
+  const nightHead = new THREE.Mesh(
+    new THREE.SphereGeometry(0.022, 20, 20),
+    new THREE.MeshBasicMaterial({ color: 0xf0f5ff, transparent: true, opacity: 0.98 })
   );
-  nightOrb.position.y = 0.065;
-  nightGroup.add(nightOrb);
+  nightHead.position.y = 0.12;
+  nightGroup.add(nightHead);
 
-  const nightCore = new THREE.Mesh(
-    new THREE.SphereGeometry(0.02, 48, 48),
-    new THREE.MeshBasicMaterial({
-      color: 0xf0f5ff,
-      transparent: true,
-      opacity: 1.0
-    })
+  // 長い髪（座禅時も縦にしっかり）
+  const nightHair = new THREE.Mesh(
+    new THREE.SphereGeometry(0.03, 16, 16),
+    new THREE.MeshBasicMaterial({ color: 0x6e8fb5, transparent: true, opacity: 0.7 })
   );
-  nightCore.position.y = 0.065;
-  nightGroup.add(nightCore);
+  nightHair.position.set(0, 0.095, -0.005);
+  nightHair.scale.set(0.9, 1.6, 0.8);
+  nightGroup.add(nightHair);
 
-  // 夜の地面との接点
-  const nightBase = new THREE.Mesh(
-    new THREE.SphereGeometry(0.025, 32, 32),
-    new THREE.MeshBasicMaterial({
-      color: 0x9fc4ec,
-      transparent: true,
-      opacity: 0.55
-    })
+  // 座った胴体（安定感ある幅、縦は短く）
+  const nightBody = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.026, 0.032, 0.055, 16),
+    new THREE.MeshBasicMaterial({ color: 0xbfd6f5, transparent: true, opacity: 0.9 })
   );
-  nightBase.scale.set(1, 0.4, 1);
-  nightBase.position.y = 0.012;
-  nightGroup.add(nightBase);
+  nightBody.position.y = 0.07;
+  nightGroup.add(nightBody);
 
-  // 人のまわりの淡いオーラ
+  // 合掌の手（前で合わせる・瞑想の象徴）
+  const nightHand = new THREE.Mesh(
+    new THREE.SphereGeometry(0.014, 16, 16),
+    new THREE.MeshBasicMaterial({ color: 0xe8f0fc, transparent: true, opacity: 0.88 })
+  );
+  nightHand.position.set(0, 0.075, 0.03);
+  nightHand.scale.set(0.9, 0.55, 0.55);
+  nightGroup.add(nightHand);
+
+  // 座禅の下半身（あぐらで広がる低い円盤）
+  const nightLap = new THREE.Mesh(
+    new THREE.ConeGeometry(0.075, 0.055, 24),
+    new THREE.MeshBasicMaterial({ color: 0x9fc4ec, transparent: true, opacity: 0.82 })
+  );
+  nightLap.position.y = 0.028;
+  nightGroup.add(nightLap);
+
+  // 足元のグロー
+  const nightGlow = new THREE.Mesh(
+    new THREE.SphereGeometry(0.04, 24, 24),
+    new THREE.MeshBasicMaterial({ color: 0xbfd6f5, transparent: true, opacity: 0.48 })
+  );
+  nightGlow.scale.set(1.4, 0.22, 1.4);
+  nightGlow.position.y = 0.003;
+  nightGroup.add(nightGlow);
+
   const personAuraMat = new THREE.SpriteMaterial({
     map: createHaloTexture(255, 220, 140),
     transparent: true, opacity: 0.3,
@@ -2186,16 +2225,14 @@
   personAura.position.y = 0.2;
   personGroup.add(personAura);
 
-  personGroup.scale.setScalar(0.75);
+  personGroup.scale.setScalar(0.9);
 
-  // 人形を位置情報に連動させる関数
   function repositionPersonForLocation() {
     const pos = latLonToVec3(userLocation.lat, userLocation.lon, EARTH_R * 1.015);
     nahaPos.copy(pos);
     const up = pos.clone().normalize();
     personGroup.position.copy(pos.clone().add(up.clone().multiplyScalar(0.09)));
     personGroup.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), up);
-
     if (typeof nahaCore !== 'undefined' && nahaCore) nahaCore.position.copy(pos);
     if (typeof nahaHalo !== 'undefined' && nahaHalo) nahaHalo.position.copy(pos);
     if (typeof pillar !== 'undefined' && pillar) {
@@ -2210,7 +2247,6 @@
     }
   }
 
-  // 昼夜を判定して人形を切り替える
   function updatePersonTimeOfDay() {
     const now = new Date();
     const sunPos = SunCalc.getPosition(now, userLocation.lat, userLocation.lon);
@@ -2222,69 +2258,44 @@
 
   const nahaUp = nahaPos.clone().normalize();
   personGroup.position.copy(nahaPos.clone().add(nahaUp.clone().multiplyScalar(0.09)));
-  personGroup.quaternion.setFromUnitVectors(
-    new THREE.Vector3(0, 1, 0),
-    nahaUp
-  );
+  personGroup.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), nahaUp);
   updatePersonTimeOfDay();
 
-  // ======== 太陽（同じ空間に発光球として） ========
   const sunGroup = new THREE.Group();
   earthGroup.add(sunGroup);
 
-  const sunMat = new THREE.MeshBasicMaterial({
-    color: 0xfff0a0
-  });
-  const sunMesh = new THREE.Mesh(
-    new THREE.SphereGeometry(0.45, 32, 32),
-    sunMat
-  );
+  const sunMat = new THREE.MeshBasicMaterial({ color: 0xfff0a0 });
+  const sunMesh = new THREE.Mesh(new THREE.SphereGeometry(0.45, 32, 32), sunMat);
   sunGroup.add(sunMesh);
 
-  // 太陽のハロー（大きめ）
   const sunHaloMat = new THREE.SpriteMaterial({
     map: createHaloTexture(255, 230, 130),
-    transparent: true,
-    opacity: 0.75,
-    blending: THREE.AdditiveBlending,
-    depthWrite: false
+    transparent: true, opacity: 0.75,
+    blending: THREE.AdditiveBlending, depthWrite: false
   });
   const sunHalo = new THREE.Sprite(sunHaloMat);
   sunHalo.scale.set(2.8, 2.8, 1);
   sunMesh.add(sunHalo);
 
-  // 太陽の外側フレア（さらに大きな淡い光）
   const sunFlareMat = new THREE.SpriteMaterial({
     map: createHaloTexture(255, 200, 80),
-    transparent: true,
-    opacity: 0.3,
-    blending: THREE.AdditiveBlending,
-    depthWrite: false
+    transparent: true, opacity: 0.3,
+    blending: THREE.AdditiveBlending, depthWrite: false
   });
   const sunFlare = new THREE.Sprite(sunFlareMat);
   sunFlare.scale.set(5.5, 5.5, 1);
   sunMesh.add(sunFlare);
 
-  // ======== 月（同じ空間に大きく浮かぶ・強調） ========
-  // 月は那覇から見た方向に、地球より一回り大きく表示
   const moonGroup = new THREE.Group();
   scene.add(moonGroup);
 
-  // 月の本体：太陽光が当たる側だけ明るく、反対側は影に（＝満ち欠け）
   const moonMat = new THREE.MeshPhongMaterial({
-    color: 0xfaf5e0,
-    emissive: 0x0a0a0e,
-    emissiveIntensity: 0.05,
-    shininess: 2,
-    specular: 0x111111
+    color: 0xfaf5e0, emissive: 0x0a0a0e, emissiveIntensity: 0.05,
+    shininess: 2, specular: 0x111111
   });
-  const moonMesh = new THREE.Mesh(
-    new THREE.SphereGeometry(0.55, 48, 48),
-    moonMat
-  );
+  const moonMesh = new THREE.Mesh(new THREE.SphereGeometry(0.55, 48, 48), moonMat);
   moonGroup.add(moonMesh);
 
-  // 月のハロー
   const moonHaloMat = new THREE.SpriteMaterial({
     map: createHaloTexture(244, 239, 216),
     transparent: true, opacity: 0.4,
@@ -2294,7 +2305,6 @@
   moonHalo.scale.set(2.2, 2.2, 1);
   moonMesh.add(moonHalo);
 
-  // 那覇のローカル座標系（「月はどこに見えるか」のテキスト表示用）
   function computeNahaFrame() {
     const up = nahaPos.clone().normalize();
     const northVec = new THREE.Vector3(0, 1, 0).sub(up.clone().multiplyScalar(up.y)).normalize();
@@ -2303,11 +2313,6 @@
   }
   const nahaFrame = computeNahaFrame();
 
-  // ======== 天文座標 → 3D ========
-  // 地球中心から見た天球座標（赤道座標系）
-  //   Y軸: 地球の北極
-  //   X軸: 春分点方向
-  //   XZ平面: 赤道面
   function equatorialToVec3(ra, dec, dist) {
     return new THREE.Vector3(
       dist * Math.cos(dec) * Math.cos(ra),
@@ -2316,7 +2321,6 @@
     );
   }
 
-  // グリニッジ恒星時（地球の自転角）
   function getGMST(date) {
     const jd = date.valueOf() / 86400000 + 2440587.5;
     const t = (jd - 2451545.0) / 36525;
@@ -2326,23 +2330,16 @@
     return gmst * Math.PI / 180;
   }
 
-  // 月位置は earthGroup の中に配置（地球と一緒に回る）
   earthGroup.add(moonGroup);
 
-  // ======== アプリ状態 ========
   const state = {
-    useCompass: false,
-    compassHeading: 0,
-    userRotX: 0,
-    userRotY: 0,
+    useCompass: false, compassHeading: 0,
+    userRotX: 0, userRotY: 0,
     autoRotateSpeed: 0.0008,
-    lastResonanceTime: 0,
-    hintShown: true,
-    targetZoom: 8.0,
-    currentZoom: 8.0
+    lastResonanceTime: 0, hintShown: true,
+    targetZoom: 8.0, currentZoom: 8.0
   };
 
-  // ======== タッチ/マウス操作 ========
   let isDragging = false;
   let dragStart = { x: 0, y: 0 };
   let rotStart = { x: 0, y: 0 };
@@ -2350,7 +2347,6 @@
 
   function onPointerDown(e) {
     if (e.touches && e.touches.length === 2) {
-      // ピンチ開始
       const dx = e.touches[0].clientX - e.touches[1].clientX;
       const dy = e.touches[0].clientY - e.touches[1].clientY;
       lastPinch = Math.sqrt(dx * dx + dy * dy);
@@ -2359,10 +2355,8 @@
     }
     const touch = e.touches ? e.touches[0] : e;
     isDragging = true;
-    dragStart.x = touch.clientX;
-    dragStart.y = touch.clientY;
-    rotStart.x = state.userRotX;
-    rotStart.y = state.userRotY;
+    dragStart.x = touch.clientX; dragStart.y = touch.clientY;
+    rotStart.x = state.userRotX; rotStart.y = state.userRotY;
     if (state.hintShown) {
       state.hintShown = false;
       document.getElementById('rotHint').classList.add('hidden');
@@ -2371,7 +2365,6 @@
 
   function onPointerMove(e) {
     if (e.touches && e.touches.length === 2) {
-      // ピンチズーム
       const dx = e.touches[0].clientX - e.touches[1].clientX;
       const dy = e.touches[0].clientY - e.touches[1].clientY;
       const dist = Math.sqrt(dx * dx + dy * dy);
@@ -2411,12 +2404,10 @@
   canvas.addEventListener('touchend', onPointerUp);
   canvas.addEventListener('wheel', onWheel, { passive: false });
 
-  // ブラウザのピンチジェスチャー無効化
   document.addEventListener('gesturestart', e => e.preventDefault(), { passive: false });
   document.addEventListener('gesturechange', e => e.preventDefault(), { passive: false });
   document.addEventListener('gestureend', e => e.preventDefault(), { passive: false });
 
-  // ======== 方位言語 ========
   function azimuthToJp(az) {
     let deg = (az * 180 / Math.PI + 180) % 360;
     if (deg < 0) deg += 360;
@@ -2450,35 +2441,27 @@
     return { w: 'ほぼ真下', en: 'near nadir' };
   }
 
-  // ======== 更新 ========
   function updateData() {
     const now = new Date();
     const age = getMoonAge(now);
     const phase = getPhaseName(age);
 
-    // 地球の自転（GMST）
-    // 地球本体（earthStatic）を時刻に応じた角度に回す
-    // これで那覇が宇宙空間のどこに位置するかが正しくなる
     earthStatic.rotation.y = getGMST(now);
 
-    // 月の位置：地球中心から見た絶対方向（赤道座標→デカルト）
     const moonEq = SunCalc.getMoonEquatorial(now);
     const moonDist = 3.2;
     const moonWorldPos = equatorialToVec3(moonEq.ra, moonEq.dec, moonDist);
     moonGroup.position.copy(moonWorldPos);
 
-    // 太陽の位置：同じく絶対方向
     const sunEq = SunCalc.getSunEquatorial(now);
     const sunDist = 7;
     const sunWorldPos = equatorialToVec3(sunEq.ra, sunEq.dec, sunDist);
     sunGroup.position.copy(sunWorldPos);
 
-    // 太陽光は太陽位置から地球中心へ
     sunLight.position.copy(sunWorldPos);
     sunLight.target.position.set(0, 0, 0);
     sunLight.target.updateMatrixWorld();
 
-    // 那覇から見た月の方位・高度（テキスト表示用）
     const moonPos = SunCalc.getMoonPosition(now, NAHA.lat, NAHA.lon);
     const altDeg = moonPos.altitude * 180 / Math.PI;
 
@@ -2486,13 +2469,9 @@
     const h = altHeightJp(altDeg);
 
     let whereText;
-    if (altDeg < -5) {
-      whereText = `地 球 の 裏 側`;
-    } else if (altDeg < 5) {
-      whereText = `${az.name}の 地 平 線`;
-    } else {
-      whereText = `${az.name}の 空`;
-    }
+    if (altDeg < -5) whereText = `地 球 の 裏 側`;
+    else if (altDeg < 5) whereText = `${az.name}の 地 平 線`;
+    else whereText = `${az.name}の 空`;
 
     document.getElementById('moonWhere').textContent = whereText;
     document.getElementById('moonWhereSub').textContent =
@@ -2510,7 +2489,6 @@
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
-      // すべてのビューをリセット
       document.getElementById('moonnavView').classList.remove('active');
       document.getElementById('calendarView').classList.remove('active');
 
@@ -2526,26 +2504,14 @@
     });
   });
 
-  // ======== 月ナビ（Skyマップ式：低域通過フィルタ＋クォータニオン風） ========
+  // ======== 月ナビ ========
   const navState = {
-    // 生のセンサー値
-    rawAlpha: 0,
-    rawBeta: 0,
-    rawGamma: 0,
-    // Low-pass フィルタリング済みの最終的な向き
-    heading: 0,
-    pitch: 0,
-    roll: 0,
-    // オーバーシュート防止用にさらに滑らかにした表示用値
-    smoothHeading: 0,
-    smoothPitch: 0,
-    smoothRoll: 0,
-    permitted: false,
-    animId: null,
-    hasOrientation: false,
-    eventCount: 0,
-    stars: [],
-    screenOrient: 0  // 0=portrait, 90=landscape-right, -90=landscape-left, 180=portrait-upside
+    rawAlpha: 0, rawBeta: 0, rawGamma: 0,
+    heading: 0, pitch: 0, roll: 0,
+    smoothHeading: 0, smoothPitch: 0, smoothRoll: 0,
+    permitted: false, animId: null,
+    hasOrientation: false, eventCount: 0,
+    stars: [], screenOrient: 0
   };
 
   (function initStars() {
@@ -2559,7 +2525,6 @@
     }
   })();
 
-  // スクリーン向き（縦/横）を取得
   function updateScreenOrient() {
     if (screen.orientation && typeof screen.orientation.angle === 'number') {
       navState.screenOrient = screen.orientation.angle;
@@ -2575,7 +2540,6 @@
     screen.orientation.addEventListener('change', updateScreenOrient);
   }
 
-  // 角度を -180〜180 に正規化
   function shortAngle(a, b) {
     let d = a - b;
     while (d > 180) d -= 360;
@@ -2583,15 +2547,8 @@
     return d;
   }
 
-  // 角度を 0〜360 に正規化
-  function norm360(a) {
-    return ((a % 360) + 360) % 360;
-  }
+  function norm360(a) { return ((a % 360) + 360) % 360; }
 
-  // ======== 月の位置を身体感覚で表現 ========
-  // 午前（6-12時）: 北を向いて立っている時の月位置
-  // 午後（12-18時）: 南を向いて立っている時の月位置
-  // 夜間（18-6時）: 北を向いて座っている時の月位置
   function getBodyOrientation(hour) {
     if (hour >= 6 && hour < 12) {
       return { facing: 0, label: '北 を 向 い て 立 っ て', posture: 'standing' };
@@ -2602,16 +2559,13 @@
     }
   }
 
-  // 月の位置を「右肩の上」「足元」など身体感覚で表現
   function moonBodyWords(moonAz, moonAlt) {
     const hour = new Date().getHours();
     const body = getBodyOrientation(hour);
-    // 身体正面と月方位の相対角度
     let relAz = shortAngle(moonAz, body.facing);
     const absAz = Math.abs(relAz);
     const altDeg = moonAlt;
 
-    // 地球の裏側
     if (altDeg < -5) {
       return {
         main: '月 は 足 元',
@@ -2619,15 +2573,10 @@
       };
     }
 
-    // 天頂に近い
     if (altDeg > 75) {
-      return {
-        main: '月 は 真 上',
-        sub: `${body.label} · 見 上 げ て`
-      };
+      return { main: '月 は 真 上', sub: `${body.label} · 見 上 げ て` };
     }
 
-    // 高度別の基本ワード
     let heightWord;
     if (altDeg > 55) heightWord = '頭 上';
     else if (altDeg > 30) heightWord = '空 高 く';
@@ -2635,7 +2584,6 @@
     else if (altDeg > -5) heightWord = '地 平 線';
     else heightWord = '足 元 の 方 向';
 
-    // 左右前後
     let sideWord;
     if (absAz < 20) sideWord = '正 面';
     else if (absAz < 60) sideWord = relAz < 0 ? '左 斜 め 前' : '右 斜 め 前';
@@ -2643,7 +2591,6 @@
     else if (absAz < 150) sideWord = relAz < 0 ? '左 斜 め 後 ろ' : '右 斜 め 後 ろ';
     else sideWord = '真 後 ろ';
 
-    // 肩の表現（高度10-55度の時は「肩」の比喩）
     let main;
     if (altDeg > 10 && altDeg <= 55 && absAz >= 60 && absAz <= 120) {
       main = relAz < 0 ? '左 肩 の 上' : '右 肩 の 上';
@@ -2663,34 +2610,23 @@
     };
   }
 
-  // Low-pass filter for angles（循環境界対応）
   function lpfAngle(current, target, alpha) {
     const diff = shortAngle(target, current);
     return norm360(current + diff * alpha);
   }
-
   function lpfLinear(current, target, alpha) {
     return current + (target - current) * alpha;
   }
 
-  // ======== デバイス姿勢 → 観測者視線（heading/pitch/roll） ========
-  // alpha/beta/gamma は端末の座標系での回転角
-  //   alpha: Z軸周り（0〜360、コンパス逆方向）
-  //   beta:  X軸周り（-180〜180、前後の傾き）
-  //   gamma: Y軸周り（-90〜90、左右の傾き）
-  // スクリーン向き（縦/横）を考慮して、観測者がスマホ背面から見る方向を計算
   function deviceToSky(alpha, beta, gamma, screenOrient) {
-    // 度→ラジアン
-    const _x = beta * Math.PI / 180;   // pitch (x-axis)
-    const _y = gamma * Math.PI / 180;  // roll (y-axis)
-    const _z = alpha * Math.PI / 180;  // heading (z-axis, but inverted)
+    const _x = beta * Math.PI / 180;
+    const _y = gamma * Math.PI / 180;
+    const _z = alpha * Math.PI / 180;
     const _o = screenOrient * Math.PI / 180;
 
-    // ZXY順の回転行列（W3C DeviceOrientation仕様）
     const cX = Math.cos(_x), cY = Math.cos(_y), cZ = Math.cos(_z);
     const sX = Math.sin(_x), sY = Math.sin(_y), sZ = Math.sin(_z);
 
-    // 回転行列 R = Rz(alpha) * Rx(beta) * Ry(gamma)
     const m11 = cZ * cY - sZ * sX * sY;
     const m12 = -cX * sZ;
     const m13 = cY * sZ * sX + cZ * sY;
@@ -2701,42 +2637,21 @@
     const m32 = sX;
     const m33 = cX * cY;
 
-    // スクリーン回転の補正
     const cO = Math.cos(_o), sO = Math.sin(_o);
-    // 画面を基準にした「前方ベクトル」（画面の奥方向 = スマホ背面の向き）
-    // デバイス座標で画面奥 = -Z 方向 = (0, 0, -1)
-    // スクリーンを回転させた後の画面上方向を求める
-    // Screen-to-device: screen X = device X*cO + device Y*sO, screen Y = -device X*sO + device Y*cO
-    // 世界座標での視線方向（画面奥、-Z）
     const fx = -m13;
     const fy = -m23;
     const fz = -m33;
 
-    // 世界座標での上方向（画面上方向。スクリーン回転を考慮）
-    // device座標の画面上方向 = (-sO, cO, 0) を世界に変換
     const ux = m11 * (-sO) + m12 * cO;
     const uy = m21 * (-sO) + m22 * cO;
     const uz = m31 * (-sO) + m32 * cO;
 
-    // heading: 画面奥がどっちを向いているか（北基準、時計回り）
-    // 世界座標では Y=北、X=東、Z=上
-    // fx=東成分, fy=北成分
     let heading = Math.atan2(fx, fy) * 180 / Math.PI;
     heading = norm360(heading);
 
-    // pitch: 画面奥の上下角
     const fHoriz = Math.sqrt(fx * fx + fy * fy);
     let pitch = Math.atan2(fz, fHoriz) * 180 / Math.PI;
-
-    // roll: 画面の回転（画面上方向が世界の上からどれだけ傾いているか）
-    // 画面奥方向を軸として、画面上方向が世界Z軸からどれだけ回転しているか
-    // 簡略化：画面上ベクトルの「水平面への投影と元ベクトルの角度」で近似
     let roll = 0;
-    // 画面上ベクトルを、画面奥方向を軸として回転量を測る
-    // 参照として「画面奥と上方向両方に垂直な右方向」と「世界上方向」を比較
-    // 簡易版：gamma をほぼそのまま使う（縦持ちで動く範囲なら十分）
-    // ただしスクリーン向きを考慮
-    roll = 0; // rollは今回省略（安定動作優先）
 
     return { heading, pitch, roll };
   }
@@ -2744,24 +2659,16 @@
   function handleNavOrientation(e) {
     navState.hasOrientation = true;
     navState.eventCount++;
-
     const alpha = e.alpha || 0;
     const beta = e.beta || 0;
     const gamma = e.gamma || 0;
-
     navState.rawAlpha = alpha;
     navState.rawBeta = beta;
     navState.rawGamma = gamma;
-
-    // 端末姿勢から視線方向を計算
     const sky = deviceToSky(alpha, beta, gamma, navState.screenOrient);
-
-    // iOS の webkitCompassHeading が利用可能なら優先（より正確）
     if (typeof e.webkitCompassHeading === 'number') {
       sky.heading = e.webkitCompassHeading;
     }
-
-    // Low-pass filter 1段目（alpha = 0.25：応答早め）
     const ALPHA1 = 0.25;
     navState.heading = lpfAngle(navState.heading, sky.heading, ALPHA1);
     navState.pitch = lpfLinear(navState.pitch, sky.pitch, ALPHA1);
@@ -2782,16 +2689,12 @@
         return false;
       }
     }
-
     navState.permitted = true;
     window.addEventListener('deviceorientation', handleNavOrientation, true);
     window.addEventListener('deviceorientationabsolute', handleNavOrientation, true);
-
     document.getElementById('navPermission').style.display = 'none';
     document.getElementById('navCalibrate').classList.add('visible');
 
-    // ★フリーズ回避：許可と同時に描画ループを起動する
-    // （これをしないと、タブを切り替えて戻るまでactivateMoonNavが再実行されず画面が固まる）
     if (navState.animId) cancelAnimationFrame(navState.animId);
     (function navLoop() {
       if (document.getElementById('moonnavView').classList.contains('active')) {
@@ -2802,8 +2705,7 @@
 
     setTimeout(() => {
       if (navState.eventCount === 0) {
-        document.getElementById('navSub').textContent =
-          'センサー受信なし · 端末を振ってみて';
+        document.getElementById('navSub').textContent = 'センサー受信なし · 端末を振ってみて';
       }
     }, 3000);
 
@@ -2813,7 +2715,6 @@
   document.getElementById('navPermissionBtn').addEventListener('click', requestNavPermission);
 
   document.getElementById('navCalibrate').addEventListener('click', () => {
-    // 位置情報を再取得
     if (!navigator.geolocation) {
       alert('このブラウザでは位置情報が使えません');
       return;
@@ -2849,31 +2750,25 @@
   }
   window.addEventListener('resize', resizeNavCanvas);
 
-  // 天球座標 → 画面座標
   function skyToScreen(az, alt, heading, pitch, roll, w, h, fovDeg) {
     const azRad = az * Math.PI / 180;
     const altRad = alt * Math.PI / 180;
-    // 天球上の単位ベクトル（X=東, Y=北, Z=上）
     const x = Math.sin(azRad) * Math.cos(altRad);
     const y = Math.cos(azRad) * Math.cos(altRad);
     const z = Math.sin(altRad);
 
-    // 観測者のheading（画面奥の方位）分、Z軸周りに-回転
-    // （天球をheadingの逆に回して、観測者前方をY軸にする）
     const hRad = heading * Math.PI / 180;
     const cH = Math.cos(hRad), sH = Math.sin(hRad);
     const x1 = x * cH - y * sH;
     const y1 = x * sH + y * cH;
     const z1 = z;
 
-    // pitch分、X軸周りに-回転（画面奥が水平から上下に傾いた分）
     const pRad = pitch * Math.PI / 180;
     const cP = Math.cos(pRad), sP = Math.sin(pRad);
     const x2 = x1;
     const y2 = y1 * cP + z1 * sP;
     const z2 = -y1 * sP + z1 * cP;
 
-    // roll分、Y軸周りに-回転（画面の左右傾き）
     const rRad = roll * Math.PI / 180;
     const cR = Math.cos(rRad), sR = Math.sin(rRad);
     const x3 = x2 * cR - z2 * sR;
@@ -2899,8 +2794,6 @@
     navCtx.setTransform(navDpr, 0, 0, navDpr, 0, 0);
     navCtx.clearRect(0, 0, w, h);
 
-    // Low-pass filter 2段目（表示用・さらに滑らか）
-    // 天底・天頂付近ではジンバルロック回避で補間をさらに強く
     const pitchAbs = Math.abs(navState.pitch);
     const alpha2 = pitchAbs > 70 ? 0.06 : 0.15;
     navState.smoothHeading = lpfAngle(navState.smoothHeading, navState.heading, alpha2);
@@ -2910,10 +2803,8 @@
     const heading = navState.smoothHeading;
     const pitch = navState.smoothPitch;
     const roll = navState.smoothRoll;
-
     const fov = 70;
 
-    // 星
     for (const star of navState.stars) {
       const p = skyToScreen(star.az, star.alt, heading, pitch, roll, w, h, fov);
       if (!p) continue;
@@ -2924,7 +2815,6 @@
       navCtx.fill();
     }
 
-    // 地平線
     navCtx.strokeStyle = 'rgba(110, 196, 245, 0.25)';
     navCtx.lineWidth = 1;
     navCtx.beginPath();
@@ -2943,7 +2833,6 @@
     }
     navCtx.stroke();
 
-    // 方位マーカー
     const dirs = [
       { az: 0,   label: 'N', color: 'rgba(220,140,140,0.85)' },
       { az: 90,  label: 'E', color: 'rgba(160,190,230,0.7)' },
@@ -2961,18 +2850,15 @@
       navCtx.fillText(d.label, p.x, p.y);
     }
 
-    // 月・太陽
     const now = new Date();
     const moonPos = SunCalc.getMoonPosition(now, NAHA.lat, NAHA.lon);
     const sunPos = SunCalc.getPosition(now, NAHA.lat, NAHA.lon);
 
     let moonAz = norm360(moonPos.azimuth * 180 / Math.PI + 180);
     const moonAlt = moonPos.altitude * 180 / Math.PI;
-
     let sunAz = norm360(sunPos.azimuth * 180 / Math.PI + 180);
     const sunAlt = sunPos.altitude * 180 / Math.PI;
 
-    // 太陽
     const sp = skyToScreen(sunAz, sunAlt, heading, pitch, roll, w, h, fov);
     if (sp) {
       navCtx.beginPath();
@@ -2985,7 +2871,6 @@
       navCtx.fillText('☀', sp.x, sp.y);
     }
 
-    // 月
     const mp = skyToScreen(moonAz, moonAlt, heading, pitch, roll, w, h, fov);
     const moonOnScreen = !!mp && mp.x >= -40 && mp.x <= w + 40 && mp.y >= -40 && mp.y <= h + 40;
 
@@ -3018,8 +2903,6 @@
       navCtx.arc(mp.x + 8, mp.y + 6, 2.5, 0, Math.PI * 2);
       navCtx.fill();
 
-      // 満ち欠け（正統な月相描画：terminatorの楕円で合成）
-      // SunCalc phase: 0=新月, 0.25=上弦, 0.5=満月, 0.75=下弦
       const illum = SunCalc.getMoonIllumination(now);
       const phase = illum.phase;
 
@@ -3031,21 +2914,16 @@
       const shadowColor = 'rgba(5, 8, 24, 0.93)';
       navCtx.fillStyle = shadowColor;
 
-      // terminator楕円の横半径：phase=0で+moonR, phase=0.25で0, phase=0.5で-moonR, phase=0.75で0, phase=1で+moonR
       const termR = Math.cos(phase * 2 * Math.PI) * moonR;
 
       if (phase < 0.5) {
-        // 新月→満月：北半球では右側から明るくなる＝影は左半分
-        // 左半分を影で塗る
         navCtx.fillRect(mp.x - moonR - 2, mp.y - moonR - 2, moonR + 2, moonR * 2 + 4);
         if (termR > 0) {
-          // phase<0.25（三日月）：影が右側にも凸に入り込む → 右側にterminator楕円を影で追加
           navCtx.beginPath();
           navCtx.ellipse(mp.x, mp.y, termR, moonR, 0, -Math.PI / 2, Math.PI / 2);
           navCtx.closePath();
           navCtx.fill();
         } else if (termR < 0) {
-          // phase>0.25（十三夜方向）：左半分の影をterminator楕円で削る
           navCtx.save();
           navCtx.globalCompositeOperation = 'destination-out';
           navCtx.beginPath();
@@ -3055,11 +2933,8 @@
           navCtx.restore();
         }
       } else {
-        // 満月→新月：北半球では右側から欠けていく＝影は右半分
-        // 右半分を影で塗る
         navCtx.fillRect(mp.x, mp.y - moonR - 2, moonR + 2, moonR * 2 + 4);
         if (termR < 0) {
-          // phase<0.75（居待月方向）：右半分の影をterminator楕円で削る
           navCtx.save();
           navCtx.globalCompositeOperation = 'destination-out';
           navCtx.beginPath();
@@ -3068,7 +2943,6 @@
           navCtx.fill();
           navCtx.restore();
         } else if (termR > 0) {
-          // phase>0.75（有明）：左側にもterminator楕円を影で追加
           navCtx.beginPath();
           navCtx.ellipse(mp.x, mp.y, termR, moonR, 0, Math.PI / 2, -Math.PI / 2, true);
           navCtx.closePath();
@@ -3084,7 +2958,6 @@
       navCtx.stroke();
     }
 
-    // 月との角度差（画面外誘導用）
     const azDiff = shortAngle(moonAz, heading);
     const altDiff = moonAlt - pitch;
     const cx = w / 2;
@@ -3121,15 +2994,13 @@
       navCtx.restore();
     }
 
-    // UIテキスト
     const headline = document.getElementById('navHeadline');
     const sub = document.getElementById('navSub');
     const statusVal = document.getElementById('navStatusValue');
 
     if (moonOnScreen) {
       const distFromCenter = Math.sqrt(
-        Math.pow((mp.x - cx) / cx, 2) +
-        Math.pow((mp.y - cy) / cy, 2)
+        Math.pow((mp.x - cx) / cx, 2) + Math.pow((mp.y - cy) / cy, 2)
       );
       if (distFromCenter < 0.2) {
         headline.classList.add('locked');
@@ -3142,8 +3013,6 @@
       }
     } else {
       headline.classList.remove('locked');
-
-      // 身体基準（北向き立ち / 南向き立ち / 北向き座り）での月位置表現
       const bodyWords = moonBodyWords(moonAz, moonAlt);
       headline.textContent = bodyWords.main;
       sub.textContent = bodyWords.sub;
@@ -3152,7 +3021,6 @@
     const azJp = azimuthToJp(moonPos.azimuth);
     statusVal.textContent = `${azJp.en} ${azJp.deg.toFixed(0)}° · alt ${moonAlt.toFixed(0)}°`;
 
-    // デバッグ
     document.getElementById('navDebug').innerHTML =
       `ev: ${navState.eventCount} · so: ${navState.screenOrient}°<br>` +
       `raw α${navState.rawAlpha.toFixed(0)} β${navState.rawBeta.toFixed(0)} γ${navState.rawGamma.toFixed(0)}<br>` +
@@ -3170,10 +3038,8 @@
       document.getElementById('navPermission').style.display = 'block';
       return;
     }
-    // 既存のループを止めて再開
     if (navState.animId) cancelAnimationFrame(navState.animId);
     function loop() {
-      // アクティブ状態の時のみ描画、でもループは継続
       if (document.getElementById('moonnavView').classList.contains('active')) {
         renderMoonNav();
       }
@@ -3182,33 +3048,24 @@
     loop();
   }
 
-  function deactivateMoonNav() {
-    // ループは止めず、描画だけスキップ（タブ復帰時の再開を安定化）
-  }
+  function deactivateMoonNav() {}
 
   // ======== カレンダー ========
   let calYear = new Date().getFullYear();
   let calMonth = new Date().getMonth();
 
-  // ======== SunCalc二分探索による精密聖点時刻計算 ========
-  // 指定時刻から見て、次に targetPhase(0=新月/0.25=上弦/0.5=満月/0.75=下弦) に到達する瞬間を
-  // ±数分精度で計算する。月の軌道は楕円なので均等4分割より遥かに正確。
   function findNextSeitenTime(from, targetPhase) {
     const DAY_MS = 86400000;
     const fromMs = from.getTime();
     const curPhase = SunCalc.getMoonIllumination(from).phase;
-    // 現在のphaseからtargetまでの進行量（0〜1、常に未来方向）
     let delta = targetPhase - curPhase;
-    if (delta <= 0.0001) delta += 1;  // 次の周期
-    // 概算到達時刻（phase変化は厳密には不均等だが、初期値として十分）
+    if (delta <= 0.0001) delta += 1;
     const approxMs = fromMs + delta * SYNODIC_MONTH * DAY_MS;
-    // 前後1.5日の範囲で二分探索（phaseが targetPhase を下から上に跨ぐ瞬間）
     let lo = approxMs - DAY_MS * 1.5;
     let hi = approxMs + DAY_MS * 1.5;
     for (let i = 0; i < 50; i++) {
       const mid = (lo + hi) / 2;
       const phase = SunCalc.getMoonIllumination(new Date(mid)).phase;
-      // 循環を考慮した差分
       let diff = phase - targetPhase;
       if (diff > 0.5) diff -= 1;
       if (diff < -0.5) diff += 1;
@@ -3224,7 +3081,6 @@
       { name: 'くまなし', phase: 0.5 },
       { name: 'ありあけ', phase: 0.75 }
     ];
-    // 各ターゲットの次の到達時刻を精密計算し、最も近いものを選ぶ
     let nearest = null;
     for (const t of targets) {
       const time = findNextSeitenTime(date, t.phase);
@@ -3236,36 +3092,60 @@
     return { name: nearest.name, date: nearest.date, days };
   }
 
-  // 4区分のフェーズセグメント（案B・動詞的、数字は 0/3/6/9）
-  function getPhaseSegment(date) {
+  // ★v6: 現在いる聖点期間を返す（次の聖点ではなく、「今の状態」）
+  // 月齢による区分：
+  // 0〜7.4：つきたち期（生まれて行く期間、0→3へ向かう）
+  // 7.4〜14.8：かたみに期（満ちて行く期間、3→6へ向かう）
+  // 14.8〜22.1：くまなし期（放って行く期間、6→9へ向かう）
+  // 22.1〜29.5：ありあけ期（整えて行く期間、9→0へ向かう）
+  function getCurrentPhase(date) {
     const age = getMoonAge(date);
     const ratio = age / SYNODIC_MONTH;
     if (ratio < 0.25) {
-      return { label: '生 ま れ て 行 く 期 間', from: 'つきたち', fromNum: 0, to: 'かたみに', toNum: 3 };
+      return {
+        currentName: 'つきたち',
+        label: '生 ま れ て 行 く 期 間',
+        from: 'つきたち', fromNum: 0,
+        to: 'かたみに', toNum: 3,
+        progress: ratio / 0.25
+      };
     } else if (ratio < 0.5) {
-      return { label: '満 ち て 行 く 期 間',   from: 'かたみに', fromNum: 3, to: 'くまなし', toNum: 6 };
+      return {
+        currentName: 'かたみに',
+        label: '満 ち て 行 く 期 間',
+        from: 'かたみに', fromNum: 3,
+        to: 'くまなし', toNum: 6,
+        progress: (ratio - 0.25) / 0.25
+      };
     } else if (ratio < 0.75) {
-      return { label: '放 っ て 行 く 期 間',   from: 'くまなし', fromNum: 6, to: 'ありあけ', toNum: 9 };
+      return {
+        currentName: 'くまなし',
+        label: '放 っ て 行 く 期 間',
+        from: 'くまなし', fromNum: 6,
+        to: 'ありあけ', toNum: 9,
+        progress: (ratio - 0.5) / 0.25
+      };
     } else {
-      return { label: '整 え て 行 く 期 間',   from: 'ありあけ', fromNum: 9, to: 'つきたち', toNum: 0 };
+      return {
+        currentName: 'ありあけ',
+        label: '整 え て 行 く 期 間',
+        from: 'ありあけ', fromNum: 9,
+        to: 'つきたち', toNum: 0,
+        progress: (ratio - 0.75) / 0.25
+      };
     }
   }
 
-  // 簡易旧暦計算（閏月・節気なし、±1日精度）
-  // 前回の新月日を特定し、そこからの経過日数+1 = 旧暦の日
-  // 旧暦の月 = 新月日の新暦月から近似（20日以降なら同月、以前なら前月）
+  // 旧暦計算
   function getLunarDate(date) {
     const dayMs = 86400000;
     const daysSinceBase = (date.getTime() - BASE_NEW_MOON) / dayMs;
     const cycleCount = Math.floor(daysSinceBase / SYNODIC_MONTH);
     const lastNewMoonMs = BASE_NEW_MOON + cycleCount * SYNODIC_MONTH * dayMs;
     const lastNewMoon = new Date(lastNewMoonMs);
-
-    // 日付の0時基準で比較（時刻ズレを吸収）
     const lnmMidnight = new Date(lastNewMoon.getFullYear(), lastNewMoon.getMonth(), lastNewMoon.getDate()).getTime();
     const targetMidnight = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
     const lunarDay = Math.round((targetMidnight - lnmMidnight) / dayMs) + 1;
-
     const nmMonth = lastNewMoon.getMonth() + 1;
     const nmDay = lastNewMoon.getDate();
     let lunarMonth = nmDay >= 20 ? nmMonth : nmMonth - 1;
@@ -3286,13 +3166,24 @@
     document.getElementById('calTodayPhase').textContent = phase.jp;
     applyMoonShadow(document.getElementById('todayMoonShadow'), age / SYNODIC_MONTH);
 
-    // 4区分のフェーズ
-    const seg = getPhaseSegment(now);
-    document.getElementById('phaseSegmentLabel').textContent = `— ${seg.label} —`;
-    document.getElementById('phaseSegmentFlow').innerHTML =
-      `${seg.from.split('').join(' ')}<span class="seiten-num">${seg.fromNum}</span> <span class="arrow">→</span> ${seg.to.split('').join(' ')}<span class="seiten-num">${seg.toNum}</span>`;
+    // ★v6: 現在地カードの更新
+    const cur = getCurrentPhase(now);
+    // 今いる聖点名を大きく（スペースを入れて見やすく）
+    document.getElementById('phaseCurrentName').textContent = cur.currentName.split('').join(' ');
+    // 期間名
+    document.getElementById('phaseSegmentLabel').textContent = `— ${cur.label} —`;
+    // プログレスバーの両端
+    // ★左：名前→数字（つきたち0）、右：数字→名前（3かたみに）
+    document.getElementById('phaseStart').innerHTML =
+      `${cur.from.split('').join(' ')}<span class="end-num">${cur.fromNum}</span>`;
+    document.getElementById('phaseEnd').innerHTML =
+      `<span class="end-num">${cur.toNum}</span>${cur.to.split('').join(' ')}`;
+    // プログレスドット
+    const dotEl = document.getElementById('phaseProgressDot');
+    const pct = Math.max(0, Math.min(1, cur.progress)) * 100;
+    dotEl.style.left = pct + '%';
 
-    // 次の聖点（天文用語を併記）
+    // 次の聖点（天文用語併記）
     const POINT_NAME_JP = {
       'つきたち': '新月点',
       'かたみに': '上弦点',
@@ -3308,14 +3199,15 @@
     document.getElementById('nextSeitenTime').textContent =
       `${next.date.getMonth() + 1}月${next.date.getDate()}日 · あと ${d}日 ${h}時間`;
 
-    // 旧暦
+    // 旧暦（今日の月名も追加）
     const lunar = getLunarDate(now);
-    document.getElementById('phaseLunar').textContent = `— 旧 暦 ${lunar.month} 月 ${lunar.day} 日 —`;
+    const moonInfo = getMoonNameForLunarDay(lunar.day);
+    document.getElementById('phaseLunar').innerHTML =
+      `— 旧 暦 ${lunar.month} 月 ${lunar.day} 日<span class="lunar-today-name">${moonInfo.name.split('').join(' ')}</span> —`;
 
     renderCal(calYear, calMonth);
   }
 
-  // 聖点の表示数字（0/3/6/9 = ツキヨガの重力リズム）
   const SEITEN_NUM = {
     tsukitachi: '0',
     katamini:   '3',
@@ -3323,8 +3215,6 @@
     ariake:     '9'
   };
 
-  // ある月の各聖点が「どの日に訪れるか」を精密計算（SunCalc二分探索ベース）
-  // 1日につき1つだけマーク、実際の天文イベント時刻を使用
   function getSeitenDaysInMonth(year, month) {
     const targets = [
       { key: 'tsukitachi', phase: 0.0 },
@@ -3332,8 +3222,7 @@
       { key: 'kumanashi',  phase: 0.5 },
       { key: 'ariake',     phase: 0.75 }
     ];
-    const result = {}; // { day: phaseKey }
-    // 月の始まり5日前から探索開始
+    const result = {};
     const searchStart = new Date(year, month, 1, 0, 0, 0);
     searchStart.setDate(searchStart.getDate() - 5);
     for (const t of targets) {
@@ -3361,7 +3250,7 @@
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     const startWd = new Date(year, month, 1).getDay();
     const today = new Date();
-    const seitenMap = getSeitenDaysInMonth(year, month);  // { day: phaseKey }
+    const seitenMap = getSeitenDaysInMonth(year, month);
 
     for (let i = 0; i < startWd; i++) {
       const el = document.createElement('div');
@@ -3372,7 +3261,6 @@
       const cellDate = new Date(year, month, d, 12, 0, 0);
       const age = getMoonAge(cellDate);
       const hanaLevel = getHanasakariLevel(cellDate);
-      // はなさかり帯の左右端判定（週またぎ・期間の両端）
       let hanaLeftEnd = false, hanaRightEnd = false;
       if (hanaLevel) {
         const prevDate = new Date(year, month, d - 1, 12, 0, 0);
@@ -3429,7 +3317,6 @@
         el.appendChild(dot);
       }
 
-      // タップでメモモーダル
       el.style.cursor = 'pointer';
       el.addEventListener('click', () => openMemoModal(dateStr));
 
@@ -3448,12 +3335,12 @@
     renderCal(calYear, calMonth);
   });
 
-  // ======== メモ機能 ========
+  // ======== メモモーダル ========
+  // ★v6: 旧暦日の横に月名を表示
   function openMemoModal(dateStr) {
     const modal = document.getElementById('memoModal');
     const key = `tsukiyoga-memo-${dateStr}`;
     const raw = localStorage.getItem(key);
-    // 互換性：旧形式（{seitenTags, text}）と新形式（文字列 or {text}）両方に対応
     let text = '';
     if (raw) {
       try {
@@ -3464,12 +3351,16 @@
 
     const [y, m, d] = dateStr.split('-');
     document.getElementById('memoDate').textContent = `${y}年${parseInt(m)}月${parseInt(d)}日`;
-    // 旧暦表示（その日の旧暦月日）
+
+    // ★v6: 旧暦日＋月名を表示（例：「旧暦4月9日 ココノカヅキ」）
     const lunar = getLunarDate(new Date(dateStr + 'T12:00:00'));
-    document.getElementById('memoLunar').textContent = `旧 暦 ${lunar.month} 月 ${lunar.day} 日`;
+    const moonInfo = getMoonNameForLunarDay(lunar.day);
+    document.getElementById('memoLunar').innerHTML =
+      `旧 暦 ${lunar.month} 月 ${lunar.day} 日<span class="lunar-name">${moonInfo.name.split('').join(' ')}</span>`;
+
     document.getElementById('memoTextarea').value = text;
 
-    // 聖点到達時刻の表示（0/3/6/9バッジがある日のみ）
+    // 聖点の到達時刻
     const seitenEl = document.getElementById('memoSeiten');
     seitenEl.innerHTML = '';
     const seitenMap = getSeitenDaysInMonth(parseInt(y), parseInt(m) - 1);
@@ -3482,7 +3373,6 @@
         ariake:     { phase: 0.75, name: 'ありあけ', astroName: '下 弦 点', num: '9' }
       };
       const meta = PHASE_META[phaseKey];
-      // 月初5日前から探索して該当聖点の到達時刻を精密計算
       const searchStart = new Date(parseInt(y), parseInt(m) - 1, 1);
       searchStart.setDate(searchStart.getDate() - 5);
       const seitenTime = findNextSeitenTime(searchStart, meta.phase);
@@ -3490,16 +3380,15 @@
       const mm = String(seitenTime.getMinutes()).padStart(2, '0');
       seitenEl.innerHTML =
         `<span class="seiten-badge">${meta.num}</span>` +
-        `<span class="seiten-name">${meta.name}</span>` +
+        `<span class="seiten-name">${meta.name.split('').join(' ')}</span>` +
         `<span class="seiten-astro">${meta.astroName}</span>` +
         `<span class="seiten-time">${hh}:${mm}</span>`;
     }
 
-    // 潮汐表示（非同期・失敗時は非表示）
+    // 潮汐
     const tideEl = document.getElementById('memoTide');
-    tideEl.innerHTML = '';  // 開くたびクリア
+    tideEl.innerHTML = '';
     getTideForDate(dateStr).then(tide => {
-      // 別の日に開き直された場合は無視
       if (modal.dataset.date !== dateStr) return;
       if (!tide) return;
       const fmt = arr => arr.map(([t]) => t).join('　　');
@@ -3509,7 +3398,7 @@
         `<div class="tide-row"><span class="tide-label">満 潮</span><span class="tide-times">${highStr}</span></div>` +
         `<div class="tide-row"><span class="tide-label">干 潮</span><span class="tide-times">${lowStr}</span></div>` +
         `<div class="tide-port">— ${tide.port.name}</div>`;
-    }).catch(() => { /* サイレント */ });
+    }).catch(() => {});
 
     modal.classList.add('active');
     modal.dataset.date = dateStr;
@@ -3543,18 +3432,57 @@
     document.getElementById('memoModal').classList.remove('active');
   });
 
-  // ======== 「内側のツキ」設定モーダル ========
+  // ★v6: 内側のツキボタンのラベルを旧暦月で動的更新
+  function updateInnerMoonBtnLabel() {
+    const lunarMonthNames = ['睦月','如月','弥生','卯月','皐月','水無月',
+                             '文月','葉月','長月','神無月','霜月','師走'];
+    const lunar = getLunarDate(new Date());
+    const monthName = lunarMonthNames[lunar.month - 1] || '';
+    document.getElementById('innerMoonBtnLabel').textContent =
+      `${monthName.split('').join(' ')} の 内 な る ツ キ を 登 録`;
+  }
+
+  // 内側のツキ
   function updateInnerStatus() {
+    updateInnerMoonBtnLabel();
     const el = document.getElementById('innerMoonStatus');
     const last = getLastPeriod();
     if (!last) {
-      el.textContent = '未 登 録';
-      el.classList.remove('set');
+      el.innerHTML = '未 登 録';
+      el.classList.remove('set', 'needs-update');
     } else {
       const iso = last.toISOString().split('T')[0];
       const [y, m, d] = iso.split('-');
-      el.textContent = `前 回 : ${y}年${parseInt(m)}月${parseInt(d)}日 ／ 2 9 .5 日 周 期`;
-      el.classList.add('set');
+      const daysAgo = Math.floor((Date.now() - last.getTime()) / 86400000);
+      const dateStr = `${y}年${parseInt(m)}月${parseInt(d)}日`;
+
+      // 次の排卵日（はなさかりピーク）を計算して表示
+      const nextOv = getNextOvulationDate();
+      let nextStr = '';
+      if (nextOv) {
+        const dDays = Math.ceil((nextOv.getTime() - Date.now()) / 86400000);
+        const ovMonth = nextOv.getMonth() + 1;
+        const ovDay = nextOv.getDate();
+        if (dDays > 0) {
+          nextStr = `<br>次 の は な さ か り : ${ovMonth}月${ovDay}日 （ あ と ${dDays} 日 ）`;
+        } else if (dDays >= -HANASAKARI_RADIUS) {
+          nextStr = `<br><span class="peak-now">❀ い ま は な さ か り ❀</span>`;
+        } else {
+          nextStr = `<br>次 の は な さ か り : ${ovMonth}月${ovDay}日`;
+        }
+      }
+
+      if (daysAgo > 60) {
+        el.innerHTML =
+          `先 月 の 生 理 : ${dateStr} （ ${daysAgo} 日 前 ）<br>` +
+          `<span class="needs-update-msg">※ 新 し い 生 理 日 に 更 新 し て く だ さ い</span>`;
+        el.classList.add('needs-update', 'set');
+      } else {
+        el.innerHTML =
+          `先 月 の 生 理 : ${dateStr} （ ${daysAgo} 日 前 ）${nextStr}`;
+        el.classList.remove('needs-update');
+        el.classList.add('set');
+      }
     }
   }
 
@@ -3562,7 +3490,21 @@
     const modal = document.getElementById('innerModal');
     const input = document.getElementById('innerDateInput');
     const last = getLastPeriod();
-    input.value = last ? last.toISOString().split('T')[0] : '';
+    // デフォルト：登録済みならその値、未登録なら「先月の今日」
+    if (last) {
+      input.value = last.toISOString().split('T')[0];
+    } else {
+      const d = new Date();
+      d.setMonth(d.getMonth() - 1);
+      input.value = d.toISOString().split('T')[0];
+    }
+    // モーダルタイトルに旧暦月名を反映
+    const lunarMonthNames = ['睦月','如月','弥生','卯月','皐月','水無月',
+                             '文月','葉月','長月','神無月','霜月','師走'];
+    const lunar = getLunarDate(new Date());
+    const monthName = lunarMonthNames[lunar.month - 1] || '';
+    document.getElementById('innerModalTitle').textContent =
+      `❀ ${monthName.split('').join(' ')} の 内 な る ツ キ ❀`;
     modal.classList.add('active');
   });
 
@@ -3591,10 +3533,8 @@
     document.getElementById('innerModal').classList.remove('active');
   });
 
-  // 初期表示
   updateInnerStatus();
 
-  // ======== リサイズ ========
   function resize() {
     const w = window.innerWidth;
     const h = window.innerHeight;
@@ -3613,36 +3553,27 @@
     requestAnimationFrame(animate);
     const now = clock.getElapsedTime();
 
-    // グリッド共振
     if (now - state.lastResonanceTime > RESONANCE_INTERVAL) {
       spawnResonance(now);
       state.lastResonanceTime = now;
     }
     updateResonances(now);
 
-    // 地球本体は停止（月・太陽との関係を正確に保つ）
-    // ユーザーのドラッグでearthGroup全体を回転
     earthGroup.rotation.y = state.userRotY;
     earthGroup.rotation.x = state.userRotX;
 
-    // 電離層グリッドだけはゆっくり自転（生命感）
     ionoGroup.rotation.y += 0.0008;
     ionoGroup.rotation.x = Math.sin(now * 0.05) * 0.05;
 
-    // 那覇ハローのパルス
     const pulse = 0.85 + Math.sin(now * 2.5) * 0.15;
     nahaHaloMat.opacity = pulse;
     nahaHalo.scale.setScalar(0.18 + Math.sin(now * 1.8) * 0.03);
     pillarMat.opacity = 0.5 + Math.sin(now * 2) * 0.2;
 
-    // 月ハロー微アニメ
     moonHaloMat.opacity = 0.35 + Math.sin(now * 0.8) * 0.08;
-
-    // 太陽ハロー微アニメ（脈動）
     sunHaloMat.opacity = 0.7 + Math.sin(now * 1.2) * 0.12;
     sunFlareMat.opacity = 0.28 + Math.sin(now * 0.6) * 0.06;
 
-    // カメラズーム補間
     state.currentZoom += (state.targetZoom - state.currentZoom) * 0.08;
     camera.position.z = state.currentZoom;
 
@@ -3653,27 +3584,25 @@
   updateData();
   updateCalendarView();
 
-  // 初期カメラ視点を月が見える方向に
-  // 月の位置は絶対座標で決まっているので、その方向を画面中央右寄りに持ってくる
   (function setInitialView() {
     const mp = moonGroup.position;
     const moonAzimuth = Math.atan2(mp.x, mp.z);
-    // earthGroup全体を回転させて月を画面奥から少し右寄りに
     state.userRotY = -moonAzimuth - Math.PI / 5;
-    // 月の高度に応じて少し見下ろす/見上げる
     const moonAltitude = Math.atan2(mp.y, Math.sqrt(mp.x * mp.x + mp.z * mp.z));
     state.userRotX = -moonAltitude * 0.4;
-    // 地球と月が両方画面に収まるように引く
     state.targetZoom = 8.0;
     state.currentZoom = 8.0;
   })();
 
   animate();
 
-  // 1分ごとに位置更新
   setInterval(updateData, 60000);
 
-  // 5秒後に回転ヒントをフェードアウト（操作しなくても）
+  // ★v6: 起動時は「暦」ビューを表示
+  (function setInitialView_calendar() {
+    document.getElementById('calendarView').classList.add('active');
+  })();
+
   setTimeout(() => {
     state.hintShown = false;
     document.getElementById('rotHint').classList.add('hidden');
@@ -3700,99 +3629,61 @@
     font-family: 'Shippori Mincho', serif;
     color: var(--moon-white);
   }
-  .pwa-banner.visible {
-    transform: translateX(-50%) translateY(0);
-    opacity: 1;
-  }
-  .pwa-banner-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 8px;
-  }
+  .pwa-banner.visible { transform: translateX(-50%) translateY(0); opacity: 1; }
+  .pwa-banner-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
   .pwa-banner-icon {
-    width: 34px;
-    height: 34px;
-    border-radius: 8px;
-    flex-shrink: 0;
-    background: #030818;
+    width: 34px; height: 34px; border-radius: 8px;
+    flex-shrink: 0; background: #030818;
     border: 1px solid rgba(201, 169, 97, 0.3);
   }
   .pwa-banner-title {
-    font-size: 0.95rem;
-    letter-spacing: 0.2em;
-    font-weight: 600;
-    color: var(--moon-white);
+    font-size: 0.95rem; letter-spacing: 0.2em;
+    font-weight: 600; color: var(--moon-white);
   }
   .pwa-banner-subtitle {
-    font-size: 0.68rem;
-    letter-spacing: 0.2em;
-    color: rgba(201, 169, 97, 0.75);
-    margin-top: 2px;
+    font-size: 0.68rem; letter-spacing: 0.2em;
+    color: rgba(201, 169, 97, 0.75); margin-top: 2px;
   }
   .pwa-banner-body {
-    font-size: 0.72rem;
-    letter-spacing: 0.12em;
-    line-height: 1.7;
-    color: rgba(200, 220, 240, 0.7);
-    margin-bottom: 12px;
+    font-size: 0.72rem; letter-spacing: 0.12em; line-height: 1.7;
+    color: rgba(200, 220, 240, 0.7); margin-bottom: 12px;
   }
   .pwa-banner-body .pwa-share-icon {
-    display: inline-block;
-    margin: 0 2px;
+    display: inline-block; margin: 0 2px;
     font-family: -apple-system, sans-serif;
-    color: var(--gold);
-    font-size: 0.85rem;
-    vertical-align: middle;
+    color: var(--gold); font-size: 0.85rem; vertical-align: middle;
   }
-  .pwa-banner-actions {
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-  }
+  .pwa-banner-actions { display: flex; gap: 10px; justify-content: flex-end; }
   .pwa-btn {
     background: none;
     border: 1px solid rgba(138, 160, 184, 0.3);
     color: var(--ink-dim);
     font-family: 'Shippori Mincho', serif;
-    font-size: 0.78rem;
-    letter-spacing: 0.25em;
-    padding: 7px 14px;
-    border-radius: 20px;
-    cursor: pointer;
+    font-size: 0.78rem; letter-spacing: 0.25em;
+    padding: 7px 14px; border-radius: 20px; cursor: pointer;
   }
   .pwa-btn-primary {
     border-color: rgba(201, 169, 97, 0.6);
     color: var(--gold);
     background: rgba(201, 169, 97, 0.08);
   }
-
-  /* 手動インストール手順（Aダメな人向け） */
   .pwa-manual-steps {
-    margin-top: 12px;
-    padding: 10px 12px;
+    margin-top: 12px; padding: 10px 12px;
     border: 1px solid rgba(138, 160, 184, 0.2);
     border-radius: 8px;
     background: rgba(10, 20, 40, 0.4);
-    font-size: 0.68rem;
-    letter-spacing: 0.1em;
-    line-height: 1.8;
+    font-size: 0.68rem; letter-spacing: 0.1em; line-height: 1.8;
     color: rgba(200, 220, 240, 0.65);
   }
   .pwa-manual-steps .pwa-manual-title {
     color: rgba(201, 169, 97, 0.75);
-    font-size: 0.62rem;
-    letter-spacing: 0.3em;
-    margin-bottom: 4px;
+    font-size: 0.62rem; letter-spacing: 0.3em; margin-bottom: 4px;
   }
   .pwa-manual-steps .pwa-key {
-    display: inline-block;
-    padding: 0 6px;
+    display: inline-block; padding: 0 6px;
     background: rgba(201, 169, 97, 0.15);
-    border-radius: 3px;
-    color: var(--gold);
-    font-family: 'Cinzel', serif;
-    margin: 0 2px;
+    border-radius: 3px; color: var(--gold);
+    font-family: 'Cinzel', serif; margin: 0 2px;
   }
 </style>
 
@@ -3819,13 +3710,11 @@
   const btnInstall = document.getElementById('pwaInstall');
   const btnDismiss = document.getElementById('pwaDismiss');
 
-  // すでにスタンドアロンで起動中（＝インストール済み）なら出さない
   const isStandalone =
     window.matchMedia('(display-mode: standalone)').matches ||
     window.navigator.standalone === true;
   if (isStandalone) return;
 
-  // 「あとで」を押した履歴があれば1日間非表示
   const DISMISS_KEY = 'tsukiyoga-pwa-dismissed-at';
   const dismissedAt = parseInt(localStorage.getItem(DISMISS_KEY) || '0', 10);
   if (dismissedAt && Date.now() - dismissedAt < 24 * 60 * 60 * 1000) return;
@@ -3834,14 +3723,12 @@
   const isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
   const isAndroid = /Android/.test(ua);
 
-  // Chrome系の beforeinstallprompt を捕まえる
   let deferredPrompt = null;
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
   });
 
-  // インストール完了通知
   window.addEventListener('appinstalled', () => {
     hide();
     localStorage.setItem(DISMISS_KEY, String(Date.now()));
@@ -3850,7 +3737,6 @@
   function show() {
     const manualEl = document.getElementById('pwaManualSteps');
     if (isIOS) {
-      // iOS Safari：共有ボタン経由のみ
       body.innerHTML = '月 の リ ズ ム を 、 い つ で も そ ば に 。';
       btnInstall.style.display = 'none';
       btnDismiss.textContent = '閉 じ る';
@@ -3859,13 +3745,11 @@
         '① 下 の <span class="pwa-key">⎘</span> 共 有 ボ タ ン を 押 す<br>' +
         '② 「 ホ ー ム 画 面 に 追 加 」 を 選 ぶ';
     } else if (isAndroid && deferredPrompt) {
-      // Android：ワンタップ追加が使える
       body.innerHTML = '月 の リ ズ ム を 、 い つ で も そ ば に 。<br>ア プ リ と し て 追 加 で き ま す 。';
       manualEl.innerHTML =
         '<div class="pwa-manual-title">う ま く 動 か な い 時</div>' +
         '右 上 <span class="pwa-key">︙</span> → 「 ホ ー ム 画 面 に 追 加 」';
     } else if (isAndroid) {
-      // Android だが beforeinstallprompt が発火していない
       body.innerHTML = '月 の リ ズ ム を 、 い つ で も そ ば に 。';
       btnInstall.style.display = 'none';
       manualEl.innerHTML =
@@ -3873,7 +3757,6 @@
         '① 右 上 の <span class="pwa-key">︙</span> を 押 す<br>' +
         '② 「 ホ ー ム 画 面 に 追 加 」 を 選 ぶ';
     } else {
-      // PCやその他
       body.innerHTML = '月 の リ ズ ム を 、 い つ で も そ ば に 。';
       btnInstall.style.display = 'none';
       manualEl.innerHTML =
@@ -3884,9 +3767,7 @@
     banner.classList.add('visible');
   }
 
-  function hide() {
-    banner.classList.remove('visible');
-  }
+  function hide() { banner.classList.remove('visible'); }
 
   btnInstall.addEventListener('click', async () => {
     if (!deferredPrompt) { hide(); return; }
@@ -3906,9 +3787,7 @@
     hide();
   });
 
-  // 3秒後にふわっと表示
   setTimeout(() => {
-    // Android で beforeinstallprompt がまだ来てない場合は少し待つ
     if (isAndroid && !deferredPrompt) {
       setTimeout(show, 1500);
     } else {
@@ -3918,7 +3797,6 @@
 })();
 </script>
 
-<!-- ======== Service Worker 登録（PWA判定のため必須） ======== -->
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
