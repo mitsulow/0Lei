@@ -488,30 +488,36 @@
 
   .brand-text .sub { display: none; }
 
-  /* ★v6: シューマン共振F1表示（右下固定、タブバーの上） */
+  /* ★v6: シューマン共振F1表示（ツキヨガの下、右寄せ） */
   .schumann-display {
-    position: fixed;
-    bottom: 88px;
-    right: 14px;
-    z-index: 15;
+    margin-top: 10px;
+    text-align: right;
+    line-height: 1;
+    opacity: 0;
+    animation: schumannFadeIn 1.4s ease-out 1s forwards;
+    transition: color 1s, text-shadow 1s;
+    pointer-events: auto;
+    user-select: none;
+    /* 「ツキヨガ」より右側に寄せる */
+    margin-right: 4px;
+  }
+  .schumann-label {
+    font-family: 'Cinzel', serif;
+    font-style: italic;
+    font-size: 0.55rem;
+    letter-spacing: 0.22em;
+    color: rgba(201, 169, 97, 0.6);
+    text-shadow: 0 0 8px rgba(201, 169, 97, 0.3);
+    margin-bottom: 2px;
+    text-transform: none;
+  }
+  .schumann-value-row {
     font-family: 'Cinzel', serif;
     font-size: 0.72rem;
     letter-spacing: 0.08em;
     color: rgba(201, 169, 97, 0.85);
     text-shadow: 0 0 10px rgba(201, 169, 97, 0.4),
                  0 0 2px rgba(201, 169, 97, 0.6);
-    line-height: 1;
-    text-align: right;
-    padding: 6px 10px;
-    background: rgba(3, 8, 24, 0.55);
-    border-radius: 12px;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    opacity: 0;
-    animation: schumannFadeIn 1.4s ease-out 1s forwards;
-    transition: color 1s, text-shadow 1s;
-    pointer-events: auto;
-    user-select: none;
   }
   .schumann-display[data-level="high"] .schumann-value {
     color: #ff9a6e;
@@ -526,7 +532,7 @@
     text-shadow: 0 0 12px rgba(110, 196, 245, 0.4);
   }
   .schumann-value {
-    font-size: 0.88rem;
+    font-size: 0.92rem;
     font-weight: 500;
     color: #d4c28a;
   }
@@ -537,7 +543,7 @@
     letter-spacing: 0.05em;
   }
   @keyframes schumannFadeIn {
-    from { opacity: 0; transform: translateY(4px); }
+    from { opacity: 0; transform: translateY(-4px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
@@ -710,9 +716,7 @@
   .memo-modal-backdrop {
     position: absolute;
     inset: 0;
-    background: rgba(3, 8, 24, 0.2);
-    backdrop-filter: blur(1px);
-    -webkit-backdrop-filter: blur(1px);
+    background: transparent;
   }
 
   /* ★v6: モーダル本体は半透明。背景画像が透けて見える薄さ */
@@ -720,10 +724,10 @@
     position: relative;
     width: 100%; max-width: 480px;
     background: linear-gradient(180deg,
-      rgba(10, 20, 40, 0.80) 0%,
-      rgba(3, 8, 24, 0.90) 100%);
-    backdrop-filter: blur(12px) saturate(1.1);
-    -webkit-backdrop-filter: blur(12px) saturate(1.1);
+      rgba(10, 20, 40, 0.55) 0%,
+      rgba(3, 8, 24, 0.75) 100%);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
     border-top: 1px solid rgba(201, 169, 97, 0.3);
     border-radius: 20px 20px 0 0;
     padding: 24px 22px 26px;
@@ -731,6 +735,18 @@
     min-height: 90vh;
     overflow-y: auto;
     animation: modalSlideUp 0.35s ease-out;
+  }
+
+  /* ★v6: モーダル表示中は他の前面要素を隠す（背景画像を邪魔しない） */
+  body.modal-open .top-bar,
+  body.modal-open .tab-bar,
+  body.modal-open .schumann-display,
+  body.modal-open .rotation-hint,
+  body.modal-open .compass-btn,
+  body.modal-open .moon-position-text {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transition: opacity 0.35s ease-out;
   }
 
   @keyframes modalSlideUp {
@@ -1403,35 +1419,24 @@
                 0 8px 32px rgba(0, 0, 0, 0.6);
     animation: calImgFadeIn 0.8s ease-out;
   }
+  /* ★v6: タイトルを画像の外・上に独立配置（絶対重ならない） */
+  .compass-cal-title-ext {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.92rem;
+    letter-spacing: 0.25em;
+    color: var(--seiten);
+    text-shadow: 0 0 16px rgba(212, 194, 138, 0.5),
+                 0 2px 8px rgba(0, 0, 0, 0.9);
+    text-align: center;
+    text-indent: 0.25em;
+    margin: 0 auto 0.6rem;
+    max-width: 300px;
+    animation: calImgFadeIn 0.8s ease-out;
+  }
   .compass-cal-img {
     display: block;
     width: 100%;
     height: auto;
-  }
-  /* 画像の最上部（月の上空）にタイトル配置 */
-  .compass-cal-img-topleft {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    padding: 10px 8px 18px;
-    text-align: center;
-    pointer-events: none;
-    background: linear-gradient(180deg,
-      rgba(3, 8, 24, 0.75) 0%,
-      rgba(3, 8, 24, 0.45) 70%,
-      rgba(3, 8, 24, 0) 100%);
-  }
-  .compass-cal-img-topleft .compass-cal-title {
-    font-family: 'Shippori Mincho', serif;
-    font-size: 0.78rem;
-    letter-spacing: 0.2em;
-    color: var(--seiten);
-    text-shadow: 0 0 12px rgba(0, 0, 0, 1),
-                 0 2px 8px rgba(0, 0, 0, 1);
-    margin: 0;
-    white-space: nowrap;
-    text-indent: 0.2em;
   }
   /* 画像下部に配置するテキストオーバーレイ */
   .compass-cal-img-overlay {
@@ -2564,13 +2569,15 @@
     <div class="brand-text">
       <div class="brand-catch">月 を 想 う 、 女 性 の た め の</div>
       <h1>ツ キ ヨ ガ</h1>
+      <!-- ★v6: シューマン共振F1（ツキヨガの右下に配置） -->
+      <div class="schumann-display" id="schumannDisplay" title="シューマン共振 第一次モード">
+        <div class="schumann-label">Schumann Resonance</div>
+        <div class="schumann-value-row">
+          <span class="schumann-value" id="schumannF1">—.—</span><span class="schumann-unit">Hz</span>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-
-<!-- ★v6: シューマン共振F1（右下固定、タブバー上） -->
-<div class="schumann-display" id="schumannDisplay" title="シューマン共振 第一次モード">
-  <span class="schumann-value" id="schumannF1">—.—</span><span class="schumann-unit">Hz</span>
 </div>
 
 <div class="rotation-hint" id="rotHint">
@@ -2707,14 +2714,12 @@
   <!-- ★v6: Step 3: コンパスキャリブレーション（水平にコンパスを整える女性＋∞＋実物方位磁石） -->
   <div class="compass-cal-modal" id="compassCalModal">
     <div class="compass-cal-content">
-      <!-- 画像＋テキストオーバーレイ -->
+      <!-- ★v6: タイトルを画像の外（上）に独立配置 → 絶対重ならない -->
+      <div class="compass-cal-title-ext">コ ン パ ス を 合 わ せ る</div>
+      <!-- 画像＋∞の説明文 -->
       <div class="compass-cal-imgbox">
         <img src="./images/compass_horizontal.jpg" alt="コンパスを合わせる"
              class="compass-cal-img">
-        <!-- タイトルを画像左上（月の左側）に配置 -->
-        <div class="compass-cal-img-topleft">
-          <div class="compass-cal-title">コ ン パ ス を 合 わ せ る</div>
-        </div>
         <!-- ∞の説明は画像下部オーバーレイ -->
         <div class="compass-cal-img-overlay">
           <div class="compass-cal-text">
@@ -4221,7 +4226,19 @@ const COASTLINES = [
       raw = (360 - e.alpha) % 360;
     }
     if (raw !== null) {
-      navState.compassRaw = raw;  // ★生の値をそのまま保持
+      // ★v6: 北付近の反発を抑える軽いLPF（最短経路で追従）
+      // 生のセンサー値は特に北付近で揺らぐため、微小な補正を入れる
+      const ALPHA = 0.35;  // 0.35 = 反応速度重視、でも揺らぎを緩和
+      if (navState.compassRaw === null) {
+        navState.compassRaw = raw;
+      } else {
+        // 角度の最短経路で差分を取る
+        let diff = raw - navState.compassRaw;
+        if (diff > 180) diff -= 360;
+        if (diff < -180) diff += 360;
+        // LPF適用＋0-360に正規化
+        navState.compassRaw = (navState.compassRaw + diff * ALPHA + 360) % 360;
+      }
     }
   }
 
@@ -5177,12 +5194,14 @@ const COASTLINES = [
   // ★v6: メモモーダルを閉じる共通関数
   function closeMemoModal() {
     document.getElementById('memoModal').classList.remove('active');
+    document.body.classList.remove('modal-open');
     hideFullscreenIntro('memoIntro');
   }
 
   // ★v6: はなさかりモーダルを閉じる共通関数
   function closeInnerModal() {
     document.getElementById('innerModal').classList.remove('active');
+    document.body.classList.remove('modal-open');
     hideFullscreenIntro('hanasakariIntro');
   }
 
@@ -5270,6 +5289,7 @@ const COASTLINES = [
     }).catch(() => {});
 
     modal.classList.add('active');
+    document.body.classList.add('modal-open');
     modal.dataset.date = dateStr;
   }
 
@@ -5463,6 +5483,7 @@ const COASTLINES = [
       document.getElementById('innerModalTitle').textContent =
         `❀ ${monthName.split('').join(' ')} の 内 な る ツ キ ❀`;
       modal.classList.add('active');
+      document.body.classList.add('modal-open');
     });
   });
 
@@ -5868,7 +5889,7 @@ setTimeout(() => {
     // 旧形式のフォールバック
     'https://mitsulow.github.io/0Lei/schumann-latest.json'
   ];
-  const STANDARD_F1 = 7.83;
+  const STANDARD_F1 = 7.85;
 
   function extractF1(data) {
     if (!data) return null;
