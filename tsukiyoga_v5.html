@@ -1157,7 +1157,7 @@
     line-height: 2;
     letter-spacing: 0.15em;
     color: var(--ink-dim);
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
   }
   .compass-cal-text .infinity-mark {
     display: inline-block;
@@ -1181,7 +1181,7 @@
     position: relative;
     width: 240px;
     height: 240px;
-    margin: 1.8rem auto 1.2rem;
+    margin: 3.5rem auto 1.2rem;
   }
   .real-compass-dial {
     position: relative;
@@ -1309,7 +1309,7 @@
   /* 度数表示（盤面の上・固定、お手本画像の「13° 北」の位置） */
   .real-compass-readout {
     position: absolute;
-    top: -52px;
+    top: -68px;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
@@ -2267,10 +2267,10 @@
     </div>
   </div>
 
-  <!-- ★v6: Step 3: コンパスキャリブレーション（女性画像＋∞＋実物方位磁石） -->
+  <!-- ★v6: Step 3: コンパスキャリブレーション（水平にコンパスを整える女性＋∞＋実物方位磁石） -->
   <div class="compass-cal-modal" id="compassCalModal">
     <div class="compass-cal-content">
-      <img src="./images/compass_calibration.jpg" alt="コンパスを整える"
+      <img src="./images/compass_horizontal.jpg" alt="コンパスを整える"
            class="compass-cal-img">
       <div class="compass-cal-title">コ ン パ ス を 整 え る</div>
       <div class="compass-cal-text">
@@ -3474,15 +3474,35 @@ const COASTLINES = [
       dirEl.textContent = '—';
       return;
     }
-    const heading = navState.compassRaw;
-    // 盤面を-heading度回転：スマホが北を向いてる時、盤面の「北」が真上に来る
-    dial.style.transform = `rotate(${-heading}deg)`;
-    // 文字・数字を+heading度逆回転して水平を保つ
+    const raw = navState.compassRaw;
+
+    // ★v6: 累積角度方式（360/0境界での逆回転を防ぐ）
+    // CSS の rotate() に直接 -heading を指定すると、
+    // 例えば -5度 → -355度 への遷移で CSS が「時計回りに一周戻る」補間をしてしまう。
+    // そこで、表示角度を累積で持ち、差分だけを最短経路で加算する。
+    if (navState.compassLastRaw === null) {
+      navState.compassLastRaw = raw;
+      navState.compassDisplayAngle = -raw;
+    } else {
+      let diff = raw - navState.compassLastRaw;
+      // 最短経路の差分（-180〜+180 の範囲）
+      if (diff > 180) diff -= 360;
+      if (diff < -180) diff += 360;
+      // 盤面の回転は -heading なので、差分も符号反転
+      navState.compassDisplayAngle -= diff;
+      navState.compassLastRaw = raw;
+    }
+
+    // 盤面を累積角度で回転
+    dial.style.transform = `rotate(${navState.compassDisplayAngle}deg)`;
+    // 文字・数字を逆累積角度で回転して水平を保つ
+    const textAngle = -navState.compassDisplayAngle;
     dial.querySelectorAll('.compass-cardinal, .compass-deg').forEach(el => {
-      el.style.transform = `rotate(${heading}deg)`;
+      el.style.transform = `rotate(${textAngle}deg)`;
     });
+
     // 度数表示
-    const h = Math.round(heading);
+    const h = Math.round(raw);
     degEl.textContent = h;
     // 方位名
     let dir;
@@ -3526,6 +3546,8 @@ const COASTLINES = [
     heading: 0, pitch: 0, roll: 0,
     smoothHeading: 0, smoothPitch: 0, smoothRoll: 0,
     compassRaw: null,  // ★v6: コンパス画面専用の生の磁気方位
+    compassDisplayAngle: 0,  // ★v6: 累積表示角度（360度境界の逆回転を防ぐ）
+    compassLastRaw: null,    // ★v6: 前回の生の方位値（差分計算用）
     permitted: false, animId: null,
     hasOrientation: false, eventCount: 0,
     stars: [], screenOrient: 0
