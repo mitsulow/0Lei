@@ -1072,6 +1072,20 @@
     margin-bottom: 0.8rem;
   }
 
+  /* ★v6: 許可モーダルの大見出し「ツキをスマホで探せます」 */
+  .nav-permission-bigtitle {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    color: var(--moon-white);
+    text-shadow: 0 0 18px rgba(110, 196, 245, 0.35),
+                 0 2px 8px rgba(0, 0, 0, 0.8);
+    margin-bottom: 1.6rem;
+    line-height: 1.5;
+    text-indent: 0.25em;
+  }
+
   .nav-permission-text {
     font-size: 0.85rem;
     letter-spacing: 0.1em;
@@ -1160,6 +1174,144 @@
     color: var(--gold);
     font-weight: 600;
     letter-spacing: 0.3em;
+  }
+
+  /* ★v6: 実物方位磁石UI */
+  .real-compass {
+    position: relative;
+    width: 240px;
+    height: 240px;
+    margin: 1.8rem auto 1.2rem;
+  }
+  .real-compass-dial {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border: 2px solid rgba(201, 169, 97, 0.35);
+    border-radius: 50%;
+    box-shadow:
+      0 0 28px rgba(201, 169, 97, 0.12),
+      inset 0 0 32px rgba(201, 169, 97, 0.08);
+    background:
+      radial-gradient(circle at center, rgba(3,8,24,0.5) 30%, rgba(3,8,24,0.2) 70%, transparent 100%);
+    transition: transform 0.08s linear;
+    will-change: transform;
+  }
+  .compass-cardinal {
+    position: absolute;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--moon-white);
+    text-shadow: 0 0 8px rgba(244, 239, 216, 0.4);
+  }
+  .compass-N {
+    color: var(--sakura);
+    text-shadow: 0 0 12px rgba(255, 175, 205, 0.6);
+    top: 6px; left: 50%; transform: translateX(-50%);
+  }
+  .compass-E { right: 8px; top: 50%; transform: translateY(-50%); }
+  .compass-S { bottom: 6px; left: 50%; transform: translateX(-50%); }
+  .compass-W { left: 8px; top: 50%; transform: translateY(-50%); }
+
+  .compass-deg {
+    position: absolute;
+    font-family: 'Cinzel', serif;
+    font-size: 0.66rem;
+    color: var(--ink-dim);
+    letter-spacing: 0;
+  }
+  .compass-deg-30  { top: 18px;  right: 54px; transform: rotate(0deg); }
+  .compass-deg-60  { top: 54px;  right: 18px; transform: rotate(0deg); }
+  .compass-deg-120 { bottom: 54px; right: 18px; }
+  .compass-deg-150 { bottom: 18px; right: 54px; }
+  .compass-deg-210 { bottom: 18px; left: 54px; }
+  .compass-deg-240 { bottom: 54px; left: 18px; }
+  .compass-deg-300 { top: 54px;  left: 18px; }
+  .compass-deg-330 { top: 18px;  left: 54px; }
+
+  .compass-ticks {
+    position: absolute;
+    inset: 30px;
+    border-radius: 50%;
+  }
+  .compass-tick-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1px dashed rgba(201, 169, 97, 0.18);
+  }
+  .compass-crosshair {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 18px;
+    height: 18px;
+    opacity: 0.6;
+  }
+  .compass-crosshair::before,
+  .compass-crosshair::after {
+    content: '';
+    position: absolute;
+    background: var(--gold);
+  }
+  .compass-crosshair::before {
+    top: 50%; left: 0;
+    width: 100%;
+    height: 1px;
+    transform: translateY(-50%);
+  }
+  .compass-crosshair::after {
+    left: 50%; top: 0;
+    width: 1px;
+    height: 100%;
+    transform: translateX(-50%);
+  }
+
+  /* 上部固定の三角矢印（方位磁石の針の指す方向） */
+  .real-compass-pointer {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 18px solid var(--gold);
+    filter: drop-shadow(0 0 8px rgba(201, 169, 97, 0.7));
+    z-index: 5;
+  }
+
+  /* 度数表示 */
+  .real-compass-readout {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .real-compass-readout #realCompassDeg {
+    font-family: 'Cinzel', serif;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--moon-white);
+    text-shadow: 0 0 12px rgba(110, 196, 245, 0.4);
+  }
+  .compass-deg-unit {
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    color: var(--ink-dim);
+  }
+  .real-compass-readout .compass-direction {
+    display: block;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.25em;
+    color: var(--seiten);
+    margin-top: 0.2rem;
+    text-indent: 0.25em;
   }
 
   /* ★v6: 月ナビ用イントロ（Step 1） */
@@ -2051,18 +2203,14 @@
     <img src="./images/meditation_goddess.jpg" alt="月を探して" class="nav-intro-img">
     <div class="nav-intro-overlay"></div>
     <div class="nav-intro-text">
-      <div class="nav-intro-title">月 を 探 し て</div>
       <div class="nav-intro-sub">ス マ ホ で 、 空 へ</div>
     </div>
   </div>
 
   <!-- ★v6: Step 2: センサー許可モーダル（常時 / アプリ使用時） -->
   <div class="nav-permission" id="navPermission">
-    <div class="nav-permission-title">月 ナ ビ</div>
+    <div class="nav-permission-bigtitle">ツ キ を ス マ ホ で 探 せ ま す</div>
     <div class="nav-permission-text">
-      ツ キ を<br>
-      ス マ ホ で 探 せ ま す 。<br>
-      <br>
       セ ン サ ー を<br>
       許 可 し ま す か ？
     </div>
@@ -2078,7 +2226,7 @@
     </div>
   </div>
 
-  <!-- ★v6: Step 3: コンパスキャリブレーション（女性画像＋∞） -->
+  <!-- ★v6: Step 3: コンパスキャリブレーション（女性画像＋∞＋実物方位磁石） -->
   <div class="compass-cal-modal" id="compassCalModal">
     <div class="compass-cal-content">
       <img src="./images/compass_calibration.jpg" alt="コンパスを整える"
@@ -2089,38 +2237,44 @@
         <span class="infinity-mark">∞</span><br>
         （ 無 限 大 ） を 描 い て く だ さ い
       </div>
-      <div class="compass-cal-sub">
-        磁 気 セ ン サ ー が 整 い 、<br>
-        月 と 太 陽 の 位 置 が 正 確 に な り ま す
-      </div>
-      <button class="compass-cal-btn" id="compassCalNext">整 え た</button>
-    </div>
-  </div>
 
-  <!-- ★v6: Step 4: 北合わせ画面（後ろが動く、実際の星空表示） -->
-  <div class="north-align" id="northAlign">
-    <div class="north-align-top">
-      <div class="north-align-title">北 と 一 致 し て ま す か ？</div>
-      <div class="north-align-sub">
-        画 面 中 央 の 「 N 」 マ ー ク に<br>
-        方 位 表 示 を 合 わ せ て く だ さ い
-      </div>
-      <div class="north-align-indicator">
-        <div class="north-align-current">
-          現 在 : <span id="currentHeading">—</span>
+      <!-- 実物方位磁石UI -->
+      <div class="real-compass">
+        <div class="real-compass-dial" id="realCompassDial">
+          <!-- 方位の数字と漢字を30度ごとに配置 -->
+          <div class="compass-cardinal compass-N">北</div>
+          <div class="compass-deg compass-deg-30">30</div>
+          <div class="compass-deg compass-deg-60">60</div>
+          <div class="compass-cardinal compass-E">東</div>
+          <div class="compass-deg compass-deg-120">120</div>
+          <div class="compass-deg compass-deg-150">150</div>
+          <div class="compass-cardinal compass-S">南</div>
+          <div class="compass-deg compass-deg-210">210</div>
+          <div class="compass-deg compass-deg-240">240</div>
+          <div class="compass-cardinal compass-W">西</div>
+          <div class="compass-deg compass-deg-300">300</div>
+          <div class="compass-deg compass-deg-330">330</div>
+          <!-- 内側の目盛り -->
+          <div class="compass-ticks">
+            <div class="compass-tick-ring"></div>
+          </div>
+          <!-- 中心の十字 -->
+          <div class="compass-crosshair"></div>
         </div>
-        <div class="north-align-diff" id="northDiff">—</div>
+        <!-- 上部の三角矢印（固定） -->
+        <div class="real-compass-pointer"></div>
+        <!-- 度数表示 -->
+        <div class="real-compass-readout">
+          <span id="realCompassDeg">—</span><span class="compass-deg-unit">°</span>
+          <span class="compass-direction" id="realCompassDirection">—</span>
+        </div>
       </div>
-    </div>
-    <div class="north-align-center">
-      <!-- 画面中央の「N」ターゲット -->
-      <div class="north-target">
-        <div class="north-target-ring"></div>
-        <div class="north-target-N">N</div>
+
+      <div class="compass-cal-sub">
+        数 字 と 方 角 が 動 き ま す<br>
+        ス マ ホ の 向 き を 確 か め な が ら
       </div>
-    </div>
-    <div class="north-align-bottom">
-      <button class="compass-cal-btn" id="northAlignDone">北 に 合 っ た</button>
+      <button class="compass-cal-btn" id="compassCalNext">方 角 を 整 え た</button>
     </div>
   </div>
 
@@ -3239,31 +3393,67 @@ const COASTLINES = [
 
   function showCompassCalModal() {
     document.getElementById('compassCalModal').classList.add('active');
+    // 方位磁石のリアルタイム更新を開始
+    startRealCompassUpdate();
   }
   function hideCompassCalModal() {
     document.getElementById('compassCalModal').classList.remove('active');
-  }
-  function showNorthAlign() {
-    document.getElementById('northAlign').classList.add('active');
-  }
-  function hideNorthAlign() {
-    document.getElementById('northAlign').classList.remove('active');
+    stopRealCompassUpdate();
   }
 
-  // ∞キャリブ完了 → 北合わせへ
+  // ★v6: 実物方位磁石UIのリアルタイム更新
+  let realCompassRaf = null;
+  function startRealCompassUpdate() {
+    stopRealCompassUpdate();
+    function tick() {
+      updateRealCompass();
+      realCompassRaf = requestAnimationFrame(tick);
+    }
+    tick();
+  }
+  function stopRealCompassUpdate() {
+    if (realCompassRaf) {
+      cancelAnimationFrame(realCompassRaf);
+      realCompassRaf = null;
+    }
+  }
+  function updateRealCompass() {
+    const dial = document.getElementById('realCompassDial');
+    const degEl = document.getElementById('realCompassDeg');
+    const dirEl = document.getElementById('realCompassDirection');
+    if (!dial) return;
+    const heading = navState.smoothHeading || navState.heading || 0;
+    // 上部の三角矢印が北を指す状態を基準 → 盤面を-heading度回転
+    // スマホの向きが北(0度)の時: 盤面は0度
+    // スマホが東(90度)を向いた時: 盤面は-90度回転して「北」が右に
+    dial.style.transform = `rotate(${-heading}deg)`;
+    // 文字を水平保つため、個別要素を反対に回転させる
+    dial.querySelectorAll('.compass-cardinal, .compass-deg').forEach(el => {
+      el.style.transform = el.dataset.origTransform || el.style.transform;
+    });
+    // 度数表示
+    const h = Math.round(heading);
+    degEl.textContent = h;
+    // 方位名
+    let dir;
+    if (h < 22.5 || h >= 337.5) dir = '北';
+    else if (h < 67.5) dir = '北 東';
+    else if (h < 112.5) dir = '東';
+    else if (h < 157.5) dir = '南 東';
+    else if (h < 202.5) dir = '南';
+    else if (h < 247.5) dir = '南 西';
+    else if (h < 292.5) dir = '西';
+    else dir = '北 西';
+    dirEl.textContent = dir;
+  }
+
+  // ∞キャリブ完了 → 月探しモードへ直接
   document.getElementById('compassCalNext').addEventListener('click', () => {
     hideCompassCalModal();
-    showNorthAlign();
-  });
-
-  // 北合わせ完了 → 月ナビ本体へ
-  document.getElementById('northAlignDone').addEventListener('click', () => {
-    hideNorthAlign();
   });
 
   // 手動でキャリブやり直し（月ナビ画面右下の↺ボタン）
   document.getElementById('navRecalibrate').addEventListener('click', () => {
-    hideNorthAlign();
     showCompassCalModal();
   });
 
@@ -3821,48 +4011,6 @@ const COASTLINES = [
 
     const azJp = azimuthToJp(moonPos.azimuth);
     statusVal.textContent = `${azJp.en} ${azJp.deg.toFixed(0)}° · alt ${moonAlt.toFixed(0)}°`;
-
-    // ★v6: 北合わせ画面がアクティブなら方位を更新
-    const northAlignEl = document.getElementById('northAlign');
-    if (northAlignEl && northAlignEl.classList.contains('active')) {
-      const currentHeading = Math.round(heading);
-      // 北からの差（±180度範囲で）
-      let diff = currentHeading;
-      if (diff > 180) diff -= 360;
-      // 方位名
-      const hJp = azimuthToJp({ 
-        // azimuthToJpは SunCalcの方位(南=0, 西=正π)を期待するので変換
-      });
-      // 簡易的に方位の英字を出す
-      let compassLabel;
-      const h = norm360(heading);
-      if (h < 22.5 || h >= 337.5) compassLabel = 'N';
-      else if (h < 67.5) compassLabel = 'NE';
-      else if (h < 112.5) compassLabel = 'E';
-      else if (h < 157.5) compassLabel = 'SE';
-      else if (h < 202.5) compassLabel = 'S';
-      else if (h < 247.5) compassLabel = 'SW';
-      else if (h < 292.5) compassLabel = 'W';
-      else compassLabel = 'NW';
-      document.getElementById('currentHeading').textContent =
-        `${compassLabel} ${currentHeading}°`;
-      const northDiffEl = document.getElementById('northDiff');
-      const absDiff = Math.min(Math.abs(diff), 360 - Math.abs(diff));
-      if (absDiff < 8) {
-        northDiffEl.textContent = '✓ 北 を 向 い て い ま す';
-        northDiffEl.classList.add('ok');
-      } else {
-        let direction;
-        if (diff < 0) direction = '右 へ';
-        else direction = '左 へ';
-        // 180度超える場合の逆判定
-        const rawDiff = (currentHeading + 540) % 360 - 180;
-        if (rawDiff > 0) direction = '左 へ';
-        else direction = '右 へ';
-        northDiffEl.textContent = `${direction} ${Math.abs(absDiff).toFixed(0)}° 回 す`;
-        northDiffEl.classList.remove('ok');
-      }
-    }
 
     document.getElementById('navDebug').innerHTML =
       `ev: ${navState.eventCount} · so: ${navState.screenOrient}°<br>` +
