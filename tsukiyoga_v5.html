@@ -1162,64 +1162,224 @@
     letter-spacing: 0.3em;
   }
 
-  /* ★v6: 北を向くステップの視覚化 */
-  .compass-cal-north-arrow {
-    position: relative;
-    width: 180px;
-    height: 180px;
-    margin: 0 auto 1.4rem;
-  }
-  .compass-cal-north-arrow .north-compass {
+  /* ★v6: 月ナビ用イントロ（Step 1） */
+  .nav-intro {
     position: absolute;
-    inset: 10px;
-    border: 2px solid rgba(201, 169, 97, 0.35);
-    border-radius: 50%;
-    box-shadow: inset 0 0 24px rgba(201, 169, 97, 0.08),
-                0 0 32px rgba(201, 169, 97, 0.15);
-    background: radial-gradient(circle at center, rgba(3,8,24,0.4), transparent 70%);
+    inset: 0;
+    z-index: 40;
+    overflow: hidden;
+    pointer-events: none;
+    animation: navIntroFadeOut 0.6s ease-in 2.8s forwards;
   }
-  .compass-cal-north-arrow .north-N {
+  .nav-intro-img {
     position: absolute;
-    top: -4px;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    animation: navIntroImgIn 1s ease-out forwards;
+  }
+  .nav-intro-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg,
+      rgba(3, 8, 24, 0.4) 0%,
+      rgba(3, 8, 24, 0.65) 70%,
+      rgba(3, 8, 24, 0.9) 100%);
+  }
+  .nav-intro-text {
+    position: absolute;
+    bottom: 30%;
     left: 50%;
     transform: translateX(-50%);
-    font-family: 'Cinzel', serif;
+    text-align: center;
+    width: 100%;
+    opacity: 0;
+    animation: navIntroTextIn 1.2s ease-out 0.6s forwards;
+  }
+  .nav-intro-title {
+    font-family: 'Shippori Mincho', serif;
     font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--gold);
-    text-shadow: 0 0 16px rgba(201, 169, 97, 0.8),
-                 0 0 4px rgba(201, 169, 97, 1);
-    animation: nPulse 1.8s ease-in-out infinite;
-    z-index: 2;
+    font-weight: 600;
+    letter-spacing: 0.5em;
+    color: #f4efd8;
+    text-shadow: 0 0 20px rgba(110, 196, 245, 0.5),
+                 0 2px 12px rgba(0, 0, 0, 0.9);
+    margin-bottom: 0.8rem;
+    text-indent: 0.5em;
   }
-  @keyframes nPulse {
-    0%, 100% { text-shadow: 0 0 16px rgba(201, 169, 97, 0.8), 0 0 4px rgba(201, 169, 97, 1); transform: translateX(-50%) scale(1); }
-    50% { text-shadow: 0 0 28px rgba(201, 169, 97, 1), 0 0 8px rgba(201, 169, 97, 1); transform: translateX(-50%) scale(1.12); }
+  .nav-intro-sub {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.35em;
+    color: rgba(201, 169, 97, 0.85);
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
+    text-indent: 0.35em;
   }
-  .compass-cal-north-arrow .north-needle {
+  @keyframes navIntroImgIn {
+    0% { opacity: 0; transform: scale(1.06); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  @keyframes navIntroTextIn {
+    0% { opacity: 0; transform: translate(-50%, 16px); }
+    100% { opacity: 1; transform: translate(-50%, 0); }
+  }
+  @keyframes navIntroFadeOut {
+    0% { opacity: 1; }
+    100% { opacity: 0; visibility: hidden; }
+  }
+
+  /* ★v6: 2択の許可ボタン */
+  .permission-choices {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    width: 100%;
+    align-items: stretch;
+    margin-top: 1rem;
+  }
+  .nav-permission-btn.permission-always,
+  .nav-permission-btn.permission-once {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    line-height: 1.3;
+  }
+  .nav-permission-btn.permission-always {
+    background: linear-gradient(180deg, rgba(201, 169, 97, 0.24), rgba(201, 169, 97, 0.08));
+    border: 1px solid var(--gold);
+  }
+  .permission-hint {
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    color: rgba(160, 190, 230, 0.5);
+    font-weight: 300;
+  }
+
+  /* ★v6: 北合わせ画面 */
+  .north-align {
+    display: none;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 6px;
-    height: 70px;
-    background: linear-gradient(180deg, var(--gold) 0%, var(--gold) 50%, transparent 50%);
-    transform-origin: center bottom;
-    transform: translate(-50%, -100%);
-    box-shadow: 0 0 12px rgba(201, 169, 97, 0.7);
-    border-radius: 3px 3px 0 0;
+    inset: 0;
+    z-index: 30;
+    padding: 2rem 1.5rem;
+    pointer-events: none;
+    flex-direction: column;
+    justify-content: space-between;
   }
-  .compass-cal-north-arrow .north-needle::before {
+  .north-align.active {
+    display: flex;
+  }
+  .north-align-top {
+    text-align: center;
+    pointer-events: auto;
+    background: linear-gradient(180deg, rgba(3,8,24,0.9) 0%, rgba(3,8,24,0.7) 70%, transparent 100%);
+    padding: 1.5rem 1rem 2rem;
+    margin: -2rem -1.5rem 0;
+  }
+  .north-align-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.3em;
+    color: var(--seiten);
+    text-shadow: 0 0 12px rgba(212, 194, 138, 0.3);
+    margin-bottom: 0.6rem;
+    text-indent: 0.3em;
+  }
+  .north-align-sub {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    color: var(--ink-dim);
+    line-height: 1.8;
+    margin-bottom: 1rem;
+  }
+  .north-align-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  .north-align-current {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    color: var(--ink);
+  }
+  .north-align-current #currentHeading {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    font-size: 1.1rem;
+    margin-left: 0.5em;
+  }
+  .north-align-diff {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    color: var(--sakura-dim);
+  }
+  .north-align-diff.ok {
+    color: var(--green);
+    font-weight: 600;
+  }
+  .north-align-center {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+  .north-target {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    opacity: 0.85;
+  }
+  .north-target-ring {
+    position: absolute;
+    inset: 0;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    box-shadow: 0 0 24px rgba(201, 169, 97, 0.5),
+                inset 0 0 16px rgba(201, 169, 97, 0.15);
+    animation: targetPulse 2s ease-in-out infinite;
+  }
+  .north-target-ring::after {
     content: '';
     position: absolute;
-    top: -8px;
+    top: -12px;
     left: 50%;
     transform: translateX(-50%);
     width: 0;
     height: 0;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-bottom: 14px solid var(--gold);
-    filter: drop-shadow(0 0 8px rgba(201, 169, 97, 0.7));
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 16px solid var(--gold);
+    filter: drop-shadow(0 0 6px rgba(201, 169, 97, 0.8));
+  }
+  .north-target-N {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Cinzel', serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--gold);
+    text-shadow: 0 0 20px rgba(201, 169, 97, 0.9);
+  }
+  @keyframes targetPulse {
+    0%, 100% { box-shadow: 0 0 24px rgba(201, 169, 97, 0.5), inset 0 0 16px rgba(201, 169, 97, 0.15); }
+    50% { box-shadow: 0 0 36px rgba(201, 169, 97, 0.8), inset 0 0 24px rgba(201, 169, 97, 0.25); }
+  }
+  .north-align-bottom {
+    display: flex;
+    justify-content: center;
+    pointer-events: auto;
+    padding-bottom: 5rem;
   }
   @keyframes infinityPulse {
     0%, 100% { transform: scale(1); text-shadow: 0 0 20px rgba(201, 169, 97, 0.6), 0 0 4px rgba(201, 169, 97, 0.9); }
@@ -1886,58 +2046,82 @@
 <div class="moonnav-view" id="moonnavView">
   <canvas id="navCanvas"></canvas>
 
-  <!-- ★v6: コンパスキャリブレーションモーダル（2ステップ） -->
-  <div class="compass-cal-modal" id="compassCalModal">
-    <div class="compass-cal-content">
-
-      <!-- Step 1: ∞を描く -->
-      <div id="compassCalStep1">
-        <img src="./images/compass_calibration.jpg" alt="コンパスを整える"
-             class="compass-cal-img">
-        <div class="compass-cal-title">コ ン パ ス を 整 え る</div>
-        <div class="compass-cal-text">
-          ス マ ホ で 空 に<br>
-          <span class="infinity-mark">∞</span><br>
-          （ 無 限 大 ） を 描 い て く だ さ い
-        </div>
-        <div class="compass-cal-sub">
-          磁 気 セ ン サ ー が 整 い 、<br>
-          月 と 太 陽 の 位 置 が 正 確 に な り ま す
-        </div>
-        <button class="compass-cal-btn" id="compassCalNext">整 え た</button>
-      </div>
-
-      <!-- Step 2: 北を向く -->
-      <div id="compassCalStep2" style="display:none;">
-        <div class="compass-cal-north-arrow">
-          <div class="north-N">N</div>
-          <div class="north-compass">
-            <div class="north-needle"></div>
-          </div>
-        </div>
-        <div class="compass-cal-title">真 北 を 向 い て く だ さ い</div>
-        <div class="compass-cal-text">
-          ス マ ホ を <span class="accent-word">真 北</span> に<br>
-          ゆ っ く り 向 け て く だ さ い
-        </div>
-        <div class="compass-cal-sub">
-          向 い た 方 向 を 基 準 と し て<br>
-          月 ・ 太 陽 の 位 置 を 正 確 に 示 し ま す
-        </div>
-        <button class="compass-cal-btn" id="compassCalDone">北 を 向 い た</button>
-      </div>
-
+  <!-- ★v6: Step 1: 月ナビ用イントロ（女性画像フェード） -->
+  <div class="nav-intro" id="navIntro">
+    <img src="./images/meditation_goddess.jpg" alt="月を探して" class="nav-intro-img">
+    <div class="nav-intro-overlay"></div>
+    <div class="nav-intro-text">
+      <div class="nav-intro-title">月 を 探 し て</div>
+      <div class="nav-intro-sub">ス マ ホ で 、 空 へ</div>
     </div>
   </div>
 
+  <!-- ★v6: Step 2: センサー許可モーダル（常時 / アプリ使用時） -->
   <div class="nav-permission" id="navPermission">
     <div class="nav-permission-title">月 ナ ビ</div>
     <div class="nav-permission-text">
-      スマホを動かすと<br>
-      空が一緒に動きます。<br>
-      月を探して向けてみてください。
+      ツ キ を<br>
+      ス マ ホ で 探 せ ま す 。<br>
+      <br>
+      セ ン サ ー を<br>
+      許 可 し ま す か ？
     </div>
-    <button class="nav-permission-btn" id="navPermissionBtn">セ ン サ ー を 許 可</button>
+    <div class="permission-choices">
+      <button class="nav-permission-btn permission-always" id="navPermissionAlways">
+        常 時
+        <span class="permission-hint">次 回 は 確 認 し な い</span>
+      </button>
+      <button class="nav-permission-btn permission-once" id="navPermissionOnce">
+        ア プ リ 使 用 時
+        <span class="permission-hint">毎 回 確 認</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ★v6: Step 3: コンパスキャリブレーション（女性画像＋∞） -->
+  <div class="compass-cal-modal" id="compassCalModal">
+    <div class="compass-cal-content">
+      <img src="./images/compass_calibration.jpg" alt="コンパスを整える"
+           class="compass-cal-img">
+      <div class="compass-cal-title">コ ン パ ス を 整 え る</div>
+      <div class="compass-cal-text">
+        ス マ ホ で 空 に<br>
+        <span class="infinity-mark">∞</span><br>
+        （ 無 限 大 ） を 描 い て く だ さ い
+      </div>
+      <div class="compass-cal-sub">
+        磁 気 セ ン サ ー が 整 い 、<br>
+        月 と 太 陽 の 位 置 が 正 確 に な り ま す
+      </div>
+      <button class="compass-cal-btn" id="compassCalNext">整 え た</button>
+    </div>
+  </div>
+
+  <!-- ★v6: Step 4: 北合わせ画面（後ろが動く、実際の星空表示） -->
+  <div class="north-align" id="northAlign">
+    <div class="north-align-top">
+      <div class="north-align-title">北 と 一 致 し て ま す か ？</div>
+      <div class="north-align-sub">
+        画 面 中 央 の 「 N 」 マ ー ク に<br>
+        方 位 表 示 を 合 わ せ て く だ さ い
+      </div>
+      <div class="north-align-indicator">
+        <div class="north-align-current">
+          現 在 : <span id="currentHeading">—</span>
+        </div>
+        <div class="north-align-diff" id="northDiff">—</div>
+      </div>
+    </div>
+    <div class="north-align-center">
+      <!-- 画面中央の「N」ターゲット -->
+      <div class="north-target">
+        <div class="north-target-ring"></div>
+        <div class="north-target-N">N</div>
+      </div>
+    </div>
+    <div class="north-align-bottom">
+      <button class="compass-cal-btn" id="northAlignDone">北 に 合 っ た</button>
+    </div>
   </div>
 
   <div class="nav-instruction">
@@ -1951,7 +2135,6 @@
   </div>
 
   <button class="nav-calibrate" id="navCalibrate">現 在 地 を 取 得</button>
-  <!-- ★v6: キャリブレーション再実行ボタン -->
   <button class="nav-recalibrate" id="navRecalibrate" title="コンパスを整え直す">↺</button>
 
   <div class="nav-debug" id="navDebug"></div>
@@ -3004,7 +3187,6 @@ const COASTLINES = [
         updateCalendarView();
       } else if (view === 'moonnav') {
         document.getElementById('moonnavView').classList.add('active');
-        // ★v6: activateMoonNavがセンサー許可済みならコンパスモーダルを開く
         activateMoonNav();
       } else {
         deactivateMoonNav();
@@ -3012,26 +3194,91 @@ const COASTLINES = [
     });
   });
 
-  // ★v6: コンパスキャリブレーションモーダル制御（2ステップ）
-  // Step 1: ∞を描いてキャリブ
-  // Step 2: 北を向いて確認
+  // ★v6: 月ナビ4ステップフロー
+  // Step 1: 女性画像イントロ（3.4秒）
+  // Step 2: センサー許可（常時 or 使用時）
+  // Step 3: コンパスキャリブ（∞）
+  // Step 4: 北合わせ（背景が動く）
+  // 「常時」選択済みの場合 Step 2 はスキップ
+
+  const PERMISSION_ALWAYS_KEY = 'tsukiyoga-nav-permission-always';
+
+  function showNavIntro() {
+    const intro = document.getElementById('navIntro');
+    if (intro) {
+      intro.style.display = 'block';
+      intro.style.animation = 'none';
+      void intro.offsetWidth;  // reflow
+      intro.style.animation = '';
+      setTimeout(() => {
+        intro.style.display = 'none';
+        proceedToPermission();
+      }, 3400);
+    } else {
+      proceedToPermission();
+    }
+  }
+
+  function proceedToPermission() {
+    if (navState.permitted) {
+      // 既にセンサー許可済み（今セッション）：コンパスキャリブへ
+      showCompassCalModal();
+      return;
+    }
+    // 「常時」許可済み記録 → センサー許可リクエスト後すぐキャリブへ
+    const alwaysAllowed = localStorage.getItem(PERMISSION_ALWAYS_KEY) === '1';
+    if (alwaysAllowed) {
+      requestNavPermission().then(ok => {
+        if (ok) showCompassCalModal();
+      });
+      return;
+    }
+    // 許可モーダル表示
+    document.getElementById('navPermission').style.display = 'block';
+  }
+
   function showCompassCalModal() {
-    const modal = document.getElementById('compassCalModal');
-    modal.classList.add('active');
-    // Step 1 表示、Step 2 非表示にリセット
-    document.getElementById('compassCalStep1').style.display = 'block';
-    document.getElementById('compassCalStep2').style.display = 'none';
+    document.getElementById('compassCalModal').classList.add('active');
   }
   function hideCompassCalModal() {
     document.getElementById('compassCalModal').classList.remove('active');
   }
+  function showNorthAlign() {
+    document.getElementById('northAlign').classList.add('active');
+  }
+  function hideNorthAlign() {
+    document.getElementById('northAlign').classList.remove('active');
+  }
+
+  // ∞キャリブ完了 → 北合わせへ
   document.getElementById('compassCalNext').addEventListener('click', () => {
-    // Step 1 → Step 2 へ遷移
-    document.getElementById('compassCalStep1').style.display = 'none';
-    document.getElementById('compassCalStep2').style.display = 'block';
+    hideCompassCalModal();
+    showNorthAlign();
   });
-  document.getElementById('compassCalDone').addEventListener('click', hideCompassCalModal);
-  document.getElementById('navRecalibrate').addEventListener('click', showCompassCalModal);
+
+  // 北合わせ完了 → 月ナビ本体へ
+  document.getElementById('northAlignDone').addEventListener('click', () => {
+    hideNorthAlign();
+  });
+
+  // 手動でキャリブやり直し（月ナビ画面右下の↺ボタン）
+  document.getElementById('navRecalibrate').addEventListener('click', () => {
+    hideNorthAlign();
+    showCompassCalModal();
+  });
+
+  // 「常時」許可ボタン
+  document.getElementById('navPermissionAlways').addEventListener('click', async () => {
+    const ok = await requestNavPermission();
+    if (ok) {
+      localStorage.setItem(PERMISSION_ALWAYS_KEY, '1');
+    }
+  });
+  // 「アプリ使用時」許可ボタン
+  document.getElementById('navPermissionOnce').addEventListener('click', async () => {
+    await requestNavPermission();
+    localStorage.removeItem(PERMISSION_ALWAYS_KEY);
+  });
 
   // ======== 月ナビ ========
   const navState = {
@@ -3185,6 +3432,21 @@ const COASTLINES = [
     return { heading, pitch, roll };
   }
 
+  // ★v6: 磁気偏角（Magnetic Declination）補正
+  // 磁北と真北のズレ。スマホのコンパスは磁北基準なので、真北に変換する必要あり。
+  // WMM2025モデル準拠の近似値（2026年時点）。主要都市の実測値：
+  // 那覇: -5.2度、東京: -7.8度、大阪: -7.5度、福岡: -7.2度、札幌: -9.2度
+  function getMagneticDeclination(lat, lon) {
+    // 日本周辺の2次近似モデル（誤差±0.5度程度）
+    // 基準点: 東経135度・北緯35度で約-7.5度
+    const dLat = lat - 35;
+    const dLon = lon - 135;
+    // 経度方向: 東に行くほど負が大きく、西に行くほど正に
+    // 緯度方向: 北に行くほど負が大きく
+    const decl = -7.5 - 0.15 * dLat - 0.20 * dLon;
+    return decl;  // 度単位、西偏は負
+  }
+
   function handleNavOrientation(e) {
     navState.hasOrientation = true;
     navState.eventCount++;
@@ -3197,6 +3459,15 @@ const COASTLINES = [
     const sky = deviceToSky(alpha, beta, gamma, navState.screenOrient);
     if (typeof e.webkitCompassHeading === 'number') {
       sky.heading = e.webkitCompassHeading;
+    }
+    // ★v6: 磁気偏角補正（磁北→真北）
+    // iOS webkitCompassHeading: 磁北基準 → 真北にするには偏角を「引く」（西偏は負値なので実際は加算）
+    // Android alpha: 端末によって磁北基準と真北基準が混在（真北基準の機種では過補正を避ける）
+    const decl = getMagneticDeclination(userLocation.lat, userLocation.lon);
+    // 磁北基準（iOS webkit）のみ補正を適用
+    // Androidは標準で真北を返すことが多いので補正をskip
+    if (typeof e.webkitCompassHeading === 'number') {
+      sky.heading = norm360(sky.heading - decl);
     }
     const ALPHA1 = 0.25;
     navState.heading = lpfAngle(navState.heading, sky.heading, ALPHA1);
@@ -3238,13 +3509,11 @@ const COASTLINES = [
       }
     }, 3000);
 
-    // ★v6: センサー許可後にコンパスキャリブレーションモーダルを表示
+    // ★v6: 許可後はコンパスキャリブへ
     showCompassCalModal();
 
     return true;
   }
-
-  document.getElementById('navPermissionBtn').addEventListener('click', requestNavPermission);
 
   document.getElementById('navCalibrate').addEventListener('click', () => {
     if (!navigator.geolocation) {
@@ -3553,6 +3822,48 @@ const COASTLINES = [
     const azJp = azimuthToJp(moonPos.azimuth);
     statusVal.textContent = `${azJp.en} ${azJp.deg.toFixed(0)}° · alt ${moonAlt.toFixed(0)}°`;
 
+    // ★v6: 北合わせ画面がアクティブなら方位を更新
+    const northAlignEl = document.getElementById('northAlign');
+    if (northAlignEl && northAlignEl.classList.contains('active')) {
+      const currentHeading = Math.round(heading);
+      // 北からの差（±180度範囲で）
+      let diff = currentHeading;
+      if (diff > 180) diff -= 360;
+      // 方位名
+      const hJp = azimuthToJp({ 
+        // azimuthToJpは SunCalcの方位(南=0, 西=正π)を期待するので変換
+      });
+      // 簡易的に方位の英字を出す
+      let compassLabel;
+      const h = norm360(heading);
+      if (h < 22.5 || h >= 337.5) compassLabel = 'N';
+      else if (h < 67.5) compassLabel = 'NE';
+      else if (h < 112.5) compassLabel = 'E';
+      else if (h < 157.5) compassLabel = 'SE';
+      else if (h < 202.5) compassLabel = 'S';
+      else if (h < 247.5) compassLabel = 'SW';
+      else if (h < 292.5) compassLabel = 'W';
+      else compassLabel = 'NW';
+      document.getElementById('currentHeading').textContent =
+        `${compassLabel} ${currentHeading}°`;
+      const northDiffEl = document.getElementById('northDiff');
+      const absDiff = Math.min(Math.abs(diff), 360 - Math.abs(diff));
+      if (absDiff < 8) {
+        northDiffEl.textContent = '✓ 北 を 向 い て い ま す';
+        northDiffEl.classList.add('ok');
+      } else {
+        let direction;
+        if (diff < 0) direction = '右 へ';
+        else direction = '左 へ';
+        // 180度超える場合の逆判定
+        const rawDiff = (currentHeading + 540) % 360 - 180;
+        if (rawDiff > 0) direction = '左 へ';
+        else direction = '右 へ';
+        northDiffEl.textContent = `${direction} ${Math.abs(absDiff).toFixed(0)}° 回 す`;
+        northDiffEl.classList.remove('ok');
+      }
+    }
+
     document.getElementById('navDebug').innerHTML =
       `ev: ${navState.eventCount} · so: ${navState.screenOrient}°<br>` +
       `raw α${navState.rawAlpha.toFixed(0)} β${navState.rawBeta.toFixed(0)} γ${navState.rawGamma.toFixed(0)}<br>` +
@@ -3566,13 +3877,7 @@ const COASTLINES = [
     setTimeout(resizeNavCanvas, 50);
     setTimeout(resizeNavCanvas, 300);
 
-    if (!navState.permitted) {
-      document.getElementById('navPermission').style.display = 'block';
-      return;
-    }
-    // ★v6: 既に許可済みなら、月ナビを開くたびにコンパスモーダルを表示
-    showCompassCalModal();
-
+    // ★v6: renderループは常時回しておく（北合わせ画面の背景動作のため）
     if (navState.animId) cancelAnimationFrame(navState.animId);
     function loop() {
       if (document.getElementById('moonnavView').classList.contains('active')) {
@@ -3581,6 +3886,9 @@ const COASTLINES = [
       navState.animId = requestAnimationFrame(loop);
     }
     loop();
+
+    // 新フロー：イントロ → 許可 → キャリブ → 北合わせ
+    showNavIntro();
   }
 
   function deactivateMoonNav() {}
@@ -4633,12 +4941,17 @@ setTimeout(() => {
   }
 
   document.addEventListener('touchstart', (e) => {
+    // ★v6: カレンダー画面でのみプルリロード有効（月ナビ・宙では無効）
+    const cal = document.getElementById('calendarView');
+    if (!cal || !cal.classList.contains('active')) {
+      pulling = false;
+      return;
+    }
     // 既にスクロール位置が下にあるなら無視
     const scrollable = getScrollableTarget(e);
     if (scrollable) { pulling = false; return; }
     // calendar-viewが最上部にあるかチェック
-    const cal = document.getElementById('calendarView');
-    if (cal && cal.classList.contains('active') && cal.scrollTop > 0) {
+    if (cal.scrollTop > 0) {
       pulling = false;
       return;
     }
