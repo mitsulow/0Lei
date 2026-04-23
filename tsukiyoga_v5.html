@@ -720,7 +720,8 @@
     border-top: 1px solid rgba(201, 169, 97, 0.3);
     border-radius: 20px 20px 0 0;
     padding: 0 22px 26px;
-    max-height: 90vh;
+    max-height: 95vh;
+    min-height: 95vh;
     overflow-y: auto;
     animation: modalSlideUp 0.35s ease-out;
   }
@@ -734,7 +735,7 @@
   .memo-hero-img {
     width: calc(100% + 44px);
     margin: 0 -22px 1.2rem;
-    height: 180px;
+    height: 260px;
     background-image:
       linear-gradient(180deg,
         rgba(3, 8, 24, 0) 0%,
@@ -742,9 +743,39 @@
         rgba(3, 8, 24, 0.9) 100%),
       url('./images/memo_journal.jpg');
     background-size: cover;
-    background-position: center 25%;
+    background-position: center 30%;
     background-repeat: no-repeat;
     border-radius: 20px 20px 0 0;
+  }
+
+  /* ★v6: 全画面フェードイントロ（日付タップ時） */
+  .fullscreen-intro {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    background: #030818;
+    overflow: hidden;
+    pointer-events: none;
+    opacity: 0;
+    display: none;
+  }
+  .fullscreen-intro.active {
+    display: block;
+    animation: fullscreenIntroFade 0.9s ease-out forwards;
+  }
+  .fullscreen-intro-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+  }
+  @keyframes fullscreenIntroFade {
+    0%   { opacity: 0; }
+    30%  { opacity: 1; }
+    70%  { opacity: 1; }
+    100% { opacity: 0; }
   }
 
   .memo-modal-header {
@@ -985,12 +1016,29 @@
     padding: 24px 22px 26px;
   }
   /* 港選択モーダル・内なるツキモーダルは画像を出さない */
-  #portModal .memo-hero-img,
-  #innerModal .memo-hero-img {
+  #portModal .memo-hero-img {
     display: none;
   }
+  /* ★v6: はなさかり（内なるツキ）モーダル */
   #innerModal .memo-modal-content {
-    padding: 24px 22px 26px;
+    padding: 0 22px 26px;
+    max-height: 95vh;
+    min-height: 95vh;
+  }
+  .hanasakari-hero-img {
+    width: calc(100% + 44px);
+    margin: 0 -22px 1.4rem;
+    height: 280px;
+    background-image:
+      linear-gradient(180deg,
+        rgba(3, 8, 24, 0) 0%,
+        rgba(3, 8, 24, 0) 70%,
+        rgba(3, 8, 24, 0.9) 100%),
+      url('./images/hanasakari.jpg');
+    background-size: cover;
+    background-position: center 25%;
+    background-repeat: no-repeat;
+    border-radius: 20px 20px 0 0;
   }
   .port-modal-hint {
     font-family: 'Shippori Mincho', serif;
@@ -1367,13 +1415,34 @@
     width: 100%;
     height: auto;
   }
+  /* 画像左上のタイトル（女性の頭の上、月の左側） */
+  .compass-cal-img-topleft {
+    position: absolute;
+    top: 8px;
+    left: 10px;
+    right: 45%;
+    text-align: left;
+    padding: 4px 0;
+    pointer-events: none;
+  }
+  .compass-cal-img-topleft .compass-cal-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: var(--seiten);
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.9),
+                 0 2px 6px rgba(0, 0, 0, 0.95);
+    margin: 0;
+    white-space: nowrap;
+    text-indent: 0;
+  }
   /* 画像下部に配置するテキストオーバーレイ */
   .compass-cal-img-overlay {
     position: absolute;
     left: 0;
     right: 0;
     bottom: 0;
-    padding: 1rem 0.8rem 1.2rem;
+    padding: 0.8rem 0.8rem 1rem;
     text-align: center;
     background: linear-gradient(180deg,
       rgba(3, 8, 24, 0) 0%,
@@ -2533,6 +2602,16 @@
 </div>
 
 <!-- メモモーダル -->
+<!-- ★v6: メモモーダル用の全画面イントロ（日付タップ時にフェード表示） -->
+<div class="fullscreen-intro" id="memoIntro">
+  <img src="./images/memo_journal.jpg" alt="" class="fullscreen-intro-img">
+</div>
+
+<!-- ★v6: はなさかりモーダル用の全画面イントロ -->
+<div class="fullscreen-intro" id="hanasakariIntro">
+  <img src="./images/hanasakari.jpg" alt="" class="fullscreen-intro-img">
+</div>
+
 <div class="memo-modal" id="memoModal">
   <div class="memo-modal-backdrop"></div>
   <div class="memo-modal-content">
@@ -2578,6 +2657,9 @@
 <div class="memo-modal" id="innerModal">
   <div class="memo-modal-backdrop"></div>
   <div class="memo-modal-content">
+    <!-- ★v6: ヒーロー画像（化粧する女性+月） -->
+    <div class="hanasakari-hero-img"></div>
+
     <div class="memo-modal-header">
       <div class="memo-modal-date" id="innerModalTitle">❀ 内 な る ツ キ ❀</div>
       <button class="memo-modal-close" id="innerClose">×</button>
@@ -2632,8 +2714,12 @@
       <div class="compass-cal-imgbox">
         <img src="./images/compass_horizontal.jpg" alt="コンパスを合わせる"
              class="compass-cal-img">
-        <div class="compass-cal-img-overlay">
+        <!-- タイトルを画像左上（月の左側）に配置 -->
+        <div class="compass-cal-img-topleft">
           <div class="compass-cal-title">コ ン パ ス を 合 わ せ る</div>
+        </div>
+        <!-- ∞の説明は画像下部オーバーレイ -->
+        <div class="compass-cal-img-overlay">
           <div class="compass-cal-text">
             ス マ ホ で<br>
             <span class="infinity-mark">∞</span><br>
@@ -5065,8 +5151,28 @@ const COASTLINES = [
   });
 
   // ======== メモモーダル ========
+  // ★v6: 日付タップ時の全画面フェードイントロ（約0.9秒）
+  function playFullscreenIntro(introId, callback) {
+    const intro = document.getElementById(introId);
+    if (!intro) { callback(); return; }
+    intro.classList.remove('active');
+    void intro.offsetWidth;  // reflow
+    intro.classList.add('active');
+    // 0.9秒のフェードアニメ中、中間点(約0.4秒)でモーダルを表示させる
+    setTimeout(callback, 400);
+    // 0.95秒後にイントロ要素を非表示（アニメ完了直後）
+    setTimeout(() => {
+      intro.classList.remove('active');
+    }, 950);
+  }
+
   // ★v6: 旧暦日の横に月名を表示
   function openMemoModal(dateStr) {
+    // 全画面イントロを発火してからモーダルを開く
+    playFullscreenIntro('memoIntro', () => openMemoModalInner(dateStr));
+  }
+
+  function openMemoModalInner(dateStr) {
     const modal = document.getElementById('memoModal');
     const key = `tsukiyoga-memo-${dateStr}`;
     const raw = localStorage.getItem(key);
@@ -5226,8 +5332,8 @@ const COASTLINES = [
           localStorage.setItem(`tsukiyoga-port-override-${date}`, code);
         }
         portModal.classList.remove('active');
-        // メモモーダルを再描画
-        openMemoModal(date);
+        // メモモーダルを再描画（イントロは流さない）
+        openMemoModalInner(date);
       });
     });
 
@@ -5317,25 +5423,27 @@ const COASTLINES = [
   }
 
   document.getElementById('innerMoonBtn').addEventListener('click', () => {
-    const modal = document.getElementById('innerModal');
-    const input = document.getElementById('innerDateInput');
-    const last = getLastPeriod();
-    // デフォルト：登録済みならその値、未登録なら「先月の今日」
-    if (last) {
-      input.value = last.toISOString().split('T')[0];
-    } else {
-      const d = new Date();
-      d.setMonth(d.getMonth() - 1);
-      input.value = d.toISOString().split('T')[0];
-    }
-    // モーダルタイトルに旧暦月名を反映
-    const lunarMonthNames = ['睦月','如月','弥生','卯月','皐月','水無月',
-                             '文月','葉月','長月','神無月','霜月','師走'];
-    const lunar = getLunarDate(new Date());
-    const monthName = lunarMonthNames[lunar.month - 1] || '';
-    document.getElementById('innerModalTitle').textContent =
-      `❀ ${monthName.split('').join(' ')} の 内 な る ツ キ ❀`;
-    modal.classList.add('active');
+    // ★v6: 全画面イントロ（化粧する女性+月）を流してから登録モーダル表示
+    playFullscreenIntro('hanasakariIntro', () => {
+      const modal = document.getElementById('innerModal');
+      const input = document.getElementById('innerDateInput');
+      const last = getLastPeriod();
+      if (last) {
+        input.value = last.toISOString().split('T')[0];
+      } else {
+        const d = new Date();
+        d.setMonth(d.getMonth() - 1);
+        input.value = d.toISOString().split('T')[0];
+      }
+      // モーダルタイトルに旧暦月名を反映
+      const lunarMonthNames = ['睦月','如月','弥生','卯月','皐月','水無月',
+                               '文月','葉月','長月','神無月','霜月','師走'];
+      const lunar = getLunarDate(new Date());
+      const monthName = lunarMonthNames[lunar.month - 1] || '';
+      document.getElementById('innerModalTitle').textContent =
+        `❀ ${monthName.split('').join(' ')} の 内 な る ツ キ ❀`;
+      modal.classList.add('active');
+    });
   });
 
   document.getElementById('innerSave').addEventListener('click', () => {
