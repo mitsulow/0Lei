@@ -1,5 +1,40 @@
 {
-  "timestamp": "2026-04-23T15:24:44.591931+00:00",
-  "status": "error",
-  "error": "Claude API failed: Error code: 529 - {'type': 'error', 'error': {'type': 'overloaded_error', 'message': 'Overloaded'}, 'request_id': 'req_011CaLwBJ3LjzUdxDZeKhRNp'}"
+  "timestamp": "2026-04-23T16:58:17.578086+00:00",
+  "status": "ok",
+  "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
+  "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
+  "model": "claude-opus-4-7",
+  "modes": {
+    "F1": {
+      "hz": 7.75,
+      "confidence": 80
+    },
+    "F2": {
+      "hz": 13.4,
+      "confidence": 75
+    },
+    "F3": {
+      "hz": 19.8,
+      "confidence": 75
+    },
+    "F4": {
+      "hz": 24.29,
+      "confidence": 70
+    },
+    "F5": {
+      "hz": null,
+      "confidence": 0
+    }
+  },
+  "amplitude_level": "medium",
+  "strongest_mode": "F1",
+  "notes": "右端でF4が急降下、F3も低下傾向。F5は表示されていない。スペクトログラムでは23日後半に高周波帯でノイズ増加が見られる。",
+  "polarization": {
+    "state": "left",
+    "state_jp": "左回転（夜）",
+    "japan_hour": 1.97,
+    "tomsk_hour": 22.57,
+    "is_day_japan": false,
+    "is_day_tomsk": false
+  }
 }
