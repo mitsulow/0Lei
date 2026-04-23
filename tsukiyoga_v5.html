@@ -308,6 +308,121 @@
     --sakura-dim: #c87ea0;
   }
 
+  /* ★v6: 起動時イントロスプラッシュ */
+  .intro-splash {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: #030818;
+    overflow: hidden;
+    animation: introFadeOut 0.8s ease-in 3.2s forwards;
+    pointer-events: none;
+  }
+  .intro-splash-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    animation: introImgIn 1.2s ease-out forwards;
+  }
+  .intro-splash-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg,
+      rgba(3, 8, 24, 0.35) 0%,
+      rgba(3, 8, 24, 0.55) 50%,
+      rgba(3, 8, 24, 0.85) 100%);
+  }
+  .intro-splash-text {
+    position: absolute;
+    bottom: 28%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: 100%;
+    opacity: 0;
+    animation: introTextIn 1.4s ease-out 0.8s forwards;
+  }
+  .intro-catch {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.3em;
+    color: rgba(201, 169, 97, 0.85);
+    text-shadow: 0 2px 16px rgba(0, 0, 0, 0.8);
+    margin-bottom: 1rem;
+    text-indent: 0.3em;
+  }
+  .intro-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 2.4rem;
+    font-weight: 600;
+    letter-spacing: 0.5em;
+    color: #f4efd8;
+    text-shadow: 0 0 24px rgba(110, 196, 245, 0.5),
+                 0 2px 16px rgba(0, 0, 0, 0.9);
+    text-indent: 0.5em;
+  }
+  @keyframes introImgIn {
+    0% { opacity: 0; transform: scale(1.08); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  @keyframes introTextIn {
+    0% { opacity: 0; transform: translate(-50%, 20px); }
+    100% { opacity: 1; transform: translate(-50%, 0); }
+  }
+  @keyframes introFadeOut {
+    0% { opacity: 1; }
+    100% { opacity: 0; visibility: hidden; }
+  }
+
+  /* ★v6: プルダウンリロード */
+  .pull-refresh {
+    position: fixed;
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 160px;
+    padding: 10px 16px;
+    background: rgba(3, 8, 24, 0.92);
+    border: 1px solid rgba(201, 169, 97, 0.35);
+    border-radius: 24px;
+    z-index: 200;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    transition: top 0.3s ease-out, opacity 0.3s;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .pull-refresh.visible {
+    top: 20px;
+    opacity: 1;
+  }
+  .pull-refresh-icon {
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    color: var(--gold);
+    margin-bottom: 2px;
+    transition: transform 0.3s;
+  }
+  .pull-refresh.ready .pull-refresh-icon {
+    transform: rotate(180deg);
+  }
+  .pull-refresh.loading .pull-refresh-icon {
+    animation: pullRefreshSpin 0.8s linear infinite;
+  }
+  @keyframes pullRefreshSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  .pull-refresh-text {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    color: var(--seiten);
+  }
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body {
     height: 100%; width: 100%;
@@ -1041,6 +1156,71 @@
     margin: 0.2rem 0;
     line-height: 1;
   }
+  .compass-cal-text .accent-word {
+    color: var(--gold);
+    font-weight: 600;
+    letter-spacing: 0.3em;
+  }
+
+  /* ★v6: 北を向くステップの視覚化 */
+  .compass-cal-north-arrow {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    margin: 0 auto 1.4rem;
+  }
+  .compass-cal-north-arrow .north-compass {
+    position: absolute;
+    inset: 10px;
+    border: 2px solid rgba(201, 169, 97, 0.35);
+    border-radius: 50%;
+    box-shadow: inset 0 0 24px rgba(201, 169, 97, 0.08),
+                0 0 32px rgba(201, 169, 97, 0.15);
+    background: radial-gradient(circle at center, rgba(3,8,24,0.4), transparent 70%);
+  }
+  .compass-cal-north-arrow .north-N {
+    position: absolute;
+    top: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Cinzel', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--gold);
+    text-shadow: 0 0 16px rgba(201, 169, 97, 0.8),
+                 0 0 4px rgba(201, 169, 97, 1);
+    animation: nPulse 1.8s ease-in-out infinite;
+    z-index: 2;
+  }
+  @keyframes nPulse {
+    0%, 100% { text-shadow: 0 0 16px rgba(201, 169, 97, 0.8), 0 0 4px rgba(201, 169, 97, 1); transform: translateX(-50%) scale(1); }
+    50% { text-shadow: 0 0 28px rgba(201, 169, 97, 1), 0 0 8px rgba(201, 169, 97, 1); transform: translateX(-50%) scale(1.12); }
+  }
+  .compass-cal-north-arrow .north-needle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 6px;
+    height: 70px;
+    background: linear-gradient(180deg, var(--gold) 0%, var(--gold) 50%, transparent 50%);
+    transform-origin: center bottom;
+    transform: translate(-50%, -100%);
+    box-shadow: 0 0 12px rgba(201, 169, 97, 0.7);
+    border-radius: 3px 3px 0 0;
+  }
+  .compass-cal-north-arrow .north-needle::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 14px solid var(--gold);
+    filter: drop-shadow(0 0 8px rgba(201, 169, 97, 0.7));
+  }
   @keyframes infinityPulse {
     0%, 100% { transform: scale(1); text-shadow: 0 0 20px rgba(201, 169, 97, 0.6), 0 0 4px rgba(201, 169, 97, 0.9); }
     50% { transform: scale(1.08); text-shadow: 0 0 28px rgba(201, 169, 97, 0.85), 0 0 6px rgba(201, 169, 97, 1); }
@@ -1152,35 +1332,6 @@
   }
 
   /* ★v6: カレンダーヘッダーのブランドキャッチ（cal-title-en内に統合済み） */
-
-  /* ★v6: 瞑想女性画像（詩的装飾） */
-  .goddess-divider {
-    text-align: center;
-    margin: 2rem 0 1.5rem;
-    padding: 1.2rem 0;
-    border-top: 1px solid rgba(201, 169, 97, 0.1);
-    border-bottom: 1px solid rgba(201, 169, 97, 0.1);
-  }
-  .goddess-img {
-    width: 55%;
-    max-width: 200px;
-    height: auto;
-    border-radius: 10px;
-    box-shadow: 0 0 32px rgba(110, 196, 245, 0.18),
-                0 6px 24px rgba(0, 0, 0, 0.5);
-    filter: saturate(0.92) brightness(0.95);
-    margin-bottom: 0.8rem;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .goddess-caption {
-    font-family: 'Shippori Mincho', serif;
-    font-size: 0.66rem;
-    letter-spacing: 0.25em;
-    color: rgba(201, 169, 97, 0.55);
-    text-indent: 0.25em;
-  }
 
   .cal-title-jp {
     font-family: 'Shippori Mincho', serif;
@@ -1637,6 +1788,22 @@
 </head>
 <body>
 
+<!-- ★v6: 起動時のイントロスプラッシュ -->
+<div class="intro-splash" id="introSplash">
+  <img src="./images/meditation_goddess.jpg" alt="ツキヨガ" class="intro-splash-img">
+  <div class="intro-splash-overlay"></div>
+  <div class="intro-splash-text">
+    <div class="intro-catch">月 を 想 う 、 女 性 の た め の</div>
+    <div class="intro-title">ツ キ ヨ ガ</div>
+  </div>
+</div>
+
+<!-- ★v6: プルダウンリロードインジケーター -->
+<div class="pull-refresh" id="pullRefresh">
+  <div class="pull-refresh-icon" id="pullRefreshIcon">↓</div>
+  <div class="pull-refresh-text" id="pullRefreshText">下 に 引 い て 更 新</div>
+</div>
+
 <canvas id="mainCanvas"></canvas>
 
 <div class="top-bar">
@@ -1719,22 +1886,47 @@
 <div class="moonnav-view" id="moonnavView">
   <canvas id="navCanvas"></canvas>
 
-  <!-- ★v6: コンパスキャリブレーションモーダル（月ナビを開くたび表示） -->
+  <!-- ★v6: コンパスキャリブレーションモーダル（2ステップ） -->
   <div class="compass-cal-modal" id="compassCalModal">
     <div class="compass-cal-content">
-      <img src="./images/compass_calibration.jpg" alt="コンパスを整える"
-           class="compass-cal-img" id="compassCalImg">
-      <div class="compass-cal-title">コ ン パ ス を 整 え る</div>
-      <div class="compass-cal-text">
-        ス マ ホ で 空 に<br>
-        <span class="infinity-mark">∞</span><br>
-        （ 無 限 大 ） を 描 い て く だ さ い
+
+      <!-- Step 1: ∞を描く -->
+      <div id="compassCalStep1">
+        <img src="./images/compass_calibration.jpg" alt="コンパスを整える"
+             class="compass-cal-img">
+        <div class="compass-cal-title">コ ン パ ス を 整 え る</div>
+        <div class="compass-cal-text">
+          ス マ ホ で 空 に<br>
+          <span class="infinity-mark">∞</span><br>
+          （ 無 限 大 ） を 描 い て く だ さ い
+        </div>
+        <div class="compass-cal-sub">
+          磁 気 セ ン サ ー が 整 い 、<br>
+          月 と 太 陽 の 位 置 が 正 確 に な り ま す
+        </div>
+        <button class="compass-cal-btn" id="compassCalNext">整 え た</button>
       </div>
-      <div class="compass-cal-sub">
-        磁 気 セ ン サ ー が 整 い 、<br>
-        月 と 太 陽 の 位 置 が 正 確 に な り ま す
+
+      <!-- Step 2: 北を向く -->
+      <div id="compassCalStep2" style="display:none;">
+        <div class="compass-cal-north-arrow">
+          <div class="north-N">N</div>
+          <div class="north-compass">
+            <div class="north-needle"></div>
+          </div>
+        </div>
+        <div class="compass-cal-title">真 北 を 向 い て く だ さ い</div>
+        <div class="compass-cal-text">
+          ス マ ホ を <span class="accent-word">真 北</span> に<br>
+          ゆ っ く り 向 け て く だ さ い
+        </div>
+        <div class="compass-cal-sub">
+          向 い た 方 向 を 基 準 と し て<br>
+          月 ・ 太 陽 の 位 置 を 正 確 に 示 し ま す
+        </div>
+        <button class="compass-cal-btn" id="compassCalDone">北 を 向 い た</button>
       </div>
-      <button class="compass-cal-btn" id="compassCalDone">整 え た</button>
+
     </div>
   </div>
 
@@ -1825,13 +2017,6 @@
         </div>
       </div>
       <div class="cal-footer-mark">— 月 の 五 つ の 時 —</div>
-
-      <!-- ★v6: 瞑想女性画像（詩的装飾） -->
-      <div class="goddess-divider">
-        <img src="./images/meditation_goddess.jpg" alt="月を想う" class="goddess-img">
-        <div class="goddess-caption">月 を 想 い 、 波 と 呼 吸 を 合 わ せ る</div>
-      </div>
-
       <button class="inner-moon-btn" id="innerMoonBtn">
         <span class="flower">❀</span><span id="innerMoonBtnLabel">内 な る ツ キ を 登 録</span><span class="flower">❀</span>
       </button>
@@ -2819,8 +3004,7 @@ const COASTLINES = [
         updateCalendarView();
       } else if (view === 'moonnav') {
         document.getElementById('moonnavView').classList.add('active');
-        // ★v6: 月ナビを開くたびにコンパスキャリブレーションモーダルを表示（案B）
-        showCompassCalModal();
+        // ★v6: activateMoonNavがセンサー許可済みならコンパスモーダルを開く
         activateMoonNav();
       } else {
         deactivateMoonNav();
@@ -2828,13 +3012,24 @@ const COASTLINES = [
     });
   });
 
-  // ★v6: コンパスキャリブレーションモーダル制御
+  // ★v6: コンパスキャリブレーションモーダル制御（2ステップ）
+  // Step 1: ∞を描いてキャリブ
+  // Step 2: 北を向いて確認
   function showCompassCalModal() {
-    document.getElementById('compassCalModal').classList.add('active');
+    const modal = document.getElementById('compassCalModal');
+    modal.classList.add('active');
+    // Step 1 表示、Step 2 非表示にリセット
+    document.getElementById('compassCalStep1').style.display = 'block';
+    document.getElementById('compassCalStep2').style.display = 'none';
   }
   function hideCompassCalModal() {
     document.getElementById('compassCalModal').classList.remove('active');
   }
+  document.getElementById('compassCalNext').addEventListener('click', () => {
+    // Step 1 → Step 2 へ遷移
+    document.getElementById('compassCalStep1').style.display = 'none';
+    document.getElementById('compassCalStep2').style.display = 'block';
+  });
   document.getElementById('compassCalDone').addEventListener('click', hideCompassCalModal);
   document.getElementById('navRecalibrate').addEventListener('click', showCompassCalModal);
 
@@ -3042,6 +3237,9 @@ const COASTLINES = [
         document.getElementById('navSub').textContent = 'センサー受信なし · 端末を振ってみて';
       }
     }, 3000);
+
+    // ★v6: センサー許可後にコンパスキャリブレーションモーダルを表示
+    showCompassCalModal();
 
     return true;
   }
@@ -3372,6 +3570,9 @@ const COASTLINES = [
       document.getElementById('navPermission').style.display = 'block';
       return;
     }
+    // ★v6: 既に許可済みなら、月ナビを開くたびにコンパスモーダルを表示
+    showCompassCalModal();
+
     if (navState.animId) cancelAnimationFrame(navState.animId);
     function loop() {
       if (document.getElementById('moonnavView').classList.contains('active')) {
@@ -4396,6 +4597,100 @@ const COASTLINES = [
       show();
     }
   }, 3000);
+})();
+</script>
+
+<script>
+// ★v6: イントロスプラッシュ終了後にDOMから削除（ポインタイベント干渉防止）
+setTimeout(() => {
+  const splash = document.getElementById('introSplash');
+  if (splash) splash.remove();
+}, 4100);
+</script>
+
+<script>
+// ★v6: プルダウンリロード（スマホで下にスワイプ → リロード）
+(function() {
+  const pullEl = document.getElementById('pullRefresh');
+  const iconEl = document.getElementById('pullRefreshIcon');
+  const textEl = document.getElementById('pullRefreshText');
+  let startY = 0;
+  let currentY = 0;
+  let pulling = false;
+  const THRESHOLD = 80;  // このpxまで引いたらリロード
+
+  // スクロール可能なコンテナを見つける（calendar-view等）
+  function getScrollableTarget(e) {
+    let el = e.target;
+    while (el && el !== document.body) {
+      const style = getComputedStyle(el);
+      if ((style.overflowY === 'auto' || style.overflowY === 'scroll') && el.scrollTop > 0) {
+        return el;  // 既にスクロール中なので通常のスクロール
+      }
+      el = el.parentElement;
+    }
+    return null;
+  }
+
+  document.addEventListener('touchstart', (e) => {
+    // 既にスクロール位置が下にあるなら無視
+    const scrollable = getScrollableTarget(e);
+    if (scrollable) { pulling = false; return; }
+    // calendar-viewが最上部にあるかチェック
+    const cal = document.getElementById('calendarView');
+    if (cal && cal.classList.contains('active') && cal.scrollTop > 0) {
+      pulling = false;
+      return;
+    }
+    startY = e.touches[0].clientY;
+    pulling = true;
+  }, { passive: true });
+
+  document.addEventListener('touchmove', (e) => {
+    if (!pulling) return;
+    currentY = e.touches[0].clientY;
+    const diff = currentY - startY;
+    if (diff <= 0) {
+      // 上に引いてる場合は無視
+      pullEl.classList.remove('visible', 'ready');
+      return;
+    }
+    // calendar-viewのスクロール位置が0でないと発動しない
+    const cal = document.getElementById('calendarView');
+    if (cal && cal.classList.contains('active') && cal.scrollTop > 0) {
+      pulling = false;
+      pullEl.classList.remove('visible', 'ready');
+      return;
+    }
+    // 50px以上引いたら表示
+    if (diff > 50) {
+      pullEl.classList.add('visible');
+      if (diff > THRESHOLD) {
+        pullEl.classList.add('ready');
+        textEl.textContent = '離 し て 更 新';
+      } else {
+        pullEl.classList.remove('ready');
+        textEl.textContent = '下 に 引 い て 更 新';
+      }
+    } else {
+      pullEl.classList.remove('visible', 'ready');
+    }
+  }, { passive: true });
+
+  document.addEventListener('touchend', () => {
+    if (!pulling) return;
+    const diff = currentY - startY;
+    if (diff > THRESHOLD) {
+      // リロード実行
+      pullEl.classList.add('loading');
+      textEl.textContent = '更 新 し て い ま す';
+      iconEl.textContent = '↻';
+      setTimeout(() => location.reload(), 400);
+    } else {
+      pullEl.classList.remove('visible', 'ready');
+    }
+    pulling = false;
+  });
 })();
 </script>
 
