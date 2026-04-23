@@ -488,6 +488,59 @@
 
   .brand-text .sub { display: none; }
 
+  /* ★v6: シューマン共振F1表示（右下固定、タブバーの上） */
+  .schumann-display {
+    position: fixed;
+    bottom: 88px;
+    right: 14px;
+    z-index: 15;
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: rgba(201, 169, 97, 0.85);
+    text-shadow: 0 0 10px rgba(201, 169, 97, 0.4),
+                 0 0 2px rgba(201, 169, 97, 0.6);
+    line-height: 1;
+    text-align: right;
+    padding: 6px 10px;
+    background: rgba(3, 8, 24, 0.55);
+    border-radius: 12px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    opacity: 0;
+    animation: schumannFadeIn 1.4s ease-out 1s forwards;
+    transition: color 1s, text-shadow 1s;
+    pointer-events: auto;
+    user-select: none;
+  }
+  .schumann-display[data-level="high"] .schumann-value {
+    color: #ff9a6e;
+    text-shadow: 0 0 14px rgba(255, 154, 110, 0.6);
+  }
+  .schumann-display[data-level="medium"] .schumann-value {
+    color: #d4c28a;
+    text-shadow: 0 0 12px rgba(212, 194, 138, 0.45);
+  }
+  .schumann-display[data-level="low"] .schumann-value {
+    color: #6ec4f5;
+    text-shadow: 0 0 12px rgba(110, 196, 245, 0.4);
+  }
+  .schumann-value {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: #d4c28a;
+  }
+  .schumann-unit {
+    font-size: 0.62rem;
+    color: rgba(201, 169, 97, 0.65);
+    margin-left: 2px;
+    letter-spacing: 0.05em;
+  }
+  @keyframes schumannFadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
   .moon-position-text {
     position: fixed;
     bottom: 180px;
@@ -666,7 +719,7 @@
     background: linear-gradient(180deg, #0a1428 0%, #030818 100%);
     border-top: 1px solid rgba(201, 169, 97, 0.3);
     border-radius: 20px 20px 0 0;
-    padding: 24px 22px 26px;
+    padding: 0 22px 26px;
     max-height: 80vh;
     overflow-y: auto;
     animation: modalSlideUp 0.35s ease-out;
@@ -677,11 +730,38 @@
     to { transform: translateY(0); }
   }
 
+  /* ★v6: 手帳画像を背景に使ったヘッダー */
   .memo-modal-header {
+    position: relative;
+    margin: 0 -22px 1rem;
+    padding: 20px 22px 18px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
+    align-items: flex-end;
+    min-height: 200px;
+    background-image:
+      linear-gradient(180deg,
+        rgba(3, 8, 24, 0.18) 0%,
+        rgba(3, 8, 24, 0.35) 45%,
+        rgba(3, 8, 24, 0.85) 85%,
+        rgba(3, 8, 24, 0.96) 100%),
+      url('./images/memo_journal.jpg');
+    background-size: cover;
+    background-position: center 25%;
+    background-repeat: no-repeat;
+    border-radius: 20px 20px 0 0;
+  }
+
+  /* ヘッダー下端のグロウ仕切り */
+  .memo-modal-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 22px; right: 22px;
+    height: 1px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(201, 169, 97, 0.35) 50%,
+      transparent 100%);
   }
 
   .memo-modal-date {
@@ -690,6 +770,8 @@
     font-weight: 600;
     letter-spacing: 0.25em;
     color: var(--moon-white);
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9),
+                 0 0 20px rgba(0, 0, 0, 0.6);
   }
 
   .memo-modal-date-group {
@@ -702,8 +784,9 @@
     font-family: 'Shippori Mincho', serif;
     font-size: 0.72rem;
     letter-spacing: 0.2em;
-    color: rgba(160, 190, 230, 0.65);
+    color: rgba(160, 190, 230, 0.85);
     line-height: 1.5;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
   }
 
   .memo-modal-lunar .lunar-name {
@@ -719,9 +802,11 @@
     gap: 8px;
     font-family: 'Shippori Mincho', serif;
     padding: 6px 10px;
-    border: 1px solid rgba(201, 169, 97, 0.25);
+    border: 1px solid rgba(201, 169, 97, 0.4);
     border-radius: 6px;
-    background: rgba(201, 169, 97, 0.04);
+    background: rgba(3, 8, 24, 0.55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
   }
   .memo-modal-seiten:empty { display: none; }
   .memo-modal-seiten .seiten-badge {
@@ -734,16 +819,17 @@
     color: var(--gold);
     font-family: 'Cinzel', serif;
     font-size: 0.85rem;
-    background: rgba(201, 169, 97, 0.1);
+    background: rgba(201, 169, 97, 0.15);
     flex-shrink: 0;
   }
   .memo-modal-seiten .seiten-name {
     color: var(--gold);
     font-size: 0.92rem;
     letter-spacing: 0.22em;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
   }
   .memo-modal-seiten .seiten-astro {
-    color: rgba(201, 169, 97, 0.55);
+    color: rgba(201, 169, 97, 0.65);
     font-size: 0.65rem;
     letter-spacing: 0.15em;
   }
@@ -753,6 +839,7 @@
     font-size: 1rem;
     letter-spacing: 0.12em;
     margin-left: auto;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
   }
 
   .memo-modal-tide {
@@ -760,41 +847,49 @@
     font-family: 'Shippori Mincho', serif;
     font-size: 0.72rem;
     letter-spacing: 0.12em;
-    color: rgba(170, 200, 230, 0.72);
+    color: rgba(200, 220, 240, 0.92);
     line-height: 1.7;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
   }
   .memo-modal-tide:empty { display: none; }
   .memo-modal-tide .tide-row {
     display: flex; gap: 10px; align-items: baseline;
   }
   .memo-modal-tide .tide-label {
-    color: rgba(201, 169, 97, 0.8);
+    color: rgba(255, 200, 130, 0.95);
     min-width: 3.2em;
     letter-spacing: 0.35em;
     font-size: 0.68rem;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
   }
   .memo-modal-tide .tide-times {
     font-family: 'Cinzel', serif;
     letter-spacing: 0.12em;
-    font-size: 0.78rem;
+    font-size: 0.82rem;
+    color: var(--moon-white);
   }
   .memo-modal-tide .tide-port {
-    font-size: 0.6rem;
-    opacity: 0.55;
+    font-size: 0.62rem;
+    opacity: 0.85;
     letter-spacing: 0.3em;
     margin-top: 2px;
-    color: rgba(160, 190, 230, 0.6);
+    color: rgba(180, 210, 240, 0.85);
   }
 
   .memo-modal-close {
-    background: none;
-    border: 1px solid rgba(138, 160, 184, 0.3);
-    color: var(--ink-dim);
+    background: rgba(3, 8, 24, 0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(200, 220, 240, 0.45);
+    color: var(--moon-white);
     width: 30px; height: 30px;
     border-radius: 50%;
     font-size: 1.2rem;
     cursor: pointer;
     line-height: 1;
+    flex-shrink: 0;
+    align-self: flex-start;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
   }
 
   .memo-section-label {
@@ -823,6 +918,98 @@
   }
   .memo-textarea:focus { border-color: var(--blue); }
   .memo-textarea::placeholder { color: rgba(138, 160, 184, 0.4); }
+
+  /* ★v6: 潮汐港名タップ可能に */
+  .tide-port {
+    cursor: pointer;
+    transition: color 0.2s;
+    padding: 2px 4px;
+    display: inline-block;
+  }
+  .tide-port:hover,
+  .tide-port:active {
+    color: var(--gold);
+  }
+  .tide-port.override {
+    color: var(--sakura);
+  }
+
+  /* ★v6: 港選択モーダル */
+  .port-modal-content {
+    max-width: 360px;
+    max-height: 80vh;
+    padding: 24px 22px 26px;
+  }
+  /* 港選択モーダル・内なるツキモーダルは画像背景を使わない */
+  #portModal .memo-modal-header,
+  #innerModal .memo-modal-header {
+    background: none;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  #portModal .memo-modal-header::after,
+  #innerModal .memo-modal-header::after { display: none; }
+  #innerModal .memo-modal-content {
+    padding: 24px 22px 26px;
+  }
+  .port-modal-hint {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.72rem;
+    line-height: 1.8;
+    letter-spacing: 0.12em;
+    color: var(--ink-dim);
+    text-align: center;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(110, 196, 245, 0.12);
+    margin-bottom: 0.6rem;
+  }
+  .port-list {
+    max-height: 50vh;
+    overflow-y: auto;
+    padding: 0.3rem 0;
+  }
+  .port-list-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.7rem 0.9rem;
+    margin-bottom: 0.4rem;
+    background: rgba(10, 20, 40, 0.5);
+    border: 1px solid rgba(110, 196, 245, 0.12);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .port-list-item:hover,
+  .port-list-item:active {
+    border-color: var(--gold);
+    background: rgba(201, 169, 97, 0.08);
+  }
+  .port-list-item.current {
+    border-color: var(--gold);
+    background: rgba(201, 169, 97, 0.12);
+  }
+  .port-list-name {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.92rem;
+    letter-spacing: 0.18em;
+    color: var(--moon-white);
+  }
+  .port-list-dist {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    color: var(--ink-dim);
+    letter-spacing: 0.05em;
+  }
+  .port-list-item.nearest .port-list-dist {
+    color: var(--seiten);
+    font-weight: 500;
+  }
 
   .memo-modal-footer {
     display: flex;
@@ -1128,15 +1315,35 @@
     max-width: 340px;
     width: 100%;
   }
-  .compass-cal-img {
+  /* ★v6: 画像ボックス（テキストオーバーレイ） */
+  .compass-cal-imgbox {
+    position: relative;
     width: 100%;
-    max-width: 280px;
-    height: auto;
+    max-width: 300px;
+    margin: 0 auto 1.2rem;
     border-radius: 12px;
+    overflow: hidden;
     box-shadow: 0 0 40px rgba(110, 196, 245, 0.2),
                 0 8px 32px rgba(0, 0, 0, 0.6);
-    margin-bottom: 1.4rem;
     animation: calImgFadeIn 0.8s ease-out;
+  }
+  .compass-cal-img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  /* 画像下部に配置するテキストオーバーレイ */
+  .compass-cal-img-overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 1rem 0.8rem 1.2rem;
+    text-align: center;
+    background: linear-gradient(180deg,
+      rgba(3, 8, 24, 0) 0%,
+      rgba(3, 8, 24, 0.7) 40%,
+      rgba(3, 8, 24, 0.92) 100%);
   }
   @keyframes calImgFadeIn {
     from { opacity: 0; transform: scale(0.95); }
@@ -1144,30 +1351,32 @@
   }
   .compass-cal-title {
     font-family: 'Shippori Mincho', serif;
-    font-size: 1.15rem;
-    letter-spacing: 0.35em;
+    font-size: 1.05rem;
+    letter-spacing: 0.3em;
     color: var(--seiten);
-    text-shadow: 0 0 16px rgba(212, 194, 138, 0.3);
-    margin-bottom: 1.2rem;
-    text-indent: 0.35em;
+    text-shadow: 0 0 16px rgba(212, 194, 138, 0.5),
+                 0 2px 8px rgba(0, 0, 0, 0.9);
+    margin-bottom: 0.6rem;
+    text-indent: 0.3em;
   }
   .compass-cal-text {
     font-family: 'Shippori Mincho', serif;
-    font-size: 0.88rem;
-    line-height: 2;
+    font-size: 0.78rem;
+    line-height: 1.7;
     letter-spacing: 0.15em;
-    color: var(--ink-dim);
-    margin-bottom: 2rem;
+    color: var(--moon-white);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+    margin-bottom: 0;
   }
   .compass-cal-text .infinity-mark {
     display: inline-block;
     font-family: 'Cinzel', serif;
-    font-size: 2.6rem;
+    font-size: 2rem;
     color: var(--gold);
-    text-shadow: 0 0 20px rgba(201, 169, 97, 0.6),
+    text-shadow: 0 0 20px rgba(201, 169, 97, 0.7),
                  0 0 4px rgba(201, 169, 97, 0.9);
     animation: infinityPulse 2.5s ease-in-out infinite;
-    margin: 0.2rem 0;
+    margin: 0.1rem 0;
     line-height: 1;
   }
   .compass-cal-text .accent-word {
@@ -1181,7 +1390,7 @@
     position: relative;
     width: 240px;
     height: 240px;
-    margin: 3.5rem auto 1.2rem;
+    margin: 3rem auto 1rem;
   }
   .real-compass-dial {
     position: relative;
@@ -1309,7 +1518,7 @@
   /* 度数表示（盤面の上・固定、お手本画像の「13° 北」の位置） */
   .real-compass-readout {
     position: absolute;
-    top: -68px;
+    top: -80px;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
@@ -2045,13 +2254,13 @@
   /* ★v6: 5聖点を時計配置で（楕円・月の軌道に見立てて） */
   .seiten-clock {
     position: relative;
-    width: 260px;
-    height: 210px;
-    margin: 0.5rem auto 1.2rem;
+    width: 220px;
+    height: 180px;
+    margin: 0.3rem auto 0.8rem;
   }
   .sc-ring {
     position: absolute;
-    inset: 18px;
+    inset: 14px;
     border: 1px solid rgba(201, 169, 97, 0.22);
     border-radius: 50%;
     box-shadow: inset 0 0 24px rgba(201, 169, 97, 0.06),
@@ -2060,41 +2269,88 @@
   .sc-ring::before {
     content: '';
     position: absolute;
-    inset: 14px;
+    inset: 12px;
     border: 1px dashed rgba(201, 169, 97, 0.1);
     border-radius: 50%;
+  }
+  /* ★v6: 時計回りの流れを示す矢印（4方向） */
+  .sc-arrow {
+    position: absolute;
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    color: rgba(201, 169, 97, 0.55);
+    text-shadow: 0 0 8px rgba(201, 169, 97, 0.35);
+    line-height: 1;
+    pointer-events: none;
+    animation: scArrowPulse 3.2s ease-in-out infinite;
+  }
+  .sc-arrow-ne { top: 20%;  right: 18%; animation-delay: 0s; }
+  .sc-arrow-se { bottom: 20%; right: 18%; animation-delay: 0.8s; }
+  .sc-arrow-sw { bottom: 20%; left: 18%; animation-delay: 1.6s; }
+  .sc-arrow-nw { top: 20%;  left: 18%; animation-delay: 2.4s; }
+  @keyframes scArrowPulse {
+    0%, 100% { opacity: 0.35; transform: scale(1); }
+    50% { opacity: 0.85; transform: scale(1.1); }
   }
   .sc-pos {
     position: absolute;
     font-family: 'Shippori Mincho', serif;
-    font-size: 0.82rem;
-    letter-spacing: 0.08em;
+    font-size: 0.74rem;
+    letter-spacing: 0.06em;
     color: var(--seiten);
     text-align: center;
-    line-height: 1.3;
+    line-height: 1.25;
     white-space: nowrap;
     text-shadow: 0 0 8px rgba(212, 194, 138, 0.2);
   }
   .sc-num {
     display: block;
     font-family: 'Cinzel', serif;
-    font-size: 0.82rem;
+    font-size: 0.78rem;
     color: var(--gold);
-    margin-top: 2px;
+    margin-top: 1px;
     letter-spacing: 0.05em;
   }
-  .sc-12 { top: 0;    left: 50%; transform: translateX(-50%); }
-  .sc-3  { right: -4px; top: 50%; transform: translateY(-50%); }
-  .sc-6  { bottom: 0; left: 50%; transform: translateX(-50%); }
-  .sc-9  { left: -4px; top: 50%; transform: translateY(-50%); }
-  .sc-center {
+  .sc-12 { top: -2px; left: 50%; transform: translateX(-50%); }
+  .sc-3  { right: -6px; top: 50%; transform: translateY(-50%); }
+  .sc-6  { bottom: -2px; left: 50%; transform: translateX(-50%); }
+  .sc-9  { left: -6px; top: 50%; transform: translateY(-50%); }
+
+  /* ★v6: 中央の「はなさかり」をタップ可能ボタンに */
+  .sc-center-btn {
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
+    background: transparent;
+    border: none;
+    padding: 0.6rem 0.9rem;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .sc-center-btn::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 50%;
+    border: 1px dashed rgba(255, 175, 205, 0.35);
+    animation: scCenterRing 3s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .sc-center-btn:hover,
+  .sc-center-btn:active {
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+  .sc-center-btn:active::after {
+    border-color: rgba(255, 175, 205, 0.8);
+  }
+  @keyframes scCenterRing {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.15); }
   }
   .sc-flower {
-    font-size: 2rem;
+    font-size: 1.9rem;
     color: var(--sakura);
     text-shadow: 0 0 16px rgba(255, 175, 205, 0.65),
                  0 0 4px rgba(255, 175, 205, 0.9);
@@ -2107,10 +2363,11 @@
   }
   .sc-label {
     font-family: 'Shippori Mincho', serif;
-    font-size: 0.72rem;
-    letter-spacing: 0.2em;
+    font-size: 0.66rem;
+    letter-spacing: 0.15em;
     color: var(--sakura-dim);
-    margin-top: 0.4rem;
+    margin-top: 0.3rem;
+    white-space: nowrap;
   }
 
   .cal-footer-mark {
@@ -2169,6 +2426,11 @@
   </div>
 </div>
 
+<!-- ★v6: シューマン共振F1（右下固定、タブバー上） -->
+<div class="schumann-display" id="schumannDisplay" title="シューマン共振 第一次モード">
+  <span class="schumann-value" id="schumannF1">—.—</span><span class="schumann-unit">Hz</span>
+</div>
+
 <div class="rotation-hint" id="rotHint">
   指 で 回 転 ・ ピ ン チ で ズ ー ム
 </div>
@@ -2207,12 +2469,29 @@
       </div>
       <button class="memo-modal-close" id="memoClose">×</button>
     </div>
+
     <div class="memo-section-label">メ モ</div>
     <textarea class="memo-textarea" id="memoTextarea" placeholder="ツ キ と 対 話 、 心 の 動 き を 記 す 。"></textarea>
     <div class="memo-modal-footer">
       <button class="memo-btn memo-btn-delete" id="memoDelete">削 除</button>
       <button class="memo-btn memo-btn-save" id="memoSave">保 存</button>
     </div>
+  </div>
+</div>
+
+<!-- ★v6: 港選択モーダル -->
+<div class="memo-modal" id="portModal">
+  <div class="memo-modal-backdrop"></div>
+  <div class="memo-modal-content port-modal-content">
+    <div class="memo-modal-header">
+      <div class="memo-modal-date">港 を 選 ぶ</div>
+      <button class="memo-modal-close" id="portClose">×</button>
+    </div>
+    <div class="port-modal-hint">
+      干 満 時 刻 は 選 ん だ 港 の も の に 切 り 替 わ り ま す <br>
+      （ こ の 日 だ け ）
+    </div>
+    <div class="port-list" id="portList"></div>
   </div>
 </div>
 
@@ -2270,13 +2549,18 @@
   <!-- ★v6: Step 3: コンパスキャリブレーション（水平にコンパスを整える女性＋∞＋実物方位磁石） -->
   <div class="compass-cal-modal" id="compassCalModal">
     <div class="compass-cal-content">
-      <img src="./images/compass_horizontal.jpg" alt="コンパスを整える"
-           class="compass-cal-img">
-      <div class="compass-cal-title">コ ン パ ス を 整 え る</div>
-      <div class="compass-cal-text">
-        ス マ ホ で<br>
-        <span class="infinity-mark">∞</span><br>
-        を 描 い て く だ さ い
+      <!-- 画像＋テキストオーバーレイ -->
+      <div class="compass-cal-imgbox">
+        <img src="./images/compass_horizontal.jpg" alt="コンパスを合わせる"
+             class="compass-cal-img">
+        <div class="compass-cal-img-overlay">
+          <div class="compass-cal-title">コ ン パ ス を 合 わ せ る</div>
+          <div class="compass-cal-text">
+            ス マ ホ で<br>
+            <span class="infinity-mark">∞</span><br>
+            を 描 い て く だ さ い
+          </div>
+        </div>
       </div>
 
       <!-- 実物方位磁石UI -->
@@ -2310,11 +2594,7 @@
         </div>
       </div>
 
-      <div class="compass-cal-sub">
-        下 の 方 位 磁 石 で<br>
-        北 （ ▲ ） に 合 わ せ て く だ さ い
-      </div>
-      <button class="compass-cal-btn" id="compassCalNext">方 角 を 整 え た</button>
+      <button class="compass-cal-btn" id="compassCalNext">方 位 を 合 わ せ た</button>
     </div>
   </div>
 
@@ -2384,19 +2664,20 @@
     <div class="cal-footer">
       <div class="seiten-clock">
         <div class="sc-ring"></div>
+        <!-- 4つの矢印（時計回り・一周を示す） -->
+        <div class="sc-arrow sc-arrow-ne">↘</div>
+        <div class="sc-arrow sc-arrow-se">↙</div>
+        <div class="sc-arrow sc-arrow-sw">↖</div>
+        <div class="sc-arrow sc-arrow-nw">↗</div>
         <div class="sc-pos sc-12">つ き た ち<span class="sc-num">0</span></div>
         <div class="sc-pos sc-3">か た み に<span class="sc-num">3</span></div>
         <div class="sc-pos sc-6">く ま な し<span class="sc-num">6</span></div>
         <div class="sc-pos sc-9">あ り あ け<span class="sc-num">9</span></div>
-        <div class="sc-center">
+        <button class="sc-center sc-center-btn" id="innerMoonBtn" aria-label="内なるツキを登録">
           <div class="sc-flower">❀</div>
-          <div class="sc-label">は な さ か り</div>
-        </div>
+          <div class="sc-label" id="innerMoonBtnLabel">は な さ か り</div>
+        </button>
       </div>
-      <div class="cal-footer-mark">— 月 の 五 つ の 時 —</div>
-      <button class="inner-moon-btn" id="innerMoonBtn">
-        <span class="flower">❀</span><span id="innerMoonBtnLabel">内 な る ツ キ を 登 録</span><span class="flower">❀</span>
-      </button>
       <div class="inner-moon-status" id="innerMoonStatus">未 登 録</div>
     </div>
   </div>
@@ -3734,16 +4015,23 @@ const COASTLINES = [
     // 空を向いた時にbeta=90付近（スマホ画面を上向きに立てる）
     // 本アプリでは「空を見上げる方向」をpitch=0として扱うため、
     // beta=90（直立）→pitch=0、beta=0（水平下向き）→pitch=-90 の変換
-    let pitch = beta - 90;  // シンプル変換
+    let pitch = beta - 90;
     // -90～90の範囲にクランプ
     if (pitch > 90) pitch = 180 - pitch;
     if (pitch < -90) pitch = -180 - pitch;
 
+    // ★v6: roll（左右の傾き）をgammaから計算
+    // gamma: Y軸まわりの回転、スマホを左右にねじった角度
+    // roll=0 は「スマホが垂直に立ってる」状態
+    // これを入れないと、スマホを斜めに持ったとき月の画面位置が横にズレる
+    let roll = gamma;
+
     if (heading !== null) {
-      const ALPHA1 = 0.25;
+      // ★v6: LPF係数を0.5に上げて反応速度を優先（月の「追いかけっこ」を防ぐ）
+      const ALPHA1 = 0.5;
       navState.heading = lpfAngle(navState.heading, heading, ALPHA1);
       navState.pitch = lpfLinear(navState.pitch, pitch, ALPHA1);
-      navState.roll = 0;
+      navState.roll = lpfLinear(navState.roll, roll, ALPHA1);
     }
 
     // ★v6: コンパス画面用の生の方位（加工なし）
@@ -3887,18 +4175,11 @@ const COASTLINES = [
     navCtx.setTransform(navDpr, 0, 0, navDpr, 0, 0);
     navCtx.clearRect(0, 0, w, h);
 
-    const pitchAbs = Math.abs(navState.pitch);
-    const alpha2 = pitchAbs > 70 ? 0.06 : 0.15;
-    navState.smoothHeading = lpfAngle(navState.smoothHeading, navState.heading, alpha2);
-    navState.smoothPitch = lpfLinear(navState.smoothPitch, navState.pitch, alpha2);
-    navState.smoothRoll = lpfLinear(navState.smoothRoll, navState.roll, alpha2);
-
-    // ★v6: 月ナビ本体も、コンパス画面と同じ「生の磁気方位」を使う
-    // これで方位磁石アプリとの値のズレが無くなる
-    // 生の値が取れてない場合のみ、旧ロジックのsmoothHeadingにフォールバック
-    const heading = (navState.compassRaw !== null) ? navState.compassRaw : navState.smoothHeading;
-    const pitch = navState.smoothPitch;
-    const roll = navState.smoothRoll;
+    // ★v6: 2段目の平滑化は削除（遅延が大きすぎて月が逃げる症状の原因）
+    // handleNavOrientationで既に1段目のLPFが入ってる。それで十分滑らか。
+    const heading = (navState.compassRaw !== null) ? navState.compassRaw : navState.heading;
+    const pitch = navState.pitch;
+    const roll = navState.roll;
     const fov = 70;
 
     for (const star of navState.stars) {
@@ -4752,16 +5033,28 @@ const COASTLINES = [
     // 潮汐
     const tideEl = document.getElementById('memoTide');
     tideEl.innerHTML = '';
-    getTideForDate(dateStr).then(tide => {
+    // ★v6: その日だけ港を上書きしてるならそれを優先
+    const overrideKey = `tsukiyoga-port-override-${dateStr}`;
+    const overrideCode = localStorage.getItem(overrideKey);
+    const tidePromise = overrideCode
+      ? getTideForDateWithPort(dateStr, overrideCode)
+      : getTideForDate(dateStr);
+    tidePromise.then(tide => {
       if (modal.dataset.date !== dateStr) return;
       if (!tide) return;
       const fmt = arr => arr.map(([t]) => t).join('　　');
       const highStr = tide.high.length ? fmt(tide.high) : '—';
       const lowStr  = tide.low.length  ? fmt(tide.low)  : '—';
+      const portClass = overrideCode ? 'tide-port override' : 'tide-port';
+      const portLabel = overrideCode ? `◆ ${tide.port.name}（切替中）` : `— ${tide.port.name}`;
       tideEl.innerHTML =
         `<div class="tide-row"><span class="tide-label">満 潮</span><span class="tide-times">${highStr}</span></div>` +
         `<div class="tide-row"><span class="tide-label">干 潮</span><span class="tide-times">${lowStr}</span></div>` +
-        `<div class="tide-port">— ${tide.port.name}</div>`;
+        `<div class="${portClass}" data-port-switch="1">${portLabel}</div>`;
+      const portEl = tideEl.querySelector('.tide-port');
+      if (portEl) {
+        portEl.addEventListener('click', () => openPortModal(dateStr));
+      }
     }).catch(() => {});
 
     modal.classList.add('active');
@@ -4783,10 +5076,94 @@ const COASTLINES = [
 
   document.getElementById('memoDelete').addEventListener('click', () => {
     const modal = document.getElementById('memoModal');
-    localStorage.removeItem(`tsukiyoga-memo-${modal.dataset.date}`);
+    const dateStr = modal.dataset.date;
+    localStorage.removeItem(`tsukiyoga-memo-${dateStr}`);
     modal.classList.remove('active');
     renderCal(calYear, calMonth);
   });
+
+  // ★v6: 港選択機能
+  async function getTideForDateWithPort(dateStr, code) {
+    await loadTidePorts();
+    if (!tidePortsMeta || !tidePortsMeta.ports) return null;
+    const port = tidePortsMeta.ports.find(p => p.code === code);
+    if (!port) return null;
+    const year = parseInt(dateStr.slice(0, 4), 10);
+    const data = await loadTideDataFor(code, year);
+    if (!data || !data.days || !data.days[dateStr]) return null;
+    return {
+      port: port,
+      high: data.days[dateStr].high || [],
+      low:  data.days[dateStr].low  || []
+    };
+  }
+
+  async function openPortModal(dateStr) {
+    await loadTidePorts();
+    if (!tidePortsMeta || !tidePortsMeta.ports) return;
+    const portModal = document.getElementById('portModal');
+    const listEl = document.getElementById('portList');
+    portModal.dataset.date = dateStr;
+
+    // 現在地からの距離順でソート、最寄りを強調
+    const ports = tidePortsMeta.ports.map(p => ({
+      ...p,
+      distKm: haversineKm(userLocation.lat, userLocation.lon, p.lat, p.lon)
+    })).sort((a, b) => a.distKm - b.distKm);
+
+    const overrideKey = `tsukiyoga-port-override-${dateStr}`;
+    const currentCode = localStorage.getItem(overrideKey) || (nearestPortCache && nearestPortCache.code);
+
+    // 「最寄り（デフォルト）」オプションを先頭に
+    let html = '';
+    html += `<div class="port-list-item ${!localStorage.getItem(overrideKey) ? 'current' : ''}" data-port-code="__auto__">`;
+    html += `  <span class="port-list-name">自 動 （ 最 寄 り ）</span>`;
+    html += `  <span class="port-list-dist">現 在 地 か ら</span>`;
+    html += `</div>`;
+    ports.forEach((p, i) => {
+      const isCurrent = p.code === currentCode;
+      const isNearest = i === 0;
+      html += `<div class="port-list-item ${isCurrent ? 'current' : ''} ${isNearest ? 'nearest' : ''}" data-port-code="${p.code}">`;
+      html += `  <span class="port-list-name">${p.name}</span>`;
+      html += `  <span class="port-list-dist">${Math.round(p.distKm)}km</span>`;
+      html += `</div>`;
+    });
+    listEl.innerHTML = html;
+
+    listEl.querySelectorAll('.port-list-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const code = item.dataset.portCode;
+        const date = portModal.dataset.date;
+        if (code === '__auto__') {
+          localStorage.removeItem(`tsukiyoga-port-override-${date}`);
+        } else {
+          localStorage.setItem(`tsukiyoga-port-override-${date}`, code);
+        }
+        portModal.classList.remove('active');
+        // メモモーダルを再描画
+        openMemoModal(date);
+      });
+    });
+
+    portModal.classList.add('active');
+  }
+
+  document.getElementById('portClose').addEventListener('click', () => {
+    document.getElementById('portModal').classList.remove('active');
+  });
+  document.querySelector('#portModal .memo-modal-backdrop').addEventListener('click', () => {
+    document.getElementById('portModal').classList.remove('active');
+  });
+
+  // ★v6: 残存アラームデータのクリーンアップ（アラーム機能は廃止したため）
+  (function cleanupOldAlarms() {
+    const keysToRemove = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith('tsukiyoga-alarm-')) keysToRemove.push(key);
+    }
+    keysToRemove.forEach(k => localStorage.removeItem(k));
+  })();
 
   document.getElementById('memoClose').addEventListener('click', () => {
     document.getElementById('memoModal').classList.remove('active');
@@ -4798,12 +5175,10 @@ const COASTLINES = [
 
   // ★v6: 内側のツキボタンのラベルを旧暦月で動的更新
   function updateInnerMoonBtnLabel() {
-    const lunarMonthNames = ['睦月','如月','弥生','卯月','皐月','水無月',
-                             '文月','葉月','長月','神無月','霜月','師走'];
-    const lunar = getLunarDate(new Date());
-    const monthName = lunarMonthNames[lunar.month - 1] || '';
-    document.getElementById('innerMoonBtnLabel').textContent =
-      `${monthName.split('').join(' ')} の 内 な る ツ キ を 登 録`;
+    // ★v6: 中央ボタンのラベルは「はなさかり」のまま。
+    // 旧暦月名は登録モーダル側（innerModalTitle）で表示する。
+    const label = document.getElementById('innerMoonBtnLabel');
+    if (label) label.textContent = 'は な さ か り';
   }
 
   // 内側のツキ
@@ -5257,6 +5632,98 @@ setTimeout(() => {
     }
     pulling = false;
   });
+})();
+</script>
+
+<script>
+// ★v6: シューマン共振F1リアルタイム表示
+// みつろうさんのシューマン共振ダッシュボードv5のJSONデータを取得
+// ファイル: schumann_data.json (GitHub Actionsで15分ごと更新)
+// データ構造: { modes: { F1: { hz: 7.88, confidence: 90 }, ... } }
+(function() {
+  const SCHUMANN_SOURCES = [
+    // 同じGitHub Pagesリポジトリ内（相対パス、最速・CORS問題なし）
+    './schumann_data.json',
+    // フォールバック: 絶対URL
+    'https://mitsulow.github.io/0Lei/schumann_data.json',
+    // 旧形式のフォールバック
+    'https://mitsulow.github.io/0Lei/schumann-latest.json'
+  ];
+  const STANDARD_F1 = 7.83;
+
+  function extractF1(data) {
+    if (!data) return null;
+    // v5形式: data.modes.F1.hz が主
+    const candidates = [
+      data.modes?.F1?.hz,
+      data.modes?.f1?.hz,
+      data.F1?.hz,
+      data.f1?.hz,
+      data.F1,
+      data.f1,
+      data.freq1,
+      data.frequencies?.f1,
+      data.bands?.[0]?.freq,
+      data.peaks?.[0]?.frequency
+    ];
+    for (const c of candidates) {
+      if (typeof c === 'number' && c > 5 && c < 12) return c;
+    }
+    return null;
+  }
+
+  async function fetchSchumannData() {
+    for (const url of SCHUMANN_SOURCES) {
+      try {
+        const res = await fetch(url, { cache: 'no-store' });
+        if (!res.ok) continue;
+        const data = await res.json();
+        const f1 = extractF1(data);
+        if (f1 !== null) {
+          return { f1, data, url };
+        }
+      } catch (e) { /* try next */ }
+    }
+    return null;
+  }
+
+  async function updateSchumannDisplay() {
+    const el = document.getElementById('schumannF1');
+    const display = document.getElementById('schumannDisplay');
+    if (!el) return;
+    const result = await fetchSchumannData();
+    if (result) {
+      el.textContent = result.f1.toFixed(2);
+      // 振幅レベルで色を変える（オプション）
+      if (display) {
+        display.style.opacity = '1';
+        const level = result.data?.amplitude_level;
+        display.dataset.level = level || '';
+        // ツールチップ情報を更新（hover時に詳細表示）
+        const conf = result.data?.modes?.F1?.confidence;
+        const t = result.data?.timestamp;
+        if (t) {
+          const dt = new Date(t);
+          const mm = String(dt.getMinutes()).padStart(2, '0');
+          const hh = String(dt.getHours()).padStart(2, '0');
+          display.title = `シューマン共振 F1 (第一次モード)\n${hh}:${mm} 取得` +
+                          (conf ? ` · 信頼度 ${conf}%` : '') +
+                          (level ? ` · 活動度 ${level}` : '');
+        }
+      }
+    } else {
+      // データ取得失敗時は標準値を薄く表示
+      el.textContent = STANDARD_F1.toFixed(2);
+      if (display) {
+        display.style.opacity = '0.55';
+        display.title = 'シューマン共振データを取得できませんでした（標準値7.83Hz表示中）';
+      }
+    }
+  }
+
+  // 初回取得＋15分ごとに更新（schumann_data.jsonの更新サイクルに合わせる）
+  updateSchumannDisplay();
+  setInterval(updateSchumannDisplay, 15 * 60 * 1000);
 })();
 </script>
 
