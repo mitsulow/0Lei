@@ -2551,6 +2551,58 @@
   }
 
   .rotation-hint.hidden { opacity: 0; }
+
+  /* ★v6: 地面アップ時の人形の向き切替UI */
+  .surface-nav {
+    position: fixed;
+    bottom: 110px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 15;
+    display: flex;
+    gap: 1.4rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.45s ease;
+  }
+  .surface-nav.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .surface-nav-btn {
+    background: rgba(8, 16, 30, 0.55);
+    border: 1px solid rgba(160, 212, 245, 0.35);
+    color: rgba(220, 232, 248, 0.92);
+    padding: 0.55rem 1.05rem;
+    border-radius: 999px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    cursor: pointer;
+    font-family: inherit;
+    letter-spacing: 0.18em;
+    font-size: 0.72rem;
+    transition: all 0.25s ease;
+  }
+  .surface-nav-btn:hover {
+    background: rgba(160, 212, 245, 0.15);
+    border-color: rgba(160, 212, 245, 0.65);
+  }
+  .surface-nav-btn.active {
+    background: rgba(255, 224, 136, 0.18);
+    border-color: rgba(255, 224, 136, 0.75);
+    color: #ffe088;
+    box-shadow: 0 0 18px rgba(255, 224, 136, 0.25);
+  }
+  .sn-arrow {
+    font-size: 1rem;
+    line-height: 1;
+  }
+  .sn-label {
+    font-size: 0.7rem;
+  }
 </style>
 </head>
 <body>
@@ -2591,6 +2643,18 @@
 
 <div class="rotation-hint" id="rotHint">
   指 で 回 転 ・ ピ ン チ で ズ ー ム
+</div>
+
+<!-- ★v6: 地面アップ時のみ表示される、観測者人形の向き切替UI -->
+<div class="surface-nav" id="surfaceNav">
+  <button class="surface-nav-btn" id="faceNorthBtn" data-facing="0">
+    <span class="sn-arrow">↑</span>
+    <span class="sn-label">北 向 き</span>
+  </button>
+  <button class="surface-nav-btn" id="faceSouthBtn" data-facing="1">
+    <span class="sn-arrow">↓</span>
+    <span class="sn-label">南 向 き</span>
+  </button>
 </div>
 
 <div class="moon-position-text">
@@ -3607,7 +3671,28 @@ const COASTLINES = [
 
   const nahaUp = nahaPos.clone().normalize();
   personGroup.position.copy(nahaPos.clone().add(nahaUp.clone().multiplyScalar(0.09)));
-  personGroup.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), nahaUp);
+
+  // ★v6: 人形の向きを北向き/南向きで切替可能に
+  function updatePersonFacing() {
+    const up = nahaPos.clone().normalize();
+    // 那覇地平面の「北」ベクトル（地球のY軸投影）
+    const north = new THREE.Vector3(0, 1, 0)
+      .sub(up.clone().multiplyScalar(up.y))
+      .normalize();
+    const east = new THREE.Vector3().crossVectors(up, north).normalize();
+
+    let facing = north;
+    let right = east;
+    if (state.personFacing === 1) {
+      // 南向き：Z軸とX軸を反転
+      facing = north.clone().multiplyScalar(-1);
+      right = east.clone().multiplyScalar(-1);
+    }
+    // ローカル: X=右手方向, Y=上, Z=顔の向き
+    const m = new THREE.Matrix4().makeBasis(right, up, facing);
+    personGroup.setRotationFromMatrix(m);
+  }
+  updatePersonFacing();
   updatePersonTimeOfDay();
 
   const sunGroup = new THREE.Group();
@@ -3686,19 +3771,23 @@ const COASTLINES = [
     userRotX: 0, userRotY: 0,
     autoRotateSpeed: 0.0008,
     lastResonanceTime: 0, hintShown: true,
-    targetZoom: 8.0, currentZoom: 8.0
+    targetZoom: 8.0, currentZoom: 8.0,
+    cameraRoll: 0,           // ★v6: 2本指ツイストによるカメラロール（世界ごと回転）
+    personFacing: 0          // ★v6: 0=北向き, 1=南向き
   };
 
   let isDragging = false;
   let dragStart = { x: 0, y: 0 };
   let rotStart = { x: 0, y: 0 };
   let lastPinch = 0;
+  let lastPinchAngle = null;   // ★v6: 2本指ツイスト検出用
 
   function onPointerDown(e) {
     if (e.touches && e.touches.length === 2) {
       const dx = e.touches[0].clientX - e.touches[1].clientX;
       const dy = e.touches[0].clientY - e.touches[1].clientY;
       lastPinch = Math.sqrt(dx * dx + dy * dy);
+      lastPinchAngle = Math.atan2(dy, dx);   // ★v6: 初期角度記録
       isDragging = false;
       return;
     }
@@ -3717,11 +3806,19 @@ const COASTLINES = [
       const dx = e.touches[0].clientX - e.touches[1].clientX;
       const dy = e.touches[0].clientY - e.touches[1].clientY;
       const dist = Math.sqrt(dx * dx + dy * dy);
+      const angle = Math.atan2(dy, dx);   // ★v6: 現在の2本指角度
       if (lastPinch > 0) {
         state.targetZoom += (lastPinch - dist) * 0.02;
-        state.targetZoom = Math.max(2.2, Math.min(14, state.targetZoom));
+        state.targetZoom = Math.max(1.08, Math.min(40, state.targetZoom));
+      }
+      if (lastPinchAngle !== null) {   // ★v6: ツイスト差分をカメラロールへ
+        let dAngle = angle - lastPinchAngle;
+        while (dAngle > Math.PI) dAngle -= 2 * Math.PI;
+        while (dAngle < -Math.PI) dAngle += 2 * Math.PI;
+        state.cameraRoll += dAngle;
       }
       lastPinch = dist;
+      lastPinchAngle = angle;
       e.preventDefault();
       return;
     }
@@ -3736,12 +3833,15 @@ const COASTLINES = [
 
   function onPointerUp(e) {
     isDragging = false;
-    if (e.touches && e.touches.length === 0) lastPinch = 0;
+    if (e.touches && e.touches.length === 0) {
+      lastPinch = 0;
+      lastPinchAngle = null;   // ★v6
+    }
   }
 
   function onWheel(e) {
     state.targetZoom += e.deltaY * 0.004;
-    state.targetZoom = Math.max(2.2, Math.min(14, state.targetZoom));
+    state.targetZoom = Math.max(1.08, Math.min(40, state.targetZoom));
     e.preventDefault();
   }
 
@@ -5564,6 +5664,17 @@ const COASTLINES = [
 
     state.currentZoom += (state.targetZoom - state.currentZoom) * 0.08;
     camera.position.z = state.currentZoom;
+    camera.rotation.z = state.cameraRoll;   // ★v6: 2本指ツイストによるロール（世界ごと回転）
+
+    // ★v6: 地面アップ時のみ北・南矢印UIを表示
+    const surfaceNav = document.getElementById('surfaceNav');
+    if (surfaceNav) {
+      if (state.currentZoom < 2.0) {
+        surfaceNav.classList.add('visible');
+      } else {
+        surfaceNav.classList.remove('visible');
+      }
+    }
 
     renderer.render(scene, camera);
   }
@@ -5580,6 +5691,26 @@ const COASTLINES = [
     state.userRotX = -moonAltitude * 0.4;
     state.targetZoom = 8.0;
     state.currentZoom = 8.0;
+  })();
+
+  // ★v6: 地面アップ時の北・南切替ボタンのイベントハンドラ
+  (function setupSurfaceNav() {
+    const btnN = document.getElementById('faceNorthBtn');
+    const btnS = document.getElementById('faceSouthBtn');
+    if (!btnN || !btnS) return;
+    btnN.classList.add('active');   // 初期状態は北向き
+    btnN.addEventListener('click', () => {
+      state.personFacing = 0;
+      updatePersonFacing();
+      btnN.classList.add('active');
+      btnS.classList.remove('active');
+    });
+    btnS.addEventListener('click', () => {
+      state.personFacing = 1;
+      updatePersonFacing();
+      btnS.classList.add('active');
+      btnN.classList.remove('active');
+    });
   })();
 
   animate();
