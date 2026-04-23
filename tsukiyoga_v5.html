@@ -1176,7 +1176,7 @@
     letter-spacing: 0.3em;
   }
 
-  /* ★v6: 実物方位磁石UI */
+  /* ★v6: 実物方位磁石UI（オープンソースの王道パターンに書き直し） */
   .real-compass {
     position: relative;
     width: 240px;
@@ -1194,41 +1194,64 @@
       inset 0 0 32px rgba(201, 169, 97, 0.08);
     background:
       radial-gradient(circle at center, rgba(3,8,24,0.5) 30%, rgba(3,8,24,0.2) 70%, transparent 100%);
-    transition: transform 0.08s linear;
+    /* ★秘伝のタレ：JSで毎フレーム値を変えず、CSSで滑らかに補間 */
+    transition: transform 0.18s linear;
     will-change: transform;
   }
-  .compass-cardinal {
+  /* ★北のマーカー（赤い短い線） */
+  .compass-north-mark {
     position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 14px;
+    background: #e74c3c;
+    box-shadow: 0 0 6px rgba(231, 76, 60, 0.8);
+    border-radius: 2px;
+    z-index: 3;
+  }
+  .compass-cardinal,
+  .compass-deg {
+    position: absolute;
+    transform-origin: center;
+    transition: transform 0.18s linear;
+  }
+  .compass-cardinal {
     font-family: 'Shippori Mincho', serif;
     font-size: 1.4rem;
     font-weight: 600;
     color: var(--moon-white);
     text-shadow: 0 0 8px rgba(244, 239, 216, 0.4);
+    width: 32px;
+    text-align: center;
   }
   .compass-N {
-    color: var(--sakura);
-    text-shadow: 0 0 12px rgba(255, 175, 205, 0.6);
-    top: 6px; left: 50%; transform: translateX(-50%);
+    top: 26px; left: 50%;
+    margin-left: -16px;
+    color: #f4efd8;
+    text-shadow: 0 0 12px rgba(244, 239, 216, 0.6);
   }
-  .compass-E { right: 8px; top: 50%; transform: translateY(-50%); }
-  .compass-S { bottom: 6px; left: 50%; transform: translateX(-50%); }
-  .compass-W { left: 8px; top: 50%; transform: translateY(-50%); }
+  .compass-E { top: 50%; right: 26px; margin-top: -12px; }
+  .compass-S { bottom: 26px; left: 50%; margin-left: -16px; }
+  .compass-W { top: 50%; left: 26px; margin-top: -12px; }
 
   .compass-deg {
-    position: absolute;
     font-family: 'Cinzel', serif;
-    font-size: 0.66rem;
+    font-size: 0.7rem;
     color: var(--ink-dim);
-    letter-spacing: 0;
+    width: 28px;
+    text-align: center;
   }
-  .compass-deg-30  { top: 18px;  right: 54px; transform: rotate(0deg); }
-  .compass-deg-60  { top: 54px;  right: 18px; transform: rotate(0deg); }
-  .compass-deg-120 { bottom: 54px; right: 18px; }
-  .compass-deg-150 { bottom: 18px; right: 54px; }
-  .compass-deg-210 { bottom: 18px; left: 54px; }
-  .compass-deg-240 { bottom: 54px; left: 18px; }
-  .compass-deg-300 { top: 54px;  left: 18px; }
-  .compass-deg-330 { top: 18px;  left: 54px; }
+  /* 30度刻み：半径95pxの位置に配置（240pxダイアル／2 = 120px、内側85px辺り） */
+  .compass-deg-30  { top: 32px; left: calc(50% + 42px); }
+  .compass-deg-60  { top: calc(50% - 40px); right: 16px; }
+  .compass-deg-120 { bottom: calc(50% - 40px); right: 16px; }
+  .compass-deg-150 { bottom: 32px; left: calc(50% + 42px); }
+  .compass-deg-210 { bottom: 32px; right: calc(50% + 42px); }
+  .compass-deg-240 { bottom: calc(50% - 40px); left: 16px; }
+  .compass-deg-300 { top: calc(50% - 40px); left: 16px; }
+  .compass-deg-330 { top: 32px; right: calc(50% + 42px); }
 
   .compass-ticks {
     position: absolute;
@@ -1283,35 +1306,43 @@
     z-index: 5;
   }
 
-  /* 度数表示 */
+  /* 度数表示（盤面の上・固定、お手本画像の「13° 北」の位置） */
   .real-compass-readout {
     position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
+    top: -52px;
+    left: 50%;
+    transform: translateX(-50%);
     text-align: center;
     pointer-events: none;
-    z-index: 2;
+    z-index: 10;
+    white-space: nowrap;
   }
   .real-compass-readout #realCompassDeg {
     font-family: 'Cinzel', serif;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     font-weight: 600;
     color: var(--moon-white);
     text-shadow: 0 0 12px rgba(110, 196, 245, 0.4);
   }
   .compass-deg-unit {
     font-family: 'Cinzel', serif;
-    font-size: 1.2rem;
-    color: var(--ink-dim);
+    font-size: 1rem;
+    color: var(--moon-white);
+    margin-right: 0.3em;
   }
   .real-compass-readout .compass-direction {
-    display: block;
     font-family: 'Shippori Mincho', serif;
+    font-size: 1rem;
+    letter-spacing: 0.2em;
+    color: var(--moon-white);
+    margin-left: 0.3em;
+  }
+  .readout-arrow {
     font-size: 0.85rem;
-    letter-spacing: 0.25em;
-    color: var(--seiten);
-    margin-top: 0.2rem;
-    text-indent: 0.25em;
+    color: var(--moon-white);
+    margin-top: 2px;
+    line-height: 1;
+    opacity: 0.9;
   }
 
   /* ★v6: 月ナビ用イントロ（Step 1） */
@@ -1321,7 +1352,14 @@
     z-index: 40;
     overflow: hidden;
     pointer-events: none;
-    animation: navIntroFadeOut 0.6s ease-in 2.8s forwards;
+    opacity: 1;
+    transition: opacity 0.6s ease-in;
+  }
+  .nav-intro.fade-out {
+    opacity: 0;
+  }
+  .nav-intro.hidden {
+    display: none;
   }
   .nav-intro-img {
     position: absolute;
@@ -1331,6 +1369,10 @@
     object-fit: cover;
     opacity: 0;
     animation: navIntroImgIn 1s ease-out forwards;
+  }
+  .nav-intro.hidden .nav-intro-img,
+  .nav-intro.hidden .nav-intro-text {
+    animation: none;
   }
   .nav-intro-overlay {
     position: absolute;
@@ -2198,9 +2240,9 @@
 <div class="moonnav-view" id="moonnavView">
   <canvas id="navCanvas"></canvas>
 
-  <!-- ★v6: Step 1: 月ナビ用イントロ（女性画像フェード） -->
+  <!-- ★v6: Step 1: 月ナビ用イントロ（スマホを持つ女性の手元） -->
   <div class="nav-intro" id="navIntro">
-    <img src="./images/meditation_goddess.jpg" alt="スマホでツキ探し" class="nav-intro-img">
+    <img src="./images/compass_calibration.jpg" alt="スマホでツキ探し" class="nav-intro-img">
     <div class="nav-intro-overlay"></div>
     <div class="nav-intro-text">
       <div class="nav-intro-sub">ス マ ホ で ツ キ 探 し</div>
@@ -2240,7 +2282,9 @@
       <!-- 実物方位磁石UI -->
       <div class="real-compass">
         <div class="real-compass-dial" id="realCompassDial">
-          <!-- 方位の数字と漢字を30度ごとに配置 -->
+          <!-- 北のマーカー（赤い縦線） -->
+          <div class="compass-north-mark"></div>
+          <!-- 方位の数字と漢字を配置 -->
           <div class="compass-cardinal compass-N">北</div>
           <div class="compass-deg compass-deg-30">30</div>
           <div class="compass-deg compass-deg-60">60</div>
@@ -2257,15 +2301,12 @@
           <div class="compass-ticks">
             <div class="compass-tick-ring"></div>
           </div>
-          <!-- 中心の十字 -->
-          <div class="compass-crosshair"></div>
         </div>
-        <!-- 上部の三角矢印（固定） -->
-        <div class="real-compass-pointer"></div>
-        <!-- 度数表示 -->
+        <!-- 度数表示（盤面の上、固定） -->
         <div class="real-compass-readout">
           <span id="realCompassDeg">—</span><span class="compass-deg-unit">°</span>
           <span class="compass-direction" id="realCompassDirection">—</span>
+          <div class="readout-arrow">▼</div>
         </div>
       </div>
 
@@ -3358,13 +3399,20 @@ const COASTLINES = [
 
   function showNavIntro() {
     const intro = document.getElementById('navIntro');
+    // 許可モーダルを一旦非表示に（アニメ中に重ならないように）
+    document.getElementById('navPermission').style.display = 'none';
     if (intro) {
+      // リセット
+      intro.classList.remove('fade-out', 'hidden');
       intro.style.display = 'block';
-      intro.style.animation = 'none';
       void intro.offsetWidth;  // reflow
-      intro.style.animation = '';
+      // 2.8秒後にフェードアウト開始
       setTimeout(() => {
-        intro.style.display = 'none';
+        intro.classList.add('fade-out');
+      }, 2800);
+      // 3.4秒後に完全に消して次のステップへ
+      setTimeout(() => {
+        intro.classList.add('hidden');
         proceedToPermission();
       }, 3400);
     } else {
@@ -3421,16 +3469,18 @@ const COASTLINES = [
     const degEl = document.getElementById('realCompassDeg');
     const dirEl = document.getElementById('realCompassDirection');
     if (!dial) return;
-    // ★v6: コンパス画面では「生の磁気方位」を使う（加工なし）
-    // navState.compassRaw が null なら、まだセンサーデータが来てない
     if (navState.compassRaw === null) {
       degEl.textContent = '—';
       dirEl.textContent = '—';
       return;
     }
     const heading = navState.compassRaw;
-    // 盤面を-heading度回転（スマホが北向きなら盤面の「北」が上に来る）
+    // 盤面を-heading度回転：スマホが北を向いてる時、盤面の「北」が真上に来る
     dial.style.transform = `rotate(${-heading}deg)`;
+    // 文字・数字を+heading度逆回転して水平を保つ
+    dial.querySelectorAll('.compass-cardinal, .compass-deg').forEach(el => {
+      el.style.transform = `rotate(${heading}deg)`;
+    });
     // 度数表示
     const h = Math.round(heading);
     degEl.textContent = h;
@@ -3647,55 +3697,51 @@ const COASTLINES = [
     navState.rawAlpha = alpha;
     navState.rawBeta = beta;
     navState.rawGamma = gamma;
-    const sky = deviceToSky(alpha, beta, gamma, navState.screenOrient);
-    if (typeof e.webkitCompassHeading === 'number') {
-      sky.heading = e.webkitCompassHeading;
-    }
-    // ★v6: 磁気偏角補正（磁北→真北）
-    // iOS webkitCompassHeading: 磁北基準 → 真北にするには偏角を「引く」（西偏は負値なので実際は加算）
-    // Android alpha: 端末によって磁北基準と真北基準が混在（真北基準の機種では過補正を避ける）
-    const decl = getMagneticDeclination(userLocation.lat, userLocation.lon);
-    // 磁北基準（iOS webkit）のみ補正を適用
-    // Androidは標準で真北を返すことが多いので補正をskip
-    if (typeof e.webkitCompassHeading === 'number') {
-      sky.heading = norm360(sky.heading - decl);
-    }
-    const ALPHA1 = 0.25;
-    navState.heading = lpfAngle(navState.heading, sky.heading, ALPHA1);
-    navState.pitch = lpfLinear(navState.pitch, sky.pitch, ALPHA1);
-    navState.roll = lpfLinear(navState.roll, sky.roll, ALPHA1);
 
-    // ★v6: コンパス画面用の「生の磁気方位」（加工なし、他のコンパスアプリと同じ挙動）
-    // スマホを傾けたり画面回転しても、コンパス値だけは独立して安定させる
+    // ★v6: heading（方位）は、webkitCompassHeading または (360 - alpha) を直接使う
+    // これがMDN/オープンソースの王道パターン。余計な補正を一切かけない
+    let heading = null;
+    if (typeof e.webkitCompassHeading === 'number') {
+      heading = e.webkitCompassHeading;
+    } else if (typeof e.alpha === 'number') {
+      heading = (360 - e.alpha) % 360;
+    }
+
+    // pitch（傾き）はbetaから計算（スマホが縦/横/空向きかの判定）
+    // beta: X軸まわりの回転、スマホを水平に前後に傾けた角度（0=水平、90=直立、-90=裏返し）
+    // 空を向いた時にbeta=90付近（スマホ画面を上向きに立てる）
+    // 本アプリでは「空を見上げる方向」をpitch=0として扱うため、
+    // beta=90（直立）→pitch=0、beta=0（水平下向き）→pitch=-90 の変換
+    let pitch = beta - 90;  // シンプル変換
+    // -90～90の範囲にクランプ
+    if (pitch > 90) pitch = 180 - pitch;
+    if (pitch < -90) pitch = -180 - pitch;
+
+    if (heading !== null) {
+      const ALPHA1 = 0.25;
+      navState.heading = lpfAngle(navState.heading, heading, ALPHA1);
+      navState.pitch = lpfLinear(navState.pitch, pitch, ALPHA1);
+      navState.roll = 0;
+    }
+
+    // ★v6: コンパス画面用の生の方位（加工なし）
     handleRawCompass(e);
   }
 
-  // ★v6: コンパス画面専用の方位取得
-  // - webkitCompassHeading があれば、それをそのまま使う（iOS）
-  // - deviceorientationabsolute の alpha を使う（Android）
-  // - 磁気偏角補正もスクリーン回転補正もしない → 市販の方位磁石アプリと同じ動作
+  // ★v6: コンパス画面専用の方位取得（MDN/オープンソースの王道パターン）
+  // - iOS: webkitCompassHeading をそのまま使う（既に傾き補正＆磁北基準でチューニング済み）
+  // - Android: 360 - alpha で方位に変換（alphaは反時計回りなので）
+  // - 平滑化はCSS transitionで行い、JSでは生の値をそのまま渡す
+  // - 偏角補正もしない（磁北で十分、他の市販コンパスアプリと同じ挙動）
   function handleRawCompass(e) {
     let raw = null;
     if (typeof e.webkitCompassHeading === 'number') {
-      raw = e.webkitCompassHeading;  // iOS: 既に磁北基準の正しい値
-    } else if (e.absolute === true && typeof e.alpha === 'number') {
-      // Android absolute: 360 - alpha が方位
-      raw = (360 - e.alpha) % 360;
+      raw = e.webkitCompassHeading;
     } else if (typeof e.alpha === 'number') {
-      // 相対値のフォールバック（あてにならない）
       raw = (360 - e.alpha) % 360;
     }
     if (raw !== null) {
-      // 角度の連続性を保つように平滑化（±180境界をまたぐ問題を回避）
-      if (navState.compassRaw === null) {
-        navState.compassRaw = raw;
-      } else {
-        // 最短経路で近づける
-        let diff = raw - navState.compassRaw;
-        if (diff > 180) diff -= 360;
-        if (diff < -180) diff += 360;
-        navState.compassRaw = (navState.compassRaw + diff * 0.3 + 360) % 360;
-      }
+      navState.compassRaw = raw;  // ★生の値をそのまま保持
     }
   }
 
