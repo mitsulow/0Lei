@@ -3645,7 +3645,12 @@ const COASTLINES = [
     nahaPos.copy(pos);
     const up = pos.clone().normalize();
     personGroup.position.copy(pos.clone().add(up.clone().multiplyScalar(0.09)));
-    personGroup.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), up);
+    // ★v6: state の personFacing を尊重した向きに更新
+    if (typeof state !== 'undefined' && state) {
+      updatePersonFacing();
+    } else {
+      personGroup.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), up);
+    }
     if (typeof nahaCore !== 'undefined' && nahaCore) nahaCore.position.copy(pos);
     if (typeof nahaHalo !== 'undefined' && nahaHalo) nahaHalo.position.copy(pos);
     if (typeof pillar !== 'undefined' && pillar) {
@@ -3692,7 +3697,9 @@ const COASTLINES = [
     const m = new THREE.Matrix4().makeBasis(right, up, facing);
     personGroup.setRotationFromMatrix(m);
   }
-  updatePersonFacing();
+  // ★ 注意: updatePersonFacing() は state 定義後に呼び出すこと
+  // まずは旧来の向き設定で仮置き（state定義後に上書きされる）
+  personGroup.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), nahaUp);
   updatePersonTimeOfDay();
 
   const sunGroup = new THREE.Group();
@@ -5692,6 +5699,9 @@ const COASTLINES = [
     state.targetZoom = 8.0;
     state.currentZoom = 8.0;
   })();
+
+  // ★v6: state 定義後に人形の向きを正式設定（北向きデフォルト）
+  updatePersonFacing();
 
   // ★v6: 地面アップ時の北・南切替ボタンのイベントハンドラ
   (function setupSurfaceNav() {
