@@ -720,7 +720,7 @@
     border-top: 1px solid rgba(201, 169, 97, 0.3);
     border-radius: 20px 20px 0 0;
     padding: 0 22px 26px;
-    max-height: 80vh;
+    max-height: 90vh;
     overflow-y: auto;
     animation: modalSlideUp 0.35s ease-out;
   }
@@ -730,21 +730,16 @@
     to { transform: translateY(0); }
   }
 
-  /* ★v6: 手帳画像を背景に使ったヘッダー */
-  .memo-modal-header {
-    position: relative;
-    margin: 0 -22px 1rem;
-    padding: 20px 22px 18px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    min-height: 200px;
+  /* ★v6: メモモーダル上端のヒーロー画像 */
+  .memo-hero-img {
+    width: calc(100% + 44px);
+    margin: 0 -22px 1.2rem;
+    height: 180px;
     background-image:
       linear-gradient(180deg,
-        rgba(3, 8, 24, 0.18) 0%,
-        rgba(3, 8, 24, 0.35) 45%,
-        rgba(3, 8, 24, 0.85) 85%,
-        rgba(3, 8, 24, 0.96) 100%),
+        rgba(3, 8, 24, 0) 0%,
+        rgba(3, 8, 24, 0) 70%,
+        rgba(3, 8, 24, 0.9) 100%),
       url('./images/memo_journal.jpg');
     background-size: cover;
     background-position: center 25%;
@@ -752,16 +747,11 @@
     border-radius: 20px 20px 0 0;
   }
 
-  /* ヘッダー下端のグロウ仕切り */
-  .memo-modal-header::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 22px; right: 22px;
-    height: 1px;
-    background: linear-gradient(90deg,
-      transparent 0%,
-      rgba(201, 169, 97, 0.35) 50%,
-      transparent 100%);
+  .memo-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
   }
 
   .memo-modal-date {
@@ -770,8 +760,6 @@
     font-weight: 600;
     letter-spacing: 0.25em;
     color: var(--moon-white);
-    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9),
-                 0 0 20px rgba(0, 0, 0, 0.6);
   }
 
   .memo-modal-date-group {
@@ -784,9 +772,8 @@
     font-family: 'Shippori Mincho', serif;
     font-size: 0.72rem;
     letter-spacing: 0.2em;
-    color: rgba(160, 190, 230, 0.85);
+    color: rgba(160, 190, 230, 0.75);
     line-height: 1.5;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
   }
 
   .memo-modal-lunar .lunar-name {
@@ -802,11 +789,9 @@
     gap: 8px;
     font-family: 'Shippori Mincho', serif;
     padding: 6px 10px;
-    border: 1px solid rgba(201, 169, 97, 0.4);
+    border: 1px solid rgba(201, 169, 97, 0.25);
     border-radius: 6px;
-    background: rgba(3, 8, 24, 0.55);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    background: rgba(201, 169, 97, 0.04);
   }
   .memo-modal-seiten:empty { display: none; }
   .memo-modal-seiten .seiten-badge {
@@ -819,17 +804,16 @@
     color: var(--gold);
     font-family: 'Cinzel', serif;
     font-size: 0.85rem;
-    background: rgba(201, 169, 97, 0.15);
+    background: rgba(201, 169, 97, 0.1);
     flex-shrink: 0;
   }
   .memo-modal-seiten .seiten-name {
     color: var(--gold);
     font-size: 0.92rem;
     letter-spacing: 0.22em;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
   }
   .memo-modal-seiten .seiten-astro {
-    color: rgba(201, 169, 97, 0.65);
+    color: rgba(201, 169, 97, 0.55);
     font-size: 0.65rem;
     letter-spacing: 0.15em;
   }
@@ -839,7 +823,6 @@
     font-size: 1rem;
     letter-spacing: 0.12em;
     margin-left: auto;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
   }
 
   .memo-modal-tide {
@@ -847,49 +830,110 @@
     font-family: 'Shippori Mincho', serif;
     font-size: 0.72rem;
     letter-spacing: 0.12em;
-    color: rgba(200, 220, 240, 0.92);
+    color: rgba(170, 200, 230, 0.72);
     line-height: 1.7;
-    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
   }
   .memo-modal-tide:empty { display: none; }
   .memo-modal-tide .tide-row {
     display: flex; gap: 10px; align-items: baseline;
   }
   .memo-modal-tide .tide-label {
-    color: rgba(255, 200, 130, 0.95);
+    color: rgba(201, 169, 97, 0.8);
     min-width: 3.2em;
     letter-spacing: 0.35em;
     font-size: 0.68rem;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
   }
   .memo-modal-tide .tide-times {
     font-family: 'Cinzel', serif;
     letter-spacing: 0.12em;
-    font-size: 0.82rem;
-    color: var(--moon-white);
+    font-size: 0.78rem;
   }
   .memo-modal-tide .tide-port {
-    font-size: 0.62rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    margin-top: 8px;
+    padding: 4px 10px 4px 8px;
+    background: rgba(201, 169, 97, 0.08);
+    border: 1px solid rgba(201, 169, 97, 0.4);
+    border-radius: 14px;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--seiten);
+    cursor: pointer;
+    transition: all 0.25s;
+    /* ボタンタグ用のリセット */
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    /* 起動直後に3回だけパルス */
+    animation: tidePortPulse 2.4s ease-in-out 3;
+  }
+  .memo-modal-tide .tide-port:hover,
+  .memo-modal-tide .tide-port:active {
+    background: rgba(201, 169, 97, 0.2);
+    border-color: var(--gold);
+    transform: translateY(-1px);
+  }
+  .memo-modal-tide .tide-port::before {
+    content: '港';
+    display: inline-block;
+    padding-right: 0.45em;
+    border-right: 1px solid rgba(201, 169, 97, 0.35);
+    color: var(--gold);
+    font-size: 0.68rem;
+    letter-spacing: 0;
+    font-weight: 500;
+  }
+  .memo-modal-tide .tide-port::after {
+    content: '▾';
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    font-size: 0.75rem;
+    letter-spacing: 0;
+    line-height: 1;
+    margin-left: 0.15em;
     opacity: 0.85;
-    letter-spacing: 0.3em;
-    margin-top: 2px;
-    color: rgba(180, 210, 240, 0.85);
+  }
+  .memo-modal-tide .tide-port.override {
+    background: rgba(255, 175, 205, 0.12);
+    border-color: rgba(255, 175, 205, 0.5);
+    color: var(--sakura);
+  }
+  .memo-modal-tide .tide-port.override::before { color: var(--sakura); }
+  .memo-modal-tide .tide-port.override::after { color: var(--sakura); }
+  .memo-modal-tide .tide-port .tide-port-name {
+    font-weight: 500;
+  }
+  .memo-modal-tide .tide-port .tide-port-sub {
+    font-size: 0.56rem;
+    letter-spacing: 0.2em;
+    opacity: 0.8;
+    margin-left: 0.1em;
+  }
+  @keyframes tidePortPulse {
+    0%, 100% {
+      box-shadow: 0 0 0 rgba(201, 169, 97, 0);
+      border-color: rgba(201, 169, 97, 0.4);
+    }
+    50% {
+      box-shadow: 0 0 16px rgba(201, 169, 97, 0.55),
+                  0 0 4px rgba(201, 169, 97, 0.8);
+      border-color: rgba(201, 169, 97, 0.9);
+    }
   }
 
   .memo-modal-close {
-    background: rgba(3, 8, 24, 0.6);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    border: 1px solid rgba(200, 220, 240, 0.45);
-    color: var(--moon-white);
+    background: none;
+    border: 1px solid rgba(138, 160, 184, 0.3);
+    color: var(--ink-dim);
     width: 30px; height: 30px;
     border-radius: 50%;
     font-size: 1.2rem;
     cursor: pointer;
     line-height: 1;
     flex-shrink: 0;
-    align-self: flex-start;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
   }
 
   .memo-section-label {
@@ -940,20 +984,11 @@
     max-height: 80vh;
     padding: 24px 22px 26px;
   }
-  /* 港選択モーダル・内なるツキモーダルは画像背景を使わない */
-  #portModal .memo-modal-header,
-  #innerModal .memo-modal-header {
-    background: none;
-    min-height: 0;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
+  /* 港選択モーダル・内なるツキモーダルは画像を出さない */
+  #portModal .memo-hero-img,
+  #innerModal .memo-hero-img {
+    display: none;
   }
-  #portModal .memo-modal-header::after,
-  #innerModal .memo-modal-header::after { display: none; }
   #innerModal .memo-modal-content {
     padding: 24px 22px 26px;
   }
@@ -2349,6 +2384,47 @@
     0%, 100% { opacity: 0.4; transform: scale(1); }
     50% { opacity: 0.8; transform: scale(1.15); }
   }
+
+  /* ★v6: はなさかりボタンのプッシュ誘導矢印（未登録時のみ） */
+  .sc-push-hint {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 4px;
+    text-align: center;
+    pointer-events: none;
+    z-index: 5;
+  }
+  /* 登録済みなら非表示 */
+  .sc-center-btn.registered .sc-push-hint {
+    display: none;
+  }
+  .push-arrow {
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    color: var(--sakura);
+    line-height: 1;
+    text-shadow: 0 0 12px rgba(255, 175, 205, 0.8),
+                 0 0 4px rgba(255, 175, 205, 1);
+    animation: pushArrowSlide 1.8s ease-in-out infinite;
+  }
+  .push-arrow-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.5rem;
+    letter-spacing: 0.3em;
+    color: var(--sakura);
+    text-shadow: 0 0 8px rgba(255, 175, 205, 0.6);
+    margin-top: 2px;
+    opacity: 0.7;
+  }
+  @keyframes pushArrowSlide {
+    0%   { opacity: 0; transform: translateY(-14px); }
+    25%  { opacity: 1; transform: translateY(-8px); }
+    50%  { opacity: 1; transform: translateY(-2px); }
+    75%  { opacity: 0.6; transform: translateY(2px); }
+    100% { opacity: 0; transform: translateY(6px); }
+  }
   .sc-flower {
     font-size: 1.9rem;
     color: var(--sakura);
@@ -2460,6 +2536,9 @@
 <div class="memo-modal" id="memoModal">
   <div class="memo-modal-backdrop"></div>
   <div class="memo-modal-content">
+    <!-- ★v6: ヒーロー画像エリア（モーダル上端、独立） -->
+    <div class="memo-hero-img"></div>
+
     <div class="memo-modal-header">
       <div class="memo-modal-date-group">
         <div class="memo-modal-date" id="memoDate">—</div>
@@ -2674,6 +2753,11 @@
         <div class="sc-pos sc-6">く ま な し<span class="sc-num">6</span></div>
         <div class="sc-pos sc-9">あ り あ け<span class="sc-num">9</span></div>
         <button class="sc-center sc-center-btn" id="innerMoonBtn" aria-label="内なるツキを登録">
+          <!-- ★v6: プッシュ誘導矢印（未登録時のみ表示） -->
+          <div class="sc-push-hint" id="scPushHint">
+            <div class="push-arrow">↓</div>
+            <div class="push-arrow-label">P U S H</div>
+          </div>
           <div class="sc-flower">❀</div>
           <div class="sc-label" id="innerMoonBtnLabel">は な さ か り</div>
         </button>
@@ -5046,11 +5130,13 @@ const COASTLINES = [
       const highStr = tide.high.length ? fmt(tide.high) : '—';
       const lowStr  = tide.low.length  ? fmt(tide.low)  : '—';
       const portClass = overrideCode ? 'tide-port override' : 'tide-port';
-      const portLabel = overrideCode ? `◆ ${tide.port.name}（切替中）` : `— ${tide.port.name}`;
+      const portLabel = overrideCode
+        ? `<span class="tide-port-name">${tide.port.name}</span><span class="tide-port-sub"> · 切替中</span>`
+        : `<span class="tide-port-name">${tide.port.name}</span>`;
       tideEl.innerHTML =
         `<div class="tide-row"><span class="tide-label">満 潮</span><span class="tide-times">${highStr}</span></div>` +
         `<div class="tide-row"><span class="tide-label">干 潮</span><span class="tide-times">${lowStr}</span></div>` +
-        `<div class="${portClass}" data-port-switch="1">${portLabel}</div>`;
+        `<button class="${portClass}" data-port-switch="1" aria-label="港を変更">${portLabel}</button>`;
       const portEl = tideEl.querySelector('.tide-port');
       if (portEl) {
         portEl.addEventListener('click', () => openPortModal(dateStr));
@@ -5185,11 +5271,16 @@ const COASTLINES = [
   function updateInnerStatus() {
     updateInnerMoonBtnLabel();
     const el = document.getElementById('innerMoonStatus');
+    const centerBtn = document.getElementById('innerMoonBtn');
     const last = getLastPeriod();
     if (!last) {
       el.innerHTML = '未 登 録';
       el.classList.remove('set', 'needs-update');
+      // ★v6: 未登録 → プッシュ矢印を表示
+      if (centerBtn) centerBtn.classList.remove('registered');
     } else {
+      // ★v6: 登録済み → プッシュ矢印を非表示
+      if (centerBtn) centerBtn.classList.add('registered');
       const iso = last.toISOString().split('T')[0];
       const [y, m, d] = iso.split('-');
       const daysAgo = Math.floor((Date.now() - last.getTime()) / 86400000);
