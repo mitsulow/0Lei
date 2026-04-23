@@ -2200,19 +2200,18 @@
 
   <!-- ★v6: Step 1: 月ナビ用イントロ（女性画像フェード） -->
   <div class="nav-intro" id="navIntro">
-    <img src="./images/meditation_goddess.jpg" alt="月を探して" class="nav-intro-img">
+    <img src="./images/meditation_goddess.jpg" alt="スマホでツキ探し" class="nav-intro-img">
     <div class="nav-intro-overlay"></div>
     <div class="nav-intro-text">
-      <div class="nav-intro-sub">ス マ ホ で 、 空 へ</div>
+      <div class="nav-intro-sub">ス マ ホ で ツ キ 探 し</div>
     </div>
   </div>
 
   <!-- ★v6: Step 2: センサー許可モーダル（常時 / アプリ使用時） -->
   <div class="nav-permission" id="navPermission">
-    <div class="nav-permission-bigtitle">ツ キ を ス マ ホ で 探 せ ま す</div>
+    <div class="nav-permission-bigtitle">ス マ ホ で ツ キ を 探 す</div>
     <div class="nav-permission-text">
-      セ ン サ ー を<br>
-      許 可 し ま す か ？
+      セ ン サ ー を 許 可 し ま す か ？
     </div>
     <div class="permission-choices">
       <button class="nav-permission-btn permission-always" id="navPermissionAlways">
@@ -2233,9 +2232,9 @@
            class="compass-cal-img">
       <div class="compass-cal-title">コ ン パ ス を 整 え る</div>
       <div class="compass-cal-text">
-        ス マ ホ で 空 に<br>
+        ス マ ホ で<br>
         <span class="infinity-mark">∞</span><br>
-        （ 無 限 大 ） を 描 い て く だ さ い
+        を 描 い て く だ さ い
       </div>
 
       <!-- 実物方位磁石UI -->
@@ -2271,16 +2270,16 @@
       </div>
 
       <div class="compass-cal-sub">
-        数 字 と 方 角 が 動 き ま す<br>
-        ス マ ホ の 向 き を 確 か め な が ら
+        下 の 方 位 磁 石 で<br>
+        北 （ ▲ ） に 合 わ せ て く だ さ い
       </div>
       <button class="compass-cal-btn" id="compassCalNext">方 角 を 整 え た</button>
     </div>
   </div>
 
   <div class="nav-instruction">
-    <div class="nav-headline" id="navHeadline">月 を 探 し て</div>
-    <div class="nav-sub" id="navSub">ス マ ホ を 動 か し て み て</div>
+    <div class="nav-headline" id="navHeadline"></div>
+    <div class="nav-sub" id="navSub"></div>
   </div>
 
   <div class="nav-status">
@@ -3422,15 +3421,16 @@ const COASTLINES = [
     const degEl = document.getElementById('realCompassDeg');
     const dirEl = document.getElementById('realCompassDirection');
     if (!dial) return;
-    const heading = navState.smoothHeading || navState.heading || 0;
-    // 上部の三角矢印が北を指す状態を基準 → 盤面を-heading度回転
-    // スマホの向きが北(0度)の時: 盤面は0度
-    // スマホが東(90度)を向いた時: 盤面は-90度回転して「北」が右に
+    // ★v6: コンパス画面では「生の磁気方位」を使う（加工なし）
+    // navState.compassRaw が null なら、まだセンサーデータが来てない
+    if (navState.compassRaw === null) {
+      degEl.textContent = '—';
+      dirEl.textContent = '—';
+      return;
+    }
+    const heading = navState.compassRaw;
+    // 盤面を-heading度回転（スマホが北向きなら盤面の「北」が上に来る）
     dial.style.transform = `rotate(${-heading}deg)`;
-    // 文字を水平保つため、個別要素を反対に回転させる
-    dial.querySelectorAll('.compass-cardinal, .compass-deg').forEach(el => {
-      el.style.transform = el.dataset.origTransform || el.style.transform;
-    });
     // 度数表示
     const h = Math.round(heading);
     degEl.textContent = h;
@@ -3475,6 +3475,7 @@ const COASTLINES = [
     rawAlpha: 0, rawBeta: 0, rawGamma: 0,
     heading: 0, pitch: 0, roll: 0,
     smoothHeading: 0, smoothPitch: 0, smoothRoll: 0,
+    compassRaw: null,  // ★v6: コンパス画面専用の生の磁気方位
     permitted: false, animId: null,
     hasOrientation: false, eventCount: 0,
     stars: [], screenOrient: 0
@@ -3663,6 +3664,39 @@ const COASTLINES = [
     navState.heading = lpfAngle(navState.heading, sky.heading, ALPHA1);
     navState.pitch = lpfLinear(navState.pitch, sky.pitch, ALPHA1);
     navState.roll = lpfLinear(navState.roll, sky.roll, ALPHA1);
+
+    // ★v6: コンパス画面用の「生の磁気方位」（加工なし、他のコンパスアプリと同じ挙動）
+    // スマホを傾けたり画面回転しても、コンパス値だけは独立して安定させる
+    handleRawCompass(e);
+  }
+
+  // ★v6: コンパス画面専用の方位取得
+  // - webkitCompassHeading があれば、それをそのまま使う（iOS）
+  // - deviceorientationabsolute の alpha を使う（Android）
+  // - 磁気偏角補正もスクリーン回転補正もしない → 市販の方位磁石アプリと同じ動作
+  function handleRawCompass(e) {
+    let raw = null;
+    if (typeof e.webkitCompassHeading === 'number') {
+      raw = e.webkitCompassHeading;  // iOS: 既に磁北基準の正しい値
+    } else if (e.absolute === true && typeof e.alpha === 'number') {
+      // Android absolute: 360 - alpha が方位
+      raw = (360 - e.alpha) % 360;
+    } else if (typeof e.alpha === 'number') {
+      // 相対値のフォールバック（あてにならない）
+      raw = (360 - e.alpha) % 360;
+    }
+    if (raw !== null) {
+      // 角度の連続性を保つように平滑化（±180境界をまたぐ問題を回避）
+      if (navState.compassRaw === null) {
+        navState.compassRaw = raw;
+      } else {
+        // 最短経路で近づける
+        let diff = raw - navState.compassRaw;
+        if (diff > 180) diff -= 360;
+        if (diff < -180) diff += 360;
+        navState.compassRaw = (navState.compassRaw + diff * 0.3 + 360) % 360;
+      }
+    }
   }
 
   async function requestNavPermission() {
@@ -3791,7 +3825,10 @@ const COASTLINES = [
     navState.smoothPitch = lpfLinear(navState.smoothPitch, navState.pitch, alpha2);
     navState.smoothRoll = lpfLinear(navState.smoothRoll, navState.roll, alpha2);
 
-    const heading = navState.smoothHeading;
+    // ★v6: 月ナビ本体も、コンパス画面と同じ「生の磁気方位」を使う
+    // これで方位磁石アプリとの値のズレが無くなる
+    // 生の値が取れてない場合のみ、旧ロジックのsmoothHeadingにフォールバック
+    const heading = (navState.compassRaw !== null) ? navState.compassRaw : navState.smoothHeading;
     const pitch = navState.smoothPitch;
     const roll = navState.smoothRoll;
     const fov = 70;
