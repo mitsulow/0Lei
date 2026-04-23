@@ -737,13 +737,19 @@
     animation: modalSlideUp 0.35s ease-out;
   }
 
-  /* ★v6: モーダル表示中は他の前面要素を隠す（背景画像を邪魔しない） */
+  /* ★v6: モーダル表示中は、他の前面要素＋ビュー全体を隠す
+     （fullscreen-introの画像だけが背景として残る） */
   body.modal-open .top-bar,
   body.modal-open .tab-bar,
   body.modal-open .schumann-display,
   body.modal-open .rotation-hint,
   body.modal-open .compass-btn,
-  body.modal-open .moon-position-text {
+  body.modal-open .moon-position-text,
+  body.modal-open .calendar-view,
+  body.modal-open .moonnav-view,
+  body.modal-open #mainCanvas,
+  body.modal-open #navCanvas,
+  body.modal-open .intro-splash {
     opacity: 0 !important;
     pointer-events: none !important;
     transition: opacity 0.35s ease-out;
@@ -1391,7 +1397,7 @@
     display: none;
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(3, 8, 24, 0.96), rgba(3, 8, 24, 0.98));
+    background: #030818;
     z-index: 50;
     padding: 1.5rem;
     overflow-y: auto;
