@@ -3638,27 +3638,31 @@ const COASTLINES = [
   personAura.position.y = 0.2;
   personGroup.add(personAura);
 
-  // ★v6: 方位磁石の針（胸を前後に貫通 / 赤=北, 白=南）
+  // ★v6: 方位磁石の針（北=赤の矢印、南=白の細い針）
   // 人形のローカル座標系: +Z が顔の向き = 北向きデフォルト時の「北」
+  const needleLen = 0.11;
+
+  // 北の針（円錐の矢印・赤）
   const compassNeedleN = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.005, 0.002, 0.055, 10),
-    new THREE.MeshBasicMaterial({ color: 0xff2a3c })   // 北=赤
+    new THREE.ConeGeometry(0.012, needleLen, 14),
+    new THREE.MeshBasicMaterial({ color: 0xff2a3c })
   );
-  compassNeedleN.rotation.x = Math.PI / 2;   // Y軸→Z軸へ寝かせる
-  compassNeedleN.position.set(0, 0.125, 0.028);
+  compassNeedleN.rotation.x = -Math.PI / 2;   // 頂点を +Z（北）へ
+  compassNeedleN.position.set(0, 0.125, needleLen / 2);   // 底面がpivotの中心に来るように
   personGroup.add(compassNeedleN);
 
+  // 南の針（細い円柱・白）
   const compassNeedleS = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.005, 0.002, 0.055, 10),
-    new THREE.MeshBasicMaterial({ color: 0xf2f4f8 })   // 南=白
+    new THREE.CylinderGeometry(0.0035, 0.0035, needleLen, 10),
+    new THREE.MeshBasicMaterial({ color: 0xf2f4f8 })
   );
-  compassNeedleS.rotation.x = -Math.PI / 2;
-  compassNeedleS.position.set(0, 0.125, -0.028);
+  compassNeedleS.rotation.x = Math.PI / 2;    // 長軸を -Z（南）方向へ
+  compassNeedleS.position.set(0, 0.125, -needleLen / 2);
   personGroup.add(compassNeedleS);
 
   // 針の中心（軸点）を表す小さな玉
   const compassPivot = new THREE.Mesh(
-    new THREE.SphereGeometry(0.009, 12, 12),
+    new THREE.SphereGeometry(0.011, 14, 14),
     new THREE.MeshBasicMaterial({ color: 0x1a1f2a })
   );
   compassPivot.position.set(0, 0.125, 0);
@@ -3802,6 +3806,7 @@ const COASTLINES = [
   const state = {
     useCompass: false, compassHeading: 0,
     userRotX: 0, userRotY: 0,
+    earthQuaternion: new THREE.Quaternion(),   // ★v6: 無限回転可能なクォータニオン
     autoRotateSpeed: 0.0008,
     lastResonanceTime: 0, hintShown: true,
     targetZoom: 8.0, currentZoom: 8.0,
@@ -3812,6 +3817,7 @@ const COASTLINES = [
   let isDragging = false;
   let dragStart = { x: 0, y: 0 };
   let rotStart = { x: 0, y: 0 };
+  let quaternionStart = new THREE.Quaternion();   // ★v6: ドラッグ開始時のクォータニオン
   let lastPinch = 0;
   let lastPinchAngle = null;   // ★v6: 2本指ツイスト検出用
 
@@ -3828,6 +3834,7 @@ const COASTLINES = [
     isDragging = true;
     dragStart.x = touch.clientX; dragStart.y = touch.clientY;
     rotStart.x = state.userRotX; rotStart.y = state.userRotY;
+    quaternionStart.copy(state.earthQuaternion);   // ★v6: 現在のクォータニオンを保存
     if (state.hintShown) {
       state.hintShown = false;
       document.getElementById('rotHint').classList.add('hidden');
@@ -3859,8 +3866,17 @@ const COASTLINES = [
     const touch = e.touches ? e.touches[0] : e;
     const dx = touch.clientX - dragStart.x;
     const dy = touch.clientY - dragStart.y;
+    // ★v6: クォータニオンで累積回転（ジンバルロック回避・360度回転可能）
+    const qY = new THREE.Quaternion().setFromAxisAngle(
+      new THREE.Vector3(0, 1, 0), dx * 0.008
+    );
+    const qX = new THREE.Quaternion().setFromAxisAngle(
+      new THREE.Vector3(1, 0, 0), dy * 0.008
+    );
+    state.earthQuaternion.copy(quaternionStart).premultiply(qY).premultiply(qX);
+    // 後方互換: 一部の計算で参照される userRotX/Y も更新（概算値）
     state.userRotY = rotStart.y + dx * 0.008;
-    state.userRotX = Math.max(-1.3, Math.min(1.3, rotStart.x + dy * 0.008));
+    state.userRotX = rotStart.x + dy * 0.008;
     e.preventDefault();
   }
 
@@ -5680,8 +5696,8 @@ const COASTLINES = [
     }
     updateResonances(now);
 
-    earthGroup.rotation.y = state.userRotY;
-    earthGroup.rotation.x = state.userRotX;
+    // ★v6: クォータニオン方式で回転適用（ジンバルロックなし・無限回転可能）
+    earthGroup.quaternion.copy(state.earthQuaternion);
 
     ionoGroup.rotation.y += 0.0008;
     ionoGroup.rotation.x = Math.sin(now * 0.05) * 0.05;
@@ -5719,9 +5735,14 @@ const COASTLINES = [
   (function setInitialView() {
     const mp = moonGroup.position;
     const moonAzimuth = Math.atan2(mp.x, mp.z);
-    state.userRotY = -moonAzimuth - Math.PI / 5;
     const moonAltitude = Math.atan2(mp.y, Math.sqrt(mp.x * mp.x + mp.z * mp.z));
-    state.userRotX = -moonAltitude * 0.4;
+    // ★v6: クォータニオン方式で初期姿勢を設定（従来と同じ見た目）
+    const initX = -moonAltitude * 0.4;
+    const initY = -moonAzimuth - Math.PI / 5;
+    state.userRotX = initX;
+    state.userRotY = initY;
+    const euler = new THREE.Euler(initX, initY, 0, 'XYZ');
+    state.earthQuaternion.setFromEuler(euler);
     state.targetZoom = 8.0;
     state.currentZoom = 8.0;
   })();
