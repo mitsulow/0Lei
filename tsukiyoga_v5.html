@@ -719,13 +719,13 @@
     background: transparent;
   }
 
-  /* ★v6: モーダル本体は半透明。背景画像が透けて見える薄さ */
+  /* ★v6: モーダル本体は半透明。女性画像が十分に透けて見える薄さ */
   .memo-modal-content {
     position: relative;
     width: 100%; max-width: 480px;
     background: linear-gradient(180deg,
-      rgba(10, 20, 40, 0.55) 0%,
-      rgba(3, 8, 24, 0.75) 100%);
+      rgba(10, 20, 40, 0.40) 0%,
+      rgba(3, 8, 24, 0.60) 100%);
     backdrop-filter: blur(3px);
     -webkit-backdrop-filter: blur(3px);
     border-top: 1px solid rgba(201, 169, 97, 0.3);
@@ -797,10 +797,10 @@
     0%   { opacity: 0; }
     25%  { opacity: 1; }       /* フェードイン完了 */
     55%  { opacity: 1; }       /* 画像がしっかり見える時間 */
-    100% { opacity: 0.35; }    /* 最後は薄く残る（モーダル背景に） */
+    100% { opacity: 0.45; }    /* 薄く残る（モーダル背景に） */
   }
   @keyframes fullscreenIntroClose {
-    from { opacity: 0.35; }
+    from { opacity: 0.45; }
     to   { opacity: 0; }
   }
 
@@ -1445,17 +1445,20 @@
     height: auto;
   }
   /* 画像下部に配置するテキストオーバーレイ */
+  /* ★v6: ∞説明文は画像中段（女性の胸〜腰辺り）に配置 */
+  /* 下部の度数表示と重ならないように画像内の中ほどへ */
   .compass-cal-img-overlay {
     position: absolute;
     left: 0;
     right: 0;
-    bottom: 0;
-    padding: 0.8rem 0.8rem 1rem;
+    top: 42%;
+    padding: 1.2rem 0.8rem 1.4rem;
     text-align: center;
     background: linear-gradient(180deg,
       rgba(3, 8, 24, 0) 0%,
-      rgba(3, 8, 24, 0.7) 40%,
-      rgba(3, 8, 24, 0.92) 100%);
+      rgba(3, 8, 24, 0.55) 30%,
+      rgba(3, 8, 24, 0.65) 70%,
+      rgba(3, 8, 24, 0) 100%);
   }
   @keyframes calImgFadeIn {
     from { opacity: 0; transform: scale(0.95); }
