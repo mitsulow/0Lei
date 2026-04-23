@@ -3638,6 +3638,32 @@ const COASTLINES = [
   personAura.position.y = 0.2;
   personGroup.add(personAura);
 
+  // ★v6: 方位磁石の針（胸を前後に貫通 / 赤=北, 白=南）
+  // 人形のローカル座標系: +Z が顔の向き = 北向きデフォルト時の「北」
+  const compassNeedleN = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.005, 0.002, 0.055, 10),
+    new THREE.MeshBasicMaterial({ color: 0xff2a3c })   // 北=赤
+  );
+  compassNeedleN.rotation.x = Math.PI / 2;   // Y軸→Z軸へ寝かせる
+  compassNeedleN.position.set(0, 0.125, 0.028);
+  personGroup.add(compassNeedleN);
+
+  const compassNeedleS = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.005, 0.002, 0.055, 10),
+    new THREE.MeshBasicMaterial({ color: 0xf2f4f8 })   // 南=白
+  );
+  compassNeedleS.rotation.x = -Math.PI / 2;
+  compassNeedleS.position.set(0, 0.125, -0.028);
+  personGroup.add(compassNeedleS);
+
+  // 針の中心（軸点）を表す小さな玉
+  const compassPivot = new THREE.Mesh(
+    new THREE.SphereGeometry(0.009, 12, 12),
+    new THREE.MeshBasicMaterial({ color: 0x1a1f2a })
+  );
+  compassPivot.position.set(0, 0.125, 0);
+  personGroup.add(compassPivot);
+
   personGroup.scale.setScalar(0.9);
 
   function repositionPersonForLocation() {
@@ -3816,7 +3842,7 @@ const COASTLINES = [
       const angle = Math.atan2(dy, dx);   // ★v6: 現在の2本指角度
       if (lastPinch > 0) {
         state.targetZoom += (lastPinch - dist) * 0.02;
-        state.targetZoom = Math.max(1.08, Math.min(40, state.targetZoom));
+        state.targetZoom = Math.max(1.08, Math.min(25, state.targetZoom));
       }
       if (lastPinchAngle !== null) {   // ★v6: ツイスト差分をカメラロールへ
         let dAngle = angle - lastPinchAngle;
@@ -3848,7 +3874,7 @@ const COASTLINES = [
 
   function onWheel(e) {
     state.targetZoom += e.deltaY * 0.004;
-    state.targetZoom = Math.max(1.08, Math.min(40, state.targetZoom));
+    state.targetZoom = Math.max(1.08, Math.min(25, state.targetZoom));
     e.preventDefault();
   }
 
@@ -3910,7 +3936,7 @@ const COASTLINES = [
     moonGroup.position.copy(moonWorldPos);
 
     const sunEq = SunCalc.getSunEquatorial(now);
-    const sunDist = 7;
+    const sunDist = 5;
     const sunWorldPos = equatorialToVec3(sunEq.ra, sunEq.dec, sunDist);
     sunGroup.position.copy(sunWorldPos);
 
@@ -5676,7 +5702,7 @@ const COASTLINES = [
     // ★v6: 地面アップ時のみ北・南矢印UIを表示
     const surfaceNav = document.getElementById('surfaceNav');
     if (surfaceNav) {
-      if (state.currentZoom < 2.0) {
+      if (state.currentZoom < 3.5) {
         surfaceNav.classList.add('visible');
       } else {
         surfaceNav.classList.remove('visible');
