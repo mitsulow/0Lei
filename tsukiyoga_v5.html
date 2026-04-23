@@ -699,29 +699,36 @@
   .memo-modal {
     position: fixed;
     inset: 0;
-    z-index: 100;
+    z-index: 1600;  /* ★v6: fullscreen-intro(1500)より上 */
     display: none;
     align-items: flex-end;
     justify-content: center;
   }
   .memo-modal.active { display: flex; }
 
+  /* ★v6: backdropは透明に近く、背景画像が透けて見える */
   .memo-modal-backdrop {
     position: absolute;
     inset: 0;
-    background: rgba(3, 8, 24, 0.75);
-    backdrop-filter: blur(10px);
+    background: rgba(3, 8, 24, 0.2);
+    backdrop-filter: blur(1px);
+    -webkit-backdrop-filter: blur(1px);
   }
 
+  /* ★v6: モーダル本体は半透明。背景画像が透けて見える薄さ */
   .memo-modal-content {
     position: relative;
     width: 100%; max-width: 480px;
-    background: linear-gradient(180deg, #0a1428 0%, #030818 100%);
+    background: linear-gradient(180deg,
+      rgba(10, 20, 40, 0.80) 0%,
+      rgba(3, 8, 24, 0.90) 100%);
+    backdrop-filter: blur(12px) saturate(1.1);
+    -webkit-backdrop-filter: blur(12px) saturate(1.1);
     border-top: 1px solid rgba(201, 169, 97, 0.3);
     border-radius: 20px 20px 0 0;
-    padding: 0 22px 26px;
-    max-height: 95vh;
-    min-height: 95vh;
+    padding: 24px 22px 26px;
+    max-height: 90vh;
+    min-height: 90vh;
     overflow-y: auto;
     animation: modalSlideUp 0.35s ease-out;
   }
@@ -731,28 +738,17 @@
     to { transform: translateY(0); }
   }
 
-  /* ★v6: メモモーダル上端のヒーロー画像 */
+  /* ★v6: ヒーロー画像は非表示（背景全体で画像を見せるため） */
   .memo-hero-img {
-    width: calc(100% + 44px);
-    margin: 0 -22px 1.2rem;
-    height: 260px;
-    background-image:
-      linear-gradient(180deg,
-        rgba(3, 8, 24, 0) 0%,
-        rgba(3, 8, 24, 0) 70%,
-        rgba(3, 8, 24, 0.9) 100%),
-      url('./images/memo_journal.jpg');
-    background-size: cover;
-    background-position: center 30%;
-    background-repeat: no-repeat;
-    border-radius: 20px 20px 0 0;
+    display: none;
   }
 
   /* ★v6: 全画面フェードイントロ（日付タップ時） */
+  /* 最後は薄く残り、モーダルの背景として機能 */
   .fullscreen-intro {
     position: fixed;
     inset: 0;
-    z-index: 2000;
+    z-index: 1500;
     background: #030818;
     overflow: hidden;
     pointer-events: none;
@@ -761,7 +757,11 @@
   }
   .fullscreen-intro.active {
     display: block;
-    animation: fullscreenIntroFade 0.9s ease-out forwards;
+    animation: fullscreenIntroFade 1.2s ease-out forwards;
+  }
+  .fullscreen-intro.fadeout {
+    display: block;
+    animation: fullscreenIntroClose 0.4s ease-out forwards;
   }
   .fullscreen-intro-img {
     position: absolute;
@@ -773,9 +773,13 @@
   }
   @keyframes fullscreenIntroFade {
     0%   { opacity: 0; }
-    30%  { opacity: 1; }
-    70%  { opacity: 1; }
-    100% { opacity: 0; }
+    25%  { opacity: 1; }       /* フェードイン完了 */
+    55%  { opacity: 1; }       /* 画像がしっかり見える時間 */
+    100% { opacity: 0.35; }    /* 最後は薄く残る（モーダル背景に） */
+  }
+  @keyframes fullscreenIntroClose {
+    from { opacity: 0.35; }
+    to   { opacity: 0; }
   }
 
   .memo-modal-header {
@@ -1021,24 +1025,13 @@
   }
   /* ★v6: はなさかり（内なるツキ）モーダル */
   #innerModal .memo-modal-content {
-    padding: 0 22px 26px;
-    max-height: 95vh;
-    min-height: 95vh;
+    padding: 24px 22px 26px;
+    max-height: 90vh;
+    min-height: 90vh;
   }
+  /* はなさかりヒーロー画像は非表示（背景全体で画像を見せるため） */
   .hanasakari-hero-img {
-    width: calc(100% + 44px);
-    margin: 0 -22px 1.4rem;
-    height: 280px;
-    background-image:
-      linear-gradient(180deg,
-        rgba(3, 8, 24, 0) 0%,
-        rgba(3, 8, 24, 0) 70%,
-        rgba(3, 8, 24, 0.9) 100%),
-      url('./images/hanasakari.jpg');
-    background-size: cover;
-    background-position: center 25%;
-    background-repeat: no-repeat;
-    border-radius: 20px 20px 0 0;
+    display: none;
   }
   .port-modal-hint {
     font-family: 'Shippori Mincho', serif;
@@ -1415,26 +1408,30 @@
     width: 100%;
     height: auto;
   }
-  /* 画像左上のタイトル（女性の頭の上、月の左側） */
+  /* 画像の最上部（月の上空）にタイトル配置 */
   .compass-cal-img-topleft {
     position: absolute;
-    top: 8px;
-    left: 10px;
-    right: 45%;
-    text-align: left;
-    padding: 4px 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 10px 8px 18px;
+    text-align: center;
     pointer-events: none;
+    background: linear-gradient(180deg,
+      rgba(3, 8, 24, 0.75) 0%,
+      rgba(3, 8, 24, 0.45) 70%,
+      rgba(3, 8, 24, 0) 100%);
   }
   .compass-cal-img-topleft .compass-cal-title {
     font-family: 'Shippori Mincho', serif;
-    font-size: 0.72rem;
-    letter-spacing: 0.12em;
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
     color: var(--seiten);
-    text-shadow: 0 0 10px rgba(0, 0, 0, 0.9),
-                 0 2px 6px rgba(0, 0, 0, 0.95);
+    text-shadow: 0 0 12px rgba(0, 0, 0, 1),
+                 0 2px 8px rgba(0, 0, 0, 1);
     margin: 0;
     white-space: nowrap;
-    text-indent: 0;
+    text-indent: 0.2em;
   }
   /* 画像下部に配置するテキストオーバーレイ */
   .compass-cal-img-overlay {
@@ -3072,11 +3069,14 @@
     if (!last) return null;
     const dayMs = 86400000;
     const diffDays = (date.getTime() - last.getTime()) / dayMs;
-    // 「先月の生理日」以降の排卵日を計算する：cyclesは1以上に固定
-    // cycles=1 → 今月の排卵日（先月のP + 29.53 + 14日）
-    // cycles=2 → 来月の排卵日
+    // ★v6: ユーザー入力の生理開始日Pから起算
+    // 排卵日候補 = P + 14 + cycles * 29.53  (cycles = 0, 1, 2, ...)
+    // cycles=0: P + 14日（登録から最初の排卵日）
+    // cycles=1: P + 14 + 29.53日（次の排卵日）
+    // その日に最も近い排卵日候補の距離で判定
     let cycles = Math.round((diffDays - OVULATION_OFFSET) / MENSTRUAL_CYCLE);
-    if (cycles < 1) cycles = 1;  // 先月の排卵日（cycles=0）は対象外
+    // 生理開始日Pより前の日（cycles < 0）は対象外
+    if (cycles < 0) return null;
     const ovulationDayOffset = Math.round(OVULATION_OFFSET + cycles * MENSTRUAL_CYCLE);
     const dist = Math.abs(diffDays - ovulationDayOffset);
     if (dist < 0.5) return 'peak';
@@ -3084,20 +3084,22 @@
     return null;
   }
 
-  // 次の「はなさかりピーク（排卵日）」を計算して返す（今月/来月）
+  // 次の「はなさかりピーク（排卵日）」を計算して返す
   function getNextOvulationDate() {
     const last = getLastPeriod();
     if (!last) return null;
     const dayMs = 86400000;
     const now = new Date();
     const diffDays = (now.getTime() - last.getTime()) / dayMs;
-    let cycles = Math.round((diffDays - OVULATION_OFFSET) / MENSTRUAL_CYCLE);
-    if (cycles < 1) cycles = 1;
-    // 今月のピークを過ぎてたら来月へ
-    const thisMonthOffset = OVULATION_OFFSET + cycles * MENSTRUAL_CYCLE;
-    if (diffDays > thisMonthOffset + HANASAKARI_RADIUS) cycles += 1;
-    const finalOffset = OVULATION_OFFSET + cycles * MENSTRUAL_CYCLE;
-    return new Date(last.getTime() + finalOffset * dayMs);
+    // ★v6: cycles=0（登録から最初の排卵日 P+14）も有効
+    // 今日からみて、はなさかり終了（排卵日+2日）を過ぎていたら次サイクルへ
+    let cycles = 0;
+    let offset = OVULATION_OFFSET;
+    while (diffDays > offset + HANASAKARI_RADIUS) {
+      cycles += 1;
+      offset = OVULATION_OFFSET + cycles * MENSTRUAL_CYCLE;
+    }
+    return new Date(last.getTime() + offset * dayMs);
   }
 
   function applyMoonShadow(el, phase) {
@@ -4190,11 +4192,9 @@ const COASTLINES = [
     if (pitch > 90) pitch = 180 - pitch;
     if (pitch < -90) pitch = -180 - pitch;
 
-    // ★v6: roll（左右の傾き）をgammaから計算
-    // gamma: Y軸まわりの回転、スマホを左右にねじった角度
-    // roll=0 は「スマホが垂直に立ってる」状態
-    // これを入れないと、スマホを斜めに持ったとき月の画面位置が横にズレる
-    let roll = gamma;
+    // ★v6: rollは0固定（スマホを空に向けた時のジンバルロックで
+    // gammaが暴れて水平線がぐるぐる回るのを防ぐ）
+    let roll = 0;
 
     if (heading !== null) {
       // ★v6: LPF係数を0.5に上げて反応速度を優先（月の「追いかけっこ」を防ぐ）
@@ -5151,19 +5151,39 @@ const COASTLINES = [
   });
 
   // ======== メモモーダル ========
-  // ★v6: 日付タップ時の全画面フェードイントロ（約0.9秒）
+  // ★v6: 日付タップ時の全画面フェードイントロ
+  // 1.2秒のアニメ：0→1→最後は0.35で薄く残る（モーダル背景として機能）
   function playFullscreenIntro(introId, callback) {
     const intro = document.getElementById(introId);
     if (!intro) { callback(); return; }
-    intro.classList.remove('active');
+    intro.classList.remove('active', 'fadeout');
     void intro.offsetWidth;  // reflow
     intro.classList.add('active');
-    // 0.9秒のフェードアニメ中、中間点(約0.4秒)でモーダルを表示させる
-    setTimeout(callback, 400);
-    // 0.95秒後にイントロ要素を非表示（アニメ完了直後）
+    // 中間点(約0.5秒)でモーダルを表示
+    setTimeout(callback, 500);
+  }
+
+  // ★v6: モーダル閉じる時にイントロもフェードアウト
+  function hideFullscreenIntro(introId) {
+    const intro = document.getElementById(introId);
+    if (!intro) return;
+    intro.classList.remove('active');
+    intro.classList.add('fadeout');
     setTimeout(() => {
-      intro.classList.remove('active');
-    }, 950);
+      intro.classList.remove('fadeout');
+    }, 450);
+  }
+
+  // ★v6: メモモーダルを閉じる共通関数
+  function closeMemoModal() {
+    document.getElementById('memoModal').classList.remove('active');
+    hideFullscreenIntro('memoIntro');
+  }
+
+  // ★v6: はなさかりモーダルを閉じる共通関数
+  function closeInnerModal() {
+    document.getElementById('innerModal').classList.remove('active');
+    hideFullscreenIntro('hanasakariIntro');
   }
 
   // ★v6: 旧暦日の横に月名を表示
@@ -5262,7 +5282,7 @@ const COASTLINES = [
     } else {
       localStorage.setItem(`tsukiyoga-memo-${dateStr}`, JSON.stringify({ text }));
     }
-    modal.classList.remove('active');
+    closeMemoModal();
     renderCal(calYear, calMonth);
   });
 
@@ -5270,7 +5290,7 @@ const COASTLINES = [
     const modal = document.getElementById('memoModal');
     const dateStr = modal.dataset.date;
     localStorage.removeItem(`tsukiyoga-memo-${dateStr}`);
-    modal.classList.remove('active');
+    closeMemoModal();
     renderCal(calYear, calMonth);
   });
 
@@ -5358,11 +5378,11 @@ const COASTLINES = [
   })();
 
   document.getElementById('memoClose').addEventListener('click', () => {
-    document.getElementById('memoModal').classList.remove('active');
+    closeMemoModal();
   });
 
   document.querySelector('#memoModal .memo-modal-backdrop').addEventListener('click', () => {
-    document.getElementById('memoModal').classList.remove('active');
+    closeMemoModal();
   });
 
   // ★v6: 内側のツキボタンのラベルを旧暦月で動的更新
@@ -5453,22 +5473,22 @@ const COASTLINES = [
       updateInnerStatus();
       renderCal(calYear, calMonth);
     }
-    document.getElementById('innerModal').classList.remove('active');
+    closeInnerModal();
   });
 
   document.getElementById('innerClear').addEventListener('click', () => {
     clearLastPeriod();
     updateInnerStatus();
     renderCal(calYear, calMonth);
-    document.getElementById('innerModal').classList.remove('active');
+    closeInnerModal();
   });
 
   document.getElementById('innerClose').addEventListener('click', () => {
-    document.getElementById('innerModal').classList.remove('active');
+    closeInnerModal();
   });
 
   document.querySelector('#innerModal .memo-modal-backdrop').addEventListener('click', () => {
-    document.getElementById('innerModal').classList.remove('active');
+    closeInnerModal();
   });
 
   updateInnerStatus();
