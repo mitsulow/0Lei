@@ -1,24 +1,24 @@
 {
-  "timestamp": "2026-04-23T03:23:27.323597+00:00",
+  "timestamp": "2026-04-23T05:41:25.268070+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.86,
+      "hz": 7.9,
       "confidence": 85
     },
     "F2": {
-      "hz": 13.4,
+      "hz": 13.0,
       "confidence": 80
     },
     "F3": {
-      "hz": 20.3,
+      "hz": 20.1,
       "confidence": 75
     },
     "F4": {
-      "hz": 24.8,
+      "hz": 24.83,
       "confidence": 70
     },
     "F5": {
@@ -28,12 +28,12 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端ではF1が約7.86Hz付近で安定。F2は低下傾向で13.4Hz付近。F3は約20.3Hz、F4は24.8Hz付近。21日午前中にスペクトログラムで強い広帯域擾乱が見られ、23日未明にも低周波帯(0-8Hz)で活発化。F5は表示範囲外のため読み取り不可。",
+  "notes": "右端(23.04.2026 12時頃)の値を読取。F1は約7.90Hzで安定、F2は13.00Hz付近でやや低め、F3は20.10Hz付近、F4は24.83Hz付近。F5の表示は本グラフにはなし。22日6時頃にF1スパイク(8.08超)あり、スペクトログラムでも同時刻に強い広帯域活動確認。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 12.38,
-    "tomsk_hour": 8.98,
+    "japan_hour": 14.68,
+    "tomsk_hour": 11.28,
     "is_day_japan": true,
     "is_day_tomsk": true
   }
