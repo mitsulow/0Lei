@@ -1,39 +1,39 @@
 {
-  "timestamp": "2026-04-24T15:36:23.292965+00:00",
+  "timestamp": "2026-04-24T16:37:56.703672+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.7,
+      "hz": 7.8,
       "confidence": 85
     },
     "F2": {
-      "hz": 13.0,
+      "hz": 13.8,
       "confidence": 80
     },
     "F3": {
-      "hz": 20.2,
-      "confidence": 80
-    },
-    "F4": {
-      "hz": 24.85,
+      "hz": 20.3,
       "confidence": 75
     },
+    "F4": {
+      "hz": 24.78,
+      "confidence": 70
+    },
     "F5": {
-      "hz": null,
-      "confidence": 0
+      "hz": 19.1,
+      "confidence": 40
     }
   },
-  "amplitude_level": "high",
+  "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "23日深夜から24日朝にかけてスペクトログラムに強い広帯域擾乱が見られ、特に低周波帯(0-8Hz)で飽和。F4(緑)に一時的な急降下あり。全体的に活動度は高く、折れ線の変動も大きい。F5は表示範囲外で読み取り不可。",
+  "notes": "右端でF1は約7.80Hz付近に低下傾向。F2(黄)は13.80Hz付近、F3(赤)は20.3Hz付近で変動大。スペクトログラムでは23日夜〜24日朝に強い広帯域ノイズ（局所干渉と思われる）が観測され、データ品質に影響。F4は24.78Hz付近で安定。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 0.6,
-    "tomsk_hour": 21.2,
+    "japan_hour": 1.62,
+    "tomsk_hour": 22.22,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
