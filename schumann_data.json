@@ -1,16 +1,16 @@
 {
-  "timestamp": "2026-04-23T23:05:20.629911+00:00",
+  "timestamp": "2026-04-24T00:01:25.533280+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.95,
+      "hz": 7.8,
       "confidence": 85
     },
     "F2": {
-      "hz": 13.0,
+      "hz": 13.1,
       "confidence": 80
     },
     "F3": {
@@ -18,7 +18,7 @@
       "confidence": 75
     },
     "F4": {
-      "hz": 24.77,
+      "hz": 24.8,
       "confidence": 70
     },
     "F5": {
@@ -28,12 +28,12 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端付近でF1が7.95Hz付近へ上昇傾向。F3(赤)は変動大きく最新値は20.3Hz付近。F4(緑)は24.77付近で安定だが直前に24.40付近への急落あり。23日後半〜24日早朝にスペクトログラムで強い広帯域ノイズ(干渉)が発生し、データ信頼性やや低下。F5は表示範囲外で判読不可。",
+  "notes": "23日深夜から24日早朝にかけてスペクトログラムに強い広帯域ノイズ（白飛び）が見られ、その後データ欠損。F4は直前に大きく下降する変動を示した。F5は表示範囲外で読み取り不可。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 8.08,
-    "tomsk_hour": 4.68,
+    "japan_hour": 9.02,
+    "tomsk_hour": 5.62,
     "is_day_japan": true,
     "is_day_tomsk": false
   }
