@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-04-25T09:11:39.672482+00:00",
+  "timestamp": "2026-04-25T10:04:46.799905+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.81,
+      "hz": 7.75,
       "confidence": 85
     },
     "F2": {
@@ -28,12 +28,12 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "24日0-7時頃に強い擾乱（スペクトログラムで広帯域の白色化）が見られ、F3が一時急降下。右端では概ね通常範囲に回復。F5は本グラフに表示なし。",
+  "notes": "23-24日深夜にかけてスペクトログラムに強い広帯域擾乱（白色化領域）あり、機器ノイズまたは強い電磁擾乱の可能性。F3（赤）は変動が大きく、F4（緑）は深夜に大きな落ち込みを示す。右端は概ね安定。F5は本グラフでは表示なし。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 18.18,
-    "tomsk_hour": 14.78,
+    "japan_hour": 19.07,
+    "tomsk_hour": 15.67,
     "is_day_japan": false,
     "is_day_tomsk": true
   }
