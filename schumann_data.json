@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-25T21:52:04.805040+00:00",
+  "timestamp": "2026-04-25T22:29:22.288812+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -7,10 +7,10 @@
   "modes": {
     "F1": {
       "hz": 7.75,
-      "confidence": 80
+      "confidence": 85
     },
     "F2": {
-      "hz": 14.2,
+      "hz": 14.04,
       "confidence": 80
     },
     "F3": {
@@ -18,7 +18,7 @@
       "confidence": 75
     },
     "F4": {
-      "hz": 24.8,
+      "hz": 24.78,
       "confidence": 70
     },
     "F5": {
@@ -28,12 +28,12 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "24日深夜から早朝にかけて大きな擾乱（スペクトログラムで広帯域の強い発光、F3/F4の急落）が見られる。右端では各モードとも概ね通常範囲に回復。F5は折れ線に表示なし。",
+  "notes": "24日深夜から早朝にかけてスペクトログラムに強い擾乱（白色飽和領域）が見られ、データ欠損や急激な変動を伴う。右端（25日午後）ではF1〜F4は安定して読み取れるが、F5は折れ線グラフに含まれていないため不明。F3（赤）はやや変動が大きく、F4（緑）は低位で推移。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 6.87,
-    "tomsk_hour": 3.47,
+    "japan_hour": 7.48,
+    "tomsk_hour": 4.08,
     "is_day_japan": true,
     "is_day_tomsk": false
   }
