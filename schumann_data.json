@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-25T10:04:46.799905+00:00",
+  "timestamp": "2026-04-25T11:02:45.207537+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -14,11 +14,11 @@
       "confidence": 80
     },
     "F3": {
-      "hz": 20.3,
+      "hz": 20.4,
       "confidence": 75
     },
     "F4": {
-      "hz": 24.8,
+      "hz": 24.78,
       "confidence": 70
     },
     "F5": {
@@ -28,12 +28,12 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "23-24日深夜にかけてスペクトログラムに強い広帯域擾乱（白色化領域）あり、機器ノイズまたは強い電磁擾乱の可能性。F3（赤）は変動が大きく、F4（緑）は深夜に大きな落ち込みを示す。右端は概ね安定。F5は本グラフでは表示なし。",
+  "notes": "23-24日の夜間（UTC23-07時）に強い擾乱がスペクトログラムで確認され、F3の値が一時的に大きく乱れた。右端では各モードとも安定方向。F5はグラフに表示なし。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 19.07,
-    "tomsk_hour": 15.67,
+    "japan_hour": 20.03,
+    "tomsk_hour": 16.63,
     "is_day_japan": false,
     "is_day_tomsk": true
   }
