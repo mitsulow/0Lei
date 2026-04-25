@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-25T17:06:23.573658+00:00",
+  "timestamp": "2026-04-25T17:55:53.039780+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -22,18 +22,18 @@
       "confidence": 70
     },
     "F5": {
-      "hz": 33.8,
+      "hz": 33.5,
       "confidence": 30
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "23-24日の境界付近で大きな擾乱（スペクトログラムでブロードバンド強信号、F4が急降下）。最新時刻ではF1～F3は概ね安定し回復傾向。F5は折れ線に明示されず信頼度低い。",
+  "notes": "24日深夜から早朝にかけて広帯域の強い擾乱（ホワイトアウト）が発生し、データ品質が低下。右端では各モードとも比較的安定しているが、F1はやや低め。F5は折れ線では明示されず信頼度低い。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 2.1,
-    "tomsk_hour": 22.7,
+    "japan_hour": 2.92,
+    "tomsk_hour": 23.52,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
