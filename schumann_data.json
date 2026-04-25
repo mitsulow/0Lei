@@ -1,13 +1,13 @@
 {
-  "timestamp": "2026-04-25T19:33:11.909021+00:00",
+  "timestamp": "2026-04-25T20:20:47.728845+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.75,
-      "confidence": 85
+      "hz": 7.78,
+      "confidence": 80
     },
     "F2": {
       "hz": 14.2,
@@ -22,18 +22,18 @@
       "confidence": 70
     },
     "F5": {
-      "hz": 33.0,
-      "confidence": 30
+      "hz": 0,
+      "confidence": 0
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "24日深夜から早朝にかけて強い擾乱がスペクトログラムに見られ、広帯域のホワイトアウトが発生。F3（赤）は変動が大きく、F4（緑）も同時刻に大きく落ち込んでいる。右端では概ね回復し、F1は7.7Hz台で安定。F5は折れ線では明示されておらず信頼度低い。",
+  "notes": "24日0-7時頃に強い擾乱（スペクトログラムで広帯域の白色化）が見られ、F3の値が一時的に大きく落ち込んでいる。右端では各モードとも概ね安定。F5はグラフに表示されていない。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 4.55,
-    "tomsk_hour": 1.15,
+    "japan_hour": 5.33,
+    "tomsk_hour": 1.93,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
