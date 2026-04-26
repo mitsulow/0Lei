@@ -2084,9 +2084,9 @@
   .next-seiten-card {
     margin-bottom: 1.5rem;
     padding: 1.2rem 0.9rem 1rem;
-    background: linear-gradient(180deg, rgba(10, 20, 40, 0.6), rgba(10, 20, 40, 0.3));
-    border: 1px solid rgba(201, 169, 97, 0.2);
-    border-radius: 4px;
+    /* ★v6改: 茶色境界線とブロック背景は廃止 */
+    background: transparent;
+    border: none;
     text-align: center;
     position: relative;
   }
@@ -3023,13 +3023,9 @@
       <div class="today-age-label">MOON AGE</div>
     </div>
 
-    <!-- ★v6: 現在地カード -->
+    <!-- ★v6改: 現在地カード（並び替え＋旧暦行削除＋border無し） -->
     <div class="next-seiten-card">
-      <!-- いまいる聖点の名前を大きく -->
-      <div class="phase-current-name" id="phaseCurrentName">—</div>
-      <!-- どういう期間かを直感的に -->
-      <div class="phase-segment-label" id="phaseSegmentLabel">—</div>
-      <!-- プログレスバー：左=始点、右=終点、ドットが月齢に応じて移動 -->
+      <!-- ★最上部: プログレスバー（聖点間の現在位置） -->
       <div class="phase-progress-wrap">
         <div class="phase-progress-end" id="phaseStart">— <span class="end-num">0</span></div>
         <div class="phase-progress-bar">
@@ -3038,13 +3034,15 @@
         </div>
         <div class="phase-progress-end" id="phaseEnd"><span class="end-num">3</span> —</div>
       </div>
-      <!-- 次の聖点（そのまま残す） -->
+      <!-- いまいる聖点の名前を大きく -->
+      <div class="phase-current-name" id="phaseCurrentName">—</div>
+      <!-- どういう期間かを直感的に -->
+      <div class="phase-segment-label" id="phaseSegmentLabel">—</div>
+      <!-- 次の聖点 -->
       <div class="phase-next-main">
         次 は 『 <span class="phase-next-name" id="nextSeitenName">—</span> 』
       </div>
       <div class="phase-next-time" id="nextSeitenTime">—</div>
-      <!-- 旧暦（今日） -->
-      <div class="phase-lunar-divider" id="phaseLunar">—</div>
     </div>
 
     <!-- ★v6: ヒルマツリ・ヨルマツリ パネル -->
@@ -5464,11 +5462,7 @@ const COASTLINES = [
     }
     document.getElementById('nextSeitenTime').textContent = countdownText;
 
-    // 旧暦（今日の月名も追加）
-    const lunar = getLunarDate(now);
-    const moonInfo = getMoonNameForLunarDay(lunar.day);
-    document.getElementById('phaseLunar').innerHTML =
-      `— 旧 暦 ${lunar.month} 月 ${lunar.day} 日<span class="lunar-today-name">${moonInfo.name.split('').join(' ')}</span> —`;
+    // ★v6改: 現在地カード下の旧暦行は削除（ヘッダ位置に移動済み）
 
     // ★v6: マツリパネル更新
     updateMatsuriPanel(now);
