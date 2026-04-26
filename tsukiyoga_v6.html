@@ -2595,7 +2595,7 @@
     font-size: 0.7rem;
   }
 
-  /* ===== ★v6: マツリパネル（v6改: 茶色枠と上部要素を削除） ===== */
+  /* ===== ★v6: マツリパネル（v6改: ポーズ画像中心） ===== */
   .matsuri-panel {
     background: transparent;
     border: none;
@@ -2603,6 +2603,18 @@
     padding: 4px 0 0;
     margin: 8px 0 10px;
     color: rgba(255,255,255,0.92);
+  }
+  .matsuri-pose-wrap {
+    text-align: center;
+    margin-bottom: 12px;
+  }
+  .matsuri-pose-img {
+    width: 180px;
+    height: 180px;
+    display: block;
+    margin: 0 auto;
+    object-fit: contain;
+    filter: drop-shadow(0 0 16px rgba(232, 184, 77, 0.12));
   }
 
   .matsuri-grid {
@@ -3013,35 +3025,30 @@
       <div class="phase-next-time" id="nextSeitenTime">—</div>
     </div>
 
-    <!-- ★v6: ヒルマツリ・ヨルマツリ パネル -->
+    <!-- ★v6改: ヒルマツリ・ヨルマツリ パネル（ポーズ画像中心） -->
     <div class="matsuri-panel" id="matsuriPanel">
+      <!-- 今日のポーズ画像 -->
+      <div class="matsuri-pose-wrap">
+        <img class="matsuri-pose-img" id="matsuriPoseImg" alt="今日のポーズ" src="">
+      </div>
+
       <div class="matsuri-grid">
         <div class="matsuri-block matsuri-hiru">
           <div class="matsuri-icon-row">
             <span class="matsuri-icon">☀</span>
             <span class="matsuri-label">ヒルマツリ</span>
-            <span class="matsuri-sub">昼祭り</span>
           </div>
           <div class="matsuri-time" id="matsuriHiruTime">--</div>
           <div class="matsuri-body">南向きに立つ</div>
-          <div class="matsuri-hands">
-            <div class="hand-row"><span class="hand-side">右手</span><span class="hand-target">太陽</span><span class="hand-clock" id="matsuriHiruRight">--</span></div>
-            <div class="hand-row"><span class="hand-side">左手</span><span class="hand-target">月</span><span class="hand-clock" id="matsuriHiruLeft">--</span></div>
-          </div>
         </div>
 
         <div class="matsuri-block matsuri-yoru">
           <div class="matsuri-icon-row">
             <span class="matsuri-icon">☾</span>
             <span class="matsuri-label">ヨルマツリ</span>
-            <span class="matsuri-sub">夜祀り</span>
           </div>
           <div class="matsuri-time" id="matsuriYoruTime">--</div>
           <div class="matsuri-body">北向きに座る</div>
-          <div class="matsuri-hands">
-            <div class="hand-row"><span class="hand-side">右手</span><span class="hand-target">月</span><span class="hand-clock" id="matsuriYoruRight">--</span></div>
-            <div class="hand-row"><span class="hand-side">左手</span><span class="hand-target">太陽</span><span class="hand-clock" id="matsuriYoruLeft">--</span></div>
-          </div>
         </div>
       </div>
 
@@ -3210,13 +3217,12 @@
     };
     setText('matsuriHiruTime', data.hiru.time);
     setText('matsuriYoruTime', data.yoru.time);
-    setHTML('matsuriHiruRight', svgClock(data.hiru.clockRightDeg, { color: '#e8b84d' }));
-    setHTML('matsuriHiruLeft',  svgClock(data.hiru.clockLeftDeg,  { color: '#e8b84d' }));
-    setHTML('matsuriYoruRight', svgClock(data.yoru.clockRightDeg, { color: '#9cb1ff' }));
-    setHTML('matsuriYoruLeft',  svgClock(data.yoru.clockLeftDeg,  { color: '#9cb1ff' }));
     setText('matsuriDetailName', data.name);
     setText('matsuriDetailKanji', data.kanji || '');
     setText('matsuriDetailNote', data.note || '');
+    // ★v6改: 時計の代わりに今日のポーズ画像を表示
+    const poseEl = document.getElementById('matsuriPoseImg');
+    if (poseEl) poseEl.src = `./pose_icons/pose_${String(day).padStart(2, '0')}.png`;
   }
 
   // ★v6: 詳細トグル（DOMContentLoaded で確実にバインド）
