@@ -66,17 +66,23 @@ MOON_SPECS = [
 ]
 
 COMMON_STYLE = (
-    "Traditional Japanese ukiyo-e woodblock print of the moon. "
-    "Style heavily inspired by Tsukioka Yoshitoshi's 'One Hundred Aspects of the Moon' (Tsuki Hyakushi) series, "
-    "with influences from Hokusai and Hiroshige. "
-    "The moon is centered, occupying about 75% of the image width, on a transparent or near-black indigo background. "
-    "Color palette: lit surface in pale gold and silvery white moonlight; shadow side in deep indigo (ai) and sumi-ink black; "
-    "soft sumi-bokashi gradient at the terminator (light/shadow boundary) like ink wash bleed on washi paper. "
-    "Subtle washi paper texture overlay. Faint rabbit-mochi-pounding pattern (the Japanese tradition where the lunar maria "
-    "appear as a rabbit pounding mochi) etched delicately into the lit surface, never dominant. "
-    "Serene, profound, wabi-sabi aesthetic. Quiet, contemplative, unworldly. "
-    "STRICTLY AVOID: photorealistic style, NASA-style realism, anime/manga style, "
-    "western astrology symbols, zodiac signs, moon-with-a-face, cartoon faces, neon colors, glitter effects."
+    "A single moon disc rendered as a clean circular icon, centered on a PURE BLACK (#000000) background. "
+    "The moon is drawn in the spirit of Tsukioka Yoshitoshi's 'One Hundred Aspects of the Moon' (Tsuki Hyakushi) — "
+    "but ONLY the moon itself, isolated, like an app icon. "
+    "The moon is a perfect circle, filling about 88% of the image width, perfectly centered. "
+    "Lit surface: pale silvery-gold moonlight with subtle warm tone, soft luminous quality. "
+    "Shadow side of the moon: PURE BLACK, completely flat, identical to the surrounding background, "
+    "so the dark portion of the moon disappears seamlessly into the background. "
+    "A delicate silhouette of the rabbit pounding mochi (Japanese tradition of the lunar rabbit) "
+    "is faintly etched INSIDE the LIT portion of the moon only — never on the shadow side, never outside the disc. "
+    "ABSOLUTELY DO NOT INCLUDE: washi paper texture, paper grain, parchment, torn edges, "
+    "ink-wash bleed outside the moon, sumi-bokashi gradient outside the disc, mist or halo extending beyond the moon, "
+    "any shadow on the ground beneath the moon, ground line, horizon, landscape, clouds, stars, mountains, trees, water, "
+    "red signature stamp (hanko / raku-kan), Japanese characters, calligraphy, picture frame, decorative border, "
+    "indigo or blue tint in the shadow side (the shadow must be PURE BLACK, not indigo), "
+    "photorealism, NASA imagery, anime/manga style, western astrology signs, moon-with-a-face, cartoon faces. "
+    "The output must look like a clean app icon: ONLY the lit portion of the moon glowing on a flat black background, "
+    "with the rabbit silhouette gently visible inside the lit area."
 )
 
 
@@ -85,38 +91,42 @@ def phase_description(spec: dict) -> str:
     pct = spec.get("lit_pct", 0)
     if phase == "new_moon":
         if pct == 0 and spec["day"] == 1:
-            return ("New moon (Tsukitachi). The moon is almost entirely in shadow; only a faint silhouette of the lunar disc "
-                    "is visible against the deep night, ringed by a subtle corona of pale moonlight. "
-                    "Mysterious, the very beginning of the lunar cycle.")
-        return ("Dark moon at the very end of the cycle (Misoka). The lunar disc is essentially in shadow, "
-                "a barely perceptible whisper of light, on the verge of disappearing into the new moon.")
+            return ("New moon (Tsukitachi). Almost the entire disc is PURE BLACK and disappears into the background. "
+                    "Only the very thinnest sliver of pale moonlight is faintly visible at the right edge, like a hair-line of light. "
+                    "Otherwise, complete darkness.")
+        return ("Dark moon (Misoka). The disc is essentially PURE BLACK and disappears into the background. "
+                "Only the faintest whisper of light at the LEFT edge, almost invisible.")
     if phase == "first_quarter":
-        return ("First quarter half-moon (Katamini). The right half of the moon is fully illuminated with pale gold-silver light, "
-                "the left half in deep indigo shadow. The terminator line down the center is a soft, slightly bleeding sumi-ink wash. "
-                "Faint rabbit-mochi pattern visible on the lit half.")
+        return ("First quarter half-moon (Katamini). The RIGHT half of the moon is fully illuminated with pale silvery-gold moonlight. "
+                "The LEFT half is PURE BLACK and completely invisible (it merges into the black background). "
+                "Sharp clean terminator down the center. Faint rabbit-mochi silhouette visible inside the lit right half.")
     if phase == "full_moon":
-        return ("Full moon (Kumanashi - 'no shadows'). A perfect luminous disc, fully and evenly illuminated, "
-                "no terminator at all. Soft glowing aureole bleeds outward into the night sky. "
-                "Faint rabbit-mochi-pounding silhouette visible across the surface. The classic 'chushu no meigetsu' (mid-autumn moon) of ukiyo-e.")
+        return ("Full moon (Kumanashi - 'no shadows'). A perfect glowing disc, fully and evenly illuminated. "
+                "Faint rabbit-mochi-pounding silhouette visible across the lit surface. "
+                "The disc has a subtle inner luminance — but NO halo or glow extends beyond the disc into the background.")
     if phase == "last_quarter":
-        return ("Last quarter half-moon (Ariake). The LEFT half of the moon is fully illuminated, the RIGHT half in deep indigo shadow. "
-                "Mirror image of the first quarter. The melancholy moon lingering in the dawn sky.")
+        return ("Last quarter half-moon (Ariake). The LEFT half of the moon is fully illuminated. "
+                "The RIGHT half is PURE BLACK and completely invisible (merges into the black background). "
+                "Mirror image of the first quarter. Faint rabbit-mochi silhouette inside the lit left half.")
     if phase == "waxing_crescent":
-        return (f"Waxing crescent moon, with the RIGHT side illuminated at approximately {pct}% of the disc. "
-                f"Crescent opening to the LEFT, with the bright sliver on the right edge. "
-                f"The shadow side is deep indigo with a faint silhouette of the dark portion.")
+        return (f"Waxing crescent moon, with only the RIGHT side illuminated — about {pct}% of the disc is lit. "
+                f"Crescent opens to the LEFT, the bright sliver hugs the right edge. "
+                f"The unlit portion is PURE BLACK and DISAPPEARS completely into the black background — it must NOT be visible at all.")
     if phase == "waxing_gibbous":
-        return (f"Waxing gibbous moon, with the RIGHT side dominantly illuminated at approximately {pct}% of the disc. "
-                f"Shadow on the LEFT edge only. Soft sumi-bokashi terminator on the left side.")
+        return (f"Waxing gibbous moon, RIGHT side dominantly illuminated — about {pct}% of the disc is lit. "
+                f"Only a thin crescent of darkness on the LEFT edge — that dark portion is PURE BLACK and invisible against the background. "
+                f"Faint rabbit-mochi inside the lit area.")
     if phase == "waning_gibbous":
-        return (f"Waning gibbous moon, with the LEFT side dominantly illuminated at approximately {pct}% of the disc. "
-                f"Shadow on the RIGHT edge only. Mirror of waxing gibbous.")
+        return (f"Waning gibbous moon, LEFT side dominantly illuminated — about {pct}% of the disc is lit. "
+                f"Only a thin crescent of darkness on the RIGHT edge — PURE BLACK, invisible against the background. "
+                f"Faint rabbit-mochi inside the lit area.")
     if phase == "waning_crescent":
-        return (f"Waning crescent moon, with the LEFT side illuminated at approximately {pct}% of the disc. "
-                f"Crescent opening to the RIGHT, with the bright sliver on the left edge.")
+        return (f"Waning crescent moon, only the LEFT side illuminated — about {pct}% of the disc is lit. "
+                f"Crescent opens to the RIGHT, the bright sliver hugs the left edge. "
+                f"The unlit portion is PURE BLACK and disappears completely into the background.")
     if phase == "old_moon":
-        return ("Old moon (Tsugomori, 'month-hidden'). Almost entirely dark, with only the faintest sliver of light "
-                "on the LEFT edge, on the verge of vanishing.")
+        return ("Old moon (Tsugomori, 'month-hidden'). The entire disc is PURE BLACK and vanishes into the background. "
+                "Only a hair-line sliver of pale light at the LEFT edge remains visible.")
     return ""
 
 
@@ -124,8 +134,8 @@ def build_prompt(spec: dict) -> str:
     desc = phase_description(spec)
     special = ""
     if spec.get("special") == "tsukinukurushasa-tooka-mikka":
-        special = (" Special: this is 'Atarayo', evoking the Okinawan folk song 'Tsuki nu kaisha juu nu mikka' "
-                   "(the moon is most beautiful on the 13th); add the most delicate gold-leaf shimmer.")
+        special = (" Special note: this is 'Atarayo', the moon of the 13th lunar day — slightly warmer gold tone in the lit area, "
+                   "but still ONLY the moon disc, no decoration outside the disc.")
     return f"{COMMON_STYLE}\n\nMoon phase: {desc}{special}"
 
 
