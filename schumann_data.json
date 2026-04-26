@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-26T02:03:09.116842+00:00",
+  "timestamp": "2026-04-26T07:09:08.636727+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -10,7 +10,7 @@
       "confidence": 85
     },
     "F2": {
-      "hz": 14.2,
+      "hz": 14.3,
       "confidence": 80
     },
     "F3": {
@@ -18,22 +18,22 @@
       "confidence": 75
     },
     "F4": {
-      "hz": 24.8,
+      "hz": 24.78,
       "confidence": 70
     },
     "F5": {
-      "hz": 33.5,
+      "hz": 33.0,
       "confidence": 30
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "23-24日の夜間に強いノイズイベント（スペクトログラム白色領域）あり。F3は変動大、最新値はやや低め。F5は折れ線では明確に読み取れず推定値。",
+  "notes": "24日0-7時頃にスペクトログラムで強い広帯域の擾乱（白色化）が見られ、同時刻帯にF3線が大きく低下。右端時刻ではデータは概ね安定しており、F1は約7.75Hz付近で推移。F5は折れ線に明示されておらず信頼度低い。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 11.05,
-    "tomsk_hour": 7.65,
+    "japan_hour": 16.15,
+    "tomsk_hour": 12.75,
     "is_day_japan": true,
     "is_day_tomsk": true
   }
