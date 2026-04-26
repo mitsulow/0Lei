@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-26T15:00:43.049528+00:00",
+  "timestamp": "2026-04-26T15:56:22.099485+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -10,7 +10,7 @@
       "confidence": 85
     },
     "F2": {
-      "hz": 14.2,
+      "hz": 14.3,
       "confidence": 80
     },
     "F3": {
@@ -18,7 +18,7 @@
       "confidence": 75
     },
     "F4": {
-      "hz": 24.8,
+      "hz": 24.78,
       "confidence": 70
     },
     "F5": {
@@ -28,12 +28,12 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "23-24日の夜間（UTC23時〜5時頃）に強い広帯域擾乱が発生し、スペクトログラム上で飽和状態。F3は変動が大きく、F4は比較的安定。F5は折れ線では明示されず信頼度低い。全体的に活動度は中程度で、夜間に顕著な擾乱イベントあり。",
+  "notes": "24日深夜から早朝にかけてスペクトログラムに強い擾乱（白色化領域）が見られ、F3に大きな下方スパイクが発生。右端では各モードとも安定方向に回復傾向。F5は折れ線では確認困難。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 0.0,
-    "tomsk_hour": 20.6,
+    "japan_hour": 0.93,
+    "tomsk_hour": 21.53,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
