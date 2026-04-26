@@ -2003,85 +2003,74 @@
     color: var(--ink);
   }
 
-  .cal-header {
+  /* ★v6改: cal-header は廃止 */
+
+  .today-moon {
     text-align: center;
-    padding-bottom: 1.3rem;
-    border-bottom: 1px solid rgba(110, 196, 245, 0.15);
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.8rem;
+    padding-top: 0.4rem;
   }
 
-  /* ★v6: カレンダーヘッダーのブランドキャッチ（cal-title-en内に統合済み） */
-
-  .cal-title-jp {
+  /* ★v6改: 旧暦日付（旧 .cal-title-jp 相当の大きさ） */
+  .today-lunar-big {
     font-family: 'Shippori Mincho', serif;
     font-size: 1.4rem;
     font-weight: 600;
-    letter-spacing: 0.4em;
+    letter-spacing: 0.35em;
     color: var(--moon-white);
     margin-bottom: 0.3rem;
   }
 
-  .cal-title-en {
+  /* ★v6改: 月名（〜トカンヤ〜） */
+  .today-lunar-name {
     font-family: 'Shippori Mincho', serif;
-    font-size: 0.62rem;
-    letter-spacing: 0.25em;
-    color: rgba(201, 169, 97, 0.55);
-    text-indent: 0.25em;
+    font-size: 0.85rem;
+    letter-spacing: 0.4em;
+    color: rgba(232, 184, 77, 0.85);
+    margin-bottom: 0.6rem;
   }
 
-  .today-moon { text-align: center; margin-bottom: 1.8rem; }
-
+  /* ★v6改: 日本語日付 */
   .today-date-str {
-    font-family: 'Cinzel', serif;
-    font-size: 0.75rem;
-    letter-spacing: 0.2em;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
     color: var(--ink-dim);
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.4rem;
   }
 
   .today-big-moon {
-    width: 130px; height: 130px;
-    border-radius: 50%;
-    margin: 0.8rem auto;
+    width: 200px; height: 200px;
+    margin: 0.4rem auto 0.6rem;
     position: relative;
-    overflow: hidden;
-    background: #0a0a12;
-    box-shadow: 0 0 40px rgba(244, 239, 216, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .today-moon-lit {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 35% 35%, #faf5e0, #e8dfb8 40%, #b5a872 80%, #8a7a4a);
-  }
-  .today-moon-lit::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(circle at 30% 40%, rgba(0,0,0,0.18) 0%, transparent 8%),
-      radial-gradient(circle at 65% 55%, rgba(0,0,0,0.14) 0%, transparent 6%),
-      radial-gradient(circle at 50% 70%, rgba(0,0,0,0.12) 0%, transparent 5%);
-  }
-  .today-moon-shadow {
-    position: absolute; inset: 0;
-    background: #0a0a12;
-    border-radius: 50%;
+  /* ★v6改: 浮世絵風 月アイコン本体 */
+  .today-moon-img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+    filter: drop-shadow(0 0 22px rgba(232, 184, 77, 0.18));
   }
 
+  /* ★v6改: MOON AGE は控えめに */
   .today-age {
     font-family: 'Cinzel', serif;
-    font-size: 2.3rem;
+    font-size: 1.4rem;
     font-weight: 300;
     color: var(--moon-white);
     line-height: 1;
   }
 
   .today-age-label {
-    font-size: 0.65rem;
+    font-size: 0.6rem;
     letter-spacing: 0.3em;
     color: var(--ink-faint);
-    margin-bottom: 0.6rem;
+    margin-top: 0.2rem;
   }
 
   .today-phase-jp {
@@ -3020,15 +3009,15 @@
 <!-- カレンダービュー ★v6変更箇所★ -->
 <div class="calendar-view" id="calendarView">
   <div class="cal-container">
-    <div class="cal-header">
-      <div class="cal-title-jp">月 の 暦</div>
-      <div class="cal-title-en">月 を 想 う 、 女 性 の た め の ツ キ ヨ ガ</div>
-    </div>
     <div class="today-moon">
+      <!-- ★v6改: 旧暦日付（大）＋月名（小） -->
+      <div class="today-lunar-big" id="todayLunarBig">— —</div>
+      <div class="today-lunar-name" id="todayLunarName">— — —</div>
+      <!-- ★v6改: 日本語の今日日付 -->
       <div class="today-date-str" id="calTodayDate">—</div>
+      <!-- ★v6改: 浮世絵風 月アイコン -->
       <div class="today-big-moon">
-        <div class="today-moon-lit"></div>
-        <div class="today-moon-shadow" id="todayMoonShadow"></div>
+        <img class="today-moon-img" id="todayMoonImg" alt="今日の月" src="" width="200" height="200">
       </div>
       <div class="today-age" id="calTodayAge">—</div>
       <div class="today-age-label">MOON AGE</div>
@@ -5401,14 +5390,24 @@ const COASTLINES = [
     const age = getMoonAge(now);
     const phase = getPhaseName(age);
     const wd = ['日','月','火','水','木','金','土'];
-    const months = ['January','February','March','April','May','June',
-                    'July','August','September','October','November','December'];
+
+    // ★v6改: 日本語表記の今日日付（2026年4月26日（日））
     document.getElementById('calTodayDate').textContent =
-      `${months[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()} · ${wd[now.getDay()]}`;
+      `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日（${wd[now.getDay()]}）`;
     document.getElementById('calTodayAge').textContent = age.toFixed(1);
-    // ★v6: カレンダートップの月相名は削除（下の現在地カードと重複するため）
-    // document.getElementById('calTodayPhase').textContent = phase.jp;
-    applyMoonShadow(document.getElementById('todayMoonShadow'), age / SYNODIC_MONTH);
+
+    // ★v6改: 旧暦と月名（ヘッダ位置）＋ 浮世絵アイコン
+    {
+      const lunar = getLunarDate(now);
+      const day = Math.min(Math.max(1, lunar.day), 30);
+      const moonInfo = getMoonNameForLunarDay(day);
+      const lunarBigEl = document.getElementById('todayLunarBig');
+      const lunarNameEl = document.getElementById('todayLunarName');
+      const moonImgEl = document.getElementById('todayMoonImg');
+      if (lunarBigEl) lunarBigEl.textContent = `旧 暦 ${lunar.month} 月 ${day} 日`;
+      if (lunarNameEl) lunarNameEl.textContent = `〜 ${moonInfo.name} 〜`;
+      if (moonImgEl) moonImgEl.src = `./moon_icons/moon_${String(day).padStart(2, '0')}.png`;
+    }
 
     // ★v6: 現在地カードの更新
     const cur = getCurrentPhase(now);
