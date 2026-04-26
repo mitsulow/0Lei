@@ -2604,17 +2604,19 @@
     margin: 8px 0 10px;
     color: rgba(255,255,255,0.92);
   }
-  .matsuri-pose-wrap {
-    text-align: center;
-    margin-bottom: 12px;
-  }
-  .matsuri-pose-img {
-    width: 180px;
-    height: 180px;
+  /* ★v6改: 各ブロック内のポーズ画像 */
+  .matsuri-block-pose {
+    width: 100%;
+    max-width: 160px;
+    height: auto;
+    aspect-ratio: 3 / 4;
     display: block;
-    margin: 0 auto;
+    margin: 0 auto 8px;
     object-fit: contain;
-    filter: drop-shadow(0 0 16px rgba(232, 184, 77, 0.12));
+    filter: drop-shadow(0 0 12px rgba(232, 184, 77, 0.10));
+  }
+  .matsuri-yoru .matsuri-block-pose {
+    filter: drop-shadow(0 0 12px rgba(120, 140, 220, 0.12));
   }
 
   .matsuri-grid {
@@ -3025,15 +3027,11 @@
       <div class="phase-next-time" id="nextSeitenTime">—</div>
     </div>
 
-    <!-- ★v6改: ヒルマツリ・ヨルマツリ パネル（ポーズ画像中心） -->
+    <!-- ★v6改: ヒルマツリ・ヨルマツリ パネル（昼夜それぞれにポーズ画像） -->
     <div class="matsuri-panel" id="matsuriPanel">
-      <!-- 今日のポーズ画像 -->
-      <div class="matsuri-pose-wrap">
-        <img class="matsuri-pose-img" id="matsuriPoseImg" alt="今日のポーズ" src="">
-      </div>
-
       <div class="matsuri-grid">
         <div class="matsuri-block matsuri-hiru">
+          <img class="matsuri-block-pose" id="matsuriHiruPose" alt="ヒルマツリのポーズ" src="">
           <div class="matsuri-icon-row">
             <span class="matsuri-icon">☀</span>
             <span class="matsuri-label">ヒルマツリ</span>
@@ -3043,6 +3041,7 @@
         </div>
 
         <div class="matsuri-block matsuri-yoru">
+          <img class="matsuri-block-pose" id="matsuriYoruPose" alt="ヨルマツリのポーズ" src="">
           <div class="matsuri-icon-row">
             <span class="matsuri-icon">☾</span>
             <span class="matsuri-label">ヨルマツリ</span>
@@ -3220,9 +3219,12 @@
     setText('matsuriDetailName', data.name);
     setText('matsuriDetailKanji', data.kanji || '');
     setText('matsuriDetailNote', data.note || '');
-    // ★v6改: 時計の代わりに今日のポーズ画像を表示
-    const poseEl = document.getElementById('matsuriPoseImg');
-    if (poseEl) poseEl.src = `./pose_icons/pose_${String(day).padStart(2, '0')}.png`;
+    // ★v6改: 昼夜それぞれにポーズ画像（南向き立ち / 北向き座位）
+    const dd = String(day).padStart(2, '0');
+    const hiruEl = document.getElementById('matsuriHiruPose');
+    const yoruEl = document.getElementById('matsuriYoruPose');
+    if (hiruEl) hiruEl.src = `./pose_icons/hiru_${dd}.png`;
+    if (yoruEl) yoruEl.src = `./pose_icons/yoru_${dd}.png`;
   }
 
   // ★v6: 詳細トグル（DOMContentLoaded で確実にバインド）
