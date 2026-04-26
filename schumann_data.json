@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-26T08:36:50.586705+00:00",
+  "timestamp": "2026-04-26T09:35:58.048223+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -7,7 +7,7 @@
   "modes": {
     "F1": {
       "hz": 7.75,
-      "confidence": 85
+      "confidence": 80
     },
     "F2": {
       "hz": 14.2,
@@ -22,19 +22,19 @@
       "confidence": 70
     },
     "F5": {
-      "hz": 33.0,
+      "hz": 33.8,
       "confidence": 30
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "24日深夜から早朝にかけてスペクトログラムに強いブロードバンド擾乱（白色化領域）が見られ、観測機器の異常または強い電磁擾乱の可能性。F3は変動が大きく、F4は安定。F5は折れ線では明確に表示されず信頼度低い。",
+  "notes": "24日0-7時頃に強い広帯域ノイズ（白色化）あり、データ欠損も発生。右端ではF1〜F4は安定して読み取れるが、F5は折れ線上に明確な線が無く信頼度低い。スペクトログラムでは8Hz、14Hz、20Hz付近に明瞭な共振バンドが確認できる。",
   "polarization": {
-    "state": "right",
-    "state_jp": "右回転（昼）",
-    "japan_hour": 17.6,
-    "tomsk_hour": 14.2,
-    "is_day_japan": true,
+    "state": "left",
+    "state_jp": "左回転（夜）",
+    "japan_hour": 18.58,
+    "tomsk_hour": 15.18,
+    "is_day_japan": false,
     "is_day_tomsk": true
   }
 }
