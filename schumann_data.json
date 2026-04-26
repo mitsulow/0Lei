@@ -1,5 +1,40 @@
 {
-  "timestamp": "2026-04-26T17:23:43.883156+00:00",
-  "status": "error",
-  "error": "Line graph unreachable"
+  "timestamp": "2026-04-26T18:03:09.397911+00:00",
+  "status": "ok",
+  "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
+  "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
+  "model": "claude-opus-4-7",
+  "modes": {
+    "F1": {
+      "hz": 7.75,
+      "confidence": 85
+    },
+    "F2": {
+      "hz": 14.04,
+      "confidence": 80
+    },
+    "F3": {
+      "hz": 20.2,
+      "confidence": 75
+    },
+    "F4": {
+      "hz": 24.78,
+      "confidence": 70
+    },
+    "F5": {
+      "hz": null,
+      "confidence": 0
+    }
+  },
+  "amplitude_level": "medium",
+  "strongest_mode": "F1",
+  "notes": "23-24日の夜間に大きな擾乱（スペクトログラムで広帯域の強い発光）が見られ、F3が一時的に大きく低下。右端では各モードとも安定方向に回復傾向。F5は折れ線では表示されておらず読み取り不可。",
+  "polarization": {
+    "state": "left",
+    "state_jp": "左回転（夜）",
+    "japan_hour": 3.05,
+    "tomsk_hour": 23.65,
+    "is_day_japan": false,
+    "is_day_tomsk": false
+  }
 }
