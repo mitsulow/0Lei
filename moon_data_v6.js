@@ -24,9 +24,12 @@
 
   function getHandClocks(d) {
     const halfDeg = totalOpenDeg(d) / 2;
+    const norm = (a) => ((a % 360) + 360) % 360;
     return {
       right: angleToClock(halfDeg),
       left: angleToClock(-halfDeg),
+      rightDeg: norm(halfDeg),
+      leftDeg: norm(-halfDeg),
     };
   }
 
@@ -105,8 +108,17 @@
         angle: meta.angle,
         note: base.note || meta.note,
         icon: `./moon_icons/moon_${pad2(d)}.png`,
-        hiru: { time: times.hiru, clockRight: hands.right, clockLeft: hands.left },
-        yoru: { time: times.yoru, clockRight: hands.left,  clockLeft: hands.right },
+        hiru: {
+          time: times.hiru,
+          clockRight: hands.right, clockLeft: hands.left,
+          clockRightDeg: hands.rightDeg, clockLeftDeg: hands.leftDeg,
+        },
+        yoru: {
+          // ヨルマツリは右手＝月、左手＝太陽。ヒルマツリの左右が反転
+          time: times.yoru,
+          clockRight: hands.left,  clockLeft: hands.right,
+          clockRightDeg: hands.leftDeg, clockLeftDeg: hands.rightDeg,
+        },
         // 体位
         hiruBody: '南向きに立つ',
         yoruBody: '北向きに座る',
