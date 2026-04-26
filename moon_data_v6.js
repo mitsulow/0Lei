@@ -33,22 +33,12 @@
     };
   }
 
-  // ヒルマツリ・ヨルマツリ時刻
-  // 1日 12:00 起点、各日 48 分シフト（月の南中の概算遅延）
+  // ヒルマツリ・ヨルマツリ時刻（v6改: 固定）
+  // ヒルマツリ＝太陽南中＝常に 12:00
+  // ヨルマツリ＝深夜の中心＝常に 00:00
   function pad2(n) { return String(n).padStart(2, '0'); }
-  function minToHM(min) {
-    const m = ((min % 1440) + 1440) % 1440;
-    const m30 = Math.round(m / 30) * 30;
-    let hh = Math.floor(m30 / 60) % 24;
-    let mm = m30 % 60;
-    if (mm === 60) { hh = (hh + 1) % 24; mm = 0; }
-    return `${pad2(hh)}:${pad2(mm)}`;
-  }
   function getMatsuriTimes(d) {
-    const offset = (d - 1) * 48;
-    const hiruMin = 12 * 60 + offset;
-    const yoruMin = hiruMin + 12 * 60;
-    return { hiru: minToHM(hiruMin), yoru: minToHM(yoruMin) };
+    return { hiru: '12:00', yoru: '00:00' };
   }
 
   // === 30日のメタ情報（既存の MOON_NAMES_30 を拡張） =======================
