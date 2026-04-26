@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-04-26T19:12:38.456765+00:00",
+  "timestamp": "2026-04-26T19:54:48.537210+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.75,
+      "hz": 7.81,
       "confidence": 85
     },
     "F2": {
@@ -28,12 +28,12 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "23-24日の境目付近に大きな擾乱（スペクトログラムで広帯域の強い信号、F4が一時的に大きく低下）が見られる。最新時刻ではF1〜F4は概ね安定。F5は折れ線グラフに表示されておらず読み取り不可。",
+  "notes": "23-24日深夜に大規模な擾乱（スペクトログラムで広帯域の強い信号）が見られ、F3が一時的に18.5Hz付近まで低下。右端時刻では概ね通常値に回復しているが、F2,F3はやや変動大。F5は本グラフでは表示されていない。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 4.2,
-    "tomsk_hour": 0.8,
+    "japan_hour": 4.9,
+    "tomsk_hour": 1.5,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
