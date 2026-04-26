@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-04-26T19:54:48.537210+00:00",
+  "timestamp": "2026-04-26T20:31:49.234075+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.81,
+      "hz": 7.75,
       "confidence": 85
     },
     "F2": {
@@ -14,11 +14,11 @@
       "confidence": 80
     },
     "F3": {
-      "hz": 20.3,
+      "hz": 20.1,
       "confidence": 75
     },
     "F4": {
-      "hz": 24.8,
+      "hz": 24.78,
       "confidence": 70
     },
     "F5": {
@@ -28,12 +28,12 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "23-24日深夜に大規模な擾乱（スペクトログラムで広帯域の強い信号）が見られ、F3が一時的に18.5Hz付近まで低下。右端時刻では概ね通常値に回復しているが、F2,F3はやや変動大。F5は本グラフでは表示されていない。",
+  "notes": "23日深夜から24日早朝にかけてスペクトログラム上で広帯域の強い擾乱（白色化）が見られ、地磁気活動の高まりを示唆。右端のF1は7.75Hz付近で安定、F2は14Hz付近、F3は20Hz付近で推移。F4は24.78Hz付近で読み取り、F5は本グラフに表示なし。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 4.9,
-    "tomsk_hour": 1.5,
+    "japan_hour": 5.52,
+    "tomsk_hour": 2.12,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
