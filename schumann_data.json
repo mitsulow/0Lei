@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-26T10:28:24.855424+00:00",
+  "timestamp": "2026-04-26T11:12:08.614934+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -22,18 +22,18 @@
       "confidence": 70
     },
     "F5": {
-      "hz": 33.5,
+      "hz": 33.8,
       "confidence": 30
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "24日深夜から早朝にかけてスペクトログラムに強い広帯域擾乱（局地雷or機器ノイズ）が見られ、F3付近で大きな乱れ。右端ではF1〜F4は安定して読み取れるが、F5は折れ線グラフに明確な線がなく信頼度低い。",
+  "notes": "24日0-7時頃にスペクトログラムで強い広帯域擾乱（局所雷または機器ノイズ）が見られ、F3で大きな下降スパイクが発生。右端ではF1～F4はおおむね安定して回復傾向。F5は折れ線では確認困難。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 19.47,
-    "tomsk_hour": 16.07,
+    "japan_hour": 20.2,
+    "tomsk_hour": 16.8,
     "is_day_japan": false,
     "is_day_tomsk": true
   }
