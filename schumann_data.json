@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-26T22:00:07.411351+00:00",
+  "timestamp": "2026-04-26T22:48:56.548174+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -28,12 +28,12 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "24日深夜から早朝にかけて大きな擾乱（スペクトログラム上で広帯域の白色領域）が見られ、F3が一時的に大きく低下。右端ではF1がやや低下傾向、F2は14Hz付近で安定。F5の線は確認できず。",
+  "notes": "23-24日の0-7時頃にスペクトログラム上で広帯域の強い擾乱（白色化）が見られ、地磁気活動または機器ノイズの可能性。右端では各モードとも安定して読み取れるが、F5は折れ線に表示なし。F1は7.7-7.8Hz付近で推移。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 7.0,
-    "tomsk_hour": 3.6,
+    "japan_hour": 7.8,
+    "tomsk_hour": 4.4,
     "is_day_japan": true,
     "is_day_tomsk": false
   }
