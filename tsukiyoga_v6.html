@@ -982,6 +982,69 @@
     }
   }
 
+  /* ★v6: マツリドキ・重力4点 */
+  .memo-modal-matsuri {
+    margin-top: 10px;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.74rem;
+    letter-spacing: 0.12em;
+    color: rgba(170, 200, 230, 0.78);
+    line-height: 1.65;
+  }
+  .memo-modal-matsuri:empty { display: none; }
+  .matsuri-row {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+  }
+  .matsuri-row .matsuri-label {
+    color: rgba(201, 169, 97, 0.85);
+    min-width: 4.4em;
+    letter-spacing: 0.25em;
+    font-size: 0.7rem;
+  }
+  .matsuri-row .matsuri-asa-label { color: rgba(255, 175, 205, 0.9); }
+  .matsuri-row .matsuri-yoru-label { color: rgba(110, 196, 245, 0.9); }
+  .matsuri-row .matsuri-time {
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.12em;
+    font-size: 0.86rem;
+    color: var(--moon-white);
+  }
+  .gravity-section {
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px dashed rgba(201, 169, 97, 0.18);
+  }
+  .gravity-title {
+    color: rgba(201, 169, 97, 0.85);
+    letter-spacing: 0.3em;
+    font-size: 0.7rem;
+    margin-bottom: 5px;
+  }
+  .gravity-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 12px;
+  }
+  .gravity-cell {
+    display: flex;
+    gap: 6px;
+    align-items: baseline;
+  }
+  .gravity-cell .gravity-label {
+    color: rgba(170, 200, 230, 0.65);
+    font-size: 0.66rem;
+    letter-spacing: 0.18em;
+    min-width: 4em;
+  }
+  .gravity-cell .gravity-time {
+    font-family: 'Cinzel', serif;
+    font-size: 0.78rem;
+    color: var(--moon-white);
+    letter-spacing: 0.1em;
+  }
+
   .memo-modal-close {
     background: none;
     border: 1px solid rgba(138, 160, 184, 0.3);
@@ -2694,6 +2757,8 @@
         <div class="memo-modal-lunar" id="memoLunar"></div>
         <div class="memo-modal-seiten" id="memoSeiten"></div>
         <div class="memo-modal-tide" id="memoTide"></div>
+        <!-- ★v6: マツリドキと重力4点 -->
+        <div class="memo-modal-matsuri" id="memoMatsuri"></div>
       </div>
       <button class="memo-modal-close" id="memoClose">×</button>
     </div>
@@ -5207,6 +5272,124 @@ const COASTLINES = [
     ariake:     '9'
   };
 
+  // ★v6: マツリドキ計算
+  // 定義: 太陽の方位角と月の方位角が南北正中線について鏡像になる瞬間
+  //       （α_sun + α_moon ≡ 0 mod 2π）
+  // 1日に2回。 朝祀り = 00:00〜11:59、 夜祭り = 12:00〜23:59
+  function findMatsuriDokiForDate(dateStr, lat, lon) {
+    const [y, m, d] = dateStr.split('-').map(Number);
+    const start = new Date(y, m - 1, d, 0, 0, 0);
+    const STEP_MS = 60 * 1000; // 1分刻み
+    const TOTAL_MIN = 24 * 60;
+    let prev = null;
+    let prevTime = 0;
+    const events = [];
+    for (let i = 0; i <= TOTAL_MIN; i++) {
+      const t = start.getTime() + i * STEP_MS;
+      const date = new Date(t);
+      const sun = SunCalc.getPosition(date, lat, lon);
+      const moon = SunCalc.getMoonPosition(date, lat, lon);
+      // 方位角の和を [-π, π] に正規化
+      const sumRaw = sun.azimuth + moon.azimuth;
+      const sum = Math.atan2(Math.sin(sumRaw), Math.cos(sumRaw));
+      if (prev !== null) {
+        // 0 をまたいだか（±π はマツリドキではないので除外）
+        if (Math.sign(prev) !== Math.sign(sum)) {
+          const total = Math.abs(prev) + Math.abs(sum);
+          // 急激な変化（±π付近）はスキップ
+          if (total < Math.PI * 0.5) {
+            const ratio = Math.abs(prev) / total;
+            const eventTime = new Date(prevTime + ratio * STEP_MS);
+            events.push(eventTime);
+          }
+        }
+      }
+      prev = sum;
+      prevTime = t;
+    }
+    // 朝祀り（00-12）と夜祭り（12-24）に振り分け
+    let asa = null, yoru = null;
+    for (const ev of events) {
+      const hh = ev.getHours();
+      if (hh < 12 && !asa) asa = ev;
+      else if (hh >= 12 && !yoru) yoru = ev;
+    }
+    return { asa, yoru };
+  }
+
+  // ★v6: 月の重力4点（南中・北中・月の出・月の入り）
+  function findMoonGravityPoints(dateStr, lat, lon) {
+    const [y, m, d] = dateStr.split('-').map(Number);
+    const start = new Date(y, m - 1, d, 0, 0, 0);
+    const STEP_MS = 60 * 1000;
+    const TOTAL_MIN = 24 * 60;
+
+    let south = null;   // 南中: azimuth = 0 を東→西へ通過、altitude > 0
+    let north = null;   // 北中: azimuth = ±π を西→東へ通過（地平線下OK）
+    let rise = null;    // 月の出: altitude = 0、上昇
+    let set_ = null;    // 月の入り: altitude = 0、下降
+
+    let prevAz = null;
+    let prevAlt = null;
+    let prevTime = 0;
+
+    for (let i = 0; i <= TOTAL_MIN; i++) {
+      const t = start.getTime() + i * STEP_MS;
+      const date = new Date(t);
+      const moon = SunCalc.getMoonPosition(date, lat, lon);
+      const az = moon.azimuth;
+      const alt = moon.altitude;
+
+      if (prevAz !== null) {
+        // 南中: az が 0 をまたぐ
+        if (!south && Math.sign(prevAz) !== Math.sign(az) &&
+            Math.abs(prevAz) + Math.abs(az) < Math.PI * 0.5) {
+          const total = Math.abs(prevAz) + Math.abs(az);
+          const ratio = Math.abs(prevAz) / total;
+          south = new Date(prevTime + ratio * STEP_MS);
+        }
+        // 北中: az が ±π をまたぐ（差が大きい瞬間）
+        if (!north && Math.abs(prevAz - az) > Math.PI) {
+          // wrap した瞬間を北中とする
+          const wrappedPrev = prevAz < 0 ? prevAz + 2 * Math.PI : prevAz;
+          const wrappedCur = az < 0 ? az + 2 * Math.PI : az;
+          // π をまたぐ位置を線形補間
+          const distToPi = Math.abs(wrappedPrev - Math.PI);
+          const total = Math.abs(wrappedPrev - wrappedCur);
+          if (total > 0) {
+            const ratio = distToPi / total;
+            north = new Date(prevTime + ratio * STEP_MS);
+          } else {
+            north = new Date(t);
+          }
+        }
+        // 月の出: alt が 0 を下→上へ
+        if (!rise && prevAlt < 0 && alt >= 0) {
+          const total = -prevAlt + alt;
+          const ratio = -prevAlt / total;
+          rise = new Date(prevTime + ratio * STEP_MS);
+        }
+        // 月の入り: alt が 0 を上→下へ
+        if (!set_ && prevAlt > 0 && alt <= 0) {
+          const total = prevAlt - alt;
+          const ratio = prevAlt / total;
+          set_ = new Date(prevTime + ratio * STEP_MS);
+        }
+      }
+      prevAz = az;
+      prevAlt = alt;
+      prevTime = t;
+    }
+    return { south, north, rise, set: set_ };
+  }
+
+  function fmtTime(d) {
+    if (!d) return '—';
+    const hh = String(d.getHours()).padStart(2, '0');
+    const mm = String(d.getMinutes()).padStart(2, '0');
+    return `${hh}:${mm}`;
+  }
+
   function getSeitenDaysInMonth(year, month) {
     const targets = [
       { key: 'tsukitachi', phase: 0.0 },
@@ -5447,6 +5630,27 @@ const COASTLINES = [
         portEl.addEventListener('click', () => openPortModal(dateStr));
       }
     }).catch(() => {});
+
+    // ★v6: マツリドキと重力4点
+    const matsuriEl = document.getElementById('memoMatsuri');
+    matsuriEl.innerHTML = '';
+    try {
+      const { asa, yoru } = findMatsuriDokiForDate(dateStr, userLocation.lat, userLocation.lon);
+      const grav = findMoonGravityPoints(dateStr, userLocation.lat, userLocation.lon);
+      matsuriEl.innerHTML =
+        `<div class="matsuri-row"><span class="matsuri-label matsuri-asa-label">朝 祀 り</span><span class="matsuri-time">${fmtTime(asa)}</span></div>` +
+        `<div class="matsuri-row"><span class="matsuri-label matsuri-yoru-label">夜 祭 り</span><span class="matsuri-time">${fmtTime(yoru)}</span></div>` +
+        `<div class="gravity-section">` +
+        `<div class="gravity-title">重 力 4 点</div>` +
+        `<div class="gravity-grid">` +
+        `<div class="gravity-cell"><span class="gravity-label">月 真 上</span><span class="gravity-time">${fmtTime(grav.south)}</span></div>` +
+        `<div class="gravity-cell"><span class="gravity-label">月 真 下</span><span class="gravity-time">${fmtTime(grav.north)}</span></div>` +
+        `<div class="gravity-cell"><span class="gravity-label">月 の 出</span><span class="gravity-time">${fmtTime(grav.rise)}</span></div>` +
+        `<div class="gravity-cell"><span class="gravity-label">月 の 入</span><span class="gravity-time">${fmtTime(grav.set)}</span></div>` +
+        `</div></div>`;
+    } catch (err) {
+      console.warn('matsuri calculation error:', err);
+    }
 
     modal.classList.add('active');
     document.body.classList.add('modal-open');
