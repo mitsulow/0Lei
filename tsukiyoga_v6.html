@@ -254,7 +254,7 @@
         let h = altitudeF(H, phi, c.dec);
         // 大気屈折補正
         h = h + rad * 0.017 / Math.tan(h + rad * 10.26 / (h + rad * 5.10));
-        return { azimuth: azimuthF(H, phi, c.dec), altitude: h, distance: c.dist, hourAngle: H };
+        return { azimuth: azimuthF(H, phi, c.dec), altitude: h, distance: c.dist, hourAngle: H, declination: c.dec };
       },
       getPosition: function(date, lat, lng) {
         const lw = rad * -lng;
@@ -263,7 +263,7 @@
         // ★精密太陽位置（Meeus）
         const c = sunCoordsMeeus(d);
         const H = siderealTime(d, lw) - c.ra;
-        return { azimuth: azimuthF(H, phi, c.dec), altitude: altitudeF(H, phi, c.dec), hourAngle: H };
+        return { azimuth: azimuthF(H, phi, c.dec), altitude: altitudeF(H, phi, c.dec), hourAngle: H, declination: c.dec };
       },
       getMoonIllumination: function(date) {
         const d = toDays(date);
@@ -1010,6 +1010,14 @@
     letter-spacing: 0.12em;
     font-size: 0.86rem;
     color: var(--moon-white);
+  }
+  /* ★v6: 両腕の角度（その日の身体角度＝太陽-月の離角） */
+  .matsuri-row .matsuri-angle {
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.08em;
+    font-size: 0.78rem;
+    color: rgba(255, 215, 140, 0.85);
+    margin-left: auto;
   }
   .gravity-section {
     margin-top: 10px;
@@ -5315,7 +5323,20 @@ const COASTLINES = [
       if (hh < 12 && !asa) asa = ev;
       else if (hh >= 12 && !yoru) yoru = ev;
     }
-    return { asa, yoru };
+    // ★v6: 太陽-月の離角（両腕の角度＝本日の身体角度）を計算
+    // 球面距離: cos(d) = sin(δ_sun)sin(δ_moon) + cos(δ_sun)cos(δ_moon)cos(HA_sun - HA_moon)
+    function elongationAt(date) {
+      if (!date) return null;
+      const sun = SunCalc.getPosition(date, lat, lon);
+      const moon = SunCalc.getMoonPosition(date, lat, lon);
+      const cosD = Math.sin(sun.declination) * Math.sin(moon.declination) +
+                   Math.cos(sun.declination) * Math.cos(moon.declination) *
+                   Math.cos(sun.hourAngle - moon.hourAngle);
+      return Math.acos(Math.max(-1, Math.min(1, cosD))); // ラジアン [0, π]
+    }
+    const asaAngle = elongationAt(asa);
+    const yoruAngle = elongationAt(yoru);
+    return { asa, yoru, asaAngle, yoruAngle };
   }
 
   // ★v6: 月の重力4点（南中・北中・月の出・月の入り）
@@ -5636,11 +5657,13 @@ const COASTLINES = [
     const matsuriEl = document.getElementById('memoMatsuri');
     matsuriEl.innerHTML = '';
     try {
-      const { asa, yoru } = findMatsuriDokiForDate(dateStr, userLocation.lat, userLocation.lon);
+      const { asa, yoru, asaAngle, yoruAngle } = findMatsuriDokiForDate(dateStr, userLocation.lat, userLocation.lon);
       const grav = findMoonGravityPoints(dateStr, userLocation.lat, userLocation.lon);
+      // ★v6: 離角（両腕の角度）をフォーマット ─ ラジアン→度（小数点以下1桁）
+      const fmtAngle = a => (a === null || a === undefined) ? '—' : (a * 180 / Math.PI).toFixed(1) + '°';
       matsuriEl.innerHTML =
-        `<div class="matsuri-row"><span class="matsuri-label matsuri-asa-label">朝 祀 り</span><span class="matsuri-time">${fmtTime(asa)}</span></div>` +
-        `<div class="matsuri-row"><span class="matsuri-label matsuri-yoru-label">夜 祭 り</span><span class="matsuri-time">${fmtTime(yoru)}</span></div>` +
+        `<div class="matsuri-row"><span class="matsuri-label matsuri-asa-label">朝 祀 り</span><span class="matsuri-time">${fmtTime(asa)}</span><span class="matsuri-angle">${fmtAngle(asaAngle)}</span></div>` +
+        `<div class="matsuri-row"><span class="matsuri-label matsuri-yoru-label">夜 祭 り</span><span class="matsuri-time">${fmtTime(yoru)}</span><span class="matsuri-angle">${fmtAngle(yoruAngle)}</span></div>` +
         `<div class="gravity-section">` +
         `<div class="gravity-title">重 力 4 点</div>` +
         `<div class="gravity-grid">` +
