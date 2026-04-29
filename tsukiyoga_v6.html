@@ -254,7 +254,7 @@
         let h = altitudeF(H, phi, c.dec);
         // 大気屈折補正
         h = h + rad * 0.017 / Math.tan(h + rad * 10.26 / (h + rad * 5.10));
-        return { azimuth: azimuthF(H, phi, c.dec), altitude: h, distance: c.dist };
+        return { azimuth: azimuthF(H, phi, c.dec), altitude: h, distance: c.dist, hourAngle: H };
       },
       getPosition: function(date, lat, lng) {
         const lw = rad * -lng;
@@ -263,7 +263,7 @@
         // ★精密太陽位置（Meeus）
         const c = sunCoordsMeeus(d);
         const H = siderealTime(d, lw) - c.ra;
-        return { azimuth: azimuthF(H, phi, c.dec), altitude: altitudeF(H, phi, c.dec) };
+        return { azimuth: azimuthF(H, phi, c.dec), altitude: altitudeF(H, phi, c.dec), hourAngle: H };
       },
       getMoonIllumination: function(date) {
         const d = toDays(date);
@@ -5272,9 +5272,10 @@ const COASTLINES = [
     ariake:     '9'
   };
 
-  // ★v6: マツリドキ計算
-  // 定義: 太陽の方位角と月の方位角が南北正中線について鏡像になる瞬間
-  //       （α_sun + α_moon ≡ 0 mod 2π）
+  // ★v6: マツリドキ計算（HAベース）
+  // 定義: 太陽と月の地球から見た方向ベクトルが、観測者の南北軸に対して左右対称
+  //       条件: HA_sun + HA_moon ≡ 0 (mod 2π)
+  // 緯度に依存せず、観測者の経度のみに依存する天体配置の鏡像時刻
   // 1日に2回。 朝祀り = 00:00〜11:59、 夜祭り = 12:00〜23:59
   function findMatsuriDokiForDate(dateStr, lat, lon) {
     const [y, m, d] = dateStr.split('-').map(Number);
@@ -5289,8 +5290,8 @@ const COASTLINES = [
       const date = new Date(t);
       const sun = SunCalc.getPosition(date, lat, lon);
       const moon = SunCalc.getMoonPosition(date, lat, lon);
-      // 方位角の和を [-π, π] に正規化
-      const sumRaw = sun.azimuth + moon.azimuth;
+      // ★HAベース: 時角の和を [-π, π] に正規化
+      const sumRaw = sun.hourAngle + moon.hourAngle;
       const sum = Math.atan2(Math.sin(sumRaw), Math.cos(sumRaw));
       if (prev !== null) {
         // 0 をまたいだか（±π はマツリドキではないので除外）
