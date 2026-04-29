@@ -5420,12 +5420,24 @@ const COASTLINES = [
       { key: 'ariake',     phase: 0.75 }
     ];
     const result = {};
-    const searchStart = new Date(year, month, 1, 0, 0, 0);
-    searchStart.setDate(searchStart.getDate() - 5);
+    const monthStart = new Date(year, month, 1, 0, 0, 0);
+    const monthEnd = new Date(year, month + 1, 1, 0, 0, 0);
+
     for (const t of targets) {
-      const time = findNextSeitenTime(searchStart, t.phase);
-      if (time.getFullYear() === year && time.getMonth() === month) {
-        result[time.getDate()] = t.key;
+      // 月初の3日前から探索開始（前月末の聖点と重複しない範囲）
+      let searchPoint = new Date(monthStart);
+      searchPoint.setDate(searchPoint.getDate() - 3);
+
+      // ★bugfix: 朔望月29.53日 < 31日 なので、同じ phase が月内に2回起きる
+      //         ことがある（ブルームーン等）。最大2回ループで取りこぼし防止。
+      for (let i = 0; i < 2; i++) {
+        const time = findNextSeitenTime(searchPoint, t.phase);
+        if (time.getTime() >= monthEnd.getTime()) break;
+        if (time.getTime() >= monthStart.getTime()) {
+          result[time.getDate()] = t.key;
+        }
+        // 次の同phase聖点を探すため、結果の1時間後から再探索
+        searchPoint = new Date(time.getTime() + 60 * 60 * 1000);
       }
     }
     return result;
