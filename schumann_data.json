@@ -1,25 +1,25 @@
 {
-  "timestamp": "2026-04-29T11:18:47.493227+00:00",
+  "timestamp": "2026-04-29T13:04:42.635244+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.81,
+      "hz": 7.85,
       "confidence": 85
     },
     "F2": {
-      "hz": 14.3,
+      "hz": 14.5,
       "confidence": 80
     },
     "F3": {
-      "hz": 20.2,
+      "hz": 20.8,
       "confidence": 80
     },
     "F4": {
-      "hz": 24.86,
-      "confidence": 70
+      "hz": 25.4,
+      "confidence": 60
     },
     "F5": {
       "hz": null,
@@ -28,13 +28,13 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "F1〜F4は明瞭に推移。F5は表示なし。28日早朝に緑線（F4）に顕著なスパイクあり。スペクトログラムでは8Hz、14Hz帯が活発。",
+  "notes": "右端でF4が一時的に上昇傾向。F1は安定して7.8Hz台。F5はグラフ範囲外で読み取り不可。スペクトログラムでは8Hz、14Hz、20Hz付近に明瞭なバンド、24Hz付近にも線状の信号あり。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 20.3,
-    "tomsk_hour": 16.9,
+    "japan_hour": 22.07,
+    "tomsk_hour": 18.67,
     "is_day_japan": false,
-    "is_day_tomsk": true
+    "is_day_tomsk": false
   }
 }
