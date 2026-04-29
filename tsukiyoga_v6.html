@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>ツキヨガ v6 · 月はいまどこに</title>
-<script src="./moon_data_v6.js?v=2" defer></script>
+<!-- moon_data_v6.js (マツリ関連) 削除済み -->
 
 <!-- PWA -->
 <link rel="manifest" href="./manifest.json">
@@ -2595,148 +2595,7 @@
     font-size: 0.7rem;
   }
 
-  /* ===== ★v6: マツリパネル（v6改: ポーズ画像中心） ===== */
-  .matsuri-panel {
-    background: transparent;
-    border: none;
-    border-radius: 0;
-    padding: 4px 0 0;
-    margin: 8px 0 10px;
-    color: rgba(255,255,255,0.92);
-  }
-  /* ★v6改: 各ブロック内のポーズ画像 */
-  .matsuri-block-pose {
-    width: 100%;
-    max-width: 160px;
-    height: auto;
-    aspect-ratio: 3 / 4;
-    display: block;
-    margin: 0 auto 8px;
-    object-fit: contain;
-    filter: drop-shadow(0 0 12px rgba(232, 184, 77, 0.10));
-  }
-  .matsuri-yoru .matsuri-block-pose {
-    filter: drop-shadow(0 0 12px rgba(120, 140, 220, 0.12));
-  }
-
-  .matsuri-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 8px;
-  }
-  @media (max-width: 380px) {
-    .matsuri-grid { grid-template-columns: 1fr; }
-  }
-  .matsuri-block {
-    background: rgba(255,255,255,0.035);
-    border-radius: 10px;
-    padding: 12px 12px 10px;
-  }
-  .matsuri-hiru { border-left: 3px solid #ffb650; }
-  .matsuri-yoru { border-left: 3px solid #5e7eff; }
-  .matsuri-icon-row {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-bottom: 4px;
-  }
-  .matsuri-icon {
-    font-size: 1.1rem;
-  }
-  .matsuri-hiru .matsuri-icon { color: #ffb650; }
-  .matsuri-yoru .matsuri-icon { color: #9cb1ff; }
-  .matsuri-label {
-    font-size: 0.95rem;
-    letter-spacing: 0.08em;
-    color: #fff;
-  }
-  .matsuri-sub {
-    font-size: 0.7rem;
-    color: rgba(255,255,255,0.45);
-    margin-left: auto;
-  }
-  .matsuri-time {
-    font-size: 1.6rem;
-    font-weight: 500;
-    color: #fff;
-    letter-spacing: 0.04em;
-    margin: 2px 0 4px;
-    font-feature-settings: 'tnum';
-  }
-  .matsuri-body {
-    font-size: 0.78rem;
-    color: rgba(255,255,255,0.6);
-    margin-bottom: 6px;
-  }
-  .matsuri-hands {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-  .hand-row {
-    display: grid;
-    grid-template-columns: 2.4em 2.4em 1fr;
-    gap: 6px;
-    font-size: 0.82rem;
-    color: rgba(255,255,255,0.85);
-    align-items: center;
-    margin: 2px 0;
-  }
-  .hand-side {
-    color: rgba(255,255,255,0.5);
-    font-size: 0.75rem;
-  }
-  .hand-target {
-    color: #e8b84d;
-  }
-  .matsuri-yoru .hand-target { color: #9cb1ff; }
-  .hand-clock {
-    text-align: right;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    line-height: 0;
-  }
-  .hand-clock svg {
-    display: block;
-  }
-
-  .matsuri-detail-toggle {
-    width: 100%;
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.18);
-    color: rgba(255,255,255,0.7);
-    padding: 8px 10px;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-top: 4px;
-    font: inherit;
-    font-size: 0.78rem;
-    letter-spacing: 0.1em;
-  }
-  .matsuri-detail-toggle:hover { background: rgba(255,255,255,0.04); }
-  .matsuri-detail {
-    margin-top: 10px;
-    padding: 12px;
-    background: rgba(255,255,255,0.03);
-    border-radius: 10px;
-    line-height: 1.7;
-  }
-  .matsuri-detail[hidden] { display: none; }
-  .matsuri-detail-name {
-    font-size: 0.95rem;
-    color: #fff;
-    margin-bottom: 6px;
-  }
-  .matsuri-detail-kanji {
-    color: rgba(255,255,255,0.5);
-    font-size: 0.85rem;
-  }
-  .matsuri-detail-note {
-    font-size: 0.82rem;
-    color: rgba(255,255,255,0.7);
-  }
+  /* マツリパネル関連CSS削除済み（v6改） */
 </style>
 </head>
 <body>
@@ -3027,39 +2886,8 @@
       <div class="phase-next-time" id="nextSeitenTime">—</div>
     </div>
 
-    <!-- ★v6改: ヒルマツリ・ヨルマツリ パネル（昼夜それぞれにポーズ画像） -->
-    <div class="matsuri-panel" id="matsuriPanel">
-      <div class="matsuri-grid">
-        <div class="matsuri-block matsuri-hiru">
-          <img class="matsuri-block-pose" id="matsuriHiruPose" alt="ヒルマツリのポーズ" src="">
-          <div class="matsuri-icon-row">
-            <span class="matsuri-icon">☀</span>
-            <span class="matsuri-label">ヒルマツリ</span>
-          </div>
-          <div class="matsuri-time" id="matsuriHiruTime">--</div>
-          <div class="matsuri-body">南向きに立つ</div>
-        </div>
+    <!-- マツリパネル削除済み（v6改） -->
 
-        <div class="matsuri-block matsuri-yoru">
-          <img class="matsuri-block-pose" id="matsuriYoruPose" alt="ヨルマツリのポーズ" src="">
-          <div class="matsuri-icon-row">
-            <span class="matsuri-icon">☾</span>
-            <span class="matsuri-label">ヨルマツリ</span>
-          </div>
-          <div class="matsuri-time" id="matsuriYoruTime">--</div>
-          <div class="matsuri-body">北向きに座る</div>
-        </div>
-      </div>
-
-      <button class="matsuri-detail-toggle" id="matsuriDetailToggle" type="button">▼ 詳しく見る</button>
-      <div class="matsuri-detail" id="matsuriDetail" hidden>
-        <div class="matsuri-detail-name">
-          <span id="matsuriDetailName">--</span>
-          <span class="matsuri-detail-kanji">（<span id="matsuriDetailKanji">--</span>）</span>
-        </div>
-        <div class="matsuri-detail-note" id="matsuriDetailNote">--</div>
-      </div>
-    </div>
 
     <div class="cal-nav-row">
       <button class="cal-nav" id="prevMonth">‹</button>
@@ -3165,89 +2993,7 @@
     return MOON_NAMES_30[d] || MOON_NAMES_30[1];
   }
 
-  // ★v6: MOON_NAMES_30 の拡張版（ヒルマツリ・ヨルマツリ・両手位置・浮世絵アイコン）
-  // moon_data_v6.js は defer で読まれるので、初回参照時に遅延構築する
-  let MOON_NAMES_V6 = null;
-  function getMoonNamesV6() {
-    if (MOON_NAMES_V6) return MOON_NAMES_V6;
-    if (window.MoonDataV6 && typeof window.MoonDataV6.extendMoonNames === 'function') {
-      MOON_NAMES_V6 = window.MoonDataV6.extendMoonNames(MOON_NAMES_30);
-    }
-    return MOON_NAMES_V6;
-  }
-
-  // ★v6改: 角度→時計面SVG（12時=上, 3時=右, 6時=下, 9時=左）
-  function svgClock(angleDeg, opts) {
-    const size = (opts && opts.size) || 32;
-    const handColor = (opts && opts.color) || '#e8b84d';
-    const half = size / 2;
-    const handLen = half * 0.66;
-    const rad = angleDeg * Math.PI / 180;
-    const x2 = (half + Math.sin(rad) * handLen).toFixed(2);
-    const y2 = (half - Math.cos(rad) * handLen).toFixed(2);
-    return (
-      `<svg viewBox="0 0 ${size} ${size}" width="${size}" height="${size}" aria-hidden="true">` +
-        `<circle cx="${half}" cy="${half}" r="${half-1}" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>` +
-        `<line x1="${half}" y1="2" x2="${half}" y2="5.5" stroke="rgba(255,255,255,0.6)" stroke-width="1.2"/>` +
-        `<line x1="${half}" y1="${size-2}" x2="${half}" y2="${size-5.5}" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>` +
-        `<line x1="2" y1="${half}" x2="5.5" y2="${half}" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>` +
-        `<line x1="${size-2}" y1="${half}" x2="${size-5.5}" y2="${half}" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>` +
-        `<line x1="${half}" y1="${half}" x2="${x2}" y2="${y2}" stroke="${handColor}" stroke-width="1.6" stroke-linecap="round"/>` +
-        `<circle cx="${half}" cy="${half}" r="1.4" fill="${handColor}"/>` +
-      `</svg>`
-    );
-  }
-
-  // ★v6: マツリパネル更新
-  function updateMatsuriPanel(date) {
-    const data30 = getMoonNamesV6();
-    if (!data30) return;
-    const lunar = getLunarDate(date);
-    const day = Math.min(Math.max(1, lunar.day), 30);
-    const data = data30[day];
-    if (!data) return;
-    const setText = (id, val) => {
-      const el = document.getElementById(id);
-      if (el) el.textContent = val;
-    };
-    const setHTML = (id, val) => {
-      const el = document.getElementById(id);
-      if (el) el.innerHTML = val;
-    };
-    setText('matsuriHiruTime', data.hiru.time);
-    setText('matsuriYoruTime', data.yoru.time);
-    setText('matsuriDetailName', data.name);
-    setText('matsuriDetailKanji', data.kanji || '');
-    setText('matsuriDetailNote', data.note || '');
-    // ★v6改: 昼夜それぞれにポーズ画像（南向き立ち / 北向き座位）
-    const dd = String(day).padStart(2, '0');
-    const hiruEl = document.getElementById('matsuriHiruPose');
-    const yoruEl = document.getElementById('matsuriYoruPose');
-    if (hiruEl) hiruEl.src = `./pose_icons/hiru_${dd}.png`;
-    if (yoruEl) yoruEl.src = `./pose_icons/yoru_${dd}.png`;
-  }
-
-  // ★v6: 詳細トグル（DOMContentLoaded で確実にバインド）
-  function bindMatsuriToggle() {
-    const toggle = document.getElementById('matsuriDetailToggle');
-    const detail = document.getElementById('matsuriDetail');
-    if (!toggle || !detail || toggle.dataset.bound) return;
-    toggle.dataset.bound = '1';
-    toggle.addEventListener('click', () => {
-      if (detail.hasAttribute('hidden')) {
-        detail.removeAttribute('hidden');
-        toggle.textContent = '▲ 閉じる';
-      } else {
-        detail.setAttribute('hidden', '');
-        toggle.textContent = '▼ 詳しく見る';
-      }
-    });
-  }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', bindMatsuriToggle);
-  } else {
-    bindMatsuriToggle();
-  }
+  // マツリ関連（getMoonNamesV6 / svgClock / updateMatsuriPanel / bindMatsuriToggle）削除済み
 
   // ======== 聖点定数 ========
   const SEITEN_OUTER = [
@@ -5449,10 +5195,7 @@ const COASTLINES = [
     }
     document.getElementById('nextSeitenTime').textContent = countdownText;
 
-    // ★v6改: 現在地カード下の旧暦行は削除（ヘッダ位置に移動済み）
-
-    // ★v6: マツリパネル更新
-    updateMatsuriPanel(now);
+    // マツリパネル削除済み
 
     renderCal(calYear, calMonth);
   }
