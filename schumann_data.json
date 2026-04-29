@@ -1,39 +1,39 @@
 {
-  "timestamp": "2026-04-29T04:47:12.494930+00:00",
+  "timestamp": "2026-04-29T07:18:40.141341+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.7,
-      "confidence": 85
+      "hz": 7.85,
+      "confidence": 88
     },
     "F2": {
-      "hz": 14.45,
+      "hz": 13.8,
       "confidence": 80
     },
     "F3": {
-      "hz": 19.6,
-      "confidence": 75
+      "hz": 20.2,
+      "confidence": 82
     },
     "F4": {
-      "hz": 24.8,
+      "hz": 24.9,
       "confidence": 70
     },
     "F5": {
-      "hz": null,
-      "confidence": 0
+      "hz": 33.0,
+      "confidence": 30
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端でF1は約7.7Hz付近で安定。F3は変動が大きく低下傾向。28日早朝に緑線(F4)に顕著なスパイクあり。スペクトログラムでは全体的に活動度が中程度で、29日に向け弱まる傾向。F5は表示なし。",
+  "notes": "F1は7.8〜7.9Hz付近で安定。F3は赤線で変動が大きい。28日早朝に緑線（F4）に顕著なスパイクあり。スペクトログラムでは8Hz付近と14Hz付近の帯が明瞭。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 13.78,
-    "tomsk_hour": 10.38,
+    "japan_hour": 16.3,
+    "tomsk_hour": 12.9,
     "is_day_japan": true,
     "is_day_tomsk": true
   }
