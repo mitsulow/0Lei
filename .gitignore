@@ -2,3 +2,4 @@ _moon_icon_logs/
 *.tmp.png
 .DS_Store
 Thumbs.db
+_pose_grid/
