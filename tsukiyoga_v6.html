@@ -4342,6 +4342,35 @@ const COASTLINES = [
     return current + (target - current) * alpha;
   }
 
+  // ★v6: 適応LPF（センサーのブルブル震え対策）
+  // 「秘伝のタレ」: 動きの大きさに応じて平滑化を可変にする
+  // - 微小変化（<0.5°）: ほぼ完全に無視（ノイズ扱い）
+  // - 小さい変化（<3°）: 強平滑化（ゆっくり追従）
+  // - 中変化（<15°）: 通常追従
+  // - 大変化（>=15°）: 即追従（ユーザー意図的な動き）
+  function adaptiveLpfAngle(current, target, opts) {
+    opts = opts || {};
+    const diff = shortAngle(target, current);
+    const absDiff = Math.abs(diff);
+    let alpha;
+    if (absDiff < 0.5) alpha = opts.calm || 0.02;
+    else if (absDiff < 3)  alpha = opts.slow || 0.15;
+    else if (absDiff < 15) alpha = opts.fast || 0.45;
+    else                    alpha = opts.snap || 1.0;
+    return norm360(current + diff * alpha);
+  }
+  function adaptiveLpfLinear(current, target, opts) {
+    opts = opts || {};
+    const diff = target - current;
+    const absDiff = Math.abs(diff);
+    let alpha;
+    if (absDiff < 0.5) alpha = opts.calm || 0.02;
+    else if (absDiff < 3)  alpha = opts.slow || 0.15;
+    else if (absDiff < 15) alpha = opts.fast || 0.45;
+    else                    alpha = opts.snap || 1.0;
+    return current + diff * alpha;
+  }
+
   // ★v6: 大気差補正（Bennett 1982の公式）
   // 地平線付近の天体は大気屈折で実際より浮き上がって見える（最大約0.57度）
   // 入力/出力ともラジアン
@@ -4451,11 +4480,10 @@ const COASTLINES = [
     let roll = 0;
 
     if (heading !== null) {
-      // ★v6: LPF係数を0.5に上げて反応速度を優先（月の「追いかけっこ」を防ぐ）
-      const ALPHA1 = 0.5;
-      navState.heading = lpfAngle(navState.heading, heading, ALPHA1);
-      navState.pitch = lpfLinear(navState.pitch, pitch, ALPHA1);
-      navState.roll = lpfLinear(navState.roll, roll, ALPHA1);
+      // ★v6: 適応LPF（震え対策）。動きの大きさで平滑化を可変
+      navState.heading = adaptiveLpfAngle(navState.heading, heading);
+      navState.pitch = adaptiveLpfLinear(navState.pitch, pitch);
+      navState.roll = adaptiveLpfLinear(navState.roll, roll);
     }
 
     // ★v6: コンパス画面用の生の方位（加工なし）
@@ -4475,18 +4503,11 @@ const COASTLINES = [
       raw = (360 - e.alpha) % 360;
     }
     if (raw !== null) {
-      // ★v6: 北付近の反発を抑える軽いLPF（最短経路で追従）
-      // 生のセンサー値は特に北付近で揺らぐため、微小な補正を入れる
-      const ALPHA = 0.35;  // 0.35 = 反応速度重視、でも揺らぎを緩和
+      // ★v6: 適応LPF（コンパス画面の震え対策）
       if (navState.compassRaw === null) {
         navState.compassRaw = raw;
       } else {
-        // 角度の最短経路で差分を取る
-        let diff = raw - navState.compassRaw;
-        if (diff > 180) diff -= 360;
-        if (diff < -180) diff += 360;
-        // LPF適用＋0-360に正規化
-        navState.compassRaw = (navState.compassRaw + diff * ALPHA + 360) % 360;
+        navState.compassRaw = adaptiveLpfAngle(navState.compassRaw, raw);
       }
     }
   }
