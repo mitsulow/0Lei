@@ -4342,6 +4342,28 @@ const COASTLINES = [
     return current + (target - current) * alpha;
   }
 
+  // ★v6: 大気差補正（Bennett 1982の公式）
+  // 地平線付近の天体は大気屈折で実際より浮き上がって見える（最大約0.57度）
+  // 入力/出力ともラジアン
+  function applyRefraction(altRad) {
+    const altDeg = altRad * 180 / Math.PI;
+    if (altDeg < -1) return altRad;
+    const h = Math.max(0, altDeg);
+    // R [arcmin] = cot(h + 7.31/(h+4.4))
+    const Rarcmin = 1 / Math.tan((h + 7.31 / (h + 4.4)) * Math.PI / 180);
+    return altRad + (Rarcmin / 60) * Math.PI / 180;
+  }
+
+  // ★v6: 月のTopocentric補正（地心→観測者中心）
+  // 月は地球-月距離が近いため、地平線付近で約1度視差がある（地平視差 HP）
+  // 入力: SunCalc.getMoonPosition の結果（地心月位置 + distance[km]）
+  // 出力: 観測者から見た見かけ高度（ラジアン）
+  function moonTopocentricAltitude(moonPos) {
+    const Rearth = 6378.14;  // km
+    const HP = Math.asin(Rearth / moonPos.distance); // 地平視差（ラジアン）
+    return moonPos.altitude - HP * Math.cos(moonPos.altitude);
+  }
+
   function deviceToSky(alpha, beta, gamma, screenOrient) {
     const _x = beta * Math.PI / 180;
     const _y = gamma * Math.PI / 180;
@@ -4649,10 +4671,17 @@ const COASTLINES = [
     const moonPos = SunCalc.getMoonPosition(now, NAHA.lat, NAHA.lon);
     const sunPos = SunCalc.getPosition(now, NAHA.lat, NAHA.lon);
 
+    // ★v6: 精度向上の3段補正
+    // ① 月のTopocentric補正（観測者位置→月の見かけ位置、最大1度）
+    // ② 大気差補正（地平線付近で約0.57度浮き上がる、Bennett 1982）
+    const moonAltTopo = moonTopocentricAltitude(moonPos);
+    const moonAltApparent = applyRefraction(moonAltTopo);
+    const sunAltApparent = applyRefraction(sunPos.altitude);
+
     let moonAz = norm360(moonPos.azimuth * 180 / Math.PI + 180);
-    const moonAlt = moonPos.altitude * 180 / Math.PI;
+    const moonAlt = moonAltApparent * 180 / Math.PI;
     let sunAz = norm360(sunPos.azimuth * 180 / Math.PI + 180);
-    const sunAlt = sunPos.altitude * 180 / Math.PI;
+    const sunAlt = sunAltApparent * 180 / Math.PI;
 
     const sp = skyToScreen(sunAz, sunAlt, heading, pitch, roll, w, h, fov);
     if (sp) {
@@ -4687,22 +4716,23 @@ const COASTLINES = [
       navCtx.arc(mp.x, mp.y, haloR, 0, Math.PI * 2);
       navCtx.fill();
 
-      const moonR = 28;
-      const mg = navCtx.createRadialGradient(mp.x - 8, mp.y - 8, 0, mp.x, mp.y, moonR);
-      mg.addColorStop(0, '#faf5e0');
-      mg.addColorStop(0.5, '#e8dfb8');
-      mg.addColorStop(1, '#8a7a4a');
+      const moonR = 32;  // ★v6: 28→32 視認性UP
+      const mg = navCtx.createRadialGradient(mp.x - 10, mp.y - 10, 0, mp.x, mp.y, moonR);
+      mg.addColorStop(0, '#fffaea');     // ★v6: 明部より明るく
+      mg.addColorStop(0.5, '#ebe1b8');
+      mg.addColorStop(1, '#7a6b3a');     // ★v6: 暗部より暗く（立体感UP）
       navCtx.fillStyle = mg;
       navCtx.beginPath();
       navCtx.arc(mp.x, mp.y, moonR, 0, Math.PI * 2);
       navCtx.fill();
 
-      navCtx.fillStyle = 'rgba(0,0,0,0.12)';
+      // クレーター風の影（月らしさ）
+      navCtx.fillStyle = 'rgba(0,0,0,0.14)';
       navCtx.beginPath();
-      navCtx.arc(mp.x - 6, mp.y - 4, 3, 0, Math.PI * 2);
+      navCtx.arc(mp.x - 7, mp.y - 5, 3.5, 0, Math.PI * 2);
       navCtx.fill();
       navCtx.beginPath();
-      navCtx.arc(mp.x + 8, mp.y + 6, 2.5, 0, Math.PI * 2);
+      navCtx.arc(mp.x + 9, mp.y + 7, 3, 0, Math.PI * 2);
       navCtx.fill();
 
       const illum = SunCalc.getMoonIllumination(now);
@@ -4713,7 +4743,8 @@ const COASTLINES = [
       navCtx.arc(mp.x, mp.y, moonR, 0, Math.PI * 2);
       navCtx.clip();
 
-      const shadowColor = 'rgba(5, 8, 24, 0.93)';
+      // ★v6: 影をより濃く（半月の境界が明瞭に）
+      const shadowColor = 'rgba(3, 5, 15, 0.97)';
       navCtx.fillStyle = shadowColor;
 
       const termR = Math.cos(phase * 2 * Math.PI) * moonR;
@@ -4753,8 +4784,9 @@ const COASTLINES = [
       }
       navCtx.restore();
 
-      navCtx.strokeStyle = 'rgba(244, 239, 216, 0.4)';
-      navCtx.lineWidth = 1;
+      // ★v6: 縁取りを金色寄り＋太く（視認性UP）
+      navCtx.strokeStyle = 'rgba(255, 240, 200, 0.65)';
+      navCtx.lineWidth = 1.8;
       navCtx.beginPath();
       navCtx.arc(mp.x, mp.y, moonR, 0, Math.PI * 2);
       navCtx.stroke();
