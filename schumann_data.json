@@ -1,39 +1,39 @@
 {
-  "timestamp": "2026-04-30T15:27:06.696338+00:00",
+  "timestamp": "2026-04-30T16:56:06.428648+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.82,
-      "confidence": 85
+      "hz": 7.76,
+      "confidence": 80
     },
     "F2": {
-      "hz": 14.3,
-      "confidence": 80
+      "hz": 13.8,
+      "confidence": 75
     },
     "F3": {
-      "hz": 21.05,
-      "confidence": 80
+      "hz": 20.6,
+      "confidence": 70
     },
     "F4": {
       "hz": 24.85,
-      "confidence": 60
+      "confidence": 65
     },
     "F5": {
-      "hz": 0,
-      "confidence": 0
+      "hz": 33.0,
+      "confidence": 30
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "F1〜F3は明瞭に読み取れる。スペクトログラムでは8Hz帯と14Hz帯が顕著で、29日午後に活動ピーク。F5は本グラフに表示なし。4日朝と29日19時頃にF3でスパイク状の異常増加が見られる。",
+  "notes": "30.04終盤、F1は7.7-7.8Hz付近で安定。F2は14Hz弱に低下傾向。F3は変動大きく20Hz台中盤。F4(緑)はノイズ少なく低振幅。スペクトログラムでは8Hz帯が明瞭で29日午後に強い活動が見られた。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 0.45,
-    "tomsk_hour": 21.05,
+    "japan_hour": 1.93,
+    "tomsk_hour": 22.53,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
