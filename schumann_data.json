@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-30T18:07:19.222927+00:00",
+  "timestamp": "2026-04-30T19:48:07.650850+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -10,12 +10,12 @@
       "confidence": 85
     },
     "F2": {
-      "hz": 14.4,
+      "hz": 13.4,
       "confidence": 80
     },
     "F3": {
       "hz": 21.2,
-      "confidence": 80
+      "confidence": 75
     },
     "F4": {
       "hz": 24.8,
@@ -28,12 +28,12 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端ではF1は約7.85Hz付近で安定、F2は14.4Hz付近に上昇傾向。F3(赤)は21Hz付近で変動が大きい。29日午後にスペクトログラム上で強い広帯域擾乱が見られた。F5データは表示なし。",
+  "notes": "29日13-17時頃に強い活動が見られ、特に基本モード付近で顕著。30日8時頃にもスパイク状の強度増加。右端では全モードとも安定状態に戻っている。F5は本グラフでは表示されていない。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 3.12,
-    "tomsk_hour": 23.72,
+    "japan_hour": 4.8,
+    "tomsk_hour": 1.4,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
