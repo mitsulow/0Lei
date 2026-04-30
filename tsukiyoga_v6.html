@@ -1192,6 +1192,19 @@
     margin: 8px 0 6px;
     text-align: center;
   }
+  /* ★v6改: 朝祀り・夜祭りそれぞれの説明文（北/南を向き両手をXX度拡げる） */
+  .matsuri-event {
+    margin-bottom: 0.5rem;
+  }
+  .matsuri-narrative {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.74rem;
+    letter-spacing: 0.18em;
+    color: rgba(255, 215, 140, 0.88);
+    padding-left: 5em;
+    line-height: 1.55;
+    margin-top: 1px;
+  }
   .gravity-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -5632,14 +5645,24 @@ const COASTLINES = [
       if (hh < 12 && !asa) asa = ev;
       else if (hh >= 12 && !yoru) yoru = ev;
     }
-    // ★v6改: 両手の角度（月相位相角ベース、 0〜360°）
-    // SunCalc.getMoonIllumination().phase は [0, 1) で月相サイクル
-    // 0=新月(0°)、 0.25=上弦(90°)、 0.5=満月(180°)、 0.75=下弦(270°)、 1≒新月(360°)
-    // ラジアンで返す（fmtAngle が度変換するので）
+    // ★v6改: 両手の角度（マツリドキ瞬間の物理的形状、 0〜360°）
+    // 球面距離 gap = 太陽-月の離角（0〜180°）に、 太陽の高度sign で「上V/下V」を決定。
+    //   太陽 alt > 0（地平線上=両天体地平線上）→ 上V/T → 角度 = gap
+    //   太陽 alt < 0（地平線下=両天体地平線下）→ 下V → 角度 = 360 - gap
+    // 例: 旧暦7日 朝祀り(深夜2時、太陽地下)= 360-90 = 270°（両手地面下V）
+    //     旧暦7日 夜祭り(昼14時、太陽地上)= 90°（両手上向きV）
     function elongationAt(date) {
       if (!date) return null;
-      const phase = SunCalc.getMoonIllumination(date).phase;
-      return phase * 2 * Math.PI; // [0, 2π)
+      const sun = SunCalc.getPosition(date, lat, lon);
+      const moon = SunCalc.getMoonPosition(date, lat, lon);
+      // 球面距離（離角）
+      const cosD = Math.sin(sun.declination) * Math.sin(moon.declination) +
+                   Math.cos(sun.declination) * Math.cos(moon.declination) *
+                   Math.cos(sun.hourAngle - moon.hourAngle);
+      const gap = Math.acos(Math.max(-1, Math.min(1, cosD))); // [0, π]
+      // 太陽高度のsignで上V/下V判定
+      if (sun.altitude >= 0) return gap;
+      return 2 * Math.PI - gap;
     }
     const asaAngle = elongationAt(asa);
     const yoruAngle = elongationAt(yoru);
@@ -5979,13 +6002,19 @@ const COASTLINES = [
     try {
       const { asa, yoru, asaAngle, yoruAngle } = findMatsuriDokiForDate(dateStr, userLocation.lat, userLocation.lon);
       const grav = findMoonGravityPoints(dateStr, userLocation.lat, userLocation.lon);
-      // ★v6改: 両手の角度（0〜360°、月相位相角）
-      const fmtAngle = a => (a === null || a === undefined) ? '—' : (a * 180 / Math.PI).toFixed(1) + '°';
+      // ★v6改: 両手の角度（0〜360°、マツリドキ瞬間の物理形状）
+      const fmtAngle = a => (a === null || a === undefined) ? '—' : (a * 180 / Math.PI).toFixed(0) + '°';
       matsuriEl.innerHTML =
         // ★v6改: 「本日のマツリドキ」見出し
         `<div class="matsuri-section-title">本 日 の マ ツ リ ド キ</div>` +
-        `<div class="matsuri-row"><span class="matsuri-label matsuri-asa-label">朝 祀 り</span><span class="matsuri-time">${fmtTime(asa)}</span><span class="matsuri-angle">両 手 ${fmtAngle(asaAngle)}</span></div>` +
-        `<div class="matsuri-row"><span class="matsuri-label matsuri-yoru-label">夜 祭 り</span><span class="matsuri-time">${fmtTime(yoru)}</span><span class="matsuri-angle">両 手 ${fmtAngle(yoruAngle)}</span></div>` +
+        `<div class="matsuri-event">` +
+          `<div class="matsuri-row"><span class="matsuri-label matsuri-asa-label">朝 祀 り</span><span class="matsuri-time">${fmtTime(asa)}</span></div>` +
+          `<div class="matsuri-narrative">北 を 向 き 両 手 を ${fmtAngle(asaAngle)} 拡 げ る</div>` +
+        `</div>` +
+        `<div class="matsuri-event">` +
+          `<div class="matsuri-row"><span class="matsuri-label matsuri-yoru-label">夜 祭 り</span><span class="matsuri-time">${fmtTime(yoru)}</span></div>` +
+          `<div class="matsuri-narrative">南 を 向 き 両 手 を ${fmtAngle(yoruAngle)} 拡 げ る</div>` +
+        `</div>` +
         `<div class="gravity-section">` +
         `<div class="gravity-title">重 力 4 点</div>` +
         `<div class="gravity-grid">` +
