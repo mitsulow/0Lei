@@ -1577,7 +1577,8 @@
     position: relative;
     width: 240px;
     height: 240px;
-    margin: 3rem auto 1rem;
+    /* ★v6改: 度数表示・ボタンとの距離を詰める（margin 3rem→2rem, 1rem→0.4rem） */
+    margin: 2rem auto 0.4rem;
   }
   .real-compass-dial {
     position: relative;
@@ -1708,7 +1709,8 @@
   /* 度数表示（盤面の上・固定、お手本画像の「13° 北」の位置） */
   .real-compass-readout {
     position: absolute;
-    top: -80px;
+    /* ★v6改: コンパス本体との距離を詰める -80px → -55px */
+    top: -55px;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
@@ -2856,8 +2858,6 @@
   <!-- ★v6: Step 3: コンパスキャリブレーション（水平にコンパスを整える女性＋∞＋実物方位磁石） -->
   <div class="compass-cal-modal" id="compassCalModal">
     <div class="compass-cal-content">
-      <!-- ★v6: タイトルを画像の外（上）に独立配置 → 絶対重ならない -->
-      <div class="compass-cal-title-ext">コ ン パ ス を 合 わ せ る</div>
       <!-- 画像＋∞の説明文 -->
       <div class="compass-cal-imgbox">
         <img src="./images/compass_horizontal.jpg" alt="コンパスを合わせる"
@@ -2867,7 +2867,7 @@
           <div class="compass-cal-text">
             ス マ ホ で<br>
             <span class="infinity-mark">∞</span><br>
-            を 描 い て く だ さ い
+            を 5 回 描 い て く だ さ い
           </div>
         </div>
       </div>
@@ -4773,18 +4773,27 @@ const COASTLINES = [
 
       const termR = Math.cos(phase * 2 * Math.PI) * moonR;
 
+      // ★v6 bugfix: 楕円の半円（左/右）の描画方向を修正
+      //  waxing (phase<0.5): 月の左半分は影
+      //   - 0〜0.25 (waxing crescent): 楕円の右半分も影で塗る → 細い三日月
+      //   - 0.25〜0.5 (waxing gibbous): 楕円の左半分の影を削る → 光を広げる
+      //  waning (phase>=0.5): 月の右半分は影
+      //   - 0.5〜0.75 (waning gibbous): 楕円の右半分の影を削る
+      //   - 0.75〜1 (waning crescent): 楕円の左半分も影で塗る
       if (phase < 0.5) {
         navCtx.fillRect(mp.x - moonR - 2, mp.y - moonR - 2, moonR + 2, moonR * 2 + 4);
         if (termR > 0) {
+          // waxing crescent: 楕円の右半分を塗る（影を広げて細い光だけ残す）
           navCtx.beginPath();
-          navCtx.ellipse(mp.x, mp.y, termR, moonR, 0, -Math.PI / 2, Math.PI / 2);
+          navCtx.ellipse(mp.x, mp.y, termR, moonR, 0, -Math.PI / 2, Math.PI / 2, false);
           navCtx.closePath();
           navCtx.fill();
         } else if (termR < 0) {
+          // waxing gibbous: 楕円の左半分の影を削る（光を広げる）
           navCtx.save();
           navCtx.globalCompositeOperation = 'destination-out';
           navCtx.beginPath();
-          navCtx.ellipse(mp.x, mp.y, -termR, moonR, 0, Math.PI / 2, -Math.PI / 2, true);
+          navCtx.ellipse(mp.x, mp.y, -termR, moonR, 0, -Math.PI / 2, Math.PI / 2, true);
           navCtx.closePath();
           navCtx.fill();
           navCtx.restore();
@@ -4792,16 +4801,18 @@ const COASTLINES = [
       } else {
         navCtx.fillRect(mp.x, mp.y - moonR - 2, moonR + 2, moonR * 2 + 4);
         if (termR < 0) {
+          // waning gibbous: 楕円の右半分の影を削る（光を広げる）
           navCtx.save();
           navCtx.globalCompositeOperation = 'destination-out';
           navCtx.beginPath();
-          navCtx.ellipse(mp.x, mp.y, -termR, moonR, 0, -Math.PI / 2, Math.PI / 2);
+          navCtx.ellipse(mp.x, mp.y, -termR, moonR, 0, -Math.PI / 2, Math.PI / 2, false);
           navCtx.closePath();
           navCtx.fill();
           navCtx.restore();
         } else if (termR > 0) {
+          // waning crescent: 楕円の左半分を塗る（影を広げる）
           navCtx.beginPath();
-          navCtx.ellipse(mp.x, mp.y, termR, moonR, 0, Math.PI / 2, -Math.PI / 2, true);
+          navCtx.ellipse(mp.x, mp.y, termR, moonR, 0, -Math.PI / 2, Math.PI / 2, true);
           navCtx.closePath();
           navCtx.fill();
         }
