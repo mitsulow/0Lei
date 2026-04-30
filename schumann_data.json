@@ -1,39 +1,39 @@
 {
-  "timestamp": "2026-04-30T16:56:06.428648+00:00",
+  "timestamp": "2026-04-30T18:07:19.222927+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.76,
-      "confidence": 80
+      "hz": 7.85,
+      "confidence": 85
     },
     "F2": {
-      "hz": 13.8,
-      "confidence": 75
+      "hz": 14.4,
+      "confidence": 80
     },
     "F3": {
-      "hz": 20.6,
-      "confidence": 70
+      "hz": 21.2,
+      "confidence": 80
     },
     "F4": {
-      "hz": 24.85,
-      "confidence": 65
+      "hz": 24.8,
+      "confidence": 70
     },
     "F5": {
-      "hz": 33.0,
-      "confidence": 30
+      "hz": null,
+      "confidence": 0
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "30.04終盤、F1は7.7-7.8Hz付近で安定。F2は14Hz弱に低下傾向。F3は変動大きく20Hz台中盤。F4(緑)はノイズ少なく低振幅。スペクトログラムでは8Hz帯が明瞭で29日午後に強い活動が見られた。",
+  "notes": "右端ではF1は約7.85Hz付近で安定、F2は14.4Hz付近に上昇傾向。F3(赤)は21Hz付近で変動が大きい。29日午後にスペクトログラム上で強い広帯域擾乱が見られた。F5データは表示なし。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 1.93,
-    "tomsk_hour": 22.53,
+    "japan_hour": 3.12,
+    "tomsk_hour": 23.72,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
