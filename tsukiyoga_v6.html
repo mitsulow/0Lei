@@ -4535,6 +4535,10 @@ const COASTLINES = [
   const navCtx = navCanvas.getContext('2d');
   let navDpr = window.devicePixelRatio || 1;
 
+  // ★v6: 太陽画像（Adobe Stockライセンス済み 1238851342、透過PNG）
+  const sunImg = new Image();
+  sunImg.src = 'images/sun.png';
+
   function resizeNavCanvas() {
     const w = window.innerWidth;
     const h = window.innerHeight - 62;
@@ -4652,14 +4656,21 @@ const COASTLINES = [
 
     const sp = skyToScreen(sunAz, sunAlt, heading, pitch, roll, w, h, fov);
     if (sp) {
-      navCtx.beginPath();
-      navCtx.arc(sp.x, sp.y, 22, 0, Math.PI * 2);
-      navCtx.strokeStyle = sunAlt > 0 ? 'rgba(255, 200, 100, 0.8)' : 'rgba(255, 180, 90, 0.35)';
-      navCtx.lineWidth = 1.5;
-      navCtx.stroke();
-      navCtx.fillStyle = sunAlt > 0 ? 'rgba(255, 200, 100, 0.9)' : 'rgba(255, 180, 90, 0.5)';
-      navCtx.font = '14px serif';
-      navCtx.fillText('☀', sp.x, sp.y);
+      // ★v6: 太陽は images/sun.png を drawImage（絵文字は廃止）
+      if (sunImg.complete && sunImg.naturalWidth > 0) {
+        const sunSize = 56; // 直径56px（月と同等）
+        const opacity = sunAlt > 0 ? 1.0 : 0.45; // 地平線下は半透明
+        navCtx.save();
+        navCtx.globalAlpha = opacity;
+        navCtx.drawImage(sunImg, sp.x - sunSize / 2, sp.y - sunSize / 2, sunSize, sunSize);
+        navCtx.restore();
+      } else {
+        // フォールバック: 画像未ロード時のみ円描画
+        navCtx.beginPath();
+        navCtx.arc(sp.x, sp.y, 22, 0, Math.PI * 2);
+        navCtx.fillStyle = sunAlt > 0 ? 'rgba(255, 200, 100, 0.9)' : 'rgba(255, 180, 90, 0.5)';
+        navCtx.fill();
+      }
     }
 
     const mp = skyToScreen(moonAz, moonAlt, heading, pitch, roll, w, h, fov);
