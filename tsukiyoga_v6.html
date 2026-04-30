@@ -1184,6 +1184,14 @@
     font-size: 0.7rem;
     margin-bottom: 5px;
   }
+  /* ★v6改: 「本日のマツリドキ」見出し */
+  .matsuri-section-title {
+    color: rgba(201, 169, 97, 0.85);
+    letter-spacing: 0.3em;
+    font-size: 0.72rem;
+    margin: 8px 0 6px;
+    text-align: center;
+  }
   .gravity-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -5624,16 +5632,14 @@ const COASTLINES = [
       if (hh < 12 && !asa) asa = ev;
       else if (hh >= 12 && !yoru) yoru = ev;
     }
-    // ★v6: 太陽-月の離角（両腕の角度＝本日の身体角度）を計算
-    // 球面距離: cos(d) = sin(δ_sun)sin(δ_moon) + cos(δ_sun)cos(δ_moon)cos(HA_sun - HA_moon)
+    // ★v6改: 両手の角度（月相位相角ベース、 0〜360°）
+    // SunCalc.getMoonIllumination().phase は [0, 1) で月相サイクル
+    // 0=新月(0°)、 0.25=上弦(90°)、 0.5=満月(180°)、 0.75=下弦(270°)、 1≒新月(360°)
+    // ラジアンで返す（fmtAngle が度変換するので）
     function elongationAt(date) {
       if (!date) return null;
-      const sun = SunCalc.getPosition(date, lat, lon);
-      const moon = SunCalc.getMoonPosition(date, lat, lon);
-      const cosD = Math.sin(sun.declination) * Math.sin(moon.declination) +
-                   Math.cos(sun.declination) * Math.cos(moon.declination) *
-                   Math.cos(sun.hourAngle - moon.hourAngle);
-      return Math.acos(Math.max(-1, Math.min(1, cosD))); // ラジアン [0, π]
+      const phase = SunCalc.getMoonIllumination(date).phase;
+      return phase * 2 * Math.PI; // [0, 2π)
     }
     const asaAngle = elongationAt(asa);
     const yoruAngle = elongationAt(yoru);
@@ -5956,10 +5962,11 @@ const COASTLINES = [
       const portLabel = overrideCode
         ? `<span class="tide-port-name">${tide.port.name}</span><span class="tide-port-sub"> · 切替中</span>`
         : `<span class="tide-port-name">${tide.port.name}</span>`;
+      // ★v6改: 港を上、 満潮干潮を下に
       tideEl.innerHTML =
+        `<button class="${portClass}" data-port-switch="1" aria-label="港を変更">${portLabel}</button>` +
         `<div class="tide-row"><span class="tide-label">満 潮</span><span class="tide-times">${highStr}</span></div>` +
-        `<div class="tide-row"><span class="tide-label">干 潮</span><span class="tide-times">${lowStr}</span></div>` +
-        `<button class="${portClass}" data-port-switch="1" aria-label="港を変更">${portLabel}</button>`;
+        `<div class="tide-row"><span class="tide-label">干 潮</span><span class="tide-times">${lowStr}</span></div>`;
       const portEl = tideEl.querySelector('.tide-port');
       if (portEl) {
         portEl.addEventListener('click', () => openPortModal(dateStr));
@@ -5972,11 +5979,13 @@ const COASTLINES = [
     try {
       const { asa, yoru, asaAngle, yoruAngle } = findMatsuriDokiForDate(dateStr, userLocation.lat, userLocation.lon);
       const grav = findMoonGravityPoints(dateStr, userLocation.lat, userLocation.lon);
-      // ★v6: 離角（両腕の角度）をフォーマット ─ ラジアン→度（小数点以下1桁）
+      // ★v6改: 両手の角度（0〜360°、月相位相角）
       const fmtAngle = a => (a === null || a === undefined) ? '—' : (a * 180 / Math.PI).toFixed(1) + '°';
       matsuriEl.innerHTML =
-        `<div class="matsuri-row"><span class="matsuri-label matsuri-asa-label">朝 祀 り</span><span class="matsuri-time">${fmtTime(asa)}</span><span class="matsuri-angle">${fmtAngle(asaAngle)}</span></div>` +
-        `<div class="matsuri-row"><span class="matsuri-label matsuri-yoru-label">夜 祭 り</span><span class="matsuri-time">${fmtTime(yoru)}</span><span class="matsuri-angle">${fmtAngle(yoruAngle)}</span></div>` +
+        // ★v6改: 「本日のマツリドキ」見出し
+        `<div class="matsuri-section-title">本 日 の マ ツ リ ド キ</div>` +
+        `<div class="matsuri-row"><span class="matsuri-label matsuri-asa-label">朝 祀 り</span><span class="matsuri-time">${fmtTime(asa)}</span><span class="matsuri-angle">両 手 ${fmtAngle(asaAngle)}</span></div>` +
+        `<div class="matsuri-row"><span class="matsuri-label matsuri-yoru-label">夜 祭 り</span><span class="matsuri-time">${fmtTime(yoru)}</span><span class="matsuri-angle">両 手 ${fmtAngle(yoruAngle)}</span></div>` +
         `<div class="gravity-section">` +
         `<div class="gravity-title">重 力 4 点</div>` +
         `<div class="gravity-grid">` +
