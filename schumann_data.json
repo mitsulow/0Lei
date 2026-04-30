@@ -1,24 +1,24 @@
 {
-  "timestamp": "2026-04-30T11:52:37.066139+00:00",
+  "timestamp": "2026-04-30T13:26:57.144342+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.78,
+      "hz": 7.85,
       "confidence": 85
     },
     "F2": {
-      "hz": 14.6,
+      "hz": 14.4,
       "confidence": 80
     },
     "F3": {
-      "hz": 20.1,
+      "hz": 20.3,
       "confidence": 75
     },
     "F4": {
-      "hz": 24.8,
+      "hz": 24.85,
       "confidence": 70
     },
     "F5": {
@@ -28,13 +28,13 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "29.04の昼に共振活動のピークが見られ、その後緩やかに低下。右端ではF1約7.78Hz、F2は上昇傾向で14.6Hz付近。F3は19-20Hz帯で変動大。F4は安定。F5は折れ線に表示なし。スペクトログラム上では4-8Hz帯と13-16Hz帯の活動が顕著。",
+  "notes": "F1基本モードは7.8Hz付近で安定。28日早朝にF3で大きなスパイクあり。スペクトログラムでは8Hz帯が29日午後に強まる。F5は本グラフに表示なし。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 20.87,
-    "tomsk_hour": 17.47,
+    "japan_hour": 22.43,
+    "tomsk_hour": 19.03,
     "is_day_japan": false,
-    "is_day_tomsk": true
+    "is_day_tomsk": false
   }
 }
