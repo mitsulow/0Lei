@@ -243,6 +243,127 @@
       return { ra: eq.ra, dec: eq.dec, lambda: apparent };
     }
 
+    // ============================================
+    // ★v6: 主要恒星カタログ（J2000.0 ICRS座標）
+    // RA: 時、 Dec: 度、 mag: 見かけ等級、 color: スペクトル型由来
+    // ============================================
+    const STAR_CATALOG = [
+      // 単独
+      { id: 'sirius',  name: 'シリウス', ra:  6.7525, dec: -16.7161, mag: -1.46, color: '#fff5e0', group: 'sirius',  show: true  },
+      { id: 'polaris', name: '北極星',   ra:  2.5302, dec:  89.2641, mag:  1.97, color: '#fffce6', group: 'polaris', show: true  },
+      // オリオン座
+      { id: 'betelgeuse',  name: 'ベテルギウス',   ra: 5.9195, dec:  7.4071, mag: 0.42, color: '#ffb070', group: 'orion', show: true  },
+      { id: 'rigel',       name: 'リゲル',         ra: 5.2423, dec: -8.2016, mag: 0.13, color: '#a8c8ff', group: 'orion', show: true  },
+      { id: 'bellatrix',   name: 'ベラトリックス', ra: 5.4188, dec:  6.3497, mag: 1.64, color: '#cfe0ff', group: 'orion', show: false },
+      { id: 'mintaka',     name: 'ミンタカ',       ra: 5.5334, dec: -0.2991, mag: 2.23, color: '#a8c8ff', group: 'orion', show: false },
+      { id: 'alnilam',     name: 'アルニラム',     ra: 5.6036, dec: -1.2019, mag: 1.69, color: '#a8c8ff', group: 'orion', show: false },
+      { id: 'alnitak',     name: 'アルニタク',     ra: 5.6793, dec: -1.9426, mag: 1.74, color: '#a8c8ff', group: 'orion', show: false },
+      { id: 'saiph',       name: 'サイフ',         ra: 5.7959, dec: -9.6696, mag: 2.07, color: '#a8c8ff', group: 'orion', show: false },
+      // プレアデス（スバル）
+      { id: 'alcyone', name: 'スバル', ra: 3.7914, dec: 24.1051, mag: 2.85, color: '#cfe0ff', group: 'pleiades', show: true  },
+      { id: 'atlas',   name: '',       ra: 3.8190, dec: 24.0533, mag: 3.62, color: '#cfe0ff', group: 'pleiades', show: false },
+      { id: 'electra', name: '',       ra: 3.7470, dec: 24.1133, mag: 3.71, color: '#cfe0ff', group: 'pleiades', show: false },
+      { id: 'maia',    name: '',       ra: 3.7616, dec: 24.3678, mag: 3.87, color: '#cfe0ff', group: 'pleiades', show: false },
+      { id: 'merope',  name: '',       ra: 3.7670, dec: 23.9483, mag: 4.18, color: '#cfe0ff', group: 'pleiades', show: false },
+      { id: 'taygeta', name: '',       ra: 3.7600, dec: 24.4671, mag: 4.30, color: '#cfe0ff', group: 'pleiades', show: false },
+      { id: 'pleione', name: '',       ra: 3.8222, dec: 24.1369, mag: 5.05, color: '#cfe0ff', group: 'pleiades', show: false },
+      { id: 'celaeno', name: '',       ra: 3.7390, dec: 24.2891, mag: 5.45, color: '#cfe0ff', group: 'pleiades', show: false },
+      { id: 'sterope', name: '',       ra: 3.7665, dec: 24.5544, mag: 5.76, color: '#cfe0ff', group: 'pleiades', show: false },
+      // 夏の大三角
+      { id: 'vega',    name: 'ベガ',       ra: 18.6156, dec: 38.7837, mag: 0.03, color: '#cfe0ff', group: 'summer', show: true },
+      { id: 'deneb',   name: 'デネブ',     ra: 20.6905, dec: 45.2803, mag: 1.25, color: '#fffce6', group: 'summer', show: true },
+      { id: 'altair',  name: 'アルタイル', ra: 19.8464, dec:  8.8683, mag: 0.77, color: '#fffce6', group: 'summer', show: true }
+    ];
+
+    // ============================================
+    // ★v6: 惑星カタログ（5惑星、Schlyter簡易式）
+    // ============================================
+    const PLANET_NAMES = [
+      { id: 'mercury', name: '水 星', color: '#c2c4be' },
+      { id: 'venus',   name: '金 星', color: '#fff2d6' },
+      { id: 'mars',    name: '火 星', color: '#ff8060' },
+      { id: 'jupiter', name: '木 星', color: '#f3e3b8' },
+      { id: 'saturn',  name: '土 星', color: '#f7d18b' }
+    ];
+    // 軌道要素（J2000基準、d 線形）— Schlyter "ppcomp" より
+    const PLANET_ELEMENTS = {
+      mercury: {
+        N: d =>  48.3313 + 3.24587e-5 * d,   i: d =>   7.0047 + 5.00e-8    * d,
+        w: d =>  29.1241 + 1.01444e-5 * d,   a: 0.387098,
+        e: d =>   0.205635 + 5.59e-10 * d,   M: d => 168.6562 + 4.0923344368 * d
+      },
+      venus: {
+        N: d =>  76.6799 + 2.46590e-5 * d,   i: d =>   3.3946 + 2.75e-8    * d,
+        w: d =>  54.8910 + 1.38374e-5 * d,   a: 0.723330,
+        e: d =>   0.006773 - 1.302e-9 * d,   M: d =>  48.0052 + 1.6021302244 * d
+      },
+      mars: {
+        N: d =>  49.5574 + 2.11081e-5 * d,   i: d =>   1.8497 - 1.78e-8    * d,
+        w: d => 286.5016 + 2.92961e-5 * d,   a: 1.523688,
+        e: d =>   0.093405 + 2.516e-9 * d,   M: d =>  18.6021 + 0.5240207766 * d
+      },
+      jupiter: {
+        N: d => 100.4542 + 2.76854e-5 * d,   i: d =>   1.3030 - 1.557e-7   * d,
+        w: d => 273.8777 + 1.64505e-5 * d,   a: 5.20256,
+        e: d =>   0.048498 + 4.469e-9 * d,   M: d =>  19.8950 + 0.0830853001 * d
+      },
+      saturn: {
+        N: d => 113.6634 + 2.38980e-5 * d,   i: d =>   2.4886 - 1.081e-7   * d,
+        w: d => 339.3939 + 2.97661e-5 * d,   a: 9.55475,
+        e: d =>   0.055546 - 9.499e-9 * d,   M: d => 316.9670 + 0.0334442282 * d
+      }
+    };
+    function rev360(deg) { return ((deg % 360) + 360) % 360; }
+
+    // 惑星の日心黄道座標（AU）
+    function planetHelio(name, d) {
+      const el = PLANET_ELEMENTS[name];
+      const N = rad * rev360(el.N(d));
+      const i = rad * el.i(d);
+      const w = rad * rev360(el.w(d));
+      const a = el.a;
+      const e = el.e(d);
+      const M = rad * rev360(el.M(d));
+      // ケプラー方程式 E - e*sin(E) = M
+      let E = M + e * Math.sin(M) * (1 + e * Math.cos(M));
+      for (let iter = 0; iter < 10; iter++) {
+        const dE = (E - e * Math.sin(E) - M) / (1 - e * Math.cos(E));
+        E -= dE;
+        if (Math.abs(dE) < 1e-9) break;
+      }
+      const xv = a * (Math.cos(E) - e);
+      const yv = a * Math.sqrt(1 - e*e) * Math.sin(E);
+      const v = Math.atan2(yv, xv);
+      const r = Math.sqrt(xv*xv + yv*yv);
+      const cosN = Math.cos(N), sinN = Math.sin(N);
+      const cosvw = Math.cos(v + w), sinvw = Math.sin(v + w);
+      const cosi = Math.cos(i), sini = Math.sin(i);
+      return {
+        xh: r * (cosN*cosvw - sinN*sinvw*cosi),
+        yh: r * (sinN*cosvw + cosN*sinvw*cosi),
+        zh: r * sinvw * sini,
+        r: r
+      };
+    }
+    // 太陽の地心黄道座標（AU、簡易±0.01度）
+    function sunGeoEcliptic(d) {
+      const M = rad * rev360(357.5291 + 0.98560028 * d);
+      const C = rad * (1.9148*Math.sin(M) + 0.02*Math.sin(2*M) + 0.0003*Math.sin(3*M));
+      const L = M + C + rad * 102.9372 + Math.PI; // 太陽の地心黄経
+      const r = 1.00014 - 0.01671*Math.cos(M) - 0.00014*Math.cos(2*M);
+      return { xs: r * Math.cos(L), ys: r * Math.sin(L), zs: 0 };
+    }
+    // 惑星の地心赤道座標 (RA, Dec)
+    function planetRADec(name, d) {
+      const ph = planetHelio(name, d);
+      const sh = sunGeoEcliptic(d);
+      const xg = ph.xh + sh.xs, yg = ph.yh + sh.ys, zg = ph.zh + sh.zs;
+      const lambda = Math.atan2(yg, xg);
+      const beta = Math.atan2(zg, Math.sqrt(xg*xg + yg*yg));
+      const eq = eclipticToEquatorial(lambda, beta, d);
+      return { ra: eq.ra, dec: eq.dec };
+    }
+
     window.SunCalc = {
       getMoonPosition: function(date, lat, lng) {
         const lw = rad * -lng;
@@ -288,6 +409,39 @@
       getMoonEquatorial: function(date) {
         const d = toDays(date);
         return moonCoordsMeeus(d);
+      },
+      // ★v6: 主要恒星の現在位置リスト
+      getStars: function(date, lat, lng) {
+        const lw = rad * -lng;
+        const phi = rad * lat;
+        const d = toDays(date);
+        const lst = siderealTime(d, lw);
+        return STAR_CATALOG.map(s => {
+          const raRad = s.ra * 15 * rad;
+          const decRad = s.dec * rad;
+          const H = lst - raRad;
+          return {
+            id: s.id, name: s.name, mag: s.mag, color: s.color, group: s.group, show: s.show,
+            azimuth: azimuthF(H, phi, decRad),
+            altitude: altitudeF(H, phi, decRad)
+          };
+        });
+      },
+      // ★v6: 主要惑星の現在位置リスト（5惑星、Schlyter簡易式、±0.1度精度）
+      getPlanets: function(date, lat, lng) {
+        const lw = rad * -lng;
+        const phi = rad * lat;
+        const d = toDays(date);
+        const lst = siderealTime(d, lw);
+        return PLANET_NAMES.map(p => {
+          const eq = planetRADec(p.id, d);
+          const H = lst - eq.ra;
+          return {
+            id: p.id, name: p.name, color: p.color,
+            azimuth: azimuthF(H, phi, eq.dec),
+            altitude: altitudeF(H, phi, eq.dec)
+          };
+        });
       }
     };
   })();
@@ -4692,6 +4846,75 @@ const COASTLINES = [
     }
 
     const now = new Date();
+
+    // ★v6: 主要恒星の描画（シリウス／オリオン／プレアデス／北極星／夏の大三角）
+    const starsList = SunCalc.getStars(now, NAHA.lat, NAHA.lon);
+    for (const s of starsList) {
+      const altDeg = applyRefraction(s.altitude) * 180 / Math.PI;
+      if (altDeg < -3) continue;
+      const azDeg = norm360(s.azimuth * 180 / Math.PI + 180);
+      const p = skyToScreen(azDeg, altDeg, heading, pitch, roll, w, h, fov);
+      if (!p) continue;
+      if (p.x < -40 || p.x > w + 40 || p.y < -40 || p.y > h + 40) continue;
+      // 等級→サイズ変換（mag -1.5 → 4.5px、 mag 5 → 1px）
+      const sz = Math.max(1, 4.5 - (s.mag + 1.5) * 0.55);
+      // ハロ
+      const halo = navCtx.createRadialGradient(p.x, p.y, 0, p.x, p.y, sz * 4.5);
+      halo.addColorStop(0, s.color);
+      halo.addColorStop(0.35, 'rgba(180, 200, 240, 0.28)');
+      halo.addColorStop(1, 'rgba(180, 200, 240, 0)');
+      navCtx.fillStyle = halo;
+      navCtx.beginPath();
+      navCtx.arc(p.x, p.y, sz * 4.5, 0, Math.PI * 2);
+      navCtx.fill();
+      // 本体
+      navCtx.fillStyle = s.color;
+      navCtx.beginPath();
+      navCtx.arc(p.x, p.y, sz, 0, Math.PI * 2);
+      navCtx.fill();
+      // ラベル（show: trueのみ）
+      if (s.show && s.name) {
+        navCtx.fillStyle = 'rgba(220, 235, 255, 0.6)';
+        navCtx.font = '10px "Shippori Mincho", serif';
+        navCtx.textAlign = 'center';
+        navCtx.textBaseline = 'top';
+        navCtx.fillText(s.name, p.x, p.y + sz + 5);
+      }
+    }
+
+    // ★v6: 主要惑星の描画（水星／金星／火星／木星／土星）
+    const planetsList = SunCalc.getPlanets(now, NAHA.lat, NAHA.lon);
+    for (const pl of planetsList) {
+      const altDeg = applyRefraction(pl.altitude) * 180 / Math.PI;
+      if (altDeg < -3) continue;
+      const azDeg = norm360(pl.azimuth * 180 / Math.PI + 180);
+      const p = skyToScreen(azDeg, altDeg, heading, pitch, roll, w, h, fov);
+      if (!p) continue;
+      if (p.x < -40 || p.x > w + 40 || p.y < -40 || p.y > h + 40) continue;
+      // 金星・木星は明るいので大きく
+      const sz = (pl.id === 'venus' || pl.id === 'jupiter') ? 4.5 : 3.2;
+      // 強めのハロ
+      const halo = navCtx.createRadialGradient(p.x, p.y, 0, p.x, p.y, sz * 5);
+      halo.addColorStop(0, pl.color);
+      halo.addColorStop(0.3, 'rgba(255, 240, 200, 0.42)');
+      halo.addColorStop(1, 'rgba(255, 240, 200, 0)');
+      navCtx.fillStyle = halo;
+      navCtx.beginPath();
+      navCtx.arc(p.x, p.y, sz * 5, 0, Math.PI * 2);
+      navCtx.fill();
+      // 本体
+      navCtx.fillStyle = pl.color;
+      navCtx.beginPath();
+      navCtx.arc(p.x, p.y, sz, 0, Math.PI * 2);
+      navCtx.fill();
+      // ラベル
+      navCtx.fillStyle = 'rgba(255, 235, 200, 0.85)';
+      navCtx.font = '11px "Shippori Mincho", serif';
+      navCtx.textAlign = 'center';
+      navCtx.textBaseline = 'top';
+      navCtx.fillText(pl.name, p.x, p.y + sz + 5);
+    }
+
     const moonPos = SunCalc.getMoonPosition(now, NAHA.lat, NAHA.lon);
     const sunPos = SunCalc.getPosition(now, NAHA.lat, NAHA.lon);
 
