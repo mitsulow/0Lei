@@ -1583,16 +1583,21 @@
     position: relative;
     width: 100%;
     height: 100%;
-    border: 2px solid rgba(201, 169, 97, 0.35);
     border-radius: 50%;
-    box-shadow:
-      0 0 28px rgba(201, 169, 97, 0.12),
-      inset 0 0 32px rgba(201, 169, 97, 0.08);
-    background:
-      radial-gradient(circle at center, rgba(3,8,24,0.5) 30%, rgba(3,8,24,0.2) 70%, transparent 100%);
+    /* ★v6: Adobe Stock 1199878484 ライセンス済み、円形透過PNG */
+    background-image: url('images/compass.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: drop-shadow(0 0 18px rgba(201, 169, 97, 0.25));
     /* ★秘伝のタレ：JSで毎フレーム値を変えず、CSSで滑らかに補間 */
     transition: transform 0.18s linear;
     will-change: transform;
+  }
+  /* ★v6: コンパス画像にN/E/S/Wが焼き付いてるので既存の文字spansは非表示 */
+  .real-compass-dial .compass-cardinal,
+  .real-compass-dial .compass-deg {
+    display: none !important;
   }
   /* ★北のマーカー（赤い短い線） */
   .compass-north-mark {
@@ -1654,11 +1659,9 @@
     inset: 30px;
     border-radius: 50%;
   }
+  /* ★v6: 画像に目盛りがあるので装飾リングは非表示 */
   .compass-tick-ring {
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    border: 1px dashed rgba(201, 169, 97, 0.18);
+    display: none;
   }
   .compass-crosshair {
     position: absolute;
