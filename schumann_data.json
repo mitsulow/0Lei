@@ -1,40 +1,40 @@
 {
-  "timestamp": "2026-05-01T20:01:11.116369+00:00",
+  "timestamp": "2026-05-01T21:06:36.845122+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 8.05,
-      "confidence": 85
+      "hz": 7.75,
+      "confidence": 80
     },
     "F2": {
-      "hz": 14.5,
-      "confidence": 80
+      "hz": 14.2,
+      "confidence": 78
     },
     "F3": {
-      "hz": 20.5,
-      "confidence": 80
+      "hz": 20.4,
+      "confidence": 82
     },
     "F4": {
-      "hz": 24.85,
-      "confidence": 75
+      "hz": 24.81,
+      "confidence": 80
     },
     "F5": {
-      "hz": null,
-      "confidence": 0
+      "hz": 33.5,
+      "confidence": 30
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "F1は右端で約8.05Hz付近まで上昇傾向。F2は14.5Hz付近で変動大。F3(赤)は20.5Hz付近、F4(緑)は24.85Hz付近。F5は折れ線グラフに表示されておらず読み取り不可。スペクトログラムでは2.05.2026の0時前後に4Hz帯で強い活動が見られる。",
+  "notes": "右端付近でF1は7.7Hz付近に低下、F2は14.2Hz付近、F3は20.4Hz付近で変動大。スペクトログラムでは8Hz帯が明瞭、24Hz付近にも持続的な線状成分あり。F5は折れ線に明示されておらず信頼度低い。",
   "polarization": {
-    "state": "left",
-    "state_jp": "左回転（夜）",
-    "japan_hour": 5.02,
-    "tomsk_hour": 1.62,
-    "is_day_japan": false,
+    "state": "right",
+    "state_jp": "右回転（昼）",
+    "japan_hour": 6.1,
+    "tomsk_hour": 2.7,
+    "is_day_japan": true,
     "is_day_tomsk": false
   }
 }
