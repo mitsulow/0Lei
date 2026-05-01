@@ -1,21 +1,21 @@
 {
-  "timestamp": "2026-05-01T01:26:52.314490+00:00",
+  "timestamp": "2026-05-01T05:05:36.074247+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 8.02,
+      "hz": 7.85,
       "confidence": 85
     },
     "F2": {
-      "hz": 14.8,
+      "hz": 14.7,
       "confidence": 80
     },
     "F3": {
       "hz": 19.6,
-      "confidence": 85
+      "confidence": 80
     },
     "F4": {
       "hz": 24.85,
@@ -28,12 +28,12 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "F1は8Hz付近で安定的に高め。F3は前日からやや低下傾向。スペクトログラムでは8Hz帯と4Hz付近に明瞭なバンド、24Hz付近に水平な人工ノイズ線が見られる。29日13-17時付近に強い活動が集中。F5データは表示なし。",
+  "notes": "F1は7.85Hz付近で安定。29日13-17時頃にスペクトログラムで強い活動が見られた。F5の線は確認できず。右端付近でF3はやや低下傾向。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 10.43,
-    "tomsk_hour": 7.03,
+    "japan_hour": 14.08,
+    "tomsk_hour": 10.68,
     "is_day_japan": true,
     "is_day_tomsk": true
   }
