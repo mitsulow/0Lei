@@ -1760,20 +1760,20 @@
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    /* ★v6: Adobe Stock 1199878484 ライセンス済み、円形透過PNG */
-    background-image: url('images/compass.png');
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    filter: drop-shadow(0 0 18px rgba(201, 169, 97, 0.25));
+    /* ★v6改: SVGで完全な正円描画（PNG廃止）。 中央のグラデで深み */
+    background: radial-gradient(circle at center,
+      rgba(8, 12, 28, 0.65) 0%,
+      rgba(8, 12, 28, 0.35) 60%,
+      rgba(8, 12, 28, 0.1) 100%);
+    filter: drop-shadow(0 0 18px rgba(201, 169, 97, 0.22));
     /* ★秘伝のタレ：JSで毎フレーム値を変えず、CSSで滑らかに補間 */
     transition: transform 0.18s linear;
     will-change: transform;
   }
-  /* ★v6: コンパス画像にN/E/S/Wが焼き付いてるので既存の文字spansは非表示 */
-  .real-compass-dial .compass-cardinal,
-  .real-compass-dial .compass-deg {
-    display: none !important;
+  .compass-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
   }
   /* ★北のマーカー（赤い短い線） */
   .compass-north-mark {
@@ -3047,28 +3047,80 @@
         </div>
       </div>
 
-      <!-- 実物方位磁石UI -->
+      <!-- 実物方位磁石UI（v6改: SVG完全正円描画、PNG廃止） -->
       <div class="real-compass">
         <div class="real-compass-dial" id="realCompassDial">
-          <!-- 北のマーカー（赤い縦線） -->
-          <div class="compass-north-mark"></div>
-          <!-- 方位の数字と漢字を配置 -->
-          <div class="compass-cardinal compass-N">北</div>
-          <div class="compass-deg compass-deg-30">30</div>
-          <div class="compass-deg compass-deg-60">60</div>
-          <div class="compass-cardinal compass-E">東</div>
-          <div class="compass-deg compass-deg-120">120</div>
-          <div class="compass-deg compass-deg-150">150</div>
-          <div class="compass-cardinal compass-S">南</div>
-          <div class="compass-deg compass-deg-210">210</div>
-          <div class="compass-deg compass-deg-240">240</div>
-          <div class="compass-cardinal compass-W">西</div>
-          <div class="compass-deg compass-deg-300">300</div>
-          <div class="compass-deg compass-deg-330">330</div>
-          <!-- 内側の目盛り -->
-          <div class="compass-ticks">
-            <div class="compass-tick-ring"></div>
-          </div>
+          <svg class="compass-svg" viewBox="-100 -100 200 200" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <line id="ck-major" x1="0" y1="-92" x2="0" y2="-83" stroke="rgba(201,169,97,0.7)" stroke-width="1.4"/>
+              <line id="ck-minor" x1="0" y1="-92" x2="0" y2="-87" stroke="rgba(201,169,97,0.32)" stroke-width="0.8"/>
+            </defs>
+            <!-- 二重の外周リング（ゴールド） -->
+            <circle cx="0" cy="0" r="92" stroke="rgba(201,169,97,0.6)" stroke-width="1.5" fill="none"/>
+            <circle cx="0" cy="0" r="78" stroke="rgba(201,169,97,0.3)" stroke-width="0.7" fill="none"/>
+            <!-- 30度毎の主目盛り -->
+            <use href="#ck-major"/>
+            <use href="#ck-major" transform="rotate(30)"/>
+            <use href="#ck-major" transform="rotate(60)"/>
+            <use href="#ck-major" transform="rotate(90)"/>
+            <use href="#ck-major" transform="rotate(120)"/>
+            <use href="#ck-major" transform="rotate(150)"/>
+            <use href="#ck-major" transform="rotate(180)"/>
+            <use href="#ck-major" transform="rotate(210)"/>
+            <use href="#ck-major" transform="rotate(240)"/>
+            <use href="#ck-major" transform="rotate(270)"/>
+            <use href="#ck-major" transform="rotate(300)"/>
+            <use href="#ck-major" transform="rotate(330)"/>
+            <!-- 10度毎の細目盛り -->
+            <use href="#ck-minor" transform="rotate(10)"/>
+            <use href="#ck-minor" transform="rotate(20)"/>
+            <use href="#ck-minor" transform="rotate(40)"/>
+            <use href="#ck-minor" transform="rotate(50)"/>
+            <use href="#ck-minor" transform="rotate(70)"/>
+            <use href="#ck-minor" transform="rotate(80)"/>
+            <use href="#ck-minor" transform="rotate(100)"/>
+            <use href="#ck-minor" transform="rotate(110)"/>
+            <use href="#ck-minor" transform="rotate(130)"/>
+            <use href="#ck-minor" transform="rotate(140)"/>
+            <use href="#ck-minor" transform="rotate(160)"/>
+            <use href="#ck-minor" transform="rotate(170)"/>
+            <use href="#ck-minor" transform="rotate(190)"/>
+            <use href="#ck-minor" transform="rotate(200)"/>
+            <use href="#ck-minor" transform="rotate(220)"/>
+            <use href="#ck-minor" transform="rotate(230)"/>
+            <use href="#ck-minor" transform="rotate(250)"/>
+            <use href="#ck-minor" transform="rotate(260)"/>
+            <use href="#ck-minor" transform="rotate(280)"/>
+            <use href="#ck-minor" transform="rotate(290)"/>
+            <use href="#ck-minor" transform="rotate(310)"/>
+            <use href="#ck-minor" transform="rotate(320)"/>
+            <use href="#ck-minor" transform="rotate(340)"/>
+            <use href="#ck-minor" transform="rotate(350)"/>
+            <!-- N方位（赤、 大三角） -->
+            <polygon points="0,-65 -10,0 10,0" fill="#e74c3c"/>
+            <polygon points="0,-65 0,0 10,0" fill="#a83328"/>
+            <!-- S方位（金、 中三角） -->
+            <polygon points="0,65 -8,0 8,0" fill="rgba(201,169,97,0.7)"/>
+            <polygon points="0,65 0,0 8,0" fill="rgba(150,120,60,0.55)"/>
+            <!-- E方位（薄銀） -->
+            <polygon points="65,0 0,-8 0,8" fill="rgba(180,200,230,0.55)"/>
+            <polygon points="65,0 0,0 0,8" fill="rgba(140,160,190,0.4)"/>
+            <!-- W方位 -->
+            <polygon points="-65,0 0,-8 0,8" fill="rgba(180,200,230,0.55)"/>
+            <polygon points="-65,0 0,0 0,-8" fill="rgba(140,160,190,0.4)"/>
+            <!-- 4方位の漢字 -->
+            <text x="0" y="-77" text-anchor="middle" dominant-baseline="middle"
+                  font-family="'Shippori Mincho', serif" font-size="14" font-weight="600" fill="#f4efd8">北</text>
+            <text x="77" y="0" text-anchor="middle" dominant-baseline="middle"
+                  font-family="'Shippori Mincho', serif" font-size="12" fill="rgba(244,239,216,0.85)">東</text>
+            <text x="0" y="78" text-anchor="middle" dominant-baseline="middle"
+                  font-family="'Shippori Mincho', serif" font-size="12" fill="rgba(244,239,216,0.85)">南</text>
+            <text x="-77" y="0" text-anchor="middle" dominant-baseline="middle"
+                  font-family="'Shippori Mincho', serif" font-size="12" fill="rgba(244,239,216,0.85)">西</text>
+            <!-- 中央の装飾 -->
+            <circle cx="0" cy="0" r="5.5" fill="rgba(201,169,97,0.85)" stroke="rgba(244,239,216,0.5)" stroke-width="0.8"/>
+            <circle cx="0" cy="0" r="2.5" fill="rgba(244,239,216,0.95)"/>
+          </svg>
         </div>
         <!-- 度数表示（盤面の上、固定） -->
         <div class="real-compass-readout">
@@ -4356,13 +4408,8 @@ const COASTLINES = [
       navState.compassLastRaw = raw;
     }
 
-    // 盤面を累積角度で回転
+    // 盤面を累積角度で回転（SVGコンパスローズも一緒に回る = 実物方位磁石の挙動）
     dial.style.transform = `rotate(${navState.compassDisplayAngle}deg)`;
-    // 文字・数字を逆累積角度で回転して水平を保つ
-    const textAngle = -navState.compassDisplayAngle;
-    dial.querySelectorAll('.compass-cardinal, .compass-deg').forEach(el => {
-      el.style.transform = `rotate(${textAngle}deg)`;
-    });
 
     // 度数表示
     const h = Math.round(raw);
@@ -4530,10 +4577,13 @@ const COASTLINES = [
     opts = opts || {};
     const diff = shortAngle(target, current);
     const absDiff = Math.abs(diff);
+    // ★v6改: dead zone 追加（センサーノイズ起因のドリフト防止）
+    // 0.4°未満は完全に無視 → 静止時に値が動かない
+    if (absDiff < 0.4) return current;
     let alpha;
-    if (absDiff < 0.5) alpha = opts.calm || 0.02;
-    else if (absDiff < 3)  alpha = opts.slow || 0.15;
-    else if (absDiff < 15) alpha = opts.fast || 0.45;
+    if (absDiff < 2)       alpha = opts.calm || 0.10;
+    else if (absDiff < 6)  alpha = opts.slow || 0.28;
+    else if (absDiff < 20) alpha = opts.fast || 0.55;
     else                    alpha = opts.snap || 1.0;
     return norm360(current + diff * alpha);
   }
@@ -4541,10 +4591,11 @@ const COASTLINES = [
     opts = opts || {};
     const diff = target - current;
     const absDiff = Math.abs(diff);
+    if (absDiff < 0.4) return current;  // dead zone
     let alpha;
-    if (absDiff < 0.5) alpha = opts.calm || 0.02;
-    else if (absDiff < 3)  alpha = opts.slow || 0.15;
-    else if (absDiff < 15) alpha = opts.fast || 0.45;
+    if (absDiff < 2)       alpha = opts.calm || 0.10;
+    else if (absDiff < 6)  alpha = opts.slow || 0.28;
+    else if (absDiff < 20) alpha = opts.fast || 0.55;
     else                    alpha = opts.snap || 1.0;
     return current + diff * alpha;
   }
