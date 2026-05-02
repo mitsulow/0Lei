@@ -1,25 +1,25 @@
 {
-  "timestamp": "2026-05-02T09:09:35.593871+00:00",
+  "timestamp": "2026-05-02T10:09:13.495781+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.9,
+      "hz": 7.69,
       "confidence": 80
     },
     "F2": {
-      "hz": 13.0,
-      "confidence": 75
+      "hz": 13.2,
+      "confidence": 70
     },
     "F3": {
-      "hz": 20.2,
-      "confidence": 80
+      "hz": 19.66,
+      "confidence": 75
     },
     "F4": {
-      "hz": 24.6,
-      "confidence": 70
+      "hz": 24.8,
+      "confidence": 80
     },
     "F5": {
       "hz": null,
@@ -28,12 +28,12 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "5月2日の右端付近でF4が一時的に急上昇後低下。F3も終盤に下降傾向。スペクトログラムでは22-23 UTC付近に強いブロードバンド擾乱が見られ、その後データ欠損領域あり。F5は本グラフに表示されていない。",
+  "notes": "2026年5月2日の最新データ。F1は7.7Hz付近で安定、F2は13Hz台に低下傾向。F3は19.7Hz付近、F4(緑)は24.8Hz付近で安定。右端付近で一部データ欠損あり。F5は表示範囲外で読み取り不可。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 18.15,
-    "tomsk_hour": 14.75,
+    "japan_hour": 19.15,
+    "tomsk_hour": 15.75,
     "is_day_japan": false,
     "is_day_tomsk": true
   }
