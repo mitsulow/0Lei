@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-05-02T03:49:17.219790+00:00",
+  "timestamp": "2026-05-02T06:02:17.828604+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -7,19 +7,19 @@
   "modes": {
     "F1": {
       "hz": 7.7,
-      "confidence": 80
+      "confidence": 85
     },
     "F2": {
-      "hz": 13.4,
-      "confidence": 75
+      "hz": 13.28,
+      "confidence": 80
     },
     "F3": {
-      "hz": 20.5,
+      "hz": 20.4,
       "confidence": 80
     },
     "F4": {
       "hz": 24.85,
-      "confidence": 70
+      "confidence": 75
     },
     "F5": {
       "hz": null,
@@ -28,12 +28,12 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端(2026/05/02 約10時UTC)の値。F1は7.7Hz付近で変動大、F2は13.4Hz付近に低下、F3は20.5Hz付近、F4は24.85Hz付近で安定。F5は表示なし。期間中、5/1の0-6時頃に各モードの周波数低下が見られ、電離層擾乱の可能性。",
+  "notes": "F1は7.70Hz付近で安定、F2は低めの13.3Hz付近に低下傾向。F3は20.4Hz前後で変動大。スペクトログラムでは2.05直前に4Hz付近と12Hz付近に強い帯状シグナルあり。F5データは表示なし。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 12.82,
-    "tomsk_hour": 9.42,
+    "japan_hour": 15.03,
+    "tomsk_hour": 11.63,
     "is_day_japan": true,
     "is_day_tomsk": true
   }
