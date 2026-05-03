@@ -1,39 +1,39 @@
 {
-  "timestamp": "2026-05-03T21:01:03.561413+00:00",
+  "timestamp": "2026-05-03T21:58:40.918252+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.88,
-      "confidence": 80
+      "hz": 7.85,
+      "confidence": 88
     },
     "F2": {
-      "hz": 14.9,
-      "confidence": 75
-    },
-    "F3": {
-      "hz": 20.3,
+      "hz": 14.4,
       "confidence": 80
     },
-    "F4": {
-      "hz": 24.8,
+    "F3": {
+      "hz": 20.2,
       "confidence": 75
     },
+    "F4": {
+      "hz": 13.2,
+      "confidence": 60
+    },
     "F5": {
-      "hz": null,
-      "confidence": 0
+      "hz": 24.8,
+      "confidence": 70
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "5月3日中盤に大きなデータ欠損あり。右端付近ではF1は約7.88Hz、F2はやや高め(15Hz付近)へシフト、F3は20.3Hz付近で安定、F4は24.8Hz付近。F5の線は確認できず。スペクトログラムでは8Hz付近に強い帯が見られる。",
+  "notes": "5月2日深夜から3日午前にかけてデータ欠損あり（スペクトログラムで白飛び確認）。右端ではF1が約7.85Hzで安定し、F3（赤）はやや低下傾向。F4（緑）は24.8Hz付近で変動小。全体として中程度の活動度。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 6.02,
-    "tomsk_hour": 2.62,
+    "japan_hour": 6.97,
+    "tomsk_hour": 3.57,
     "is_day_japan": true,
     "is_day_tomsk": false
   }
