@@ -1,21 +1,21 @@
 {
-  "timestamp": "2026-05-03T12:04:20.783182+00:00",
+  "timestamp": "2026-05-03T13:47:49.399477+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.75,
-      "confidence": 80
+      "hz": 7.9,
+      "confidence": 85
     },
     "F2": {
-      "hz": 13.85,
+      "hz": 14.3,
       "confidence": 80
     },
     "F3": {
-      "hz": 19.3,
-      "confidence": 75
+      "hz": 20.2,
+      "confidence": 80
     },
     "F4": {
       "hz": 24.85,
@@ -28,13 +28,13 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "5月2日午後に大きなデータ欠損あり。F1は5月3日早朝に8.16付近まで上昇後、右端では7.75付近に低下。F3は減少傾向。F5の線は折れ線グラフに表示なし。スペクトログラムでは欠損期間に強い広帯域ノイズ（人工的干渉の可能性）が見られる。",
+  "notes": "5/2に大きなデータ欠損あり。右端ではF1がやや回復傾向、F3は20.2付近で安定。F5は本グラフに表示なし。スペクトログラムでは5/2午後に強い擾乱が見られる。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 21.07,
-    "tomsk_hour": 17.67,
+    "japan_hour": 22.78,
+    "tomsk_hour": 19.38,
     "is_day_japan": false,
-    "is_day_tomsk": true
+    "is_day_tomsk": false
   }
 }
