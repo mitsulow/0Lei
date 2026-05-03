@@ -1,39 +1,39 @@
 {
-  "timestamp": "2026-05-03T09:44:58.748601+00:00",
+  "timestamp": "2026-05-03T10:37:47.879776+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.75,
+      "hz": 7.64,
       "confidence": 80
     },
     "F2": {
-      "hz": 13.4,
+      "hz": 13.7,
       "confidence": 75
     },
     "F3": {
-      "hz": 19.4,
-      "confidence": 70
+      "hz": 19.6,
+      "confidence": 80
     },
     "F4": {
       "hz": 24.8,
       "confidence": 75
     },
     "F5": {
-      "hz": 0.0,
+      "hz": 0,
       "confidence": 0
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端でF1が約7.75Hz付近まで低下、F2も13.4Hz付近に下降傾向。スペクトログラムでは2日14時～3日4時に強い擾乱（白飛び）が見られ、地磁気活動の影響が示唆される。F5は本グラフに表示なし。",
+  "notes": "5月2日午後にスペクトログラムで強い擾乱（白飛び領域）あり。F1中心周波数は通常の7.83Hzより低めの7.64Hz付近で推移。F5は折れ線グラフに表示なし。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 18.73,
-    "tomsk_hour": 15.33,
+    "japan_hour": 19.62,
+    "tomsk_hour": 16.22,
     "is_day_japan": false,
     "is_day_tomsk": true
   }
