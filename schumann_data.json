@@ -1,39 +1,39 @@
 {
-  "timestamp": "2026-05-04T01:19:30.349337+00:00",
+  "timestamp": "2026-05-04T04:55:28.189229+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.85,
-      "confidence": 85
+      "hz": 7.62,
+      "confidence": 80
     },
     "F2": {
-      "hz": 14.4,
+      "hz": 13.16,
       "confidence": 75
     },
     "F3": {
-      "hz": 20.2,
+      "hz": 20.1,
       "confidence": 80
     },
     "F4": {
-      "hz": 24.85,
-      "confidence": 70
+      "hz": 24.8,
+      "confidence": 75
     },
     "F5": {
-      "hz": 33.0,
-      "confidence": 30
+      "hz": null,
+      "confidence": 0
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "5月2日後半から3日前半にかけて顕著なノイズ/データ欠損領域あり。右端ではF1が約7.85Hz付近で安定、F2は14.4Hz付近、F3は20.2Hz付近で推移。F5は折れ線では明確に表示されておらず信頼度低い。",
+  "notes": "右端でF1は約7.6Hz付近に低下、F2は13.2Hz付近、F3は約20.1Hz、F4は24.8Hz付近で安定。スペクトログラムでは2日14-22時頃に強い擾乱（白飛び）が見られ、3日12時頃にも顕著な強度上昇あり。F5の線は識別困難。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 10.32,
-    "tomsk_hour": 6.92,
+    "japan_hour": 13.92,
+    "tomsk_hour": 10.52,
     "is_day_japan": true,
     "is_day_tomsk": true
   }
