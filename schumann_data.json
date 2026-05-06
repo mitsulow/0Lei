@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-05-06T19:45:47.435481+00:00",
+  "timestamp": "2026-05-06T21:04:58.753858+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -14,12 +14,12 @@
       "confidence": 80
     },
     "F3": {
-      "hz": 20.4,
-      "confidence": 80
+      "hz": 20.1,
+      "confidence": 70
     },
     "F4": {
       "hz": 24.85,
-      "confidence": 70
+      "confidence": 75
     },
     "F5": {
       "hz": null,
@@ -28,13 +28,13 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "5日13-15時頃に大きな擾乱、6日0-9時に強い活動。右端ではF1-F4とも比較的安定。F5の表示なし。",
+  "notes": "5月6日0-10時頃に強い活動（スペクトログラムで4-8Hz帯の白色化が顕著）。右端ではF1～F4の各モードは安定しており、F3は欠損後に回復。F5は表示範囲外で読み取り不可。",
   "polarization": {
-    "state": "left",
-    "state_jp": "左回転（夜）",
-    "japan_hour": 4.75,
-    "tomsk_hour": 1.35,
-    "is_day_japan": false,
+    "state": "right",
+    "state_jp": "右回転（昼）",
+    "japan_hour": 6.07,
+    "tomsk_hour": 2.67,
+    "is_day_japan": true,
     "is_day_tomsk": false
   }
 }
