@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-05-06T22:07:27.895700+00:00",
+  "timestamp": "2026-05-06T23:05:09.222252+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -11,10 +11,10 @@
     },
     "F2": {
       "hz": 14.16,
-      "confidence": 85
+      "confidence": 82
     },
     "F3": {
-      "hz": 20.22,
+      "hz": 20.3,
       "confidence": 80
     },
     "F4": {
@@ -28,12 +28,12 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "5月6日の早朝から午前にかけてスペクトログラムで強い広帯域活動が見られた。右端時点ではF1が約7.92Hzで安定、F2〜F4も比較的明瞭。F5は折れ線に表示されず読み取り不可。",
+  "notes": "5月6日早朝に1〜8Hz帯で強い活動が見られ、スペクトログラムでは広帯域の励起が確認できる。右端ではF1〜F4が概ね通常範囲に収束。F5は本グラフでは表示されていない。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 7.12,
-    "tomsk_hour": 3.72,
+    "japan_hour": 8.08,
+    "tomsk_hour": 4.68,
     "is_day_japan": true,
     "is_day_tomsk": false
   }
