@@ -1,39 +1,39 @@
 {
-  "timestamp": "2026-05-06T21:04:58.753858+00:00",
+  "timestamp": "2026-05-06T22:07:27.895700+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.85,
-      "confidence": 85
+      "hz": 7.92,
+      "confidence": 88
     },
     "F2": {
-      "hz": 14.3,
-      "confidence": 80
+      "hz": 14.16,
+      "confidence": 85
     },
     "F3": {
-      "hz": 20.1,
-      "confidence": 70
+      "hz": 20.22,
+      "confidence": 80
     },
     "F4": {
       "hz": 24.85,
       "confidence": 75
     },
     "F5": {
-      "hz": null,
+      "hz": 0,
       "confidence": 0
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "5月6日0-10時頃に強い活動（スペクトログラムで4-8Hz帯の白色化が顕著）。右端ではF1～F4の各モードは安定しており、F3は欠損後に回復。F5は表示範囲外で読み取り不可。",
+  "notes": "5月6日の早朝から午前にかけてスペクトログラムで強い広帯域活動が見られた。右端時点ではF1が約7.92Hzで安定、F2〜F4も比較的明瞭。F5は折れ線に表示されず読み取り不可。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 6.07,
-    "tomsk_hour": 2.67,
+    "japan_hour": 7.12,
+    "tomsk_hour": 3.72,
     "is_day_japan": true,
     "is_day_tomsk": false
   }
