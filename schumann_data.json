@@ -1,25 +1,25 @@
 {
-  "timestamp": "2026-05-06T14:44:53.869237+00:00",
+  "timestamp": "2026-05-06T16:19:35.434609+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.83,
+      "hz": 7.85,
       "confidence": 85
     },
     "F2": {
-      "hz": 14.05,
+      "hz": 14.0,
       "confidence": 80
     },
     "F3": {
-      "hz": 20.2,
-      "confidence": 80
+      "hz": 13.4,
+      "confidence": 75
     },
     "F4": {
       "hz": 24.83,
-      "confidence": 75
+      "confidence": 70
     },
     "F5": {
       "hz": null,
@@ -28,12 +28,12 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "5月6日後半にスペクトログラムで4-8Hz帯に強い活動が見られる。F1は7.8Hz付近で安定。F5のデータは折れ線グラフに表示されていない。5日中盤にデータ欠損あり。",
+  "notes": "5月5日13-15時頃に大きな擾乱（白線部）あり、その後6日0-9時にかけてスペクトログラムで強い広帯域活動。右端では概ね安定。F5データなし。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 23.73,
-    "tomsk_hour": 20.33,
+    "japan_hour": 1.32,
+    "tomsk_hour": 21.92,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
