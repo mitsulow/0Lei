@@ -1,39 +1,39 @@
 {
-  "timestamp": "2026-05-07T17:23:48.064281+00:00",
+  "timestamp": "2026-05-07T19:12:04.750267+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.85,
-      "confidence": 80
+      "hz": 7.79,
+      "confidence": 85
     },
     "F2": {
-      "hz": 14.3,
+      "hz": 14.36,
       "confidence": 80
     },
     "F3": {
-      "hz": 20.4,
-      "confidence": 75
+      "hz": 19.98,
+      "confidence": 80
     },
     "F4": {
-      "hz": 24.82,
-      "confidence": 70
+      "hz": 24.83,
+      "confidence": 75
     },
     "F5": {
-      "hz": null,
+      "hz": 0,
       "confidence": 0
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "5/5の13-15時頃に大きな擾乱（データ乱れ）あり。スペクトログラムでは6日未明から朝にかけて広帯域の強い信号。右端は安定し、F1は約7.85Hz付近に回帰。F5は本グラフに表示なし。",
+  "notes": "右端（7日02時UTC付近）でF1は約7.79Hz、F2は14.36Hz付近、F3は約20.0Hz、F4は24.83Hz付近。F5はグラフ範囲外で表示なし。スペクトログラムでは6日早朝に強い広帯域ノイズ、7日06-08時に8Hz帯の強い活動が見られる。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 2.38,
-    "tomsk_hour": 22.98,
+    "japan_hour": 4.2,
+    "tomsk_hour": 0.8,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
