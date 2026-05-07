@@ -1,40 +1,40 @@
 {
-  "timestamp": "2026-05-07T06:51:20.727035+00:00",
+  "timestamp": "2026-05-07T09:26:58.200030+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.92,
-      "confidence": 88
+      "hz": 7.9,
+      "confidence": 85
     },
     "F2": {
-      "hz": 14.45,
-      "confidence": 82
+      "hz": 14.1,
+      "confidence": 80
     },
     "F3": {
-      "hz": 19.9,
+      "hz": 19.8,
       "confidence": 80
     },
     "F4": {
-      "hz": 24.83,
-      "confidence": 78
+      "hz": 24.82,
+      "confidence": 75
     },
     "F5": {
-      "hz": 33.0,
-      "confidence": 30
+      "hz": null,
+      "confidence": 0
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "5月5日13-15時付近に大きな擾乱と欠損が見られる。6日も低周波帯で強い活動。右端ではF1が7.9Hz付近で安定、F2はやや高め(14.4Hz)。スペクトログラムでは8Hz帯と20Hz帯に強い輝線が継続。F5は折れ線に表示なく信頼度低。",
+  "notes": "5月5日14時付近に大きな乱れあり。6日未明から朝にかけてスペクトログラムで広帯域の強い活動が見られる。右端の値は概ね安定しているが、F3はやや低下傾向。F5はグラフに表示されていない。",
   "polarization": {
-    "state": "right",
-    "state_jp": "右回転（昼）",
-    "japan_hour": 15.85,
-    "tomsk_hour": 12.45,
-    "is_day_japan": true,
+    "state": "left",
+    "state_jp": "左回転（夜）",
+    "japan_hour": 18.43,
+    "tomsk_hour": 15.03,
+    "is_day_japan": false,
     "is_day_tomsk": true
   }
 }
