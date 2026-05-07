@@ -1,39 +1,39 @@
 {
-  "timestamp": "2026-05-07T04:02:54.523582+00:00",
+  "timestamp": "2026-05-07T06:51:20.727035+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.85,
-      "confidence": 85
+      "hz": 7.92,
+      "confidence": 88
     },
     "F2": {
       "hz": 14.45,
-      "confidence": 80
+      "confidence": 82
     },
     "F3": {
-      "hz": 20.1,
+      "hz": 19.9,
       "confidence": 80
     },
     "F4": {
       "hz": 24.83,
-      "confidence": 75
+      "confidence": 78
     },
     "F5": {
-      "hz": null,
-      "confidence": 0
+      "hz": 33.0,
+      "confidence": 30
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端ではF1が約7.85Hz付近で安定。F2は14.4Hz付近にやや上昇傾向。スペクトログラムでは8Hz帯が強く、5/6の13-15時頃に顕著な擾乱(設備ノイズか)が見られる。F5の表示なし。",
+  "notes": "5月5日13-15時付近に大きな擾乱と欠損が見られる。6日も低周波帯で強い活動。右端ではF1が7.9Hz付近で安定、F2はやや高め(14.4Hz)。スペクトログラムでは8Hz帯と20Hz帯に強い輝線が継続。F5は折れ線に表示なく信頼度低。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 13.03,
-    "tomsk_hour": 9.63,
+    "japan_hour": 15.85,
+    "tomsk_hour": 12.45,
     "is_day_japan": true,
     "is_day_tomsk": true
   }
