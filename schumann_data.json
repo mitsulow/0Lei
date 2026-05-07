@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-05-07T19:12:04.750267+00:00",
+  "timestamp": "2026-05-07T20:38:21.109433+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -28,12 +28,12 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端（7日02時UTC付近）でF1は約7.79Hz、F2は14.36Hz付近、F3は約20.0Hz、F4は24.83Hz付近。F5はグラフ範囲外で表示なし。スペクトログラムでは6日早朝に強い広帯域ノイズ、7日06-08時に8Hz帯の強い活動が見られる。",
+  "notes": "右端(8.05.2026 03時頃)時点の値。F1は7.79Hz付近で安定、F2は14.36Hz、F3は19.98Hz付近でやや低下傾向、F4は24.83Hz付近。F5の線は本グラフに表示されていないため読み取り不可。スペクトログラムでは8Hz帯と20Hz帯に強い活動が見られる。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 4.2,
-    "tomsk_hour": 0.8,
+    "japan_hour": 5.63,
+    "tomsk_hour": 2.23,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
