@@ -1,40 +1,40 @@
 {
-  "timestamp": "2026-05-08T12:18:17.258676+00:00",
+  "timestamp": "2026-05-08T14:21:07.443793+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.55,
-      "confidence": 80
+      "hz": 7.95,
+      "confidence": 85
     },
     "F2": {
-      "hz": 13.5,
-      "confidence": 75
+      "hz": 14.4,
+      "confidence": 80
     },
     "F3": {
-      "hz": 19.7,
-      "confidence": 70
+      "hz": 19.9,
+      "confidence": 75
     },
     "F4": {
-      "hz": 25.3,
-      "confidence": 65
+      "hz": 25.5,
+      "confidence": 70
     },
     "F5": {
-      "hz": 0,
-      "confidence": 0
+      "hz": 33.5,
+      "confidence": 30
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "8.05後半でF1がやや低下傾向。F4は8日朝以降に出現し変動大。F5は読み取り不可。スペクトログラムでは8Hz帯と16Hz帯に持続的な強度が見られる。",
+  "notes": "8日終盤にF1上昇、F2は急上昇後やや落ち着き。F4は8日に大きく変動し高めにシフト。スペクトログラムでは8Hz帯と24Hz付近の連続的な輝線が顕著。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 21.3,
-    "tomsk_hour": 17.9,
+    "japan_hour": 23.35,
+    "tomsk_hour": 19.95,
     "is_day_japan": false,
-    "is_day_tomsk": true
+    "is_day_tomsk": false
   }
 }
