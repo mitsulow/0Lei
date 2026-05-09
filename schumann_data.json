@@ -1,40 +1,40 @@
 {
-  "timestamp": "2026-05-09T11:32:06.853834+00:00",
+  "timestamp": "2026-05-09T12:40:31.560370+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.75,
-      "confidence": 80
+      "hz": 7.85,
+      "confidence": 85
     },
     "F2": {
-      "hz": 13.9,
+      "hz": 13.6,
       "confidence": 75
     },
     "F3": {
-      "hz": 20.1,
-      "confidence": 75
+      "hz": 19.78,
+      "confidence": 80
     },
     "F4": {
-      "hz": 25.9,
-      "confidence": 70
+      "hz": 25.6,
+      "confidence": 75
     },
     "F5": {
       "hz": null,
       "confidence": 0
     }
   },
-  "amplitude_level": "high",
+  "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "9.05の早朝から強い擾乱があり、スペクトログラムでは4-10時付近に広帯域の高強度領域（白色飽和）が見られる。F3,F4の周波数変動が大きく、地磁気/電離層擾乱の可能性。F5は表示範囲外で読み取り不可。",
+  "notes": "9.05.2026の4-11時頃にスペクトログラム上で強い擾乱・データ欠損あり。右端では各モードとも変動が大きく、F2は低下傾向、F4はやや低下。F5は本グラフに表示なし。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 20.53,
-    "tomsk_hour": 17.13,
+    "japan_hour": 21.67,
+    "tomsk_hour": 18.27,
     "is_day_japan": false,
-    "is_day_tomsk": true
+    "is_day_tomsk": false
   }
 }
