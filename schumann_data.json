@@ -1,25 +1,25 @@
 {
-  "timestamp": "2026-05-10T14:06:39.641908+00:00",
+  "timestamp": "2026-05-10T15:12:46.714641+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.67,
-      "confidence": 80
+      "hz": 7.75,
+      "confidence": 85
     },
     "F2": {
-      "hz": 13.86,
+      "hz": 14.1,
       "confidence": 80
     },
     "F3": {
-      "hz": 20.14,
-      "confidence": 75
+      "hz": 19.9,
+      "confidence": 80
     },
     "F4": {
-      "hz": 25.9,
-      "confidence": 70
+      "hz": 26.0,
+      "confidence": 75
     },
     "F5": {
       "hz": null,
@@ -28,12 +28,12 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端付近で各モードの周波数がやや低下傾向。9-10日にかけてスペクトログラムに強い広帯域擾乱（白色化）が頻発しており、地磁気活動またはノイズの影響が示唆される。F5の線は確認できず欠損。",
+  "notes": "10日後半は変動が大きく、スペクトログラムでは多数のスパイク状ノイズが見られる。F5は表示範囲外のため読み取り不可。F1は7.7Hz付近でやや低め。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 23.1,
-    "tomsk_hour": 19.7,
+    "japan_hour": 0.2,
+    "tomsk_hour": 20.8,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
