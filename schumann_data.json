@@ -1,39 +1,39 @@
 {
-  "timestamp": "2026-05-10T09:12:10.881369+00:00",
+  "timestamp": "2026-05-10T10:37:00.717350+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.67,
+      "hz": 7.7,
       "confidence": 80
     },
     "F2": {
-      "hz": 13.44,
-      "confidence": 75
+      "hz": 13.5,
+      "confidence": 80
     },
     "F3": {
-      "hz": 19.68,
-      "confidence": 70
+      "hz": 19.7,
+      "confidence": 75
     },
     "F4": {
-      "hz": 25.52,
-      "confidence": 65
+      "hz": 25.8,
+      "confidence": 70
     },
     "F5": {
       "hz": null,
       "confidence": 0
     }
   },
-  "amplitude_level": "medium",
+  "amplitude_level": "high",
   "strongest_mode": "F1",
-  "notes": "10.05.2026の右端付近で各モードとも変動が大きく、F1はやや低め(7.67Hz)に推移。スペクトログラムでは9-10日にかけて強い擾乱(白色領域)が見られ、地磁気活動の活発化が示唆される。F5はグラフに表示なし。",
+  "notes": "右端で各モードとも変動が激しい。スペクトログラムでは9-10日に強い擾乱と白飛び（高強度帯）が見られ、地磁気活動が活発。F5は折れ線に表示されておらず読み取り不可。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 18.2,
-    "tomsk_hour": 14.8,
+    "japan_hour": 19.62,
+    "tomsk_hour": 16.22,
     "is_day_japan": false,
     "is_day_tomsk": true
   }
