@@ -1,25 +1,25 @@
 {
-  "timestamp": "2026-05-09T23:40:15.795460+00:00",
+  "timestamp": "2026-05-10T01:25:04.528190+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.7,
+      "hz": 7.75,
       "confidence": 80
     },
     "F2": {
-      "hz": 13.6,
+      "hz": 13.86,
       "confidence": 75
     },
     "F3": {
-      "hz": 20.1,
-      "confidence": 80
+      "hz": 19.4,
+      "confidence": 70
     },
     "F4": {
-      "hz": 24.7,
-      "confidence": 75
+      "hz": 25.6,
+      "confidence": 65
     },
     "F5": {
       "hz": null,
@@ -28,13 +28,13 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端（10.05.2026の朝6時頃）でF1は約7.70Hz付近で変動が大きい。F2は13.6Hz付近、F3は20.1Hz付近、F4は24.7Hz付近。F5の線は本グラフに表示されていない。スペクトログラムでは9日後半に強い擾乱（白飛び）あり、電離層擾乱の可能性。",
+  "notes": "10.05.2026の8時頃が右端。F1は約7.75Hz付近で変動が大きい。F3(赤)は19.4Hz付近に低下、F4(緑)は25.6Hz付近で大きく揺れている。スペクトログラムでは9日以降に強い擾乱と白抜け（飽和）が見られ、地磁気活動が高い可能性。F5は本グラフに描画なし。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 8.67,
-    "tomsk_hour": 5.27,
+    "japan_hour": 10.42,
+    "tomsk_hour": 7.02,
     "is_day_japan": true,
-    "is_day_tomsk": false
+    "is_day_tomsk": true
   }
 }
