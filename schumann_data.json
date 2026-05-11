@@ -1,40 +1,40 @@
 {
-  "timestamp": "2026-05-11T20:28:35.475010+00:00",
+  "timestamp": "2026-05-11T21:49:41.886438+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.78,
+      "hz": 7.85,
       "confidence": 85
     },
     "F2": {
-      "hz": 14.3,
+      "hz": 14.0,
       "confidence": 80
     },
     "F3": {
-      "hz": 19.8,
-      "confidence": 80
-    },
-    "F4": {
-      "hz": 25.9,
+      "hz": 19.2,
       "confidence": 75
     },
+    "F4": {
+      "hz": 26.1,
+      "confidence": 70
+    },
     "F5": {
-      "hz": 33.5,
+      "hz": 33.8,
       "confidence": 30
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端でF1は約7.78Hz付近で安定。F2はやや上昇傾向で14.3Hz近辺。F3は19.8Hz前後、F4は25.9Hz付近で推移。F5は折れ線では確認困難。スペクトログラムでは10-11日にかけて広帯域ノイズや欠損領域が見られるが、最新時刻では各モードが明瞭に観測されている。",
+  "notes": "12日早朝にF1が上昇傾向。スペクトログラムでは10日早朝と15時頃に強い広帯域擾乱が見られる。F5は折れ線グラフに表示されておらず推定値。",
   "polarization": {
-    "state": "left",
-    "state_jp": "左回転（夜）",
-    "japan_hour": 5.47,
-    "tomsk_hour": 2.07,
-    "is_day_japan": false,
+    "state": "right",
+    "state_jp": "右回転（昼）",
+    "japan_hour": 6.82,
+    "tomsk_hour": 3.42,
+    "is_day_japan": true,
     "is_day_tomsk": false
   }
 }
