@@ -1,40 +1,40 @@
 {
-  "timestamp": "2026-05-11T08:04:51.645929+00:00",
+  "timestamp": "2026-05-11T11:35:21.353571+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.78,
+      "hz": 7.88,
       "confidence": 85
     },
     "F2": {
-      "hz": 14.3,
-      "confidence": 70
-    },
-    "F3": {
-      "hz": 19.4,
+      "hz": 14.2,
       "confidence": 80
     },
-    "F4": {
-      "hz": 26.3,
+    "F3": {
+      "hz": 19.7,
       "confidence": 75
     },
+    "F4": {
+      "hz": 25.7,
+      "confidence": 70
+    },
     "F5": {
-      "hz": null,
-      "confidence": 0
+      "hz": 33.8,
+      "confidence": 30
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端でF1は約7.78Hz付近で安定。F2は14Hz台で変動大きく上昇傾向。F3は19.4Hz付近、F4は26.3Hz付近。F5の線は本グラフに表示されていない。スペクトログラムでは4Hz以下と16-20Hz帯に強いシグナルが断続的に見られ、10日12時頃と11日0時頃に活発化。",
+  "notes": "F1は右端で約7.88Hz付近に上昇、変動大。F2は14Hz台で振動。F3は19.5-19.7付近に低下傾向。F4(緑)は25.7付近で下降中。スペクトログラムでは0-4Hz帯と4Hz付近に強い帯状信号、複数の白飛び(欠損/強信号)領域あり。",
   "polarization": {
-    "state": "right",
-    "state_jp": "右回転（昼）",
-    "japan_hour": 17.07,
-    "tomsk_hour": 13.67,
-    "is_day_japan": true,
+    "state": "left",
+    "state_jp": "左回転（夜）",
+    "japan_hour": 20.58,
+    "tomsk_hour": 17.18,
+    "is_day_japan": false,
     "is_day_tomsk": true
   }
 }
