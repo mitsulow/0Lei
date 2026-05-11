@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-05-11T18:52:35.013033+00:00",
+  "timestamp": "2026-05-11T20:28:35.475010+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 8.05,
+      "hz": 7.78,
       "confidence": 85
     },
     "F2": {
@@ -14,26 +14,26 @@
       "confidence": 80
     },
     "F3": {
-      "hz": 19.9,
+      "hz": 19.8,
       "confidence": 80
     },
     "F4": {
-      "hz": 25.5,
-      "confidence": 70
+      "hz": 25.9,
+      "confidence": 75
     },
     "F5": {
-      "hz": 0,
-      "confidence": 0
+      "hz": 33.5,
+      "confidence": 30
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端でF1が急上昇し約8.05Hzに達している。F2も上昇傾向。F3は比較的安定、F4はやや低下傾向。F5の線は確認できず。スペクトログラムでは0-4Hz帯と4Hz付近に強い帯状の信号、全体的に活動はやや活発。",
+  "notes": "右端でF1は約7.78Hz付近で安定。F2はやや上昇傾向で14.3Hz近辺。F3は19.8Hz前後、F4は25.9Hz付近で推移。F5は折れ線では確認困難。スペクトログラムでは10-11日にかけて広帯域ノイズや欠損領域が見られるが、最新時刻では各モードが明瞭に観測されている。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 3.87,
-    "tomsk_hour": 0.47,
+    "japan_hour": 5.47,
+    "tomsk_hour": 2.07,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
