@@ -1,40 +1,5 @@
 {
-  "timestamp": "2026-05-12T22:22:27.476171+00:00",
-  "status": "ok",
-  "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
-  "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
-  "model": "claude-opus-4-7",
-  "modes": {
-    "F1": {
-      "hz": 7.9,
-      "confidence": 88
-    },
-    "F2": {
-      "hz": 14.45,
-      "confidence": 80
-    },
-    "F3": {
-      "hz": 19.9,
-      "confidence": 78
-    },
-    "F4": {
-      "hz": 25.9,
-      "confidence": 70
-    },
-    "F5": {
-      "hz": null,
-      "confidence": 0
-    }
-  },
-  "amplitude_level": "medium",
-  "strongest_mode": "F1",
-  "notes": "12日15-20時頃に強いノイズ/データ欠損あり。右端ではF1が約7.90Hzでやや高め、F2は14.4Hz付近、F3・F4はおおむね安定。F5は本グラフに表示なし。",
-  "polarization": {
-    "state": "right",
-    "state_jp": "右回転（昼）",
-    "japan_hour": 7.37,
-    "tomsk_hour": 3.97,
-    "is_day_japan": true,
-    "is_day_tomsk": false
-  }
+  "timestamp": "2026-05-12T23:34:45.348653+00:00",
+  "status": "error",
+  "error": "Claude API failed: Error code: 529 - {'type': 'error', 'error': {'type': 'overloaded_error', 'message': 'Overloaded'}, 'request_id': 'req_011CayYv79fGGZt6U5wUDyMg'}"
 }
