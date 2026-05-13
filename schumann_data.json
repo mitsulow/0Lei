@@ -1,5 +1,40 @@
 {
-  "timestamp": "2026-05-12T23:34:45.348653+00:00",
-  "status": "error",
-  "error": "Claude API failed: Error code: 529 - {'type': 'error', 'error': {'type': 'overloaded_error', 'message': 'Overloaded'}, 'request_id': 'req_011CayYv79fGGZt6U5wUDyMg'}"
+  "timestamp": "2026-05-13T01:27:12.707532+00:00",
+  "status": "ok",
+  "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
+  "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
+  "model": "claude-opus-4-7",
+  "modes": {
+    "F1": {
+      "hz": 7.78,
+      "confidence": 85
+    },
+    "F2": {
+      "hz": 13.9,
+      "confidence": 80
+    },
+    "F3": {
+      "hz": 19.96,
+      "confidence": 80
+    },
+    "F4": {
+      "hz": 25.88,
+      "confidence": 70
+    },
+    "F5": {
+      "hz": null,
+      "confidence": 0
+    }
+  },
+  "amplitude_level": "medium",
+  "strongest_mode": "F1",
+  "notes": "12.05の15-20時頃に大きなデータ欠損あり。右端ではF1は約7.78Hz付近で安定、F2は13.9Hz付近、F3は約20Hz付近で推移。F5の線は本グラフには表示されていない。スペクトログラムでは4Hz・20Hz帯に強いラインが見える。",
+  "polarization": {
+    "state": "right",
+    "state_jp": "右回転（昼）",
+    "japan_hour": 10.45,
+    "tomsk_hour": 7.05,
+    "is_day_japan": true,
+    "is_day_tomsk": true
+  }
 }
