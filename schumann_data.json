@@ -1,40 +1,40 @@
 {
-  "timestamp": "2026-05-14T08:16:56.421566+00:00",
+  "timestamp": "2026-05-14T10:40:56.368056+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.9,
-      "confidence": 85
+      "hz": 7.75,
+      "confidence": 88
     },
     "F2": {
-      "hz": 14.2,
-      "confidence": 80
+      "hz": 13.5,
+      "confidence": 85
     },
     "F3": {
-      "hz": 20.1,
+      "hz": 20.12,
       "confidence": 80
     },
     "F4": {
-      "hz": 26.1,
-      "confidence": 75
+      "hz": 26.0,
+      "confidence": 78
     },
     "F5": {
-      "hz": 0,
-      "confidence": 0
+      "hz": 33.0,
+      "confidence": 30
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "12日午後にデータ欠損あり。13日以降は安定した変動。F1周波数はやや高め推移、F3は基準値付近で安定。F5は表示範囲外で読み取り不可。",
+  "notes": "右端でF1・F2が低下傾向。12日午後に大きなデータ欠損あり。F5は本グラフに表示されず推定値。スペクトログラムでは8Hz付近のSR1が顕著。",
   "polarization": {
-    "state": "right",
-    "state_jp": "右回転（昼）",
-    "japan_hour": 17.27,
-    "tomsk_hour": 13.87,
-    "is_day_japan": true,
+    "state": "left",
+    "state_jp": "左回転（夜）",
+    "japan_hour": 19.67,
+    "tomsk_hour": 16.27,
+    "is_day_japan": false,
     "is_day_tomsk": true
   }
 }
