@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-05-15T09:27:07.560546+00:00",
+  "timestamp": "2026-05-15T11:33:08.901154+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -10,16 +10,16 @@
       "confidence": 85
     },
     "F2": {
-      "hz": 14.45,
+      "hz": 14.4,
       "confidence": 80
     },
     "F3": {
-      "hz": 20.1,
-      "confidence": 80
+      "hz": 19.95,
+      "confidence": 75
     },
     "F4": {
       "hz": 25.4,
-      "confidence": 75
+      "confidence": 70
     },
     "F5": {
       "hz": null,
@@ -28,12 +28,12 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "F1〜F4は安定して観測されており、右端の値も明瞭。F5は折れ線に表示なし。スペクトログラムでは8Hz帯が継続的に強く、14-16Hz帯にも明瞭な信号。20Hz付近に水平な人工線状ノイズあり。全体に中程度の活動度。",
+  "notes": "右端でF1は約7.88Hz付近で安定。F2は14.4Hz前後、F3は20Hzをやや下回る位置で変動が大きい。F4は25-26Hz付近で下降傾向。F5の線は本グラフに表示なし。スペクトログラムでは8Hz帯と15Hz帯に強いバンドが見られる。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 18.45,
-    "tomsk_hour": 15.05,
+    "japan_hour": 20.55,
+    "tomsk_hour": 17.15,
     "is_day_japan": false,
     "is_day_tomsk": true
   }
