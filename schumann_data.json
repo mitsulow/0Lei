@@ -1,40 +1,40 @@
 {
-  "timestamp": "2026-05-14T23:50:38.487375+00:00",
+  "timestamp": "2026-05-15T02:31:51.211232+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.85,
-      "confidence": 88
+      "hz": 7.76,
+      "confidence": 85
     },
     "F2": {
-      "hz": 14.4,
-      "confidence": 82
+      "hz": 14.5,
+      "confidence": 80
     },
     "F3": {
       "hz": 19.85,
-      "confidence": 80
+      "confidence": 75
     },
     "F4": {
-      "hz": 25.7,
+      "hz": 25.56,
       "confidence": 70
     },
     "F5": {
-      "hz": 33.8,
-      "confidence": 30
+      "hz": null,
+      "confidence": 0
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "F1帯は7.8Hz付近で安定。13日午前に変動が大きくF3が一時上昇。F4は14日にかけて上昇傾向後、低下。F5は折れ線では表示されておらず読取不可。スペクトログラムでは8Hz帯が明瞭、20Hz付近に水平線状の人工的シグナルあり。",
+  "notes": "右端でF1は約7.76Hz付近、F2はやや上昇傾向で14.5Hz付近。F3は19.85Hz前後で安定、F4は25.5Hz付近に低下後やや回復。F5は表示範囲外で読み取り不可。スペクトログラムでは8Hz帯が継続的に強く、14-16Hz帯も活発。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 8.83,
-    "tomsk_hour": 5.43,
+    "japan_hour": 11.52,
+    "tomsk_hour": 8.12,
     "is_day_japan": true,
-    "is_day_tomsk": false
+    "is_day_tomsk": true
   }
 }
