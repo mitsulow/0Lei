@@ -1,16 +1,16 @@
 {
-  "timestamp": "2026-05-16T04:47:26.333107+00:00",
+  "timestamp": "2026-05-16T07:10:26.759698+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 8.04,
+      "hz": 8.05,
       "confidence": 85
     },
     "F2": {
-      "hz": 14.2,
+      "hz": 14.3,
       "confidence": 80
     },
     "F3": {
@@ -18,8 +18,8 @@
       "confidence": 75
     },
     "F4": {
-      "hz": 25.5,
-      "confidence": 65
+      "hz": 25.9,
+      "confidence": 70
     },
     "F5": {
       "hz": 33.0,
@@ -28,12 +28,12 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端ではF1が約8.04Hz付近で安定。F2は14.2Hz前後でやや変動。F3は19.8Hz付近に低下傾向。F4は25.5Hz付近で揺らぎあり。スペクトログラムでは8Hz帯が最も強く、14-16Hz帯も活発。F5は折れ線では確認困難。",
+  "notes": "F1は右端で約8.0Hz付近に上昇、F2は13Hz台への急降下後に回復傾向。F3は低下傾向、F4は変動が大きい。スペクトログラムでは8Hz帯が明瞭、16Hz帯にも強度あり。F5は折れ線になく信頼度低。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 13.78,
-    "tomsk_hour": 10.38,
+    "japan_hour": 16.17,
+    "tomsk_hour": 12.77,
     "is_day_japan": true,
     "is_day_tomsk": true
   }
