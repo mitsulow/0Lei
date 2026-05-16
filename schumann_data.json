@@ -1,16 +1,16 @@
 {
-  "timestamp": "2026-05-15T23:29:00.539523+00:00",
+  "timestamp": "2026-05-16T01:16:06.075922+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.88,
-      "confidence": 85
+      "hz": 8.04,
+      "confidence": 88
     },
     "F2": {
-      "hz": 14.4,
+      "hz": 14.47,
       "confidence": 80
     },
     "F3": {
@@ -18,8 +18,8 @@
       "confidence": 75
     },
     "F4": {
-      "hz": 25.6,
-      "confidence": 70
+      "hz": 25.5,
+      "confidence": 65
     },
     "F5": {
       "hz": null,
@@ -28,13 +28,13 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端付近でF1は約7.88Hz付近で安定、F2は14.4Hz付近に上昇傾向、F3(赤)は終端で19.8Hz付近まで低下、F4(緑)は25.6Hz付近。F5の線は本グラフに表示なし。スペクトログラムでは8Hz帯が一貫して強く、15Hz帯にも明瞭な活動。",
+  "notes": "右端でF1は8.04Hz付近に上昇。F2は14.4〜14.5Hz付近で安定。F3は19.8Hz前後でやや低め。F4は25.5Hz付近に下降傾向。F5の線は確認できず。スペクトログラムでも第1モード(約8Hz)が最も明瞭。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 8.48,
-    "tomsk_hour": 5.08,
+    "japan_hour": 10.27,
+    "tomsk_hour": 6.87,
     "is_day_japan": true,
-    "is_day_tomsk": false
+    "is_day_tomsk": true
   }
 }
