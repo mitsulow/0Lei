@@ -1,5 +1,40 @@
 {
-  "timestamp": "2026-05-16T18:07:10.468307+00:00",
-  "status": "error",
-  "error": "Claude API failed: Error code: 500 - {'type': 'error', 'error': {'type': 'api_error', 'message': 'Internal server error'}, 'request_id': 'req_011Cb6hASSs73TvNqneG5PES'}"
+  "timestamp": "2026-05-16T19:31:27.804360+00:00",
+  "status": "ok",
+  "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
+  "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
+  "model": "claude-opus-4-7",
+  "modes": {
+    "F1": {
+      "hz": 7.95,
+      "confidence": 85
+    },
+    "F2": {
+      "hz": 14.3,
+      "confidence": 80
+    },
+    "F3": {
+      "hz": 19.9,
+      "confidence": 75
+    },
+    "F4": {
+      "hz": 24.4,
+      "confidence": 70
+    },
+    "F5": {
+      "hz": null,
+      "confidence": 0
+    }
+  },
+  "amplitude_level": "high",
+  "strongest_mode": "F1",
+  "notes": "16日午後から強い擾乱が見られ、スペクトログラムでは17-23時に広帯域の強信号（白色飽和）が発生。F3, F4の周波数が低下傾向。データは17日早朝で途切れている。",
+  "polarization": {
+    "state": "left",
+    "state_jp": "左回転（夜）",
+    "japan_hour": 4.52,
+    "tomsk_hour": 1.12,
+    "is_day_japan": false,
+    "is_day_tomsk": false
+  }
 }
