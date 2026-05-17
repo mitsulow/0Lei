@@ -7135,8 +7135,9 @@ const COASTLINES = [
     window.navigator.standalone === true;
   if (isStandalone) return;
 
-  // 12時間以内に閉じてたら今回は出さない（v6の24h → v7で12hに短縮）
-  const DISMISS_KEY = 'tsukiyoga-pwa-dismissed-at';
+  // ★v7: キーを v7 専用に分離（v6で「あとで」を押した人も v7 では新規扱いで初回表示）
+  // 12時間以内に閉じてたら今回は出さない
+  const DISMISS_KEY = 'tsukiyoga-pwa-v7-dismissed-at';
   const dismissedAt = parseInt(localStorage.getItem(DISMISS_KEY) || '0', 10);
   if (dismissedAt && Date.now() - dismissedAt < 12 * 60 * 60 * 1000) return;
 
