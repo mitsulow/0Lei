@@ -1695,12 +1695,60 @@
     letter-spacing: 0.25em;
     margin-bottom: 12px;
   }
+  .uranai-result-age {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.82rem;
+    color: rgba(110, 196, 245, 0.95);
+    letter-spacing: 0.2em;
+    margin-bottom: 4px;
+  }
   .uranai-result-lunar {
     font-family: 'Shippori Mincho', serif;
     font-size: 0.78rem;
     color: rgba(138, 160, 184, 0.95);
     letter-spacing: 0.2em;
     margin-bottom: 16px;
+  }
+  /* ★v7: 4族表示 */
+  .uranai-tribe {
+    margin: 0 -2px 16px;
+    padding: 14px 16px;
+    background: linear-gradient(180deg, rgba(201, 169, 97, 0.16), rgba(201, 169, 97, 0.06));
+    border: 1px solid rgba(201, 169, 97, 0.45);
+    border-radius: 12px;
+    text-align: center;
+  }
+  .uranai-tribe-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .uranai-tribe-num {
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    color: rgba(201, 169, 97, 0.9);
+    letter-spacing: 0.15em;
+  }
+  .uranai-tribe-name {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.15rem;
+    color: var(--moon-white);
+    letter-spacing: 0.28em;
+  }
+  .uranai-tribe-tag {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.82rem;
+    color: rgba(201, 169, 97, 1);
+    letter-spacing: 0.2em;
+    margin-bottom: 4px;
+  }
+  .uranai-tribe-era {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.68rem;
+    color: rgba(138, 160, 184, 0.85);
+    letter-spacing: 0.18em;
   }
   .uranai-result-desc {
     font-family: 'Shippori Mincho', serif;
@@ -1711,6 +1759,17 @@
     text-align: left;
     padding: 14px 0 6px;
     border-top: 1px solid rgba(201, 169, 97, 0.25);
+  }
+  .uranai-result-tribe-desc {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.88rem;
+    color: rgba(245, 235, 216, 0.95);
+    line-height: 1.95;
+    letter-spacing: 0.08em;
+    text-align: left;
+    padding: 12px 0 6px;
+    margin-top: 8px;
+    border-top: 1px solid rgba(110, 196, 245, 0.20);
   }
   .uranai-result-note {
     font-family: 'Shippori Mincho', serif;
@@ -3456,8 +3515,20 @@
       </div>
       <div class="uranai-result-name" id="uranaiName"></div>
       <div class="uranai-result-kanji" id="uranaiKanji"></div>
+      <div class="uranai-result-age" id="uranaiAge"></div>
       <div class="uranai-result-lunar" id="uranaiLunar"></div>
+
+      <div class="uranai-tribe" id="uranaiTribe">
+        <div class="uranai-tribe-head">
+          <span class="uranai-tribe-num" id="uranaiTribeNum"></span>
+          <span class="uranai-tribe-name" id="uranaiTribeName"></span>
+        </div>
+        <div class="uranai-tribe-tag" id="uranaiTribeTag"></div>
+        <div class="uranai-tribe-era" id="uranaiTribeEra"></div>
+      </div>
+
       <div class="uranai-result-desc" id="uranaiDesc"></div>
+      <div class="uranai-result-tribe-desc" id="uranaiTribeDesc"></div>
       <div class="uranai-result-note">＊ 旧 暦 の 日 付 に も と づ い て い ま す</div>
     </div>
   </div>
@@ -4587,6 +4658,57 @@ const COASTLINES = [
     30: '一 周 の 終 わ り を 始 ま り に 変 え る 力 。 物 事 を 円 環 と し て 捉 え る 月 。'
   };
 
+  // ★v7: 4族分類（新月→上弦・上弦→満月・満月→下弦・下弦→新月の4期）
+  const URANAI_TRIBES = {
+    1: {
+      num: 1,
+      name: 'ツキタチ族',
+      tag: '始 ま り を 生 む 人',
+      era: '新 月 → 上 弦  の 月 の 子',
+      desc: '闇 か ら 立 ち 上 が る 月 の 下 に 生 ま れ た 開 拓 者 。\n' +
+            '何 も な い 場 所 か ら 物 事 を 立 ち 上 げ る 力 、\n' +
+            '純 粋 な 発 想 と 直 観 、 そ し て ゼ ロ を 一 に す る 勇 気 を 持 つ 。'
+    },
+    2: {
+      num: 2,
+      name: 'カタミニ族',
+      tag: '大 き く 育 て る 人',
+      era: '上 弦 → 満 月  の 月 の 子',
+      desc: '上 弦 か ら 満 月 へ 月 が 膨 ら む 時 期 の 生 ま れ 。\n' +
+            '行 動 力 と 上 昇 の エ ネ ル ギ ー で 物 事 を 育 て 、\n' +
+            '未 来 へ 押 し 進 め る 推 進 者 ・ ビ ル ダ ー の 気 質 。'
+    },
+    3: {
+      num: 3,
+      name: 'クマナシ族',
+      tag: '満 ち て 分 け 与 え る 人',
+      era: '満 月 → 下 弦  の 月 の 子',
+      desc: '満 月 か ら 下 弦 へ 月 が 豊 か さ を 放 つ 時 期 の 生 ま れ 。\n' +
+            '中 心 に い る だ け で 場 が 明 る く な る リ ー ダ ー 気 質 。\n' +
+            '惜 し み な く 分 か ち 合 い 、 他 者 を 照 ら す 人 。'
+    },
+    4: {
+      num: 4,
+      name: 'アリアケ族',
+      tag: '整 え て 手 放 す 人',
+      era: '下 弦 → 新 月  の 月 の 子',
+      desc: '下 弦 か ら 次 の 新 月 へ 月 が 収 束 す る 時 期 の 生 ま れ 。\n' +
+            '本 質 を 見 抜 く 目 と 深 い 洞 察 を 持 ち 、\n' +
+            '不 要 を 削 ぎ 落 と し て 次 へ つ な ぐ 賢 者 の 気 質 。'
+    }
+  };
+
+  function getUranaiTribe(lunarDay) {
+    // 1族: 1〜6 (ツキタチ→カタミニ手前)
+    // 2族: 7〜14 (カタミニ→クマナシ手前)
+    // 3族: 15〜22 (クマナシ→アリアケ手前)
+    // 4族: 23〜30 (アリアケ→次のツキタチ手前)
+    if (lunarDay <= 6)  return URANAI_TRIBES[1];
+    if (lunarDay <= 14) return URANAI_TRIBES[2];
+    if (lunarDay <= 22) return URANAI_TRIBES[3];
+    return URANAI_TRIBES[4];
+  }
+
   (function initUranai() {
     const dateEl = document.getElementById('uranaiBirthDate');
     const timeEl = document.getElementById('uranaiBirthTime');
@@ -4623,17 +4745,32 @@ const COASTLINES = [
       const day = Math.min(Math.max(1, lunar.day), 30);
       const info = getMoonNameForLunarDay(day);
       const desc = URANAI_DESCRIPTIONS[day] || '';
+      const tribe = getUranaiTribe(day);
+      const moonAge = getMoonAge(birth);  // 0〜29.5
+      const moonAgeRounded = Math.round(moonAge);
 
       document.getElementById('uranaiName').textContent =
         info.name.split('').join(' ');
       document.getElementById('uranaiKanji').textContent =
         info.kanji.split('').join(' ');
+      document.getElementById('uranaiAge').textContent =
+        `月 齢 ${moonAgeRounded} 日`;
       document.getElementById('uranaiLunar').textContent =
         `旧 暦 ${lunar.month} 月 ${day} 日 の 月`;
+
+      // 4族
+      document.getElementById('uranaiTribeNum').textContent =
+        `第 ${tribe.num} 族`;
+      document.getElementById('uranaiTribeName').textContent =
+        tribe.name.split('').join(' ');
+      document.getElementById('uranaiTribeTag').textContent = `— ${tribe.tag} —`;
+      document.getElementById('uranaiTribeEra').textContent = tribe.era;
+
       const moonImg = document.getElementById('uranaiMoonImg');
       moonImg.src = `./moon_icons/moon_${String(day).padStart(2, '0')}.png`;
       moonImg.alt = info.name;
       document.getElementById('uranaiDesc').textContent = desc;
+      document.getElementById('uranaiTribeDesc').textContent = tribe.desc;
 
       resultEl.classList.add('visible');
       // 結果が見えるようにスクロール
