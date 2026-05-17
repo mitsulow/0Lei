@@ -1,39 +1,39 @@
 {
-  "timestamp": "2026-05-17T21:37:43.422289+00:00",
+  "timestamp": "2026-05-17T22:35:01.240468+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.92,
+      "hz": 7.9,
       "confidence": 85
     },
     "F2": {
-      "hz": 14.5,
+      "hz": 13.7,
       "confidence": 80
     },
     "F3": {
-      "hz": 20.2,
+      "hz": 20.0,
       "confidence": 80
     },
     "F4": {
-      "hz": 24.5,
+      "hz": 25.5,
       "confidence": 70
     },
     "F5": {
-      "hz": null,
-      "confidence": 0
+      "hz": 33.0,
+      "confidence": 30
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "17日後半から18日早朝にかけてF1は7.9Hz付近で安定。F4(緑)は変動が大きく終端付近で低下傾向。スペクトログラムでは16日夕方から夜にかけて強い広帯域擾乱が見られる。F5は本データには表示なし。",
+  "notes": "16日17-20時頃に強いブロードバンドノイズ（白色化）が発生し全周波数で擾乱。以降は比較的安定。F5の線は判別困難で推定値。右端付近のF1は約7.9Hz付近で平常範囲。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 6.62,
-    "tomsk_hour": 3.22,
+    "japan_hour": 7.58,
+    "tomsk_hour": 4.18,
     "is_day_japan": true,
     "is_day_tomsk": false
   }
