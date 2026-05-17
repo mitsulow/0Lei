@@ -6903,191 +6903,375 @@ const COASTLINES = [
   }, 8000);
 </script>
 
-<!-- ======== PWA インストールバナー ======== -->
+<!-- ======== ★v7改: PWA インストール案内（高齢者向けに大きく分かりやすく） ======== -->
 <style>
   .pwa-banner {
     position: fixed;
     left: 50%;
-    bottom: 16px;
-    transform: translateX(-50%) translateY(calc(100% + 30px));
-    width: calc(100% - 24px);
-    max-width: 420px;
-    background: linear-gradient(180deg, #0a1428 0%, #030818 100%);
-    border: 1px solid rgba(201, 169, 97, 0.35);
-    border-radius: 14px;
-    padding: 16px 18px 14px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(201, 169, 97, 0.15);
+    bottom: 0;
+    transform: translateX(-50%) translateY(110%);
+    width: 100%;
+    max-width: 480px;
+    background: linear-gradient(180deg, #0a1530 0%, #02050f 100%);
+    border-top: 2px solid rgba(201, 169, 97, 0.6);
+    border-left: 1px solid rgba(201, 169, 97, 0.35);
+    border-right: 1px solid rgba(201, 169, 97, 0.35);
+    border-radius: 22px 22px 0 0;
+    padding: 22px 22px 28px;
+    box-shadow: 0 -10px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(201, 169, 97, 0.18);
     z-index: 9999;
     opacity: 0;
-    transition: transform 0.6s cubic-bezier(0.2, 0.9, 0.3, 1), opacity 0.6s ease;
+    transition: transform 0.55s cubic-bezier(0.18, 0.9, 0.3, 1), opacity 0.55s ease;
     font-family: 'Shippori Mincho', serif;
     color: var(--moon-white);
+    text-align: center;
+    box-sizing: border-box;
+    max-height: 92vh;
+    overflow-y: auto;
   }
   .pwa-banner.visible { transform: translateX(-50%) translateY(0); opacity: 1; }
-  .pwa-banner-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-  .pwa-banner-icon {
-    width: 34px; height: 34px; border-radius: 8px;
-    flex-shrink: 0; background: #030818;
-    border: 1px solid rgba(201, 169, 97, 0.3);
+
+  .pwa-close {
+    position: absolute;
+    top: 10px; right: 10px;
+    width: 36px; height: 36px;
+    background: none; border: none;
+    color: rgba(200, 220, 240, 0.55);
+    font-size: 1.6rem; line-height: 1;
+    cursor: pointer; padding: 0;
   }
-  .pwa-banner-title {
-    font-size: 0.95rem; letter-spacing: 0.2em;
-    font-weight: 600; color: var(--moon-white);
+  .pwa-close:active { color: var(--moon-white); }
+
+  .pwa-icon-wrap {
+    width: 72px; height: 72px;
+    margin: 4px auto 14px;
+    border-radius: 18px;
+    background: #030818;
+    border: 1px solid rgba(201, 169, 97, 0.4);
+    padding: 4px;
+    box-shadow: 0 4px 18px rgba(201, 169, 97, 0.2);
   }
-  .pwa-banner-subtitle {
-    font-size: 0.68rem; letter-spacing: 0.2em;
-    color: rgba(201, 169, 97, 0.75); margin-top: 2px;
+  .pwa-icon {
+    width: 100%; height: 100%;
+    border-radius: 14px;
+    display: block;
   }
-  .pwa-banner-body {
-    font-size: 0.72rem; letter-spacing: 0.12em; line-height: 1.7;
-    color: rgba(200, 220, 240, 0.7); margin-bottom: 12px;
+
+  .pwa-title {
+    font-size: 1.35rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    color: var(--moon-white);
+    margin-bottom: 6px;
   }
-  .pwa-banner-body .pwa-share-icon {
-    display: inline-block; margin: 0 2px;
-    font-family: -apple-system, sans-serif;
-    color: var(--gold); font-size: 0.85rem; vertical-align: middle;
+  .pwa-subtitle {
+    font-size: 0.82rem;
+    letter-spacing: 0.18em;
+    color: rgba(201, 169, 97, 0.95);
+    margin-bottom: 20px;
+    line-height: 1.7;
   }
-  .pwa-banner-actions { display: flex; gap: 10px; justify-content: flex-end; }
-  .pwa-btn {
-    background: none;
-    border: 1px solid rgba(138, 160, 184, 0.3);
-    color: var(--ink-dim);
+
+  /* 自動インストール用の超大型ボタン */
+  .pwa-install-big {
+    display: block;
+    width: 100%;
+    padding: 18px 16px;
+    background: linear-gradient(180deg, rgba(201, 169, 97, 0.32), rgba(201, 169, 97, 0.16));
+    border: 2px solid rgba(201, 169, 97, 0.95);
+    border-radius: 14px;
+    color: var(--moon-white);
     font-family: 'Shippori Mincho', serif;
-    font-size: 0.78rem; letter-spacing: 0.25em;
-    padding: 7px 14px; border-radius: 20px; cursor: pointer;
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: 0.32em;
+    cursor: pointer;
+    margin-bottom: 16px;
+    animation: pwaPulse 2.4s ease-in-out infinite;
+    -webkit-tap-highlight-color: transparent;
   }
-  .pwa-btn-primary {
-    border-color: rgba(201, 169, 97, 0.6);
+  .pwa-install-big:active {
+    transform: scale(0.98);
+    background: linear-gradient(180deg, rgba(201, 169, 97, 0.50), rgba(201, 169, 97, 0.30));
+  }
+  @keyframes pwaPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(201, 169, 97, 0.5); }
+    50%      { box-shadow: 0 0 0 14px rgba(201, 169, 97, 0); }
+  }
+
+  /* 手動説明：でっかく */
+  .pwa-manual {
+    margin: 0 -4px 16px;
+    padding: 18px 14px;
+    background: rgba(10, 20, 40, 0.65);
+    border: 1px solid rgba(110, 196, 245, 0.30);
+    border-radius: 14px;
+  }
+  .pwa-manual-title {
+    font-size: 0.78rem;
+    letter-spacing: 0.28em;
+    color: rgba(201, 169, 97, 0.95);
+    margin-bottom: 14px;
+  }
+
+  /* 矢印で「上を指す」アニメ */
+  .pwa-arrow-up {
+    font-size: 2.2rem;
     color: var(--gold);
-    background: rgba(201, 169, 97, 0.08);
+    line-height: 1;
+    margin-bottom: 4px;
+    display: inline-block;
+    animation: arrowBounce 1.4s ease-in-out infinite;
   }
-  .pwa-manual-steps {
-    margin-top: 12px; padding: 10px 12px;
-    border: 1px solid rgba(138, 160, 184, 0.2);
+  @keyframes arrowBounce {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-10px); }
+  }
+  .pwa-arrow-down {
+    font-size: 2.2rem;
+    color: var(--gold);
+    line-height: 1;
+    margin-top: 6px;
+    display: inline-block;
+    animation: arrowBounceDown 1.4s ease-in-out infinite;
+  }
+  @keyframes arrowBounceDown {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(10px); }
+  }
+  .pwa-arrow-label {
+    font-size: 0.85rem;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  /* ステップ */
+  .pwa-step {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 6px;
+    text-align: left;
+  }
+  .pwa-step + .pwa-step {
+    border-top: 1px dashed rgba(110, 196, 245, 0.18);
+  }
+  .pwa-step-num {
+    flex-shrink: 0;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: rgba(201, 169, 97, 0.20);
+    border: 1px solid rgba(201, 169, 97, 0.70);
+    color: var(--gold);
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .pwa-step-text {
+    flex: 1;
+    font-size: 0.98rem;
+    letter-spacing: 0.12em;
+    line-height: 1.55;
+    color: var(--moon-white);
+  }
+  .pwa-key-big {
+    display: inline-flex;
+    align-items: center; justify-content: center;
+    min-width: 38px; height: 38px;
+    padding: 0 10px; margin: 0 4px;
+    background: rgba(201, 169, 97, 0.20);
+    border: 1.5px solid rgba(201, 169, 97, 0.85);
     border-radius: 8px;
-    background: rgba(10, 20, 40, 0.4);
-    font-size: 0.68rem; letter-spacing: 0.1em; line-height: 1.8;
-    color: rgba(200, 220, 240, 0.65);
+    color: var(--gold);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    vertical-align: middle;
   }
-  .pwa-manual-steps .pwa-manual-title {
-    color: rgba(201, 169, 97, 0.75);
-    font-size: 0.62rem; letter-spacing: 0.3em; margin-bottom: 4px;
-  }
-  .pwa-manual-steps .pwa-key {
-    display: inline-block; padding: 0 6px;
-    background: rgba(201, 169, 97, 0.15);
-    border-radius: 3px; color: var(--gold);
-    font-family: 'Cinzel', serif; margin: 0 2px;
+
+  .pwa-later {
+    display: inline-block;
+    margin: 4px auto 0;
+    padding: 10px 28px;
+    background: none;
+    border: 1px solid rgba(138, 160, 184, 0.35);
+    color: rgba(200, 220, 240, 0.7);
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.28em;
+    border-radius: 22px;
+    cursor: pointer;
   }
 </style>
 
 <div class="pwa-banner" id="pwaBanner">
-  <div class="pwa-banner-header">
-    <img class="pwa-banner-icon" src="./icons_v7/icon-120.png" alt="">
-    <div>
-      <div class="pwa-banner-title">ツ キ ヨ ガ</div>
-      <div class="pwa-banner-subtitle">ホ ー ム 画 面 へ</div>
-    </div>
+  <button class="pwa-close" id="pwaClose" aria-label="閉じる">×</button>
+  <div class="pwa-icon-wrap">
+    <img class="pwa-icon" src="./icons_v7/icon-192.png" alt="">
   </div>
-  <div class="pwa-banner-body" id="pwaBannerBody"></div>
-  <div class="pwa-banner-actions">
-    <button class="pwa-btn" id="pwaDismiss">あ と で</button>
-    <button class="pwa-btn pwa-btn-primary" id="pwaInstall">追 加</button>
-  </div>
-  <div class="pwa-manual-steps" id="pwaManualSteps"></div>
+  <div class="pwa-title">ツ キ ヨ ガ</div>
+  <div class="pwa-subtitle" id="pwaSubtitle">ホ ー ム 画 面 に 置 い て<br>ア プ リ の よ う に 使 え ま す</div>
+
+  <button class="pwa-install-big" id="pwaInstall" style="display:none">＋  ホ ー ム 画 面 に 追 加</button>
+
+  <div class="pwa-manual" id="pwaManualSteps"></div>
+
+  <button class="pwa-later" id="pwaDismiss">あ と で</button>
 </div>
 
 <script>
 (function() {
-  const banner = document.getElementById('pwaBanner');
-  const body = document.getElementById('pwaBannerBody');
-  const btnInstall = document.getElementById('pwaInstall');
-  const btnDismiss = document.getElementById('pwaDismiss');
+  const banner       = document.getElementById('pwaBanner');
+  const subtitle     = document.getElementById('pwaSubtitle');
+  const btnInstall   = document.getElementById('pwaInstall');
+  const btnDismiss   = document.getElementById('pwaDismiss');
+  const btnClose     = document.getElementById('pwaClose');
+  const manualEl     = document.getElementById('pwaManualSteps');
 
+  // すでにインストール済みなら何もしない
   const isStandalone =
     window.matchMedia('(display-mode: standalone)').matches ||
     window.navigator.standalone === true;
   if (isStandalone) return;
 
+  // 12時間以内に閉じてたら今回は出さない（v6の24h → v7で12hに短縮）
   const DISMISS_KEY = 'tsukiyoga-pwa-dismissed-at';
   const dismissedAt = parseInt(localStorage.getItem(DISMISS_KEY) || '0', 10);
-  if (dismissedAt && Date.now() - dismissedAt < 24 * 60 * 60 * 1000) return;
+  if (dismissedAt && Date.now() - dismissedAt < 12 * 60 * 60 * 1000) return;
 
   const ua = navigator.userAgent;
-  const isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+  const isIOS     = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
   const isAndroid = /Android/.test(ua);
 
   let deferredPrompt = null;
+  let shown = false;
+
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
+    // すでに表示中なら即「自動追加できますモード」へ差し替え
+    if (shown) renderContent();
+    // 未表示なら 0.8 秒で出す（ユーザー操作を妨げない最低限の待ち）
+    else if (!shown) setTimeout(() => show(), 800);
   });
 
   window.addEventListener('appinstalled', () => {
     hide();
-    localStorage.setItem(DISMISS_KEY, String(Date.now()));
+    localStorage.setItem(DISMISS_KEY, String(Date.now() + 365 * 24 * 60 * 60 * 1000)); // 1年は出さない
   });
 
-  function show() {
-    const manualEl = document.getElementById('pwaManualSteps');
+  function renderContent() {
     if (isIOS) {
-      body.innerHTML = '月 の リ ズ ム を 、 い つ で も そ ば に 。';
+      subtitle.innerHTML = '月 の リ ズ ム を 、 い つ で も そ ば に';
       btnInstall.style.display = 'none';
-      btnDismiss.textContent = '閉 じ る';
       manualEl.innerHTML =
-        '<div class="pwa-manual-title">iPhone の 追 加 方 法</div>' +
-        '① 下 の <span class="pwa-key">⎘</span> 共 有 ボ タ ン を 押 す<br>' +
-        '② 「 ホ ー ム 画 面 に 追 加 」 を 選 ぶ';
+        '<div class="pwa-manual-title">i P h o n e の 追 加 方 法</div>' +
+        '<div class="pwa-step">' +
+          '<div class="pwa-step-num">1</div>' +
+          '<div class="pwa-step-text">画 面 下 の  <span class="pwa-key-big" style="font-family:-apple-system">⎘</span>  共 有 ボ タ ン を 押 す</div>' +
+        '</div>' +
+        '<div class="pwa-step">' +
+          '<div class="pwa-step-num">2</div>' +
+          '<div class="pwa-step-text">「 ホ ー ム 画 面 に 追 加 」 を 選 ぶ</div>' +
+        '</div>' +
+        '<div style="text-align:center;margin-top:10px">' +
+          '<div class="pwa-arrow-down">↓</div>' +
+          '<div class="pwa-arrow-label">画 面 下 の こ こ</div>' +
+        '</div>';
     } else if (isAndroid && deferredPrompt) {
-      body.innerHTML = '月 の リ ズ ム を 、 い つ で も そ ば に 。<br>ア プ リ と し て 追 加 で き ま す 。';
+      // ★Android Chrome で自動インストール可能：でっかいボタン1つで完結
+      subtitle.innerHTML = 'ボ タ ン 1 つ で<br>ア プ リ の よ う に 追 加 で き ま す';
+      btnInstall.style.display = 'block';
       manualEl.innerHTML =
-        '<div class="pwa-manual-title">う ま く 動 か な い 時</div>' +
-        '右 上 <span class="pwa-key">︙</span> → 「 ホ ー ム 画 面 に 追 加 」';
+        '<div class="pwa-manual-title">ボ タ ン が 動 か な い 時</div>' +
+        '<div class="pwa-step">' +
+          '<div class="pwa-step-num">1</div>' +
+          '<div class="pwa-step-text">画 面 右 上 の  <span class="pwa-key-big">︙</span>  を 押 す</div>' +
+        '</div>' +
+        '<div class="pwa-step">' +
+          '<div class="pwa-step-num">2</div>' +
+          '<div class="pwa-step-text">「 ホ ー ム 画 面 に 追 加 」 を 選 ぶ</div>' +
+        '</div>';
     } else if (isAndroid) {
-      body.innerHTML = '月 の リ ズ ム を 、 い つ で も そ ば に 。';
+      // Android だけど deferredPrompt が来ない（Samsung Internet, Firefox等）
+      subtitle.innerHTML = '月 の リ ズ ム を 、 い つ で も そ ば に';
       btnInstall.style.display = 'none';
       manualEl.innerHTML =
-        '<div class="pwa-manual-title">Android の 追 加 方 法</div>' +
-        '① 右 上 の <span class="pwa-key">︙</span> を 押 す<br>' +
-        '② 「 ホ ー ム 画 面 に 追 加 」 を 選 ぶ';
+        '<div style="text-align:center;margin-bottom:14px">' +
+          '<div class="pwa-arrow-up">↑</div>' +
+          '<div class="pwa-arrow-label">画 面 右 上 を 見 て く だ さ い</div>' +
+        '</div>' +
+        '<div class="pwa-step">' +
+          '<div class="pwa-step-num">1</div>' +
+          '<div class="pwa-step-text">画 面 右 上 の  <span class="pwa-key-big">︙</span>  を 押 す</div>' +
+        '</div>' +
+        '<div class="pwa-step">' +
+          '<div class="pwa-step-num">2</div>' +
+          '<div class="pwa-step-text">「 ホ ー ム 画 面 に 追 加 」 を 選 ぶ</div>' +
+        '</div>';
     } else {
-      body.innerHTML = '月 の リ ズ ム を 、 い つ で も そ ば に 。';
-      btnInstall.style.display = 'none';
+      // パソコン等
+      subtitle.innerHTML = 'お 使 い の 端 末 か ら 追 加 で き ま す';
+      btnInstall.style.display = deferredPrompt ? 'block' : 'none';
       manualEl.innerHTML =
         '<div class="pwa-manual-title">追 加 の 手 順</div>' +
-        'ブ ラ ウ ザ の メ ニ ュ ー か ら<br>' +
-        '「 ホ ー ム 画 面 に 追 加 」 を 選 ん で く だ さ い 。';
+        '<div class="pwa-step">' +
+          '<div class="pwa-step-num">1</div>' +
+          '<div class="pwa-step-text">ブ ラ ウ ザ の メ ニ ュ ー を 開 く</div>' +
+        '</div>' +
+        '<div class="pwa-step">' +
+          '<div class="pwa-step-num">2</div>' +
+          '<div class="pwa-step-text">「 ホ ー ム 画 面 に 追 加 」 を 選 ぶ</div>' +
+        '</div>';
     }
-    banner.classList.add('visible');
   }
 
-  function hide() { banner.classList.remove('visible'); }
+  function show() {
+    if (shown) return;
+    renderContent();
+    banner.classList.add('visible');
+    shown = true;
+  }
+
+  function hide(remember) {
+    banner.classList.remove('visible');
+    if (remember !== false) {
+      localStorage.setItem(DISMISS_KEY, String(Date.now()));
+    }
+  }
 
   btnInstall.addEventListener('click', async () => {
     if (!deferredPrompt) { hide(); return; }
-    deferredPrompt.prompt();
     try {
+      deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;
       if (outcome === 'dismissed') {
+        // 拒否時は12時間後にまた出る（DISMISS_KEY を now にセット）
         localStorage.setItem(DISMISS_KEY, String(Date.now()));
       }
-    } catch {}
-    deferredPrompt = null;
-    hide();
-  });
-
-  btnDismiss.addEventListener('click', () => {
-    localStorage.setItem(DISMISS_KEY, String(Date.now()));
-    hide();
-  });
-
-  setTimeout(() => {
-    if (isAndroid && !deferredPrompt) {
-      setTimeout(show, 1500);
-    } else {
-      show();
+      // accepted の時は appinstalled イベントで処理
+    } catch (err) {
+      console.warn('install prompt failed:', err);
     }
-  }, 3000);
+    deferredPrompt = null;
+    hide(false); // 受諾の場合は appinstalled 側で1年スキップに更新される
+  });
+
+  btnDismiss.addEventListener('click', () => hide(true));
+  btnClose.addEventListener('click', () => hide(true));
+
+  // iOS は beforeinstallprompt が無いので 1.2 秒で出す
+  // Android はイベント待ちながら、来なければ 2.5 秒でフォールバック表示
+  if (isIOS) {
+    setTimeout(show, 1200);
+  } else if (isAndroid) {
+    setTimeout(() => {
+      if (!shown) show();  // ここまでに deferredPrompt が来てても来てなくても表示
+    }, 2500);
+  } else {
+    setTimeout(show, 2000);
+  }
 })();
 </script>
 
