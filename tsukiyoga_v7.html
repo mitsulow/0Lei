@@ -7145,6 +7145,16 @@ const COASTLINES = [
   const isIOS     = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
   const isAndroid = /Android/.test(ua);
 
+  // ★v7: アプリ内ブラウザ検出（PWAインストール不可・メニュー位置が違う）
+  const inAppBrowser = (() => {
+    if (/\bLine\//i.test(ua))          return 'LINE';
+    if (/FBAN|FBAV|FB_IAB/i.test(ua))  return 'Facebook';
+    if (/Instagram/i.test(ua))          return 'Instagram';
+    if (/Twitter|TwitterAndroid/i.test(ua)) return 'Twitter';
+    if (/MicroMessenger/i.test(ua))     return 'WeChat';
+    return null;
+  })();
+
   let deferredPrompt = null;
   let shown = false;
 
@@ -7163,6 +7173,79 @@ const COASTLINES = [
   });
 
   function renderContent() {
+    // ★v7: アプリ内ブラウザ最優先（PWA追加不可）
+    if (inAppBrowser) {
+      const currentUrl = location.href;
+      subtitle.innerHTML =
+        `${inAppBrowser} の 中 で 開 い て い ま す 。<br>` +
+        'ホ ー ム に 追 加 す る に は<br>' +
+        'Chrome や Safari で 開 き 直 し て く だ さ い 。';
+
+      if (isAndroid) {
+        // Android：Chrome に直接転送するボタン（intent://）
+        // ※ 100%確実ではないが、Chrome 入ってる端末では 1 タップで開ける
+        const intentUrl =
+          'intent://' + currentUrl.replace(/^https?:\/\//, '') +
+          '#Intent;scheme=https;package=com.android.chrome;' +
+          'S.browser_fallback_url=' + encodeURIComponent(currentUrl) + ';end';
+        btnInstall.style.display = 'block';
+        btnInstall.textContent = 'Chrome で 開 き 直 す';
+        btnInstall.onclick = (e) => {
+          e.preventDefault();
+          location.href = intentUrl;
+        };
+        manualEl.innerHTML =
+          '<div class="pwa-manual-title">う ま く 動 か な い 時</div>' +
+          '<div class="pwa-step">' +
+            '<div class="pwa-step-num">1</div>' +
+            '<div class="pwa-step-text">画 面 下 の  <span class="pwa-key-big">︙</span>  ま た は  <span class="pwa-key-big">⊕</span>  を 押 す</div>' +
+          '</div>' +
+          '<div class="pwa-step">' +
+            '<div class="pwa-step-num">2</div>' +
+            '<div class="pwa-step-text">「 他 の ブ ラ ウ ザ で 開 く 」 を 選 ぶ</div>' +
+          '</div>' +
+          '<div class="pwa-step">' +
+            '<div class="pwa-step-num">3</div>' +
+            '<div class="pwa-step-text">Chrome を 選 ぶ</div>' +
+          '</div>';
+      } else {
+        // iOS：プログラム的にSafariに飛ばす方法は基本ない
+        btnInstall.style.display = 'block';
+        btnInstall.textContent = 'U R L を コ ピ ー';
+        btnInstall.onclick = async (e) => {
+          e.preventDefault();
+          try {
+            await navigator.clipboard.writeText(currentUrl);
+            btnInstall.textContent = '✓ コ ピ ー し ま し た';
+            setTimeout(() => {
+              btnInstall.textContent = 'U R L を コ ピ ー';
+            }, 2500);
+          } catch {
+            // フォールバック：選択可能なテキストとして表示
+            prompt('U R L を コ ピ ー し て く だ さ い ：', currentUrl);
+          }
+        };
+        const lineHint = inAppBrowser === 'LINE'
+          ? '右 上 の  <span class="pwa-key-big">↗</span>  ま た は  <span class="pwa-key-big">⋯</span>'
+          : '画 面 内 の  <span class="pwa-key-big">⋯</span>  ま た は 共 有 ボ タ ン';
+        manualEl.innerHTML =
+          '<div class="pwa-manual-title">Safari で 開 き 直 す 方 法</div>' +
+          '<div class="pwa-step">' +
+            '<div class="pwa-step-num">1</div>' +
+            '<div class="pwa-step-text">' + lineHint + '  を 押 す</div>' +
+          '</div>' +
+          '<div class="pwa-step">' +
+            '<div class="pwa-step-num">2</div>' +
+            '<div class="pwa-step-text">「 Safari で 開 く 」 を 選 ぶ</div>' +
+          '</div>' +
+          '<div class="pwa-step">' +
+            '<div class="pwa-step-num">3</div>' +
+            '<div class="pwa-step-text">Safari で 開 い た ら も う 一 度 こ の 案 内 が 出 ま す</div>' +
+          '</div>';
+      }
+      return;
+    }
+
     if (isIOS) {
       subtitle.innerHTML = '月 の リ ズ ム を 、 い つ で も そ ば に';
       btnInstall.style.display = 'none';
@@ -7243,15 +7326,17 @@ const COASTLINES = [
   }
 
   btnInstall.addEventListener('click', async () => {
+    // ★v7: アプリ内ブラウザの時は renderContent() で onclick が設定されてる
+    // → ここでは何もしない（onclick側でChrome起動 or URLコピーを処理）
+    if (inAppBrowser) return;
     if (!deferredPrompt) { hide(); return; }
     try {
       deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;
       if (outcome === 'dismissed') {
-        // 拒否時は12時間後にまた出る（DISMISS_KEY を now にセット）
+        // 拒否時は12時間後にまた出る
         localStorage.setItem(DISMISS_KEY, String(Date.now()));
       }
-      // accepted の時は appinstalled イベントで処理
     } catch (err) {
       console.warn('install prompt failed:', err);
     }
