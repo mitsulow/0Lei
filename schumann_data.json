@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-05-17T10:48:12.710541+00:00",
+  "timestamp": "2026-05-17T11:56:15.721458+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -7,33 +7,33 @@
   "modes": {
     "F1": {
       "hz": 7.86,
-      "confidence": 85
+      "confidence": 80
     },
     "F2": {
-      "hz": 13.58,
-      "confidence": 80
+      "hz": 13.14,
+      "confidence": 75
     },
     "F3": {
       "hz": 19.74,
-      "confidence": 75
-    },
-    "F4": {
-      "hz": 25.82,
       "confidence": 80
     },
+    "F4": {
+      "hz": 25.34,
+      "confidence": 70
+    },
     "F5": {
-      "hz": 33.0,
-      "confidence": 30
+      "hz": null,
+      "confidence": 0
     }
   },
-  "amplitude_level": "high",
+  "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "16日夕方から17日未明にかけてスペクトログラムに強い広帯域擾乱が見られ、ノイズまたは地磁気擾乱の可能性。F4(緑)は17日に上昇傾向、F3(赤)は若干低下。F5は折れ線グラフに明示されておらず信頼度低い。",
+  "notes": "16日夕方から17日未明にかけて強い擾乱（スペクトログラムで広帯域ノイズ）が見られ、データ欠損も発生。右端では概ね回復し、F1〜F4は通常範囲。F5は当該グラフに表示なし。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 19.8,
-    "tomsk_hour": 16.4,
+    "japan_hour": 20.93,
+    "tomsk_hour": 17.53,
     "is_day_japan": false,
     "is_day_tomsk": true
   }
