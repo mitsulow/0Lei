@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-05-17T15:43:07.225717+00:00",
+  "timestamp": "2026-05-17T16:37:54.833166+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -7,18 +7,18 @@
   "modes": {
     "F1": {
       "hz": 7.86,
-      "confidence": 85
+      "confidence": 88
     },
     "F2": {
-      "hz": 13.8,
+      "hz": 14.1,
       "confidence": 80
     },
     "F3": {
-      "hz": 20.5,
-      "confidence": 80
+      "hz": 20.2,
+      "confidence": 82
     },
     "F4": {
-      "hz": 25.6,
+      "hz": 25.5,
       "confidence": 75
     },
     "F5": {
@@ -28,12 +28,12 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "16日夕方から夜にかけてスペクトログラムに強い擾乱（白色帯）あり、データ欠損領域も存在。17日後半は比較的安定し、F1は7.86Hz付近で推移。F5は折れ線グラフに表示なし。",
+  "notes": "16日夕方に大きな擾乱（スペクトログラム上の白色帯）あり。その後F1周波数は通常域に回復。F5は折れ線に表示なし。全体的にF1〜F4は典型的な変動範囲内。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 0.72,
-    "tomsk_hour": 21.32,
+    "japan_hour": 1.62,
+    "tomsk_hour": 22.22,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
