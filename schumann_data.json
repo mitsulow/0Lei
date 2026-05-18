@@ -1,24 +1,24 @@
 {
-  "timestamp": "2026-05-18T09:53:54.061465+00:00",
+  "timestamp": "2026-05-18T13:39:08.984416+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.95,
+      "hz": 7.85,
       "confidence": 85
     },
     "F2": {
-      "hz": 14.4,
+      "hz": 14.3,
       "confidence": 80
     },
     "F3": {
-      "hz": 19.85,
+      "hz": 19.74,
       "confidence": 75
     },
     "F4": {
-      "hz": 25.9,
+      "hz": 25.52,
       "confidence": 75
     },
     "F5": {
@@ -28,13 +28,13 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "16日後半に強い擾乱（スペクトログラム上で白く飽和した広帯域ノイズ）が見られ、その後は比較的安定。右端ではF1〜F4の各モードが明瞭に読み取れる。F5は表示範囲外で評価不可。",
+  "notes": "16日夕方から夜にかけてスペクトログラム上で広帯域の強い擾乱が見られる。F1は7.85Hz付近で安定。F5は表示されていない。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 18.88,
-    "tomsk_hour": 15.48,
+    "japan_hour": 22.65,
+    "tomsk_hour": 19.25,
     "is_day_japan": false,
-    "is_day_tomsk": true
+    "is_day_tomsk": false
   }
 }
