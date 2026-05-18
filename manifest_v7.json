@@ -1,8 +1,9 @@
 {
-  "name": "ツキヨガ",
+  "id": "/0Lei/tsukiyoga_v7",
+  "name": "ツキヨガv7",
   "short_name": "ツキヨガ",
   "description": "月のリズムを、いつでもそばに。",
-  "start_url": "./tsukiyoga_v7.html",
+  "start_url": "./tsukiyoga_v7.html?pwa=1",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",

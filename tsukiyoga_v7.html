@@ -7138,8 +7138,15 @@ const COASTLINES = [
   // ★v7: キーを v7 専用に分離（v6で「あとで」を押した人も v7 では新規扱いで初回表示）
   // 12時間以内に閉じてたら今回は出さない
   const DISMISS_KEY = 'tsukiyoga-pwa-v7-dismissed-at';
+
+  // ★v7.1: ?pwareset=1 で強制リセット（実機テスト用）
+  const params = new URLSearchParams(location.search);
+  const pwaReset = params.get('pwareset') === '1';
+  const pwaDebug = params.get('pwadebug') === '1';
+  if (pwaReset) localStorage.removeItem(DISMISS_KEY);
+
   const dismissedAt = parseInt(localStorage.getItem(DISMISS_KEY) || '0', 10);
-  if (dismissedAt && Date.now() - dismissedAt < 12 * 60 * 60 * 1000) return;
+  if (!pwaReset && dismissedAt && Date.now() - dismissedAt < 12 * 60 * 60 * 1000) return;
 
   const ua = navigator.userAgent;
   const isIOS     = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
@@ -7157,10 +7164,12 @@ const COASTLINES = [
 
   let deferredPrompt = null;
   let shown = false;
+  let bipFired = false;
 
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
+    bipFired = true;
     // すでに表示中なら即「自動追加できますモード」へ差し替え
     if (shown) renderContent();
     // 未表示なら 0.8 秒で出す（ユーザー操作を妨げない最低限の待ち）
@@ -7314,6 +7323,21 @@ const COASTLINES = [
   function show() {
     if (shown) return;
     renderContent();
+    // ★v7.1: ?pwadebug=1 で発火状態を表示
+    if (pwaDebug) {
+      const debugLine = document.createElement('div');
+      debugLine.style.cssText = 'margin-top:10px;padding:8px;background:#0b1633;border-radius:8px;font-size:0.75rem;color:#9fb1d8;text-align:left;font-family:monospace';
+      debugLine.innerHTML =
+        'DEBUG<br>' +
+        'UA: ' + ua.substring(0, 80) + '<br>' +
+        'isAndroid: ' + isAndroid + '<br>' +
+        'isIOS: ' + isIOS + '<br>' +
+        'inAppBrowser: ' + (inAppBrowser || 'なし') + '<br>' +
+        'beforeinstallprompt 発火: ' + bipFired + '<br>' +
+        'deferredPrompt: ' + (deferredPrompt ? 'あり' : 'なし') + '<br>' +
+        'DISMISS_KEY: ' + (localStorage.getItem(DISMISS_KEY) || '未設定');
+      subtitle.parentNode.insertBefore(debugLine, subtitle.nextSibling);
+    }
     banner.classList.add('visible');
     shown = true;
   }
