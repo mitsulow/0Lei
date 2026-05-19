@@ -1979,113 +1979,114 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  .uranai-result-img-wrap {
-    width: 130px; height: 130px;
-    margin: 0 auto 14px;
+  /* ★v7: 月占い 12タイプ — ヒーロー */
+  .uranai-hero {
+    text-align: center;
+    margin-bottom: 22px;
+  }
+  .uranai-hero-img-wrap {
+    width: 220px; height: 220px;
+    margin: 0 auto 18px;
     border-radius: 50%;
-    background: radial-gradient(circle at 50% 50%, rgba(245, 235, 216, 0.12), transparent 70%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: radial-gradient(circle at 50% 50%, rgba(245, 235, 216, 0.15), transparent 70%);
+    display: flex; align-items: center; justify-content: center;
   }
-  .uranai-result-img { width: 110px; height: 110px; object-fit: contain; }
-
-  .uranai-result-name {
-    font-family: 'Shippori Mincho', serif;
-    font-size: 1.6rem;
-    color: var(--moon-white);
-    letter-spacing: 0.32em;
-    margin-bottom: 4px;
-  }
-  .uranai-result-kanji {
+  .uranai-hero-img { width: 200px; height: 200px; object-fit: contain; }
+  .uranai-hero-prefix {
     font-family: 'Shippori Mincho', serif;
     font-size: 0.95rem;
     color: rgba(201, 169, 97, 0.95);
-    letter-spacing: 0.25em;
-    margin-bottom: 12px;
+    letter-spacing: 0.28em;
+    margin-bottom: 8px;
   }
-  .uranai-result-age {
+  .uranai-hero-name {
     font-family: 'Shippori Mincho', serif;
-    font-size: 0.82rem;
-    color: rgba(110, 196, 245, 0.95);
-    letter-spacing: 0.2em;
-    margin-bottom: 4px;
+    font-size: 1.85rem;
+    color: var(--moon-white);
+    letter-spacing: 0.38em;
+    margin-bottom: 14px;
+    text-shadow: 0 0 18px rgba(255, 255, 255, 0.18);
   }
-  .uranai-result-lunar {
+  .uranai-hero-lucky {
     font-family: 'Shippori Mincho', serif;
     font-size: 0.78rem;
-    color: rgba(138, 160, 184, 0.95);
-    letter-spacing: 0.2em;
-    margin-bottom: 16px;
-  }
-  /* ★v7: 4族表示 */
-  .uranai-tribe {
-    margin: 0 -2px 16px;
-    padding: 14px 16px;
-    background: linear-gradient(180deg, rgba(201, 169, 97, 0.16), rgba(201, 169, 97, 0.06));
-    border: 1px solid rgba(201, 169, 97, 0.45);
-    border-radius: 12px;
-    text-align: center;
-  }
-  .uranai-tribe-head {
-    display: flex;
-    align-items: baseline;
-    justify-content: center;
-    gap: 8px;
-    margin-bottom: 6px;
-  }
-  .uranai-tribe-num {
-    font-family: 'Cinzel', serif;
-    font-size: 0.72rem;
-    color: rgba(201, 169, 97, 0.9);
-    letter-spacing: 0.15em;
-  }
-  .uranai-tribe-name {
-    font-family: 'Shippori Mincho', serif;
-    font-size: 1.15rem;
-    color: var(--moon-white);
-    letter-spacing: 0.28em;
-  }
-  .uranai-tribe-tag {
-    font-family: 'Shippori Mincho', serif;
-    font-size: 0.82rem;
-    color: rgba(201, 169, 97, 1);
-    letter-spacing: 0.2em;
-    margin-bottom: 4px;
-  }
-  .uranai-tribe-era {
-    font-family: 'Shippori Mincho', serif;
-    font-size: 0.68rem;
-    color: rgba(138, 160, 184, 0.85);
+    color: rgba(201, 169, 97, 0.85);
     letter-spacing: 0.18em;
   }
-  .uranai-result-desc {
-    font-family: 'Shippori Mincho', serif;
-    font-size: 0.92rem;
+  .uranai-hero-lucky span {
+    font-family: 'Cinzel', serif;
+    font-size: 1.25rem;
     color: var(--moon-white);
-    line-height: 1.95;
-    letter-spacing: 0.08em;
-    text-align: left;
-    padding: 14px 0 6px;
-    border-top: 1px solid rgba(201, 169, 97, 0.25);
+    margin-left: 8px;
   }
-  .uranai-result-tribe-desc {
-    font-family: 'Shippori Mincho', serif;
-    font-size: 0.88rem;
-    color: rgba(245, 235, 216, 0.95);
-    line-height: 1.95;
-    letter-spacing: 0.08em;
-    text-align: left;
-    padding: 12px 0 6px;
-    margin-top: 8px;
-    border-top: 1px solid rgba(110, 196, 245, 0.20);
+
+  /* 4チップ: 月相/色/動物/段階 */
+  .uranai-chips {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    justify-content: center; margin-bottom: 18px;
   }
-  .uranai-result-note {
+  .uranai-chip {
+    display: flex; flex-direction: column; align-items: center;
+    padding: 8px 14px; min-width: 64px;
+    background: rgba(10, 20, 40, 0.55);
+    border: 1px solid rgba(201, 169, 97, 0.3);
+    border-radius: 10px;
+  }
+  .uranai-chip-label {
     font-family: 'Shippori Mincho', serif;
     font-size: 0.65rem;
+    color: rgba(201, 169, 97, 0.85);
+    letter-spacing: 0.16em;
+    margin-bottom: 4px;
+  }
+  .uranai-chip-value {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.95rem;
+    color: var(--moon-white);
+    letter-spacing: 0.12em;
+  }
+
+  /* 月齢 / 旧暦 */
+  .uranai-meta {
+    display: flex; justify-content: space-around;
+    padding: 12px 0; margin-bottom: 18px;
+    border-top: 1px solid rgba(201, 169, 97, 0.18);
+    border-bottom: 1px solid rgba(201, 169, 97, 0.18);
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.78rem;
+    color: rgba(201, 169, 97, 0.85);
+    letter-spacing: 0.12em;
+  }
+  .uranai-meta strong {
+    color: var(--moon-white);
+    font-weight: normal;
+    margin: 0 2px;
+  }
+
+  /* 性格描写 */
+  .uranai-desc {
+    padding: 14px 16px;
+    background: rgba(10, 20, 40, 0.55);
+    border: 1px solid rgba(110, 196, 245, 0.22);
+    border-radius: 12px;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.92rem;
+    line-height: 1.95;
+    color: rgba(255, 255, 255, 0.94);
+    letter-spacing: 0.06em;
+    margin-bottom: 14px;
+  }
+
+  /* 注意書き */
+  .uranai-result-note {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.68rem;
     color: rgba(138, 160, 184, 0.6);
-    letter-spacing: 0.15em;
-    margin-top: 14px;
+    letter-spacing: 0.12em;
+    line-height: 1.85;
+    text-align: center;
+    margin-top: 8px;
+    padding: 0 4px;
   }
 
   #navCanvas {
@@ -3875,26 +3876,51 @@
     </div>
 
     <div class="uranai-result" id="uranaiResult">
-      <div class="uranai-result-img-wrap">
-        <img id="uranaiMoonImg" class="uranai-result-img" src="" alt="">
-      </div>
-      <div class="uranai-result-name" id="uranaiName"></div>
-      <div class="uranai-result-kanji" id="uranaiKanji"></div>
-      <div class="uranai-result-age" id="uranaiAge"></div>
-      <div class="uranai-result-lunar" id="uranaiLunar"></div>
-
-      <div class="uranai-tribe" id="uranaiTribe">
-        <div class="uranai-tribe-head">
-          <span class="uranai-tribe-num" id="uranaiTribeNum"></span>
-          <span class="uranai-tribe-name" id="uranaiTribeName"></span>
+      <!-- ヒーロー: 月画像 + キャッチコピー -->
+      <div class="uranai-hero">
+        <div class="uranai-hero-img-wrap">
+          <img id="uranaiMoonImg" class="uranai-hero-img" src="" alt="">
         </div>
-        <div class="uranai-tribe-tag" id="uranaiTribeTag"></div>
-        <div class="uranai-tribe-era" id="uranaiTribeEra"></div>
+        <div class="uranai-hero-prefix" id="uranaiHeroMoon"></div>
+        <div class="uranai-hero-name" id="uranaiHeroType"></div>
+        <div class="uranai-hero-lucky">
+          ラ ッ キ ー ナ ン バ ー <span id="uranaiLucky"></span>
+        </div>
       </div>
 
-      <div class="uranai-result-desc" id="uranaiDesc"></div>
-      <div class="uranai-result-tribe-desc" id="uranaiTribeDesc"></div>
-      <div class="uranai-result-note">＊ 旧 暦 の 日 付 に も と づ い て い ま す</div>
+      <!-- 4 チップ: 月相 / 色 / 動物 / 段階 -->
+      <div class="uranai-chips">
+        <div class="uranai-chip">
+          <span class="uranai-chip-label">月 相</span>
+          <span class="uranai-chip-value" id="uranaiMoonPhase"></span>
+        </div>
+        <div class="uranai-chip">
+          <span class="uranai-chip-label">色</span>
+          <span class="uranai-chip-value" id="uranaiColor"></span>
+        </div>
+        <div class="uranai-chip">
+          <span class="uranai-chip-label">動 物</span>
+          <span class="uranai-chip-value" id="uranaiAnimal"></span>
+        </div>
+        <div class="uranai-chip">
+          <span class="uranai-chip-label">段 階</span>
+          <span class="uranai-chip-value" id="uranaiStage"></span>
+        </div>
+      </div>
+
+      <!-- 月齢 / 旧暦 -->
+      <div class="uranai-meta">
+        <span>月 齢 <strong id="uranaiAge"></strong> 日</span>
+        <span>旧 暦 <strong id="uranaiLunar"></strong></span>
+      </div>
+
+      <!-- 性格描写 -->
+      <div class="uranai-desc" id="uranaiDesc"></div>
+
+      <div class="uranai-result-note">
+        ＊ 月 が 人 生 を 決 め る わ け で は あ り ま せ ん 。<br>
+        あ な た 自 身 を 見 つ め る 「窓」と し て お 使 い く だ さ い 。
+      </div>
     </div>
   </div>
 </div>
@@ -4988,90 +5014,57 @@ const COASTLINES = [
     });
   });
 
-  // ======== ★v7: 月占いタブ ========
-  // 30の月名それぞれに「生まれの性質」を一文で
-  const URANAI_DESCRIPTIONS = {
-    1:  '始 ま り の 月 。 何 も な い と こ ろ か ら 物 事 を 立 ち 上 げ る 力 を 持 つ 人 。',
-    2:  '小 さ な 一 歩 を 大 切 に す る 人 。 慎 重 さ と 勇 気 の 両 方 を 兼 ね 備 え る 。',
-    3:  '繊 細 で 美 し い 感 性 の 持 ち 主 。 静 か な が ら 芯 が あ り 、 確 か に 育 つ 人 。',
-    4:  '美 意 識 が 高 く 、 ひ そ や か に 咲 く 才 能 。 内 に 秘 め た 力 を 持 つ 。',
-    5:  '夕 暮 れ の よ う な 優 し さ 。 人 を ふ わ り と 包 む 温 も り を 持 つ 。',
-    6:  '着 実 な 努 力 家 。 一 日 一 日 を 積 み 重 ね る こ と が 何 よ り 得 意 。',
-    7:  'バ ラ ン ス 感 覚 に 優 れ た 人 。 物 事 を 冷 静 に 見 極 め 、 半 歩 先 を 行 く 。',
-    8:  '夜 の 入 り 口 の よ う な 静 け さ 。 内 省 と 豊 か な 夢 想 を 抱 く 人 。',
-    9:  'ふ っ く ら と 包 容 力 が あ る 人 。 周 囲 を 自 然 と 安 ら が せ る 存 在 。',
-    10: '受 け 取 る こ と の 達 人 。 縁 や 恵 み を 自 然 と 引 き 寄 せ る 月 。',
-    11: '期 待 と ワ ク ワ ク を 周 り に 伝 え る 人 。 場 を 明 る く す る 力 が あ る 。',
-    12: '完 成 直 前 の も ど か し さ が 魅 力 。 探 究 心 と 粘 り 強 さ を 持 つ 人 。',
-    13: '神 々 し い 夜 に 生 ま れ た 人 。 美 と 神 秘 を 引 き 寄 せ る 不 思 議 な 魅 力 。',
-    14: '期 待 を 膨 ら ま せ る ロ マ ン チ ス ト 。 待 つ 時 間 さ え 楽 し め る 人 。',
-    15: '全 て を 照 ら す 完 成 の 月 。 リ ー ダ ー 気 質 で 、 影 の な い 明 る さ を 持 つ 。',
-    16: '満 ち て 少 し 躊 躇 う よ う な 優 美 さ 。 思 慮 深 い 大 人 の 月 。',
-    17: '月 が 出 る の を 立 っ て 待 て る ほ ど の 行 動 力 。 待 ち 切 れ な い 情 熱 家 。',
-    18: '座 っ て 待 つ 余 裕 を 持 つ 人 。 落 ち 着 き と 上 品 さ が 際 立 つ 月 。',
-    19: '寝 て 待 つ ほ ど の 大 器 晩 成 。 急 が ず ゆ っ く り 大 き く な る 人 。',
-    20: '夜 更 け の 静 け さ を ま と う 月 。 大 人 の 魅 力 と 遅 咲 き の 才 能 を 持 つ 。',
-    21: '一 人 時 間 が 豊 か な 人 。 静 け さ の 中 で 自 分 を 深 め る 月 。',
-    22: '内 省 的 で 洞 察 力 が 深 い 人 。 物 事 の 本 質 を 見 抜 く 月 。',
-    23: '整 理 と 手 放 し の 達 人 。 ち ょ う ど 半 分 残 す バ ラ ン ス 感 覚 を 持 つ 。',
-    24: '明 け 方 ま で 残 る 月 。 諦 め な い 静 か な 強 さ を 持 つ 人 。',
-    25: '星 と 月 が 交 わ る 月 。 縁 を 結 ぶ 天 才 で 、 出 会 い を 引 き 寄 せ る 人 。',
-    26: '名 残 を 大 切 に す る 人 。 過 去 を 慈 し み 、 思 い 出 を 力 に 変 え る 月 。',
-    27: '暁 の 前 の 静 寂 。 物 事 の 核 心 を 見 抜 く 鋭 い 直 観 を 持 つ 人 。',
-    28: '夜 明 け の 光 を も た ら す 人 。 希 望 と 始 ま り の 気 配 を ま と う 月 。',
-    29: '月 が 籠 る 月 。 内 に 深 く 力 を 宿 し 、 静 か に 燃 え 続 け る 人 。',
-    30: '一 周 の 終 わ り を 始 ま り に 変 え る 力 。 物 事 を 円 環 と し て 捉 え る 月 。'
+  // ======== ★v7: 月占いタブ (12タイプ・始点方式) ========
+  // 4色(黒赤白青) × 3動物(うさぎ/かめ/わに) = 12タイプ
+  // 主要月相 (ツキタチ/カタミニ/クマナシ/アリアケ) がタイプ 0/3/6/9 の始点
+  // ウサギ=離(創造) / カメ=守(維持) / ワニ=破(破壊)
+  const PHASES_12 = [
+    {idx:0,  ja:'黒うさぎ', moon:'ツキタチ', kanji:'月立ち', color:'黒', animal:'うさぎ', stage:'離', seiten:true},
+    {idx:1,  ja:'黒がめ',   moon:'ミカヅキ', kanji:'三日月', color:'黒', animal:'かめ',   stage:'守', seiten:false},
+    {idx:2,  ja:'黒わに',   moon:'ユウヅキ', kanji:'夕月',   color:'黒', animal:'わに',   stage:'破', seiten:false},
+    {idx:3,  ja:'赤うさぎ', moon:'カタミニ', kanji:'互に',   color:'赤', animal:'うさぎ', stage:'離', seiten:true},
+    {idx:4,  ja:'赤がめ',   moon:'トカンヤ', kanji:'十日夜', color:'赤', animal:'かめ',   stage:'守', seiten:false},
+    {idx:5,  ja:'赤わに',   moon:'アタラヨ', kanji:'可惜夜', color:'赤', animal:'わに',   stage:'破', seiten:false},
+    {idx:6,  ja:'白うさぎ', moon:'クマナシ', kanji:'隈無し', color:'白', animal:'うさぎ', stage:'離', seiten:true},
+    {idx:7,  ja:'白がめ',   moon:'イザヨイ', kanji:'十六夜', color:'白', animal:'かめ',   stage:'守', seiten:false},
+    {idx:8,  ja:'白わに',   moon:'ネマチ',   kanji:'寝待月', color:'白', animal:'わに',   stage:'破', seiten:false},
+    {idx:9,  ja:'青うさぎ', moon:'アリアケ', kanji:'有明',   color:'青', animal:'うさぎ', stage:'離', seiten:true},
+    {idx:10, ja:'青がめ',   moon:'ホシアヒ', kanji:'星合',   color:'青', animal:'かめ',   stage:'守', seiten:false},
+    {idx:11, ja:'青わに',   moon:'アケボノ', kanji:'曙',     color:'青', animal:'わに',   stage:'破', seiten:false}
+  ];
+
+  const STAGE_FULL = { 離: '離（創造）', 守: '守（維持）', 破: '破（破壊）' };
+
+  // 12タイプ別の性格描写
+  const PHASE_DESCRIPTIONS = {
+    0:  '闇 か ら 芽 吹 く 創 造 者 。 何 も な い と こ ろ か ら 始 め る 静 か な 力 を 持 つ 。 純 粋 な 発 想 と 直 観 で ゼ ロ を 一 に す る 開 拓 者 。',
+    1:  '芽 を 守 り 育 て る 忍 耐 の 人 。 ミ カ ヅ キ の よ う に 細 く 鋭 い 美 し さ を 秘 め 、 小 さ な 一 歩 を 大 切 に す る 。',
+    2:  '夕 月 の よ う に 静 か に 燃 え る 革 新 者 。 闇 か ら 一 歩 進 ん だ 視 界 で 、 次 の 形 を 探 す 人 。',
+    3:  '夕 焼 け に 駆 け 出 す 挑 戦 者 。 半 月 の よ う に 鋭 く 立 ち 上 が り 、 物 事 を 押 し 進 め る 創 造 者 。',
+    4:  '十 日 夜 の 月 の よ う に 着 実 に 形 を つ く る 職 人 。 上 昇 期 の 熱 を 静 か に 磨 く 人 。',
+    5:  '満 ち る 直 前 の 美 し く 不 安 定 な 月 。 完 成 前 に 壊 し て 進 化 さ せ る 革 命 家 の 気 質 。',
+    6:  '満 月 の 光 を 放 つ 表 現 者 。 中 心 に 立 ち 、 場 を 明 る く 照 ら す 創 造 者 。 リ ー ダ ー 気 質 と 影 の な い 明 る さ を 持 つ 。',
+    7:  '月 の 余 韻 を 深 く 思 索 す る 哲 学 者 。 い ざ よ う 静 け さ に 真 実 を 見 る 、 思 慮 深 い 大 人 の 月 。',
+    8:  '寝 待 月 の よ う な 大 器 晩 成 。 急 が ず ゆ っ く り 大 き く な り 、 過 去 を 静 か に 整 え 直 す 人 。',
+    9:  '夜 明 け の 清 新 さ で 秩 序 を 整 え る 創 造 者 。 下 弦 の 鋭 さ で 不 要 を 削 ぎ 落 と し 、 次 を 生 む 賢 者 。',
+    10: '星 と 月 が 交 わ る 静 け さ を 守 る 人 。 縁 を 結 ぶ 才 を 持 ち 、 出 会 い を 自 然 に 引 き 寄 せ る 月 。',
+    11: '夜 明 け 前 に 世 界 を 更 新 す る 暁 の 人 。 終 わ り を 始 ま り に 変 え る 力 を 持 つ 、 円 環 を 司 る 月 。'
   };
 
-  // ★v7: 4族分類（新月→上弦・上弦→満月・満月→下弦・下弦→新月の4期）
-  const URANAI_TRIBES = {
-    1: {
-      num: 1,
-      name: 'ツキタチ族',
-      tag: '始 ま り を 生 む 人',
-      era: '新 月 → 上 弦  の 月 の 子',
-      desc: '闇 か ら 立 ち 上 が る 月 の 下 に 生 ま れ た 開 拓 者 。\n' +
-            '何 も な い 場 所 か ら 物 事 を 立 ち 上 げ る 力 、\n' +
-            '純 粋 な 発 想 と 直 観 、 そ し て ゼ ロ を 一 に す る 勇 気 を 持 つ 。'
-    },
-    2: {
-      num: 2,
-      name: 'カタミニ族',
-      tag: '大 き く 育 て る 人',
-      era: '上 弦 → 満 月  の 月 の 子',
-      desc: '上 弦 か ら 満 月 へ 月 が 膨 ら む 時 期 の 生 ま れ 。\n' +
-            '行 動 力 と 上 昇 の エ ネ ル ギ ー で 物 事 を 育 て 、\n' +
-            '未 来 へ 押 し 進 め る 推 進 者 ・ ビ ル ダ ー の 気 質 。'
-    },
-    3: {
-      num: 3,
-      name: 'クマナシ族',
-      tag: '満 ち て 分 け 与 え る 人',
-      era: '満 月 → 下 弦  の 月 の 子',
-      desc: '満 月 か ら 下 弦 へ 月 が 豊 か さ を 放 つ 時 期 の 生 ま れ 。\n' +
-            '中 心 に い る だ け で 場 が 明 る く な る リ ー ダ ー 気 質 。\n' +
-            '惜 し み な く 分 か ち 合 い 、 他 者 を 照 ら す 人 。'
-    },
-    4: {
-      num: 4,
-      name: 'アリアケ族',
-      tag: '整 え て 手 放 す 人',
-      era: '下 弦 → 新 月  の 月 の 子',
-      desc: '下 弦 か ら 次 の 新 月 へ 月 が 収 束 す る 時 期 の 生 ま れ 。\n' +
-            '本 質 を 見 抜 く 目 と 深 い 洞 察 を 持 ち 、\n' +
-            '不 要 を 削 ぎ 落 と し て 次 へ つ な ぐ 賢 者 の 気 質 。'
-    }
-  };
+  const SYNODIC_MONTH_CONST = 29.530588853;
+  const PHASE_WIDTH_12 = SYNODIC_MONTH_CONST / 12; // ≒ 2.4609 日
 
-  function getUranaiTribe(lunarDay) {
-    // 1族: 1〜6 (ツキタチ→カタミニ手前)
-    // 2族: 7〜14 (カタミニ→クマナシ手前)
-    // 3族: 15〜22 (クマナシ→アリアケ手前)
-    // 4族: 23〜30 (アリアケ→次のツキタチ手前)
-    if (lunarDay <= 6)  return URANAI_TRIBES[1];
-    if (lunarDay <= 14) return URANAI_TRIBES[2];
-    if (lunarDay <= 22) return URANAI_TRIBES[3];
-    return URANAI_TRIBES[4];
+  // 月齢 → 12タイプ index (始点方式: 主要月相は 0/3/6/9 の始点)
+  function getPhase12FromAge(moonAge) {
+    const norm = ((moonAge % SYNODIC_MONTH_CONST) + SYNODIC_MONTH_CONST) % SYNODIC_MONTH_CONST;
+    return Math.min(11, Math.floor(norm / PHASE_WIDTH_12));
+  }
+
+  // 月齢 → 30枚の月画像 index (1〜30)
+  // 月齢 0 → moon_01.png, 14.77 (満月) → moon_15.png, 29 → moon_30.png
+  function getMoonImgIdxFromAge(moonAge) {
+    const norm = ((moonAge % SYNODIC_MONTH_CONST) + SYNODIC_MONTH_CONST) % SYNODIC_MONTH_CONST;
+    return Math.max(1, Math.min(30, Math.round(norm) + 1));
   }
 
   (function initUranai() {
@@ -5092,13 +5085,16 @@ const COASTLINES = [
       }
     });
 
+    function spaceOut(s) {
+      return (s || '').split('').join(' ');
+    }
+
     submitEl.addEventListener('click', () => {
       const dateStr = dateEl.value;
       if (!dateStr) {
         alert('生 ま れ た 日 を 入 力 し て く だ さ い');
         return;
       }
-      // 時刻：空欄か未指定なら 15:00
       let timeStr = timeEl.value;
       if (!timeStr || unknownEl.checked) timeStr = '15:00';
       const birth = new Date(`${dateStr}T${timeStr}:00`);
@@ -5106,39 +5102,44 @@ const COASTLINES = [
         alert('日 付 か 時 刻 の 形 式 が 正 し く あ り ま せ ん');
         return;
       }
+
+      // 月齢・旧暦
+      const moonAge = getMoonAge(birth);
       const lunar = getLunarDate(birth);
-      const day = Math.min(Math.max(1, lunar.day), 30);
-      const info = getMoonNameForLunarDay(day);
-      const desc = URANAI_DESCRIPTIONS[day] || '';
-      const tribe = getUranaiTribe(day);
-      const moonAge = getMoonAge(birth);  // 0〜29.5
-      const moonAgeRounded = Math.round(moonAge);
+      const lunarDay = Math.min(Math.max(1, lunar.day), 30);
+      const moonName = getMoonNameForLunarDay(lunarDay);
 
-      document.getElementById('uranaiName').textContent =
-        info.name.split('').join(' ');
-      document.getElementById('uranaiKanji').textContent =
-        info.kanji.split('').join(' ');
-      document.getElementById('uranaiAge').textContent =
-        `月 齢 ${moonAgeRounded} 日`;
-      document.getElementById('uranaiLunar').textContent =
-        `旧 暦 ${lunar.month} 月 ${day} 日 の 月`;
+      // 12タイプ判定
+      const phaseIdx = getPhase12FromAge(moonAge);
+      const phase = PHASES_12[phaseIdx];
 
-      // 4族
-      document.getElementById('uranaiTribeNum').textContent =
-        `第 ${tribe.num} 族`;
-      document.getElementById('uranaiTribeName').textContent =
-        tribe.name.split('').join(' ');
-      document.getElementById('uranaiTribeTag').textContent = `— ${tribe.tag} —`;
-      document.getElementById('uranaiTribeEra').textContent = tribe.era;
-
+      // 月画像（実際の月齢に最も近い1枚）
+      const imgIdx = getMoonImgIdxFromAge(moonAge);
       const moonImg = document.getElementById('uranaiMoonImg');
-      moonImg.src = `./moon_icons/moon_${String(day).padStart(2, '0')}.png`;
-      moonImg.alt = info.name;
-      document.getElementById('uranaiDesc').textContent = desc;
-      document.getElementById('uranaiTribeDesc').textContent = tribe.desc;
+      moonImg.src = `./moon_icons/moon_${String(imgIdx).padStart(2, '0')}.png`;
+      moonImg.alt = phase.ja;
+
+      // ヒーロー: 「○○生まれの○○○」
+      document.getElementById('uranaiHeroMoon').textContent =
+        spaceOut(moonName.name) + ' 生 ま れ の';
+      document.getElementById('uranaiHeroType').textContent = spaceOut(phase.ja);
+      document.getElementById('uranaiLucky').textContent = String(phaseIdx);
+
+      // チップ: 月相/色/動物/段階
+      document.getElementById('uranaiMoonPhase').textContent = spaceOut(phase.moon);
+      document.getElementById('uranaiColor').textContent = phase.color;
+      document.getElementById('uranaiAnimal').textContent = spaceOut(phase.animal);
+      document.getElementById('uranaiStage').textContent = STAGE_FULL[phase.stage];
+
+      // メタ: 月齢/旧暦
+      document.getElementById('uranaiAge').textContent = moonAge.toFixed(1);
+      document.getElementById('uranaiLunar').textContent =
+        `${lunar.month} 月 ${lunarDay} 日（${spaceOut(moonName.name)}）`;
+
+      // 説明文
+      document.getElementById('uranaiDesc').textContent = PHASE_DESCRIPTIONS[phaseIdx] || '';
 
       resultEl.classList.add('visible');
-      // 結果が見えるようにスクロール
       setTimeout(() => {
         resultEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 100);
