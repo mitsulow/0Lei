@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-05-19T18:25:40.176176+00:00",
+  "timestamp": "2026-05-19T20:11:39.502383+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -7,19 +7,19 @@
   "modes": {
     "F1": {
       "hz": 7.8,
-      "confidence": 80
+      "confidence": 85
     },
     "F2": {
-      "hz": 14.4,
-      "confidence": 75
+      "hz": 13.96,
+      "confidence": 80
     },
     "F3": {
-      "hz": 19.9,
-      "confidence": 70
+      "hz": 19.88,
+      "confidence": 80
     },
     "F4": {
-      "hz": 25.9,
-      "confidence": 70
+      "hz": 26.4,
+      "confidence": 75
     },
     "F5": {
       "hz": null,
@@ -28,12 +28,12 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端で全モードに急激な変動が見られる。F1は約7.8Hzに低下、F2は14.4Hz付近に上昇。スペクトログラムでは8Hz帯と14Hz帯が明瞭。F5は表示範囲外で読み取り不可。",
+  "notes": "右端ではF1がやや低下傾向、F4は上昇傾向。スペクトログラムでは8Hz帯と14Hz帯が明瞭。F5データは折れ線グラフに表示なし。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 3.42,
-    "tomsk_hour": 0.02,
+    "japan_hour": 5.18,
+    "tomsk_hour": 1.78,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
