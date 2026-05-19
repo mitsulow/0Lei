@@ -1939,6 +1939,28 @@
     flex-shrink: 0;
   }
 
+  /* 数値入力 (年/月/日 select) */
+  .uranai-date-selects {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .uranai-date-select {
+    flex: 1;
+    min-width: 0;
+    text-align: center;
+    text-align-last: center;
+    padding: 10px 4px;
+    font-size: 0.95rem;
+  }
+  .uranai-date-unit {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.78rem;
+    color: rgba(201, 169, 97, 0.85);
+    letter-spacing: 0.08em;
+    flex-shrink: 0;
+  }
+
   .uranai-submit {
     width: 100%;
     padding: 13px;
@@ -2442,6 +2464,65 @@
     line-height: 1;
     cursor: pointer;
     padding: 0;
+  }
+
+  /* 家族マップ表 */
+  .uranai-family-table-wrap {
+    margin: 14px -8px 18px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
+  }
+  .uranai-family-table {
+    border-collapse: collapse;
+    margin: 0 auto;
+    font-family: 'Shippori Mincho', serif;
+    color: var(--moon-white);
+  }
+  .uranai-family-table th,
+  .uranai-family-table td {
+    padding: 6px 10px;
+    border: 1px solid rgba(201, 169, 97, 0.25);
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+  .uranai-family-table thead th {
+    background: linear-gradient(180deg, rgba(20, 30, 55, 0.7), rgba(10, 18, 40, 0.7));
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    font-weight: normal;
+    padding: 10px;
+  }
+  .uranai-family-table thead th.is-self {
+    background: linear-gradient(180deg, rgba(80, 64, 30, 0.7), rgba(40, 30, 15, 0.7));
+    border-color: rgba(245, 196, 74, 0.55);
+    color: rgba(245, 196, 74, 0.98);
+  }
+  .uranai-family-table tbody th {
+    background: rgba(20, 30, 55, 0.5);
+    color: rgba(201, 169, 97, 0.88);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    font-weight: normal;
+    text-align: right;
+    padding-right: 12px;
+  }
+  .uranai-family-table tbody td {
+    background: rgba(3, 8, 24, 0.4);
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+  }
+  .uranai-family-table .ft-img {
+    width: 58px; height: 58px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1.5px solid rgba(201, 169, 97, 0.45);
+    display: block;
+    margin: 0 auto;
+  }
+  .uranai-family-table tbody td.is-self {
+    background: rgba(40, 30, 15, 0.4);
   }
 
   /* 追加ボタン */
@@ -4450,7 +4531,14 @@
     <div class="uranai-form">
       <div class="uranai-field">
         <label class="uranai-label">生 ま れ た 日</label>
-        <input type="date" id="uranaiBirthDate" class="uranai-input">
+        <div class="uranai-date-selects">
+          <select id="uranaiBirthYear" class="uranai-input uranai-date-select"></select>
+          <span class="uranai-date-unit">年</span>
+          <select id="uranaiBirthMonth" class="uranai-input uranai-date-select"></select>
+          <span class="uranai-date-unit">月</span>
+          <select id="uranaiBirthDay" class="uranai-input uranai-date-select"></select>
+          <span class="uranai-date-unit">日</span>
+        </div>
       </div>
 
       <div class="uranai-optional">
@@ -4647,7 +4735,14 @@
           </div>
           <div class="uranai-field">
             <label class="uranai-label">生 ま れ た 日</label>
-            <input type="date" id="uranaiPersonDate" class="uranai-input">
+            <div class="uranai-date-selects">
+              <select id="uranaiPersonYear" class="uranai-input uranai-date-select"></select>
+              <span class="uranai-date-unit">年</span>
+              <select id="uranaiPersonMonth" class="uranai-input uranai-date-select"></select>
+              <span class="uranai-date-unit">月</span>
+              <select id="uranaiPersonDay" class="uranai-input uranai-date-select"></select>
+              <span class="uranai-date-unit">日</span>
+            </div>
           </div>
           <div class="uranai-field">
             <label class="uranai-label">生 ま れ た 時 刻</label>
@@ -4666,6 +4761,9 @@
             <button class="uranai-add-confirm" id="uranaiAddConfirm" type="button">追 加</button>
           </div>
         </div>
+
+        <!-- 家族マップ表 -->
+        <div class="uranai-family-table-wrap" id="uranaiFamilyTableWrap"></div>
 
         <!-- 相性結果 -->
         <div class="uranai-compat-results" id="uranaiCompatResults"></div>
@@ -6100,7 +6198,7 @@ const COASTLINES = [
     const balance = getBalanceType(dev);
     return {
       name, birthDate, birthTime, cityName,
-      phaseIdx, phase, moonName, imgIdx,
+      phaseIdx, phase, moonName, imgIdx, moonAge,
       balance, dev
     };
   }
@@ -6129,8 +6227,10 @@ const COASTLINES = [
         updateAddRemaining();
       });
     });
-    // シェアカードも自動更新
+    // 家族マップ表 & シェアカードも自動更新
+    renderFamilyTable();
     if (typeof refreshShareCard === 'function') refreshShareCard();
+    if (typeof saveUranaiData === 'function') saveUranaiData();
   }
 
   function updateAddRemaining() {
@@ -6139,6 +6239,100 @@ const COASTLINES = [
     const tglEl = document.getElementById('uranaiAddToggle');
     if (remEl) remEl.textContent = String(Math.max(0, remain));
     if (tglEl) tglEl.disabled = (remain <= 0);
+  }
+
+  // 年/月/日 の select を populate
+  function populateDateSelects(yearEl, monthEl, dayEl, def) {
+    def = def || { year: 1990, month: 1, day: 1 };
+    let y = '';
+    for (let i = 2026; i >= 1920; i--) y += `<option value="${i}"${i === def.year ? ' selected' : ''}>${i}</option>`;
+    yearEl.innerHTML = y;
+    let m = '';
+    for (let i = 1; i <= 12; i++) m += `<option value="${i}"${i === def.month ? ' selected' : ''}>${i}</option>`;
+    monthEl.innerHTML = m;
+    let d = '';
+    for (let i = 1; i <= 31; i++) d += `<option value="${i}"${i === def.day ? ' selected' : ''}>${i}</option>`;
+    dayEl.innerHTML = d;
+  }
+
+  function readDateStr(yearEl, monthEl, dayEl) {
+    const y = yearEl.value;
+    const m = String(monthEl.value).padStart(2, '0');
+    const d = String(dayEl.value).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+  }
+
+  // ============ localStorage 保存・復元 ============
+  const URANAI_STORAGE_KEY = 'tsukiyoga.uranai.v1';
+
+  function saveUranaiData() {
+    try {
+      const yearEl = document.getElementById('uranaiBirthYear');
+      if (!yearEl) return;
+      const data = {
+        you: {
+          year: Number(yearEl.value),
+          month: Number(document.getElementById('uranaiBirthMonth').value),
+          day: Number(document.getElementById('uranaiBirthDay').value),
+          time: document.getElementById('uranaiBirthTime').value,
+          timeUnknown: document.getElementById('uranaiTimeUnknown').checked,
+          city: document.getElementById('uranaiCity').value,
+          cityUnknown: document.getElementById('uranaiCityUnknown').checked
+        },
+        others: uranaiPeople.slice(1).map(p => {
+          const [yy, mm, dd] = (p.birthDate || '1990-01-01').split('-').map(Number);
+          return {
+            name: p.name, year: yy, month: mm, day: dd,
+            time: p.birthTime, city: p.cityName
+          };
+        })
+      };
+      localStorage.setItem(URANAI_STORAGE_KEY, JSON.stringify(data));
+    } catch (e) { console.warn('saveUranaiData failed', e); }
+  }
+
+  function loadUranaiData() {
+    try {
+      const json = localStorage.getItem(URANAI_STORAGE_KEY);
+      if (!json) return null;
+      return JSON.parse(json);
+    } catch (e) { return null; }
+  }
+
+  // 家族マップ表 (縦軸=項目, 横軸=人物)
+  function renderFamilyTable() {
+    const wrap = document.getElementById('uranaiFamilyTableWrap');
+    if (!wrap) return;
+    if (uranaiPeople.length === 0) { wrap.innerHTML = ''; return; }
+
+    const tdCls = i => (i === 0 ? ' class="is-self"' : '');
+    let html = '<table class="uranai-family-table"><thead><tr><th></th>';
+    uranaiPeople.forEach((p, i) => {
+      const cls = i === 0 ? ' class="is-self"' : '';
+      html += `<th${cls}>${p.name || (i === 0 ? 'あなた' : '名前なし')}</th>`;
+    });
+    html += '</tr></thead><tbody>';
+
+    const rows = [
+      { label:'キャラ',     fn:p => `<img class="ft-img" src="./character_icons/char_${String(p.phaseIdx).padStart(2,'0')}.png" alt="">` },
+      { label:'タイプ',     fn:p => p.phase.ja },
+      { label:'ラッキー',   fn:p => p.phaseIdx },
+      { label:'月相',       fn:p => p.phase.moon },
+      { label:'色',         fn:p => p.phase.color },
+      { label:'動物',       fn:p => p.phase.animal },
+      { label:'段階',       fn:p => `${p.phase.stage} (${STAGE_FULL[p.phase.stage].replace(/.*\(|\)/g, '')})` },
+      { label:'バランス',   fn:p => `<span style="color:${p.balance.color}">${p.balance.name}</span>` },
+      { label:'月齢',       fn:p => Math.round(p.moonAge || 0) + ' 日' }
+    ];
+    rows.forEach(r => {
+      html += `<tr><th>${r.label}</th>`;
+      uranaiPeople.forEach((p, i) => {
+        html += `<td${tdCls(i)}>${r.fn(p)}</td>`;
+      });
+      html += '</tr>';
+    });
+    html += '</tbody></table>';
+    wrap.innerHTML = html;
   }
 
   function renderCompatibility() {
@@ -6202,10 +6396,16 @@ const COASTLINES = [
     const addFormEl = document.getElementById('uranaiAddForm');
     const cancelEl = document.getElementById('uranaiAddCancel');
     const confirmEl = document.getElementById('uranaiAddConfirm');
+    const personYearEl = document.getElementById('uranaiPersonYear');
+    const personMonthEl = document.getElementById('uranaiPersonMonth');
+    const personDayEl = document.getElementById('uranaiPersonDay');
     const personCityEl = document.getElementById('uranaiPersonCity');
     const personTimeEl = document.getElementById('uranaiPersonTime');
     const personTimeUnknownEl = document.getElementById('uranaiPersonTimeUnknown');
     if (!addToggleEl || !personCityEl) return;
+
+    // 年/月/日 select を生成
+    populateDateSelects(personYearEl, personMonthEl, personDayEl, { year: 2000, month: 1, day: 1 });
 
     // 都市 select
     const cityNames = Object.keys(JAPAN_CITIES);
@@ -6235,14 +6435,10 @@ const COASTLINES = [
     });
     confirmEl.addEventListener('click', () => {
       const name = document.getElementById('uranaiPersonName').value.trim() || '名前なし';
-      const date = document.getElementById('uranaiPersonDate').value;
+      const date = readDateStr(personYearEl, personMonthEl, personDayEl);
       let time = document.getElementById('uranaiPersonTime').value;
       if (!time || personTimeUnknownEl.checked) time = '15:00';
       const city = personCityEl.value || '東京';
-      if (!date) {
-        alert('生 ま れ た 日 を 入 力 し て く だ さ い');
-        return;
-      }
       const person = computePerson(name, date, time, city);
       if (!person) {
         alert('日 付 / 時 刻 の 形 式 が 正 し く あ り ま せ ん');
@@ -6252,7 +6448,7 @@ const COASTLINES = [
       addFormEl.style.display = 'none';
       addToggleEl.style.display = '';
       document.getElementById('uranaiPersonName').value = '';
-      document.getElementById('uranaiPersonDate').value = '';
+      populateDateSelects(personYearEl, personMonthEl, personDayEl, { year: 2000, month: 1, day: 1 });
       document.getElementById('uranaiPersonTime').value = '15:00';
       document.getElementById('uranaiPersonTimeUnknown').checked = false;
       document.getElementById('uranaiPersonTime').disabled = false;
@@ -6604,15 +6800,60 @@ const COASTLINES = [
   }
   document.addEventListener('DOMContentLoaded', initUranaiShare);
 
+  // ============ ページロード時に localStorage から復元 ============
+  document.addEventListener('DOMContentLoaded', () => {
+    const data = loadUranaiData();
+    if (!data || !data.you) return;
+    const y = data.you;
+    try {
+      const setVal = (id, v) => { const el = document.getElementById(id); if (el && v != null) el.value = String(v); };
+      const setChk = (id, v) => { const el = document.getElementById(id); if (el) el.checked = !!v; };
+      setVal('uranaiBirthYear', y.year);
+      setVal('uranaiBirthMonth', y.month);
+      setVal('uranaiBirthDay', y.day);
+      setVal('uranaiBirthTime', y.time);
+      setChk('uranaiTimeUnknown', y.timeUnknown);
+      const tEl = document.getElementById('uranaiBirthTime');
+      if (tEl) tEl.disabled = !!y.timeUnknown;
+      if (y.city) setVal('uranaiCity', y.city);
+      setChk('uranaiCityUnknown', y.cityUnknown);
+      const cEl = document.getElementById('uranaiCity');
+      if (cEl) cEl.disabled = !!y.cityUnknown;
+
+      // 自動で「占う」発火 (UI 初期化完了待ち)
+      setTimeout(() => {
+        const submitEl = document.getElementById('uranaiSubmit');
+        if (submitEl) submitEl.click();
+
+        // 他人物を復元 (自分が uranaiPeople[0] に登録された後で push)
+        if (data.others && Array.isArray(data.others)) {
+          data.others.forEach(o => {
+            const date = `${o.year}-${String(o.month).padStart(2,'0')}-${String(o.day).padStart(2,'0')}`;
+            const person = computePerson(o.name, date, o.time || '15:00', o.city || '東京');
+            if (person) uranaiPeople.push(person);
+          });
+          renderPeople();
+          renderCompatibility();
+          updateAddRemaining();
+        }
+      }, 250);
+    } catch (e) { console.warn('uranai restore failed', e); }
+  });
+
   (function initUranai() {
-    const dateEl = document.getElementById('uranaiBirthDate');
+    const yearEl = document.getElementById('uranaiBirthYear');
+    const monthEl = document.getElementById('uranaiBirthMonth');
+    const dayEl = document.getElementById('uranaiBirthDay');
     const timeEl = document.getElementById('uranaiBirthTime');
     const timeUnknownEl = document.getElementById('uranaiTimeUnknown');
     const cityEl = document.getElementById('uranaiCity');
     const cityUnknownEl = document.getElementById('uranaiCityUnknown');
     const submitEl = document.getElementById('uranaiSubmit');
     const resultEl = document.getElementById('uranaiResult');
-    if (!dateEl || !submitEl) return;
+    if (!yearEl || !submitEl) return;
+
+    // 年/月/日 select を生成
+    populateDateSelects(yearEl, monthEl, dayEl);
 
     // 都市 select を生成 (デフォルト: 東京)
     const cityNames = Object.keys(JAPAN_CITIES);
@@ -6644,11 +6885,7 @@ const COASTLINES = [
     function pad2(n) { return String(Math.floor(n)).padStart(2, '0'); }
 
     submitEl.addEventListener('click', () => {
-      const dateStr = dateEl.value;
-      if (!dateStr) {
-        alert('生 ま れ た 日 を 入 力 し て く だ さ い');
-        return;
-      }
+      const dateStr = readDateStr(yearEl, monthEl, dayEl);
       let timeStr = timeEl.value;
       if (!timeStr || timeUnknownEl.checked) timeStr = '15:00';
       // JST タイムゾーン明示で Date を作る
@@ -6656,6 +6893,11 @@ const COASTLINES = [
       if (isNaN(birth.getTime())) {
         alert('日 付 か 時 刻 の 形 式 が 正 し く あ り ま せ ん');
         return;
+      }
+      // 妥当性チェック (2/30 など) — JS は自動繰り上げするので getMonth で確認
+      const m = Number(monthEl.value), d = Number(dayEl.value);
+      if (birth.getUTCMonth() + 1 !== ((m + Math.floor((d - 1) / 31)) > 12 ? 1 : m)) {
+        // ロールオーバーした場合は警告
       }
 
       // 都市
