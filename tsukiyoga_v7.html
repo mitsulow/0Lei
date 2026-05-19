@@ -2277,6 +2277,64 @@
     margin-top: 4px;
   }
 
+  /* 太陽月位置カード */
+  .uranai-sky-facing {
+    text-align: center;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.9);
+    letter-spacing: 0.18em;
+    margin-bottom: 10px;
+  }
+  .uranai-sky-clock {
+    display: block;
+    width: 240px;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto 14px;
+  }
+  .uranai-sky-bodies {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
+  .uranai-sky-body {
+    flex: 1;
+    text-align: center;
+    padding: 10px 8px;
+    background: rgba(3, 8, 24, 0.55);
+    border: 1px solid rgba(201, 169, 97, 0.22);
+    border-radius: 10px;
+  }
+  .uranai-sky-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+  .uranai-sky-icon { font-size: 1.2rem; }
+  .uranai-sky-label {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.75rem;
+    color: rgba(201, 169, 97, 0.95);
+    letter-spacing: 0.2em;
+  }
+  .uranai-sky-pos {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.78rem;
+    color: var(--moon-white);
+    letter-spacing: 0.08em;
+    line-height: 1.6;
+    margin-bottom: 4px;
+  }
+  .uranai-sky-coord {
+    font-family: 'Cinzel', serif;
+    font-size: 0.62rem;
+    color: rgba(138, 160, 184, 0.7);
+    letter-spacing: 0.05em;
+  }
+
   #navCanvas {
     position: absolute;
     inset: 0;
@@ -4133,6 +4191,47 @@
         </div>
       </div>
 
+      <!-- 太陽と月の位置カード -->
+      <div class="uranai-card uranai-sky">
+        <div class="uranai-card-head">生 ま れ た 時 の 空</div>
+        <div class="uranai-sky-facing" id="uranaiSkyFacing"></div>
+        <svg class="uranai-sky-clock" viewBox="0 0 200 200" aria-hidden="true">
+          <!-- 文字盤 -->
+          <circle cx="100" cy="100" r="92" fill="rgba(3,8,24,0.65)" stroke="rgba(201,169,97,0.35)" stroke-width="1"/>
+          <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(201,169,97,0.18)" stroke-width="1" stroke-dasharray="2,3"/>
+          <!-- 地平線 -->
+          <line x1="20" y1="100" x2="180" y2="100" stroke="rgba(201,169,97,0.4)" stroke-dasharray="3,3"/>
+          <text x="100" y="107" text-anchor="middle" fill="rgba(201,169,97,0.45)" font-size="6" font-family="Cinzel,serif" letter-spacing="0.1em">HORIZON</text>
+          <!-- 空 / 地下 ラベル -->
+          <text x="100" y="48" text-anchor="middle" fill="rgba(245,196,74,0.55)" font-size="8" font-family="Shippori Mincho,serif" letter-spacing="0.15em">空 の 上</text>
+          <text x="100" y="160" text-anchor="middle" fill="rgba(110,160,210,0.45)" font-size="8" font-family="Shippori Mincho,serif" letter-spacing="0.15em">地 面 の 下</text>
+          <!-- 時計の数字 -->
+          <text x="100" y="20" text-anchor="middle" fill="rgba(201,169,97,0.7)" font-size="9" font-family="Cinzel,serif">12</text>
+          <text x="184" y="103" text-anchor="middle" fill="rgba(201,169,97,0.7)" font-size="9" font-family="Cinzel,serif">3</text>
+          <text x="100" y="190" text-anchor="middle" fill="rgba(201,169,97,0.7)" font-size="9" font-family="Cinzel,serif">6</text>
+          <text x="16" y="103" text-anchor="middle" fill="rgba(201,169,97,0.7)" font-size="9" font-family="Cinzel,serif">9</text>
+          <!-- 観測者 -->
+          <circle cx="100" cy="100" r="2.5" fill="rgba(201,169,97,0.85)"/>
+          <text id="uranaiSkyFacingArrow" x="100" y="113" text-anchor="middle" fill="rgba(201,169,97,0.7)" font-size="7" font-family="Shippori Mincho,serif" letter-spacing="0.1em"></text>
+          <!-- 太陽 -->
+          <text id="uranaiSunDot" x="100" y="100" text-anchor="middle" dominant-baseline="central" font-size="22" fill="#f5c44a">☀</text>
+          <!-- 月 -->
+          <text id="uranaiMoonDot" x="100" y="100" text-anchor="middle" dominant-baseline="central" font-size="20" fill="#dde3ea">☾</text>
+        </svg>
+        <div class="uranai-sky-bodies">
+          <div class="uranai-sky-body">
+            <div class="uranai-sky-row"><span class="uranai-sky-icon" style="color:#f5c44a">☀</span><span class="uranai-sky-label">太 陽</span></div>
+            <div class="uranai-sky-pos" id="uranaiSunPos"></div>
+            <div class="uranai-sky-coord" id="uranaiSunCoord"></div>
+          </div>
+          <div class="uranai-sky-body">
+            <div class="uranai-sky-row"><span class="uranai-sky-icon" style="color:#dde3ea">☾</span><span class="uranai-sky-label">月</span></div>
+            <div class="uranai-sky-pos" id="uranaiMoonPos"></div>
+            <div class="uranai-sky-coord" id="uranaiMoonCoord"></div>
+          </div>
+        </div>
+      </div>
+
       <!-- マツリ時刻カード -->
       <div class="uranai-card uranai-matsuri">
         <div class="uranai-card-head">そ の 日 の マ ツ リ 時 刻</div>
@@ -5418,6 +5517,116 @@ const COASTLINES = [
     return `${H}時間${String(M).padStart(2, '0')}分`;
   }
 
+  // ============ 天文計算 (太陽月の方位高度) ============
+  // 簡易版: 精度 ±0.5° 程度 (占いの時計盤表示には十分)
+  const DEG2RAD = Math.PI / 180;
+  const RAD2DEG = 180 / Math.PI;
+
+  function dateToJD(date) {
+    return date.getTime() / 86400000 + 2440587.5;
+  }
+
+  function sunRADec(jd) {
+    const n = jd - 2451545.0;
+    const Lmean = ((280.460 + 0.9856474 * n) % 360 + 360) % 360;
+    const g = (((357.528 + 0.9856003 * n) % 360 + 360) % 360) * DEG2RAD;
+    const lambda = (Lmean + 1.915 * Math.sin(g) + 0.020 * Math.sin(2 * g)) * DEG2RAD;
+    const eps = (23.439 - 0.0000004 * n) * DEG2RAD;
+    const ra = Math.atan2(Math.cos(eps) * Math.sin(lambda), Math.cos(lambda)) * RAD2DEG;
+    const dec = Math.asin(Math.sin(eps) * Math.sin(lambda)) * RAD2DEG;
+    return { ra: (ra + 360) % 360, dec };
+  }
+
+  function moonRADec(jd) {
+    const T = (jd - 2451545.0) / 36525;
+    const Lp = (218.3164477 + 481267.88123421 * T) * DEG2RAD;
+    const D  = (297.8501921 + 445267.1114034 * T) * DEG2RAD;
+    const M  = (357.5291092 +  35999.0502909 * T) * DEG2RAD;
+    const Mp = (134.9633964 + 477198.8675055 * T) * DEG2RAD;
+    const F  = ( 93.2720950 + 483202.0175233 * T) * DEG2RAD;
+    // 黄経 (deg) 主要項のみ
+    const dLon =
+        6.289 * Math.sin(Mp)
+      - 1.274 * Math.sin(Mp - 2 * D)
+      + 0.658 * Math.sin(2 * D)
+      - 0.186 * Math.sin(M)
+      - 0.059 * Math.sin(2 * Mp - 2 * D)
+      - 0.057 * Math.sin(Mp - 2 * D + M)
+      + 0.053 * Math.sin(Mp + 2 * D)
+      + 0.046 * Math.sin(2 * D - M)
+      + 0.041 * Math.sin(Mp - M)
+      - 0.035 * Math.sin(D)
+      - 0.031 * Math.sin(Mp + M);
+    // 黄緯 (deg) 主要項
+    const dLat =
+        5.128 * Math.sin(F)
+      + 0.281 * Math.sin(Mp + F)
+      - 0.278 * Math.sin(Mp - F)
+      - 0.173 * Math.sin(F - 2 * D);
+    const lambda = ((Lp * RAD2DEG) + dLon) % 360;
+    const beta = dLat;
+    const lambdaR = lambda * DEG2RAD;
+    const betaR = beta * DEG2RAD;
+    const eps = (23.439 - 0.0000004 * (jd - 2451545.0)) * DEG2RAD;
+    const ra = Math.atan2(
+      Math.cos(eps) * Math.sin(lambdaR) - Math.tan(betaR) * Math.sin(eps),
+      Math.cos(lambdaR)
+    ) * RAD2DEG;
+    const dec = Math.asin(
+      Math.sin(betaR) * Math.cos(eps) + Math.cos(betaR) * Math.sin(eps) * Math.sin(lambdaR)
+    ) * RAD2DEG;
+    return { ra: ((ra % 360) + 360) % 360, dec };
+  }
+
+  function gmstDeg(jd) {
+    const T = (jd - 2451545.0) / 36525;
+    const gd = 280.46061837 + 360.98564736629 * (jd - 2451545.0)
+             + 0.000387933 * T * T - T * T * T / 38710000;
+    return ((gd % 360) + 360) % 360;
+  }
+
+  // 観測者位置 (lat, lon°E) と RA/Dec から alt/az を求める
+  // 方位 az: 北=0°, 東=90°, 南=180°, 西=270°
+  function altaz(ra, dec, lat, lon, jd) {
+    const lst = (gmstDeg(jd) + lon) % 360;
+    let ha = lst - ra;
+    ha = ((ha + 540) % 360) - 180;  // -180〜180
+    const haR = ha * DEG2RAD;
+    const decR = dec * DEG2RAD;
+    const latR = lat * DEG2RAD;
+    const alt = Math.asin(
+      Math.sin(decR) * Math.sin(latR) + Math.cos(decR) * Math.cos(latR) * Math.cos(haR)
+    ) * RAD2DEG;
+    let az = Math.atan2(
+      Math.sin(haR),
+      Math.cos(haR) * Math.sin(latR) - Math.tan(decR) * Math.cos(latR)
+    ) * RAD2DEG;
+    az = (az + 180 + 360) % 360;  // 北=0
+    return { alt, az };
+  }
+
+  // 観測者の向き (午前=北 / 午後=南) と高度・方位 → 時計盤位置 (1〜12)
+  function toClockPosition(alt, az, facingAz) {
+    let rel = ((az - facingAz) % 360 + 360) % 360;
+    if (rel > 180) rel -= 360;
+    const altR = alt * DEG2RAD;
+    const relR = rel * DEG2RAD;
+    const x = Math.cos(altR) * Math.sin(relR);
+    const y = Math.sin(altR);
+    const theta = ((Math.atan2(x, y) * RAD2DEG) + 360) % 360;
+    let clock = Math.round(theta / 30) % 12;
+    if (clock === 0) clock = 12;
+    return { clock, above: alt > 0 };
+  }
+
+  function clockPositionDesc(clock, above) {
+    const sky = above ? '空 の 上' : '地 面 の 下';
+    if (clock === 12) return `真 上 の ${sky}`;
+    if (clock === 6)  return `真 下 の ${sky}`;
+    const side = (clock >= 1 && clock <= 5) ? '右' : '左';
+    return `${side} の ${sky} ${clock} 時 の 方 向`;
+  }
+
   // バランス5タイプ別の絵文字 (花) と説明文
   const BALANCE_EMOJI = {
     '茉莉花': '✿',
@@ -5521,6 +5730,19 @@ const COASTLINES = [
         nearestLabel = '夜 祭 り'; nearestT = tEvening; dev = dEve;
       }
 
+      // 太陽月の位置 (観測地点から)
+      const jd = dateToJD(birth);
+      const sunPos = sunRADec(jd);
+      const moonPos = moonRADec(jd);
+      const sunAA = altaz(sunPos.ra, sunPos.dec, lat, lon, jd);
+      const moonAA = altaz(moonPos.ra, moonPos.dec, lat, lon, jd);
+      // 観測者の向き: 地方真太陽時で午前=北, 午後=南
+      const facingSouth = (localH >= 12 && localH < 24);
+      const facingLabel = facingSouth ? '南' : '北';
+      const facingAz = facingSouth ? 180 : 0;
+      const sunClock = toClockPosition(sunAA.alt, sunAA.az, facingAz);
+      const moonClock = toClockPosition(moonAA.alt, moonAA.az, facingAz);
+
       // バランス
       const balance = getBalanceType(dev);
       const directionLabel = dev > 0 ? '西 寄 り' : dev < 0 ? '東 寄 り' : 'ピ ッ タ リ';
@@ -5561,6 +5783,39 @@ const COASTLINES = [
       // マツリ
       document.getElementById('uranaiAsamatsuri').textContent = hoursToHHMM(tMorning);
       document.getElementById('uranaiYomatsuri').textContent = hoursToHHMM(tEvening);
+
+      // 太陽月の位置 (時計盤)
+      document.getElementById('uranaiSkyFacing').textContent =
+        `${facingLabel} を 向 い て 立 つ と`;
+      document.getElementById('uranaiSkyFacingArrow').textContent =
+        facingSouth ? '↑ 南' : '↑ 北';
+      document.getElementById('uranaiSunPos').textContent =
+        clockPositionDesc(sunClock.clock, sunClock.above);
+      document.getElementById('uranaiSunCoord').textContent =
+        `高度 ${sunAA.alt >= 0 ? '+' : ''}${sunAA.alt.toFixed(0)}° / 方位 ${sunAA.az.toFixed(0)}°`;
+      document.getElementById('uranaiMoonPos').textContent =
+        clockPositionDesc(moonClock.clock, moonClock.above);
+      document.getElementById('uranaiMoonCoord').textContent =
+        `高度 ${moonAA.alt >= 0 ? '+' : ''}${moonAA.alt.toFixed(0)}° / 方位 ${moonAA.az.toFixed(0)}°`;
+      // SVG: 太陽月の点を時計盤上に配置
+      const skySvgXY = (alt, az) => {
+        let rel = ((az - facingAz) % 360 + 360) % 360;
+        if (rel > 180) rel -= 360;
+        const altR = alt * DEG2RAD;
+        const relR = rel * DEG2RAD;
+        return {
+          x: 100 + 80 * Math.cos(altR) * Math.sin(relR),
+          y: 100 - 80 * Math.sin(altR)
+        };
+      };
+      const sunSvg = skySvgXY(sunAA.alt, sunAA.az);
+      const moonSvg = skySvgXY(moonAA.alt, moonAA.az);
+      const sunDotEl = document.getElementById('uranaiSunDot');
+      sunDotEl.setAttribute('x', sunSvg.x.toFixed(1));
+      sunDotEl.setAttribute('y', sunSvg.y.toFixed(1));
+      const moonDotEl = document.getElementById('uranaiMoonDot');
+      moonDotEl.setAttribute('x', moonSvg.x.toFixed(1));
+      moonDotEl.setAttribute('y', moonSvg.y.toFixed(1));
 
       // バランス
       document.getElementById('uranaiBalanceFlower').textContent =
