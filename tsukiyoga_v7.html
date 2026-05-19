@@ -1469,6 +1469,53 @@
     letter-spacing: 0.15em;
   }
 
+  /* ★v7: スワイプヒント（初回 2 回だけ呼吸して消える） */
+  .swipe-hint {
+    margin-top: 10px;
+    text-align: center;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.76rem;
+    letter-spacing: 0.28em;
+    color: rgba(201, 169, 97, 0.72);
+    pointer-events: none;
+    opacity: 0;
+    user-select: none;
+  }
+  .swipe-hint.active {
+    animation: swipeHintBreathe 2.4s ease-in-out 2 forwards;
+  }
+  .swipe-hint .swipe-hint-arrow {
+    display: inline-block;
+    font-size: 1.45rem;
+    font-weight: 300;
+    vertical-align: middle;
+    color: rgba(201, 169, 97, 0.85);
+    margin: 0 0.4em;
+  }
+  .swipe-hint.active .swipe-hint-left {
+    animation: swipeHintArrowLeft 1.2s ease-in-out 4;
+  }
+  .swipe-hint.active .swipe-hint-right {
+    animation: swipeHintArrowRight 1.2s ease-in-out 4;
+  }
+  .swipe-hint .swipe-hint-text {
+    text-indent: 0.28em;
+  }
+  @keyframes swipeHintBreathe {
+    0%   { opacity: 0; transform: translateY(4px); }
+    25%  { opacity: 0.85; transform: translateY(0); }
+    75%  { opacity: 0.85; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-4px); }
+  }
+  @keyframes swipeHintArrowLeft {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(-6px); }
+  }
+  @keyframes swipeHintArrowRight {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(6px); }
+  }
+
   .memo-section-label {
     font-family: 'Shippori Mincho', serif;
     font-size: 0.82rem;
@@ -3481,6 +3528,13 @@
           <div class="memo-modal-matsuri" id="memoMatsuri"></div>
         </div>
       </div>
+    </div>
+
+    <!-- ★v7: スワイプヒント（初回 2 回まで） -->
+    <div class="swipe-hint" id="swipeHint">
+      <span class="swipe-hint-arrow swipe-hint-left">‹</span>
+      <span class="swipe-hint-text">前 後 の 日 へ ス ワ イ プ</span>
+      <span class="swipe-hint-arrow swipe-hint-right">›</span>
     </div>
 
     <div class="memo-section-label">メ モ</div>
@@ -6739,7 +6793,23 @@ const COASTLINES = [
   // ★v6: 旧暦日の横に月名を表示
   function openMemoModal(dateStr) {
     // 全画面イントロを発火してからモーダルを開く
-    playFullscreenIntro('memoIntro', () => openMemoModalInner(dateStr));
+    playFullscreenIntro('memoIntro', () => {
+      openMemoModalInner(dateStr);
+      maybeShowSwipeHint();
+    });
+  }
+
+  // ★v7: スワイプヒント（初回 2 回まで呼吸表示）
+  function maybeShowSwipeHint() {
+    const HINT_KEY = 'tsukiyoga-swipe-hint-shown-count';
+    const count = parseInt(localStorage.getItem(HINT_KEY) || '0', 10);
+    if (count >= 2) return;
+    const hint = document.getElementById('swipeHint');
+    if (!hint) return;
+    hint.classList.remove('active');
+    void hint.offsetWidth;
+    hint.classList.add('active');
+    localStorage.setItem(HINT_KEY, String(count + 1));
   }
 
   function openMemoModalInner(dateStr) {
