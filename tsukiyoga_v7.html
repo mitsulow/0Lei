@@ -2033,6 +2033,9 @@
     height: 100%;
     object-fit: contain;
     z-index: 1;
+    /* 月を円形に切り抜き (周囲の黒い宇宙を消す) */
+    border-radius: 50%;
+    overflow: hidden;
     /* 月を暖色寄りに (黄〜橙) + グロー */
     filter:
       sepia(0.55)
