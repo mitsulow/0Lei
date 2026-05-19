@@ -2586,6 +2586,74 @@
     border-top: 1px solid rgba(245, 196, 74, 0.25);
   }
 
+  /* ★v7 月占い - シェアカード */
+  .uranai-share-section {
+    margin-top: 28px;
+    padding-top: 22px;
+    border-top: 1px dashed rgba(201, 169, 97, 0.35);
+    text-align: center;
+  }
+  .uranai-share-tabs {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 14px;
+  }
+  .uranai-share-tab {
+    padding: 8px 16px;
+    background: rgba(10, 20, 40, 0.55);
+    border: 1px solid rgba(201, 169, 97, 0.35);
+    border-radius: 8px;
+    color: rgba(201, 169, 97, 0.85);
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+  }
+  .uranai-share-tab.is-active {
+    background: linear-gradient(180deg, rgba(201,169,97,0.35), rgba(201,169,97,0.15));
+    border-color: rgba(201, 169, 97, 0.8);
+    color: var(--moon-white);
+  }
+  .uranai-share-tab:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+  .uranai-share-canvas-wrap {
+    max-width: 340px;
+    margin: 0 auto 14px;
+  }
+  #uranaiShareCanvas {
+    width: 100%;
+    height: auto;
+    border-radius: 14px;
+    border: 1px solid rgba(201, 169, 97, 0.35);
+    display: block;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
+  }
+  .uranai-share-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    max-width: 340px;
+    margin: 0 auto;
+  }
+  .uranai-share-btn {
+    flex: 1;
+    padding: 12px;
+    background: linear-gradient(180deg, rgba(201,169,97,0.30), rgba(201,169,97,0.12));
+    border: 1px solid rgba(201,169,97,0.65);
+    border-radius: 10px;
+    color: var(--moon-white);
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+  }
+  .uranai-share-btn:active {
+    background: linear-gradient(180deg, rgba(201,169,97,0.15), rgba(201,169,97,0.05));
+  }
+
   #navCanvas {
     position: absolute;
     inset: 0;
@@ -4574,6 +4642,25 @@
         <div class="uranai-compat-results" id="uranaiCompatResults"></div>
       </div>
 
+      <!-- シェアカード -->
+      <div class="uranai-share-section" id="uranaiShareSection">
+        <div class="uranai-section-head">シ ェ ア カ ー ド</div>
+        <div class="uranai-section-sub">
+          画 像 を 保 存 し て イ ン ス タ や X に シ ェ ア で き ま す
+        </div>
+        <div class="uranai-share-tabs">
+          <button class="uranai-share-tab is-active" data-card="self" type="button">あなた</button>
+          <button class="uranai-share-tab" data-card="group" type="button" disabled>仲間 (2人〜)</button>
+        </div>
+        <div class="uranai-share-canvas-wrap">
+          <canvas id="uranaiShareCanvas" width="1080" height="1080"></canvas>
+        </div>
+        <div class="uranai-share-buttons">
+          <button class="uranai-share-btn" id="uranaiShareDownload" type="button">📥 画 像 を 保 存</button>
+          <button class="uranai-share-btn" id="uranaiShareNative" type="button">📤 シ ェ ア</button>
+        </div>
+      </div>
+
       <div class="uranai-result-note">
         ＊ 月 が 人 生 を 決 め る わ け で は あ り ま せ ん 。<br>
         あ な た 自 身 を 見 つ め る 「窓」と し て お 使 い く だ さ い 。
@@ -6013,6 +6100,8 @@ const COASTLINES = [
         updateAddRemaining();
       });
     });
+    // シェアカードも自動更新
+    if (typeof refreshShareCard === 'function') refreshShareCard();
   }
 
   function updateAddRemaining() {
@@ -6148,6 +6237,298 @@ const COASTLINES = [
   }
 
   document.addEventListener('DOMContentLoaded', initUranaiAddForm);
+
+  // ============ シェアカード ============
+  let currentShareCard = 'self';
+
+  function drawShareBackground(ctx, W, H) {
+    ctx.fillStyle = '#02050f';
+    ctx.fillRect(0, 0, W, H);
+    const grad = ctx.createRadialGradient(W/2, H/3, 50, W/2, H/3, H*0.7);
+    grad.addColorStop(0, 'rgba(110, 196, 245, 0.10)');
+    grad.addColorStop(0.6, 'rgba(201, 169, 97, 0.06)');
+    grad.addColorStop(1, 'rgba(2, 5, 15, 0)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, W, H);
+    // 星
+    for (let i = 0; i < 140; i++) {
+      const x = Math.random() * W, y = Math.random() * H;
+      const a = Math.random() * 0.5 + 0.1;
+      const r = Math.random() < 0.92 ? 1 : 2;
+      ctx.fillStyle = `rgba(255,255,255,${a})`;
+      ctx.fillRect(x, y, r, r);
+    }
+    // 金の細い枠線
+    ctx.strokeStyle = 'rgba(201, 169, 97, 0.45)';
+    ctx.lineWidth = 1.2;
+    ctx.beginPath(); ctx.moveTo(60, 60); ctx.lineTo(W-60, 60); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(60, H-60); ctx.lineTo(W-60, H-60); ctx.stroke();
+  }
+
+  function roundedRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+  }
+
+  function drawShareCardSelf(person) {
+    const canvas = document.getElementById('uranaiShareCanvas');
+    if (!canvas || !person) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+    drawShareBackground(ctx, W, H);
+    ctx.textAlign = 'center';
+
+    // ヘッダー
+    ctx.fillStyle = 'rgba(201, 169, 97, 0.78)';
+    ctx.font = '26px "Shippori Mincho", serif';
+    ctx.fillText('ツ キ ヨ ガ  月 占 い', W/2, 120);
+
+    const img = new Image();
+    img.onload = () => {
+      // 月画像
+      const size = 380, mx = (W - size) / 2, my = 155;
+      const glow = ctx.createRadialGradient(W/2, my + size/2, 80, W/2, my + size/2, 300);
+      glow.addColorStop(0, 'rgba(255, 255, 255, 0.20)');
+      glow.addColorStop(1, 'rgba(255, 255, 255, 0)');
+      ctx.fillStyle = glow;
+      ctx.fillRect(0, my - 50, W, size + 100);
+      ctx.drawImage(img, mx, my, size, size);
+
+      // 「○○生まれの」
+      ctx.fillStyle = 'rgba(201, 169, 97, 0.95)';
+      ctx.font = '38px "Shippori Mincho", serif';
+      ctx.fillText(`${person.moonName.name}  生 ま れ の`, W/2, 605);
+
+      // 12タイプ名 (大)
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 100px "Shippori Mincho", serif';
+      ctx.fillText(person.phase.ja, W/2, 720);
+
+      // ラッキーナンバー
+      ctx.fillStyle = 'rgba(201, 169, 97, 0.88)';
+      ctx.font = '26px "Shippori Mincho", serif';
+      ctx.fillText('ラ ッ キ ー ナ ン バ ー', W/2, 780);
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 68px "Cinzel", serif';
+      ctx.fillText(String(person.phaseIdx), W/2, 855);
+
+      // チップ 4 個
+      const chipY = 905, chipW = 200, chipH = 80, chipGap = 12;
+      const totalW = chipW * 4 + chipGap * 3;
+      let cx = (W - totalW) / 2;
+      const chips = [
+        { l:'月相', v:person.phase.moon },
+        { l:'色',   v:person.phase.color },
+        { l:'動物', v:person.phase.animal },
+        { l:'段階', v:person.phase.stage }
+      ];
+      chips.forEach(c => {
+        ctx.fillStyle = 'rgba(20, 30, 55, 0.75)';
+        ctx.strokeStyle = 'rgba(201, 169, 97, 0.55)';
+        ctx.lineWidth = 1.5;
+        roundedRect(ctx, cx, chipY, chipW, chipH, 12);
+        ctx.fill(); ctx.stroke();
+        ctx.fillStyle = 'rgba(201, 169, 97, 0.88)';
+        ctx.font = '22px "Shippori Mincho", serif';
+        ctx.fillText(c.l, cx + chipW/2, chipY + 30);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '32px "Shippori Mincho", serif';
+        ctx.fillText(c.v, cx + chipW/2, chipY + 68);
+        cx += chipW + chipGap;
+      });
+
+      // バランス
+      const balY = 1030;
+      ctx.fillStyle = 'rgba(201, 169, 97, 0.85)';
+      ctx.font = '24px "Shippori Mincho", serif';
+      ctx.fillText('バ ラ ン ス', W/2, balY);
+      ctx.fillStyle = person.balance.color;
+      ctx.font = 'bold 42px "Shippori Mincho", serif';
+      ctx.fillText(person.balance.name, W/2, balY + 55);
+
+      // フッター
+      ctx.fillStyle = 'rgba(138, 160, 184, 0.55)';
+      ctx.font = '18px "Shippori Mincho", serif';
+      ctx.fillText('— あ な た 自 身 を 見 つ め る 窓 と し て —', W/2, H - 90);
+    };
+    img.src = `./moon_icons/moon_${String(person.imgIdx).padStart(2,'0')}.png`;
+  }
+
+  function drawShareCardGroup() {
+    const canvas = document.getElementById('uranaiShareCanvas');
+    if (!canvas || uranaiPeople.length < 2) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+    drawShareBackground(ctx, W, H);
+    ctx.textAlign = 'center';
+
+    // ヘッダー
+    ctx.fillStyle = 'rgba(201, 169, 97, 0.95)';
+    ctx.font = '34px "Shippori Mincho", serif';
+    ctx.fillText('わ た し た ち の 月 相', W/2, 120);
+    ctx.fillStyle = 'rgba(201, 169, 97, 0.65)';
+    ctx.font = '20px "Shippori Mincho", serif';
+    ctx.fillText(`${uranaiPeople.length} 人 の 縁`, W/2, 152);
+
+    // 人物カードを横並びで描く前に画像 load を待つ
+    const promises = uranaiPeople.map(p => new Promise(res => {
+      const im = new Image();
+      im.onload = () => res({ p, img: im });
+      im.onerror = () => res({ p, img: null });
+      im.src = `./moon_icons/moon_${String(p.imgIdx).padStart(2,'0')}.png`;
+    }));
+    Promise.all(promises).then(arr => {
+      const n = arr.length;
+      const sideMargin = 80;
+      const cardGap = 16;
+      const cardW = (W - sideMargin * 2 - cardGap * (n - 1)) / n;
+      const cardH = 340;
+      const cardY = 200;
+      let cx = sideMargin;
+      arr.forEach(({ p, img }, i) => {
+        const isSelf = i === 0;
+        ctx.fillStyle = isSelf ? 'rgba(60, 48, 30, 0.55)' : 'rgba(20, 30, 55, 0.7)';
+        ctx.strokeStyle = isSelf ? 'rgba(245, 196, 74, 0.7)' : 'rgba(201, 169, 97, 0.4)';
+        ctx.lineWidth = 1.5;
+        roundedRect(ctx, cx, cardY, cardW, cardH, 14);
+        ctx.fill(); ctx.stroke();
+        const imgSize = Math.min(cardW - 30, 170);
+        if (img) ctx.drawImage(img, cx + (cardW - imgSize) / 2, cardY + 24, imgSize, imgSize);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '24px "Shippori Mincho", serif';
+        ctx.fillText(p.name || (isSelf ? 'あなた' : ''), cx + cardW/2, cardY + 230);
+        ctx.fillStyle = 'rgba(201, 169, 97, 0.95)';
+        ctx.font = 'bold 26px "Shippori Mincho", serif';
+        ctx.fillText(p.phase.ja, cx + cardW/2, cardY + 270);
+        ctx.fillStyle = 'rgba(110, 196, 245, 0.85)';
+        ctx.font = '22px "Cinzel", serif';
+        ctx.fillText(`L. ${p.phaseIdx}`, cx + cardW/2, cardY + 308);
+        cx += cardW + cardGap;
+      });
+
+      // 注目ペア (優先度順 上位3)
+      const pairs = [];
+      for (let i = 0; i < uranaiPeople.length; i++) {
+        for (let j = i + 1; j < uranaiPeople.length; j++) {
+          pairs.push({
+            a: uranaiPeople[i],
+            b: uranaiPeople[j],
+            aspect: aspectBetween(uranaiPeople[i].phaseIdx, uranaiPeople[j].phaseIdx)
+          });
+        }
+      }
+      const pri = { opposition:0, trine:1, sextile:2, square:3, sesqui:4, friction:5, identical:6 };
+      pairs.sort((a, b) => pri[a.aspect.kind] - pri[b.aspect.kind]);
+      const top = pairs.slice(0, Math.min(3, pairs.length));
+
+      ctx.fillStyle = 'rgba(201, 169, 97, 0.95)';
+      ctx.font = '28px "Shippori Mincho", serif';
+      ctx.fillText('注 目 の 縁', W/2, 590);
+      let py = 620;
+      const pH = 110, pGap = 14;
+      top.forEach(({ a, b, aspect }) => {
+        ctx.fillStyle = 'rgba(20, 30, 55, 0.75)';
+        let stroke = 'rgba(201, 169, 97, 0.4)';
+        if (aspect.kind === 'opposition') stroke = 'rgba(245, 80, 100, 0.9)';
+        if (aspect.kind === 'trine')      stroke = 'rgba(110, 230, 180, 0.9)';
+        if (aspect.kind === 'sextile')    stroke = 'rgba(110, 196, 245, 0.85)';
+        if (aspect.kind === 'square')     stroke = 'rgba(245, 196, 74, 0.85)';
+        ctx.strokeStyle = stroke;
+        ctx.lineWidth = 2;
+        roundedRect(ctx, 80, py, W - 160, pH, 12);
+        ctx.fill(); ctx.stroke();
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '26px "Shippori Mincho", serif';
+        ctx.fillText(`${a.name} × ${b.name}`, W/2, py + 40);
+        ctx.fillStyle = stroke;
+        ctx.font = 'bold 28px "Shippori Mincho", serif';
+        ctx.fillText(`${aspect.name}  ${aspect.angle}°`, W/2, py + 82);
+        py += pH + pGap;
+      });
+
+      // フッター
+      ctx.fillStyle = 'rgba(138, 160, 184, 0.55)';
+      ctx.font = '20px "Shippori Mincho", serif';
+      ctx.fillText('— ツ キ ヨ ガ  月 占 い —', W/2, H - 90);
+    });
+  }
+
+  function downloadShareCard() {
+    const canvas = document.getElementById('uranaiShareCanvas');
+    if (!canvas) return;
+    const dataUrl = canvas.toDataURL('image/png');
+    const link = document.createElement('a');
+    link.download = `tsukiyoga-${Date.now()}.png`;
+    link.href = dataUrl;
+    link.click();
+  }
+
+  async function shareNativeCard() {
+    const canvas = document.getElementById('uranaiShareCanvas');
+    if (!canvas) return;
+    if (!navigator.share || !navigator.canShare) {
+      alert('お 使 い の ブ ラ ウ ザ で は シ ェ ア で き な い の で 、 画 像 を 保 存 し て く だ さ い 。');
+      return;
+    }
+    try {
+      const blob = await new Promise(r => canvas.toBlob(r, 'image/png'));
+      const file = new File([blob], 'tsukiyoga.png', { type: 'image/png' });
+      if (!navigator.canShare({ files: [file] })) {
+        alert('お 使 い の ブ ラ ウ ザ で は シ ェ ア で き な い の で 、 画 像 を 保 存 し て く だ さ い 。');
+        return;
+      }
+      await navigator.share({
+        files: [file],
+        title: 'ツキヨガ 月占い',
+        text: 'あなたの月相タイプは？'
+      });
+    } catch (e) {
+      if (e.name !== 'AbortError') console.error(e);
+    }
+  }
+
+  function refreshShareCard() {
+    if (currentShareCard === 'group' && uranaiPeople.length >= 2) {
+      drawShareCardGroup();
+    } else if (uranaiPeople.length >= 1) {
+      currentShareCard = 'self';
+      // タブ表示同期
+      document.querySelectorAll('.uranai-share-tab').forEach(t => {
+        t.classList.toggle('is-active', t.dataset.card === 'self');
+      });
+      drawShareCardSelf(uranaiPeople[0]);
+    }
+    // 仲間タブの有効/無効
+    const groupTab = document.querySelector('.uranai-share-tab[data-card="group"]');
+    if (groupTab) groupTab.disabled = uranaiPeople.length < 2;
+  }
+
+  function initUranaiShare() {
+    const dlBtn = document.getElementById('uranaiShareDownload');
+    const shareBtn = document.getElementById('uranaiShareNative');
+    if (!dlBtn) return;
+    dlBtn.addEventListener('click', downloadShareCard);
+    shareBtn.addEventListener('click', shareNativeCard);
+    document.querySelectorAll('.uranai-share-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        if (tab.disabled) return;
+        currentShareCard = tab.dataset.card;
+        document.querySelectorAll('.uranai-share-tab').forEach(t => t.classList.remove('is-active'));
+        tab.classList.add('is-active');
+        refreshShareCard();
+      });
+    });
+  }
+  document.addEventListener('DOMContentLoaded', initUranaiShare);
 
   (function initUranai() {
     const dateEl = document.getElementById('uranaiBirthDate');
