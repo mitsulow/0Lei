@@ -6437,7 +6437,20 @@ const COASTLINES = [
 
   // ★v6: メモモーダルを閉じる共通関数
   function closeMemoModal() {
-    document.getElementById('memoModal').classList.remove('active');
+    const modal = document.getElementById('memoModal');
+    // ★v7: スワイプで月をまたいでいたら、閉じる時に裏のカレンダーも追従
+    const dateStr = modal.dataset.date;
+    if (dateStr) {
+      const [yy, mm] = dateStr.split('-');
+      const newYear = parseInt(yy);
+      const newMonth = parseInt(mm) - 1;
+      if (newYear !== calYear || newMonth !== calMonth) {
+        calYear = newYear;
+        calMonth = newMonth;
+        renderCal(calYear, calMonth);
+      }
+    }
+    modal.classList.remove('active');
     document.body.classList.remove('modal-open');
     hideFullscreenIntro('memoIntro');
   }
@@ -6568,6 +6581,73 @@ const COASTLINES = [
     document.body.classList.add('modal-open');
     modal.dataset.date = dateStr;
   }
+
+  // ★v7: 手帳モーダルの日付スワイプ（右→前日、左→翌日）
+  function shiftMemoDate(dateStr, days) {
+    const d = new Date(dateStr + 'T12:00:00');
+    d.setDate(d.getDate() + days);
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+  }
+  (function setupMemoSwipe() {
+    const content = document.querySelector('#memoModal .memo-modal-content');
+    if (!content) return;
+    let startX = 0, startY = 0, startT = 0, tracking = false, animating = false;
+    const THRESHOLD_DX = 60;   // 横方向の最小スワイプ距離(px)
+    const MAX_DURATION = 700;  // これより長いタッチは無視(ms)
+    content.addEventListener('touchstart', (e) => {
+      // textarea上のタッチは無視（テキスト編集・選択を優先）
+      if (e.target.closest('textarea')) { tracking = false; return; }
+      if (animating) { tracking = false; return; }
+      if (e.touches.length !== 1) { tracking = false; return; }
+      const t = e.touches[0];
+      startX = t.clientX;
+      startY = t.clientY;
+      startT = Date.now();
+      tracking = true;
+    }, { passive: true });
+    content.addEventListener('touchend', (e) => {
+      if (!tracking) return;
+      tracking = false;
+      const t = e.changedTouches[0];
+      const dx = t.clientX - startX;
+      const dy = t.clientY - startY;
+      const dt = Date.now() - startT;
+      if (dt > MAX_DURATION) return;
+      if (Math.abs(dx) < THRESHOLD_DX) return;
+      if (Math.abs(dy) > Math.abs(dx) * 0.7) return; // 縦寄り→無視
+      const modal = document.getElementById('memoModal');
+      const currentDate = modal.dataset.date;
+      if (!currentDate) return;
+      const step = (dx < 0) ? 1 : -1; // 左スワイプ→翌日、右スワイプ→前日
+      const newDate = shiftMemoDate(currentDate, step);
+      // 軽くフェード＋横スライドで切替感
+      animating = true;
+      const slidePx = step > 0 ? -24 : 24;
+      content.style.transition = 'opacity 0.14s ease, transform 0.14s ease';
+      content.style.opacity = '0.25';
+      content.style.transform = `translateX(${slidePx}px)`;
+      setTimeout(() => {
+        openMemoModalInner(newDate);
+        content.style.transition = 'none';
+        content.style.transform = `translateX(${-slidePx}px)`;
+        content.style.opacity = '0.25';
+        // 反対側からスライドイン
+        requestAnimationFrame(() => {
+          content.style.transition = 'opacity 0.18s ease, transform 0.18s ease';
+          content.style.transform = 'translateX(0)';
+          content.style.opacity = '1';
+          setTimeout(() => {
+            content.style.transition = '';
+            content.style.transform = '';
+            animating = false;
+          }, 220);
+        });
+      }, 150);
+    }, { passive: true });
+  })();
 
   document.getElementById('memoSave').addEventListener('click', () => {
     const modal = document.getElementById('memoModal');
