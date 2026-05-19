@@ -2335,6 +2335,257 @@
     letter-spacing: 0.05em;
   }
 
+  /* ★v7 月占い - 相性占い (5人) */
+  .uranai-compat-section {
+    margin-top: 28px;
+    padding-top: 22px;
+    border-top: 1px dashed rgba(201, 169, 97, 0.35);
+  }
+  .uranai-section-head {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.1rem;
+    color: var(--moon-white);
+    letter-spacing: 0.3em;
+    text-align: center;
+    margin-bottom: 6px;
+  }
+  .uranai-section-sub {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.72rem;
+    color: rgba(201, 169, 97, 0.75);
+    letter-spacing: 0.12em;
+    text-align: center;
+    line-height: 1.7;
+    margin-bottom: 18px;
+  }
+
+  /* 人物カード一覧 */
+  .uranai-people-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .uranai-person-card {
+    position: relative;
+    background: linear-gradient(180deg, rgba(20, 30, 55, 0.7), rgba(10, 18, 40, 0.7));
+    border: 1px solid rgba(201, 169, 97, 0.35);
+    border-radius: 12px;
+    padding: 10px 6px 8px;
+    text-align: center;
+  }
+  .uranai-person-card.is-self {
+    border-color: rgba(245, 196, 74, 0.6);
+    background: linear-gradient(180deg, rgba(60, 50, 30, 0.5), rgba(10, 18, 40, 0.7));
+  }
+  .uranai-person-img {
+    width: 50px; height: 50px; object-fit: contain;
+    margin: 0 auto 4px;
+    display: block;
+  }
+  .uranai-person-name {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.78rem;
+    color: var(--moon-white);
+    letter-spacing: 0.1em;
+    margin-bottom: 2px;
+    line-height: 1.3;
+  }
+  .uranai-person-type {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.68rem;
+    color: rgba(201, 169, 97, 0.95);
+    letter-spacing: 0.12em;
+    line-height: 1.3;
+    margin-bottom: 2px;
+  }
+  .uranai-person-lucky {
+    font-family: 'Cinzel', serif;
+    font-size: 0.62rem;
+    color: rgba(110, 196, 245, 0.85);
+    letter-spacing: 0.05em;
+  }
+  .uranai-person-remove {
+    position: absolute;
+    top: 4px; right: 4px;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    border: 1px solid rgba(201, 169, 97, 0.5);
+    background: rgba(3, 8, 24, 0.8);
+    color: rgba(201, 169, 97, 0.85);
+    font-size: 0.7rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  /* 追加ボタン */
+  .uranai-add-toggle {
+    width: 100%;
+    padding: 11px;
+    background: rgba(10, 20, 40, 0.55);
+    border: 1px dashed rgba(201, 169, 97, 0.55);
+    border-radius: 10px;
+    color: rgba(201, 169, 97, 0.95);
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.18em;
+    cursor: pointer;
+    margin-bottom: 16px;
+  }
+  .uranai-add-toggle:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  /* 追加フォーム */
+  .uranai-add-form {
+    padding: 16px;
+    background: rgba(3, 8, 24, 0.5);
+    border: 1px solid rgba(110, 196, 245, 0.3);
+    border-radius: 12px;
+    margin-bottom: 16px;
+  }
+  .uranai-add-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .uranai-add-cancel, .uranai-add-confirm {
+    flex: 1;
+    padding: 11px;
+    border-radius: 10px;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.92rem;
+    letter-spacing: 0.25em;
+    cursor: pointer;
+  }
+  .uranai-add-cancel {
+    background: transparent;
+    border: 1px solid rgba(138, 160, 184, 0.4);
+    color: rgba(138, 160, 184, 0.85);
+  }
+  .uranai-add-confirm {
+    background: linear-gradient(180deg, rgba(201, 169, 97, 0.3), rgba(201, 169, 97, 0.12));
+    border: 1px solid rgba(201, 169, 97, 0.7);
+    color: var(--moon-white);
+  }
+
+  /* 相性カード */
+  .uranai-compat-card {
+    margin-bottom: 12px;
+    padding: 12px 14px;
+    background: linear-gradient(180deg, rgba(20, 30, 55, 0.65), rgba(10, 18, 40, 0.65));
+    border: 1px solid rgba(201, 169, 97, 0.3);
+    border-radius: 12px;
+  }
+  .uranai-compat-card.is-opposition {
+    border-color: rgba(245, 80, 100, 0.7);
+    box-shadow: 0 0 14px rgba(245, 80, 100, 0.2);
+  }
+  .uranai-compat-card.is-trine {
+    border-color: rgba(110, 230, 180, 0.7);
+    box-shadow: 0 0 14px rgba(110, 230, 180, 0.2);
+  }
+  .uranai-compat-card.is-sextile {
+    border-color: rgba(110, 196, 245, 0.6);
+  }
+  .uranai-compat-card.is-square {
+    border-color: rgba(245, 196, 74, 0.6);
+  }
+  .uranai-compat-card.is-friction,
+  .uranai-compat-card.is-sesqui {
+    border-color: rgba(201, 169, 97, 0.3);
+  }
+  .uranai-compat-pair {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.85rem;
+    color: var(--moon-white);
+    letter-spacing: 0.1em;
+    text-align: center;
+    margin-bottom: 4px;
+    line-height: 1.5;
+  }
+  .uranai-compat-pair strong {
+    color: var(--moon-white);
+    font-weight: normal;
+  }
+  .uranai-compat-pair small {
+    color: rgba(201, 169, 97, 0.85);
+    font-size: 0.78rem;
+    margin: 0 4px;
+  }
+  .uranai-compat-vs {
+    color: rgba(201, 169, 97, 0.7);
+    margin: 0 6px;
+  }
+  .uranai-compat-angle {
+    text-align: center;
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    color: rgba(110, 196, 245, 0.75);
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+  }
+  .uranai-compat-name {
+    text-align: center;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1rem;
+    color: var(--moon-white);
+    letter-spacing: 0.2em;
+    margin-bottom: 6px;
+  }
+  .uranai-compat-desc {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.82);
+    letter-spacing: 0.06em;
+    line-height: 1.7;
+    text-align: center;
+  }
+
+  /* グループ分析 */
+  .uranai-group-card {
+    padding: 14px 16px;
+    background: linear-gradient(180deg, rgba(30, 40, 70, 0.6), rgba(10, 18, 40, 0.6));
+    border: 1px solid rgba(245, 196, 74, 0.4);
+    border-radius: 12px;
+    margin-top: 14px;
+  }
+  .uranai-group-row {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.92);
+    letter-spacing: 0.1em;
+    line-height: 1.9;
+    text-align: center;
+  }
+  .uranai-group-row strong {
+    color: rgba(245, 196, 74, 0.95);
+    font-weight: normal;
+    margin-right: 4px;
+  }
+  .uranai-group-row .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    margin: 0 3px;
+    border-radius: 8px;
+    background: rgba(3, 8, 24, 0.5);
+    border: 1px solid rgba(201, 169, 97, 0.3);
+    font-size: 0.78rem;
+  }
+  .uranai-group-completeness {
+    text-align: center;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.78rem;
+    color: rgba(245, 196, 74, 0.95);
+    letter-spacing: 0.12em;
+    line-height: 1.75;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(245, 196, 74, 0.25);
+  }
+
   #navCanvas {
     position: absolute;
     inset: 0;
@@ -4275,6 +4526,54 @@
       <!-- 性格描写 -->
       <div class="uranai-desc" id="uranaiDesc"></div>
 
+      <!-- 相性占い (5人まで) -->
+      <div class="uranai-compat-section">
+        <div class="uranai-section-head">大 切 な 人 と の 相 性</div>
+        <div class="uranai-section-sub">
+          5 人 ま で 一 度 に 占 え ま す<br>
+          家 族・恋 人・親 友 を 入 れ て み て ね
+        </div>
+
+        <div class="uranai-people-list" id="uranaiPeopleList">
+          <!-- 動的生成 -->
+        </div>
+
+        <button class="uranai-add-toggle" id="uranaiAddToggle" type="button">
+          ＋ 人 を 追 加（あ と <span id="uranaiAddRemaining">4</span> 人）
+        </button>
+
+        <!-- 追加フォーム (折りたたみ) -->
+        <div class="uranai-add-form" id="uranaiAddForm" style="display:none">
+          <div class="uranai-field">
+            <label class="uranai-label">名 前 / 関 係</label>
+            <input type="text" id="uranaiPersonName" class="uranai-input" placeholder="例: 妻 / 父 / 子 / ○○">
+          </div>
+          <div class="uranai-field">
+            <label class="uranai-label">生 ま れ た 日</label>
+            <input type="date" id="uranaiPersonDate" class="uranai-input">
+          </div>
+          <div class="uranai-field">
+            <label class="uranai-label">生 ま れ た 時 刻</label>
+            <input type="time" id="uranaiPersonTime" class="uranai-input" value="15:00">
+            <label class="uranai-check">
+              <input type="checkbox" id="uranaiPersonTimeUnknown">
+              <span>分 か ら な い（15 時 で 計 算）</span>
+            </label>
+          </div>
+          <div class="uranai-field">
+            <label class="uranai-label">生 ま れ た 場 所</label>
+            <select id="uranaiPersonCity" class="uranai-input"></select>
+          </div>
+          <div class="uranai-add-buttons">
+            <button class="uranai-add-cancel" id="uranaiAddCancel" type="button">キ ャ ン セ ル</button>
+            <button class="uranai-add-confirm" id="uranaiAddConfirm" type="button">追 加</button>
+          </div>
+        </div>
+
+        <!-- 相性結果 -->
+        <div class="uranai-compat-results" id="uranaiCompatResults"></div>
+      </div>
+
       <div class="uranai-result-note">
         ＊ 月 が 人 生 を 決 め る わ け で は あ り ま せ ん 。<br>
         あ な た 自 身 を 見 つ め る 「窓」と し て お 使 い く だ さ い 。
@@ -5643,6 +5942,213 @@ const COASTLINES = [
     'さざんか':   '西 の 空 に 太 陽 と 月 が 寄 る 冬 キ ャ ラ 。 集 中 ・ 突 破 ・ 内 な る 強 さ を 持 つ 。'
   };
 
+  // ============ 相性 ============
+  // 番号差 (mod 12, 0〜6) → アスペクト
+  function aspectBetween(aIdx, bIdx) {
+    let diff = Math.abs(aIdx - bIdx) % 12;
+    if (diff > 6) diff = 12 - diff;
+    const map = {
+      0: { name:'同 タ イ プ',         kind:'identical',  desc:'同 じ 月 を 仰 ぐ 鏡 像 。 深 い 共 感 と 同 質 性 。' },
+      1: { name:'隣 接',               kind:'friction',   desc:'近 す ぎ て 擦 れ 合 う 関 係 。 摩 擦 と 学 び 。' },
+      2: { name:'セ ク ス タ イ ル',     kind:'sextile',    desc:'軽 や か な 協 力 関 係 。 自 然 に 助 け 合 え る 縁 。' },
+      3: { name:'ス ク エ ア',         kind:'square',     desc:'価 値 観 が ぶ つ か る 葛 藤 。 成 長 の 火 種 。' },
+      4: { name:'ト ラ イ ン',         kind:'trine',      desc:'運 命 の 三 位 一 体 ☆ 補 い 合 う 三 人 組 。' },
+      5: { name:'セ ス キ ス ク エ ア', kind:'sesqui',     desc:'微 妙 に す れ 違 う 異 質 さ 。 学 び の 多 い 縁 。' },
+      6: { name:'鏡 対 極',           kind:'opposition', desc:'真 逆 だ が 惹 か れ あ う 運 命 の 片 割 れ ★' }
+    };
+    return Object.assign({ diff, angle: diff * 30 }, map[diff]);
+  }
+
+  // 個別人物計算 (出生情報 → 12タイプ＋バランス)
+  function computePerson(name, birthDate, birthTime, cityName) {
+    const birth = new Date(`${birthDate}T${birthTime}:00+09:00`);
+    if (isNaN(birth.getTime())) return null;
+    const cityData = JAPAN_CITIES[cityName] || JAPAN_CITIES['東京'];
+    const [lon, lat] = cityData;
+    const offsetMin = localSolarOffsetMin(lon);
+    const moonAge = getMoonAge(birth);
+    const phaseIdx = getPhase12FromAge(moonAge);
+    const phase = PHASES_12[phaseIdx];
+    const lunar = getLunarDate(birth);
+    const lunarDay = Math.min(Math.max(1, lunar.day), 30);
+    const moonName = getMoonNameForLunarDay(lunarDay);
+    const imgIdx = getMoonImgIdxFromAge(moonAge);
+    const D = (moonAge / SYNODIC_MONTH_CONST) * 360.0;
+    const [tMorning, tEvening] = matsuridokiTimes(D);
+    const [hh, mm] = birthTime.split(':').map(Number);
+    const jstH = hh + mm / 60;
+    const localH = ((jstH + offsetMin / 60) % 24 + 24) % 24;
+    const dMor = signedCircDiff(localH, tMorning);
+    const dEve = signedCircDiff(localH, tEvening);
+    const dev = Math.abs(dMor) <= Math.abs(dEve) ? dMor : dEve;
+    const balance = getBalanceType(dev);
+    return {
+      name, birthDate, birthTime, cityName,
+      phaseIdx, phase, moonName, imgIdx,
+      balance, dev
+    };
+  }
+
+  // ============ 人物リスト管理 (相性占い) ============
+  let uranaiPeople = [];
+
+  function renderPeople() {
+    const listEl = document.getElementById('uranaiPeopleList');
+    if (!listEl) return;
+    listEl.innerHTML = uranaiPeople.map((p, i) => `
+      <div class="uranai-person-card${i === 0 ? ' is-self' : ''}">
+        ${i > 0 ? `<button class="uranai-person-remove" data-idx="${i}" type="button">×</button>` : ''}
+        <img class="uranai-person-img" src="./moon_icons/moon_${String(p.imgIdx).padStart(2,'0')}.png" alt="">
+        <div class="uranai-person-name">${(p.name || (i === 0 ? 'あなた' : '名前なし')).split('').join(' ')}</div>
+        <div class="uranai-person-type">${p.phase.ja.split('').join(' ')}</div>
+        <div class="uranai-person-lucky">L. ${p.phaseIdx}</div>
+      </div>
+    `).join('');
+    listEl.querySelectorAll('.uranai-person-remove').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.idx);
+        uranaiPeople.splice(idx, 1);
+        renderPeople();
+        renderCompatibility();
+        updateAddRemaining();
+      });
+    });
+  }
+
+  function updateAddRemaining() {
+    const remain = 5 - uranaiPeople.length;
+    const remEl = document.getElementById('uranaiAddRemaining');
+    const tglEl = document.getElementById('uranaiAddToggle');
+    if (remEl) remEl.textContent = String(Math.max(0, remain));
+    if (tglEl) tglEl.disabled = (remain <= 0);
+  }
+
+  function renderCompatibility() {
+    const out = document.getElementById('uranaiCompatResults');
+    if (!out) return;
+    if (uranaiPeople.length < 2) { out.innerHTML = ''; return; }
+    let html = '<div class="uranai-section-head" style="margin-top:20px;font-size:0.95rem;letter-spacing:0.25em">ペ ア 相 性</div>';
+    for (let i = 0; i < uranaiPeople.length; i++) {
+      for (let j = i + 1; j < uranaiPeople.length; j++) {
+        const a = uranaiPeople[i], b = uranaiPeople[j];
+        const aspect = aspectBetween(a.phaseIdx, b.phaseIdx);
+        html += `
+          <div class="uranai-compat-card is-${aspect.kind}">
+            <div class="uranai-compat-pair">
+              <strong>${a.name}</strong> <small>(${a.phase.ja})</small>
+              <span class="uranai-compat-vs">×</span>
+              <strong>${b.name}</strong> <small>(${b.phase.ja})</small>
+            </div>
+            <div class="uranai-compat-angle">${aspect.angle}°</div>
+            <div class="uranai-compat-name">${aspect.name}</div>
+            <div class="uranai-compat-desc">${aspect.desc}</div>
+          </div>
+        `;
+      }
+    }
+    // グループ分析 (3人以上)
+    if (uranaiPeople.length >= 3) {
+      const colors = ['黒', '赤', '白', '青'];
+      const animals = ['うさぎ', 'かめ', 'わに'];
+      const stages = ['離', '守', '破'];
+      const colorCount = colors.map(c => ({c, n: uranaiPeople.filter(p => p.phase.color === c).length}));
+      const animalCount = animals.map(a => ({a, n: uranaiPeople.filter(p => p.phase.animal === a).length}));
+      const stageCount = stages.map(s => ({s, n: uranaiPeople.filter(p => p.phase.stage === s).length}));
+      const seitenIds = [0, 3, 6, 9];
+      const seitenHeld = seitenIds.filter(id => uranaiPeople.some(p => p.phaseIdx === id));
+      const colorsPresent = colorCount.filter(x => x.n > 0).length;
+      const animalsPresent = animalCount.filter(x => x.n > 0).length;
+      const stagesPresent = stageCount.filter(x => x.n > 0).length;
+
+      html += '<div class="uranai-section-head" style="margin-top:20px;font-size:0.95rem;letter-spacing:0.25em">グ ル ー プ 全 体</div>';
+      html += '<div class="uranai-group-card">';
+      html += '<div class="uranai-group-row"><strong>色</strong>'
+        + colorCount.map(x => `<span class="badge">${x.c} ${x.n}</span>`).join('') + '</div>';
+      html += '<div class="uranai-group-row"><strong>動物</strong>'
+        + animalCount.map(x => `<span class="badge">${x.a} ${x.n}</span>`).join('') + '</div>';
+      html += '<div class="uranai-group-row"><strong>段階</strong>'
+        + stageCount.map(x => `<span class="badge">${x.s} ${x.n}</span>`).join('') + '</div>';
+      html += `<div class="uranai-group-completeness">聖 位 0/3/6/9 保 持: ${seitenHeld.length} / 4`;
+      if (seitenHeld.length === 4) html += '<br>✨ 0/3/6/9 コ ン プ リ ー ト ! ✨';
+      if (colorsPresent === 4)     html += '<br>✨ 4 色 コ ン プ リ ー ト ! ✨';
+      if (animalsPresent === 3)    html += '<br>✨ 3 動 物 全 員 集 合 ! ✨';
+      if (stagesPresent === 3)     html += '<br>✨ 離・守・破 三 位 一 体 完 成 ! ✨';
+      html += '</div></div>';
+    }
+    out.innerHTML = html;
+  }
+
+  // 追加フォームの初期化
+  function initUranaiAddForm() {
+    const addToggleEl = document.getElementById('uranaiAddToggle');
+    const addFormEl = document.getElementById('uranaiAddForm');
+    const cancelEl = document.getElementById('uranaiAddCancel');
+    const confirmEl = document.getElementById('uranaiAddConfirm');
+    const personCityEl = document.getElementById('uranaiPersonCity');
+    const personTimeEl = document.getElementById('uranaiPersonTime');
+    const personTimeUnknownEl = document.getElementById('uranaiPersonTimeUnknown');
+    if (!addToggleEl || !personCityEl) return;
+
+    // 都市 select
+    const cityNames = Object.keys(JAPAN_CITIES);
+    personCityEl.innerHTML = cityNames.map(name =>
+      `<option value="${name}"${name === '東京' ? ' selected' : ''}>${name}</option>`
+    ).join('');
+
+    // 時刻不明
+    personTimeUnknownEl.addEventListener('change', () => {
+      if (personTimeUnknownEl.checked) {
+        personTimeEl.value = '15:00';
+        personTimeEl.disabled = true;
+      } else {
+        personTimeEl.disabled = false;
+      }
+    });
+
+    // フォーム開閉
+    addToggleEl.addEventListener('click', () => {
+      if (uranaiPeople.length >= 5) return;
+      addFormEl.style.display = 'block';
+      addToggleEl.style.display = 'none';
+    });
+    cancelEl.addEventListener('click', () => {
+      addFormEl.style.display = 'none';
+      addToggleEl.style.display = '';
+    });
+    confirmEl.addEventListener('click', () => {
+      const name = document.getElementById('uranaiPersonName').value.trim() || '名前なし';
+      const date = document.getElementById('uranaiPersonDate').value;
+      let time = document.getElementById('uranaiPersonTime').value;
+      if (!time || personTimeUnknownEl.checked) time = '15:00';
+      const city = personCityEl.value || '東京';
+      if (!date) {
+        alert('生 ま れ た 日 を 入 力 し て く だ さ い');
+        return;
+      }
+      const person = computePerson(name, date, time, city);
+      if (!person) {
+        alert('日 付 / 時 刻 の 形 式 が 正 し く あ り ま せ ん');
+        return;
+      }
+      uranaiPeople.push(person);
+      addFormEl.style.display = 'none';
+      addToggleEl.style.display = '';
+      document.getElementById('uranaiPersonName').value = '';
+      document.getElementById('uranaiPersonDate').value = '';
+      document.getElementById('uranaiPersonTime').value = '15:00';
+      document.getElementById('uranaiPersonTimeUnknown').checked = false;
+      document.getElementById('uranaiPersonTime').disabled = false;
+      personCityEl.value = '東京';
+      renderPeople();
+      renderCompatibility();
+      updateAddRemaining();
+    });
+
+    updateAddRemaining();
+  }
+
+  document.addEventListener('DOMContentLoaded', initUranaiAddForm);
+
   (function initUranai() {
     const dateEl = document.getElementById('uranaiBirthDate');
     const timeEl = document.getElementById('uranaiBirthTime');
@@ -5842,6 +6348,15 @@ const COASTLINES = [
       // 性格描写
       document.getElementById('uranaiDesc').textContent =
         PHASE_DESCRIPTIONS[phaseIdx] || '';
+
+      // 自分を相性占いの1人目として登録 (占うたびにリセット)
+      const selfPerson = computePerson('あなた', dateStr, timeStr, cityName);
+      if (selfPerson) {
+        uranaiPeople = [selfPerson];
+        renderPeople();
+        renderCompatibility();
+        updateAddRemaining();
+      }
 
       resultEl.classList.add('visible');
       setTimeout(() => {
