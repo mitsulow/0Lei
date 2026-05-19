@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<title>月画像 30枚 月齢順チェック</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(110, 196, 245, 0.08), transparent 60%),
+      radial-gradient(ellipse at 70% 80%, rgba(201, 169, 97, 0.06), transparent 60%),
+      linear-gradient(180deg, #050a1c 0%, #02050f 100%);
+    color: #fff;
+    font-family: 'Shippori Mincho', 'Yu Mincho', serif;
+    padding: 20px 12px 40px;
+    min-height: 100vh;
+  }
+  h1 {
+    text-align: center;
+    color: rgba(245, 235, 216, 0.95);
+    letter-spacing: 0.3em;
+    font-size: 1.4rem;
+    margin: 8px 0 6px;
+  }
+  .sub {
+    text-align: center;
+    color: rgba(201, 169, 97, 0.85);
+    letter-spacing: 0.18em;
+    font-size: 0.78rem;
+    margin-bottom: 6px;
+    line-height: 1.8;
+  }
+  .legend {
+    text-align: center;
+    color: rgba(110, 196, 245, 0.75);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    margin-bottom: 24px;
+    line-height: 1.8;
+  }
+  .legend .star {
+    display: inline-block;
+    width: 12px; height: 12px;
+    border: 1.5px solid rgba(245, 196, 74, 0.8);
+    background: rgba(60, 50, 30, 0.5);
+    border-radius: 3px;
+    margin-right: 4px;
+    vertical-align: middle;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 14px;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+  .cell {
+    background: rgba(20, 30, 55, 0.45);
+    border: 1px solid rgba(201, 169, 97, 0.28);
+    border-radius: 12px;
+    padding: 12px 8px 10px;
+    text-align: center;
+    backdrop-filter: blur(4px);
+  }
+  .cell.seiten {
+    background: linear-gradient(180deg, rgba(60, 50, 30, 0.55), rgba(20, 30, 55, 0.55));
+    border-color: rgba(245, 196, 74, 0.7);
+    box-shadow: 0 0 16px rgba(245, 196, 74, 0.18);
+  }
+  .cell .img-wrap {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+  .cell img {
+    width: 100%;
+    height: auto;
+    max-height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 0 8px rgba(245, 235, 216, 0.25));
+  }
+  .cell .num {
+    font-family: 'Cinzel', serif;
+    font-size: 1.05rem;
+    color: rgba(255, 255, 255, 0.95);
+    margin-bottom: 2px;
+    letter-spacing: 0.05em;
+  }
+  .cell .age {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    color: rgba(110, 196, 245, 0.85);
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+  .cell .name {
+    font-size: 0.74rem;
+    color: rgba(201, 169, 97, 0.95);
+    letter-spacing: 0.1em;
+    line-height: 1.4;
+  }
+  .cell.seiten .name {
+    color: rgba(245, 196, 74, 1);
+    font-weight: 600;
+  }
+  .back-link {
+    display: block;
+    text-align: center;
+    margin: 30px auto 10px;
+    color: rgba(201, 169, 97, 0.8);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.18em;
+  }
+</style>
+</head>
+<body>
+  <h1>月 画 像 一 覧</h1>
+  <div class="sub">30 枚 月 齢 順 (新 月 → 満 月 → 新 月)</div>
+  <div class="legend">
+    <span class="star"></span> = 4 聖 位（新 月・上 弦・満 月・下 弦）
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <a class="back-link" href="./tsukiyoga_v7.html">← ツキヨガ v7 に戻る</a>
+
+<script>
+  const moons = [
+    { n:'01', age:0,  name:'新 月',     kanji:'ツキタチ',     seiten:true },
+    { n:'02', age:1,  name:'フ ツ カ ヅ キ',  kanji:'二日月' },
+    { n:'03', age:2,  name:'ミ カ ヅ キ',     kanji:'三日月' },
+    { n:'04', age:3,  name:'マ ユ ヅ キ',     kanji:'眉月' },
+    { n:'05', age:4,  name:'ユ ウ ヅ キ',     kanji:'夕月' },
+    { n:'06', age:5,  name:'ム イ カ ヅ キ',  kanji:'六日月' },
+    { n:'07', age:6,  name:'ヨ イ ヅ キ',     kanji:'宵月' },
+    { n:'08', age:7,  name:'上 弦',     kanji:'カタミニ',     seiten:true },
+    { n:'09', age:8,  name:'ヤ ウ カ ヅ キ',  kanji:'八日月' },
+    { n:'10', age:9,  name:'コ コ ノ カ ヅ キ', kanji:'九日月' },
+    { n:'11', age:10, name:'ト オ カ ン ヤ',  kanji:'十日夜' },
+    { n:'12', age:11, name:'ジ ュ ウ イ チ ヤ', kanji:'十一夜' },
+    { n:'13', age:12, name:'ジ ュ ウ ニ ヤ',  kanji:'十二夜' },
+    { n:'14', age:13, name:'ア タ ラ ヨ',    kanji:'可惜夜' },
+    { n:'15', age:14, name:'マ チ ヨ イ',    kanji:'待宵' },
+    { n:'16', age:15, name:'満 月',     kanji:'クマナシ',     seiten:true },
+    { n:'17', age:16, name:'イ ザ ヨ イ',    kanji:'十六夜' },
+    { n:'18', age:17, name:'タ チ マ チ',    kanji:'立待月' },
+    { n:'19', age:18, name:'イ マ チ',      kanji:'居待月' },
+    { n:'20', age:19, name:'ネ マ チ',      kanji:'寝待月' },
+    { n:'21', age:20, name:'フ ケ マ チ',    kanji:'更待月' },
+    { n:'22', age:21, name:'ニ ジ ュ ウ イ チ ヤ', kanji:'二十一夜' },
+    { n:'23', age:22, name:'下 弦',     kanji:'アリアケ',     seiten:true },
+    { n:'24', age:23, name:'ニ ジ ュ ウ ヨ ヤ', kanji:'二十四夜' },
+    { n:'25', age:24, name:'ホ シ ア ヒ',    kanji:'星合' },
+    { n:'26', age:25, name:'ナ ゴ リ ヅ キ',  kanji:'名残月' },
+    { n:'27', age:26, name:'ア カ ツ キ',    kanji:'暁' },
+    { n:'28', age:27, name:'ア ケ ボ ノ',    kanji:'曙' },
+    { n:'29', age:28, name:'ツ ゴ モ リ',    kanji:'晦・月籠' },
+    { n:'30', age:29, name:'ミ ソ カ',      kanji:'晦日' }
+  ];
+  const grid = document.getElementById('grid');
+  grid.innerHTML = moons.map(m => `
+    <div class="cell${m.seiten ? ' seiten' : ''}">
+      <div class="img-wrap">
+        <img src="./moon_icons_photo/moon_${m.n}.png" alt="月齢${m.age}">
+      </div>
+      <div class="num">moon_${m.n}</div>
+      <div class="age">月齢 ${m.age}</div>
+      <div class="name">${m.seiten ? '★ ' : ''}${m.name}</div>
+      <div class="name" style="font-size:0.65rem;opacity:0.6;margin-top:2px">${m.kanji}</div>
+    </div>
+  `).join('');
+</script>
+</body>
+</html>
