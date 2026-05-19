@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-05-19T13:29:40.082496+00:00",
+  "timestamp": "2026-05-19T16:38:03.696220+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -7,33 +7,33 @@
   "modes": {
     "F1": {
       "hz": 7.85,
-      "confidence": 88
+      "confidence": 85
     },
     "F2": {
-      "hz": 14.4,
-      "confidence": 82
+      "hz": 14.3,
+      "confidence": 80
     },
     "F3": {
       "hz": 20.2,
       "confidence": 80
     },
     "F4": {
-      "hz": 25.4,
+      "hz": 25.8,
       "confidence": 75
     },
     "F5": {
-      "hz": null,
-      "confidence": 0
+      "hz": 33.0,
+      "confidence": 30
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端ではF1が約7.85Hz付近で安定。F2は14.4Hz付近でやや高め、F3は20.2Hz付近、F4は25.4Hz付近で低下傾向。F5は本グラフに表示なし。スペクトログラムでは8Hz・14Hz帯が明瞭、18日早朝に強いノイズイベントあり。",
+  "notes": "右端ではF1が約7.85Hz付近で安定。F2はやや上昇傾向で14.3Hz付近。F3は20.2Hz付近、F4は25.8Hz付近で推移。F5の線は確認困難。スペクトログラムでも8Hz・14Hz帯のバンドが明瞭で、全体的に中程度の活動度。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 22.48,
-    "tomsk_hour": 19.08,
+    "japan_hour": 1.63,
+    "tomsk_hour": 22.23,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
