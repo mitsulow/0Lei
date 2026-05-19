@@ -6525,7 +6525,7 @@ const COASTLINES = [
     });
     Promise.all([
       loadImg(`./character_icons/char_${String(person.phaseIdx).padStart(2,'0')}.png`),
-      loadImg(`./moon_icons/moon_${String(person.imgIdx).padStart(2,'0')}.png`)
+      loadImg(`./moon_icons_photo/moon_${String(person.imgIdx).padStart(2,'0')}.png`)
     ]).then(([charImg, moonImg]) => {
       // キャラ画像 (中央大・円形クリップ)
       const size = 440, cx = W/2, cy = 365;
@@ -6955,7 +6955,7 @@ const COASTLINES = [
       // 月画像
       const imgIdx = getMoonImgIdxFromAge(moonAge);
       const moonImg = document.getElementById('uranaiMoonImg');
-      moonImg.src = `./moon_icons/moon_${String(imgIdx).padStart(2, '0')}.png`;
+      moonImg.src = `./moon_icons_photo/moon_${String(imgIdx).padStart(2, '0')}.png`;
       moonImg.alt = phase.ja;
 
       // キャラ画像 (12タイプ別)
