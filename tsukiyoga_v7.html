@@ -2089,6 +2089,194 @@
     padding: 0 4px;
   }
 
+  /* ★v7 月占い - オプショナル入力 */
+  .uranai-optional {
+    margin: 14px 0 16px;
+    padding: 14px 14px 6px;
+    border-top: 1px dashed rgba(201, 169, 97, 0.25);
+  }
+  .uranai-optional-head {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.72rem;
+    color: rgba(201, 169, 97, 0.78);
+    letter-spacing: 0.1em;
+    margin-bottom: 14px;
+    text-align: center;
+    line-height: 1.65;
+  }
+
+  /* ★v7 月占い - カード共通 */
+  .uranai-card {
+    margin: 0 -2px 16px;
+    padding: 16px 16px 14px;
+    background: linear-gradient(180deg, rgba(20, 30, 55, 0.6), rgba(10, 18, 40, 0.6));
+    border: 1px solid rgba(201, 169, 97, 0.3);
+    border-radius: 14px;
+  }
+  .uranai-card-head {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.74rem;
+    color: rgba(201, 169, 97, 0.95);
+    letter-spacing: 0.25em;
+    margin-bottom: 14px;
+    text-align: center;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(201, 169, 97, 0.2);
+  }
+
+  /* 場所・時刻カード */
+  .uranai-place-city {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.2rem;
+    color: var(--moon-white);
+    letter-spacing: 0.25em;
+    text-align: center;
+    margin-bottom: 4px;
+  }
+  .uranai-place-coords {
+    font-family: 'Cinzel', serif;
+    font-size: 0.68rem;
+    color: rgba(110, 196, 245, 0.7);
+    text-align: center;
+    letter-spacing: 0.1em;
+    margin-bottom: 14px;
+  }
+  .uranai-place-times { text-align: center; }
+  .uranai-place-time {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 8px 14px;
+    background: rgba(3, 8, 24, 0.5);
+    border-radius: 8px;
+    margin-bottom: 4px;
+  }
+  .uranai-place-time span {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.72rem;
+    color: rgba(201, 169, 97, 0.85);
+    letter-spacing: 0.15em;
+  }
+  .uranai-place-time strong {
+    font-family: 'Cinzel', serif;
+    font-size: 1.05rem;
+    color: var(--moon-white);
+    font-weight: normal;
+    letter-spacing: 0.05em;
+  }
+  .uranai-place-arrow {
+    text-align: center;
+    color: rgba(201, 169, 97, 0.5);
+    font-size: 0.9rem;
+    margin: 2px 0;
+  }
+  .uranai-place-offset {
+    text-align: center;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.72rem;
+    color: rgba(110, 196, 245, 0.85);
+    letter-spacing: 0.1em;
+    margin-top: 8px;
+    line-height: 1.6;
+  }
+
+  /* マツリカード */
+  .uranai-matsuri-row {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+  }
+  .uranai-matsuri-item {
+    flex: 1;
+    text-align: center;
+    padding: 12px 8px;
+    background: rgba(3, 8, 24, 0.55);
+    border: 1px solid rgba(201, 169, 97, 0.25);
+    border-radius: 10px;
+  }
+  .uranai-matsuri-morning {
+    background: linear-gradient(180deg, rgba(245, 196, 74, 0.18), rgba(3, 8, 24, 0.55));
+    border-color: rgba(245, 196, 74, 0.5);
+  }
+  .uranai-matsuri-evening {
+    background: linear-gradient(180deg, rgba(110, 196, 245, 0.18), rgba(3, 8, 24, 0.55));
+    border-color: rgba(110, 196, 245, 0.5);
+  }
+  .uranai-matsuri-icon {
+    font-size: 1.6rem;
+    margin-bottom: 4px;
+    color: var(--moon-white);
+  }
+  .uranai-matsuri-label {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.72rem;
+    color: rgba(201, 169, 97, 0.95);
+    letter-spacing: 0.2em;
+    margin-bottom: 6px;
+  }
+  .uranai-matsuri-time {
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem;
+    color: var(--moon-white);
+    letter-spacing: 0.05em;
+  }
+  .uranai-matsuri-note {
+    text-align: center;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.65rem;
+    color: rgba(138, 160, 184, 0.6);
+    letter-spacing: 0.1em;
+    margin-top: 12px;
+    line-height: 1.6;
+  }
+
+  /* バランスカード (花キャラ) */
+  .uranai-balance-flower-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    margin-bottom: 6px;
+  }
+  .uranai-balance-flower {
+    font-size: 3rem;
+    line-height: 1;
+  }
+  .uranai-balance-meta { text-align: left; }
+  .uranai-balance-name {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.5rem;
+    color: var(--moon-white);
+    letter-spacing: 0.2em;
+    margin-bottom: 4px;
+  }
+  .uranai-balance-kind {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.78rem;
+    color: rgba(201, 169, 97, 0.85);
+    letter-spacing: 0.15em;
+  }
+  .uranai-balance-dev {
+    text-align: center;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.88rem;
+    color: rgba(255, 255, 255, 0.85);
+    letter-spacing: 0.1em;
+    padding: 10px 0;
+    border-top: 1px solid rgba(201, 169, 97, 0.18);
+    margin-top: 8px;
+  }
+  .uranai-balance-desc {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.78);
+    letter-spacing: 0.06em;
+    line-height: 1.75;
+    padding-top: 10px;
+    border-top: 1px solid rgba(201, 169, 97, 0.18);
+    margin-top: 4px;
+  }
+
   #navCanvas {
     position: absolute;
     inset: 0;
@@ -3863,13 +4051,31 @@
         <input type="date" id="uranaiBirthDate" class="uranai-input">
       </div>
 
-      <div class="uranai-field">
-        <label class="uranai-label">生 ま れ た 時 刻</label>
-        <input type="time" id="uranaiBirthTime" class="uranai-input" value="15:00">
-        <label class="uranai-check">
-          <input type="checkbox" id="uranaiTimeUnknown">
-          <span>時 刻 は 分 か ら な い（15 時 で 計 算 し ま す）</span>
-        </label>
+      <div class="uranai-optional">
+        <div class="uranai-optional-head">
+          時 刻 と 生 ま れ た 場 所 が 分 か る と、<br>
+          よ り 深 く 読 め ま す
+        </div>
+
+        <div class="uranai-field">
+          <label class="uranai-label">生 ま れ た 時 刻</label>
+          <input type="time" id="uranaiBirthTime" class="uranai-input" value="15:00">
+          <label class="uranai-check">
+            <input type="checkbox" id="uranaiTimeUnknown">
+            <span>分 か ら な い（15 時 で 計 算）</span>
+          </label>
+        </div>
+
+        <div class="uranai-field">
+          <label class="uranai-label">生 ま れ た 場 所</label>
+          <select id="uranaiCity" class="uranai-input">
+            <!-- option は JS で生成 -->
+          </select>
+          <label class="uranai-check">
+            <input type="checkbox" id="uranaiCityUnknown">
+            <span>分 か ら な い（東 京 で 計 算）</span>
+          </label>
+        </div>
       </div>
 
       <button id="uranaiSubmit" class="uranai-submit">占 う</button>
@@ -3906,6 +4112,59 @@
           <span class="uranai-chip-label">段 階</span>
           <span class="uranai-chip-value" id="uranaiStage"></span>
         </div>
+      </div>
+
+      <!-- 場所・時刻カード -->
+      <div class="uranai-card uranai-place">
+        <div class="uranai-card-head">生 ま れ た 瞬 間</div>
+        <div class="uranai-place-city" id="uranaiCityName"></div>
+        <div class="uranai-place-coords" id="uranaiCoords"></div>
+        <div class="uranai-place-times">
+          <div class="uranai-place-time">
+            <span>日 本 時 刻</span>
+            <strong id="uranaiTimeJst"></strong>
+          </div>
+          <div class="uranai-place-arrow">↓</div>
+          <div class="uranai-place-time">
+            <span>地 方 時 刻</span>
+            <strong id="uranaiTimeLocal"></strong>
+          </div>
+          <div class="uranai-place-offset" id="uranaiTimeOffset"></div>
+        </div>
+      </div>
+
+      <!-- マツリ時刻カード -->
+      <div class="uranai-card uranai-matsuri">
+        <div class="uranai-card-head">そ の 日 の マ ツ リ 時 刻</div>
+        <div class="uranai-matsuri-row">
+          <div class="uranai-matsuri-item uranai-matsuri-morning">
+            <div class="uranai-matsuri-icon">☀</div>
+            <div class="uranai-matsuri-label">朝 祀 り</div>
+            <div class="uranai-matsuri-time" id="uranaiAsamatsuri"></div>
+          </div>
+          <div class="uranai-matsuri-item uranai-matsuri-evening">
+            <div class="uranai-matsuri-icon">☾</div>
+            <div class="uranai-matsuri-label">夜 祭 り</div>
+            <div class="uranai-matsuri-time" id="uranaiYomatsuri"></div>
+          </div>
+        </div>
+        <div class="uranai-matsuri-note">
+          月 と 太 陽 が 南 北 線 を 挟 ん で 左 右 対 称 に な る 時 刻
+        </div>
+      </div>
+
+      <!-- バランスカード (5花キャラ) -->
+      <div class="uranai-card uranai-balance" id="uranaiBalanceCard">
+        <div class="uranai-card-head">あ な た の バ ラ ン ス</div>
+        <div class="uranai-balance-flower-row">
+          <div class="uranai-balance-flower" id="uranaiBalanceFlower"></div>
+          <div class="uranai-balance-meta">
+            <div class="uranai-balance-name" id="uranaiBalanceName"></div>
+            <div class="uranai-balance-kind" id="uranaiBalanceKind"></div>
+          </div>
+        </div>
+        <div class="uranai-balance-dev" id="uranaiBalanceDev"></div>
+        <div class="uranai-balance-desc" id="uranaiBalanceDesc"></div>
       </div>
 
       <!-- 月齢 / 旧暦 -->
@@ -5067,17 +5326,133 @@ const COASTLINES = [
     return Math.max(1, Math.min(30, Math.round(norm) + 1));
   }
 
+  // ============ 都市データ (経度補正用) ============
+  const JST_REF_LON = 135.0; // 明石 (JST基準経度)
+  const JAPAN_CITIES = {
+    '札幌': [141.3544, 43.0618], '函館': [140.7290, 41.7687],
+    '旭川': [142.3650, 43.7708], '青森': [140.7400, 40.8244],
+    '盛岡': [141.1527, 39.7036], '仙台': [140.8694, 38.2682],
+    '秋田': [140.1024, 39.7186], '山形': [140.3633, 38.2404],
+    '福島': [140.4747, 37.7503], '水戸': [140.4467, 36.3418],
+    '宇都宮': [139.8836, 36.5658], '前橋': [139.0608, 36.3911],
+    'さいたま': [139.6489, 35.8617], '千葉': [140.1233, 35.6051],
+    '東京': [139.6917, 35.6895], '横浜': [139.6380, 35.4437],
+    '新潟': [139.0235, 37.9026], '富山': [137.2137, 36.6953],
+    '金沢': [136.6256, 36.5947], '福井': [136.2216, 36.0652],
+    '甲府': [138.5683, 35.6642], '長野': [138.1812, 36.6513],
+    '岐阜': [136.7223, 35.3911], '静岡': [138.3831, 34.9769],
+    '名古屋': [136.9066, 35.1815], '津': [136.5086, 34.7303],
+    '大津': [135.8686, 35.0045], '京都': [135.7680, 35.0116],
+    '大阪': [135.5022, 34.6937], '明石': [134.9930, 34.6500],
+    '神戸': [135.1955, 34.6901], '奈良': [135.8048, 34.6851],
+    '和歌山': [135.1675, 34.2261], '鳥取': [134.2381, 35.5039],
+    '松江': [133.0505, 35.4723], '岡山': [133.9344, 34.6618],
+    '広島': [132.4596, 34.3853], '山口': [131.4707, 34.1859],
+    '徳島': [134.5594, 34.0658], '高松': [134.0457, 34.3401],
+    '松山': [132.7657, 33.8416], '高知': [133.5311, 33.5597],
+    '福岡': [130.4017, 33.5904], '佐賀': [130.2989, 33.2494],
+    '長崎': [129.8737, 32.7448], '熊本': [130.7417, 32.7898],
+    '大分': [131.6126, 33.2382], '宮崎': [131.4239, 31.9111],
+    '鹿児島': [130.5571, 31.5602], '那覇': [127.6809, 26.2125],
+    '宮古島': [125.2811, 24.7914], '石垣島': [124.1556, 24.3448],
+    '西表島': [123.8408, 24.3567], '波照間': [123.7853, 24.0608],
+    '与那国': [122.9994, 24.4673]
+  };
+
+  // JST → 地方真太陽時オフセット (分)
+  function localSolarOffsetMin(lonE) {
+    return (lonE - JST_REF_LON) * 4.0;
+  }
+
+  // ============ 5 バランス花キャラ ============
+  // 西寄り (出生時刻がマツリの後)、東寄り (出生時刻がマツリの前)
+  // 0 茉莉花: ±5分 (中央)
+  // 1 さくら: 東 5分〜90分 (春)
+  // 2 ひまわり: 東 90分〜6時間 (夏)
+  // 3 きんもくせい: 西 5分〜90分 (秋)
+  // 4 さざんか: 西 90分〜6時間 (冬)
+  const BALANCE_TYPES = [
+    { idx:0, name:'茉莉花',     kana:'まつりか',     kind:'真ん中',   season:'',     color:'#f5ebd8' },
+    { idx:1, name:'さくら',     kana:'さくら',       kind:'東に少し', season:'春',   color:'#f7c2d4' },
+    { idx:2, name:'ひまわり',   kana:'ひまわり',     kind:'東に大きく', season:'夏', color:'#f5c44a' },
+    { idx:3, name:'きんもくせい', kana:'きんもくせい', kind:'西に少し', season:'秋',   color:'#f0934e' },
+    { idx:4, name:'さざんか',   kana:'さざんか',     kind:'西に大きく', season:'冬', color:'#c95066' }
+  ];
+
+  function getBalanceType(devHoursSigned) {
+    const a = Math.abs(devHoursSigned);
+    if (a <= 5/60) return BALANCE_TYPES[0];           // 茉莉花
+    const east = devHoursSigned < 0;
+    if (a <= 90/60) return east ? BALANCE_TYPES[1] : BALANCE_TYPES[3];
+    return east ? BALANCE_TYPES[2] : BALANCE_TYPES[4];
+  }
+
+  // ============ 朝祀り・夜祭り ============
+  // 黄経差 D (°) から 地方真太陽時のマツリ時刻 2つを返す (時単位)
+  // 朝祀り: 0〜12時の方、夜祭り: 12〜24時の方
+  function matsuridokiTimes(dDeg) {
+    let t1 = (12 + dDeg / 30.0) % 24;
+    let t2 = (t1 + 12) % 24;
+    if (t2 < t1) { const tmp = t1; t1 = t2; t2 = tmp; }
+    return [t1, t2];
+  }
+
+  // 符号付き循環差 a - b ∈ [-12, +12]
+  function signedCircDiff(a, b) {
+    let d = ((a - b) % 24 + 24) % 24;
+    if (d > 12) d -= 24;
+    return d;
+  }
+
+  function hoursToHHMM(h) {
+    const total = Math.round(h * 60);
+    const H = ((Math.floor(total / 60) % 24) + 24) % 24;
+    const M = ((total % 60) + 60) % 60;
+    return String(H).padStart(2, '0') + ':' + String(M).padStart(2, '0');
+  }
+
+  function hoursToHM(h) {
+    const total = Math.round(Math.abs(h) * 60);
+    const H = Math.floor(total / 60);
+    const M = total % 60;
+    return `${H}時間${String(M).padStart(2, '0')}分`;
+  }
+
+  // バランス5タイプ別の絵文字 (花) と説明文
+  const BALANCE_EMOJI = {
+    '茉莉花': '✿',
+    'さくら': '🌸',
+    'ひまわり': '🌻',
+    'きんもくせい': '🍂',
+    'さざんか': '🌺'
+  };
+  const BALANCE_DESC = {
+    '茉莉花':     '太 陽 と 月 が 完 璧 に 拮 抗 し た 瞬 間 に 生 ま れ た 、 稀 な 中 心 の 人 。',
+    'さくら':     '東 に わ ず か に 傾 く 春 キ ャ ラ 。 朝 の よ う な 軽 や か さ と 始 ま り の 力 を 持 つ 。',
+    'ひまわり':   '東 の 空 に 太 陽 と 月 が 寄 る 夏 キ ャ ラ 。 拡 散 ・ 前 進 ・ 陽 気 さ が 持 ち 味 。',
+    'きんもくせい':'西 に わ ず か に 傾 く 秋 キ ャ ラ 。 静 け さ と 香 る よ う な 余 韻 を 持 つ 。',
+    'さざんか':   '西 の 空 に 太 陽 と 月 が 寄 る 冬 キ ャ ラ 。 集 中 ・ 突 破 ・ 内 な る 強 さ を 持 つ 。'
+  };
+
   (function initUranai() {
     const dateEl = document.getElementById('uranaiBirthDate');
     const timeEl = document.getElementById('uranaiBirthTime');
-    const unknownEl = document.getElementById('uranaiTimeUnknown');
+    const timeUnknownEl = document.getElementById('uranaiTimeUnknown');
+    const cityEl = document.getElementById('uranaiCity');
+    const cityUnknownEl = document.getElementById('uranaiCityUnknown');
     const submitEl = document.getElementById('uranaiSubmit');
     const resultEl = document.getElementById('uranaiResult');
     if (!dateEl || !submitEl) return;
 
-    // 時刻不明チェック → 15:00 に固定して非活性
-    unknownEl.addEventListener('change', () => {
-      if (unknownEl.checked) {
+    // 都市 select を生成 (デフォルト: 東京)
+    const cityNames = Object.keys(JAPAN_CITIES);
+    cityEl.innerHTML = cityNames.map(name =>
+      `<option value="${name}"${name === '東京' ? ' selected' : ''}>${name}</option>`
+    ).join('');
+
+    // 時刻不明 → 15:00 固定して非活性
+    timeUnknownEl.addEventListener('change', () => {
+      if (timeUnknownEl.checked) {
         timeEl.value = '15:00';
         timeEl.disabled = true;
       } else {
@@ -5085,9 +5460,18 @@ const COASTLINES = [
       }
     });
 
-    function spaceOut(s) {
-      return (s || '').split('').join(' ');
-    }
+    // 都市不明 → 東京固定
+    cityUnknownEl.addEventListener('change', () => {
+      if (cityUnknownEl.checked) {
+        cityEl.value = '東京';
+        cityEl.disabled = true;
+      } else {
+        cityEl.disabled = false;
+      }
+    });
+
+    function spaceOut(s) { return (s || '').split('').join(' '); }
+    function pad2(n) { return String(Math.floor(n)).padStart(2, '0'); }
 
     submitEl.addEventListener('click', () => {
       const dateStr = dateEl.value;
@@ -5096,48 +5480,113 @@ const COASTLINES = [
         return;
       }
       let timeStr = timeEl.value;
-      if (!timeStr || unknownEl.checked) timeStr = '15:00';
-      const birth = new Date(`${dateStr}T${timeStr}:00`);
+      if (!timeStr || timeUnknownEl.checked) timeStr = '15:00';
+      // JST タイムゾーン明示で Date を作る
+      const birth = new Date(`${dateStr}T${timeStr}:00+09:00`);
       if (isNaN(birth.getTime())) {
         alert('日 付 か 時 刻 の 形 式 が 正 し く あ り ま せ ん');
         return;
       }
 
-      // 月齢・旧暦
+      // 都市
+      const cityName = cityUnknownEl.checked ? '東京' : (cityEl.value || '東京');
+      const [lon, lat] = JAPAN_CITIES[cityName];
+      const offsetMin = localSolarOffsetMin(lon);
+
+      // 月齢・旧暦・タイプ
       const moonAge = getMoonAge(birth);
       const lunar = getLunarDate(birth);
       const lunarDay = Math.min(Math.max(1, lunar.day), 30);
       const moonName = getMoonNameForLunarDay(lunarDay);
-
-      // 12タイプ判定
       const phaseIdx = getPhase12FromAge(moonAge);
       const phase = PHASES_12[phaseIdx];
+      const D = (moonAge / SYNODIC_MONTH_CONST) * 360.0;
 
-      // 月画像（実際の月齢に最も近い1枚）
+      // 朝祀り・夜祭り (地方真太陽時)
+      const [tMorning, tEvening] = matsuridokiTimes(D);
+
+      // JST 時刻 (hour 単位, 0〜24)
+      const [hh, mm] = timeStr.split(':').map(Number);
+      const jstH = hh + mm / 60;
+      // 地方真太陽時 (hour 単位)
+      const localH = ((jstH + offsetMin / 60) % 24 + 24) % 24;
+
+      // 最寄りマツリ
+      const dMor = signedCircDiff(localH, tMorning);
+      const dEve = signedCircDiff(localH, tEvening);
+      let nearestLabel, nearestT, dev;
+      if (Math.abs(dMor) <= Math.abs(dEve)) {
+        nearestLabel = '朝 祀 り'; nearestT = tMorning; dev = dMor;
+      } else {
+        nearestLabel = '夜 祭 り'; nearestT = tEvening; dev = dEve;
+      }
+
+      // バランス
+      const balance = getBalanceType(dev);
+      const directionLabel = dev > 0 ? '西 寄 り' : dev < 0 ? '東 寄 り' : 'ピ ッ タ リ';
+
+      // ============ UI 更新 ============
+
+      // 月画像
       const imgIdx = getMoonImgIdxFromAge(moonAge);
       const moonImg = document.getElementById('uranaiMoonImg');
       moonImg.src = `./moon_icons/moon_${String(imgIdx).padStart(2, '0')}.png`;
       moonImg.alt = phase.ja;
 
-      // ヒーロー: 「○○生まれの○○○」
+      // ヒーロー
       document.getElementById('uranaiHeroMoon').textContent =
         spaceOut(moonName.name) + ' 生 ま れ の';
       document.getElementById('uranaiHeroType').textContent = spaceOut(phase.ja);
       document.getElementById('uranaiLucky').textContent = String(phaseIdx);
 
-      // チップ: 月相/色/動物/段階
+      // 4チップ
       document.getElementById('uranaiMoonPhase').textContent = spaceOut(phase.moon);
       document.getElementById('uranaiColor').textContent = phase.color;
       document.getElementById('uranaiAnimal').textContent = spaceOut(phase.animal);
       document.getElementById('uranaiStage').textContent = STAGE_FULL[phase.stage];
 
-      // メタ: 月齢/旧暦
+      // 場所・時刻カード
+      document.getElementById('uranaiCityName').textContent = spaceOut(cityName);
+      document.getElementById('uranaiCoords').textContent =
+        `東経 ${lon.toFixed(2)}° / 北緯 ${lat.toFixed(2)}°`;
+      document.getElementById('uranaiTimeJst').textContent = timeStr;
+      document.getElementById('uranaiTimeLocal').textContent = hoursToHHMM(localH);
+      const offsetAbs = Math.abs(offsetMin);
+      const offsetDir = offsetMin > 0 ? '早 い' : offsetMin < 0 ? '遅 い' : '同 じ';
+      document.getElementById('uranaiTimeOffset').textContent =
+        offsetMin === 0
+          ? '（明石とほぼ同経度なので一致）'
+          : `日 本 時 刻 よ り ${offsetAbs.toFixed(1)} 分 ${offsetDir}`;
+
+      // マツリ
+      document.getElementById('uranaiAsamatsuri').textContent = hoursToHHMM(tMorning);
+      document.getElementById('uranaiYomatsuri').textContent = hoursToHHMM(tEvening);
+
+      // バランス
+      document.getElementById('uranaiBalanceFlower').textContent =
+        BALANCE_EMOJI[balance.name] || '✿';
+      document.getElementById('uranaiBalanceName').textContent = balance.name;
+      document.getElementById('uranaiBalanceKind').textContent =
+        balance.season ? `${balance.kind} ・ ${balance.season} キ ャ ラ` : balance.kind;
+      document.getElementById('uranaiBalanceDev').textContent =
+        Math.abs(dev) < 5/60
+          ? `${nearestLabel} と ピ ッ タ リ 一 致 ！`
+          : `${nearestLabel} ${hoursToHHMM(nearestT)} か ら ${hoursToHM(dev)} ${directionLabel}`;
+      document.getElementById('uranaiBalanceDesc').textContent =
+        BALANCE_DESC[balance.name] || '';
+      // バランスカードのアクセント色
+      const card = document.getElementById('uranaiBalanceCard');
+      card.style.borderColor = balance.color;
+      card.style.boxShadow = `0 0 18px ${balance.color}30`;
+
+      // メタ
       document.getElementById('uranaiAge').textContent = moonAge.toFixed(1);
       document.getElementById('uranaiLunar').textContent =
         `${lunar.month} 月 ${lunarDay} 日（${spaceOut(moonName.name)}）`;
 
-      // 説明文
-      document.getElementById('uranaiDesc').textContent = PHASE_DESCRIPTIONS[phaseIdx] || '';
+      // 性格描写
+      document.getElementById('uranaiDesc').textContent =
+        PHASE_DESCRIPTIONS[phaseIdx] || '';
 
       resultEl.classList.add('visible');
       setTimeout(() => {
