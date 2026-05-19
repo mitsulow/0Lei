@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-05-19T10:05:05.052192+00:00",
+  "timestamp": "2026-05-19T13:29:40.082496+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -10,16 +10,16 @@
       "confidence": 88
     },
     "F2": {
-      "hz": 14.0,
-      "confidence": 80
+      "hz": 14.4,
+      "confidence": 82
     },
     "F3": {
-      "hz": 19.9,
-      "confidence": 75
+      "hz": 20.2,
+      "confidence": 80
     },
     "F4": {
-      "hz": 26.1,
-      "confidence": 70
+      "hz": 25.4,
+      "confidence": 75
     },
     "F5": {
       "hz": null,
@@ -28,13 +28,13 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "F1は約7.85Hzで安定。F2は14Hz付近でやや低下傾向。F3は19.9Hz付近で変動大。F4は26Hz付近で推移。F5は本グラフに表示なし。スペクトログラム上では8Hzと14Hz帯が明瞭、18日6時頃に強い広帯域ノイズあり。",
+  "notes": "右端ではF1が約7.85Hz付近で安定。F2は14.4Hz付近でやや高め、F3は20.2Hz付近、F4は25.4Hz付近で低下傾向。F5は本グラフに表示なし。スペクトログラムでは8Hz・14Hz帯が明瞭、18日早朝に強いノイズイベントあり。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 19.08,
-    "tomsk_hour": 15.68,
+    "japan_hour": 22.48,
+    "tomsk_hour": 19.08,
     "is_day_japan": false,
-    "is_day_tomsk": true
+    "is_day_tomsk": false
   }
 }
