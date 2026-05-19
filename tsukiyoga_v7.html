@@ -1470,31 +1470,50 @@
   }
 
   .memo-section-label {
-    font-family: 'Cinzel', serif;
-    font-size: 0.65rem;
-    letter-spacing: 0.35em;
-    color: rgba(138, 160, 184, 0.55);
-    margin-top: 0.8rem;
-    margin-bottom: 0.6rem;
-    text-transform: uppercase;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.4em;
+    color: rgba(201, 169, 97, 0.72);
+    margin-top: 1.2rem;
+    margin-bottom: 0.7rem;
+    text-transform: none;
+    text-align: center;
+    text-indent: 0.4em;
   }
 
   .memo-textarea {
     width: 100%;
-    min-height: 120px;
-    background: rgba(10, 20, 40, 0.5);
-    border: 1px solid rgba(110, 196, 245, 0.2);
-    border-radius: 8px;
+    min-height: 160px;
+    background-color: rgba(10, 20, 40, 0.55);
+    /* 和紙風の罫線（line-height と同じ間隔で揃える）*/
+    background-image: repeating-linear-gradient(0deg,
+      transparent 0,
+      transparent calc(1.7em - 1px),
+      rgba(201, 169, 97, 0.09) calc(1.7em - 1px),
+      rgba(201, 169, 97, 0.09) 1.7em);
+    background-position: 0 14px;
+    border: 1px solid rgba(201, 169, 97, 0.22);
+    border-radius: 10px;
     color: var(--ink);
-    padding: 12px;
+    padding: 14px 16px;
     font-family: 'Shippori Mincho', serif;
-    font-size: 0.9rem;
+    font-size: 1rem;
     line-height: 1.7;
+    letter-spacing: 0.06em;
     resize: vertical;
     outline: none;
+    transition: border-color 0.25s, box-shadow 0.25s, background-color 0.25s;
   }
-  .memo-textarea:focus { border-color: var(--blue); }
-  .memo-textarea::placeholder { color: rgba(138, 160, 184, 0.4); }
+  .memo-textarea:focus {
+    border-color: rgba(201, 169, 97, 0.7);
+    background-color: rgba(15, 25, 45, 0.65);
+    box-shadow: 0 0 14px rgba(201, 169, 97, 0.18);
+  }
+  .memo-textarea::placeholder {
+    color: rgba(201, 169, 97, 0.5);
+    letter-spacing: 0.1em;
+  }
 
   /* ★v6: 潮汐港名タップ可能に */
   .tide-port {
