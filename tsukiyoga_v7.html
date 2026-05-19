@@ -1239,6 +1239,107 @@
     flex-shrink: 0;
   }
 
+  /* ★v7: 折りたたみセクション（今日の潮・マツリドキ・重力） */
+  .memo-section {
+    margin-top: 12px;
+    border-top: 1px solid rgba(201, 169, 97, 0.18);
+    padding-top: 6px;
+  }
+  .memo-section[hidden] { display: none; }
+  .memo-section-head {
+    list-style: none;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.02rem;
+    font-weight: 600;
+    letter-spacing: 0.32em;
+    color: var(--gold);
+    padding: 12px 4px;
+    user-select: none;
+    line-height: 1.4;
+  }
+  .memo-section-head::-webkit-details-marker { display: none; }
+  .memo-section-head::after {
+    content: '＋';
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.05rem;
+    font-weight: 400;
+    color: rgba(201, 169, 97, 0.65);
+    letter-spacing: 0;
+    margin-left: 12px;
+    transition: transform 0.2s;
+  }
+  .memo-section[open] > .memo-section-head::after {
+    content: '−';
+  }
+  .memo-section-body {
+    padding: 4px 4px 8px;
+  }
+  /* セクション内の文字を少し大きく（老眼配慮） */
+  .memo-section .memo-modal-tide {
+    margin-top: 2px;
+    font-size: 0.85rem;
+  }
+  .memo-section .memo-modal-tide .tide-label {
+    font-size: 0.8rem;
+  }
+  .memo-section .memo-modal-tide .tide-times {
+    font-size: 0.95rem;
+  }
+  .memo-section .memo-modal-matsuri {
+    margin-top: 2px;
+    font-size: 0.88rem;
+  }
+  .memo-section .matsuri-row .matsuri-label {
+    font-size: 0.82rem;
+  }
+  .memo-section .matsuri-row .matsuri-time {
+    font-size: 1rem;
+  }
+  .memo-section .matsuri-narrative {
+    font-size: 0.84rem;
+    padding-left: 5.4em;
+  }
+  .memo-modal-gravity {
+    font-family: 'Shippori Mincho', serif;
+    color: rgba(170, 200, 230, 0.78);
+    line-height: 1.65;
+  }
+  .memo-modal-gravity .gravity-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 14px;
+  }
+  .memo-modal-gravity .gravity-cell {
+    display: flex;
+    gap: 8px;
+    align-items: baseline;
+  }
+  .memo-modal-gravity .gravity-cell .gravity-label {
+    color: rgba(170, 200, 230, 0.72);
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    min-width: 4.2em;
+  }
+  .memo-modal-gravity .gravity-cell .gravity-time {
+    font-family: 'Cinzel', serif;
+    font-size: 0.95rem;
+    color: var(--moon-white);
+    letter-spacing: 0.1em;
+  }
+  /* ★v7: 日付の曜日表記 */
+  .memo-modal-date .date-weekday {
+    margin-left: 0.4em;
+    font-size: 0.82em;
+    color: rgba(255, 215, 140, 0.85);
+    letter-spacing: 0.15em;
+  }
+
   .memo-section-label {
     font-family: 'Cinzel', serif;
     font-size: 0.65rem;
@@ -3202,9 +3303,25 @@
         <div class="memo-modal-date" id="memoDate">—</div>
         <div class="memo-modal-lunar" id="memoLunar"></div>
         <div class="memo-modal-seiten" id="memoSeiten"></div>
-        <div class="memo-modal-tide" id="memoTide"></div>
-        <!-- ★v6: マツリドキと重力4点 -->
-        <div class="memo-modal-matsuri" id="memoMatsuri"></div>
+        <!-- ★v7: 折りたたみセクション（今日の潮・マツリドキ・重力） -->
+        <details class="memo-section" id="memoTideSection" open>
+          <summary class="memo-section-head">今 日 の 潮</summary>
+          <div class="memo-section-body">
+            <div class="memo-modal-tide" id="memoTide"></div>
+          </div>
+        </details>
+        <details class="memo-section" id="memoMatsuriSection" open>
+          <summary class="memo-section-head">今 日 の マ ツ リ ド キ</summary>
+          <div class="memo-section-body">
+            <div class="memo-modal-matsuri" id="memoMatsuri"></div>
+          </div>
+        </details>
+        <details class="memo-section" id="memoGravitySection" open>
+          <summary class="memo-section-head">今 日 の 重 力</summary>
+          <div class="memo-section-body">
+            <div class="memo-modal-gravity" id="memoGravity"></div>
+          </div>
+        </details>
       </div>
       <button class="memo-modal-close" id="memoClose">×</button>
     </div>
@@ -6481,7 +6598,12 @@ const COASTLINES = [
     }
 
     const [y, m, d] = dateStr.split('-');
-    document.getElementById('memoDate').textContent = `${y}年${parseInt(m)}月${parseInt(d)}日`;
+    // ★v7: 曜日を併記（日月火水木金土）
+    const WEEKDAYS_JP = ['日', '月', '火', '水', '木', '金', '土'];
+    const wkDate = new Date(parseInt(y), parseInt(m) - 1, parseInt(d));
+    const wkChar = WEEKDAYS_JP[wkDate.getDay()];
+    document.getElementById('memoDate').innerHTML =
+      `${y}年${parseInt(m)}月${parseInt(d)}日<span class="date-weekday">（${wkChar}）</span>`;
 
     // ★v6: 旧暦日＋月名を表示（例：「旧暦4月9日 ココノカヅキ」）
     const lunar = getLunarDate(new Date(dateStr + 'T12:00:00'));
@@ -6518,7 +6640,9 @@ const COASTLINES = [
 
     // 潮汐
     const tideEl = document.getElementById('memoTide');
+    const tideSection = document.getElementById('memoTideSection');
     tideEl.innerHTML = '';
+    tideSection.hidden = false;
     // ★v6: その日だけ港を上書きしてるならそれを優先
     const overrideKey = `tsukiyoga-port-override-${dateStr}`;
     const overrideCode = localStorage.getItem(overrideKey);
@@ -6527,7 +6651,7 @@ const COASTLINES = [
       : getTideForDate(dateStr);
     tidePromise.then(tide => {
       if (modal.dataset.date !== dateStr) return;
-      if (!tide) return;
+      if (!tide) { tideSection.hidden = true; return; }
       const fmt = arr => arr.map(([t]) => t).join('　　');
       const highStr = tide.high.length ? fmt(tide.high) : '—';
       const lowStr  = tide.low.length  ? fmt(tide.low)  : '—';
@@ -6546,17 +6670,20 @@ const COASTLINES = [
       }
     }).catch(() => {});
 
-    // ★v6: マツリドキと重力4点
+    // ★v6→v7: マツリドキと重力4点（折りたたみセクションに分離）
     const matsuriEl = document.getElementById('memoMatsuri');
+    const gravityEl = document.getElementById('memoGravity');
+    const matsuriSection = document.getElementById('memoMatsuriSection');
+    const gravitySection = document.getElementById('memoGravitySection');
     matsuriEl.innerHTML = '';
+    gravityEl.innerHTML = '';
+    matsuriSection.hidden = false;
+    gravitySection.hidden = false;
     try {
       const { asa, yoru, asaAngle, yoruAngle } = findMatsuriDokiForDate(dateStr, userLocation.lat, userLocation.lon);
       const grav = findMoonGravityPoints(dateStr, userLocation.lat, userLocation.lon);
-      // ★v6改: 両手の角度（0〜360°、マツリドキ瞬間の物理形状）
       const fmtAngle = a => (a === null || a === undefined) ? '—' : (a * 180 / Math.PI).toFixed(0) + '°';
       matsuriEl.innerHTML =
-        // ★v6改: 「本日のマツリドキ」見出し
-        `<div class="matsuri-section-title">本 日 の マ ツ リ ド キ</div>` +
         `<div class="matsuri-event">` +
           `<div class="matsuri-row"><span class="matsuri-label matsuri-asa-label">朝 祀 り</span><span class="matsuri-time">${fmtTime(asa)}</span></div>` +
           `<div class="matsuri-narrative">北 を 向 き 両 手 を ${fmtAngle(asaAngle)} 拡 げ る</div>` +
@@ -6564,17 +6691,18 @@ const COASTLINES = [
         `<div class="matsuri-event">` +
           `<div class="matsuri-row"><span class="matsuri-label matsuri-yoru-label">夜 祭 り</span><span class="matsuri-time">${fmtTime(yoru)}</span></div>` +
           `<div class="matsuri-narrative">南 を 向 き 両 手 を ${fmtAngle(yoruAngle)} 拡 げ る</div>` +
-        `</div>` +
-        `<div class="gravity-section">` +
-        `<div class="gravity-title">重 力 4 点</div>` +
+        `</div>`;
+      gravityEl.innerHTML =
         `<div class="gravity-grid">` +
         `<div class="gravity-cell"><span class="gravity-label">月 真 上</span><span class="gravity-time">${fmtTime(grav.south)}</span></div>` +
         `<div class="gravity-cell"><span class="gravity-label">月 真 下</span><span class="gravity-time">${fmtTime(grav.north)}</span></div>` +
         `<div class="gravity-cell"><span class="gravity-label">月 の 出</span><span class="gravity-time">${fmtTime(grav.rise)}</span></div>` +
         `<div class="gravity-cell"><span class="gravity-label">月 の 入</span><span class="gravity-time">${fmtTime(grav.set)}</span></div>` +
-        `</div></div>`;
+        `</div>`;
     } catch (err) {
       console.warn('matsuri calculation error:', err);
+      matsuriSection.hidden = true;
+      gravitySection.hidden = true;
     }
 
     modal.classList.add('active');
