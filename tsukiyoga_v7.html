@@ -1250,19 +1250,21 @@
   }
   .today-label {
     font-family: 'Shippori Mincho', serif;
-    font-size: 0.78rem;
+    font-size: 0.82rem;
     letter-spacing: 0.4em;
-    color: rgba(201, 169, 97, 0.7);
-    margin-bottom: 9px;
+    color: rgba(201, 169, 97, 0.75);
+    margin-bottom: 10px;
     text-align: center;
-    padding-left: 0.4em;
+    text-indent: 0.4em; /* letter-spacing 末尾の余白を補正してジャスト中央へ */
   }
   .today-tabs {
     display: flex;
-    gap: 6px;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: nowrap;
   }
   .today-tab {
-    flex: 1;
+    flex: 0 0 auto;
     background: rgba(10, 20, 40, 0.45);
     border: 1px solid rgba(201, 169, 97, 0.22);
     color: rgba(201, 169, 97, 0.78);
@@ -1270,7 +1272,7 @@
     font-size: 0.95rem;
     font-weight: 600;
     letter-spacing: 0.14em;
-    padding: 10px 4px;
+    padding: 10px 14px;
     border-radius: 8px;
     cursor: pointer;
     text-align: center;
@@ -3430,28 +3432,28 @@
         <div class="memo-modal-date" id="memoDate">—</div>
         <div class="memo-modal-lunar" id="memoLunar"></div>
         <div class="memo-modal-seiten" id="memoSeiten"></div>
-        <!-- ★v7: 今日のデータ（タブUI） -->
-        <div class="today-block" id="todayBlock">
-          <div class="today-label">今 日 の デ ー タ</div>
-          <div class="today-tabs" role="tablist">
-            <button type="button" class="today-tab" data-tab="tide" id="todayTabTide" role="tab" aria-selected="false">潮 時</button>
-            <button type="button" class="today-tab" data-tab="gravity" id="todayTabGravity" role="tab" aria-selected="false">月 重 力</button>
-            <button type="button" class="today-tab" data-tab="matsuri" id="todayTabMatsuri" role="tab" aria-selected="false">マ ツ リ ド キ</button>
-          </div>
-          <div class="today-panes empty" id="todayPanes">
-            <div class="today-pane" data-pane="tide" id="todayPaneTide" hidden>
-              <div class="memo-modal-tide" id="memoTide"></div>
-            </div>
-            <div class="today-pane" data-pane="gravity" id="todayPaneGravity" hidden>
-              <div class="memo-modal-gravity" id="memoGravity"></div>
-            </div>
-            <div class="today-pane" data-pane="matsuri" id="todayPaneMatsuri" hidden>
-              <div class="memo-modal-matsuri" id="memoMatsuri"></div>
-            </div>
-          </div>
-        </div>
       </div>
       <button class="memo-modal-close" id="memoClose">×</button>
+    </div>
+    <!-- ★v7: 今日のデータ（タブUI、モーダル全幅でセンター配置） -->
+    <div class="today-block" id="todayBlock">
+      <div class="today-label">今 日 の デ ー タ</div>
+      <div class="today-tabs" role="tablist">
+        <button type="button" class="today-tab" data-tab="tide" id="todayTabTide" role="tab" aria-selected="false">潮 時</button>
+        <button type="button" class="today-tab" data-tab="gravity" id="todayTabGravity" role="tab" aria-selected="false">月 重 力</button>
+        <button type="button" class="today-tab" data-tab="matsuri" id="todayTabMatsuri" role="tab" aria-selected="false">マ ツ リ ド キ</button>
+      </div>
+      <div class="today-panes empty" id="todayPanes">
+        <div class="today-pane" data-pane="tide" id="todayPaneTide" hidden>
+          <div class="memo-modal-tide" id="memoTide"></div>
+        </div>
+        <div class="today-pane" data-pane="gravity" id="todayPaneGravity" hidden>
+          <div class="memo-modal-gravity" id="memoGravity"></div>
+        </div>
+        <div class="today-pane" data-pane="matsuri" id="todayPaneMatsuri" hidden>
+          <div class="memo-modal-matsuri" id="memoMatsuri"></div>
+        </div>
+      </div>
     </div>
 
     <div class="memo-section-label">メ モ</div>
