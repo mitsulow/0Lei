@@ -1326,6 +1326,27 @@
   .today-pane[hidden] { display: none; }
   .today-pane {
     padding: 4px 2px 2px;
+    text-align: center;
+  }
+  /* ペイン内のセンター配置（横並び要素を中央へ）*/
+  .today-pane .memo-modal-tide .tide-row {
+    justify-content: center;
+  }
+  .today-pane .memo-modal-tide .tide-label {
+    min-width: auto;
+  }
+  .today-pane .memo-modal-matsuri .matsuri-row {
+    justify-content: center;
+  }
+  .today-pane .memo-modal-matsuri .matsuri-narrative {
+    padding-left: 0;
+    padding-right: 0;
+    text-align: center;
+  }
+  .today-pane .memo-modal-gravity .gravity-grid {
+    display: inline-grid;
+    margin: 0 auto;
+    text-align: left;
   }
   /* 旧 <details> セクション用スタイル（互換のため残置）*/
   .memo-section {
@@ -3413,19 +3434,19 @@
         <div class="today-block" id="todayBlock">
           <div class="today-label">今 日 の デ ー タ</div>
           <div class="today-tabs" role="tablist">
-            <button type="button" class="today-tab" data-tab="tide" id="todayTabTide" role="tab" aria-selected="false">潮</button>
+            <button type="button" class="today-tab" data-tab="tide" id="todayTabTide" role="tab" aria-selected="false">潮 時</button>
+            <button type="button" class="today-tab" data-tab="gravity" id="todayTabGravity" role="tab" aria-selected="false">月 重 力</button>
             <button type="button" class="today-tab" data-tab="matsuri" id="todayTabMatsuri" role="tab" aria-selected="false">マ ツ リ ド キ</button>
-            <button type="button" class="today-tab" data-tab="gravity" id="todayTabGravity" role="tab" aria-selected="false">ツ キ 重 力</button>
           </div>
           <div class="today-panes empty" id="todayPanes">
             <div class="today-pane" data-pane="tide" id="todayPaneTide" hidden>
               <div class="memo-modal-tide" id="memoTide"></div>
             </div>
-            <div class="today-pane" data-pane="matsuri" id="todayPaneMatsuri" hidden>
-              <div class="memo-modal-matsuri" id="memoMatsuri"></div>
-            </div>
             <div class="today-pane" data-pane="gravity" id="todayPaneGravity" hidden>
               <div class="memo-modal-gravity" id="memoGravity"></div>
+            </div>
+            <div class="today-pane" data-pane="matsuri" id="todayPaneMatsuri" hidden>
+              <div class="memo-modal-matsuri" id="memoMatsuri"></div>
             </div>
           </div>
         </div>
