@@ -2047,7 +2047,12 @@
     height: 84%;
     object-fit: contain;
     z-index: 2;
-    filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.55));
+    /* キャラ周囲の白いフチ + 暖色光彩 + 下方向の影 */
+    filter:
+      drop-shadow(0 0 3px rgba(255, 255, 255, 0.95))
+      drop-shadow(0 0 6px rgba(255, 255, 255, 0.75))
+      drop-shadow(0 0 14px rgba(255, 235, 200, 0.50))
+      drop-shadow(0 4px 10px rgba(0, 0, 0, 0.55));
   }
   .uranai-hero-prefix {
     font-family: 'Shippori Mincho', serif;
@@ -2472,6 +2477,10 @@
     margin: 0 auto 5px;
     display: block;
     border: 1.5px solid rgba(201, 169, 97, 0.45);
+    /* キャラ周囲の薄い白い光彩 */
+    filter:
+      drop-shadow(0 0 2px rgba(255, 255, 255, 0.85))
+      drop-shadow(0 0 4px rgba(255, 235, 200, 0.45));
   }
   .uranai-person-name {
     font-family: 'Shippori Mincho', serif;
@@ -6587,6 +6596,8 @@ const COASTLINES = [
         ctx.beginPath();
         ctx.arc(cx, cy, size/2, 0, Math.PI * 2);
         ctx.clip();
+        // 白いフチ + 暖色光彩
+        ctx.filter = 'drop-shadow(0 0 5px rgba(255,255,255,0.95)) drop-shadow(0 0 10px rgba(255,255,255,0.7)) drop-shadow(0 0 20px rgba(255,235,200,0.5))';
         ctx.drawImage(charImg, cx - size/2, cy - size/2, size, size);
         ctx.restore();
         // 円形ボーダー (金)
@@ -6716,6 +6727,8 @@ const COASTLINES = [
           ctx.beginPath();
           ctx.arc(ix, iy, imgSize/2, 0, Math.PI * 2);
           ctx.clip();
+          // 白いフチ + 光彩
+          ctx.filter = 'drop-shadow(0 0 3px rgba(255,255,255,0.95)) drop-shadow(0 0 6px rgba(255,255,255,0.65))';
           ctx.drawImage(img, ix - imgSize/2, iy - imgSize/2, imgSize, imgSize);
           ctx.restore();
           ctx.beginPath();
