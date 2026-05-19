@@ -2033,9 +2033,22 @@
     height: 100%;
     object-fit: contain;
     z-index: 1;
-    /* 月を円形に切り抜き (周囲の黒い宇宙を消す) */
-    border-radius: 50%;
-    overflow: hidden;
+    /* 月の周囲の黒い宇宙を放射状フェードで背景に溶け込ませる
+       (月本体は中央 38% まで完全表示 → 62% で完全透明) */
+    -webkit-mask-image: radial-gradient(
+      circle at center,
+      #000 38%,
+      rgba(0,0,0,0.85) 46%,
+      rgba(0,0,0,0.4) 54%,
+      transparent 62%
+    );
+            mask-image: radial-gradient(
+      circle at center,
+      #000 38%,
+      rgba(0,0,0,0.85) 46%,
+      rgba(0,0,0,0.4) 54%,
+      transparent 62%
+    );
     /* 月を暖色寄りに (黄〜橙) + グロー */
     filter:
       sepia(0.55)
