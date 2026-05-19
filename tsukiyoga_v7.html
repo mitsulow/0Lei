@@ -2796,20 +2796,28 @@
     filter: drop-shadow(0 0 22px rgba(232, 184, 77, 0.18));
   }
 
-  /* ★v6改: MOON AGE は控えめに */
+  /* ★v7: 月齢表示（前置「月齢」＋数字） */
   .today-age {
     font-family: 'Cinzel', serif;
     font-size: 1.4rem;
     font-weight: 300;
     color: var(--moon-white);
     line-height: 1;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.45em;
   }
-
-  .today-age-label {
-    font-size: 0.6rem;
-    letter-spacing: 0.3em;
-    color: var(--ink-faint);
-    margin-top: 0.2rem;
+  .today-age .today-age-prefix {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    color: var(--ink-dim);
+    padding-left: 0.28em;
+  }
+  .today-age .today-age-num {
+    font-family: 'Cinzel', serif;
+    font-weight: 300;
   }
 
   .today-phase-jp {
@@ -3669,7 +3677,6 @@
         <img class="today-moon-img" id="todayMoonImg" alt="今日の月" src="" width="200" height="200">
       </div>
       <div class="today-age" id="calTodayAge">—</div>
-      <div class="today-age-label">MOON AGE</div>
     </div>
 
     <!-- ★v6改: 現在地カード（並び替え＋旧暦行削除＋border無し） -->
@@ -6304,7 +6311,8 @@ const COASTLINES = [
     // ★v6改: 日本語表記の今日日付（2026年4月26日（日））
     document.getElementById('calTodayDate').textContent =
       `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日（${wd[now.getDay()]}）`;
-    document.getElementById('calTodayAge').textContent = age.toFixed(1);
+    document.getElementById('calTodayAge').innerHTML =
+      `<span class="today-age-prefix">月 齢</span><span class="today-age-num">${age.toFixed(1)}</span>`;
 
     // ★v6改: 旧暦と月名（ヘッダ位置）＋ 浮世絵アイコン
     {
