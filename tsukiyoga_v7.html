@@ -2034,20 +2034,22 @@
     object-fit: contain;
     z-index: 1;
     /* 月の周囲の黒い宇宙を放射状フェードで背景に溶け込ませる
-       (月本体は中央 38% まで完全表示 → 62% で完全透明) */
+       (月本体は中央 46% まで完全表示 → 58% で完全透明)
+       NASA SVS 画像は月が画像幅の ~92% を占めるので半径 ~46% 付近にフチ。
+       そのフチから外側だけをぼかして背景に溶かす。 */
     -webkit-mask-image: radial-gradient(
       circle at center,
-      #000 38%,
-      rgba(0,0,0,0.85) 46%,
-      rgba(0,0,0,0.4) 54%,
-      transparent 62%
+      #000 46%,
+      rgba(0,0,0,0.7) 50%,
+      rgba(0,0,0,0.25) 54%,
+      transparent 58%
     );
             mask-image: radial-gradient(
       circle at center,
-      #000 38%,
-      rgba(0,0,0,0.85) 46%,
-      rgba(0,0,0,0.4) 54%,
-      transparent 62%
+      #000 46%,
+      rgba(0,0,0,0.7) 50%,
+      rgba(0,0,0,0.25) 54%,
+      transparent 58%
     );
     /* 月を暖色寄りに (黄〜橙) + グロー */
     filter:
