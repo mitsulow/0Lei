@@ -76,6 +76,7 @@
     box-shadow: 0 0 16px rgba(245, 196, 74, 0.18);
   }
   .cell .img-wrap {
+    position: relative;
     width: 100%;
     aspect-ratio: 1 / 1;
     display: flex;
@@ -83,11 +84,29 @@
     justify-content: center;
     margin-bottom: 8px;
   }
+  /* 月の輪郭 (新月でも月の場所が分かる) */
+  .cell .img-wrap::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1px solid rgba(245, 235, 216, 0.22);
+    box-shadow:
+      inset 0 0 16px rgba(245, 235, 216, 0.06),
+      0 0 12px rgba(245, 235, 216, 0.10);
+    pointer-events: none;
+  }
   .cell img {
     width: 100%;
     height: auto;
     max-height: 100%;
     object-fit: contain;
+    /* 月を暖色に + グロー */
+    filter:
+      sepia(0.55)
+      saturate(1.35)
+      brightness(1.05)
+      drop-shadow(0 0 12px rgba(245, 200, 100, 0.35));
   }
   .cell .num {
     font-family: 'Cinzel', serif;
