@@ -2873,20 +2873,6 @@
     display: block;
     object-fit: contain;
     filter: drop-shadow(0 0 22px rgba(232, 184, 77, 0.18));
-    position: relative;
-    z-index: 1;
-  }
-  /* ★v7: 月齢進捗弧（画像の周囲に円周トラック＋現在位置ドット） */
-  .moon-age-arc {
-    position: absolute;
-    inset: -10px;
-    width: 220px;
-    height: 220px;
-    pointer-events: none;
-    z-index: 0;
-  }
-  .moon-age-arc #moonAgeDot {
-    transition: cx 0.8s ease, cy 0.8s ease;
   }
 
   /* ★v7: 月齢表示（前置「月齢」＋数字） */
@@ -3800,30 +3786,6 @@
       <!-- ★v6改: 浮世絵風 月アイコン -->
       <div class="today-big-moon">
         <img class="today-moon-img" id="todayMoonImg" alt="今日の月" src="" width="200" height="200">
-        <!-- ★v7: 月齢進捗弧（円周で月齢0〜29.5を表現） -->
-        <svg class="moon-age-arc" id="moonAgeArc" viewBox="0 0 220 220" aria-hidden="true">
-          <defs>
-            <filter id="moonAgeGlow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="2.5" result="b"/>
-              <feMerge>
-                <feMergeNode in="b"/>
-                <feMergeNode in="SourceGraphic"/>
-              </feMerge>
-            </filter>
-          </defs>
-          <!-- 円周のトラック -->
-          <circle cx="110" cy="110" r="106" fill="none"
-                  stroke="rgba(201,169,97,0.18)" stroke-width="1.5"/>
-          <!-- 4聖点マーカー（上=ツキタチ、右=カタミニ、下=クマナシ、左=アリアケ） -->
-          <circle cx="110" cy="4"   r="2.8" fill="rgba(201,169,97,0.7)"/>
-          <circle cx="216" cy="110" r="2.2" fill="rgba(201,169,97,0.45)"/>
-          <circle cx="110" cy="216" r="2.8" fill="rgba(201,169,97,0.7)"/>
-          <circle cx="4"   cy="110" r="2.2" fill="rgba(201,169,97,0.45)"/>
-          <!-- 現在位置ドット（JSで cx/cy 更新） -->
-          <circle id="moonAgeDot" cx="110" cy="4" r="4.8"
-                  fill="rgba(255, 220, 150, 1)"
-                  filter="url(#moonAgeGlow)"/>
-        </svg>
       </div>
       <div class="today-age" id="calTodayAge">—</div>
     </div>
@@ -6462,17 +6424,6 @@ const COASTLINES = [
       `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日（${wd[now.getDay()]}）`;
     document.getElementById('calTodayAge').innerHTML =
       `<span class="today-age-prefix">月 齢</span><span class="today-age-num">${age.toFixed(1)}</span>`;
-    // ★v7: 月齢進捗弧のドット位置を更新（0=上、時計回り）
-    {
-      const dot = document.getElementById('moonAgeDot');
-      if (dot) {
-        const theta = (age / SYNODIC_MONTH) * 2 * Math.PI;
-        const cx = 110 + Math.sin(theta) * 106;
-        const cy = 110 - Math.cos(theta) * 106;
-        dot.setAttribute('cx', cx.toFixed(2));
-        dot.setAttribute('cy', cy.toFixed(2));
-      }
-    }
 
     // ★v6改: 旧暦と月名（ヘッダ位置）＋ 浮世絵アイコン
     {
