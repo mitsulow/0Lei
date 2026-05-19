@@ -6594,11 +6594,13 @@ const COASTLINES = [
   (function setupMemoSwipe() {
     const content = document.querySelector('#memoModal .memo-modal-content');
     if (!content) return;
-    let startX = 0, startY = 0, startT = 0, tracking = false, animating = false;
-    const THRESHOLD_DX = 60;   // 横方向の最小スワイプ距離(px)
-    const MAX_DURATION = 700;  // これより長いタッチは無視(ms)
+    let startX = 0, startY = 0, startT = 0;
+    let tracking = false, animating = false;
+    let axis = null; // 'h' = 横スワイプ, 'v' = 縦スクロール, null = 未確定
+    const LOCK_PX = 10;        // この距離超えた時点で軸を確定
+    const SWITCH_PX = 70;      // 切替確定する横距離
+    const SWITCH_VELOCITY = 0.45; // 切替確定する横速度(px/ms)
     content.addEventListener('touchstart', (e) => {
-      // textarea上のタッチは無視（テキスト編集・選択を優先）
       if (e.target.closest('textarea')) { tracking = false; return; }
       if (animating) { tracking = false; return; }
       if (e.touches.length !== 1) { tracking = false; return; }
@@ -6607,45 +6609,88 @@ const COASTLINES = [
       startY = t.clientY;
       startT = Date.now();
       tracking = true;
+      axis = null;
+      content.style.transition = 'none';
     }, { passive: true });
+    content.addEventListener('touchmove', (e) => {
+      if (!tracking) return;
+      const t = e.touches[0];
+      const dx = t.clientX - startX;
+      const dy = t.clientY - startY;
+      if (axis === null) {
+        if (Math.abs(dx) < LOCK_PX && Math.abs(dy) < LOCK_PX) return;
+        axis = Math.abs(dx) > Math.abs(dy) ? 'h' : 'v';
+        if (axis === 'v') { tracking = false; return; }
+      }
+      // 横スワイプ確定 → 縦スクロール抑止＋指に追従
+      if (e.cancelable) e.preventDefault();
+      const dragOpacity = 1 - Math.min(Math.abs(dx) / 600, 0.35);
+      content.style.transform = `translateX(${dx}px)`;
+      content.style.opacity = String(dragOpacity);
+    }, { passive: false });
     content.addEventListener('touchend', (e) => {
       if (!tracking) return;
       tracking = false;
+      if (axis !== 'h') return;
       const t = e.changedTouches[0];
       const dx = t.clientX - startX;
-      const dy = t.clientY - startY;
-      const dt = Date.now() - startT;
-      if (dt > MAX_DURATION) return;
-      if (Math.abs(dx) < THRESHOLD_DX) return;
-      if (Math.abs(dy) > Math.abs(dx) * 0.7) return; // 縦寄り→無視
-      const modal = document.getElementById('memoModal');
-      const currentDate = modal.dataset.date;
-      if (!currentDate) return;
-      const step = (dx < 0) ? 1 : -1; // 左スワイプ→翌日、右スワイプ→前日
-      const newDate = shiftMemoDate(currentDate, step);
-      // 軽くフェード＋横スライドで切替感
+      const dt = Math.max(Date.now() - startT, 1);
+      const velocity = Math.abs(dx) / dt;
+      const shouldSwitch = Math.abs(dx) > SWITCH_PX || velocity > SWITCH_VELOCITY;
+      if (!shouldSwitch) {
+        // 戻す
+        animating = true;
+        content.style.transition = 'transform 0.18s ease, opacity 0.18s ease';
+        content.style.transform = '';
+        content.style.opacity = '';
+        setTimeout(() => {
+          content.style.transition = '';
+          animating = false;
+        }, 200);
+        return;
+      }
+      // 切替確定：勢いそのまま画面外に飛ばす
+      const direction = dx < 0 ? -1 : 1;
+      const offX = (content.offsetWidth || 480) + 40;
       animating = true;
-      const slidePx = step > 0 ? -24 : 24;
-      content.style.transition = 'opacity 0.14s ease, transform 0.14s ease';
-      content.style.opacity = '0.25';
-      content.style.transform = `translateX(${slidePx}px)`;
+      content.style.transition = 'transform 0.22s ease-out, opacity 0.22s ease-out';
+      content.style.transform = `translateX(${direction * offX}px)`;
+      content.style.opacity = '0';
+      const step = direction < 0 ? 1 : -1; // 左に飛んだら翌日
+      const modal = document.getElementById('memoModal');
+      const newDate = shiftMemoDate(modal.dataset.date, step);
       setTimeout(() => {
-        openMemoModalInner(newDate);
+        // 反対側に新ページを置く
         content.style.transition = 'none';
-        content.style.transform = `translateX(${-slidePx}px)`;
-        content.style.opacity = '0.25';
-        // 反対側からスライドイン
-        requestAnimationFrame(() => {
-          content.style.transition = 'opacity 0.18s ease, transform 0.18s ease';
-          content.style.transform = 'translateX(0)';
-          content.style.opacity = '1';
-          setTimeout(() => {
-            content.style.transition = '';
-            content.style.transform = '';
-            animating = false;
-          }, 220);
-        });
-      }, 150);
+        content.style.transform = `translateX(${-direction * offX}px)`;
+        content.style.opacity = '0';
+        openMemoModalInner(newDate);
+        // 強制リフローしてから中央へアニメ
+        void content.offsetWidth;
+        content.style.transition = 'transform 0.24s ease-out, opacity 0.24s ease-out';
+        content.style.transform = 'translateX(0)';
+        content.style.opacity = '1';
+        setTimeout(() => {
+          content.style.transition = '';
+          content.style.transform = '';
+          content.style.opacity = '';
+          animating = false;
+        }, 260);
+      }, 230);
+    }, { passive: true });
+    content.addEventListener('touchcancel', () => {
+      if (!tracking) return;
+      tracking = false;
+      if (axis === 'h') {
+        animating = true;
+        content.style.transition = 'transform 0.18s ease, opacity 0.18s ease';
+        content.style.transform = '';
+        content.style.opacity = '';
+        setTimeout(() => {
+          content.style.transition = '';
+          animating = false;
+        }, 200);
+      }
     }, { passive: true });
   })();
 
