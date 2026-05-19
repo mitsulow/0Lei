@@ -967,10 +967,11 @@
 
   .memo-modal-date {
     font-family: 'Shippori Mincho', serif;
-    font-size: 1.1rem;
+    font-size: 1.32rem;
     font-weight: 600;
-    letter-spacing: 0.25em;
+    letter-spacing: 0.22em;
     color: var(--moon-white);
+    line-height: 1.35;
   }
 
   .memo-modal-date-group {
@@ -1241,11 +1242,25 @@
 
   /* ★v7: 折りたたみセクション（今日の潮・マツリドキ・重力） */
   .memo-section {
-    margin-top: 12px;
-    border-top: 1px solid rgba(201, 169, 97, 0.18);
-    padding-top: 6px;
+    margin-top: 8px;
+    padding: 0 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(201, 169, 97, 0.16);
+    background: rgba(15, 25, 40, 0.32);
+    border-left-width: 3px;
+    transition: background 0.25s, border-color 0.25s;
   }
   .memo-section[hidden] { display: none; }
+  .memo-section[open] {
+    background: rgba(15, 25, 40, 0.48);
+  }
+  /* セクションごとのテーマ色（左ボーダーで識別） */
+  #memoTideSection { border-left-color: rgba(110, 196, 245, 0.6); }
+  #memoMatsuriSection { border-left-color: rgba(201, 169, 97, 0.7); }
+  #memoGravitySection { border-left-color: rgba(180, 150, 220, 0.55); }
+  #memoTideSection[open] { border-left-color: rgba(110, 196, 245, 0.95); }
+  #memoMatsuriSection[open] { border-left-color: rgba(201, 169, 97, 1); }
+  #memoGravitySection[open] { border-left-color: rgba(180, 150, 220, 0.9); }
   .memo-section-head {
     list-style: none;
     -webkit-appearance: none;
@@ -1257,12 +1272,16 @@
     font-family: 'Shippori Mincho', serif;
     font-size: 1.02rem;
     font-weight: 600;
-    letter-spacing: 0.32em;
+    letter-spacing: 0.3em;
     color: var(--gold);
-    padding: 12px 4px;
+    padding: 11px 0;
     user-select: none;
     line-height: 1.4;
   }
+  /* セクションごとに見出し色も微妙に変える */
+  #memoTideSection > .memo-section-head { color: rgba(160, 210, 245, 0.95); }
+  #memoMatsuriSection > .memo-section-head { color: var(--gold); }
+  #memoGravitySection > .memo-section-head { color: rgba(200, 180, 235, 0.9); }
   .memo-section-head::-webkit-details-marker { display: none; }
   .memo-section-head::after {
     content: '＋';
@@ -1278,7 +1297,7 @@
     content: '−';
   }
   .memo-section-body {
-    padding: 4px 4px 8px;
+    padding: 2px 0 10px;
   }
   /* セクション内の文字を少し大きく（老眼配慮） */
   .memo-section .memo-modal-tide {
