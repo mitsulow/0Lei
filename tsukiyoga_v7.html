@@ -1240,7 +1240,94 @@
     flex-shrink: 0;
   }
 
-  /* ★v7: 折りたたみセクション（今日の潮・マツリドキ・重力） */
+  /* ★v7: 今日のデータ（タブUI：潮・マツリドキ・ツキ重力） */
+  .today-block {
+    margin-top: 12px;
+    padding: 10px 12px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(201, 169, 97, 0.18);
+    background: rgba(15, 25, 40, 0.35);
+  }
+  .today-label {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.4em;
+    color: rgba(201, 169, 97, 0.7);
+    margin-bottom: 9px;
+    text-align: center;
+    padding-left: 0.4em;
+  }
+  .today-tabs {
+    display: flex;
+    gap: 6px;
+  }
+  .today-tab {
+    flex: 1;
+    background: rgba(10, 20, 40, 0.45);
+    border: 1px solid rgba(201, 169, 97, 0.22);
+    color: rgba(201, 169, 97, 0.78);
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    padding: 10px 4px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
+    -webkit-tap-highlight-color: transparent;
+    white-space: nowrap;
+  }
+  .today-tab[data-tab="tide"] { border-bottom: 2px solid rgba(110, 196, 245, 0.45); }
+  .today-tab[data-tab="matsuri"] { border-bottom: 2px solid rgba(201, 169, 97, 0.55); }
+  .today-tab[data-tab="gravity"] { border-bottom: 2px solid rgba(180, 150, 220, 0.45); }
+  .today-tab.active {
+    background: rgba(15, 30, 55, 0.7);
+    color: var(--moon-white);
+  }
+  .today-tab.unavailable,
+  .today-tab[disabled] {
+    opacity: 0.32;
+    cursor: not-allowed;
+    color: rgba(170, 180, 200, 0.5);
+  }
+  .today-tab.unavailable.active,
+  .today-tab[disabled].active {
+    background: rgba(10, 20, 40, 0.45);
+  }
+  .today-tab[data-tab="tide"].active {
+    border-color: rgba(110, 196, 245, 0.9);
+    color: rgba(160, 210, 245, 1);
+  }
+  .today-tab[data-tab="matsuri"].active {
+    border-color: rgba(201, 169, 97, 1);
+    color: var(--gold);
+  }
+  .today-tab[data-tab="gravity"].active {
+    border-color: rgba(180, 150, 220, 0.95);
+    color: rgba(210, 190, 240, 1);
+  }
+  .today-panes {
+    overflow: hidden;
+    transition: max-height 0.3s ease, margin-top 0.3s ease, opacity 0.25s ease;
+  }
+  .today-panes.empty {
+    max-height: 0;
+    margin-top: 0;
+    opacity: 0;
+  }
+  .today-panes:not(.empty) {
+    margin-top: 12px;
+    max-height: 800px;
+    opacity: 1;
+  }
+  .today-pane[hidden] { display: none; }
+  .today-pane {
+    padding: 4px 2px 2px;
+  }
+  /* 旧 <details> セクション用スタイル（互換のため残置）*/
   .memo-section {
     margin-top: 8px;
     padding: 0 12px;
@@ -3322,25 +3409,26 @@
         <div class="memo-modal-date" id="memoDate">—</div>
         <div class="memo-modal-lunar" id="memoLunar"></div>
         <div class="memo-modal-seiten" id="memoSeiten"></div>
-        <!-- ★v7: 折りたたみセクション（今日の潮・マツリドキ・重力） -->
-        <details class="memo-section" id="memoTideSection">
-          <summary class="memo-section-head">今 日 の 潮</summary>
-          <div class="memo-section-body">
-            <div class="memo-modal-tide" id="memoTide"></div>
+        <!-- ★v7: 今日のデータ（タブUI） -->
+        <div class="today-block" id="todayBlock">
+          <div class="today-label">今 日 の デ ー タ</div>
+          <div class="today-tabs" role="tablist">
+            <button type="button" class="today-tab" data-tab="tide" id="todayTabTide" role="tab" aria-selected="false">潮</button>
+            <button type="button" class="today-tab" data-tab="matsuri" id="todayTabMatsuri" role="tab" aria-selected="false">マ ツ リ ド キ</button>
+            <button type="button" class="today-tab" data-tab="gravity" id="todayTabGravity" role="tab" aria-selected="false">ツ キ 重 力</button>
           </div>
-        </details>
-        <details class="memo-section" id="memoMatsuriSection">
-          <summary class="memo-section-head">今 日 の マ ツ リ ド キ</summary>
-          <div class="memo-section-body">
-            <div class="memo-modal-matsuri" id="memoMatsuri"></div>
+          <div class="today-panes empty" id="todayPanes">
+            <div class="today-pane" data-pane="tide" id="todayPaneTide" hidden>
+              <div class="memo-modal-tide" id="memoTide"></div>
+            </div>
+            <div class="today-pane" data-pane="matsuri" id="todayPaneMatsuri" hidden>
+              <div class="memo-modal-matsuri" id="memoMatsuri"></div>
+            </div>
+            <div class="today-pane" data-pane="gravity" id="todayPaneGravity" hidden>
+              <div class="memo-modal-gravity" id="memoGravity"></div>
+            </div>
           </div>
-        </details>
-        <details class="memo-section" id="memoGravitySection">
-          <summary class="memo-section-head">今 日 の 重 力</summary>
-          <div class="memo-section-body">
-            <div class="memo-modal-gravity" id="memoGravity"></div>
-          </div>
-        </details>
+        </div>
       </div>
       <button class="memo-modal-close" id="memoClose">×</button>
     </div>
@@ -6657,11 +6745,15 @@ const COASTLINES = [
         `<span class="seiten-time">${hh}:${mm}</span>`;
     }
 
+    // ★v7: タブ状態をリセット
+    resetTodayTabs();
+
     // 潮汐
     const tideEl = document.getElementById('memoTide');
-    const tideSection = document.getElementById('memoTideSection');
+    const tideTab = document.getElementById('todayTabTide');
     tideEl.innerHTML = '';
-    tideSection.hidden = false;
+    tideTab.disabled = false;
+    tideTab.classList.remove('unavailable');
     // ★v6: その日だけ港を上書きしてるならそれを優先
     const overrideKey = `tsukiyoga-port-override-${dateStr}`;
     const overrideCode = localStorage.getItem(overrideKey);
@@ -6670,7 +6762,11 @@ const COASTLINES = [
       : getTideForDate(dateStr);
     tidePromise.then(tide => {
       if (modal.dataset.date !== dateStr) return;
-      if (!tide) { tideSection.hidden = true; return; }
+      if (!tide) {
+        tideTab.disabled = true;
+        tideTab.classList.add('unavailable');
+        return;
+      }
       const fmt = arr => arr.map(([t]) => t).join('　　');
       const highStr = tide.high.length ? fmt(tide.high) : '—';
       const lowStr  = tide.low.length  ? fmt(tide.low)  : '—';
@@ -6689,15 +6785,17 @@ const COASTLINES = [
       }
     }).catch(() => {});
 
-    // ★v6→v7: マツリドキと重力4点（折りたたみセクションに分離）
+    // ★v6→v7: マツリドキと重力4点（タブUIへ）
     const matsuriEl = document.getElementById('memoMatsuri');
     const gravityEl = document.getElementById('memoGravity');
-    const matsuriSection = document.getElementById('memoMatsuriSection');
-    const gravitySection = document.getElementById('memoGravitySection');
+    const matsuriTab = document.getElementById('todayTabMatsuri');
+    const gravityTab = document.getElementById('todayTabGravity');
     matsuriEl.innerHTML = '';
     gravityEl.innerHTML = '';
-    matsuriSection.hidden = false;
-    gravitySection.hidden = false;
+    matsuriTab.disabled = false;
+    matsuriTab.classList.remove('unavailable');
+    gravityTab.disabled = false;
+    gravityTab.classList.remove('unavailable');
     try {
       const { asa, yoru, asaAngle, yoruAngle } = findMatsuriDokiForDate(dateStr, userLocation.lat, userLocation.lon);
       const grav = findMoonGravityPoints(dateStr, userLocation.lat, userLocation.lon);
@@ -6720,14 +6818,58 @@ const COASTLINES = [
         `</div>`;
     } catch (err) {
       console.warn('matsuri calculation error:', err);
-      matsuriSection.hidden = true;
-      gravitySection.hidden = true;
+      matsuriTab.disabled = true;
+      matsuriTab.classList.add('unavailable');
+      gravityTab.disabled = true;
+      gravityTab.classList.add('unavailable');
     }
 
     modal.classList.add('active');
     document.body.classList.add('modal-open');
     modal.dataset.date = dateStr;
   }
+
+  // ★v7: 「今日のデータ」タブUI制御
+  function resetTodayTabs() {
+    const block = document.getElementById('todayBlock');
+    if (!block) return;
+    block.querySelectorAll('.today-tab').forEach(t => {
+      t.classList.remove('active');
+      t.setAttribute('aria-selected', 'false');
+    });
+    block.querySelectorAll('.today-pane').forEach(p => { p.hidden = true; });
+    const panes = block.querySelector('.today-panes');
+    if (panes) panes.classList.add('empty');
+  }
+  (function setupTodayTabs() {
+    const block = document.getElementById('todayBlock');
+    if (!block) return;
+    block.addEventListener('click', (e) => {
+      const tab = e.target.closest('.today-tab');
+      if (!tab) return;
+      if (tab.disabled) return;
+      const target = tab.dataset.tab;
+      const wasActive = tab.classList.contains('active');
+      // 全タブ非アクティブ
+      block.querySelectorAll('.today-tab').forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      block.querySelectorAll('.today-pane').forEach(p => { p.hidden = true; });
+      const panes = block.querySelector('.today-panes');
+      if (wasActive) {
+        // 同じタブ再タップ→閉じる
+        if (panes) panes.classList.add('empty');
+      } else {
+        // 切替：このタブをアクティブに
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+        const pane = block.querySelector(`.today-pane[data-pane="${target}"]`);
+        if (pane) pane.hidden = false;
+        if (panes) panes.classList.remove('empty');
+      }
+    });
+  })();
 
   // ★v7: 手帳モーダルの日付スワイプ（右→前日、左→翌日）
   function shiftMemoDate(dateStr, days) {
