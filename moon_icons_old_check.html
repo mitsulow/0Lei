@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<title>moon_icons 旧版 (124px) チェック</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(110, 196, 245, 0.08), transparent 60%),
+      radial-gradient(ellipse at 70% 80%, rgba(201, 169, 97, 0.06), transparent 60%),
+      linear-gradient(180deg, #050a1c 0%, #02050f 100%);
+    color: #fff;
+    font-family: 'Shippori Mincho', 'Yu Mincho', serif;
+    padding: 20px 12px 40px;
+    min-height: 100vh;
+  }
+  h1 {
+    text-align: center;
+    color: rgba(245, 235, 216, 0.95);
+    letter-spacing: 0.3em;
+    font-size: 1.3rem;
+    margin: 8px 0 4px;
+  }
+  .sub {
+    text-align: center;
+    color: rgba(201, 169, 97, 0.85);
+    letter-spacing: 0.15em;
+    font-size: 0.75rem;
+    margin-bottom: 18px;
+    line-height: 1.7;
+  }
+  .nav {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .nav a {
+    display: inline-block;
+    padding: 8px 16px;
+    background: rgba(20, 30, 55, 0.6);
+    border: 1px solid rgba(201, 169, 97, 0.4);
+    border-radius: 20px;
+    color: rgba(201, 169, 97, 0.95);
+    text-decoration: none;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    margin: 0 6px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 14px;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+  .cell {
+    background: rgba(20, 30, 55, 0.45);
+    border: 1px solid rgba(201, 169, 97, 0.25);
+    border-radius: 12px;
+    padding: 12px 8px 10px;
+    text-align: center;
+  }
+  .cell.seiten {
+    background: linear-gradient(180deg, rgba(60, 50, 30, 0.55), rgba(20, 30, 55, 0.55));
+    border-color: rgba(245, 196, 74, 0.7);
+    box-shadow: 0 0 16px rgba(245, 196, 74, 0.18);
+  }
+  .cell .img-wrap {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+  .cell img {
+    width: 100%;
+    height: auto;
+    max-height: 100%;
+    object-fit: contain;
+    image-rendering: auto;
+  }
+  .cell .num {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.95);
+    margin-bottom: 2px;
+  }
+  .cell .age {
+    font-family: 'Cinzel', serif;
+    font-size: 0.68rem;
+    color: rgba(110, 196, 245, 0.85);
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+  .cell .name {
+    font-size: 0.74rem;
+    color: rgba(201, 169, 97, 0.95);
+    letter-spacing: 0.08em;
+    line-height: 1.4;
+  }
+  .cell.seiten .name {
+    color: rgba(245, 196, 74, 1);
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+  <h1>旧 版 (124px) 30 枚 チ ェ ッ ク</h1>
+  <div class="sub">
+    タイトクロップ版 (commit 22c8d2e、約 800KB 合計)<br>
+    ★ = 4 聖位（新月・上弦・満月・下弦）
+  </div>
+  <div class="nav">
+    <a href="./tsukiyoga_v7.html">← v7 に戻る</a>
+    <a href="./moon_icons_check.html">新版 (Adobe AI 400px)</a>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+<script>
+  const buster = '?v=' + Date.now();
+  const moons = [
+    { n:'01', age:0,  name:'新 月',     seiten:true },
+    { n:'02', age:1,  name:'フ ツ カ ヅ キ' },
+    { n:'03', age:2,  name:'ミ カ ヅ キ' },
+    { n:'04', age:3,  name:'マ ユ ヅ キ' },
+    { n:'05', age:4,  name:'ユ ウ ヅ キ' },
+    { n:'06', age:5,  name:'ム イ カ ヅ キ' },
+    { n:'07', age:6,  name:'ヨ イ ヅ キ' },
+    { n:'08', age:7,  name:'上 弦',     seiten:true },
+    { n:'09', age:8,  name:'ヤ ウ カ ヅ キ' },
+    { n:'10', age:9,  name:'コ コ ノ カ ヅ キ' },
+    { n:'11', age:10, name:'ト オ カ ン ヤ' },
+    { n:'12', age:11, name:'ジ ュ ウ イ チ ヤ' },
+    { n:'13', age:12, name:'ジ ュ ウ ニ ヤ' },
+    { n:'14', age:13, name:'ア タ ラ ヨ' },
+    { n:'15', age:14, name:'マ チ ヨ イ' },
+    { n:'16', age:15, name:'満 月',     seiten:true },
+    { n:'17', age:16, name:'イ ザ ヨ イ' },
+    { n:'18', age:17, name:'タ チ マ チ' },
+    { n:'19', age:18, name:'イ マ チ' },
+    { n:'20', age:19, name:'ネ マ チ' },
+    { n:'21', age:20, name:'フ ケ マ チ' },
+    { n:'22', age:21, name:'ニ ジ ュ ウ イ チ ヤ' },
+    { n:'23', age:22, name:'下 弦',     seiten:true },
+    { n:'24', age:23, name:'ニ ジ ュ ウ ヨ ヤ' },
+    { n:'25', age:24, name:'ホ シ ア ヒ' },
+    { n:'26', age:25, name:'ナ ゴ リ ヅ キ' },
+    { n:'27', age:26, name:'ア カ ツ キ' },
+    { n:'28', age:27, name:'ア ケ ボ ノ' },
+    { n:'29', age:28, name:'ツ ゴ モ リ' },
+    { n:'30', age:29, name:'ミ ソ カ' }
+  ];
+  document.getElementById('grid').innerHTML = moons.map(m => `
+    <div class="cell${m.seiten ? ' seiten' : ''}">
+      <div class="img-wrap">
+        <img src="./moon_icons_124px/moon_${m.n}.png${buster}" alt="月齢${m.age}">
+      </div>
+      <div class="num">moon_${m.n}</div>
+      <div class="age">月齢 ${m.age}</div>
+      <div class="name">${m.seiten ? '★ ' : ''}${m.name}</div>
+    </div>
+  `).join('');
+</script>
+</body>
+</html>
