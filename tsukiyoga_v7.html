@@ -4735,13 +4735,9 @@
           <img id="uranaiMoonImg" class="uranai-hero-moon-bg" src="" alt="">
           <img id="uranaiCharImg" class="uranai-hero-char-fg" src="" alt="">
           <div class="uranai-hero-age" id="uranaiHeroAge"></div>
-          <!-- ビックリマンシール風リボン (実画像、4色×キラキラ/通常 8 種) -->
+          <!-- ビックリマンシール風リボン (Canvas でテキスト一体合成済み画像) -->
           <div class="uranai-hero-ribbon" id="uranaiHeroRibbon">
             <img class="uranai-hero-ribbon-img" id="uranaiHeroRibbonImg" src="" alt="">
-            <div class="uranai-hero-ribbon-text">
-              <div class="uranai-hero-ribbon-prefix" id="uranaiRibbonPrefix"></div>
-              <div class="uranai-hero-ribbon-name" id="uranaiRibbonName"></div>
-            </div>
           </div>
         </div>
         <div class="uranai-hero-prefix" id="uranaiHeroMoon"></div>
@@ -6096,6 +6092,99 @@ const COASTLINES = [
     return Math.max(1, Math.min(30, Math.round(norm) + 1));
   }
 
+  // ============ リボン Canvas 合成 (テキストを画像内に焼き込み) ============
+  // 既存の 8 種類のリボン画像 (1500x540) にタイプ別テキストを Canvas で描画 →
+  // dataURL として img.src にセット。フォント/位置をコードで完全制御するので
+  // 改行・ズレが発生しない。
+  const _ribbonImgCache = {}; // src → HTMLImageElement キャッシュ
+  function _loadRibbonImg(src) {
+    if (_ribbonImgCache[src]) return Promise.resolve(_ribbonImgCache[src]);
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => { _ribbonImgCache[src] = img; resolve(img); };
+      img.onerror = reject;
+      img.src = src;
+    });
+  }
+  function _jaToKatakana(s) {
+    return s
+      .replace('黒', 'クロ').replace('赤', 'アカ')
+      .replace('白', 'シロ').replace('青', 'アオ')
+      .replace('うさぎ', 'ウサギ').replace('がめ', 'ガメ').replace('わに', 'ワニ');
+  }
+  async function renderRibbonWithText(phase) {
+    // フォントが完全に読み込まれるまで待つ
+    if (document.fonts && document.fonts.ready) {
+      try { await document.fonts.ready; } catch(e) {}
+    }
+    // リボン画像選択
+    const colorMap = { '黒': 'kuro', '赤': 'aka', '白': 'shiro', '青': 'ao' };
+    const colorKey = colorMap[phase.color] || 'kuro';
+    const isKira = phase.animal === 'うさぎ';
+    const src = `./ribbon_icons/ribbon_${colorKey}${isKira ? '_kira' : ''}.png`;
+    const img = await _loadRibbonImg(src);
+
+    const canvas = document.createElement('canvas');
+    canvas.width = img.width;   // 1500
+    canvas.height = img.height; // 540
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0);
+
+    // テキスト内容
+    const prefixText = `${phase.moon} 産まれの`;
+    const nameText = _jaToKatakana(phase.ja);
+
+    // 中央バナーの幅 (画像 x 22% ~ 78% = 56% = 840px)
+    const bannerWidth = canvas.width * 0.56;
+
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    // ── prefix (小フォント) ──
+    let prefixFont = 52;
+    ctx.font = `400 ${prefixFont}px "RocknRoll One", "Shippori Mincho", serif`;
+    while (ctx.measureText(prefixText).width > bannerWidth * 0.92 && prefixFont > 28) {
+      prefixFont -= 2;
+      ctx.font = `400 ${prefixFont}px "RocknRoll One", "Shippori Mincho", serif`;
+    }
+    // 影 (キラキラ以外は白文字+黒影、キラキラは黒文字+クリーム影)
+    if (isKira) {
+      ctx.fillStyle = 'rgba(40, 22, 18, 1)';
+      ctx.shadowColor = 'rgba(255, 245, 200, 0.85)';
+      ctx.shadowBlur = 3;
+      ctx.shadowOffsetY = 1;
+    } else {
+      ctx.fillStyle = 'rgba(255, 245, 220, 0.98)';
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.95)';
+      ctx.shadowBlur = 5;
+      ctx.shadowOffsetY = 2;
+    }
+    ctx.fillText(prefixText, canvas.width / 2, canvas.height * 0.17);
+
+    // ── name (大フォント) ──
+    let nameFont = 140;
+    ctx.font = `400 ${nameFont}px "Reggae One", "Shippori Mincho", serif`;
+    while (ctx.measureText(nameText).width > bannerWidth * 0.95 && nameFont > 70) {
+      nameFont -= 4;
+      ctx.font = `400 ${nameFont}px "Reggae One", "Shippori Mincho", serif`;
+    }
+    if (isKira) {
+      ctx.fillStyle = 'rgba(40, 20, 15, 1)';
+      ctx.shadowColor = 'rgba(255, 245, 200, 0.85)';
+      ctx.shadowBlur = 4;
+      ctx.shadowOffsetY = 1;
+    } else {
+      ctx.fillStyle = 'rgba(255, 252, 240, 1)';
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.95)';
+      ctx.shadowBlur = 6;
+      ctx.shadowOffsetY = 2;
+    }
+    ctx.fillText(nameText, canvas.width / 2, canvas.height * 0.32);
+
+    return canvas.toDataURL('image/png');
+  }
+
   // ============ 都市データ (経度補正用) ============
   const JST_REF_LON = 135.0; // 明石 (JST基準経度)
   const JAPAN_CITIES = {
@@ -7048,7 +7137,7 @@ const COASTLINES = [
     function spaceOut(s) { return (s || '').split('').join(' '); }
     function pad2(n) { return String(Math.floor(n)).padStart(2, '0'); }
 
-    submitEl.addEventListener('click', () => {
+    submitEl.addEventListener('click', async () => {
       const dateStr = readDateStr(yearEl, monthEl, dayEl);
       let timeStr = timeEl.value;
       if (!timeStr || timeUnknownEl.checked) timeStr = '15:00';
@@ -7130,24 +7219,13 @@ const COASTLINES = [
         spaceOut(phase.moon) + ' 生 ま れ の';
       document.getElementById('uranaiHeroType').textContent = spaceOut(phase.ja);
 
-      // ★ビックリマンシール風リボン (実画像)
-      // 「カタミニ 産まれの」(小) / 「アカウサギ」(大、カタカナ)
-      const jaToKata = (s) => s
-        .replace('黒', 'クロ').replace('赤', 'アカ')
-        .replace('白', 'シロ').replace('青', 'アオ')
-        .replace('うさぎ', 'ウサギ').replace('がめ', 'ガメ').replace('わに', 'ワニ');
-      document.getElementById('uranaiRibbonPrefix').textContent =
-        spaceOut(phase.moon) + ' 産 ま れ の';
-      document.getElementById('uranaiRibbonName').textContent =
-        spaceOut(jaToKata(phase.ja));
-      // 色 + キラキラ判定でリボン画像を選択
-      const ribbonColorMap = { '黒': 'kuro', '赤': 'aka', '白': 'shiro', '青': 'ao' };
-      const ribbonColor = ribbonColorMap[phase.color] || 'kuro';
-      const ribbonIsKira = phase.animal === 'うさぎ'; // 聖点 0/3/6/9 はキラキラシール
-      const ribbonSrc = `./ribbon_icons/ribbon_${ribbonColor}${ribbonIsKira ? '_kira' : ''}.png`;
-      document.getElementById('uranaiHeroRibbonImg').src = ribbonSrc;
-      const ribbon = document.getElementById('uranaiHeroRibbon');
-      ribbon.classList.toggle('is-sparkle', ribbonIsKira);
+      // ★ビックリマンシール風リボン (Canvas でリボン+テキストを焼き込み合成)
+      try {
+        const dataURL = await renderRibbonWithText(phase);
+        document.getElementById('uranaiHeroRibbonImg').src = dataURL;
+      } catch(e) {
+        console.warn('ribbon compose failed', e);
+      }
       document.getElementById('uranaiLucky').textContent = String(phaseIdx);
 
       // 4チップ
