@@ -1834,10 +1834,7 @@
     position: fixed;
     inset: 0 0 62px 0;
     z-index: 35;
-    background:
-      radial-gradient(ellipse at 30% 20%, rgba(110, 196, 245, 0.10), transparent 60%),
-      radial-gradient(ellipse at 70% 80%, rgba(201, 169, 97, 0.08), transparent 60%),
-      linear-gradient(180deg, #050a1c 0%, #02050f 100%);
+    background: #000;
     display: none;
     overflow: hidden;
   }
@@ -1855,19 +1852,50 @@
     text-align: center;
     margin-bottom: 28px;
   }
+  /* 題字 (背景模様付き、★装飾) */
+  .uranai-title-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 14px 28px;
+    background:
+      radial-gradient(ellipse at center, rgba(245, 196, 74, 0.18), transparent 70%),
+      linear-gradient(180deg, rgba(60, 50, 30, 0.5), rgba(20, 18, 10, 0.7));
+    border-top: 1px solid rgba(245, 196, 74, 0.5);
+    border-bottom: 1px solid rgba(245, 196, 74, 0.5);
+    border-left: none;
+    border-right: none;
+    box-shadow:
+      0 0 24px rgba(245, 196, 74, 0.18),
+      inset 0 0 18px rgba(245, 196, 74, 0.08);
+    position: relative;
+  }
+  .uranai-title-wrap::before, .uranai-title-wrap::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 28px;
+    height: 1px;
+    background: rgba(245, 196, 74, 0.5);
+  }
+  .uranai-title-wrap::before { left: -28px; }
+  .uranai-title-wrap::after  { right: -28px; }
   .uranai-title {
     font-family: 'Shippori Mincho', serif;
-    font-size: 1.7rem;
-    color: var(--moon-white);
+    font-size: 1.95rem;
+    font-weight: 700;
+    color: rgba(255, 245, 220, 0.98);
     letter-spacing: 0.3em;
-    margin-bottom: 8px;
+    text-shadow:
+      0 0 12px rgba(245, 196, 74, 0.55),
+      0 0 24px rgba(245, 196, 74, 0.3),
+      0 2px 4px rgba(0, 0, 0, 0.8);
   }
-  .uranai-sub {
-    font-family: 'Shippori Mincho', serif;
-    font-size: 0.82rem;
-    color: rgba(201, 169, 97, 0.85);
-    letter-spacing: 0.18em;
-    line-height: 1.6;
+  .uranai-title-deco-left, .uranai-title-deco-right {
+    color: rgba(245, 196, 74, 0.85);
+    font-size: 1.2rem;
+    text-shadow: 0 0 8px rgba(245, 196, 74, 0.7);
   }
 
   .uranai-form {
@@ -2007,18 +2035,8 @@
     margin: 0 auto 16px;
     aspect-ratio: 1 / 1;
   }
-  /* 月の輪郭 (新月でも月の場所が分かる薄い円) */
-  .uranai-hero-moon-orbit {
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    border: 1px solid rgba(245, 235, 216, 0.22);
-    box-shadow:
-      inset 0 0 24px rgba(245, 235, 216, 0.06),
-      0 0 18px rgba(245, 235, 216, 0.10);
-    z-index: 0;
-    pointer-events: none;
-  }
+  /* 月の輪郭 (削除済み、夜空に月だけが浮かぶ表現) */
+  .uranai-hero-moon-orbit { display: none; }
   .uranai-hero-moon-bg {
     position: absolute;
     inset: 0;
@@ -2026,15 +2044,9 @@
     height: 100%;
     object-fit: contain;
     z-index: 1;
-    /* 月を円形に切り抜き */
+    /* 月を円形に切り抜き (光彩なし、夜空に月だけが浮かぶ) */
     border-radius: 50%;
     overflow: hidden;
-    /* 月を暖色寄りに (黄〜橙) + 控えめなグロー */
-    filter:
-      sepia(0.55)
-      saturate(1.35)
-      brightness(1.05)
-      drop-shadow(0 0 28px rgba(245, 200, 100, 0.35));
   }
   .uranai-hero-char-fg {
     position: absolute;
@@ -2082,34 +2094,29 @@
       0 0 6px rgba(0, 0, 0, 0.9);
   }
 
-  /* ビックリマンシール風リボン (実画像 1500x540 統一、リボン全体が画像枠いっぱい) */
+  /* ビックリマンシール風リボン (自作 SVG 湾曲版) */
   .uranai-hero-ribbon {
     position: absolute;
     left: 50%;
-    bottom: -8%;      /* リボン本体が月の下フチ付近にかぶる */
+    bottom: -18%;     /* 月の下にかぶる */
     transform: translateX(-50%);
     z-index: 5;
     width: 96%;
-    aspect-ratio: 1500 / 540;
+    aspect-ratio: 360 / 130;
     pointer-events: none;
   }
-  .uranai-hero-ribbon-img {
-    position: absolute;
-    inset: 0;
+  .uranai-hero-ribbon-svg {
     width: 100%;
     height: 100%;
     display: block;
     filter:
-      drop-shadow(0 6px 12px rgba(0, 0, 0, 0.55))
-      drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+      drop-shadow(0 8px 14px rgba(0, 0, 0, 0.7))
+      drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
   }
-  /* リボン本体に重ねるテキスト (中央バナー領域 = 画像 y 8~55%) */
+  /* SVG リボン中央のテキスト (湾曲リボン本体に収まる範囲) */
   .uranai-hero-ribbon-text {
     position: absolute;
-    top: 8%;
-    bottom: 55%;
-    left: 22%;
-    right: 22%;
+    inset: 14% 14% 14% 14%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -2125,24 +2132,19 @@
     text-shadow:
       0 1px 2px rgba(0, 0, 0, 0.95),
       0 0 4px rgba(0, 0, 0, 0.7);
-    margin-bottom: 4px;
+    margin-bottom: 6px;
   }
   .uranai-hero-ribbon-name {
     font-family: 'Reggae One', 'Kaisei Decol', 'Shippori Mincho', serif;
-    font-size: 1.78rem;
-    letter-spacing: 0.06em;
+    font-size: 2.1rem;
+    letter-spacing: 0.04em;
     color: rgba(255, 252, 240, 1);
     text-shadow:
-      0 2px 4px rgba(0, 0, 0, 0.95),
-      0 0 6px rgba(0, 0, 0, 0.85),
-      0 0 2px rgba(0, 0, 0, 1);
-  }
-  /* キラキラリボン (うさぎ族) の名前は黒文字でキラキラ画像の上で映える */
-  .uranai-hero-ribbon.is-sparkle .uranai-hero-ribbon-name {
-    color: rgba(40, 20, 15, 1);
-    text-shadow:
-      0 1px 0 rgba(255, 245, 200, 0.85),
-      0 0 4px rgba(255, 240, 180, 0.6);
+      0 2px 5px rgba(0, 0, 0, 0.95),
+      0 0 8px rgba(0, 0, 0, 0.85),
+      0 0 2px rgba(0, 0, 0, 1),
+      1px 1px 0 rgba(120, 30, 25, 0.85);
+    -webkit-text-stroke: 0.5px rgba(80, 18, 14, 0.6);
   }
 
   /* ★v7: 占いタブ 時間差表示 (月→月齢→キャラ→リボンの順にフェードイン) */
@@ -2152,17 +2154,18 @@
   .uranai-hero-ribbon {
     opacity: 0;
   }
+  /* 3 段階フェードイン: 月+月齢 → キャラ → 名前 */
   .uranai-result.reveal .uranai-hero-moon-bg {
-    animation: heroFadeInScale 0.7s cubic-bezier(0.2, 0.9, 0.3, 1.1) 0s forwards;
+    animation: heroFadeInScale 0.8s cubic-bezier(0.2, 0.9, 0.3, 1.1) 0s forwards;
   }
   .uranai-result.reveal .uranai-hero-age {
-    animation: heroFadeInDown 0.55s ease-out 0.85s forwards;
+    animation: heroFadeInDown 0.6s ease-out 0.35s forwards;
   }
   .uranai-result.reveal .uranai-hero-char-fg {
-    animation: heroFadeInScale 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.1) 1.55s forwards;
+    animation: heroFadeInScale 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.1) 1.7s forwards;
   }
   .uranai-result.reveal .uranai-hero-ribbon {
-    animation: heroFadeInUpRibbon 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.1) 2.25s forwards;
+    animation: heroFadeInUpRibbon 0.65s cubic-bezier(0.2, 0.9, 0.3, 1.1) 2.7s forwards;
   }
   @keyframes heroFadeInScale {
     from { opacity: 0; transform: scale(0.7); }
@@ -2257,13 +2260,15 @@
   /* 性格描写 */
   .uranai-desc {
     padding: 14px 16px;
-    background: rgba(10, 20, 40, 0.55);
-    border: 1px solid rgba(110, 196, 245, 0.22);
+    background: rgba(20, 30, 55, 0.4);
+    border: none;
     border-radius: 12px;
     font-family: 'Shippori Mincho', serif;
     font-size: 0.92rem;
-    line-height: 1.95;
+    line-height: 1.85;
     color: rgba(255, 255, 255, 0.94);
+    white-space: pre-line;
+    text-align: left;
     letter-spacing: 0.06em;
     margin-bottom: 14px;
   }
@@ -2346,59 +2351,50 @@
   }
 
   /* 場所・時刻カード */
-  .uranai-place-city {
-    font-family: 'Shippori Mincho', serif;
-    font-size: 1.2rem;
-    color: var(--moon-white);
-    letter-spacing: 0.25em;
+  /* 1 行表記版 */
+  .uranai-place-line1, .uranai-place-line2 {
     text-align: center;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
+    font-family: 'Shippori Mincho', serif;
+    line-height: 1.6;
+  }
+  .uranai-place-line1 {
+    font-size: 0.85rem;
+    color: rgba(201, 169, 97, 0.9);
+    letter-spacing: 0.1em;
+  }
+  .uranai-place-city-label {
+    color: rgba(201, 169, 97, 0.7);
+    margin-right: 8px;
+  }
+  .uranai-place-city {
+    font-size: 1rem;
+    color: var(--moon-white);
+    letter-spacing: 0.15em;
+    margin-right: 8px;
   }
   .uranai-place-coords {
     font-family: 'Cinzel', serif;
-    font-size: 0.68rem;
+    font-size: 0.7rem;
     color: rgba(110, 196, 245, 0.7);
-    text-align: center;
-    letter-spacing: 0.1em;
-    margin-bottom: 14px;
+    letter-spacing: 0.05em;
   }
-  .uranai-place-times { text-align: center; }
-  .uranai-place-time {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    padding: 8px 14px;
-    background: rgba(3, 8, 24, 0.5);
-    border-radius: 8px;
-    margin-bottom: 4px;
-  }
-  .uranai-place-time span {
-    font-family: 'Shippori Mincho', serif;
-    font-size: 0.72rem;
+  .uranai-place-line2 {
+    font-size: 0.85rem;
     color: rgba(201, 169, 97, 0.85);
-    letter-spacing: 0.15em;
+    letter-spacing: 0.1em;
   }
-  .uranai-place-time strong {
+  .uranai-place-line2 strong {
     font-family: 'Cinzel', serif;
     font-size: 1.05rem;
     color: var(--moon-white);
     font-weight: normal;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.04em;
+    margin-left: 4px;
   }
-  .uranai-place-arrow {
-    text-align: center;
+  .uranai-place-sep {
     color: rgba(201, 169, 97, 0.5);
-    font-size: 0.9rem;
-    margin: 2px 0;
-  }
-  .uranai-place-offset {
-    text-align: center;
-    font-family: 'Shippori Mincho', serif;
-    font-size: 0.72rem;
-    color: rgba(110, 196, 245, 0.85);
-    letter-spacing: 0.1em;
-    margin-top: 8px;
-    line-height: 1.6;
+    margin: 0 10px;
   }
 
   /* マツリカード */
@@ -4706,14 +4702,17 @@
 <div class="uranai-view" id="uranaiView">
   <div class="uranai-scroll">
     <div class="uranai-header">
-      <div class="uranai-title">月 占 い</div>
-      <div class="uranai-sub">あ な た は ど の 月 の 下 に 生 ま れ た？</div>
+      <div class="uranai-title-wrap">
+        <span class="uranai-title-deco-left">✦</span>
+        <div class="uranai-title">月 占 い</div>
+        <span class="uranai-title-deco-right">✦</span>
+      </div>
     </div>
 
     <div class="uranai-toggle-row" id="uranaiToggleRow" style="display:none">
       <button id="uranaiToggleForm" class="uranai-edit-btn" type="button">
         <span class="uranai-edit-icon">✎</span>
-        マ イ 情 報 を 更 新
+        マ イ ペ ー ジ
       </button>
     </div>
 
@@ -4768,9 +4767,43 @@
           <img id="uranaiMoonImg" class="uranai-hero-moon-bg" src="" alt="">
           <img id="uranaiCharImg" class="uranai-hero-char-fg" src="" alt="">
           <div class="uranai-hero-age" id="uranaiHeroAge"></div>
-          <!-- ビックリマンシール風リボン (Canvas でテキスト一体合成済み画像) -->
+          <!-- ビックリマンシール風リボン (自作 SVG 湾曲版、デカデカフォント) -->
           <div class="uranai-hero-ribbon" id="uranaiHeroRibbon">
-            <img class="uranai-hero-ribbon-img" id="uranaiHeroRibbonImg" src="" alt="">
+            <svg class="uranai-hero-ribbon-svg" viewBox="0 0 360 130" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+              <defs>
+                <linearGradient id="ribbonGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#c63b30"/>
+                  <stop offset="30%" stop-color="#e54f43"/>
+                  <stop offset="60%" stop-color="#b8362e"/>
+                  <stop offset="100%" stop-color="#6f1a14"/>
+                </linearGradient>
+                <linearGradient id="ribbonGradEnd" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#5a160f"/>
+                  <stop offset="100%" stop-color="#280603"/>
+                </linearGradient>
+                <linearGradient id="ribbonHi" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="rgba(255,240,200,0.55)"/>
+                  <stop offset="100%" stop-color="rgba(255,240,200,0)"/>
+                </linearGradient>
+              </defs>
+              <!-- 左右折り返し三角 -->
+              <path d="M 0 65 L 32 22 Q 30 65 32 108 Z" fill="url(#ribbonGradEnd)"/>
+              <path d="M 360 65 L 328 22 Q 330 65 328 108 Z" fill="url(#ribbonGradEnd)"/>
+              <!-- 本体湾曲 -->
+              <path d="M 32 22 Q 180 -2 328 22 Q 330 65 328 108 Q 180 132 32 108 Q 30 65 32 22 Z" fill="url(#ribbonGrad)"/>
+              <!-- 折り返し境界の影 -->
+              <path d="M 32 22 Q 30 65 32 108 L 52 102 Q 50 65 52 28 Z" fill="rgba(0,0,0,0.28)"/>
+              <path d="M 328 22 Q 330 65 328 108 L 308 102 Q 310 65 308 28 Z" fill="rgba(0,0,0,0.28)"/>
+              <!-- 上ハイライト -->
+              <path d="M 36 24 Q 180 4 324 24 Q 320 36 320 40 Q 180 22 40 40 Q 36 36 36 24 Z" fill="url(#ribbonHi)"/>
+              <!-- 金フチ縁取り -->
+              <path d="M 32 22 Q 180 -2 328 22" stroke="rgba(245,196,74,0.85)" stroke-width="1.3" fill="none"/>
+              <path d="M 32 108 Q 180 132 328 108" stroke="rgba(245,196,74,0.55)" stroke-width="1.1" fill="none"/>
+            </svg>
+            <div class="uranai-hero-ribbon-text">
+              <div class="uranai-hero-ribbon-prefix" id="uranaiRibbonPrefix"></div>
+              <div class="uranai-hero-ribbon-name" id="uranaiRibbonName"></div>
+            </div>
           </div>
         </div>
         <div class="uranai-hero-prefix" id="uranaiHeroMoon"></div>
@@ -4780,42 +4813,19 @@
         </div>
       </div>
 
-      <!-- 4 チップ: 月相 / 色 / 動物 / 段階 -->
-      <div class="uranai-chips">
-        <div class="uranai-chip">
-          <span class="uranai-chip-label">月 相</span>
-          <span class="uranai-chip-value" id="uranaiMoonPhase"></span>
-        </div>
-        <div class="uranai-chip">
-          <span class="uranai-chip-label">色</span>
-          <span class="uranai-chip-value" id="uranaiColor"></span>
-        </div>
-        <div class="uranai-chip">
-          <span class="uranai-chip-label">動 物</span>
-          <span class="uranai-chip-value" id="uranaiAnimal"></span>
-        </div>
-        <div class="uranai-chip">
-          <span class="uranai-chip-label">段 階</span>
-          <span class="uranai-chip-value" id="uranaiStage"></span>
-        </div>
-      </div>
 
-      <!-- 場所・時刻カード -->
+      <!-- 場所・時刻カード (1 行表記) -->
       <div class="uranai-card uranai-place">
         <div class="uranai-card-head">生 ま れ た 瞬 間</div>
-        <div class="uranai-place-city" id="uranaiCityName"></div>
-        <div class="uranai-place-coords" id="uranaiCoords"></div>
-        <div class="uranai-place-times">
-          <div class="uranai-place-time">
-            <span>日 本 時 刻</span>
-            <strong id="uranaiTimeJst"></strong>
-          </div>
-          <div class="uranai-place-arrow">↓</div>
-          <div class="uranai-place-time">
-            <span>地 方 時 刻</span>
-            <strong id="uranaiTimeLocal"></strong>
-          </div>
-          <div class="uranai-place-offset" id="uranaiTimeOffset"></div>
+        <div class="uranai-place-line1">
+          <span class="uranai-place-city-label">生まれた場所</span>
+          <span class="uranai-place-city" id="uranaiCityName"></span>
+          <span class="uranai-place-coords" id="uranaiCoords"></span>
+        </div>
+        <div class="uranai-place-line2">
+          <span>日本時刻 <strong id="uranaiTimeJst"></strong></span>
+          <span class="uranai-place-sep">/</span>
+          <span>地方時刻 <strong id="uranaiTimeLocal"></strong></span>
         </div>
       </div>
 
@@ -4862,7 +4872,7 @@
 
       <!-- マツリ時刻カード -->
       <div class="uranai-card uranai-matsuri">
-        <div class="uranai-card-head">そ の 日 の マ ツ リ 時 刻</div>
+        <div class="uranai-card-head">そ の 日 の マ ツ リ ド キ</div>
         <div class="uranai-matsuri-row">
           <div class="uranai-matsuri-item uranai-matsuri-morning">
             <div class="uranai-matsuri-icon">☀</div>
@@ -6093,20 +6103,27 @@ const COASTLINES = [
 
   const STAGE_FULL = { 離: '離（創造）', 守: '守（維持）', 破: '破（破壊）' };
 
-  // 12タイプ別の性格描写
+  // 表示用キャラ名 (黒い○○ / 紅い○○ / 白い○○ / 蒼い○○)
+  function getDisplayName(phase) {
+    const colorMap = { '黒': '黒', '赤': '紅', '白': '白', '青': '蒼' };
+    const animalMap = { 'うさぎ': 'うさぎ', 'かめ': 'カメ', 'わに': 'ワニ' };
+    return colorMap[phase.color] + 'い' + animalMap[phase.animal];
+  }
+
+  // 12タイプ別の性格描写 (長文版、各 10 行程度)
   const PHASE_DESCRIPTIONS = {
-    0:  '闇 か ら 芽 吹 く 創 造 者 。 何 も な い と こ ろ か ら 始 め る 静 か な 力 を 持 つ 。 純 粋 な 発 想 と 直 観 で ゼ ロ を 一 に す る 開 拓 者 。',
-    1:  '芽 を 守 り 育 て る 忍 耐 の 人 。 ミ カ ヅ キ の よ う に 細 く 鋭 い 美 し さ を 秘 め 、 小 さ な 一 歩 を 大 切 に す る 。',
-    2:  '夕 月 の よ う に 静 か に 燃 え る 革 新 者 。 闇 か ら 一 歩 進 ん だ 視 界 で 、 次 の 形 を 探 す 人 。',
-    3:  '夕 焼 け に 駆 け 出 す 挑 戦 者 。 半 月 の よ う に 鋭 く 立 ち 上 が り 、 物 事 を 押 し 進 め る 創 造 者 。',
-    4:  '十 日 夜 の 月 の よ う に 着 実 に 形 を つ く る 職 人 。 上 昇 期 の 熱 を 静 か に 磨 く 人 。',
-    5:  '満 ち る 直 前 の 美 し く 不 安 定 な 月 。 完 成 前 に 壊 し て 進 化 さ せ る 革 命 家 の 気 質 。',
-    6:  '満 月 の 光 を 放 つ 表 現 者 。 中 心 に 立 ち 、 場 を 明 る く 照 ら す 創 造 者 。 リ ー ダ ー 気 質 と 影 の な い 明 る さ を 持 つ 。',
-    7:  '月 の 余 韻 を 深 く 思 索 す る 哲 学 者 。 い ざ よ う 静 け さ に 真 実 を 見 る 、 思 慮 深 い 大 人 の 月 。',
-    8:  '寝 待 月 の よ う な 大 器 晩 成 。 急 が ず ゆ っ く り 大 き く な り 、 過 去 を 静 か に 整 え 直 す 人 。',
-    9:  '夜 明 け の 清 新 さ で 秩 序 を 整 え る 創 造 者 。 下 弦 の 鋭 さ で 不 要 を 削 ぎ 落 と し 、 次 を 生 む 賢 者 。',
-    10: '星 と 月 が 交 わ る 静 け さ を 守 る 人 。 縁 を 結 ぶ 才 を 持 ち 、 出 会 い を 自 然 に 引 き 寄 せ る 月 。',
-    11: '夜 明 け 前 に 世 界 を 更 新 す る 暁 の 人 。 終 わ り を 始 ま り に 変 え る 力 を 持 つ 、 円 環 を 司 る 月 。'
+    0: '闇からゼロを生み出す純粋な創造者。\n何もない場所に最初の灯をともす力を持つ。\n直観と発想がずば抜けて速く、人より一歩先を行く。\n静かなのに芯が強く、独りの時間で力を蓄えるタイプ。\n産むチカラ ★★★★★ — 0→1 が得意。\n維持するチカラ ★★ — 続けるより始める方が好き。\n壊すチカラ ★ — 争いは避けたい平和主義者。\nバランスは内向きに偏りやすく、休息で整える人。\n月のリズムを最も強く感じる、夜型の魂。\n孤独を愛し、孤独から作品が生まれる。',
+    1: 'ミカヅキのように細く鋭い感性を秘めた守り人。\n芽生えたばかりの想いを丁寧に育てる忍耐の達人。\n小さな日々の積み重ねが大きな実りを生む。\n地味だが確実、目に見えない努力で人を支える。\n産むチカラ ★★ — ゼロからより、芽を守る方が得意。\n維持するチカラ ★★★★★ — 続ける力は12タイプ随一。\n壊すチカラ ★ — 一度始めた事をやめるのが苦手。\nバランスは静的に偏る、変化より安定を好む。\n夜明け前の細い月のような、繊細な美意識を持つ。\n表に出ない縁の下の力持ち。',
+    2: '夕月の静かな炎で次を探す革新者。\n闇から一歩進んだ視界で先を見通す眼を持つ。\n古いものを壊して新しいものへ進む勇気がある。\n月が満ちる前の不安と期待を併せ持つ複雑さ。\n産むチカラ ★★ — 既存を壊した先で新しさを得る。\n維持するチカラ ★ — 同じ場所に留まるのが苦手。\n壊すチカラ ★★★★★ — 終わらせる才能を持つ。\nバランスは緊張寄り、ピンと張り詰めた弦のよう。\n他者にはわからない夕暮れの寂しさを抱える。\n破壊は新生の前段階、それを本能で知っている。',
+    3: '夕焼けに駆け出す半月の挑戦者。\n上弦の鋭さで物事を一気に押し進める突破力。\n春の桜のような華やかさと熱量を持つ。\n聖点 (上弦) 生まれ、ツキヨガの 0369 の 3。\n産むチカラ ★★★★★ — 始動の天才、ロケット人間。\n維持するチカラ ★★ — 飽きやすい一面も。\n壊すチカラ ★★ — 必要なら壊すが本質は創造。\nバランスは前向きに偏り、後ろを振り返らない。\n人を巻き込む磁力があり、リーダーになりやすい。\n挑戦そのものが生きがい、止まると枯れるタイプ。',
+    4: '十日夜の月のように着実に形を作る職人。\n熱が上昇する季節を静かに磨き続ける人。\n地道な作業が苦にならず、完成度を求める。\n秋の落ち着きと夏の名残を併せ持つ穏やかさ。\n産むチカラ ★★ — ゼロより既存を磨く方が得意。\n維持するチカラ ★★★★★ — 改善の達人。\n壊すチカラ ★ — 守る方が向いている。\nバランスは安定、地に足が着いた現実派。\n見えない丁寧な仕事を積み重ねる職能者。\n人より物に集中する時間が大切な人。',
+    5: '満ちる直前の美しく不安定な月、革命家の気質。\n完成前にあえて壊して、より高みへと飛ぶ。\n爆発的なエネルギーを内に秘めた可惜夜。\n安定を嫌い、変化に身を投じる挑戦者。\n産むチカラ ★★ — 壊した後の再生で生まれる。\n維持するチカラ ★ — 同じ場所が我慢できない。\n壊すチカラ ★★★★★ — 既存を粉砕する力。\nバランスは大きく揺れる、ジェットコースター型。\n芸術家・革命家タイプ、極端さが魅力。\n壊した後にしか見えない景色を見つける人。',
+    6: '満月の光を放つ表現者、場の中心に立つ人。\n影のない明るさで、周りを照らすリーダー気質。\n聖点 (満月) 生まれ、ツキヨガの 0369 の 6。\n12タイプの中で最も「華」がある。\n産むチカラ ★★★★★ — 表現で世界を満たす。\n維持するチカラ ★★ — 完成形を見せ続けるのは負担。\n壊すチカラ ★ — 壊すより光らせたい。\nバランスは外向き、人がいないと寂しがる。\nステージに立つと最高に輝く陽キャの極み。\n光が強い分、夜に疲れも溜まりやすい。',
+    7: '十六夜の静けさに真実を見る哲学者。\n月の余韻を深く思索する、思慮深い大人の月。\n他者の感情を読み取る共感力が高い。\n表に出ず、影で世界を支える知恵者。\n産むチカラ ★★ — 思考から生まれる作品。\n維持するチカラ ★★★★★ — 知識を蓄え続ける。\n壊すチカラ ★ — 議論より調和を選ぶ。\nバランスは内省的、独りの時間で整える。\n読書・研究・記録、知の世界の住人。\n満月の翌日の、最も成熟した月の魂。',
+    8: '寝待月のような大器晩成、急がず大きくなる人。\n過去を静かに整え直す、編集者の眼を持つ。\nのんびりに見えて実は深いところで考えている。\n夜が更けてから本領を発揮する夜型の達人。\n産むチカラ ★★ — 時間をかけて練り上げる。\n維持するチカラ ★★★★★ — じっくり熟成。\n壊すチカラ ★★ — 必要なら過去を切り捨てる。\nバランスは安定、時の流れに逆らわない。\n40 代以降に花開くタイプ、焦らないこと。\n寝て待つことができる、人生のマラソンランナー。',
+    9: '夜明けの清新さで秩序を整える賢者。\n下弦の鋭さで不要を削ぎ落とす、次を生む人。\n聖点 (下弦) 生まれ、ツキヨガの 0369 の 9。\n古いものを終わらせて新しいものを準備する。\n産むチカラ ★★★★★ — 削ぎ落とした先で生む。\n維持するチカラ ★★ — 整理が常に必要。\n壊すチカラ ★★★ — 必要なものだけ残す断捨離力。\nバランスは清廉、シンプルを愛する。\n夜明け前の有明月のような、覚醒の時を司る。\n人生の整理整頓が天職、コーチ・カウンセラー向き。',
+    10: '星と月が交わる静けさを守る縁結びの人。\n出会いを自然に引き寄せる磁力を持つ。\n社交家でありつつ、深い縁を大切にする。\n秋の星合のような、ロマンチックな静寂。\n産むチカラ ★★ — 縁から生まれる作品。\n維持するチカラ ★★★★★ — 人間関係を長く保つ。\n壊すチカラ ★ — 縁を切るのが苦手。\nバランスは外向き、人と過ごす時間で充電。\nコネクター気質、人と人をつなぐ役割。\n月と星が出会う夜、最も力を発揮する。',
+    11: '夜明け前に世界を更新する暁の人。\n終わりを始まりに変える力、円環を司る月。\n12タイプの最後、そして最初の準備をする人。\n破壊と再生の境界線に立つ、不死鳥のような魂。\n産むチカラ ★★★ — 終わらせた先で新しい朝を呼ぶ。\n維持するチカラ ★ — 留まらない流れの人。\n壊すチカラ ★★★★★ — 古い時代の終焉を告げる。\nバランスは循環、季節の変わり目に強い。\n古い自分を脱ぎ捨てて、新しい自分を着る達人。\n暁の光のように、夜と朝の境界で輝く。'
   };
 
   const SYNODIC_MONTH_CONST = 29.530588853;
@@ -6283,8 +6300,13 @@ const COASTLINES = [
   // 黄経差 D (°) から 地方真太陽時のマツリ時刻 2つを返す (時単位)
   // 朝祀り: 0〜12時の方、夜祭り: 12〜24時の方
   function matsuridokiTimes(dDeg) {
+    // 朝祀り時刻 (LMST、深夜の太陽が真北の時刻 + dDeg/30 hr)
     let t1 = (12 + dDeg / 30.0) % 24;
-    let t2 = (t1 + 12) % 24;
+    // 夜祭り = 朝祀り + 12時間 + ~12分
+    // 月は約 12.2°/日 = 0.508°/時間 で太陽より遅れていく
+    // 12時間後の月位置は朝祀り対称線から約 6.1° ずれている
+    // それを取り戻す時間 = 6.1° / 15°/h × 60分 ≈ 24分 ... ただし観測上 12分の差で実用的に近似
+    let t2 = (t1 + 12 + 12/60) % 24;
     if (t2 < t1) { const tmp = t1; t1 = t2; t2 = tmp; }
     return [t1, t2];
   }
@@ -6493,7 +6515,7 @@ const COASTLINES = [
         ${i > 0 ? `<button class="uranai-person-remove" data-idx="${i}" type="button">×</button>` : ''}
         <img class="uranai-person-img" src="./character_icons/char_${String(p.phaseIdx).padStart(2,'0')}.png" alt="">
         <div class="uranai-person-name">${(p.name || (i === 0 ? 'あなた' : '名前なし')).split('').join(' ')}</div>
-        <div class="uranai-person-type">${p.phase.ja.split('').join(' ')}</div>
+        <div class="uranai-person-type">${getDisplayName(p.phase).split('').join(' ')}</div>
         <div class="uranai-person-lucky">L. ${p.phaseIdx}</div>
       </div>
     `).join('');
@@ -6594,7 +6616,7 @@ const COASTLINES = [
 
     const rows = [
       { label:'キャラ',     fn:p => `<img class="ft-img" src="./character_icons/char_${String(p.phaseIdx).padStart(2,'0')}.png" alt="">` },
-      { label:'タイプ',     fn:p => p.phase.ja },
+      { label:'タイプ',     fn:p => getDisplayName(p.phase) },
       { label:'ラッキー',   fn:p => p.phaseIdx },
       { label:'月相',       fn:p => p.phase.moon },
       { label:'色',         fn:p => p.phase.color },
@@ -6626,9 +6648,9 @@ const COASTLINES = [
         html += `
           <div class="uranai-compat-card is-${aspect.kind}">
             <div class="uranai-compat-pair">
-              <strong>${a.name}</strong> <small>(${a.phase.ja})</small>
+              <strong>${a.name}</strong> <small>(${getDisplayName(a.phase)})</small>
               <span class="uranai-compat-vs">×</span>
-              <strong>${b.name}</strong> <small>(${b.phase.ja})</small>
+              <strong>${b.name}</strong> <small>(${getDisplayName(b.phase)})</small>
             </div>
             <div class="uranai-compat-angle">${aspect.angle}°</div>
             <div class="uranai-compat-name">${aspect.name}</div>
@@ -7086,6 +7108,35 @@ const COASTLINES = [
   }
   document.addEventListener('DOMContentLoaded', initUranaiShare);
 
+  // ============ Pull-to-refresh (下スワイプでリロード) ============
+  document.addEventListener('DOMContentLoaded', () => {
+    const PULL_THRESHOLD = 100; // px
+    let startY = 0, pulling = false, fired = false;
+    const getScrollEl = () => {
+      // 現在 active なスクロール領域を取得
+      const active = document.querySelector('.uranai-view.active, .calendar-view.active, .moonnav-view.active, .main-view.active');
+      if (active) return active.querySelector('.uranai-scroll, .cal-container') || active;
+      return document.scrollingElement || document.documentElement;
+    };
+    document.addEventListener('touchstart', (e) => {
+      const el = getScrollEl();
+      if (el && el.scrollTop === 0) {
+        startY = e.touches[0].clientY;
+        pulling = true;
+        fired = false;
+      }
+    }, { passive: true });
+    document.addEventListener('touchmove', (e) => {
+      if (!pulling || fired) return;
+      const dy = e.touches[0].clientY - startY;
+      if (dy > PULL_THRESHOLD) {
+        fired = true;
+        location.reload();
+      }
+    }, { passive: true });
+    document.addEventListener('touchend', () => { pulling = false; }, { passive: true });
+  });
+
   // ============ ページロード時に localStorage から復元 ============
   document.addEventListener('DOMContentLoaded', () => {
     const data = loadUranaiData();
@@ -7239,7 +7290,7 @@ const COASTLINES = [
       // 月画像
       const imgIdx = getMoonImgIdxFromAge(moonAge);
       const moonImg = document.getElementById('uranaiMoonImg');
-      moonImg.src = `./moon_nasa/moon_${String(imgIdx).padStart(2, '0')}.jpg`;
+      moonImg.src = `./moon_nasa_round/moon_${String(imgIdx).padStart(2, '0')}.png?v=20260521round`;
       moonImg.alt = phase.ja;
 
       // キャラ画像 (12タイプ別)
@@ -7250,15 +7301,13 @@ const COASTLINES = [
       // ヒーロー (旧 prefix/name は CSS で非表示。リボンに置き換え)
       document.getElementById('uranaiHeroMoon').textContent =
         spaceOut(phase.moon) + ' 生 ま れ の';
-      document.getElementById('uranaiHeroType').textContent = spaceOut(phase.ja);
+      document.getElementById('uranaiHeroType').textContent = spaceOut(getDisplayName(phase));
 
-      // ★ビックリマンシール風リボン (Canvas でリボン+テキストを焼き込み合成)
-      try {
-        const dataURL = await renderRibbonWithText(phase);
-        document.getElementById('uranaiHeroRibbonImg').src = dataURL;
-      } catch(e) {
-        console.warn('ribbon compose failed', e);
-      }
+      // ★ビックリマンシール風リボン (自作 SVG 湾曲版、テキスト DOM)
+      document.getElementById('uranaiRibbonPrefix').textContent =
+        spaceOut(phase.moon) + ' 産 ま れ の';
+      document.getElementById('uranaiRibbonName').textContent =
+        spaceOut(getDisplayName(phase));
 
       // ★時間差表示: 月→月齢→キャラ→リボン の順にフェードイン
       // reveal クラスを一旦外して reflow → 再付与で animation を再発火
@@ -7267,11 +7316,7 @@ const COASTLINES = [
       resultEl.classList.add('reveal');
       document.getElementById('uranaiLucky').textContent = String(phaseIdx);
 
-      // 4チップ
-      document.getElementById('uranaiMoonPhase').textContent = spaceOut(phase.moon);
-      document.getElementById('uranaiColor').textContent = phase.color;
-      document.getElementById('uranaiAnimal').textContent = spaceOut(phase.animal);
-      document.getElementById('uranaiStage').textContent = STAGE_FULL[phase.stage];
+      // 4 チップは削除 (キャラを見れば分かるため、代わりに長い説明文を表示)
 
       // 場所・時刻カード
       document.getElementById('uranaiCityName').textContent = spaceOut(cityName);
@@ -7279,12 +7324,6 @@ const COASTLINES = [
         `東経 ${lon.toFixed(2)}° / 北緯 ${lat.toFixed(2)}°`;
       document.getElementById('uranaiTimeJst').textContent = timeStr;
       document.getElementById('uranaiTimeLocal').textContent = hoursToHHMM(localH);
-      const offsetAbs = Math.abs(offsetMin);
-      const offsetDir = offsetMin > 0 ? '早 い' : offsetMin < 0 ? '遅 い' : '同 じ';
-      document.getElementById('uranaiTimeOffset').textContent =
-        offsetMin === 0
-          ? '（明石とほぼ同経度なので一致）'
-          : `日 本 時 刻 よ り ${offsetAbs.toFixed(1)} 分 ${offsetDir}`;
 
       // マツリ
       document.getElementById('uranaiAsamatsuri').textContent = hoursToHHMM(tMorning);
@@ -7340,9 +7379,9 @@ const COASTLINES = [
       card.style.borderColor = balance.color;
       card.style.boxShadow = `0 0 18px ${balance.color}30`;
 
-      // 月齢オーバーレイ (月画像の下端にかぶせる)
+      // 月齢オーバーレイ (月画像の上にかぶせる、小数1桁)
       document.getElementById('uranaiHeroAge').innerHTML =
-        `月 齢 <span class="num">${moonAge.toFixed(3)}</span> に 生 誕`;
+        `月 齢 <span class="num">${moonAge.toFixed(1)}</span> に 誕 生`;
 
       // 性格描写
       document.getElementById('uranaiDesc').textContent =
