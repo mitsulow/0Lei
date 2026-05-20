@@ -6238,7 +6238,8 @@ const COASTLINES = [
     const phase = PHASES_12[phaseIdx];
     const lunar = getLunarDate(birth);
     const lunarDay = Math.min(Math.max(1, lunar.day), 30);
-    const moonName = getMoonNameForLunarDay(lunarDay);
+    // 月名は 12 タイプの代表月名で統一 (旧暦日ベースだと聖点とタイプがズレる)
+    const moonName = { name: phase.moon, kanji: phase.kanji };
     const imgIdx = getMoonImgIdxFromAge(moonAge);
     const D = (moonAge / SYNODIC_MONTH_CONST) * 360.0;
     const [tMorning, tEvening] = matsuridokiTimes(D);
@@ -6969,9 +6970,10 @@ const COASTLINES = [
       const moonAge = getMoonAge(birth);
       const lunar = getLunarDate(birth);
       const lunarDay = Math.min(Math.max(1, lunar.day), 30);
-      const moonName = getMoonNameForLunarDay(lunarDay);
       const phaseIdx = getPhase12FromAge(moonAge);
       const phase = PHASES_12[phaseIdx];
+      // 月名は 12 タイプの代表月名で統一 (旧暦日ベースだと聖点とタイプがズレる)
+      const moonName = { name: phase.moon, kanji: phase.kanji };
       const D = (moonAge / SYNODIC_MONTH_CONST) * 360.0;
 
       // 朝祀り・夜祭り (地方真太陽時)
@@ -7023,9 +7025,9 @@ const COASTLINES = [
       charImg.src = `./character_icons/char_${String(phaseIdx).padStart(2, '0')}.png`;
       charImg.alt = phase.ja;
 
-      // ヒーロー
+      // ヒーロー (月名は 12 タイプ代表名で整合)
       document.getElementById('uranaiHeroMoon').textContent =
-        spaceOut(moonName.name) + ' 生 ま れ の';
+        spaceOut(phase.moon) + ' 生 ま れ の';
       document.getElementById('uranaiHeroType').textContent = spaceOut(phase.ja);
       document.getElementById('uranaiLucky').textContent = String(phaseIdx);
 
