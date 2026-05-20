@@ -1,40 +1,40 @@
 {
-  "timestamp": "2026-05-20T07:00:20.588288+00:00",
+  "timestamp": "2026-05-20T10:28:37.070720+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.95,
+      "hz": 7.8,
       "confidence": 80
     },
     "F2": {
-      "hz": 14.4,
-      "confidence": 75
+      "hz": 14.1,
+      "confidence": 80
     },
     "F3": {
-      "hz": 19.85,
-      "confidence": 70
+      "hz": 19.8,
+      "confidence": 75
     },
     "F4": {
-      "hz": 26.5,
-      "confidence": 70
+      "hz": 25.4,
+      "confidence": 75
     },
     "F5": {
-      "hz": 33.8,
-      "confidence": 20
+      "hz": null,
+      "confidence": 0
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "20.05終盤でF1が上昇傾向。F3は19.8付近まで低下後やや回復。スペクトログラムでは8Hz、14Hz、20Hz帯に明瞭なバンドが見られ、0時及び6-7時頃に強い広帯域ノイズ（雷？）あり。F5は信頼できる線が確認できない。",
+  "notes": "右端付近で各モードに急激な低下傾向が見られる。F5の表示はなし。スペクトログラムでは8Hz、14Hz、20Hz帯が明瞭。20日6-13時頃に活動が活発化。",
   "polarization": {
-    "state": "right",
-    "state_jp": "右回転（昼）",
-    "japan_hour": 16.0,
-    "tomsk_hour": 12.6,
-    "is_day_japan": true,
+    "state": "left",
+    "state_jp": "左回転（夜）",
+    "japan_hour": 19.47,
+    "tomsk_hour": 16.07,
+    "is_day_japan": false,
     "is_day_tomsk": true
   }
 }
