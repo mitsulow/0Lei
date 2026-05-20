@@ -4755,10 +4755,9 @@
         <div class="uranai-balance-desc" id="uranaiBalanceDesc"></div>
       </div>
 
-      <!-- 月齢 / 旧暦 -->
+      <!-- 月齢 (生まれた瞬間の天文学的月齢、小数点3桁) -->
       <div class="uranai-meta">
-        <span>月 齢 <strong id="uranaiAge"></strong> 日</span>
-        <span>旧 暦 <strong id="uranaiLunar"></strong></span>
+        <span>生 ま れ た 瞬 間 の 月 齢 <strong id="uranaiAge"></strong> 日</span>
       </div>
 
       <!-- 性格描写 -->
@@ -6236,9 +6235,7 @@ const COASTLINES = [
     const moonAge = getMoonAge(birth);
     const phaseIdx = getPhase12FromAge(moonAge);
     const phase = PHASES_12[phaseIdx];
-    const lunar = getLunarDate(birth);
-    const lunarDay = Math.min(Math.max(1, lunar.day), 30);
-    // 月名は 12 タイプの代表月名で統一 (旧暦日ベースだと聖点とタイプがズレる)
+    // 月名は 12 タイプの代表月名 (天文月齢ベース)。旧暦は占いタブでは使わない。
     const moonName = { name: phase.moon, kanji: phase.kanji };
     const imgIdx = getMoonImgIdxFromAge(moonAge);
     const D = (moonAge / SYNODIC_MONTH_CONST) * 360.0;
@@ -6966,13 +6963,10 @@ const COASTLINES = [
       const [lon, lat] = JAPAN_CITIES[cityName];
       const offsetMin = localSolarOffsetMin(lon);
 
-      // 月齢・旧暦・タイプ
+      // 月齢・タイプ (天文月齢ベース、旧暦は使わない)
       const moonAge = getMoonAge(birth);
-      const lunar = getLunarDate(birth);
-      const lunarDay = Math.min(Math.max(1, lunar.day), 30);
       const phaseIdx = getPhase12FromAge(moonAge);
       const phase = PHASES_12[phaseIdx];
-      // 月名は 12 タイプの代表月名で統一 (旧暦日ベースだと聖点とタイプがズレる)
       const moonName = { name: phase.moon, kanji: phase.kanji };
       const D = (moonAge / SYNODIC_MONTH_CONST) * 360.0;
 
@@ -7104,10 +7098,8 @@ const COASTLINES = [
       card.style.borderColor = balance.color;
       card.style.boxShadow = `0 0 18px ${balance.color}30`;
 
-      // メタ
-      document.getElementById('uranaiAge').textContent = moonAge.toFixed(1);
-      document.getElementById('uranaiLunar').textContent =
-        `${lunar.month} 月 ${lunarDay} 日（${spaceOut(moonName.name)}）`;
+      // メタ (月齢は小数点3桁、生まれた瞬間の天文月齢)
+      document.getElementById('uranaiAge').textContent = moonAge.toFixed(3);
 
       // 性格描写
       document.getElementById('uranaiDesc').textContent =
