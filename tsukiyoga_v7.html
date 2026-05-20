@@ -2033,29 +2033,21 @@
     height: 100%;
     object-fit: contain;
     z-index: 1;
-    /* 月の周囲の黒い宇宙を放射状フェードで背景に溶け込ませる (一番弱いフェード)
-       マスク開始位置を 50% に = 月本体を絶対削らない設定。
-       50..56% の狭い帯だけで透明化、月のフチはほぼ残る。 */
-    -webkit-mask-image: radial-gradient(
-      circle at center,
-      #000 50%,
-      rgba(0,0,0,0.55) 52%,
-      transparent 56%
-    );
-            mask-image: radial-gradient(
-      circle at center,
-      #000 50%,
-      rgba(0,0,0,0.55) 52%,
-      transparent 56%
-    );
-    /* 月を暖色寄りに + 多層グロー (フチ外側に拡がるハロー) */
+    /* 月本体を円形にクッキリ切り抜き (周囲の黒スペース完全消去) */
+    border-radius: 50%;
+    overflow: hidden;
+    /* 月を暖色寄りに + 多層オーラ
+       drop-shadow が円形クリップ後の月のフチを基準に外側へ広がる:
+       12px = フチ周辺の濃いめハロー
+       28px = 中距離の暖色オーラ
+       56px = 遠距離うっすら拡散 (背景まで溶ける) */
     filter:
       sepia(0.55)
       saturate(1.35)
       brightness(1.05)
-      drop-shadow(0 0 10px rgba(245, 200, 100, 0.55))
-      drop-shadow(0 0 24px rgba(245, 200, 100, 0.30))
-      drop-shadow(0 0 48px rgba(245, 200, 100, 0.12));
+      drop-shadow(0 0 12px rgba(245, 200, 100, 0.55))
+      drop-shadow(0 0 28px rgba(245, 200, 100, 0.32))
+      drop-shadow(0 0 56px rgba(245, 200, 100, 0.14));
   }
   .uranai-hero-char-fg {
     position: absolute;
