@@ -1,25 +1,25 @@
 {
-  "timestamp": "2026-05-20T10:28:37.070720+00:00",
+  "timestamp": "2026-05-20T12:42:16.371244+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.8,
+      "hz": 7.65,
       "confidence": 80
     },
     "F2": {
       "hz": 14.1,
-      "confidence": 80
+      "confidence": 75
     },
     "F3": {
-      "hz": 19.8,
-      "confidence": 75
+      "hz": 20.1,
+      "confidence": 70
     },
     "F4": {
       "hz": 25.4,
-      "confidence": 75
+      "confidence": 70
     },
     "F5": {
       "hz": null,
@@ -28,13 +28,13 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端付近で各モードに急激な低下傾向が見られる。F5の表示はなし。スペクトログラムでは8Hz、14Hz、20Hz帯が明瞭。20日6-13時頃に活動が活発化。",
+  "notes": "20.05.2026の19時付近でデータが途切れる。終端付近でF1〜F4ともに周波数低下傾向。スペクトログラムでは8Hz、14Hz、20Hz帯の共振が明瞭、F5は不明瞭。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 19.47,
-    "tomsk_hour": 16.07,
+    "japan_hour": 21.7,
+    "tomsk_hour": 18.3,
     "is_day_japan": false,
-    "is_day_tomsk": true
+    "is_day_tomsk": false
   }
 }
