@@ -1997,7 +1997,7 @@
   .uranai-hero {
     text-align: center;
     margin-bottom: 22px;
-    padding-bottom: 80px; /* リボンが stage 外にはみ出す分のスペース */
+    padding-bottom: 40px; /* リボンが stage 外にはみ出す分のスペース */
   }
   .uranai-hero-stage {
     position: relative;
@@ -2082,15 +2082,15 @@
       0 0 6px rgba(0, 0, 0, 0.9);
   }
 
-  /* ビックリマンシール風リボン (実画像 1254x1254、本体は画像内 y10-43%) */
+  /* ビックリマンシール風リボン (実画像 1500x540 統一、リボン全体が画像枠いっぱい) */
   .uranai-hero-ribbon {
     position: absolute;
     left: 50%;
-    bottom: -32%;     /* リボン本体が月の下フチ付近にかぶる */
+    bottom: -8%;      /* リボン本体が月の下フチ付近にかぶる */
     transform: translateX(-50%);
     z-index: 5;
-    width: 86%;      /* リボンを小さめに → 相対的にフォントが大きく見える */
-    aspect-ratio: 1 / 1;
+    width: 96%;
+    aspect-ratio: 1500 / 540;
     pointer-events: none;
   }
   .uranai-hero-ribbon-img {
@@ -2103,13 +2103,13 @@
       drop-shadow(0 6px 12px rgba(0, 0, 0, 0.55))
       drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
   }
-  /* リボン本体に重ねるテキスト (画像内のリボン本体位置 y 10~43% に合わせる) */
+  /* リボン本体に重ねるテキスト (中央バナー領域 = 画像 y 8~55%) */
   .uranai-hero-ribbon-text {
     position: absolute;
-    top: 13%;
-    bottom: 58%;
-    left: 19%;
-    right: 19%;
+    top: 8%;
+    bottom: 55%;
+    left: 22%;
+    right: 22%;
     display: flex;
     flex-direction: column;
     align-items: center;
