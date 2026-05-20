@@ -2145,6 +2145,39 @@
       0 0 4px rgba(255, 240, 180, 0.6);
   }
 
+  /* ★v7: 占いタブ 時間差表示 (月→月齢→キャラ→リボンの順にフェードイン) */
+  .uranai-hero-moon-bg,
+  .uranai-hero-age,
+  .uranai-hero-char-fg,
+  .uranai-hero-ribbon {
+    opacity: 0;
+  }
+  .uranai-result.reveal .uranai-hero-moon-bg {
+    animation: heroFadeInScale 0.7s cubic-bezier(0.2, 0.9, 0.3, 1.1) 0s forwards;
+  }
+  .uranai-result.reveal .uranai-hero-age {
+    animation: heroFadeInDown 0.55s ease-out 0.85s forwards;
+  }
+  .uranai-result.reveal .uranai-hero-char-fg {
+    animation: heroFadeInScale 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.1) 1.55s forwards;
+  }
+  .uranai-result.reveal .uranai-hero-ribbon {
+    animation: heroFadeInUpRibbon 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.1) 2.25s forwards;
+  }
+  @keyframes heroFadeInScale {
+    from { opacity: 0; transform: scale(0.7); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  @keyframes heroFadeInDown {
+    from { opacity: 0; transform: translateY(-18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  /* リボンは translateX(-50%) で中央配置されているので合成 */
+  @keyframes heroFadeInUpRibbon {
+    from { opacity: 0; transform: translateX(-50%) translateY(20px) scale(0.85); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+  }
+
   /* 既存ヒーロー prefix/name はリボンで置き換えるので非表示 */
   .uranai-hero-prefix,
   .uranai-hero-name {
@@ -7226,6 +7259,12 @@ const COASTLINES = [
       } catch(e) {
         console.warn('ribbon compose failed', e);
       }
+
+      // ★時間差表示: 月→月齢→キャラ→リボン の順にフェードイン
+      // reveal クラスを一旦外して reflow → 再付与で animation を再発火
+      resultEl.classList.remove('reveal');
+      void resultEl.offsetWidth;
+      resultEl.classList.add('reveal');
       document.getElementById('uranaiLucky').textContent = String(phaseIdx);
 
       // 4チップ
@@ -8636,10 +8675,10 @@ const COASTLINES = [
       const moonImgEl = document.getElementById('todayMoonImg');
       if (lunarBigEl) lunarBigEl.textContent = `旧 暦 ${lunar.month} 月 ${day} 日`;
       if (lunarNameEl) lunarNameEl.textContent = `〜 ${moonInfo.name} 〜`;
-      // 月画像は月齢ベース + NASA SVS 730px (占いタブと統一、天文学的に正確)
+      // 月画像は月齢ベース + NASA SVS 円形透過 PNG (天文学的に正確、四角フチなし)
       if (moonImgEl) {
         const imgIdx = getMoonImgIdxFromAge(getMoonAge(now));
-        moonImgEl.src = `./moon_nasa/moon_${String(imgIdx).padStart(2, '0')}.jpg?v=20260520nasa`;
+        moonImgEl.src = `./moon_nasa_round/moon_${String(imgIdx).padStart(2, '0')}.png?v=20260521round`;
       }
     }
 
