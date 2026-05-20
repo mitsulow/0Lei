@@ -2049,6 +2049,37 @@
       drop-shadow(0 0 14px rgba(255, 235, 200, 0.50))
       drop-shadow(0 4px 10px rgba(0, 0, 0, 0.55));
   }
+  /* 月画像の下端にわざと重ねる月齢オーバーレイ */
+  .uranai-hero-age {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 6%;
+    z-index: 3;
+    text-align: center;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.92rem;
+    letter-spacing: 0.2em;
+    color: rgba(255, 245, 220, 0.98);
+    text-shadow:
+      0 2px 8px rgba(0, 0, 0, 0.95),
+      0 0 12px rgba(0, 0, 0, 0.85),
+      0 0 18px rgba(0, 0, 0, 0.6);
+    pointer-events: none;
+    line-height: 1.4;
+  }
+  .uranai-hero-age .num {
+    font-family: 'Cinzel', serif;
+    font-size: 1.55rem;
+    font-weight: 500;
+    color: rgba(255, 235, 185, 1);
+    letter-spacing: 0.04em;
+    margin: 0 5px;
+    text-shadow:
+      0 2px 10px rgba(0, 0, 0, 0.98),
+      0 0 18px rgba(245, 200, 100, 0.45),
+      0 0 6px rgba(0, 0, 0, 0.9);
+  }
   .uranai-hero-prefix {
     font-family: 'Shippori Mincho', serif;
     font-size: 0.95rem;
@@ -4633,6 +4664,7 @@
           <div class="uranai-hero-moon-orbit"></div>
           <img id="uranaiMoonImg" class="uranai-hero-moon-bg" src="" alt="">
           <img id="uranaiCharImg" class="uranai-hero-char-fg" src="" alt="">
+          <div class="uranai-hero-age" id="uranaiHeroAge"></div>
         </div>
         <div class="uranai-hero-prefix" id="uranaiHeroMoon"></div>
         <div class="uranai-hero-name" id="uranaiHeroType"></div>
@@ -4755,10 +4787,6 @@
         <div class="uranai-balance-desc" id="uranaiBalanceDesc"></div>
       </div>
 
-      <!-- 月齢 (生まれた瞬間の天文学的月齢、小数点3桁) -->
-      <div class="uranai-meta">
-        <span>生 ま れ た 瞬 間 の 月 齢 <strong id="uranaiAge"></strong> 日</span>
-      </div>
 
       <!-- 性格描写 -->
       <div class="uranai-desc" id="uranaiDesc"></div>
@@ -5942,13 +5970,13 @@ const COASTLINES = [
   // 主要月相 (ツキタチ/カタミニ/クマナシ/アリアケ) がタイプ 0/3/6/9 の始点
   // ウサギ=離(創造) / カメ=守(維持) / ワニ=破(破壊)
   const PHASES_12 = [
-    {idx:0,  ja:'黒うさぎ', moon:'新月',       kanji:'月立ち', color:'黒', animal:'うさぎ', stage:'離', seiten:true},
+    {idx:0,  ja:'黒うさぎ', moon:'シンゲツ',   kanji:'新月',   color:'黒', animal:'うさぎ', stage:'離', seiten:true},
     {idx:1,  ja:'黒がめ',   moon:'ミカヅキ',   kanji:'三日月', color:'黒', animal:'かめ',   stage:'守', seiten:false},
     {idx:2,  ja:'黒わに',   moon:'ユウヅキ',   kanji:'夕月',   color:'黒', animal:'わに',   stage:'破', seiten:false},
     {idx:3,  ja:'赤うさぎ', moon:'カタミニ',   kanji:'互に',   color:'赤', animal:'うさぎ', stage:'離', seiten:true},
     {idx:4,  ja:'赤がめ',   moon:'トオカンヤ', kanji:'十日夜', color:'赤', animal:'かめ',   stage:'守', seiten:false},
     {idx:5,  ja:'赤わに',   moon:'アタラヨ',   kanji:'可惜夜', color:'赤', animal:'わに',   stage:'破', seiten:false},
-    {idx:6,  ja:'白うさぎ', moon:'満月',       kanji:'望',     color:'白', animal:'うさぎ', stage:'離', seiten:true},
+    {idx:6,  ja:'白うさぎ', moon:'マンゲツ',   kanji:'満月',   color:'白', animal:'うさぎ', stage:'離', seiten:true},
     {idx:7,  ja:'白がめ',   moon:'イザヨイ',   kanji:'十六夜', color:'白', animal:'かめ',   stage:'守', seiten:false},
     {idx:8,  ja:'白わに',   moon:'ネマチ',     kanji:'寝待月', color:'白', animal:'わに',   stage:'破', seiten:false},
     {idx:9,  ja:'青うさぎ', moon:'アリアケ',   kanji:'有明',   color:'青', animal:'うさぎ', stage:'離', seiten:true},
@@ -7098,8 +7126,9 @@ const COASTLINES = [
       card.style.borderColor = balance.color;
       card.style.boxShadow = `0 0 18px ${balance.color}30`;
 
-      // メタ (月齢は小数点3桁、生まれた瞬間の天文月齢)
-      document.getElementById('uranaiAge').textContent = moonAge.toFixed(3);
+      // 月齢オーバーレイ (月画像の下端にかぶせる)
+      document.getElementById('uranaiHeroAge').innerHTML =
+        `月 齢 <span class="num">${moonAge.toFixed(3)}</span> に 生 誕`;
 
       // 性格描写
       document.getElementById('uranaiDesc').textContent =
