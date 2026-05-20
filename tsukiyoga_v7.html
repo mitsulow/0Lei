@@ -2049,16 +2049,16 @@
       drop-shadow(0 0 14px rgba(255, 235, 200, 0.50))
       drop-shadow(0 4px 10px rgba(0, 0, 0, 0.55));
   }
-  /* 月画像の下端にわざと重ねる月齢オーバーレイ */
+  /* 月画像の上端にわざと重ねる月齢オーバーレイ (上半月にかぶる) */
   .uranai-hero-age {
     position: absolute;
     left: 0;
     right: 0;
-    bottom: 6%;
+    top: 8%;
     z-index: 3;
     text-align: center;
     font-family: 'Shippori Mincho', serif;
-    font-size: 0.92rem;
+    font-size: 0.88rem;
     letter-spacing: 0.2em;
     color: rgba(255, 245, 220, 0.98);
     text-shadow:
@@ -2070,7 +2070,7 @@
   }
   .uranai-hero-age .num {
     font-family: 'Cinzel', serif;
-    font-size: 1.55rem;
+    font-size: 1.45rem;
     font-weight: 500;
     color: rgba(255, 235, 185, 1);
     letter-spacing: 0.04em;
@@ -2079,6 +2079,124 @@
       0 2px 10px rgba(0, 0, 0, 0.98),
       0 0 18px rgba(245, 200, 100, 0.45),
       0 0 6px rgba(0, 0, 0, 0.9);
+  }
+
+  /* ビックリマンシール風リボン (月画像の下端にオーバーレイ) */
+  .uranai-hero-ribbon {
+    position: absolute;
+    left: 50%;
+    bottom: -2%;
+    transform: translateX(-50%);
+    z-index: 5;
+    width: 92%;
+    aspect-ratio: 320 / 88;
+    pointer-events: none;
+  }
+  .uranai-hero-ribbon-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    filter:
+      drop-shadow(0 6px 12px rgba(0, 0, 0, 0.65))
+      drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+  }
+  .uranai-hero-ribbon-text {
+    position: absolute;
+    inset: 14% 13% 12% 13%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    line-height: 1.05;
+  }
+  .uranai-hero-ribbon-prefix {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    color: rgba(255, 240, 210, 0.98);
+    text-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.9),
+      0 0 3px rgba(0, 0, 0, 0.7);
+    margin-bottom: 2px;
+  }
+  .uranai-hero-ribbon-name {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: rgba(255, 250, 235, 1);
+    text-shadow:
+      0 2px 5px rgba(0, 0, 0, 0.95),
+      0 0 8px rgba(0, 0, 0, 0.75),
+      0 0 2px rgba(0, 0, 0, 0.9);
+  }
+
+  /* キラキラ装飾 (うさぎ族のみ表示) */
+  .uranai-hero-ribbon-sparkles {
+    position: absolute;
+    inset: -8% -4% -8% -4%;
+    pointer-events: none;
+    display: none;
+  }
+  .uranai-hero-ribbon.is-sparkle .uranai-hero-ribbon-sparkles {
+    display: block;
+  }
+  .uranai-hero-ribbon-sparkles .spark {
+    position: absolute;
+    color: rgba(255, 245, 180, 0.95);
+    font-size: 0.9rem;
+    text-shadow:
+      0 0 6px rgba(255, 230, 120, 0.9),
+      0 0 12px rgba(245, 200, 100, 0.7);
+    animation: sparkTwinkle 1.8s ease-in-out infinite;
+  }
+  .uranai-hero-ribbon-sparkles .s1 { top: 0;    left: 6%;  animation-delay: 0s; }
+  .uranai-hero-ribbon-sparkles .s2 { top: 8%;   right: 4%; animation-delay: 0.5s; font-size: 1.1rem; }
+  .uranai-hero-ribbon-sparkles .s3 { bottom: 4%; left: 14%; animation-delay: 1.0s; }
+  .uranai-hero-ribbon-sparkles .s4 { bottom: 0;  right: 12%; animation-delay: 1.4s; font-size: 0.75rem; }
+
+  @keyframes sparkTwinkle {
+    0%, 100% { opacity: 0.3; transform: scale(0.85) rotate(0deg); }
+    50%      { opacity: 1;   transform: scale(1.2) rotate(180deg); }
+  }
+
+  /* キラキラ時のリボン本体 (うさぎ族 = 聖点) */
+  .uranai-hero-ribbon.is-sparkle .uranai-hero-ribbon-svg {
+    filter:
+      drop-shadow(0 6px 12px rgba(0, 0, 0, 0.65))
+      drop-shadow(0 0 14px rgba(245, 196, 74, 0.7))
+      drop-shadow(0 0 28px rgba(245, 196, 74, 0.35));
+  }
+  /* キラキラ時の名前テキスト (ホログラム風グラデーション) */
+  .uranai-hero-ribbon.is-sparkle .uranai-hero-ribbon-name {
+    background: linear-gradient(
+      100deg,
+      #ffd966 0%,
+      #fff8d8 18%,
+      #ffd966 36%,
+      #ffeba6 54%,
+      #fff5c4 72%,
+      #ffd966 90%,
+      #fff8d8 100%
+    );
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    animation: sparkleHolo 3.6s linear infinite;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.95);
+  }
+  @keyframes sparkleHolo {
+    0%   { background-position: 0% 0%; }
+    100% { background-position: -220% 0%; }
+  }
+
+  /* 既存ヒーロー prefix/name はリボンで置き換えるので非表示 */
+  .uranai-hero-prefix,
+  .uranai-hero-name {
+    display: none;
   }
   .uranai-hero-prefix {
     font-family: 'Shippori Mincho', serif;
@@ -4665,6 +4783,52 @@
           <img id="uranaiMoonImg" class="uranai-hero-moon-bg" src="" alt="">
           <img id="uranaiCharImg" class="uranai-hero-char-fg" src="" alt="">
           <div class="uranai-hero-age" id="uranaiHeroAge"></div>
+          <!-- ビックリマンシール風リボン -->
+          <div class="uranai-hero-ribbon" id="uranaiHeroRibbon">
+            <svg class="uranai-hero-ribbon-svg" viewBox="0 0 320 88" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+              <defs>
+                <linearGradient id="ribbonGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#b8362e"/>
+                  <stop offset="45%" stop-color="#d04a40"/>
+                  <stop offset="100%" stop-color="#7a1f18"/>
+                </linearGradient>
+                <linearGradient id="ribbonGradEnd" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#5a160f"/>
+                  <stop offset="100%" stop-color="#2a0805"/>
+                </linearGradient>
+                <linearGradient id="ribbonHi" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="rgba(255,255,255,0.45)"/>
+                  <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+                </linearGradient>
+              </defs>
+              <!-- 左端 (背面に回り込む三角) -->
+              <path d="M 0 44 L 26 14 L 26 74 Z" fill="url(#ribbonGradEnd)"/>
+              <!-- 左の折り返し影 -->
+              <path d="M 26 14 L 40 14 L 40 74 L 26 74 Z" fill="rgba(0,0,0,0.30)"/>
+              <!-- 本体 -->
+              <path d="M 26 14 L 294 14 L 294 74 L 26 74 Z" fill="url(#ribbonGrad)"/>
+              <!-- 右の折り返し影 -->
+              <path d="M 280 14 L 294 14 L 294 74 L 280 74 Z" fill="rgba(0,0,0,0.30)"/>
+              <!-- 右端 (背面に回り込む三角) -->
+              <path d="M 320 44 L 294 14 L 294 74 Z" fill="url(#ribbonGradEnd)"/>
+              <!-- 上の白ハイライト -->
+              <path d="M 26 14 L 294 14 L 294 24 L 26 24 Z" fill="url(#ribbonHi)"/>
+              <!-- 金色のフチ縁取り -->
+              <path d="M 26 14 L 294 14" stroke="rgba(245,196,74,0.7)" stroke-width="1.2" fill="none"/>
+              <path d="M 26 74 L 294 74" stroke="rgba(245,196,74,0.5)" stroke-width="1" fill="none"/>
+            </svg>
+            <div class="uranai-hero-ribbon-text">
+              <div class="uranai-hero-ribbon-prefix" id="uranaiRibbonPrefix"></div>
+              <div class="uranai-hero-ribbon-name" id="uranaiRibbonName"></div>
+            </div>
+            <!-- キラキラ装飾 (うさぎ族のみ) -->
+            <div class="uranai-hero-ribbon-sparkles" aria-hidden="true">
+              <span class="spark s1">✦</span>
+              <span class="spark s2">✦</span>
+              <span class="spark s3">✦</span>
+              <span class="spark s4">✦</span>
+            </div>
+          </div>
         </div>
         <div class="uranai-hero-prefix" id="uranaiHeroMoon"></div>
         <div class="uranai-hero-name" id="uranaiHeroType"></div>
@@ -7047,10 +7211,24 @@ const COASTLINES = [
       charImg.src = `./character_icons/char_${String(phaseIdx).padStart(2, '0')}.png`;
       charImg.alt = phase.ja;
 
-      // ヒーロー (月名は 12 タイプ代表名で整合)
+      // ヒーロー (旧 prefix/name は CSS で非表示。リボンに置き換え)
       document.getElementById('uranaiHeroMoon').textContent =
         spaceOut(phase.moon) + ' 生 ま れ の';
       document.getElementById('uranaiHeroType').textContent = spaceOut(phase.ja);
+
+      // ★ビックリマンシール風リボン
+      // 「カタミニ 産まれの」(小) / 「アカウサギ」(大、カタカナ)
+      const jaToKata = (s) => s
+        .replace('黒', 'クロ').replace('赤', 'アカ')
+        .replace('白', 'シロ').replace('青', 'アオ')
+        .replace('うさぎ', 'ウサギ').replace('がめ', 'ガメ').replace('わに', 'ワニ');
+      document.getElementById('uranaiRibbonPrefix').textContent =
+        spaceOut(phase.moon) + ' 産 ま れ の';
+      document.getElementById('uranaiRibbonName').textContent =
+        spaceOut(jaToKata(phase.ja));
+      // うさぎ族 (聖点 0/3/6/9) はキラキラシール
+      const ribbon = document.getElementById('uranaiHeroRibbon');
+      ribbon.classList.toggle('is-sparkle', phase.animal === 'うさぎ');
       document.getElementById('uranaiLucky').textContent = String(phaseIdx);
 
       // 4チップ
