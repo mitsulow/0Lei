@@ -1847,7 +1847,7 @@
     position: absolute;
     inset: 0;
     overflow-y: auto;
-    padding: 28px 22px 40px;
+    padding: 22px 8px 40px;
     -webkit-overflow-scrolling: touch;
   }
 
@@ -1871,16 +1871,12 @@
   }
 
   .uranai-form {
-    max-width: 360px;
+    max-width: 100%;
     margin: 0 auto 24px;
-    padding: 22px 20px 24px;
-    background: linear-gradient(180deg,
-      rgba(10, 20, 40, 0.55) 0%,
-      rgba(3, 8, 24, 0.65) 100%);
-    border: 1px solid rgba(201, 169, 97, 0.25);
-    border-radius: 14px;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    padding: 18px 4px 22px;
+    background: transparent;
+    border: none;
+    border-radius: 0;
   }
 
   .uranai-field { margin-bottom: 18px; }
@@ -1981,17 +1977,13 @@
 
   .uranai-result {
     display: none;
-    max-width: 360px;
+    max-width: 100%;
     margin: 0 auto;
-    padding: 26px 22px 28px;
+    padding: 18px 4px 24px;
     text-align: center;
-    background: linear-gradient(180deg,
-      rgba(20, 30, 56, 0.55) 0%,
-      rgba(5, 10, 28, 0.65) 100%);
-    border: 1px solid rgba(110, 196, 245, 0.30);
-    border-radius: 16px;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    background: transparent;
+    border: none;
+    border-radius: 0;
     animation: uranaiFadeIn 0.5s ease-out;
   }
   .uranai-result.visible { display: block; }
@@ -2033,21 +2025,15 @@
     height: 100%;
     object-fit: contain;
     z-index: 1;
-    /* 月本体を円形にクッキリ切り抜き (周囲の黒スペース完全消去) */
+    /* 月を円形に切り抜き */
     border-radius: 50%;
     overflow: hidden;
-    /* 月を暖色寄りに + 多層オーラ
-       drop-shadow が円形クリップ後の月のフチを基準に外側へ広がる:
-       12px = フチ周辺の濃いめハロー
-       28px = 中距離の暖色オーラ
-       56px = 遠距離うっすら拡散 (背景まで溶ける) */
+    /* 月を暖色寄りに (黄〜橙) + 控えめなグロー */
     filter:
       sepia(0.55)
       saturate(1.35)
       brightness(1.05)
-      drop-shadow(0 0 12px rgba(245, 200, 100, 0.55))
-      drop-shadow(0 0 28px rgba(245, 200, 100, 0.32))
-      drop-shadow(0 0 56px rgba(245, 200, 100, 0.14));
+      drop-shadow(0 0 28px rgba(245, 200, 100, 0.35));
   }
   .uranai-hero-char-fg {
     position: absolute;
@@ -2206,23 +2192,23 @@
     line-height: 1.65;
   }
 
-  /* ★v7 月占い - カード共通 */
+  /* ★v7 月占い - カード共通 (枠線なし、背景のみで区切り) */
   .uranai-card {
-    margin: 0 -2px 16px;
-    padding: 16px 16px 14px;
-    background: linear-gradient(180deg, rgba(20, 30, 55, 0.6), rgba(10, 18, 40, 0.6));
-    border: 1px solid rgba(201, 169, 97, 0.3);
-    border-radius: 14px;
+    margin: 0 0 18px;
+    padding: 14px 6px 14px;
+    background: transparent;
+    border: none;
+    border-radius: 0;
   }
   .uranai-card-head {
     font-family: 'Shippori Mincho', serif;
     font-size: 0.74rem;
     color: rgba(201, 169, 97, 0.95);
     letter-spacing: 0.25em;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
     text-align: center;
-    padding-bottom: 8px;
-    border-bottom: 1px solid rgba(201, 169, 97, 0.2);
+    padding-bottom: 0;
+    border-bottom: none;
   }
 
   /* 場所・時刻カード */
@@ -2439,8 +2425,8 @@
   /* ★v7 月占い - 相性占い (5人) */
   .uranai-compat-section {
     margin-top: 28px;
-    padding-top: 22px;
-    border-top: 1px dashed rgba(201, 169, 97, 0.35);
+    padding-top: 18px;
+    border-top: none;
   }
   .uranai-section-head {
     font-family: 'Shippori Mincho', serif;
@@ -2469,15 +2455,14 @@
   }
   .uranai-person-card {
     position: relative;
-    background: linear-gradient(180deg, rgba(20, 30, 55, 0.7), rgba(10, 18, 40, 0.7));
-    border: 1px solid rgba(201, 169, 97, 0.35);
+    background: linear-gradient(180deg, rgba(20, 30, 55, 0.5), rgba(10, 18, 40, 0.5));
+    border: none;
     border-radius: 12px;
     padding: 10px 6px 8px;
     text-align: center;
   }
   .uranai-person-card.is-self {
-    border-color: rgba(245, 196, 74, 0.6);
-    background: linear-gradient(180deg, rgba(60, 50, 30, 0.5), rgba(10, 18, 40, 0.7));
+    background: linear-gradient(180deg, rgba(60, 50, 30, 0.5), rgba(10, 18, 40, 0.55));
   }
   .uranai-person-img {
     width: 64px; height: 64px;
@@ -2586,12 +2571,12 @@
     background: rgba(40, 30, 15, 0.4);
   }
 
-  /* 追加ボタン */
+  /* 追加ボタン (枠線なし、薄背景で識別) */
   .uranai-add-toggle {
     width: 100%;
     padding: 11px;
-    background: rgba(10, 20, 40, 0.55);
-    border: 1px dashed rgba(201, 169, 97, 0.55);
+    background: rgba(201, 169, 97, 0.10);
+    border: none;
     border-radius: 10px;
     color: rgba(201, 169, 97, 0.95);
     font-family: 'Shippori Mincho', serif;
@@ -2605,11 +2590,11 @@
     cursor: not-allowed;
   }
 
-  /* 追加フォーム */
+  /* 追加フォーム (枠線なし、薄背景で識別) */
   .uranai-add-form {
-    padding: 16px;
-    background: rgba(3, 8, 24, 0.5);
-    border: 1px solid rgba(110, 196, 245, 0.3);
+    padding: 16px 8px;
+    background: rgba(3, 8, 24, 0.4);
+    border: none;
     border-radius: 12px;
     margin-bottom: 16px;
   }
@@ -2638,31 +2623,32 @@
     color: var(--moon-white);
   }
 
-  /* 相性カード */
+  /* 相性カード (枠線なし、左ボーダー色 + 控えめ box-shadow でアスペクト識別) */
   .uranai-compat-card {
     margin-bottom: 12px;
     padding: 12px 14px;
-    background: linear-gradient(180deg, rgba(20, 30, 55, 0.65), rgba(10, 18, 40, 0.65));
-    border: 1px solid rgba(201, 169, 97, 0.3);
-    border-radius: 12px;
+    background: linear-gradient(180deg, rgba(20, 30, 55, 0.5), rgba(10, 18, 40, 0.5));
+    border: none;
+    border-left: 3px solid rgba(201, 169, 97, 0.45);
+    border-radius: 0 12px 12px 0;
   }
   .uranai-compat-card.is-opposition {
-    border-color: rgba(245, 80, 100, 0.7);
-    box-shadow: 0 0 14px rgba(245, 80, 100, 0.2);
+    border-left-color: rgba(245, 80, 100, 0.85);
+    box-shadow: 0 0 14px rgba(245, 80, 100, 0.18);
   }
   .uranai-compat-card.is-trine {
-    border-color: rgba(110, 230, 180, 0.7);
-    box-shadow: 0 0 14px rgba(110, 230, 180, 0.2);
+    border-left-color: rgba(110, 230, 180, 0.85);
+    box-shadow: 0 0 14px rgba(110, 230, 180, 0.18);
   }
   .uranai-compat-card.is-sextile {
-    border-color: rgba(110, 196, 245, 0.6);
+    border-left-color: rgba(110, 196, 245, 0.75);
   }
   .uranai-compat-card.is-square {
-    border-color: rgba(245, 196, 74, 0.6);
+    border-left-color: rgba(245, 196, 74, 0.75);
   }
   .uranai-compat-card.is-friction,
   .uranai-compat-card.is-sesqui {
-    border-color: rgba(201, 169, 97, 0.3);
+    border-left-color: rgba(201, 169, 97, 0.45);
   }
   .uranai-compat-pair {
     font-family: 'Shippori Mincho', serif;
@@ -2711,12 +2697,13 @@
     text-align: center;
   }
 
-  /* グループ分析 */
+  /* グループ分析 (枠線なし、左に金色ボーダーで強調) */
   .uranai-group-card {
-    padding: 14px 16px;
-    background: linear-gradient(180deg, rgba(30, 40, 70, 0.6), rgba(10, 18, 40, 0.6));
-    border: 1px solid rgba(245, 196, 74, 0.4);
-    border-radius: 12px;
+    padding: 14px 12px;
+    background: linear-gradient(180deg, rgba(30, 40, 70, 0.45), rgba(10, 18, 40, 0.45));
+    border: none;
+    border-left: 3px solid rgba(245, 196, 74, 0.7);
+    border-radius: 0 12px 12px 0;
     margin-top: 14px;
   }
   .uranai-group-row {
