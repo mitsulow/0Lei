@@ -8636,7 +8636,11 @@ const COASTLINES = [
       const moonImgEl = document.getElementById('todayMoonImg');
       if (lunarBigEl) lunarBigEl.textContent = `旧 暦 ${lunar.month} 月 ${day} 日`;
       if (lunarNameEl) lunarNameEl.textContent = `〜 ${moonInfo.name} 〜`;
-      if (moonImgEl) moonImgEl.src = `./moon_icons/moon_${String(day).padStart(2, '0')}.png?v=20260520adobe`;
+      // 月画像は月齢ベース + NASA SVS 730px (占いタブと統一、天文学的に正確)
+      if (moonImgEl) {
+        const imgIdx = getMoonImgIdxFromAge(getMoonAge(now));
+        moonImgEl.src = `./moon_nasa/moon_${String(imgIdx).padStart(2, '0')}.jpg?v=20260520nasa`;
+      }
     }
 
     // ★v6: 現在地カードの更新
