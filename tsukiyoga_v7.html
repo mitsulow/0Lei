@@ -1842,6 +1842,209 @@
   }
   .uranai-view.active { display: block; }
 
+  /* ★v7: マイページビュー (全タブ共通プロファイル) */
+  .mypage-view {
+    position: fixed;
+    inset: 0 0 62px 0;
+    z-index: 35;
+    background: linear-gradient(180deg, #1a0a3a 0%, #0a0418 100%);
+    display: none;
+    overflow: hidden;
+  }
+  .mypage-view.active { display: block; }
+  .mypage-scroll {
+    position: absolute;
+    inset: 0;
+    overflow-y: auto;
+    padding: 26px 18px 50px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .mypage-header { text-align: center; margin-bottom: 22px; }
+  .mypage-title-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .mypage-title-deco-left,
+  .mypage-title-deco-right {
+    color: #e8ff00;
+    font-size: 1.1rem;
+    opacity: 0.85;
+    text-shadow: 0 0 10px rgba(232, 255, 0, 0.5);
+  }
+  .mypage-title {
+    font-family: 'Reggae One', 'Shippori Mincho', serif;
+    font-size: 1.5rem;
+    color: #fff;
+    letter-spacing: 0.25em;
+    text-shadow: 0 0 12px rgba(232, 255, 0, 0.3);
+  }
+  .mypage-subtitle {
+    margin-top: 8px;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.55);
+    letter-spacing: 0.25em;
+  }
+  /* キャラプレビュー */
+  .mypage-card-preview {
+    margin: 0 auto 22px;
+    max-width: 380px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    background: linear-gradient(180deg, rgba(58, 26, 106, 0.6), rgba(26, 10, 58, 0.6));
+    border: 1px solid rgba(232, 255, 0, 0.35);
+    border-radius: 14px;
+    box-shadow: 0 0 22px rgba(232, 255, 0, 0.18);
+  }
+  .mypage-char-img {
+    width: 78px; height: 78px;
+    flex-shrink: 0;
+    object-fit: contain;
+  }
+  .mypage-char-info { flex: 1; min-width: 0; }
+  .mypage-char-nick {
+    font-family: 'Reggae One', serif;
+    font-size: 1.1rem;
+    color: #e8ff00;
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+  }
+  .mypage-char-type {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.92);
+    letter-spacing: 0.15em;
+    margin-bottom: 2px;
+  }
+  .mypage-char-balance {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.65);
+    letter-spacing: 0.12em;
+  }
+  /* form */
+  .mypage-form {
+    max-width: 440px;
+    margin: 0 auto;
+  }
+  .mypage-field {
+    margin-bottom: 18px;
+  }
+  .mypage-label {
+    display: block;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.85rem;
+    color: rgba(232, 255, 0, 0.85);
+    letter-spacing: 0.25em;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  .mypage-input {
+    width: 100%;
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(232, 255, 0, 0.3);
+    border-radius: 8px;
+    color: #fff;
+    font-family: inherit;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    box-sizing: border-box;
+  }
+  .mypage-input:focus {
+    outline: none;
+    border-color: #e8ff00;
+    box-shadow: 0 0 0 2px rgba(232, 255, 0, 0.18);
+  }
+  .mypage-date-selects {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+  }
+  .mypage-date-select {
+    width: auto;
+    flex: 1;
+    min-width: 0;
+    padding: 8px 4px;
+    text-align: center;
+  }
+  .mypage-date-unit {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+  .mypage-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+  }
+  .mypage-check input { accent-color: #e8ff00; }
+  .mypage-custom-coords {
+    margin-top: 10px;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    border: 1px solid rgba(232, 255, 0, 0.15);
+  }
+  .mypage-custom-coords-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .mypage-custom-coords-row label {
+    flex-shrink: 0;
+    width: 60px;
+    color: rgba(232, 255, 0, 0.75);
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+  }
+  .mypage-custom-coords-row input { flex: 1; }
+  .mypage-custom-coords-note {
+    color: rgba(255, 255, 255, 0.45);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    margin-top: 4px;
+  }
+  .mypage-save {
+    display: block;
+    width: 100%;
+    margin: 28px auto 14px;
+    padding: 16px;
+    background: linear-gradient(180deg, #e8ff00, #c8d800);
+    color: #1a0a3a;
+    border: 1px solid #e8ff00;
+    border-radius: 12px;
+    font-family: 'Reggae One', 'Shippori Mincho', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(232, 255, 0, 0.4);
+    transition: transform 0.15s, box-shadow 0.2s;
+  }
+  .mypage-save:active {
+    transform: scale(0.98);
+    box-shadow: 0 0 8px rgba(232, 255, 0, 0.3);
+  }
+  .mypage-help {
+    text-align: center;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 0.18em;
+    line-height: 1.7;
+    margin-top: 18px;
+  }
+
   .uranai-scroll {
     position: absolute;
     inset: 0;
@@ -5860,6 +6063,91 @@
   </div>
 </div>
 
+<!-- ★ v7: マイページビュー (全タブ共通プロファイル) -->
+<div class="mypage-view" id="mypageView">
+  <div class="mypage-scroll">
+    <div class="mypage-header">
+      <div class="mypage-title-wrap">
+        <span class="mypage-title-deco-left">✿</span>
+        <div class="mypage-title">マイページ</div>
+        <span class="mypage-title-deco-right">✿</span>
+      </div>
+      <div class="mypage-subtitle">
+        あ な た の 月 を 設 定 し ま す
+      </div>
+    </div>
+
+    <!-- 現キャラ プレビュー -->
+    <div class="mypage-card-preview" id="mypageCardPreview" style="display:none">
+      <img class="mypage-char-img" id="mypageCharImg" src="" alt="">
+      <div class="mypage-char-info">
+        <div class="mypage-char-nick" id="mypageCharNick"></div>
+        <div class="mypage-char-type" id="mypageCharType"></div>
+        <div class="mypage-char-balance" id="mypageCharBalance"></div>
+      </div>
+    </div>
+
+    <!-- form -->
+    <div class="mypage-form">
+      <div class="mypage-field">
+        <label class="mypage-label">ニ ッ ク ネ ー ム</label>
+        <input type="text" id="mypageNickname" class="mypage-input" maxlength="20" placeholder="例: みつろう / らむちゃん">
+      </div>
+
+      <div class="mypage-field">
+        <label class="mypage-label">生 ま れ た 日</label>
+        <div class="mypage-date-selects">
+          <select id="mypageBirthYear" class="mypage-input mypage-date-select"></select>
+          <span class="mypage-date-unit">年</span>
+          <select id="mypageBirthMonth" class="mypage-input mypage-date-select"></select>
+          <span class="mypage-date-unit">月</span>
+          <select id="mypageBirthDay" class="mypage-input mypage-date-select"></select>
+          <span class="mypage-date-unit">日</span>
+        </div>
+      </div>
+
+      <div class="mypage-field">
+        <label class="mypage-label">生 ま れ た 時 刻</label>
+        <input type="time" id="mypageBirthTime" class="mypage-input" value="15:00">
+        <label class="mypage-check">
+          <input type="checkbox" id="mypageTimeUnknown">
+          <span>分 か ら な い（15 時 で 計 算）</span>
+        </label>
+      </div>
+
+      <div class="mypage-field">
+        <label class="mypage-label">生 ま れ た 場 所</label>
+        <select id="mypageCity" class="mypage-input"></select>
+        <div class="mypage-custom-coords" id="mypageCustomCoords" style="display:none">
+          <div class="mypage-custom-coords-row">
+            <label>東 経</label>
+            <input type="number" id="mypageCustomLon" class="mypage-input" min="-180" max="180" step="0.01" placeholder="例: 127.7" inputmode="decimal">
+            <span>°</span>
+          </div>
+          <div class="mypage-custom-coords-row">
+            <label>北 緯</label>
+            <input type="number" id="mypageCustomLat" class="mypage-input" min="-90" max="90" step="0.01" placeholder="例: 26.2" inputmode="decimal">
+            <span>°</span>
+          </div>
+          <div class="mypage-custom-coords-row">
+            <label>場 所 名</label>
+            <input type="text" id="mypageCustomName" class="mypage-input" placeholder="例: ハワイ / NY / パリ">
+          </div>
+          <div class="mypage-custom-coords-note">
+            ※ 海外 や 国 内 市 町 村 外 で 生 ま れ た 方 向 け
+          </div>
+        </div>
+      </div>
+
+      <button id="mypageSave" class="mypage-save">保 存 し て 占 う</button>
+
+      <div class="mypage-help">
+        こ こ で 設 定 し た 情 報 は 月 占 い タ ブ に も 自 動 反 映 さ れ ま す
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ★v7: タブバー（暦 → 月ナビ → 宙 → 月占い） -->
 <div class="tab-bar">
   <button class="tab-btn active" data-view="calendar">
@@ -5881,6 +6169,11 @@
     <div class="tab-icon">☽</div>
     <div class="tab-label">月 占 い</div>
     <div class="tab-en">fortune</div>
+  </button>
+  <button class="tab-btn" data-view="mypage">
+    <div class="tab-icon">✿</div>
+    <div class="tab-label">マ イ</div>
+    <div class="tab-en">profile</div>
   </button>
 </div>
 <script>
@@ -6932,6 +7225,8 @@ const COASTLINES = [
       document.getElementById('calendarView').classList.remove('active');
       const uranaiViewEl = document.getElementById('uranaiView');
       if (uranaiViewEl) uranaiViewEl.classList.remove('active');
+      const mypageViewEl = document.getElementById('mypageView');
+      if (mypageViewEl) mypageViewEl.classList.remove('active');
 
       if (view === 'calendar') {
         document.getElementById('calendarView').classList.add('active');
@@ -6943,6 +7238,11 @@ const COASTLINES = [
         // ★v7: 月占いタブ
         if (uranaiViewEl) uranaiViewEl.classList.add('active');
         deactivateMoonNav();
+      } else if (view === 'mypage') {
+        // ★v7: マイページタブ
+        if (mypageViewEl) mypageViewEl.classList.add('active');
+        deactivateMoonNav();
+        if (typeof refreshMypagePreview === 'function') refreshMypagePreview();
       } else {
         deactivateMoonNav();
       }
@@ -8360,6 +8660,204 @@ const COASTLINES = [
     }, 200);
   });
   // 招待ボタン / QR ボタンのハンドラ (動的に再バインド)
+  // ===== マイページ (全タブ共通プロファイル) =====
+  const MYPAGE_STORAGE_KEY = 'tsukiyoga.myprofile.v1';
+
+  function loadMypageData() {
+    try {
+      const json = localStorage.getItem(MYPAGE_STORAGE_KEY);
+      if (!json) return null;
+      return JSON.parse(json);
+    } catch (e) { return null; }
+  }
+
+  function saveMypageData(data) {
+    try {
+      localStorage.setItem(MYPAGE_STORAGE_KEY, JSON.stringify(data));
+    } catch (e) { console.warn('saveMypageData failed', e); }
+  }
+
+  function getMypageFormValues() {
+    const yearEl = document.getElementById('mypageBirthYear');
+    if (!yearEl) return null;
+    const cityEl = document.getElementById('mypageCity');
+    const timeUnknownEl = document.getElementById('mypageTimeUnknown');
+    return {
+      nickname: (document.getElementById('mypageNickname').value || '').trim() || 'あなた',
+      year: Number(yearEl.value),
+      month: Number(document.getElementById('mypageBirthMonth').value),
+      day: Number(document.getElementById('mypageBirthDay').value),
+      time: document.getElementById('mypageBirthTime').value || '15:00',
+      timeUnknown: timeUnknownEl ? timeUnknownEl.checked : false,
+      city: cityEl ? cityEl.value : '東京',
+      customLon: parseFloat(document.getElementById('mypageCustomLon').value) || null,
+      customLat: parseFloat(document.getElementById('mypageCustomLat').value) || null,
+      customName: document.getElementById('mypageCustomName').value || ''
+    };
+  }
+
+  function applyMypageDataToForm(data) {
+    if (!data) return;
+    const setVal = (id, v) => { const el = document.getElementById(id); if (el && v != null) el.value = v; };
+    setVal('mypageNickname', data.nickname && data.nickname !== 'あなた' ? data.nickname : '');
+    setVal('mypageBirthYear', data.year);
+    setVal('mypageBirthMonth', data.month);
+    setVal('mypageBirthDay', data.day);
+    setVal('mypageBirthTime', data.time);
+    const tu = document.getElementById('mypageTimeUnknown');
+    if (tu) tu.checked = !!data.timeUnknown;
+    const ti = document.getElementById('mypageBirthTime');
+    if (ti && tu && tu.checked) { ti.value = '15:00'; ti.disabled = true; }
+    setVal('mypageCity', data.city || '東京');
+    const cc = document.getElementById('mypageCustomCoords');
+    if (cc) cc.style.display = (data.city === '__custom__') ? 'block' : 'none';
+    if (data.city === '__custom__') {
+      setVal('mypageCustomLon', data.customLon);
+      setVal('mypageCustomLat', data.customLat);
+      setVal('mypageCustomName', data.customName);
+    }
+  }
+
+  // マイページの値を占いタブのフォームへ流し込む
+  function syncMypageToUranai() {
+    const v = getMypageFormValues();
+    if (!v) return;
+    const set = (id, val) => { const el = document.getElementById(id); if (el && val != null) el.value = val; };
+    set('uranaiBirthYear', v.year);
+    set('uranaiBirthMonth', v.month);
+    set('uranaiBirthDay', v.day);
+    set('uranaiBirthTime', v.time);
+    const tu = document.getElementById('uranaiTimeUnknown');
+    if (tu) tu.checked = v.timeUnknown;
+    const ti = document.getElementById('uranaiBirthTime');
+    if (ti && tu && tu.checked) { ti.value = '15:00'; ti.disabled = true; }
+    set('uranaiCity', v.city);
+    const cc = document.getElementById('uranaiCustomCoords');
+    if (cc) cc.style.display = (v.city === '__custom__') ? 'block' : 'none';
+    if (v.city === '__custom__') {
+      set('uranaiCustomLon', v.customLon);
+      set('uranaiCustomLat', v.customLat);
+      set('uranaiCustomName', v.customName);
+    }
+  }
+
+  // マイページのプロファイルから self person を再計算 → uranaiPeople[0] 更新
+  function applyMypageToSelfPerson() {
+    const v = getMypageFormValues();
+    if (!v) return;
+    const dateStr = `${v.year}-${String(v.month).padStart(2,'0')}-${String(v.day).padStart(2,'0')}`;
+    const cityName = (v.city === '__custom__' && v.customName) ? v.customName : v.city;
+    const timeStr = v.timeUnknown ? '15:00' : v.time;
+    const selfPerson = computePerson(v.nickname, dateStr, timeStr, cityName);
+    if (!selfPerson) return null;
+    if (uranaiPeople.length === 0) uranaiPeople = [selfPerson];
+    else uranaiPeople[0] = selfPerson;
+    if (typeof renderPeople === 'function') renderPeople();
+    if (typeof renderCompatibility === 'function') renderCompatibility();
+    if (typeof updateAddRemaining === 'function') updateAddRemaining();
+    return selfPerson;
+  }
+
+  function refreshMypagePreview() {
+    const data = loadMypageData();
+    const preview = document.getElementById('mypageCardPreview');
+    if (!preview || !data || !data.year) return;
+    const v = getMypageFormValues();
+    if (!v) return;
+    const dateStr = `${v.year}-${String(v.month).padStart(2,'0')}-${String(v.day).padStart(2,'0')}`;
+    const cityName = (v.city === '__custom__' && v.customName) ? v.customName : v.city;
+    const timeStr = v.timeUnknown ? '15:00' : v.time;
+    const person = computePerson(v.nickname, dateStr, timeStr, cityName);
+    if (!person) return;
+    document.getElementById('mypageCharImg').src = `./character_icons/char_${String(person.phaseIdx).padStart(2,'0')}.png`;
+    document.getElementById('mypageCharNick').textContent = v.nickname;
+    document.getElementById('mypageCharType').textContent =
+      `${getDisplayName(person.phase)} / ${person.phase.moon}`;
+    document.getElementById('mypageCharBalance').textContent =
+      `バランス: ${person.balance.name} (${STAGE_PERSON[person.phase.stage] || person.phase.stage})`;
+    preview.style.display = 'flex';
+  }
+
+  function initMypage() {
+    const yearEl = document.getElementById('mypageBirthYear');
+    const monthEl = document.getElementById('mypageBirthMonth');
+    const dayEl = document.getElementById('mypageBirthDay');
+    const timeEl = document.getElementById('mypageBirthTime');
+    const timeUnknownEl = document.getElementById('mypageTimeUnknown');
+    const cityEl = document.getElementById('mypageCity');
+    const saveBtn = document.getElementById('mypageSave');
+    if (!yearEl || !saveBtn) return;
+
+    // 年月日 select 生成
+    populateDateSelects(yearEl, monthEl, dayEl, { year: 1990, month: 1, day: 1 });
+
+    // 都市 select 生成 (占いタブと同じ JAPAN_CITIES を流用)
+    const cityNames = Object.keys(JAPAN_CITIES);
+    cityEl.innerHTML =
+      `<option value="__custom__">東 経 北 緯 で 入 力 （ 海 外 な ど ）</option>` +
+      cityNames.map(name =>
+        `<option value="${name}"${name === '東京' ? ' selected' : ''}>${name}</option>`
+      ).join('');
+
+    const customCoordsEl = document.getElementById('mypageCustomCoords');
+    cityEl.addEventListener('change', () => {
+      if (customCoordsEl) customCoordsEl.style.display = (cityEl.value === '__custom__') ? 'block' : 'none';
+    });
+
+    // 時刻不明
+    timeUnknownEl.addEventListener('change', () => {
+      if (timeUnknownEl.checked) { timeEl.value = '15:00'; timeEl.disabled = true; }
+      else { timeEl.disabled = false; }
+    });
+
+    // 保存済みデータの復元
+    const saved = loadMypageData();
+    if (saved) applyMypageDataToForm(saved);
+
+    // 保存ボタン
+    saveBtn.addEventListener('click', () => {
+      const v = getMypageFormValues();
+      if (!v) return;
+      saveMypageData(v);
+      // 占いタブへ同期
+      syncMypageToUranai();
+      // self を再計算
+      applyMypageToSelfPerson();
+      // 占いタブで再占いを発動
+      const uranaiSubmit = document.getElementById('uranaiSubmit');
+      // 占いタブを開く
+      const uranaiBtn = document.querySelector('.tab-btn[data-view="uranai"]');
+      if (uranaiBtn) uranaiBtn.click();
+      // submit を発火 (DOMContentLoaded 後)
+      setTimeout(() => { if (uranaiSubmit) uranaiSubmit.click(); }, 80);
+      // プレビュー更新
+      refreshMypagePreview();
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    initMypage();
+    // invite URL がある時は invite フローを優先 (mypage 自動オープンしない)
+    const hasInvite = !!parseInviteUrl();
+    // 初回起動 (プロファイル未登録 かつ invite なし) → マイページを開く
+    const saved = loadMypageData();
+    if (!hasInvite && (!saved || !saved.nickname || saved.nickname === 'あなた')) {
+      setTimeout(() => {
+        const myBtn = document.querySelector('.tab-btn[data-view="mypage"]');
+        if (myBtn) myBtn.click();
+      }, 400);
+    } else if (saved && saved.year) {
+      // 既存ユーザー: マイページデータを占い form にも反映しておく (起動時)
+      setTimeout(() => {
+        syncMypageToUranai();
+        applyMypageToSelfPerson();
+        refreshMypagePreview();
+      }, 200);
+    }
+  });
+  // 露出 (タブ切替時に呼ばれる)
+  window.refreshMypagePreview = refreshMypagePreview;
+
   function bindInviteButtons() {
     const linkBtn = document.getElementById('uranaiInviteLinkBtn');
     if (linkBtn) linkBtn.onclick = () => {
@@ -9005,7 +9503,10 @@ const COASTLINES = [
       renderLuckyDay(moonAge);
 
       // 自分を相性占いの1人目として登録 (他人は保持、selfのみ更新)
-      const selfPerson = computePerson('あなた', dateStr, timeStr, cityName);
+      // ★ マイページに保存された nickname を優先利用
+      const _myp = (typeof loadMypageData === 'function') ? loadMypageData() : null;
+      const _selfName = (_myp && _myp.nickname && _myp.nickname !== 'あなた') ? _myp.nickname : 'あなた';
+      const selfPerson = computePerson(_selfName, dateStr, timeStr, cityName);
       if (selfPerson) {
         if (uranaiPeople.length === 0) {
           uranaiPeople = [selfPerson];
@@ -9016,6 +9517,22 @@ const COASTLINES = [
         renderCompatibility();
         updateAddRemaining();
       }
+      // ★ 占いタブで入力された値を、マイページにも逆方向で保存 (nickname は維持)
+      try {
+        const _yearV = Number(document.getElementById('uranaiBirthYear').value);
+        const _monthV = Number(document.getElementById('uranaiBirthMonth').value);
+        const _dayV = Number(document.getElementById('uranaiBirthDay').value);
+        const _timeV = document.getElementById('uranaiBirthTime').value;
+        const _timeUnknownV = document.getElementById('uranaiTimeUnknown').checked;
+        const _cityV = document.getElementById('uranaiCity').value;
+        const _existing = (typeof loadMypageData === 'function') ? loadMypageData() : null;
+        const _next = Object.assign({}, _existing || {}, {
+          nickname: (_existing && _existing.nickname) ? _existing.nickname : 'あなた',
+          year: _yearV, month: _monthV, day: _dayV,
+          time: _timeV, timeUnknown: _timeUnknownV, city: _cityV
+        });
+        if (typeof saveMypageData === 'function') saveMypageData(_next);
+      } catch (e) {}
 
       resultEl.classList.add('visible');
       // フォームを閉じてマイページボタンを表示
