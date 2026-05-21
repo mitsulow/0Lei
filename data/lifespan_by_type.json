@@ -1,0 +1,142 @@
+{
+  "version": "1.0",
+  "source": "Wikidata SPARQL (P569 + P570 day-precision, sitelinks>=5, 1700-2024 生まれ)",
+  "n_total": 36979,
+  "overall_mean_age": 62.04,
+  "overall_median_age": 63.53,
+  "note": "生年月日と死亡日が日精度で公開されている世界の著名人 (sitelinks>=5) を対象。出生時刻は不明のため 15:00 JST で計算しているのでタイプ境界では分類が変わる可能性あり。サンプルは現存者を含まないので、若年早世が混じり実社会の平均より低めに出る傾向あり。",
+  "types": [
+    {
+      "index": 0,
+      "name_ja": "黒ウサギ",
+      "moon_phase": "新月",
+      "n": 3106,
+      "mean_age": 62.23,
+      "median_age": 63.72,
+      "p25": 48.32,
+      "p75": 76.81,
+      "diff_from_overall": 0.2
+    },
+    {
+      "index": 1,
+      "name_ja": "黒ガメ",
+      "moon_phase": "三日月",
+      "n": 2970,
+      "mean_age": 61.8,
+      "median_age": 63.15,
+      "p25": 47.42,
+      "p75": 76.25,
+      "diff_from_overall": -0.23
+    },
+    {
+      "index": 2,
+      "name_ja": "黒ワニ",
+      "moon_phase": "五日月",
+      "n": 3024,
+      "mean_age": 62.07,
+      "median_age": 63.12,
+      "p25": 47.95,
+      "p75": 76.68,
+      "diff_from_overall": 0.03
+    },
+    {
+      "index": 3,
+      "name_ja": "赤ウサギ",
+      "moon_phase": "上弦",
+      "n": 3224,
+      "mean_age": 62.41,
+      "median_age": 63.74,
+      "p25": 48.57,
+      "p75": 77.44,
+      "diff_from_overall": 0.37
+    },
+    {
+      "index": 4,
+      "name_ja": "赤ガメ",
+      "moon_phase": "十日夜",
+      "n": 3166,
+      "mean_age": 62.05,
+      "median_age": 63.77,
+      "p25": 47.75,
+      "p75": 76.78,
+      "diff_from_overall": 0.02
+    },
+    {
+      "index": 5,
+      "name_ja": "赤ワニ",
+      "moon_phase": "十三夜",
+      "n": 3047,
+      "mean_age": 62.02,
+      "median_age": 63.48,
+      "p25": 47.48,
+      "p75": 76.85,
+      "diff_from_overall": -0.01
+    },
+    {
+      "index": 6,
+      "name_ja": "白ウサギ",
+      "moon_phase": "満月",
+      "n": 3121,
+      "mean_age": 61.83,
+      "median_age": 63.17,
+      "p25": 47.24,
+      "p75": 76.63,
+      "diff_from_overall": -0.21
+    },
+    {
+      "index": 7,
+      "name_ja": "白ガメ",
+      "moon_phase": "十六夜",
+      "n": 3020,
+      "mean_age": 61.53,
+      "median_age": 63.37,
+      "p25": 46.74,
+      "p75": 75.85,
+      "diff_from_overall": -0.51
+    },
+    {
+      "index": 8,
+      "name_ja": "白ワニ",
+      "moon_phase": "寝待月",
+      "n": 3034,
+      "mean_age": 61.85,
+      "median_age": 63.62,
+      "p25": 48.14,
+      "p75": 75.68,
+      "diff_from_overall": -0.19
+    },
+    {
+      "index": 9,
+      "name_ja": "青ウサギ",
+      "moon_phase": "下弦",
+      "n": 3096,
+      "mean_age": 61.82,
+      "median_age": 63.57,
+      "p25": 47.52,
+      "p75": 76.15,
+      "diff_from_overall": -0.22
+    },
+    {
+      "index": 10,
+      "name_ja": "青ガメ",
+      "moon_phase": "二十五夜",
+      "n": 3165,
+      "mean_age": 62.67,
+      "median_age": 64.09,
+      "p25": 48.6,
+      "p75": 77.46,
+      "diff_from_overall": 0.64
+    },
+    {
+      "index": 11,
+      "name_ja": "青ワニ",
+      "moon_phase": "有明月",
+      "n": 3006,
+      "mean_age": 62.1,
+      "median_age": 63.44,
+      "p25": 47.81,
+      "p75": 77.31,
+      "diff_from_overall": 0.06
+    }
+  ]
+}
