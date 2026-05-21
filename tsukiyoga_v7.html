@@ -4206,9 +4206,16 @@
   }
   .wheel-occupation-share {
     font-family: 'Cinzel', serif;
-    font-size: 0.78rem;
-    color: rgba(232, 255, 0, 0.75);
+    font-size: 0.85rem;
+    font-weight: 700;
     letter-spacing: 0.04em;
+  }
+  .wheel-occupation-share.lift-up {
+    color: #e8ff00;
+    text-shadow: 0 0 6px rgba(232, 255, 0, 0.5);
+  }
+  .wheel-occupation-share.lift-down {
+    color: rgba(180, 130, 255, 0.85);
   }
   .wheel-occupation-source {
     text-align: center;
@@ -7620,8 +7627,8 @@
               <!-- 動的生成 -->
             </div>
             <div class="wheel-occupation-source">
-              世界最大規模の統計データに基づく<br>
-              （Wikidata の有名人 126 万人 + 米国 CDC 出生 6200 万人）
+              他のキャラと比べて このタイプに多い職業 (lift 値の +X%)<br>
+              Wikidata 有名人 <strong>126 万人</strong> ベース・哲学者など細分化済み
             </div>
           </div>
 
@@ -10759,6 +10766,7 @@ const COASTLINES = [
     const listEl = document.getElementById('wheelOccupationList');
     const phase = PHASES_12[idx];
     if (!listEl || !phase) return;
+    // ★ 旧「多い職業」→「特徴的な職業 (他のキャラより多い)」に変更
     if (titleEl) titleEl.textContent = `${getDisplayName(phase)} に 多 い 職 業`;
     listEl.innerHTML = '<div class="wheel-occupation-item">読み込み中...</div>';
     try {
@@ -10767,18 +10775,28 @@ const COASTLINES = [
         listEl.innerHTML = '<div class="wheel-occupation-item">統計データなし</div>';
         return;
       }
-      const occ = (data.types[idx].top_occupations || []).slice(0, 5);
+      // lift 順 (他のキャラより多い職業) を優先、なければ絶対値順 fallback
+      const t = data.types[idx];
+      const occ = (t.top_occupations_distinctive && t.top_occupations_distinctive.length > 0
+                   ? t.top_occupations_distinctive
+                   : t.top_occupations || []).slice(0, 6);
       if (occ.length === 0) {
         listEl.innerHTML = '<div class="wheel-occupation-item">統計データなし</div>';
         return;
       }
-      listEl.innerHTML = occ.map((o, i) => `
-        <div class="wheel-occupation-item">
-          <div class="wheel-occupation-rank">${i+1}位</div>
-          <div class="wheel-occupation-name">${o.label_ja}</div>
-          <div class="wheel-occupation-share">${(o.share*100).toFixed(1)}%</div>
-        </div>
-      `).join('');
+      listEl.innerHTML = occ.map((o, i) => {
+        const lift = (o.lift != null) ? o.lift : 1.0;
+        const liftPct = (lift - 1) * 100;
+        const sign = liftPct >= 0 ? '+' : '';
+        const liftCls = liftPct >= 0 ? 'lift-up' : 'lift-down';
+        return `
+          <div class="wheel-occupation-item">
+            <div class="wheel-occupation-rank">${i+1}位</div>
+            <div class="wheel-occupation-name">${o.label_ja}</div>
+            <div class="wheel-occupation-share ${liftCls}">${sign}${liftPct.toFixed(1)}%</div>
+          </div>
+        `;
+      }).join('');
     } catch (e) {
       listEl.innerHTML = '<div class="wheel-occupation-item">読み込み失敗</div>';
     }
