@@ -2024,6 +2024,38 @@
     margin-top: 14px;
     font-weight: 300;
   }
+  /* 保存後の collapsed form (折りたたみ) */
+  .mypage-form.is-collapsed { display: none; }
+  .mypage-edit-row {
+    text-align: center;
+    margin: 0 auto 18px;
+    max-width: 440px;
+  }
+  .mypage-edit-btn {
+    background: rgba(232, 255, 0, 0.08);
+    border: 1px solid rgba(232, 255, 0, 0.45);
+    color: rgba(232, 255, 0, 0.9);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    padding: 9px 18px;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  .mypage-edit-btn:active {
+    background: rgba(232, 255, 0, 0.18);
+  }
+  .mypage-edit-icon { margin-right: 5px; }
+  /* 月画像の上のキャプション */
+  .mypage-moon-caption {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.88rem;
+    color: rgba(232, 255, 0, 0.85);
+    letter-spacing: 0.04em;
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
   /* マイページ結果セクション */
   .mypage-result {
     max-width: 480px;
@@ -5771,22 +5803,9 @@
 <!-- ★v7: 月占いビュー（生まれ月名占い） -->
 <div class="uranai-view" id="uranaiView">
   <div class="uranai-scroll">
-    <div class="uranai-header">
-      <div class="uranai-title-wrap">
-        <span class="uranai-title-deco-left">✦</span>
-        <div class="uranai-title">ツキヨガ占い</div>
-        <span class="uranai-title-deco-right">✦</span>
-      </div>
-    </div>
+    <!-- タイトルヘッダー / 登録ボタンは削除済み (マイページで登録するため) -->
 
-    <div class="uranai-toggle-row" id="uranaiToggleRow" style="display:none">
-      <button id="uranaiToggleForm" class="uranai-edit-btn" type="button">
-        <span class="uranai-edit-icon">✎</span>
-        登 録
-      </button>
-    </div>
-
-    <div class="uranai-form" id="uranaiFormWrap">
+    <div class="uranai-form" id="uranaiFormWrap" style="display:none">
       <div class="uranai-field">
         <label class="uranai-label">生 ま れ た 日</label>
         <div class="uranai-date-selects">
@@ -6042,12 +6061,20 @@
     <div class="mypage-header">
       <div class="mypage-title">マイページ</div>
       <div class="mypage-subtitle">
-        あなたの情報を設定します
+        あなたのツキの情報を設定します
       </div>
     </div>
 
+    <!-- 保存済みのときに表示される「変更する」開閉ボタン -->
+    <div class="mypage-edit-row" id="mypageEditRow" style="display:none">
+      <button id="mypageEditBtn" class="mypage-edit-btn" type="button">
+        <span class="mypage-edit-icon">✎</span>
+        設定を変更する
+      </button>
+    </div>
+
     <!-- form -->
-    <div class="mypage-form">
+    <div class="mypage-form" id="mypageFormWrap">
       <div class="mypage-field">
         <label class="mypage-label">ニックネーム</label>
         <input type="text" id="mypageNickname" class="mypage-input" maxlength="20" placeholder="シェアするニックネームを入力">
@@ -6107,8 +6134,9 @@
 
     <!-- ★ 保存後の結果セクション (占いタブのリボン下〜相性上を移植) -->
     <div class="mypage-result" id="mypageResult" style="display:none">
-      <!-- 月画像 + 月齢 -->
+      <!-- 月画像 + 月のカタチ説明 + 月齢 -->
       <div class="mypage-moon-block">
+        <div class="mypage-moon-caption">あなたが生まれた瞬間の月のカタチです</div>
         <img id="mypageMoonImg" class="mypage-moon-img" src="" alt="">
         <div class="mypage-moon-age" id="mypageMoonAge"></div>
       </div>
@@ -6160,16 +6188,8 @@
             <div class="uranai-sky-coord" id="uranaiMoonCoord"></div>
           </div>
         </div>
-      </div>
-
-      <!-- 陰陽バランスカード -->
-      <div class="uranai-card uranai-balance" id="uranaiBalanceCard">
-        <div class="uranai-card-head">あなたの「陰陽」バランス</div>
-        <div class="uranai-balance-flower" id="uranaiBalanceFlower"></div>
-        <div class="uranai-balance-name" id="uranaiBalanceName"></div>
-        <div class="uranai-balance-kind" id="uranaiBalanceKind"></div>
-        <div class="uranai-balance-dev" id="uranaiBalanceDev"></div>
-        <div class="uranai-balance-desc" id="uranaiBalanceDesc" style="display:none"></div>
+        <!-- 朝祀り/夜祭り からの片寄り (元 陰陽バランス カードから流用) -->
+        <div class="mypage-matsuri-dev" id="uranaiBalanceDev"></div>
       </div>
     </div>
   </div>
@@ -7262,9 +7282,17 @@ const COASTLINES = [
         document.getElementById('moonnavView').classList.add('active');
         activateMoonNav();
       } else if (view === 'uranai') {
-        // ★v7: 月占いタブ
+        // ★v7: 月占いタブ — タブを押した瞬間にキャラ・ピュン演出 → 占い再計算
         if (uranaiViewEl) uranaiViewEl.classList.add('active');
         deactivateMoonNav();
+        if (typeof showCharPyunOverlay === 'function') {
+          setTimeout(() => {
+            showCharPyunOverlay(() => {
+              const sb = document.getElementById('uranaiSubmit');
+              if (sb) sb.click();
+            });
+          }, 30);
+        }
       } else if (view === 'mypage') {
         // ★v7: マイページタブ
         if (mypageViewEl) mypageViewEl.classList.add('active');
@@ -7869,11 +7897,10 @@ const COASTLINES = [
   }
 
   function clockPositionDesc(clock, above) {
-    const sky = above ? '空 の 上' : '地 面 の 下';
-    if (clock === 12) return `真 上 の ${sky}`;
-    if (clock === 6)  return `真 下 の ${sky}`;
-    const side = (clock >= 1 && clock <= 5) ? '右' : '左';
-    return `${side} の ${sky} ${clock} 時 の 方 向`;
+    const sky = above ? '空の上' : '地面の下';
+    if (clock === 12) return `${sky} 真上`;
+    if (clock === 6)  return `${sky} 真下`;
+    return `${sky} ${clock}時の方向`;
   }
 
   // バランス5タイプ別の絵文字 (花) と説明文
@@ -8689,6 +8716,28 @@ const COASTLINES = [
   // 招待ボタン / QR ボタンのハンドラ (動的に再バインド)
   // ===== マイページ (全タブ共通プロファイル) =====
   const MYPAGE_STORAGE_KEY = 'tsukiyoga.myprofile.v1';
+  const MYPAGE_SAVED_ONCE_KEY = 'tsukiyoga.myprofile.savedOnce';
+
+  function hasMypageSavedOnce() {
+    try { return localStorage.getItem(MYPAGE_SAVED_ONCE_KEY) === '1'; } catch (e) { return false; }
+  }
+  function setMypageSavedOnce() {
+    try { localStorage.setItem(MYPAGE_SAVED_ONCE_KEY, '1'); } catch (e) {}
+  }
+
+  // form の折りたたみ制御 (保存済みなら collapsed + edit ボタン表示)
+  function setMypageFormCollapsed(collapsed) {
+    const form = document.getElementById('mypageFormWrap');
+    const editRow = document.getElementById('mypageEditRow');
+    if (!form || !editRow) return;
+    if (collapsed) {
+      form.classList.add('is-collapsed');
+      editRow.style.display = 'block';
+    } else {
+      form.classList.remove('is-collapsed');
+      editRow.style.display = 'none';
+    }
+  }
 
   function loadMypageData() {
     try {
@@ -8840,6 +8889,7 @@ const COASTLINES = [
       const v = getMypageFormValues();
       if (!v) return;
       saveMypageData(v);
+      setMypageSavedOnce(); // ★ 一度でも保存したらフラグ立てる
       // 占いタブのフォームへ同期 (タブ切替はしない)
       syncMypageToUranai();
       // self person を再計算 (相性占い用)
@@ -8847,31 +8897,50 @@ const COASTLINES = [
       // 占い submit を裏で発火 → mypage-result の各 id を更新
       const uranaiSubmit = document.getElementById('uranaiSubmit');
       if (uranaiSubmit) uranaiSubmit.click();
+      // form を折りたたんで結果メインに
+      setMypageFormCollapsed(true);
       // 結果セクションへスムーズスクロール
       setTimeout(() => {
         const r = document.getElementById('mypageResult');
         if (r) r.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 150);
     });
+
+    // 「設定を変更する」ボタン: form を展開
+    const editBtn = document.getElementById('mypageEditBtn');
+    if (editBtn) editBtn.addEventListener('click', () => {
+      setMypageFormCollapsed(false);
+      setTimeout(() => {
+        const f = document.getElementById('mypageFormWrap');
+        if (f) f.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 50);
+    });
+
+    // 保存済みなら起動時に form を collapsed 状態に
+    if (hasMypageSavedOnce()) setMypageFormCollapsed(true);
   }
 
   document.addEventListener('DOMContentLoaded', () => {
     initMypage();
     // invite URL がある時は invite フローを優先 (mypage 自動オープンしない)
     const hasInvite = !!parseInviteUrl();
-    // 初回起動 (プロファイル未登録 かつ invite なし) → マイページを開く
     const saved = loadMypageData();
-    if (!hasInvite && (!saved || !saved.nickname || saved.nickname === 'あなた')) {
+    const savedOnce = hasMypageSavedOnce();
+
+    // ★ 一度でも「保存する」を押した人 → 自動オープンなし、暦タブから起動
+    //   未保存ユーザー → マイページをパワープッシュで自動オープン
+    if (!hasInvite && !savedOnce) {
       setTimeout(() => {
         const myBtn = document.querySelector('.tab-btn[data-view="mypage"]');
         if (myBtn) myBtn.click();
       }, 400);
-    } else if (saved && saved.year) {
-      // 既存ユーザー: マイページデータを占い form にも反映 + 結果セクション自動表示
+    }
+
+    // 保存済みデータがあれば占い form / self person を裏で更新 (相性占い等のため)
+    if (saved && saved.year) {
       setTimeout(() => {
         syncMypageToUranai();
         applyMypageToSelfPerson();
-        // 占い submit を裏で発火 → mypage-result の各 id を更新 + 表示
         const sb = document.getElementById('uranaiSubmit');
         if (sb) sb.click();
       }, 200);
@@ -9161,11 +9230,16 @@ const COASTLINES = [
   // (結果表示前のイントロは削除、占うボタン後はそのまま reveal へ)
 
   document.addEventListener('DOMContentLoaded', () => {
-    const PULL_THRESHOLD = 100; // px
+    const PULL_THRESHOLD_NORMAL = 100;
+    const PULL_THRESHOLD_MYPAGE = 320; // ★ マイページ設定中は硬く (誤動作リロード防止)
+    function getPullThreshold() {
+      if (document.querySelector('.mypage-view.active')) return PULL_THRESHOLD_MYPAGE;
+      return PULL_THRESHOLD_NORMAL;
+    }
     let startY = 0, pulling = false, fired = false;
     const getScrollEl = () => {
-      const active = document.querySelector('.uranai-view.active, .calendar-view.active, .moonnav-view.active, .main-view.active');
-      if (active) return active.querySelector('.uranai-scroll, .cal-container') || active;
+      const active = document.querySelector('.uranai-view.active, .calendar-view.active, .moonnav-view.active, .main-view.active, .mypage-view.active');
+      if (active) return active.querySelector('.uranai-scroll, .cal-container, .mypage-scroll') || active;
       return document.scrollingElement || document.documentElement;
     };
     document.addEventListener('touchstart', (e) => {
@@ -9179,17 +9253,21 @@ const COASTLINES = [
     document.addEventListener('touchmove', (e) => {
       if (!pulling || fired) return;
       const dy = e.touches[0].clientY - startY;
-      if (dy > PULL_THRESHOLD) {
+      if (dy > getPullThreshold()) {
         fired = true;
         // 占いタブで発火: キャラ歩き回り演出 + 占うボタン再発火 (reload しないので瞑想画像出ない)
         if (document.querySelector('.uranai-view.active')) {
           showCharPyunOverlay(() => {
-            // 占いタブ内でスクロールトップに戻る + 占うボタンを再発火
             const scrollEl = document.querySelector('.uranai-view.active .uranai-scroll');
             if (scrollEl) scrollEl.scrollTop = 0;
             const submitBtn = document.getElementById('uranaiSubmit');
             if (submitBtn) submitBtn.click();
           });
+        } else if (document.querySelector('.mypage-view.active')) {
+          // マイページでは reload しない (入力中の値が消えるリスク回避)
+          // 320px 引っ張られても、スクロールトップに戻すだけ
+          const scrollEl = document.querySelector('.mypage-view.active .mypage-scroll');
+          if (scrollEl) scrollEl.scrollTop = 0;
         } else {
           location.reload();
         }
@@ -9466,26 +9544,29 @@ const COASTLINES = [
       moonDotEl.setAttribute('x', moonSvg.x.toFixed(1));
       moonDotEl.setAttribute('y', moonSvg.y.toFixed(1));
 
-      // 陰陽バランス
-      // 花アイコン画像で表示 (テキスト emoji から差し替え)
+      // 陰陽バランス (花画像・名前・種類カードはマイページから削除済み、null-safe)
       const flowerEl = document.getElementById('uranaiBalanceFlower');
       if (flowerEl) flowerEl.innerHTML =
         `<img src="./balance_icons/${balance.img}" alt="${balance.name}" class="uranai-balance-flower-img">`;
-      document.getElementById('uranaiBalanceName').textContent = balance.name;
-      document.getElementById('uranaiBalanceKind').textContent = balance.fullLabel;
+      const balNameEl = document.getElementById('uranaiBalanceName');
+      if (balNameEl) balNameEl.textContent = balance.name;
+      const balKindEl = document.getElementById('uranaiBalanceKind');
+      if (balKindEl) balKindEl.textContent = balance.fullLabel;
       // 「誕生日の朝祀り 9:59 から 2時間48分 西に片寄り」表記 (一番近いマツリドキからの差)
       const dirSimple = dev > 0 ? '西に片寄り' : dev < 0 ? '東に片寄り' : '';
       const nearestLabelClean = nearestLabel.replace(/\s/g, '');
-      document.getElementById('uranaiBalanceDev').textContent =
+      const balDevEl = document.getElementById('uranaiBalanceDev');
+      if (balDevEl) balDevEl.textContent =
         Math.abs(dev) < 5/60
           ? `誕生日の${nearestLabelClean} と ピッタリ一致！`
           : `誕生日の${nearestLabelClean} ${hoursToHHMM(nearestT)} から ${hoursToHM(dev).replace(/\s/g,'')} ${dirSimple}`;
-      document.getElementById('uranaiBalanceDesc').textContent =
-        BALANCE_DESC[balance.name] || '';
-      // バランスカードのアクセント色
+      const balDescEl = document.getElementById('uranaiBalanceDesc');
+      if (balDescEl) balDescEl.textContent = BALANCE_DESC[balance.name] || '';
       const card = document.getElementById('uranaiBalanceCard');
-      card.style.borderColor = balance.color;
-      card.style.boxShadow = `0 0 18px ${balance.color}30`;
+      if (card) {
+        card.style.borderColor = balance.color;
+        card.style.boxShadow = `0 0 18px ${balance.color}30`;
+      }
 
       // 月齢オーバーレイ (月画像の上にかぶせる、小数1桁)
       const heroAgeEl = document.getElementById('uranaiHeroAge');
