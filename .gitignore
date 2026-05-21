@@ -4,3 +4,9 @@ _moon_icon_logs/
 Thumbs.db
 _pose_grid/
 moon_icons_old/
+
+# Python 開発用 (アプリ本体には不要)
+de421.bsp
+__pycache__/
+_fill_pose_logs/
+*.pyc
