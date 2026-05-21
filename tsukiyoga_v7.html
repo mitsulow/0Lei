@@ -1956,6 +1956,51 @@
     cursor: pointer;
     user-select: none;
   }
+
+  /* カスタム経緯度入力 (海外対応) */
+  .uranai-custom-coords {
+    margin-top: 10px;
+    padding: 12px 12px 10px;
+    background: rgba(110, 196, 245, 0.06);
+    border-radius: 8px;
+    border-left: 2px solid rgba(110, 196, 245, 0.4);
+  }
+  .uranai-custom-coords-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .uranai-custom-coords-row label {
+    flex: 0 0 56px;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.78rem;
+    color: rgba(201, 169, 97, 0.95);
+    letter-spacing: 0.12em;
+  }
+  .uranai-custom-coords-row input {
+    flex: 1;
+    min-width: 0;
+    padding: 8px 10px;
+    background: rgba(3, 8, 24, 0.6);
+    border: 1px solid rgba(110, 196, 245, 0.35);
+    border-radius: 6px;
+    color: var(--moon-white);
+    font-family: 'Cinzel', sans-serif;
+    font-size: 0.92rem;
+  }
+  .uranai-custom-coords-row span {
+    color: rgba(201, 169, 97, 0.85);
+    font-size: 0.85rem;
+  }
+  .uranai-custom-coords-note {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.7rem;
+    color: rgba(201, 169, 97, 0.65);
+    letter-spacing: 0.1em;
+    line-height: 1.5;
+    margin-top: 4px;
+  }
   .uranai-check input[type="checkbox"] {
     width: 18px; height: 18px;
     accent-color: var(--blue);
@@ -4759,8 +4804,28 @@
         <div class="uranai-field">
           <label class="uranai-label">生 ま れ た 場 所</label>
           <select id="uranaiCity" class="uranai-input">
-            <!-- option は JS で生成 -->
+            <!-- option は JS で生成 (先頭に「東経・北緯で入力」) -->
           </select>
+          <!-- カスタム経緯度入力 (海外 / 国内市町村外向け) -->
+          <div class="uranai-custom-coords" id="uranaiCustomCoords" style="display:none">
+            <div class="uranai-custom-coords-row">
+              <label>東 経</label>
+              <input type="number" id="uranaiCustomLon" class="uranai-input" min="-180" max="180" step="0.01" placeholder="例: 127.7" inputmode="decimal">
+              <span>°</span>
+            </div>
+            <div class="uranai-custom-coords-row">
+              <label>北 緯</label>
+              <input type="number" id="uranaiCustomLat" class="uranai-input" min="-90" max="90" step="0.01" placeholder="例: 26.2" inputmode="decimal">
+              <span>°</span>
+            </div>
+            <div class="uranai-custom-coords-row">
+              <label>場 所 名</label>
+              <input type="text" id="uranaiCustomName" class="uranai-input" placeholder="例: ハワイ / NY / パリ">
+            </div>
+            <div class="uranai-custom-coords-note">
+              ※ 海外 や 国 内 市 町 村 外 で 生 ま れ た 方 向 け
+            </div>
+          </div>
           <label class="uranai-check">
             <input type="checkbox" id="uranaiCityUnknown">
             <span>分 か ら な い（東 京 で 計 算）</span>
@@ -7183,11 +7248,19 @@ const COASTLINES = [
     // 年/月/日 select を生成
     populateDateSelects(yearEl, monthEl, dayEl);
 
-    // 都市 select を生成 (デフォルト: 東京)
+    // 都市 select を生成 (先頭に「東経・北緯で入力」を追加、デフォルト: 東京)
     const cityNames = Object.keys(JAPAN_CITIES);
-    cityEl.innerHTML = cityNames.map(name =>
-      `<option value="${name}"${name === '東京' ? ' selected' : ''}>${name}</option>`
-    ).join('');
+    cityEl.innerHTML =
+      `<option value="__custom__">東 経 ・ 北 緯 で 入 力 （ 海 外 ・ そ の 他 ）</option>` +
+      cityNames.map(name =>
+        `<option value="${name}"${name === '東京' ? ' selected' : ''}>${name}</option>`
+      ).join('');
+
+    // 「東経・北緯で入力」選択時にカスタム入力欄を表示
+    const customCoordsEl = document.getElementById('uranaiCustomCoords');
+    cityEl.addEventListener('change', () => {
+      if (customCoordsEl) customCoordsEl.style.display = (cityEl.value === '__custom__') ? 'block' : 'none';
+    });
 
     // 時刻不明 → 15:00 固定して非活性
     timeUnknownEl.addEventListener('change', () => {
@@ -7228,9 +7301,26 @@ const COASTLINES = [
         // ロールオーバーした場合は警告
       }
 
-      // 都市
-      const cityName = cityUnknownEl.checked ? '東京' : (cityEl.value || '東京');
-      const [lon, lat] = JAPAN_CITIES[cityName];
+      // 都市 / カスタム経緯度
+      let cityName, lon, lat;
+      if (cityUnknownEl.checked) {
+        cityName = '東京';
+        [lon, lat] = JAPAN_CITIES[cityName];
+      } else if (cityEl.value === '__custom__') {
+        const cLon = parseFloat(document.getElementById('uranaiCustomLon').value);
+        const cLat = parseFloat(document.getElementById('uranaiCustomLat').value);
+        const cName = (document.getElementById('uranaiCustomName').value || '').trim();
+        if (isNaN(cLon) || isNaN(cLat) || !cName) {
+          alert('東経・北緯・場所名 を 全 て 入 力 し て く だ さ い');
+          return;
+        }
+        cityName = cName;
+        lon = cLon;
+        lat = cLat;
+      } else {
+        cityName = cityEl.value || '東京';
+        [lon, lat] = JAPAN_CITIES[cityName];
+      }
       const offsetMin = localSolarOffsetMin(lon);
 
       // 月齢・タイプ (天文月齢ベース、旧暦は使わない)
