@@ -3265,6 +3265,14 @@
     font-size: 0.8rem;
     letter-spacing: 0.06em;
   }
+  .uranai-family-table .ft-charname {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.72rem;
+    color: rgba(255, 245, 220, 0.92);
+    letter-spacing: 0.04em;
+    margin-top: 4px;
+    line-height: 1.2;
+  }
   .uranai-family-table .ft-img {
     width: 58px; height: 58px;
     border-radius: 50%;
@@ -5472,14 +5480,7 @@
         <div class="uranai-balance-desc" id="uranaiBalanceDesc" style="display:none"></div>
       </div>
 
-      <!-- ★Claude 提案①: ヒーロー一行宣言 (バズり要素) -->
-      <div class="uranai-headline" id="uranaiHeadline"></div>
-
-      <!-- ★Claude 提案②: キャラからの一言名言 -->
-      <div class="uranai-quote" id="uranaiQuote"></div>
-
-      <!-- 性格描写 -->
-      <div class="uranai-desc" id="uranaiDesc"></div>
+      <!-- 一行宣言・名言・性格描写は削除済み (整理中) -->
 
       <!-- ★Claude 提案: 12 タイプ全部見るボタン -->
       <button class="uranai-all-types-btn" type="button" id="uranaiAllTypesBtn">
@@ -5564,11 +5565,7 @@
         <div class="uranai-share-canvas-wrap">
           <canvas id="uranaiShareCanvas" width="1080" height="1080"></canvas>
         </div>
-        <div class="uranai-share-buttons">
-          <button class="uranai-share-btn" id="uranaiShareDownload" type="button">📥 画 像 を 保 存</button>
-          <button class="uranai-share-btn" id="uranaiShareNative" type="button">📤 シ ェ ア</button>
-        </div>
-        <!-- X / LINE / コピー シェア (テキスト共有) -->
+        <!-- X / LINE / コピー シェア (テキスト共有のみ、画像保存と汎用シェアは削除) -->
         <div class="uranai-share-row">
           <button class="uranai-share-text-btn share-x" id="uranaiShareXBtn" type="button">
             𝕏 で シ ェ ア
@@ -7452,15 +7449,10 @@ const COASTLINES = [
     html += '</tr></thead><tbody>';
 
     const rows = [
-      { label:'キャラ',     fn:p => `<img class="ft-img" src="./character_icons/char_${String(p.phaseIdx).padStart(2,'0')}.png" alt="">` },
-      { label:'タイプ',     fn:p => getDisplayName(p.phase) },
-      { label:'ラッキー',   fn:p => p.phaseIdx },
-      { label:'月相',       fn:p => p.phase.moon },
-      { label:'色',         fn:p => p.phase.color },
-      { label:'動物',       fn:p => p.phase.animal },
-      { label:'段階',       fn:p => `${p.phase.stage} (${STAGE_FULL[p.phase.stage].replace(/.*\(|\)/g, '')})` },
-      { label:'バランス',   fn:p => `<span style="color:${p.balance.color}">${p.balance.name}</span>` },
-      { label:'月齢',       fn:p => Math.round(p.moonAge || 0) + ' 日' }
+      { label:'キャラ',          fn:p => `<img class="ft-img" src="./character_icons/char_${String(p.phaseIdx).padStart(2,'0')}.png" alt=""><div class="ft-charname">${getDisplayName(p.phase)}</div>` },
+      { label:'月齢',            fn:p => (p.moonAge != null ? p.moonAge.toFixed(1) : '-') + ' 日' },
+      { label:'陰陽バランス',    fn:p => `<span style="color:${p.balance.color}">${p.balance.name}</span>` },
+      { label:'ラッキーナンバー', fn:p => p.phaseIdx }
     ];
     rows.forEach(r => {
       html += `<tr><th>${r.label}</th>`;
