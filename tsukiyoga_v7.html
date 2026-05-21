@@ -7519,12 +7519,13 @@ const COASTLINES = [
         BALANCE_EMOJI[balance.name] || '✿';
       document.getElementById('uranaiBalanceName').textContent = balance.name;
       document.getElementById('uranaiBalanceKind').textContent = balance.fullLabel;
-      // 「朝祀り 6:59 から 2時間48分 西より」表記 (一番近いマツリドキからの差)
-      const dirSimple = dev > 0 ? '西より' : dev < 0 ? '東より' : '';
+      // 「誕生日の朝祀り 9:59 から 2時間48分 西に片寄り」表記 (一番近いマツリドキからの差)
+      const dirSimple = dev > 0 ? '西に片寄り' : dev < 0 ? '東に片寄り' : '';
+      const nearestLabelClean = nearestLabel.replace(/\s/g, '');
       document.getElementById('uranaiBalanceDev').textContent =
         Math.abs(dev) < 5/60
-          ? `${nearestLabel} と ピ ッ タ リ 一 致 ！`
-          : `${nearestLabel.replace(/\s/g,'')} ${hoursToHHMM(nearestT)} か ら ${hoursToHM(dev).replace(/\s/g,'')} ${dirSimple}`;
+          ? `誕生日の${nearestLabelClean} と ピッタリ一致！`
+          : `誕生日の${nearestLabelClean} ${hoursToHHMM(nearestT)} から ${hoursToHM(dev).replace(/\s/g,'')} ${dirSimple}`;
       document.getElementById('uranaiBalanceDesc').textContent =
         BALANCE_DESC[balance.name] || '';
       // バランスカードのアクセント色
