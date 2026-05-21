@@ -3786,33 +3786,124 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
   }
+  /* フリップカード: perspective + 固定高さ */
   .uranai-today-card {
-    background: linear-gradient(180deg, rgba(58, 26, 106, 0.4), rgba(26, 10, 58, 0.5));
-    border: 1px solid rgba(232, 255, 0, 0.2);
+    position: relative;
+    height: 200px;
+    perspective: 900px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+  }
+  .today-card-flipper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+    transform-style: preserve-3d;
+  }
+  .uranai-today-card.is-flipped .today-card-flipper {
+    transform: rotateY(180deg);
+  }
+  .today-card-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
     border-radius: 12px;
     padding: 12px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  /* 表面: ツキヨガ ORACLE ロゴ (紫×蛍光黄色) */
+  .today-card-front {
+    background:
+      radial-gradient(ellipse at 30% 25%, rgba(232, 255, 0, 0.22), transparent 55%),
+      radial-gradient(ellipse at 75% 80%, rgba(140, 70, 200, 0.4), transparent 60%),
+      linear-gradient(135deg, #1a0a3a 0%, #3a1a6a 50%, #1a0a3a 100%);
+    border: 2px solid #e8ff00;
+    box-shadow:
+      0 0 18px rgba(232, 255, 0, 0.35),
+      inset 0 0 0 1px rgba(232, 255, 0, 0.15),
+      inset 0 0 40px rgba(232, 255, 0, 0.08);
     text-align: center;
   }
-  .uranai-today-good {
-    border-color: rgba(110, 230, 180, 0.55);
-    box-shadow: 0 0 14px rgba(110, 230, 180, 0.15);
+  .today-card-front::before {
+    content: '';
+    position: absolute;
+    top: 6px; left: 6px; right: 6px; bottom: 6px;
+    border: 1px dashed rgba(232, 255, 0, 0.4);
+    border-radius: 8px;
+    pointer-events: none;
   }
-  .uranai-today-caution {
-    border-color: rgba(245, 80, 100, 0.5);
-    box-shadow: 0 0 14px rgba(245, 80, 100, 0.12);
+  .today-card-logo-moon {
+    font-size: 2.6rem;
+    color: #e8ff00;
+    text-shadow:
+      0 0 14px rgba(232, 255, 0, 0.7),
+      0 0 28px rgba(232, 255, 0, 0.4);
+    line-height: 1;
+    margin-bottom: 6px;
   }
-  .uranai-today-insight {
-    border-color: rgba(232, 255, 0, 0.55);
-    box-shadow: 0 0 14px rgba(232, 255, 0, 0.18);
+  .today-card-logo-title {
+    font-family: 'Reggae One', 'Shippori Mincho', serif;
+    font-size: 0.9rem;
+    color: #fff;
+    letter-spacing: 0.18em;
+    text-shadow: 0 0 8px rgba(232, 255, 0, 0.5);
+    margin-bottom: 2px;
+  }
+  .today-card-logo-sub {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    color: rgba(232, 255, 0, 0.85);
+    letter-spacing: 0.35em;
+    margin-bottom: 12px;
+  }
+  .today-card-tap-hint {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.7rem;
+    color: rgba(232, 255, 0, 0.7);
+    letter-spacing: 0.15em;
+    padding: 3px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(232, 255, 0, 0.45);
+    animation: tapHintPulse 1.8s ease-in-out infinite;
+  }
+  @keyframes tapHintPulse {
+    0%, 100% { opacity: 0.55; transform: scale(0.95); }
+    50%      { opacity: 1; transform: scale(1.05); }
+  }
+  /* 裏面: 相手のカード */
+  .today-card-back {
+    background: linear-gradient(180deg, rgba(58, 26, 106, 0.55), rgba(26, 10, 58, 0.7));
+    border: 1.5px solid rgba(232, 255, 0, 0.4);
+    box-shadow: 0 0 10px rgba(232, 255, 0, 0.15);
+    transform: rotateY(180deg);
+  }
+  .uranai-today-good .today-card-back {
+    border-color: rgba(110, 230, 180, 0.6);
+    box-shadow: 0 0 12px rgba(110, 230, 180, 0.18);
+  }
+  .uranai-today-caution .today-card-back {
+    border-color: rgba(245, 80, 100, 0.55);
+    box-shadow: 0 0 12px rgba(245, 80, 100, 0.18);
+  }
+  .uranai-today-insight .today-card-back {
+    border-color: rgba(232, 255, 0, 0.6);
+    box-shadow: 0 0 12px rgba(232, 255, 0, 0.2);
   }
   .today-card-label {
     font-family: 'Shippori Mincho', serif;
     font-size: 0.7rem;
-    color: rgba(232, 255, 0, 0.85);
     letter-spacing: 0.1em;
     margin-bottom: 8px;
     line-height: 1.4;
-    min-height: 2.6em;
+    text-align: center;
   }
   .uranai-today-good .today-card-label { color: rgba(110, 230, 180, 0.95); }
   .uranai-today-caution .today-card-label { color: rgba(245, 130, 145, 0.95); }
@@ -3824,26 +3915,128 @@
     margin: 0 auto 6px;
     display: block;
     background: rgba(0, 0, 0, 0.25);
-    border: 1px solid rgba(232, 255, 0, 0.3);
+    border: 1px solid rgba(232, 255, 0, 0.4);
     filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.4));
   }
-  .today-card-img[src=""] {
+  .today-card-img[src=""], .today-card-img:not([src]) {
     visibility: hidden;
   }
   .today-card-name {
     font-family: 'Shippori Mincho', serif;
-    font-size: 0.78rem;
+    font-size: 0.82rem;
     color: #fff;
     letter-spacing: 0.05em;
     margin-bottom: 2px;
     line-height: 1.3;
+    text-align: center;
+  }
+  .today-card-name.tappable {
+    text-decoration: underline;
+    text-decoration-color: rgba(232, 255, 0, 0.55);
+    text-underline-offset: 2px;
+    cursor: pointer;
   }
   .today-card-type {
     font-family: 'Shippori Mincho', serif;
     font-size: 0.65rem;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(232, 255, 0, 0.75);
     letter-spacing: 0.08em;
     line-height: 1.3;
+    text-align: center;
+  }
+
+  /* ★ 人物詳細モーダル */
+  .uranai-detail-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 11200;
+    background: rgba(0, 0, 0, 0.88);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .uranai-detail-modal.active { display: flex; }
+  .uranai-detail-modal-content {
+    background:
+      linear-gradient(165deg, rgba(232, 255, 0, 0.16) 0%, rgba(90, 42, 160, 0.7) 30%, rgba(26, 10, 58, 0.95) 100%);
+    border: 2px solid rgba(232, 255, 0, 0.6);
+    border-radius: 16px;
+    padding: 24px 22px;
+    max-width: 360px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(232, 255, 0, 0.25);
+    position: relative;
+    animation: editModalFadeIn 0.3s ease-out;
+  }
+  .uranai-detail-close {
+    position: absolute;
+    top: 8px; right: 8px;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(232, 255, 0, 0.45);
+    color: #e8ff00;
+    font-size: 1.1rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+  }
+  .uranai-detail-img {
+    width: 84px; height: 84px;
+    border-radius: 50%;
+    border: 2px solid rgba(232, 255, 0, 0.6);
+    background: rgba(0, 0, 0, 0.3);
+    margin: 0 auto 10px;
+    display: block;
+    filter: drop-shadow(0 0 6px rgba(232, 255, 0, 0.4));
+  }
+  .uranai-detail-name {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.1rem;
+    color: #fff;
+    letter-spacing: 0.1em;
+    margin-bottom: 2px;
+  }
+  .uranai-detail-type {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.85rem;
+    color: rgba(232, 255, 0, 0.9);
+    letter-spacing: 0.12em;
+  }
+  .uranai-detail-divider {
+    height: 1px;
+    background: rgba(232, 255, 0, 0.25);
+    margin: 14px 0 12px;
+  }
+  .uranai-detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.9);
+    padding: 6px 0;
+    border-bottom: 1px dashed rgba(232, 255, 0, 0.15);
+  }
+  .uranai-detail-row:last-child { border-bottom: none; }
+  .uranai-detail-row.uranai-detail-row-aspect {
+    background: rgba(232, 255, 0, 0.08);
+    border-radius: 8px;
+    padding: 8px 10px;
+    margin-top: 8px;
+    border: 1px solid rgba(232, 255, 0, 0.3);
+  }
+  .uranai-detail-key {
+    color: rgba(232, 255, 0, 0.75);
+    letter-spacing: 0.05em;
+    font-size: 0.78rem;
+  }
+  .uranai-detail-val {
+    color: #fff;
+    font-weight: 500;
+    text-align: right;
   }
 
   /* 家族マップ表 */
@@ -6457,7 +6650,7 @@
         </div>
       </div>
 
-      <!-- ★ 今日の相性 セクション (見た目のみ、ロジックは仮) -->
+      <!-- ★ 今日の相性 セクション (3D フリップカード) -->
       <div class="uranai-today-section">
         <div class="uranai-section-title-wrap">
           <span class="uranai-section-title-deco">✦</span>
@@ -6466,24 +6659,74 @@
         </div>
         <div class="uranai-today-sub" id="uranaiTodaySub">きょうのあなたへ</div>
         <div class="uranai-today-cards">
+
           <div class="uranai-today-card uranai-today-good" id="uranaiTodayGoodCard">
-            <div class="today-card-label">今日 会うべき</div>
-            <img class="today-card-img" id="uranaiTodayGoodImg" src="" alt="">
-            <div class="today-card-name" id="uranaiTodayGoodName">—</div>
-            <div class="today-card-type" id="uranaiTodayGoodType">—</div>
+            <div class="today-card-flipper">
+              <div class="today-card-face today-card-front">
+                <div class="today-card-logo-moon">☽</div>
+                <div class="today-card-logo-title">ツキヨガ</div>
+                <div class="today-card-logo-sub">ORACLE</div>
+                <div class="today-card-tap-hint">タップ</div>
+              </div>
+              <div class="today-card-face today-card-back">
+                <div class="today-card-label">今日 会うべき</div>
+                <img class="today-card-img" id="uranaiTodayGoodImg" src="" alt="">
+                <div class="today-card-name tappable" id="uranaiTodayGoodName" data-which="good">—</div>
+                <div class="today-card-type" id="uranaiTodayGoodType">—</div>
+              </div>
+            </div>
           </div>
+
           <div class="uranai-today-card uranai-today-caution" id="uranaiTodayCautionCard">
-            <div class="today-card-label">気をつけたい</div>
-            <img class="today-card-img" id="uranaiTodayCautionImg" src="" alt="">
-            <div class="today-card-name" id="uranaiTodayCautionName">—</div>
-            <div class="today-card-type" id="uranaiTodayCautionType">—</div>
+            <div class="today-card-flipper">
+              <div class="today-card-face today-card-front">
+                <div class="today-card-logo-moon">☽</div>
+                <div class="today-card-logo-title">ツキヨガ</div>
+                <div class="today-card-logo-sub">ORACLE</div>
+                <div class="today-card-tap-hint">タップ</div>
+              </div>
+              <div class="today-card-face today-card-back">
+                <div class="today-card-label">気をつけたい</div>
+                <img class="today-card-img" id="uranaiTodayCautionImg" src="" alt="">
+                <div class="today-card-name tappable" id="uranaiTodayCautionName" data-which="caution">—</div>
+                <div class="today-card-type" id="uranaiTodayCautionType">—</div>
+              </div>
+            </div>
           </div>
+
           <div class="uranai-today-card uranai-today-insight" id="uranaiTodayInsightCard">
-            <div class="today-card-label">気付きを与える</div>
-            <img class="today-card-img" id="uranaiTodayInsightImg" src="" alt="">
-            <div class="today-card-name" id="uranaiTodayInsightName">—</div>
-            <div class="today-card-type" id="uranaiTodayInsightType">—</div>
+            <div class="today-card-flipper">
+              <div class="today-card-face today-card-front">
+                <div class="today-card-logo-moon">☽</div>
+                <div class="today-card-logo-title">ツキヨガ</div>
+                <div class="today-card-logo-sub">ORACLE</div>
+                <div class="today-card-tap-hint">タップ</div>
+              </div>
+              <div class="today-card-face today-card-back">
+                <div class="today-card-label">気付きを与える</div>
+                <img class="today-card-img" id="uranaiTodayInsightImg" src="" alt="">
+                <div class="today-card-name tappable" id="uranaiTodayInsightName" data-which="insight">—</div>
+                <div class="today-card-type" id="uranaiTodayInsightType">—</div>
+              </div>
+            </div>
           </div>
+
+        </div>
+      </div>
+
+      <!-- ★ 人物詳細モーダル (相手の名前タップで開く) -->
+      <div class="uranai-detail-modal" id="uranaiDetailModal">
+        <div class="uranai-detail-modal-content">
+          <button class="uranai-detail-close" id="uranaiDetailClose" type="button">×</button>
+          <img class="uranai-detail-img" id="uranaiDetailImg" src="" alt="">
+          <div class="uranai-detail-name" id="uranaiDetailName"></div>
+          <div class="uranai-detail-type" id="uranaiDetailType"></div>
+          <div class="uranai-detail-divider"></div>
+          <div class="uranai-detail-row"><span class="uranai-detail-key">月齢</span><span class="uranai-detail-val" id="uranaiDetailMoonAge"></span></div>
+          <div class="uranai-detail-row"><span class="uranai-detail-key">誕生日</span><span class="uranai-detail-val" id="uranaiDetailBirth"></span></div>
+          <div class="uranai-detail-row"><span class="uranai-detail-key">出生地</span><span class="uranai-detail-val" id="uranaiDetailCity"></span></div>
+          <div class="uranai-detail-row"><span class="uranai-detail-key">陰陽バランス</span><span class="uranai-detail-val" id="uranaiDetailBalance"></span></div>
+          <div class="uranai-detail-row uranai-detail-row-aspect"><span class="uranai-detail-key">あなたとの相性</span><span class="uranai-detail-val" id="uranaiDetailAspect"></span></div>
         </div>
       </div>
 
@@ -8846,6 +9089,69 @@ const COASTLINES = [
     });
   });
 
+  // ★ 今日の相性カード フリップ + 詳細モーダル
+  // 各カードに表示中の人物を保持 (詳細モーダル用)
+  const todayCardPersons = { good: null, caution: null, insight: null };
+
+  function bindTodayCardFlip() {
+    ['Good', 'Caution', 'Insight'].forEach(kind => {
+      const card = document.getElementById(`uranaiToday${kind}Card`);
+      if (!card) return;
+      card.addEventListener('click', (e) => {
+        // 名前タップは別ハンドラに任せる (フリップしない)
+        if (e.target.classList.contains('tappable')) return;
+        card.classList.toggle('is-flipped');
+      });
+    });
+    // 名前タップで詳細モーダル
+    document.querySelectorAll('.today-card-name.tappable').forEach(nameEl => {
+      nameEl.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const which = nameEl.dataset.which;
+        const p = todayCardPersons[which];
+        if (p) showPersonDetailModal(p);
+      });
+    });
+    // 詳細モーダル close
+    const dClose = document.getElementById('uranaiDetailClose');
+    const dModal = document.getElementById('uranaiDetailModal');
+    if (dClose) dClose.addEventListener('click', () => dModal.classList.remove('active'));
+    if (dModal) dModal.addEventListener('click', (e) => {
+      if (e.target === dModal) dModal.classList.remove('active');
+    });
+  }
+  document.addEventListener('DOMContentLoaded', bindTodayCardFlip);
+
+  function showPersonDetailModal(person) {
+    if (!person) return;
+    const modal = document.getElementById('uranaiDetailModal');
+    if (!modal) return;
+    const setText = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+    document.getElementById('uranaiDetailImg').src =
+      `./character_icons/char_${String(person.phaseIdx).padStart(2,'0')}.png`;
+    setText('uranaiDetailName', person.name || '—');
+    setText('uranaiDetailType', `${getDisplayName(person.phase)} / ${person.phase.moon}`);
+    setText('uranaiDetailMoonAge',
+      (person.moonAge != null) ? `${person.moonAge.toFixed(1)} 日` : '—');
+    setText('uranaiDetailBirth', person.birthDate || '—');
+    setText('uranaiDetailCity', person.cityName || '—');
+    setText('uranaiDetailBalance',
+      person.balance ? `${person.balance.name}（${person.balance.fullLabel}）` : '—');
+    // あなたとの相性 (uranaiPeople[0] が self)
+    let aspectStr = '—';
+    try {
+      const self = uranaiPeople[0];
+      if (self && self.phaseIdx !== person.phaseIdx) {
+        const a = aspectBetween(self.phaseIdx, person.phaseIdx);
+        aspectStr = `${a.name}（${a.angle}°）`;
+      } else if (self && self.phaseIdx === person.phaseIdx) {
+        aspectStr = '同タイプ（共鳴）';
+      }
+    } catch (e) {}
+    setText('uranaiDetailAspect', aspectStr);
+    modal.classList.add('active');
+  }
+
   // ★ 今日の相性セクション (見た目のみ、ロジックは仮: uranaiPeople から月相タイプを参照)
   function refreshTodayCompat() {
     const sub = document.getElementById('uranaiTodaySub');
@@ -8883,17 +9189,19 @@ const COASTLINES = [
         return { name: '—', phase, phaseIdx: idx };
       }
     }
-    const fill = (slotId, person, prefix) => {
+    const fill = (slotId, person, prefix, kindKey) => {
       const img = document.getElementById(prefix + 'Img');
       const name = document.getElementById(prefix + 'Name');
       const type = document.getElementById(prefix + 'Type');
       if (img) img.src = `./character_icons/char_${String(person.phaseIdx).padStart(2,'0')}.png`;
       if (name) name.textContent = person.name || '—';
       if (type) type.textContent = getDisplayName(person.phase);
+      // 詳細モーダル用に person を記憶
+      todayCardPersons[kindKey] = person;
     };
-    fill('uranaiTodayGoodCard',    pickByAspect('good'),    'uranaiTodayGood');
-    fill('uranaiTodayCautionCard', pickByAspect('caution'), 'uranaiTodayCaution');
-    fill('uranaiTodayInsightCard', pickByAspect('insight'), 'uranaiTodayInsight');
+    fill('uranaiTodayGoodCard',    pickByAspect('good'),    'uranaiTodayGood',    'good');
+    fill('uranaiTodayCautionCard', pickByAspect('caution'), 'uranaiTodayCaution', 'caution');
+    fill('uranaiTodayInsightCard', pickByAspect('insight'), 'uranaiTodayInsight', 'insight');
   }
   // 占い submit / renderPeople 後に再計算したいので公開
   window.refreshTodayCompat = refreshTodayCompat;
