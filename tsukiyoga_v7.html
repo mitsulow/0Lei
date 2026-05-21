@@ -8067,28 +8067,99 @@ const COASTLINES = [
   }
 
   function initUranaiShare() {
-    // トレーディングカード左右スワイプで前後の人物に切り替え
+    // トレーディングカード左右スワイプ (指追従式、手帳モーダルと同じ仕様)
     const shareWrap = document.querySelector('.uranai-share-canvas-wrap');
     if (shareWrap) {
-      let sx = 0, sy = 0;
-      shareWrap.addEventListener('touchstart', e => {
-        sx = e.touches[0].clientX;
-        sy = e.touches[0].clientY;
+      let startX = 0, startY = 0, startT = 0;
+      let tracking = false, animating = false;
+      let axis = null;
+      const LOCK_PX = 10;
+      const SWITCH_PX = 70;
+      const SWITCH_VELOCITY = 0.45;
+      shareWrap.addEventListener('touchstart', (e) => {
+        if (animating) { tracking = false; return; }
+        if (e.touches.length !== 1) { tracking = false; return; }
+        const t = e.touches[0];
+        startX = t.clientX; startY = t.clientY;
+        startT = Date.now();
+        tracking = true;
+        axis = null;
+        shareWrap.style.transition = 'none';
       }, { passive: true });
-      shareWrap.addEventListener('touchend', e => {
-        const dx = e.changedTouches[0].clientX - sx;
-        const dy = e.changedTouches[0].clientY - sy;
-        if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy)) return;
-        if (!uranaiPeople || uranaiPeople.length < 2) return;
-        const n = uranaiPeople.length;
-        if (dx > 0) {
-          // 右スワイプ → 前の人物
-          currentShareTabIdx = (currentShareTabIdx - 1 + n) % n;
-        } else {
-          // 左スワイプ → 次の人物
-          currentShareTabIdx = (currentShareTabIdx + 1) % n;
+      shareWrap.addEventListener('touchmove', (e) => {
+        if (!tracking) return;
+        const t = e.touches[0];
+        const dx = t.clientX - startX;
+        const dy = t.clientY - startY;
+        if (axis === null) {
+          if (Math.abs(dx) < LOCK_PX && Math.abs(dy) < LOCK_PX) return;
+          axis = Math.abs(dx) > Math.abs(dy) ? 'h' : 'v';
+          if (axis === 'v') { tracking = false; return; }
         }
-        refreshShareCard();
+        if (e.cancelable) e.preventDefault();
+        const dragOp = 1 - Math.min(Math.abs(dx) / 600, 0.35);
+        shareWrap.style.transform = `translateX(${dx}px)`;
+        shareWrap.style.opacity = String(dragOp);
+      }, { passive: false });
+      const endHandler = (e) => {
+        if (!tracking) return;
+        tracking = false;
+        if (axis !== 'h') return;
+        if (!uranaiPeople || uranaiPeople.length < 2) {
+          shareWrap.style.transition = 'transform 0.18s ease, opacity 0.18s ease';
+          shareWrap.style.transform = '';
+          shareWrap.style.opacity = '';
+          setTimeout(() => { shareWrap.style.transition = ''; }, 200);
+          return;
+        }
+        const t = e.changedTouches[0];
+        const dx = t.clientX - startX;
+        const dt = Math.max(Date.now() - startT, 1);
+        const v = Math.abs(dx) / dt;
+        const shouldSwitch = Math.abs(dx) > SWITCH_PX || v > SWITCH_VELOCITY;
+        if (!shouldSwitch) {
+          animating = true;
+          shareWrap.style.transition = 'transform 0.18s ease, opacity 0.18s ease';
+          shareWrap.style.transform = '';
+          shareWrap.style.opacity = '';
+          setTimeout(() => { shareWrap.style.transition = ''; animating = false; }, 200);
+          return;
+        }
+        // 切替確定: 飛ばして反対側から新カード
+        const direction = dx < 0 ? -1 : 1;
+        const offX = (shareWrap.offsetWidth || 400) + 40;
+        animating = true;
+        shareWrap.style.transition = 'transform 0.22s ease-out, opacity 0.22s ease-out';
+        shareWrap.style.transform = `translateX(${direction * offX}px)`;
+        shareWrap.style.opacity = '0';
+        const step = direction < 0 ? 1 : -1; // 左に飛んだら次の人物
+        const n = uranaiPeople.length;
+        currentShareTabIdx = (currentShareTabIdx + step + n) % n;
+        setTimeout(() => {
+          shareWrap.style.transition = 'none';
+          shareWrap.style.transform = `translateX(${-direction * offX}px)`;
+          shareWrap.style.opacity = '0';
+          refreshShareCard();
+          void shareWrap.offsetWidth;
+          shareWrap.style.transition = 'transform 0.24s ease-out, opacity 0.24s ease-out';
+          shareWrap.style.transform = 'translateX(0)';
+          shareWrap.style.opacity = '1';
+          setTimeout(() => {
+            shareWrap.style.transition = '';
+            shareWrap.style.transform = '';
+            shareWrap.style.opacity = '';
+            animating = false;
+          }, 260);
+        }, 230);
+      };
+      shareWrap.addEventListener('touchend', endHandler, { passive: true });
+      shareWrap.addEventListener('touchcancel', () => {
+        if (!tracking) return;
+        tracking = false;
+        shareWrap.style.transition = 'transform 0.18s ease, opacity 0.18s ease';
+        shareWrap.style.transform = '';
+        shareWrap.style.opacity = '';
+        setTimeout(() => { shareWrap.style.transition = ''; }, 200);
       }, { passive: true });
     }
 
@@ -10292,26 +10363,89 @@ const COASTLINES = [
     renderCal(calYear, calMonth);
   });
 
-  // カレンダーグリッドを左右スワイプで月送り
+  // カレンダーグリッドを左右スワイプで月送り (指追従式、手帳モーダルと同仕様)
   (function calendarSwipe() {
     const grid = document.getElementById('calGrid');
     if (!grid) return;
-    let sx = 0, sy = 0;
-    grid.addEventListener('touchstart', e => {
-      sx = e.touches[0].clientX;
-      sy = e.touches[0].clientY;
+    let startX = 0, startY = 0, startT = 0;
+    let tracking = false, animating = false;
+    let axis = null;
+    const LOCK_PX = 10, SWITCH_PX = 70, SWITCH_VELOCITY = 0.45;
+    grid.addEventListener('touchstart', (e) => {
+      if (animating) { tracking = false; return; }
+      if (e.touches.length !== 1) { tracking = false; return; }
+      const t = e.touches[0];
+      startX = t.clientX; startY = t.clientY;
+      startT = Date.now();
+      tracking = true; axis = null;
+      grid.style.transition = 'none';
     }, { passive: true });
-    grid.addEventListener('touchend', e => {
-      const dx = e.changedTouches[0].clientX - sx;
-      const dy = e.changedTouches[0].clientY - sy;
-      if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy)) return;
-      if (dx > 0) {
-        // 右スワイプ → 前月
-        document.getElementById('prevMonth').click();
-      } else {
-        // 左スワイプ → 翌月
-        document.getElementById('nextMonth').click();
+    grid.addEventListener('touchmove', (e) => {
+      if (!tracking) return;
+      const t = e.touches[0];
+      const dx = t.clientX - startX;
+      const dy = t.clientY - startY;
+      if (axis === null) {
+        if (Math.abs(dx) < LOCK_PX && Math.abs(dy) < LOCK_PX) return;
+        axis = Math.abs(dx) > Math.abs(dy) ? 'h' : 'v';
+        if (axis === 'v') { tracking = false; return; }
       }
+      if (e.cancelable) e.preventDefault();
+      const dragOp = 1 - Math.min(Math.abs(dx) / 600, 0.35);
+      grid.style.transform = `translateX(${dx}px)`;
+      grid.style.opacity = String(dragOp);
+    }, { passive: false });
+    grid.addEventListener('touchend', (e) => {
+      if (!tracking) return;
+      tracking = false;
+      if (axis !== 'h') return;
+      const t = e.changedTouches[0];
+      const dx = t.clientX - startX;
+      const dt = Math.max(Date.now() - startT, 1);
+      const v = Math.abs(dx) / dt;
+      const shouldSwitch = Math.abs(dx) > SWITCH_PX || v > SWITCH_VELOCITY;
+      if (!shouldSwitch) {
+        animating = true;
+        grid.style.transition = 'transform 0.18s ease, opacity 0.18s ease';
+        grid.style.transform = ''; grid.style.opacity = '';
+        setTimeout(() => { grid.style.transition = ''; animating = false; }, 200);
+        return;
+      }
+      const direction = dx < 0 ? -1 : 1;
+      const offX = (grid.offsetWidth || 360) + 40;
+      animating = true;
+      grid.style.transition = 'transform 0.22s ease-out, opacity 0.22s ease-out';
+      grid.style.transform = `translateX(${direction * offX}px)`;
+      grid.style.opacity = '0';
+      setTimeout(() => {
+        // 左に飛んだら翌月 / 右に飛んだら前月
+        if (direction < 0) {
+          document.getElementById('nextMonth').click();
+        } else {
+          document.getElementById('prevMonth').click();
+        }
+        // 反対側に新グリッドを置く
+        grid.style.transition = 'none';
+        grid.style.transform = `translateX(${-direction * offX}px)`;
+        grid.style.opacity = '0';
+        void grid.offsetWidth;
+        grid.style.transition = 'transform 0.24s ease-out, opacity 0.24s ease-out';
+        grid.style.transform = 'translateX(0)';
+        grid.style.opacity = '1';
+        setTimeout(() => {
+          grid.style.transition = '';
+          grid.style.transform = '';
+          grid.style.opacity = '';
+          animating = false;
+        }, 260);
+      }, 230);
+    }, { passive: true });
+    grid.addEventListener('touchcancel', () => {
+      if (!tracking) return;
+      tracking = false;
+      grid.style.transition = 'transform 0.18s ease, opacity 0.18s ease';
+      grid.style.transform = ''; grid.style.opacity = '';
+      setTimeout(() => { grid.style.transition = ''; }, 200);
     }, { passive: true });
   })();
 
