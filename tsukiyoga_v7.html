@@ -3516,83 +3516,123 @@
     margin-bottom: 18px;
   }
 
-  /* 人物カード一覧 (トレーディングカード風) */
+  /* 人物カード一覧 (トレーディングカード風、紫メイン) */
+  .uranai-people-list-wrap {
+    position: relative;
+    margin-bottom: 16px;
+  }
   .uranai-people-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
     gap: 12px;
-    margin-bottom: 16px;
   }
   .uranai-person-card {
     position: relative;
     background:
       linear-gradient(165deg,
-        rgba(232, 255, 0, 0.10) 0%,
-        rgba(58, 26, 106, 0.55) 30%,
-        rgba(26, 10, 58, 0.85) 100%);
-    border: 1.5px solid rgba(232, 255, 0, 0.55);
+        rgba(160, 100, 230, 0.32) 0%,
+        rgba(74, 30, 130, 0.78) 35%,
+        rgba(26, 10, 58, 0.95) 100%);
+    border: 1.5px solid rgba(170, 110, 230, 0.45);
     border-radius: 14px;
-    padding: 12px 6px 26px;
+    padding: 12px 6px 12px;
     text-align: center;
     box-shadow:
-      0 0 12px rgba(232, 255, 0, 0.18),
-      inset 0 0 0 1px rgba(232, 255, 0, 0.08),
-      0 4px 12px rgba(0, 0, 0, 0.45);
+      0 0 12px rgba(140, 70, 200, 0.3),
+      inset 0 0 0 1px rgba(232, 255, 0, 0.05),
+      0 4px 12px rgba(0, 0, 0, 0.5);
     overflow: hidden;
-  }
-  /* カード上部のキラ光彩 (シール風ハイライト) */
-  .uranai-person-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 36%;
-    background: linear-gradient(180deg, rgba(232, 255, 0, 0.18), transparent);
-    pointer-events: none;
-  }
-  /* ★ 「ここをプッシュ」ヒントバッジ (カード下) */
-  .uranai-person-card::after {
-    content: '👆 タップ';
-    position: absolute;
-    bottom: 5px;
-    left: 50%;
-    transform: translateX(-50%) scale(0.95);
-    font-family: 'Zen Kaku Gothic New', sans-serif;
-    font-size: 0.6rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    color: #1a0a3a;
-    background: linear-gradient(180deg, #e8ff00, #c8d800);
-    padding: 2px 8px 2px 7px;
-    border-radius: 999px;
-    border: 1px solid rgba(232, 255, 0, 0.85);
-    box-shadow: 0 0 10px rgba(232, 255, 0, 0.55);
-    pointer-events: none;
-    animation: cardTapPulse 1.8s ease-in-out infinite;
-    white-space: nowrap;
-    z-index: 2;
-  }
-  @keyframes cardTapPulse {
-    0%, 100% {
-      transform: translateX(-50%) scale(0.92);
-      opacity: 0.85;
-      box-shadow: 0 0 8px rgba(232, 255, 0, 0.4);
-    }
-    50% {
-      transform: translateX(-50%) scale(1.08);
-      opacity: 1;
-      box-shadow: 0 0 16px rgba(232, 255, 0, 0.85);
-    }
-  }
-  /* 「もっと見る/閉じる」のヒントバッジは要らない */
-  .uranai-person-more::after { display: none !important; }
-  /* カードの押下フィードバック */
-  .uranai-person-card:not(.uranai-person-more) {
     cursor: pointer;
     transition: transform 0.12s, box-shadow 0.2s;
   }
   .uranai-person-card:not(.uranai-person-more):active {
     transform: scale(0.96);
   }
+  /* カード上部のキラ光彩 (薄紫ハイライト) */
+  .uranai-person-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 36%;
+    background: linear-gradient(180deg, rgba(200, 160, 255, 0.22), transparent);
+    pointer-events: none;
+  }
+  /* 本人カードだけ蛍光黄色アクセントで区別 */
+  .uranai-person-card.is-self {
+    border-color: rgba(232, 255, 0, 0.85);
+    background:
+      linear-gradient(165deg,
+        rgba(232, 255, 0, 0.18) 0%,
+        rgba(120, 60, 200, 0.75) 35%,
+        rgba(26, 10, 58, 0.95) 100%);
+    box-shadow:
+      0 0 18px rgba(232, 255, 0, 0.4),
+      inset 0 0 0 1px rgba(232, 255, 0, 0.18),
+      0 4px 14px rgba(0, 0, 0, 0.5);
+  }
+
+  /* ★ 9枚全体の上に「クリック 👉」オーバーレイ (定期出現) */
+  .uranai-people-hint {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 6;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    background: rgba(10, 4, 24, 0.82);
+    border: 1.5px solid rgba(232, 255, 0, 0.65);
+    border-radius: 999px;
+    color: #fff;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.95rem;
+    letter-spacing: 0.15em;
+    box-shadow:
+      0 0 18px rgba(232, 255, 0, 0.55),
+      0 0 40px rgba(140, 70, 200, 0.45);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    opacity: 0;
+    animation: peopleHintCycle 7s ease-in-out infinite;
+    white-space: nowrap;
+  }
+  .uranai-people-hint .hint-hand {
+    font-size: 1.4rem;
+    display: inline-block;
+    animation: handTapBounce 1.0s ease-in-out infinite;
+  }
+  .uranai-people-hint .hint-text {
+    color: #e8ff00;
+    text-shadow: 0 0 8px rgba(232, 255, 0, 0.55);
+  }
+  @keyframes peopleHintCycle {
+    0%, 60%, 100% {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.85);
+    }
+    65% {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+    85% {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1.0);
+    }
+    95% {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.95);
+    }
+  }
+  @keyframes handTapBounce {
+    0%, 100% { transform: translateX(0) translateY(0) rotate(0); }
+    40%      { transform: translateX(-4px) translateY(-2px) rotate(-10deg); }
+    60%      { transform: translateX(2px) translateY(1px) rotate(4deg); }
+  }
+  /* カードが1枚しかない時はヒント不要 (CSS で人数判定できないので JS で hide) */
+  .uranai-people-hint.is-hidden { display: none; }
   /* 本人カードは少し強めに glow */
   .uranai-person-card.is-self {
     border-color: #e8ff00;
@@ -6838,8 +6878,15 @@
           <span class="uranai-section-title-deco">✦</span>
         </div>
 
-        <div class="uranai-people-list" id="uranaiPeopleList">
-          <!-- 動的生成 -->
+        <div class="uranai-people-list-wrap">
+          <div class="uranai-people-list" id="uranaiPeopleList">
+            <!-- 動的生成 -->
+          </div>
+          <!-- ★ カード操作ヒント (たまに現れる『クリック 👉』) -->
+          <div class="uranai-people-hint is-hidden" id="uranaiPeopleHint">
+            <span class="hint-text">クリック</span>
+            <span class="hint-hand">👉</span>
+          </div>
         </div>
 
         <button class="uranai-add-toggle" id="uranaiAddToggle" type="button">
@@ -9060,6 +9107,10 @@ const COASTLINES = [
         renderPeople();
       });
     }
+
+    // ヒント (たまに表示の『クリック 👉』) は 2 人以上のときだけ
+    const hint = document.getElementById('uranaiPeopleHint');
+    if (hint) hint.classList.toggle('is-hidden', uranaiPeople.length < 2);
 
     renderFamilyTable();
     if (typeof refreshShareCard === 'function') refreshShareCard();
