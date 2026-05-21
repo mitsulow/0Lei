@@ -3516,57 +3516,100 @@
     margin-bottom: 18px;
   }
 
-  /* 人物カード一覧 */
+  /* 人物カード一覧 (トレーディングカード風) */
   .uranai-people-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
-    gap: 10px;
-    margin-bottom: 14px;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
   }
   .uranai-person-card {
     position: relative;
-    background: linear-gradient(180deg, rgba(20, 30, 55, 0.5), rgba(10, 18, 40, 0.5));
-    border: none;
-    border-radius: 12px;
-    padding: 10px 6px 8px;
+    background:
+      linear-gradient(165deg,
+        rgba(232, 255, 0, 0.10) 0%,
+        rgba(58, 26, 106, 0.55) 30%,
+        rgba(26, 10, 58, 0.85) 100%);
+    border: 1.5px solid rgba(232, 255, 0, 0.55);
+    border-radius: 14px;
+    padding: 12px 6px 10px;
     text-align: center;
+    box-shadow:
+      0 0 12px rgba(232, 255, 0, 0.18),
+      inset 0 0 0 1px rgba(232, 255, 0, 0.08),
+      0 4px 12px rgba(0, 0, 0, 0.45);
+    overflow: hidden;
   }
+  /* カード上部のキラ光彩 (シール風ハイライト) */
+  .uranai-person-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 36%;
+    background: linear-gradient(180deg, rgba(232, 255, 0, 0.18), transparent);
+    pointer-events: none;
+  }
+  /* 本人カードは少し強めに glow */
   .uranai-person-card.is-self {
-    background: linear-gradient(180deg, rgba(60, 50, 30, 0.5), rgba(10, 18, 40, 0.55));
+    border-color: #e8ff00;
+    box-shadow:
+      0 0 18px rgba(232, 255, 0, 0.4),
+      inset 0 0 0 1px rgba(232, 255, 0, 0.15),
+      0 4px 14px rgba(0, 0, 0, 0.5);
+    background:
+      linear-gradient(165deg,
+        rgba(232, 255, 0, 0.18) 0%,
+        rgba(90, 42, 160, 0.65) 30%,
+        rgba(26, 10, 58, 0.9) 100%);
   }
   .uranai-person-img {
-    width: 64px; height: 64px;
+    width: 68px; height: 68px;
     object-fit: cover;
     border-radius: 50%;
-    margin: 0 auto 5px;
+    margin: 0 auto 6px;
     display: block;
-    border: 1.5px solid rgba(201, 169, 97, 0.45);
-    /* キャラ周囲の薄い白い光彩 */
+    border: 2px solid rgba(232, 255, 0, 0.6);
+    background: rgba(0, 0, 0, 0.3);
     filter:
-      drop-shadow(0 0 2px rgba(255, 255, 255, 0.85))
-      drop-shadow(0 0 4px rgba(255, 235, 200, 0.45));
+      drop-shadow(0 0 4px rgba(232, 255, 0, 0.5))
+      drop-shadow(0 0 8px rgba(180, 130, 255, 0.3));
+    position: relative;
+    z-index: 1;
   }
   .uranai-person-name {
     font-family: 'Shippori Mincho', serif;
-    font-size: 0.78rem;
-    color: var(--moon-white);
-    letter-spacing: 0.1em;
-    margin-bottom: 2px;
+    font-size: 0.82rem;
+    color: #fff;
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
     line-height: 1.3;
+    text-shadow: 0 0 6px rgba(232, 255, 0, 0.4);
+    position: relative;
+    z-index: 1;
   }
   .uranai-person-type {
     font-family: 'Shippori Mincho', serif;
     font-size: 0.68rem;
-    color: rgba(201, 169, 97, 0.95);
-    letter-spacing: 0.12em;
+    color: rgba(232, 255, 0, 0.9);
+    letter-spacing: 0.1em;
     line-height: 1.3;
-    margin-bottom: 2px;
+    margin-bottom: 4px;
+    position: relative;
+    z-index: 1;
   }
   .uranai-person-lucky {
     font-family: 'Cinzel', serif;
-    font-size: 0.62rem;
-    color: rgba(110, 196, 245, 0.85);
-    letter-spacing: 0.05em;
+    font-size: 0.7rem;
+    color: rgba(232, 255, 0, 0.95);
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    padding: 2px 6px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 999px;
+    display: inline-block;
+    border: 1px solid rgba(232, 255, 0, 0.4);
+    position: relative;
+    z-index: 1;
   }
   .uranai-person-remove {
     position: absolute;
@@ -3907,37 +3950,183 @@
     margin: 0 4px;
   }
 
-  /* 追加フォーム (枠線なし、薄背景で識別) */
+  /* ★ 編集フォームをフルスクリーンの「カード上で書き直す」 modal に */
   .uranai-add-form {
-    padding: 16px 8px;
-    background: rgba(3, 8, 24, 0.4);
-    border: none;
-    border-radius: 12px;
-    margin-bottom: 16px;
+    position: fixed;
+    inset: 0;
+    z-index: 11000;
+    /* 紫の宇宙背景 */
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(140, 70, 200, 0.35), transparent 55%),
+      radial-gradient(ellipse at 80% 80%, rgba(232, 255, 0, 0.18), transparent 50%),
+      linear-gradient(180deg, #1a0a3a 0%, #0a0418 100%);
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
+  .uranai-add-form[style*="block"] {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 28px;
+    padding-bottom: 40px;
+    animation: editModalFadeIn 0.35s ease-out;
+  }
+  @keyframes editModalFadeIn {
+    from { opacity: 0; transform: scale(0.96); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  /* カード型 wrapper の役割を form 自身に持たせる */
+  .uranai-add-form > .uranai-edit-card-frame {
+    width: 92%;
+    max-width: 420px;
+    background:
+      linear-gradient(165deg,
+        rgba(232, 255, 0, 0.18) 0%,
+        rgba(90, 42, 160, 0.7) 30%,
+        rgba(26, 10, 58, 0.95) 100%);
+    border: 2px solid rgba(232, 255, 0, 0.55);
+    border-radius: 22px;
+    padding: 20px 18px 26px;
+    position: relative;
+    box-shadow:
+      0 0 30px rgba(232, 255, 0, 0.25),
+      0 0 80px rgba(140, 70, 200, 0.3),
+      inset 0 0 0 1px rgba(232, 255, 0, 0.1);
+    overflow: hidden;
+  }
+  /* カード上部の glow */
+  .uranai-add-form > .uranai-edit-card-frame::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 32%;
+    background: linear-gradient(180deg, rgba(232, 255, 0, 0.16), transparent);
+    pointer-events: none;
+  }
+  .uranai-edit-card-header {
+    text-align: center;
+    margin-bottom: 18px;
+    position: relative;
+    z-index: 1;
+  }
+  .uranai-edit-card-rarity {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    color: rgba(232, 255, 0, 0.85);
+    letter-spacing: 0.4em;
+    margin-bottom: 6px;
+    text-shadow: 0 0 8px rgba(232, 255, 0, 0.5);
+  }
+  .uranai-edit-card-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.05rem;
+    color: #fff;
+    letter-spacing: 0.2em;
+    text-shadow: 0 0 10px rgba(232, 255, 0, 0.4);
+  }
+  .uranai-edit-card-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(232, 255, 0, 0.55);
+    color: #e8ff00;
+    font-size: 1.2rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+    z-index: 2;
+  }
+  .uranai-edit-card-close:active {
+    background: rgba(232, 255, 0, 0.2);
+  }
+  /* card frame 内の .uranai-field を「カード上の項目」風に */
+  .uranai-add-form .uranai-field {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed rgba(232, 255, 0, 0.25);
+  }
+  .uranai-add-form .uranai-field:last-of-type {
+    border-bottom: none;
+    margin-bottom: 18px;
+  }
+  .uranai-add-form .uranai-label {
+    display: block;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.74rem;
+    color: rgba(232, 255, 0, 0.9);
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  .uranai-add-form .uranai-input {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(232, 255, 0, 0.3);
+    border-radius: 6px;
+    color: #fff;
+    padding: 9px 11px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 1rem;
+    box-sizing: border-box;
+  }
+  .uranai-add-form .uranai-input:focus {
+    outline: none;
+    border-color: #e8ff00;
+    box-shadow: 0 0 0 2px rgba(232, 255, 0, 0.18);
+  }
+  .uranai-add-form .uranai-check {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.78rem;
+  }
+  .uranai-add-form .uranai-check input { accent-color: #e8ff00; }
+  .uranai-add-form .uranai-date-selects {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .uranai-add-form .uranai-date-select { flex: 1; min-width: 0; padding: 8px 4px; text-align: center; }
+  .uranai-add-form .uranai-date-unit { color: rgba(255, 255, 255, 0.65); font-size: 0.85rem; }
   .uranai-add-buttons {
     display: flex;
     gap: 10px;
-    margin-top: 12px;
+    margin-top: 14px;
+    position: relative;
+    z-index: 1;
   }
   .uranai-add-cancel, .uranai-add-confirm {
     flex: 1;
-    padding: 11px;
+    padding: 12px;
     border-radius: 10px;
     font-family: 'Shippori Mincho', serif;
     font-size: 0.92rem;
-    letter-spacing: 0.25em;
+    letter-spacing: 0.15em;
     cursor: pointer;
   }
   .uranai-add-cancel {
     background: transparent;
-    border: 1px solid rgba(138, 160, 184, 0.4);
-    color: rgba(138, 160, 184, 0.85);
+    border: 1px solid rgba(232, 255, 0, 0.35);
+    color: rgba(232, 255, 0, 0.75);
   }
   .uranai-add-confirm {
-    background: linear-gradient(180deg, rgba(201, 169, 97, 0.3), rgba(201, 169, 97, 0.12));
-    border: 1px solid rgba(201, 169, 97, 0.7);
-    color: var(--moon-white);
+    background: linear-gradient(180deg, #e8ff00, #c8d800);
+    border: 1px solid #e8ff00;
+    color: #1a0a3a;
+    font-weight: 700;
+    box-shadow: 0 0 16px rgba(232, 255, 0, 0.35);
   }
 
   /* 相性カード (枠線なし、左ボーダー色 + 控えめ box-shadow でアスペクト識別) */
@@ -6199,38 +6388,44 @@
           ＋ 新 し い カ ー ド を 登 録
         </button>
 
-        <!-- 追加フォーム (折りたたみ) -->
+        <!-- ★ フルスクリーン カード型 編集 modal (カードの上で書き直す感覚) -->
         <div class="uranai-add-form" id="uranaiAddForm" style="display:none">
-          <div class="uranai-field">
-            <label class="uranai-label">名 前 / 関 係</label>
-            <input type="text" id="uranaiPersonName" class="uranai-input" placeholder="例: 妻 / 父 / 子 / ○○">
-          </div>
-          <div class="uranai-field">
-            <label class="uranai-label">生 ま れ た 日</label>
-            <div class="uranai-date-selects">
-              <select id="uranaiPersonYear" class="uranai-input uranai-date-select"></select>
-              <span class="uranai-date-unit">年</span>
-              <select id="uranaiPersonMonth" class="uranai-input uranai-date-select"></select>
-              <span class="uranai-date-unit">月</span>
-              <select id="uranaiPersonDay" class="uranai-input uranai-date-select"></select>
-              <span class="uranai-date-unit">日</span>
+          <div class="uranai-edit-card-frame">
+            <button class="uranai-edit-card-close" id="uranaiAddCancel" type="button" aria-label="閉じる">×</button>
+            <div class="uranai-edit-card-header">
+              <div class="uranai-edit-card-rarity">★ TSUKIYOGA CARD</div>
+              <div class="uranai-edit-card-title" id="uranaiAddFormTitle">新しいカード</div>
             </div>
-          </div>
-          <div class="uranai-field">
-            <label class="uranai-label">生 ま れ た 時 刻</label>
-            <input type="time" id="uranaiPersonTime" class="uranai-input" value="15:00">
-            <label class="uranai-check">
-              <input type="checkbox" id="uranaiPersonTimeUnknown">
-              <span>分 か ら な い（15 時 で 計 算）</span>
-            </label>
-          </div>
-          <div class="uranai-field">
-            <label class="uranai-label">生 ま れ た 場 所</label>
-            <select id="uranaiPersonCity" class="uranai-input"></select>
-          </div>
-          <div class="uranai-add-buttons">
-            <button class="uranai-add-cancel" id="uranaiAddCancel" type="button">キ ャ ン セ ル</button>
-            <button class="uranai-add-confirm" id="uranaiAddConfirm" type="button">追 加</button>
+            <div class="uranai-field">
+              <label class="uranai-label">ニックネーム</label>
+              <input type="text" id="uranaiPersonName" class="uranai-input" placeholder="このカードの名前">
+            </div>
+            <div class="uranai-field">
+              <label class="uranai-label">生まれた日</label>
+              <div class="uranai-date-selects">
+                <select id="uranaiPersonYear" class="uranai-input uranai-date-select"></select>
+                <span class="uranai-date-unit">年</span>
+                <select id="uranaiPersonMonth" class="uranai-input uranai-date-select"></select>
+                <span class="uranai-date-unit">月</span>
+                <select id="uranaiPersonDay" class="uranai-input uranai-date-select"></select>
+                <span class="uranai-date-unit">日</span>
+              </div>
+            </div>
+            <div class="uranai-field">
+              <label class="uranai-label">生まれた時刻</label>
+              <input type="time" id="uranaiPersonTime" class="uranai-input" value="15:00">
+              <label class="uranai-check">
+                <input type="checkbox" id="uranaiPersonTimeUnknown">
+                <span>分からない（15時で計算）</span>
+              </label>
+            </div>
+            <div class="uranai-field">
+              <label class="uranai-label">生まれた場所</label>
+              <select id="uranaiPersonCity" class="uranai-input"></select>
+            </div>
+            <div class="uranai-add-buttons">
+              <button class="uranai-add-confirm" id="uranaiAddConfirm" type="button">カードを保存</button>
+            </div>
           </div>
         </div>
 
@@ -8527,15 +8722,20 @@ const COASTLINES = [
     if (tu) tu.checked = false;
     document.getElementById('uranaiPersonTime').disabled = false;
     setVal('uranaiPersonCity', p.cityName || '東京');
-    // フォーム表示 / 追加ボタンを隠す / confirm ラベル変更
+    // フォーム表示 / 追加ボタンを隠す / タイトル & confirm ラベル変更
     document.getElementById('uranaiAddForm').style.display = 'block';
     document.getElementById('uranaiAddToggle').style.display = 'none';
     const confirmBtn = document.getElementById('uranaiAddConfirm');
-    if (confirmBtn) confirmBtn.textContent = idx === 0 ? '本 人 情 報 を 保 存' : '保 存';
-    // スクロール
-    setTimeout(() => {
-      document.getElementById('uranaiAddForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 50);
+    const titleEl = document.getElementById('uranaiAddFormTitle');
+    if (idx === 0) {
+      if (titleEl) titleEl.textContent = '本人のカード';
+      if (confirmBtn) confirmBtn.textContent = '本人情報を保存';
+    } else {
+      if (titleEl) titleEl.textContent = 'カードを編集';
+      if (confirmBtn) confirmBtn.textContent = 'カードを保存';
+    }
+    // body スクロール抑制
+    document.body.style.overflow = 'hidden';
   }
   window.openEditCardForm = openEditCardForm;
 
@@ -8573,15 +8773,19 @@ const COASTLINES = [
     addToggleEl.addEventListener('click', () => {
       editingPersonIdx = -1; // 新規モード
       resetAddForm(personYearEl, personMonthEl, personDayEl, personCityEl);
-      if (confirmEl) confirmEl.textContent = '追 加';
+      const titleEl = document.getElementById('uranaiAddFormTitle');
+      if (titleEl) titleEl.textContent = '新しいカード';
+      if (confirmEl) confirmEl.textContent = 'カードを保存';
       addFormEl.style.display = 'block';
       addToggleEl.style.display = 'none';
+      document.body.style.overflow = 'hidden';
     });
     cancelEl.addEventListener('click', () => {
       addFormEl.style.display = 'none';
       addToggleEl.style.display = '';
       editingPersonIdx = -1;
-      if (confirmEl) confirmEl.textContent = '追 加';
+      if (confirmEl) confirmEl.textContent = 'カードを保存';
+      document.body.style.overflow = '';
     });
     confirmEl.addEventListener('click', () => {
       const fallbackName = (editingPersonIdx === 0) ? 'あなた' : '名前なし';
@@ -8617,9 +8821,10 @@ const COASTLINES = [
       }
       addFormEl.style.display = 'none';
       addToggleEl.style.display = '';
+      document.body.style.overflow = '';
       resetAddForm(personYearEl, personMonthEl, personDayEl, personCityEl);
       editingPersonIdx = -1;
-      if (confirmEl) confirmEl.textContent = '追 加';
+      if (confirmEl) confirmEl.textContent = 'カードを保存';
       renderPeople();
       renderCompatibility();
       updateAddRemaining();
