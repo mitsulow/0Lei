@@ -8050,6 +8050,12 @@ const COASTLINES = [
   // リロード後も占いタブから始まる (localStorage.lastTab='uranai')。
   // 他タブ → 普通にリロード (PWA スプラッシュが見える)。
   function showCharPyunOverlay(onDone) {
+    // ★演出を開始した瞬間に、結果セクションから reveal を外す
+    //   → .visible:not(.reveal) ルールで結果が opacity:0 に
+    //   → 演出オーバーレイの下層では一切前回結果が見えない
+    const resultEl = document.getElementById('uranaiResult');
+    if (resultEl) resultEl.classList.remove('reveal');
+
     const overlay = document.createElement('div');
     overlay.className = 'uranai-pull-overlay';
     const W = window.innerWidth, H = window.innerHeight;
@@ -8091,17 +8097,13 @@ const COASTLINES = [
 
     document.body.appendChild(overlay);
     setTimeout(() => {
-      // ① onDone を呼ぶ前に結果を初期化 (前回 reveal が残ってる場合の対策)
-      const resultEl = document.getElementById('uranaiResult');
-      if (resultEl) resultEl.classList.remove('reveal');
-      // ② onDone() を呼ぶ → submit.click() → handler 内で reveal 発火 (月画像 fadeIn 開始)
+      // ① onDone() で reveal 発火 (月画像 fadeIn 開始)
       onDone();
-      // ③ オーバーレイをゆっくりフェードアウト (0.8s)
-      //   月画像のフェードイン (0.9s) と並行進行、自然なクロスフェード
+      // ② 月画像が見え始めるタイミングでオーバーレイをフェードアウト
       requestAnimationFrame(() => {
-        overlay.style.transition = 'opacity 0.8s ease-out';
+        overlay.style.transition = 'opacity 0.6s ease-out';
         overlay.style.opacity = '0';
-        setTimeout(() => overlay.remove(), 850);
+        setTimeout(() => overlay.remove(), 650);
       });
     }, 5500);
   }
