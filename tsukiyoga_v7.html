@@ -8091,8 +8091,19 @@ const COASTLINES = [
 
     document.body.appendChild(overlay);
     setTimeout(() => {
-      overlay.remove();
-      onDone();
+      // ① 下層の結果セクションを即座に非表示 (オーバーレイが消える瞬間のチラ見え対策)
+      const resultEl = document.getElementById('uranaiResult');
+      if (resultEl) {
+        resultEl.style.transition = 'none';
+        resultEl.style.opacity = '0';
+      }
+      // ② オーバーレイをフェードアウトで消す
+      overlay.style.transition = 'opacity 0.35s ease-out';
+      overlay.style.opacity = '0';
+      setTimeout(() => {
+        overlay.remove();
+        onDone();
+      }, 350);
     }, 5500);
   }
 
@@ -8350,6 +8361,9 @@ const COASTLINES = [
       document.getElementById('ribbonGradEndS1').setAttribute('stop-color', rc.e1);
 
       // ★時間差 reveal を発火 (月→月齢→キャラ→リボン)
+      // Pull-to-refresh で意図的に opacity:0 にしていた場合に備えて戻す
+      resultEl.style.opacity = '';
+      resultEl.style.transition = '';
       resultEl.classList.remove('reveal');
       void resultEl.offsetWidth;
       resultEl.classList.add('reveal');
