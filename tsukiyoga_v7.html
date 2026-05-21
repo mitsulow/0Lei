@@ -8067,6 +8067,31 @@ const COASTLINES = [
   }
 
   function initUranaiShare() {
+    // トレーディングカード左右スワイプで前後の人物に切り替え
+    const shareWrap = document.querySelector('.uranai-share-canvas-wrap');
+    if (shareWrap) {
+      let sx = 0, sy = 0;
+      shareWrap.addEventListener('touchstart', e => {
+        sx = e.touches[0].clientX;
+        sy = e.touches[0].clientY;
+      }, { passive: true });
+      shareWrap.addEventListener('touchend', e => {
+        const dx = e.changedTouches[0].clientX - sx;
+        const dy = e.changedTouches[0].clientY - sy;
+        if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy)) return;
+        if (!uranaiPeople || uranaiPeople.length < 2) return;
+        const n = uranaiPeople.length;
+        if (dx > 0) {
+          // 右スワイプ → 前の人物
+          currentShareTabIdx = (currentShareTabIdx - 1 + n) % n;
+        } else {
+          // 左スワイプ → 次の人物
+          currentShareTabIdx = (currentShareTabIdx + 1) % n;
+        }
+        refreshShareCard();
+      }, { passive: true });
+    }
+
     const dlBtn = document.getElementById('uranaiShareDownload');
     if (dlBtn) dlBtn.addEventListener('click', downloadShareCard);
     // 画像シェア (navigator.share で画像 + テキスト送信、LINE 等を選べる)
@@ -10266,6 +10291,29 @@ const COASTLINES = [
     if (calMonth > 11) { calMonth = 0; calYear++; }
     renderCal(calYear, calMonth);
   });
+
+  // カレンダーグリッドを左右スワイプで月送り
+  (function calendarSwipe() {
+    const grid = document.getElementById('calGrid');
+    if (!grid) return;
+    let sx = 0, sy = 0;
+    grid.addEventListener('touchstart', e => {
+      sx = e.touches[0].clientX;
+      sy = e.touches[0].clientY;
+    }, { passive: true });
+    grid.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - sx;
+      const dy = e.changedTouches[0].clientY - sy;
+      if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy)) return;
+      if (dx > 0) {
+        // 右スワイプ → 前月
+        document.getElementById('prevMonth').click();
+      } else {
+        // 左スワイプ → 翌月
+        document.getElementById('nextMonth').click();
+      }
+    }, { passive: true });
+  })();
 
   // ======== メモモーダル ========
   // ★v6: 日付タップ時の全画面フェードイントロ
