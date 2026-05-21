@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-05-21T10:24:47.281202+00:00",
+  "timestamp": "2026-05-21T13:41:38.835365+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -10,7 +10,7 @@
       "confidence": 80
     },
     "F2": {
-      "hz": 14.4,
+      "hz": 14.2,
       "confidence": 75
     },
     "F3": {
@@ -18,23 +18,23 @@
       "confidence": 70
     },
     "F4": {
-      "hz": 25.8,
+      "hz": 26.18,
       "confidence": 65
     },
     "F5": {
       "hz": 33.0,
-      "confidence": 30
+      "confidence": 20
     }
   },
   "amplitude_level": "high",
   "strongest_mode": "F1",
-  "notes": "21日後半にスペクトログラム上で広帯域の強い擾乱（白〜赤色領域）が見られ、F2・F3周波数が急上昇。電離層擾乱または地磁気活動の影響と推測される。F5は折れ線で判別困難。",
+  "notes": "21日後半は変動が大きく、スペクトログラムでも強い擾乱（ノイズ/干渉）が見られる。F3,F4は下方に揺れている。F5は折れ線では確認困難。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 19.4,
-    "tomsk_hour": 16.0,
+    "japan_hour": 22.68,
+    "tomsk_hour": 19.28,
     "is_day_japan": false,
-    "is_day_tomsk": true
+    "is_day_tomsk": false
   }
 }
