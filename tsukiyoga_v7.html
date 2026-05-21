@@ -810,9 +810,11 @@
     position: fixed;
     bottom: 0; left: 0; right: 0;
     height: 62px;
-    background: linear-gradient(180deg, rgba(3, 8, 24, 0.7), rgba(3, 8, 24, 0.95));
+    background: linear-gradient(180deg, rgba(26, 10, 58, 0.82), rgba(10, 4, 24, 0.96));
     backdrop-filter: blur(20px);
-    border-top: 1px solid rgba(110, 196, 245, 0.15);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(232, 255, 0, 0.22);
+    box-shadow: 0 -4px 18px rgba(58, 26, 106, 0.35);
     display: flex;
     z-index: 30;
   }
@@ -820,7 +822,7 @@
   .tab-btn {
     flex: 1;
     background: none; border: none;
-    color: rgba(138, 160, 184, 0.5);
+    color: rgba(180, 160, 220, 0.55);
     font-family: inherit;
     cursor: pointer;
     display: flex;
@@ -828,33 +830,49 @@
     align-items: center;
     justify-content: center;
     gap: 2px;
-    padding: 6px;
+    padding: 6px 2px;
     position: relative;
     transition: color 0.3s;
   }
 
-  .tab-btn.active { color: var(--blue); }
+  .tab-btn.active {
+    color: #e8ff00;
+  }
+
+  .tab-btn.active .tab-icon {
+    text-shadow: 0 0 10px rgba(232, 255, 0, 0.7);
+  }
+
+  .tab-btn.active .tab-en {
+    color: rgba(232, 255, 0, 0.75);
+  }
 
   .tab-btn.active::before {
     content: '';
     position: absolute;
-    top: 0; left: 25%; right: 25%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--blue), transparent);
+    top: 0; left: 22%; right: 22%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #e8ff00, transparent);
+    box-shadow: 0 0 8px rgba(232, 255, 0, 0.6);
   }
 
-  .tab-icon { font-size: 1.1rem; line-height: 1; }
+  .tab-icon {
+    font-size: 1.1rem;
+    line-height: 1;
+    transition: text-shadow 0.3s;
+  }
   .tab-label {
     font-family: 'Shippori Mincho', serif;
     font-size: 0.68rem;
-    letter-spacing: 0.25em;
+    letter-spacing: 0.2em;
   }
   .tab-en {
     font-family: 'Cinzel', serif;
     font-size: 0.55rem;
     letter-spacing: 0.15em;
-    color: rgba(74, 94, 120, 0.8);
+    color: rgba(140, 110, 190, 0.7);
     margin-top: 1px;
+    transition: color 0.3s;
   }
 
   /* メモモーダル */
