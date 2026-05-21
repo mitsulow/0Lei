@@ -3633,11 +3633,12 @@
     position: absolute;
     top: 0;
     left: 50%;
-    width: 56px;
-    height: 56px;
-    margin-left: -28px;
-    /* 円周上に配置: rotate(angle) translateY(-r) で中心からの距離 */
-    transform-origin: 28px 160px;
+    width: 52px;
+    height: 52px;
+    margin-left: -26px;
+    /* transform-origin は『slot 内の点で stage 中央に重なる位置』
+       slot top:0 / 中央 y=26, stage 320x320 中央 y=160 → (26, 160) */
+    transform-origin: 26px 160px;
     cursor: pointer;
   }
   .wheel-slot-inner {
@@ -3874,26 +3875,40 @@
     line-height: 44px;
     text-align: center;
     font-family: 'Shippori Mincho', serif;
-    font-size: 1.0rem;
+    font-size: 0.92rem;
     color: rgba(255, 255, 255, 0.55);
-    letter-spacing: 0.1em;
+    letter-spacing: 0.05em;
     transition: color 0.25s, font-size 0.25s, text-shadow 0.25s;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    padding: 0 14px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
   }
   .celebs-item.is-current {
     color: #fff;
-    font-size: 1.15rem;
+    font-size: 1.05rem;
     font-weight: 700;
     text-shadow: 0 0 10px rgba(232, 255, 0, 0.65);
   }
-  .celebs-item .celebs-birth {
-    color: rgba(232, 255, 0, 0.7);
+  .celebs-item .celebs-name { color: inherit; }
+  .celebs-item .celebs-moon {
+    color: rgba(232, 255, 0, 0.85);
     font-size: 0.78rem;
-    margin-left: 8px;
+    font-family: 'Cinzel', 'Shippori Mincho', serif;
+    letter-spacing: 0.04em;
   }
+  .celebs-item .celebs-birth {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.74rem;
+    font-family: 'Cinzel', sans-serif;
+    letter-spacing: 0.02em;
+  }
+  .celebs-item.is-current .celebs-moon { color: #e8ff00; }
+  .celebs-item.is-current .celebs-birth { color: rgba(255, 255, 255, 0.85); }
   .celebs-mask-top, .celebs-mask-bottom {
     position: absolute;
     left: 0; right: 0;
@@ -9917,12 +9932,13 @@ const COASTLINES = [
     const rotor = document.getElementById('wheelRotor');
     if (!stage || !rotor) return;
 
-    // 12 アニマルのスロット生成
+    // 12 アニマルのスロット生成 (半径 = 100px、stage は 320x320 なので余裕)
+    const WHEEL_RADIUS = 100;
     let html = '';
     for (let i = 0; i < 12; i++) {
       const angle = i * 30;
       html += `
-        <div class="wheel-slot" data-idx="${i}" style="transform: rotate(${angle}deg) translateY(-130px);">
+        <div class="wheel-slot" data-idx="${i}" style="transform: rotate(${angle}deg) translateY(-${WHEEL_RADIUS}px);">
           <div class="wheel-slot-counterrot" style="transform: rotate(${-angle}deg);">
             <div class="wheel-slot-inner">
               <img src="./character_icons/char_${String(i).padStart(2,'0')}.png" alt="">
@@ -10117,6 +10133,12 @@ const COASTLINES = [
     const track = document.getElementById('celebsTrack');
     const roulette = document.getElementById('wheelCelebsRoulette');
     if (!track || !roulette) return;
+    // ★ タイトルをキャラ名に動的設定 (例: 「紅いワニ の 有名人」)
+    const phase = PHASES_12[idx];
+    const titleEl = document.querySelector('.wheel-celebs-title');
+    if (titleEl && phase) {
+      titleEl.textContent = `${getDisplayName(phase)} の 有 名 人`;
+    }
     const data = await loadCelebsData();
     let people = CELEBS_FALLBACK;
     if (data && data.types && data.types[idx] && data.types[idx].top_people) {
@@ -10124,9 +10146,14 @@ const COASTLINES = [
     }
     // 循環: 表示用に 3 周分を用意
     const cycle = people.concat(people, people);
-    track.innerHTML = cycle.map((p, i) =>
-      `<div class="celebs-item" data-i="${i}">${p.name}<span class="celebs-birth">${p.birth || ''}</span></div>`
-    ).join('');
+    track.innerHTML = cycle.map((p, i) => {
+      const ma = (p.moon_age != null) ? `月齢${Number(p.moon_age).toFixed(1)}` : '';
+      return `<div class="celebs-item" data-i="${i}">
+        <span class="celebs-name">${p.name}</span>
+        ${ma ? `<span class="celebs-moon">${ma}</span>` : ''}
+        <span class="celebs-birth">${p.birth || ''}</span>
+      </div>`;
+    }).join('');
     // 中心が「現在の名前」になるよう track の transform を初期化
     const containerH = roulette.clientHeight || 220;
     const itemH = 44;
