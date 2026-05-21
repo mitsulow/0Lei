@@ -4119,38 +4119,73 @@
   .uranai-detail-modal.active { display: flex; }
   .uranai-detail-modal-content {
     background:
-      linear-gradient(165deg, rgba(232, 255, 0, 0.16) 0%, rgba(90, 42, 160, 0.7) 30%, rgba(26, 10, 58, 0.95) 100%);
+      linear-gradient(165deg, rgba(232, 255, 0, 0.18) 0%, rgba(90, 42, 160, 0.72) 30%, rgba(26, 10, 58, 0.97) 100%);
     border: 2px solid rgba(232, 255, 0, 0.6);
-    border-radius: 16px;
-    padding: 24px 22px;
-    max-width: 360px;
+    border-radius: 18px;
+    padding: 28px 22px 24px;
+    max-width: 420px;
     width: 100%;
+    max-height: 86vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     text-align: center;
-    box-shadow: 0 0 30px rgba(232, 255, 0, 0.25);
+    box-shadow:
+      0 0 30px rgba(232, 255, 0, 0.3),
+      0 0 80px rgba(140, 70, 200, 0.35),
+      inset 0 0 0 1px rgba(232, 255, 0, 0.12);
     position: relative;
     animation: editModalFadeIn 0.3s ease-out;
   }
-  .uranai-detail-close {
+  /* 上部のシール風ハイライト */
+  .uranai-detail-modal-content::before {
+    content: '';
     position: absolute;
-    top: 8px; right: 8px;
-    width: 32px; height: 32px;
+    top: 0; left: 0; right: 0;
+    height: 28%;
+    background: linear-gradient(180deg, rgba(232, 255, 0, 0.14), transparent);
+    pointer-events: none;
+    border-radius: 18px 18px 0 0;
+  }
+  .uranai-detail-close,
+  .uranai-detail-edit {
+    position: absolute;
+    width: 34px; height: 34px;
     border-radius: 50%;
-    background: rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(232, 255, 0, 0.45);
+    background: rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(232, 255, 0, 0.5);
     color: #e8ff00;
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     line-height: 1;
     cursor: pointer;
     padding: 0;
+    z-index: 2;
+  }
+  .uranai-detail-close { top: 10px; right: 10px; }
+  .uranai-detail-edit { top: 10px; right: 52px; font-size: 0.95rem; }
+  .uranai-detail-close:active,
+  .uranai-detail-edit:active {
+    background: rgba(232, 255, 0, 0.22);
+  }
+  .uranai-detail-rarity {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    color: rgba(232, 255, 0, 0.85);
+    letter-spacing: 0.4em;
+    margin-bottom: 10px;
+    text-shadow: 0 0 8px rgba(232, 255, 0, 0.5);
+    position: relative;
+    z-index: 1;
   }
   .uranai-detail-img {
-    width: 84px; height: 84px;
+    width: 110px; height: 110px;
     border-radius: 50%;
-    border: 2px solid rgba(232, 255, 0, 0.6);
+    border: 2.5px solid rgba(232, 255, 0, 0.7);
     background: rgba(0, 0, 0, 0.3);
-    margin: 0 auto 10px;
+    margin: 0 auto 12px;
     display: block;
-    filter: drop-shadow(0 0 6px rgba(232, 255, 0, 0.4));
+    filter: drop-shadow(0 0 8px rgba(232, 255, 0, 0.45)) drop-shadow(0 0 14px rgba(180, 130, 255, 0.3));
+    position: relative;
+    z-index: 1;
   }
   .uranai-detail-name {
     font-family: 'Shippori Mincho', serif;
@@ -4197,6 +4232,27 @@
     color: #fff;
     font-weight: 500;
     text-align: right;
+  }
+  .uranai-detail-section-head {
+    margin-top: 18px;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.85rem;
+    color: rgba(232, 255, 0, 0.95);
+    letter-spacing: 0.4em;
+    text-align: center;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(232, 255, 0, 0.25);
+  }
+  .uranai-detail-desc {
+    margin-top: 10px;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.92);
+    letter-spacing: 0.06em;
+    line-height: 1.85;
+    text-align: left;
+    white-space: pre-line;
+    padding: 4px 2px 4px;
   }
 
   /* 家族マップ表 */
@@ -6726,11 +6782,11 @@
 
       <!-- ★ 場所/時刻 / 空 / 陰陽バランス はマイページに移植済み -->
 
-      <!-- 相性占い (5人まで) -->
+      <!-- 友だちカード (旧 相性占い) -->
       <div class="uranai-compat-section">
         <div class="uranai-section-title-wrap">
           <span class="uranai-section-title-deco">✦</span>
-          <div class="uranai-section-title">相 性 占 い</div>
+          <div class="uranai-section-title">友 だ ち カ ー ド</div>
           <span class="uranai-section-title-deco">✦</span>
         </div>
 
@@ -6885,10 +6941,12 @@
         </div>
       </div>
 
-      <!-- ★ 人物詳細モーダル (相手の名前タップで開く) -->
+      <!-- ★ 友だちカード詳細モーダル (カードを押すと拡大表示) -->
       <div class="uranai-detail-modal" id="uranaiDetailModal">
         <div class="uranai-detail-modal-content">
-          <button class="uranai-detail-close" id="uranaiDetailClose" type="button">×</button>
+          <button class="uranai-detail-edit" id="uranaiDetailEdit" type="button" aria-label="編集">✎</button>
+          <button class="uranai-detail-close" id="uranaiDetailClose" type="button" aria-label="閉じる">×</button>
+          <div class="uranai-detail-rarity">★ TSUKIYOGA CARD</div>
           <img class="uranai-detail-img" id="uranaiDetailImg" src="" alt="">
           <div class="uranai-detail-name" id="uranaiDetailName"></div>
           <div class="uranai-detail-type" id="uranaiDetailType"></div>
@@ -6898,6 +6956,8 @@
           <div class="uranai-detail-row"><span class="uranai-detail-key">出生地</span><span class="uranai-detail-val" id="uranaiDetailCity"></span></div>
           <div class="uranai-detail-row"><span class="uranai-detail-key">陰陽バランス</span><span class="uranai-detail-val" id="uranaiDetailBalance"></span></div>
           <div class="uranai-detail-row uranai-detail-row-aspect"><span class="uranai-detail-key">あなたとの相性</span><span class="uranai-detail-val" id="uranaiDetailAspect"></span></div>
+          <div class="uranai-detail-section-head">性 格</div>
+          <div class="uranai-detail-desc" id="uranaiDetailDesc"></div>
         </div>
       </div>
 
@@ -8908,8 +8968,7 @@ const COASTLINES = [
     for (let i = 0; i < visibleCount; i++) {
       const p = uranaiPeople[i];
       html += `
-        <div class="uranai-person-card${i === 0 ? ' is-self' : ''}">
-          <button class="uranai-person-edit" data-idx="${i}" type="button" aria-label="編集">✎</button>
+        <div class="uranai-person-card${i === 0 ? ' is-self' : ''}" data-idx="${i}">
           <img class="uranai-person-img" src="./character_icons/char_${String(p.phaseIdx).padStart(2,'0')}.png" alt="">
           <div class="uranai-person-name">${(p.name || (i === 0 ? 'あなた' : '名前なし')).split('').join(' ')}</div>
           <div class="uranai-person-type">${getDisplayName(p.phase).split('').join(' ')}</div>
@@ -8935,12 +8994,14 @@ const COASTLINES = [
     }
     listEl.innerHTML = html;
 
-    // ✎ 編集ボタン
-    listEl.querySelectorAll('.uranai-person-edit').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const idx = parseInt(btn.dataset.idx);
-        if (typeof openEditCardForm === 'function') openEditCardForm(idx);
+    // ★ カード全体クリックで詳細モーダルを開く
+    listEl.querySelectorAll('.uranai-person-card:not(.uranai-person-more)').forEach(card => {
+      card.addEventListener('click', () => {
+        const idx = parseInt(card.dataset.idx);
+        const person = uranaiPeople[idx];
+        if (person && typeof showPersonDetailModal === 'function') {
+          showPersonDetailModal(person, idx);
+        }
       });
     });
     // もっと見る / 閉じる
@@ -9406,13 +9467,26 @@ const COASTLINES = [
     if (dModal) dModal.addEventListener('click', (e) => {
       if (e.target === dModal) dModal.classList.remove('active');
     });
+    // 詳細モーダル ✎ 編集ボタン → 編集モードでカード型 modal を開く
+    const dEdit = document.getElementById('uranaiDetailEdit');
+    if (dEdit) dEdit.addEventListener('click', () => {
+      if (currentDetailIdx < 0) return;
+      dModal.classList.remove('active');
+      if (typeof openEditCardForm === 'function') {
+        setTimeout(() => openEditCardForm(currentDetailIdx), 80);
+      }
+    });
   }
   document.addEventListener('DOMContentLoaded', bindTodayCardFlip);
 
-  function showPersonDetailModal(person) {
+  // ★ 詳細モーダルで開いている人物のインデックス (✎ ボタンから編集用)
+  let currentDetailIdx = -1;
+
+  function showPersonDetailModal(person, idx) {
     if (!person) return;
     const modal = document.getElementById('uranaiDetailModal');
     if (!modal) return;
+    currentDetailIdx = (typeof idx === 'number') ? idx : -1;
     const setText = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
     document.getElementById('uranaiDetailImg').src =
       `./character_icons/char_${String(person.phaseIdx).padStart(2,'0')}.png`;
@@ -9436,6 +9510,12 @@ const COASTLINES = [
       }
     } catch (e) {}
     setText('uranaiDetailAspect', aspectStr);
+    // ★ 性格テキスト (PHASE_DESCRIPTIONS)
+    const descEl = document.getElementById('uranaiDetailDesc');
+    if (descEl) descEl.textContent = (PHASE_DESCRIPTIONS && PHASE_DESCRIPTIONS[person.phaseIdx]) || '';
+    // ✎ ボタンは uranaiPeople 内の人物 (idx >= 0) のときだけ有効
+    const editBtn = document.getElementById('uranaiDetailEdit');
+    if (editBtn) editBtn.style.display = (currentDetailIdx >= 0) ? '' : 'none';
     modal.classList.add('active');
   }
 
