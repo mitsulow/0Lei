@@ -10647,6 +10647,15 @@ const COASTLINES = [
     }, { passive: true });
     document.addEventListener('touchmove', (e) => {
       if (!pulling || fired) return;
+      // ★ モーダル類が開いている時はリロード/演出を完全に無効化
+      //   (memo-modal / 友だち詳細 / チーム選択 / 招待 / QR / 編集フォーム)
+      if (document.querySelector(
+        '.memo-modal.active, .uranai-detail-modal.active, ' +
+        '.uranai-team-pick-modal.active, .uranai-invite-modal.active, ' +
+        '.uranai-qr-modal.active, .uranai-add-form.is-open'
+      )) {
+        return;
+      }
       const dy = e.touches[0].clientY - startY;
       if (dy > getPullThreshold()) {
         fired = true;
