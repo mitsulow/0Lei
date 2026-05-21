@@ -4226,6 +4226,74 @@
     letter-spacing: 0.05em;
   }
 
+  /* 歴史上の役職者セクション */
+  .wheel-positions-section {
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(232, 255, 0, 0.22);
+  }
+  .wheel-positions-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.92rem;
+    color: rgba(232, 255, 0, 0.95);
+    letter-spacing: 0.2em;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .wheel-positions-groups {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .wheel-positions-group {
+    padding: 10px 12px;
+    background: rgba(0, 0, 0, 0.32);
+    border: 1px solid rgba(232, 255, 0, 0.22);
+    border-radius: 10px;
+  }
+  .wheel-positions-group.is-empty { opacity: 0.5; }
+  .wheel-positions-group-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+  .wheel-positions-group-label {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.85rem;
+    color: #fff;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+  }
+  .wheel-positions-group-count {
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    color: rgba(232, 255, 0, 0.85);
+    letter-spacing: 0.05em;
+  }
+  .wheel-positions-names {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.92);
+    letter-spacing: 0.05em;
+    line-height: 1.7;
+  }
+  .wheel-positions-name {
+    display: inline-block;
+    margin-right: 6px;
+    padding: 2px 8px;
+    background: rgba(232, 255, 0, 0.1);
+    border: 1px solid rgba(232, 255, 0, 0.3);
+    border-radius: 999px;
+    margin-bottom: 4px;
+  }
+  .wheel-positions-empty {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.4);
+    font-style: italic;
+  }
+
   .wheel-celebs-section {
     margin-top: 18px;
     padding-top: 14px;
@@ -7632,6 +7700,14 @@
             </div>
           </div>
 
+          <!-- 1.5 歴史上の役職者 (アメリカ大統領 / 日本の総理 / 天皇) -->
+          <div class="wheel-positions-section" id="wheelPositionsSection">
+            <div class="wheel-positions-title" id="wheelPositionsTitle">歴 史 上 の 役 職 者</div>
+            <div class="wheel-positions-groups" id="wheelPositionsList">
+              <!-- 動的生成 -->
+            </div>
+          </div>
+
           <!-- 2. 有名人ルーレット -->
           <div class="wheel-celebs-section">
             <div class="wheel-celebs-title">この タイプ の 有 名 人</div>
@@ -10577,8 +10653,55 @@ const COASTLINES = [
       renderWheelCdcStats(idx);
       renderWheelLifespan(idx);
       renderWheelOccupations(idx);
+      renderWheelPositions(idx);
       renderCelebsRoulette(idx);
     });
+  }
+
+  // 歴史上の役職者 (アメリカ大統領 / 日本の総理 / 天皇)
+  let wheelPositionsData = null;
+  async function loadPositionsData() {
+    if (wheelPositionsData) return wheelPositionsData;
+    try {
+      const res = await fetch('./data/positions_by_type.json?v=20260522');
+      if (!res.ok) throw new Error('404');
+      wheelPositionsData = await res.json();
+      return wheelPositionsData;
+    } catch (e) { return null; }
+  }
+  async function renderWheelPositions(idx) {
+    const listEl = document.getElementById('wheelPositionsList');
+    const titleEl = document.getElementById('wheelPositionsTitle');
+    if (!listEl) return;
+    const phase = PHASES_12[idx];
+    if (titleEl && phase) titleEl.textContent = `${getDisplayName(phase)} の 歴 史 上 の 役 職 者`;
+    const data = await loadPositionsData();
+    if (!data || !data.types || !data.types[idx]) {
+      listEl.innerHTML = '<div class="wheel-positions-empty">読み込み失敗</div>';
+      return;
+    }
+    const positionsInfo = data.positions || {};
+    const typePositions = data.types[idx].positions || {};
+    const order = ['us_president', 'pm_japan', 'emperor_japan'];
+    listEl.innerHTML = order.map(key => {
+      const meta = positionsInfo[key] || {};
+      const people = typePositions[key] || [];
+      const isEmpty = people.length === 0;
+      const namesHtml = isEmpty
+        ? '<span class="wheel-positions-empty">該当者なし</span>'
+        : people.map(p =>
+            `<span class="wheel-positions-name">${p.name}</span>`
+          ).join('');
+      return `
+        <div class="wheel-positions-group${isEmpty ? ' is-empty' : ''}">
+          <div class="wheel-positions-group-head">
+            <span class="wheel-positions-group-label">${meta.label_ja || key}</span>
+            <span class="wheel-positions-group-count">${people.length} / ${meta.n || 0}</span>
+          </div>
+          <div class="wheel-positions-names">${namesHtml}</div>
+        </div>
+      `;
+    }).join('');
   }
 
   // CDC 出生分布データ
