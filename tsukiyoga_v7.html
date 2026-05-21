@@ -2363,7 +2363,7 @@
     75%  { transform: translateX(100%) rotate(-90deg);     opacity: 0.7; }
     100% { transform: translateX(100%) rotate(-90deg);     opacity: 0; }
   }
-  /* 中央大タイトル (縦書き) */
+  /* 中央大タイトル (縦書き、早めに登場) */
   .uranai-pull-title-big {
     position: absolute;
     top: 50%;
@@ -2380,7 +2380,7 @@
       0 0 40px rgba(245, 196, 74, 0.6),
       0 4px 8px rgba(0, 0, 0, 0.9);
     opacity: 0;
-    animation: pullTitleAppear 1.2s cubic-bezier(0.3, 1.2, 0.5, 1) 2.5s forwards;
+    animation: pullTitleAppear 1.2s cubic-bezier(0.3, 1.2, 0.5, 1) 1.2s forwards;
   }
   @keyframes pullTitleAppear {
     0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.5) rotate(-4deg); }
@@ -2592,8 +2592,11 @@
       drop-shadow(0 0 14px rgba(255, 235, 200, 0.50))
       drop-shadow(0 4px 10px rgba(0, 0, 0, 0.55));
   }
-  /* 月画像の上端にわざと重ねる月齢オーバーレイ (上半月にかぶる) */
+  /* 月齢オーバーレイは削除 (リボンの下に隠れるため) */
   .uranai-hero-age {
+    display: none;
+  }
+  .uranai-hero-age-skip {
     position: absolute;
     left: 0;
     right: 0;
@@ -2684,12 +2687,9 @@
   .uranai-hero-ribbon {
     opacity: 0;
   }
-  /* 月画像+ラッキーナンバー(月齢) 同時 → 1秒後に キャラ+リボン 同時 */
+  /* 月画像が先に出る → 1秒後に キャラ+リボン 同時 (月齢オーバーレイは削除) */
   .uranai-result.reveal .uranai-hero-moon-bg {
     animation: heroFadeInScale 0.9s cubic-bezier(0.2, 0.9, 0.3, 1.1) 0s forwards;
-  }
-  .uranai-result.reveal .uranai-hero-age {
-    animation: heroFadeInDown 0.8s ease-out 0s forwards;
   }
   .uranai-result.reveal .uranai-hero-char-fg {
     animation: heroFadeInScale 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.1) 1.0s forwards;
@@ -8016,7 +8016,7 @@ const COASTLINES = [
       const dir = directions[k % 4];
       const idxInDir = Math.floor(k / 4); // 0,1,2 → 3 個分
       let style = '';
-      const delay = (k * 0.22).toFixed(2);
+      const delay = (k * 0.12).toFixed(2);
       if (dir === 'top') {
         const x = ((idxInDir + 0.5) / 3) * W - CHAR_SIZE / 2;
         style = `top: 0; left: ${x.toFixed(0)}px; animation: peekTop 2.2s cubic-bezier(0.3, 1.2, 0.5, 1) ${delay}s forwards;`;
@@ -8058,7 +8058,7 @@ const COASTLINES = [
           if (uranaiView) uranaiView.classList.remove('during-pull-anim');
         }, 650);
       });
-    }, 5500);
+    }, 3500);
   }
 
   // (結果表示前のイントロは削除、占うボタン後はそのまま reveal へ)
