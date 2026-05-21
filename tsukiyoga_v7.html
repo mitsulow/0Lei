@@ -8389,36 +8389,40 @@ const COASTLINES = [
       card.style.boxShadow = `0 0 18px ${balance.color}30`;
 
       // 月齢オーバーレイ (月画像の上にかぶせる、小数1桁)
-      document.getElementById('uranaiHeroAge').innerHTML =
+      const heroAgeEl = document.getElementById('uranaiHeroAge');
+      if (heroAgeEl) heroAgeEl.innerHTML =
         `月 齢 <span class="num">${moonAge.toFixed(1)}</span> に 誕 生`;
 
-      // 性格描写
-      document.getElementById('uranaiDesc').textContent =
-        PHASE_DESCRIPTIONS[phaseIdx] || '';
+      // 性格描写 (削除済みなので null チェック)
+      const descEl = document.getElementById('uranaiDesc');
+      if (descEl) descEl.textContent = PHASE_DESCRIPTIONS[phaseIdx] || '';
 
-      // 統計情報表 (非同期で fetch、描画完了を待たずに次へ)
+      // 統計情報表 (削除済みでも renderStatsTable 内で null チェックあり)
       renderStatsTable(phaseIdx, {
         moonAge, tMorning, tEvening, balance, dev,
         nearestLabel, nearestT
       });
 
-      // ★Claude 提案①: ヒーロー一行宣言 (バズり要素)
+      // ★Claude 提案①: 一行宣言 (削除済みなので null チェック)
       loadProfileData().then(data => {
         if (!data || !data.types[phaseIdx]) return;
+        const headlineEl = document.getElementById('uranaiHeadline');
+        if (!headlineEl) return;
         const s = data.types[phaseIdx];
         const share = (s.share_of_total * 100).toFixed(2);
-        document.getElementById('uranaiHeadline').innerHTML =
+        headlineEl.innerHTML =
           `あ な た は <strong>${getDisplayName(phase)}</strong> 。<br>
            世 界 1 2 6 万 人 の 有 名 人 の う ち <strong>${s.n.toLocaleString()}</strong> 人 ${'(' + share + '%)'} の レ ア タ イ プ 。`;
       });
 
-      // ★Claude 提案②: キャラ名言
-      document.getElementById('uranaiQuote').textContent = PHASE_QUOTES[phaseIdx] || '';
+      // ★Claude 提案②: キャラ名言 (削除済みなので null チェック)
+      const quoteEl = document.getElementById('uranaiQuote');
+      if (quoteEl) quoteEl.textContent = PHASE_QUOTES[phaseIdx] || '';
 
-      // ★Claude 提案④: 月齢ドーナツチャート (12 タイプ円周 + 自分マーカー)
+      // ★Claude 提案④: 月齢ドーナツチャート (削除済みだが内部で null チェック)
       renderMoonWheel(phaseIdx, moonAge, phase);
 
-      // ★Claude 提案⑤: 今月のラッキー日 (自分の月齢と同じ日)
+      // ★Claude 提案⑤: 今月のラッキー日 (削除済みだが内部で null チェック)
       renderLuckyDay(moonAge);
 
       // 自分を相性占いの1人目として登録 (占うたびにリセット)
