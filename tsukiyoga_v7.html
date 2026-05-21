@@ -8091,19 +8091,22 @@ const COASTLINES = [
 
     document.body.appendChild(overlay);
     setTimeout(() => {
-      // ① 下層の結果セクションを即座に非表示 (オーバーレイが消える瞬間のチラ見え対策)
+      // ① 下層の結果セクションを完全に非表示にする (チラ見え対策、二重の防御)
       const resultEl = document.getElementById('uranaiResult');
       if (resultEl) {
         resultEl.style.transition = 'none';
         resultEl.style.opacity = '0';
+        resultEl.style.visibility = 'hidden'; // visibility も追加で確実に
+        resultEl.classList.remove('reveal');  // reveal も外して `.visible:not(.reveal)` ルールも効かせる
       }
-      // ② オーバーレイをフェードアウトで消す
-      overlay.style.transition = 'opacity 0.35s ease-out';
-      overlay.style.opacity = '0';
-      setTimeout(() => {
-        overlay.remove();
-        onDone();
-      }, 350);
+      // ② オーバーレイを即削除 (フェードしない、瞬間切替で下層との重なりを最小に)
+      overlay.remove();
+      // ③ 1 フレーム後に handler 実行 (描画が安定してから)
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          onDone();
+        });
+      });
     }, 5500);
   }
 
@@ -8361,11 +8364,13 @@ const COASTLINES = [
       document.getElementById('ribbonGradEndS1').setAttribute('stop-color', rc.e1);
 
       // ★時間差 reveal を発火 (月→月齢→キャラ→リボン)
-      // Pull-to-refresh で意図的に opacity:0 にしていた場合に備えて戻す
+      // Pull-to-refresh で意図的に hidden / opacity:0 にしていた場合に備えて戻す
+      resultEl.classList.remove('reveal');
+      // reveal を add する直前に visibility/opacity を戻す → 同フレームで reveal の opacity:1 が効く
+      void resultEl.offsetWidth;
+      resultEl.style.visibility = '';
       resultEl.style.opacity = '';
       resultEl.style.transition = '';
-      resultEl.classList.remove('reveal');
-      void resultEl.offsetWidth;
       resultEl.classList.add('reveal');
       setTimeout(() => {
         resultEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
