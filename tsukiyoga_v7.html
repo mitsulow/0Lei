@@ -3713,36 +3713,78 @@
     color: rgba(232, 255, 0, 0.85);
     letter-spacing: 0.15em;
   }
-  .wheel-open-btn {
-    margin-top: 16px;
-    padding: 12px 32px;
-    background: linear-gradient(180deg, #e8ff00, #c8d800);
-    color: #1a0a3a;
-    border: 1px solid #e8ff00;
-    border-radius: 999px;
-    font-family: 'Shippori Mincho', serif;
-    font-size: 0.95rem;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    cursor: pointer;
-    box-shadow: 0 0 18px rgba(232, 255, 0, 0.4);
+  .wheel-info-hint {
+    margin-top: 10px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.78rem;
+    color: rgba(232, 255, 0, 0.85);
+    letter-spacing: 0.1em;
+    animation: tribeHintBlink 1.6s ease-in-out infinite;
   }
-  .wheel-open-btn:active {
-    transform: scale(0.97);
+  @keyframes tribeHintBlink {
+    0%, 100% { opacity: 0.7; }
+    50%      { opacity: 1; }
+  }
+  /* 選択中スロット の横に押せる目印 (👉 + 「タップ」) */
+  .wheel-slot.is-active::after {
+    content: '👉';
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    margin-left: 4px;
+    transform: translateY(-50%);
+    font-size: 1.4rem;
+    pointer-events: none;
+    animation: pushHandWave 0.9s ease-in-out infinite;
+    filter: drop-shadow(0 0 8px rgba(232, 255, 0, 0.85));
+  }
+  @keyframes pushHandWave {
+    0%, 100% { transform: translateY(-50%) translateX(0) rotate(0deg); }
+    50%      { transform: translateY(-50%) translateX(-4px) rotate(-10deg); }
+  }
+  /* 選択中スロット の内側に蛍光黄色の「タップ」ピル */
+  .wheel-slot.is-active .wheel-slot-inner::after {
+    content: 'タップ';
+    position: absolute;
+    bottom: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.6rem;
+    color: #1a0a3a;
+    background: #e8ff00;
+    padding: 2px 7px;
+    border-radius: 999px;
+    border: 1px solid #e8ff00;
+    box-shadow: 0 0 10px rgba(232, 255, 0, 0.7);
+    pointer-events: none;
+    white-space: nowrap;
+    animation: tapPillPulse 1.4s ease-in-out infinite;
+  }
+  @keyframes tapPillPulse {
+    0%, 100% { transform: translateX(-50%) scale(0.95); opacity: 0.9; }
+    50%      { transform: translateX(-50%) scale(1.1); opacity: 1; }
   }
 
-  /* ★ 12 アニマル詳細モーダル */
+  /* ★ 12 アニマル詳細モーダル (display 切替→ visibility/opacity 即時化) */
   .wheel-detail-modal {
     position: fixed;
     inset: 0;
     z-index: 12500;
     background: rgba(0, 0, 0, 0.92);
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
   }
-  .wheel-detail-modal.active { display: flex; }
+  .wheel-detail-modal.active {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+  }
   .wheel-detail-content {
     background:
       linear-gradient(165deg, rgba(232, 255, 0, 0.2) 0%, rgba(90, 42, 160, 0.78) 30%, rgba(26, 10, 58, 0.97) 100%);
@@ -3821,10 +3863,103 @@
     letter-spacing: 0.15em;
     margin-top: 2px;
   }
+  /* 族表記 (○○族 ～ ○○から約2.5日間に生まれた人) */
+  .wheel-detail-tribe {
+    margin-top: 10px;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.85rem;
+    color: rgba(232, 255, 0, 0.85);
+    letter-spacing: 0.08em;
+    line-height: 1.6;
+    text-align: center;
+    padding: 10px 12px;
+    background: rgba(232, 255, 0, 0.08);
+    border: 1px solid rgba(232, 255, 0, 0.25);
+    border-radius: 10px;
+    position: relative;
+    z-index: 1;
+  }
+  .wheel-detail-tribe strong {
+    color: #fff;
+    font-size: 1.05rem;
+    letter-spacing: 0.12em;
+    text-shadow: 0 0 8px rgba(232, 255, 0, 0.5);
+  }
   .wheel-detail-divider {
     height: 1px;
     background: rgba(232, 255, 0, 0.3);
     margin: 14px 0 12px;
+  }
+  /* 関係性 (つながり) セクション */
+  .wheel-relations-section {
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(232, 255, 0, 0.22);
+  }
+  .wheel-relations-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.92rem;
+    color: rgba(232, 255, 0, 0.95);
+    letter-spacing: 0.2em;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+  .wheel-relations-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .wheel-rel-card {
+    padding: 9px 8px 10px;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(232, 255, 0, 0.22);
+    text-align: center;
+  }
+  .wheel-rel-card.span2 { grid-column: span 2; }
+  .wheel-rel-card .rel-role {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: rgba(232, 255, 0, 0.85);
+    margin-bottom: 4px;
+  }
+  .wheel-rel-card.role-mirror .rel-role { color: rgba(232, 130, 220, 0.95); }
+  .wheel-rel-card.role-help .rel-role { color: rgba(110, 230, 180, 0.95); }
+  .wheel-rel-card.role-spark .rel-role { color: rgba(255, 200, 100, 0.95); }
+  .wheel-rel-card.role-care .rel-role { color: rgba(180, 130, 255, 0.95); }
+  .wheel-rel-card img {
+    width: 42px; height: 42px;
+    object-fit: contain;
+    border-radius: 50%;
+    margin: 0 auto 3px;
+    display: block;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1.5px solid rgba(232, 255, 0, 0.5);
+    filter: drop-shadow(0 0 4px rgba(232, 255, 0, 0.4));
+  }
+  .wheel-rel-card .rel-name {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.75rem;
+    color: #fff;
+    letter-spacing: 0.05em;
+    line-height: 1.3;
+  }
+  .wheel-rel-card.role-mirror {
+    background: linear-gradient(180deg, rgba(245, 80, 100, 0.15), rgba(0, 0, 0, 0.4));
+    border-color: rgba(232, 130, 220, 0.5);
+  }
+  .wheel-rel-card.role-help {
+    background: linear-gradient(180deg, rgba(110, 230, 180, 0.15), rgba(0, 0, 0, 0.4));
+    border-color: rgba(110, 230, 180, 0.45);
+  }
+  .wheel-rel-card.role-spark {
+    background: linear-gradient(180deg, rgba(255, 200, 100, 0.15), rgba(0, 0, 0, 0.4));
+    border-color: rgba(255, 200, 100, 0.45);
+  }
+  .wheel-rel-card.role-care {
+    background: linear-gradient(180deg, rgba(180, 130, 255, 0.15), rgba(0, 0, 0, 0.4));
+    border-color: rgba(180, 130, 255, 0.45);
   }
   .wheel-detail-desc {
     font-family: 'Shippori Mincho', serif;
@@ -7279,8 +7414,8 @@
         <div class="wheel-info">
           <div class="wheel-info-name" id="wheelSelectedName">—</div>
           <div class="wheel-info-sub" id="wheelSelectedSub">月相 — / 創る人</div>
+          <div class="wheel-info-hint">↑ 上の キャラを タップ で 開く</div>
         </div>
-        <button class="wheel-open-btn" id="wheelOpenBtn" type="button">この カードを 開く</button>
       </div>
 
       <!-- 12 アニマル タイプ詳細モーダル + 有名人ルーレット -->
@@ -7292,15 +7427,30 @@
           <div class="wheel-detail-name" id="wheelDetailName"></div>
           <div class="wheel-detail-moon" id="wheelDetailMoon"></div>
           <div class="wheel-detail-stage" id="wheelDetailStage"></div>
+          <!-- 族表記 (○○族 ～ ○○から約2.5日間に生まれた人) -->
+          <div class="wheel-detail-tribe" id="wheelDetailTribe"></div>
+
           <div class="wheel-detail-divider"></div>
           <div class="wheel-detail-desc" id="wheelDetailDesc"></div>
-          <!-- 多い職業 統計セクション (126万件世界データ) -->
+
+          <!-- 関係性 (つながり) 5 カード -->
+          <div class="wheel-relations-section">
+            <div class="wheel-relations-title" id="wheelRelationsTitle">つ な が り の 表</div>
+            <div class="wheel-relations-grid" id="wheelRelationsGrid">
+              <!-- 動的: 憧れる人 / 助けてくれる人 ×2 / 刺激になる人 / 助けを必要としている人 -->
+            </div>
+          </div>
+
+          <!-- 多い職業 統計セクション (126万+6200万 統計) -->
           <div class="wheel-occupation-section">
             <div class="wheel-occupation-title" id="wheelOccupationTitle">多 い 職 業</div>
             <div class="wheel-occupation-list" id="wheelOccupationList">
               <!-- 動的生成 -->
             </div>
-            <div class="wheel-occupation-source">126 万件の世界統計データに基づく</div>
+            <div class="wheel-occupation-source">
+              世界最大規模の統計データに基づく<br>
+              （Wikidata の有名人 126 万人 + 米国 CDC 出生 6200 万人）
+            </div>
           </div>
 
           <div class="wheel-celebs-section">
@@ -10022,7 +10172,9 @@ const COASTLINES = [
     }
     rotor.innerHTML = html;
 
-    // 各スロットクリックでそのアニマルを選択 (回転で上に持ってくる)
+    // 各スロットクリック:
+    //  - 既に選択中 (上にいる) なら → そのカードを即開く
+    //  - 他のキャラ → 上にスナップして選択中に
     rotor.querySelectorAll('.wheel-slot').forEach(slot => {
       slot.addEventListener('click', (e) => {
         if (rotor.dataset.justDragged === '1') {
@@ -10030,7 +10182,12 @@ const COASTLINES = [
           return;
         }
         const idx = parseInt(slot.dataset.idx);
-        wheelSnapTo(idx);
+        if (idx === wheelSelectedIdx) {
+          // 上にいるキャラを再タップ → カードを開く
+          openWheelDetailModal(idx);
+        } else {
+          wheelSnapTo(idx);
+        }
       });
     });
 
@@ -10113,11 +10270,7 @@ const COASTLINES = [
     // 初期選択: 0 (黒うさぎ)
     wheelSnapTo(0);
 
-    // 「このカードを開く」ボタン
-    const openBtn = document.getElementById('wheelOpenBtn');
-    if (openBtn) openBtn.addEventListener('click', () => {
-      openWheelDetailModal(wheelSelectedIdx);
-    });
+    // 「このカードを開く」ボタンは廃止 (選択中スロットを直接タップで開く)
     // 閉じる
     const close = document.getElementById('wheelDetailClose');
     const modal = document.getElementById('wheelDetailModal');
@@ -10179,10 +10332,59 @@ const COASTLINES = [
     document.getElementById('wheelDetailStage').textContent = `色: ${phase.color}　／　${sp}`;
     document.getElementById('wheelDetailDesc').textContent =
       (typeof PHASE_DESCRIPTIONS !== 'undefined') ? (PHASE_DESCRIPTIONS[idx] || '') : '';
+    // ★ 族表記 (○○族 ～ ○○から約2.5日間に生まれた人)
+    const tribeEl = document.getElementById('wheelDetailTribe');
+    if (tribeEl) tribeEl.innerHTML =
+      `<strong>${phase.moon} 族</strong><br>` +
+      `${phase.moon} から 約 2.5 日 間 に 生 ま れ た 人`;
+    // ★ 関係性 5 カード (憧れる / 助けてくれる ×2 / 刺激 / 助けを必要としている)
+    renderWheelRelations(idx);
     // 重い処理 (fetch・ルーレット描画) は次フレームに分離
     requestAnimationFrame(() => {
       renderWheelOccupations(idx);
       renderCelebsRoulette(idx);
+    });
+  }
+
+  function renderWheelRelations(idx) {
+    const grid = document.getElementById('wheelRelationsGrid');
+    const titleEl = document.getElementById('wheelRelationsTitle');
+    if (!grid) return;
+    const phase = PHASES_12[idx];
+    if (titleEl && phase) {
+      titleEl.textContent = `${getDisplayName(phase)} の つ な が り`;
+    }
+    // 5 役割を計算
+    const relations = [
+      { role: '憧れる人',                 sub: '対の存在',          targetIdx: (idx + 6) % 12, cls: 'role-mirror span2', goto: true },
+      { role: '助けてくれる人',           sub: '大三角 (+4)',       targetIdx: (idx + 4) % 12, cls: 'role-help' },
+      { role: '助けてくれる人',           sub: '大三角 (+8)',       targetIdx: (idx + 8) % 12, cls: 'role-help' },
+      { role: '刺激になる人',             sub: '一つ次のキャラ',    targetIdx: (idx + 1) % 12, cls: 'role-spark' },
+      { role: '助けを必要としている人',   sub: '一つ前のキャラ',    targetIdx: (idx + 11) % 12, cls: 'role-care' },
+    ];
+    grid.innerHTML = relations.map(r => {
+      const p = PHASES_12[r.targetIdx];
+      const charSrc = `./character_icons/char_${String(r.targetIdx).padStart(2,'0')}.png`;
+      return `
+        <div class="wheel-rel-card ${r.cls}" data-target-idx="${r.targetIdx}">
+          <div class="rel-role">${r.role}</div>
+          <img src="${charSrc}" alt="">
+          <div class="rel-name">${getDisplayName(p)}</div>
+        </div>
+      `;
+    }).join('');
+    // タップで そのキャラのモーダルへ遷移
+    grid.querySelectorAll('.wheel-rel-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const ti = parseInt(card.dataset.targetIdx);
+        // モーダルの中身を入れ替え (close せず)
+        openWheelDetailModal(ti);
+        // ホイールも回す
+        wheelSnapTo(ti);
+        // 上にスクロール
+        const content = document.querySelector('.wheel-detail-content');
+        if (content) content.scrollTop = 0;
+      });
     });
   }
 
