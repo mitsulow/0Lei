@@ -2329,41 +2329,37 @@
             drop-shadow(0 8px 16px rgba(0, 0, 0, 0.7));
     opacity: 0;
   }
-  /* 4 方向から「頭を画面内側に向けて」覗き込み (モグラ叩き)
-     - 上から: rotate(180) で頭を下に向ける
-     - 下から: rotate(0) で頭は上 (元向き)
-     - 左から: rotate(90) で頭を右に向ける
-     - 右から: rotate(-90) で頭を左に向ける
-     画面の縁から半分以上隠れて、頭〜上半身だけ覗く */
+  /* 4 方向から頭を画面内側に向けて、もっと大きく覗き込み (モグラ叩き)
+     画面の縁からキャラの 60-70% 程度が画面内に出てくる (顔より下も見える) */
   @keyframes peekTop {
     0%   { transform: translateY(-100%) rotate(180deg);    opacity: 0; }
-    20%  { transform: translateY(-58%) rotate(174deg);     opacity: 1; }
-    35%  { transform: translateY(-58%) rotate(186deg);     opacity: 1; }
-    50%  { transform: translateY(-58%) rotate(174deg);     opacity: 1; }
+    20%  { transform: translateY(-30%) rotate(174deg);     opacity: 1; }
+    35%  { transform: translateY(-30%) rotate(186deg);     opacity: 1; }
+    50%  { transform: translateY(-30%) rotate(174deg);     opacity: 1; }
     75%  { transform: translateY(-100%) rotate(180deg);    opacity: 0.7; }
     100% { transform: translateY(-100%) rotate(180deg);    opacity: 0; }
   }
   @keyframes peekBottom {
     0%   { transform: translateY(100%) rotate(0deg);       opacity: 0; }
-    20%  { transform: translateY(58%) rotate(-6deg);       opacity: 1; }
-    35%  { transform: translateY(58%) rotate(6deg);        opacity: 1; }
-    50%  { transform: translateY(58%) rotate(-6deg);       opacity: 1; }
+    20%  { transform: translateY(30%) rotate(-6deg);       opacity: 1; }
+    35%  { transform: translateY(30%) rotate(6deg);        opacity: 1; }
+    50%  { transform: translateY(30%) rotate(-6deg);       opacity: 1; }
     75%  { transform: translateY(100%) rotate(0deg);       opacity: 0.7; }
     100% { transform: translateY(100%) rotate(0deg);       opacity: 0; }
   }
   @keyframes peekLeft {
     0%   { transform: translateX(-100%) rotate(90deg);     opacity: 0; }
-    20%  { transform: translateX(-58%) rotate(84deg);      opacity: 1; }
-    35%  { transform: translateX(-58%) rotate(96deg);      opacity: 1; }
-    50%  { transform: translateX(-58%) rotate(84deg);      opacity: 1; }
+    20%  { transform: translateX(-30%) rotate(84deg);      opacity: 1; }
+    35%  { transform: translateX(-30%) rotate(96deg);      opacity: 1; }
+    50%  { transform: translateX(-30%) rotate(84deg);      opacity: 1; }
     75%  { transform: translateX(-100%) rotate(90deg);     opacity: 0.7; }
     100% { transform: translateX(-100%) rotate(90deg);     opacity: 0; }
   }
   @keyframes peekRight {
     0%   { transform: translateX(100%) rotate(-90deg);     opacity: 0; }
-    20%  { transform: translateX(58%) rotate(-96deg);      opacity: 1; }
-    35%  { transform: translateX(58%) rotate(-84deg);      opacity: 1; }
-    50%  { transform: translateX(58%) rotate(-96deg);      opacity: 1; }
+    20%  { transform: translateX(30%) rotate(-96deg);      opacity: 1; }
+    35%  { transform: translateX(30%) rotate(-84deg);      opacity: 1; }
+    50%  { transform: translateX(30%) rotate(-96deg);      opacity: 1; }
     75%  { transform: translateX(100%) rotate(-90deg);     opacity: 0.7; }
     100% { transform: translateX(100%) rotate(-90deg);     opacity: 0; }
   }
@@ -2709,6 +2705,12 @@
   }
   @keyframes heroAfterShow {
     to { opacity: 1; }
+  }
+
+  /* visible だが reveal 未付与の瞬間は結果全体を非表示
+     → スワイプ演出のオーバーレイが消えた直後に「結果が一瞬見える」のを防ぐ */
+  .uranai-result.visible:not(.reveal) {
+    opacity: 0;
   }
   @keyframes heroFadeInScale {
     from { opacity: 0; transform: scale(0.7); }
