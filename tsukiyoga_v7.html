@@ -2024,8 +2024,8 @@
   /* ★v7: 月占い 12タイプ — ヒーロー */
   .uranai-hero {
     text-align: center;
-    margin-bottom: 22px;
-    padding-bottom: 40px; /* リボンが stage 外にはみ出す分のスペース */
+    margin-bottom: 8px;
+    padding-bottom: 10px; /* リボンが stage 外にはみ出す分 (詰め気味) */
   }
   .uranai-hero-stage {
     position: relative;
@@ -2351,6 +2351,16 @@
   }
 
   /* 場所・時刻カード */
+  /* 日付行 (生年月日+曜日) */
+  .uranai-place-line-date {
+    text-align: center;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.1rem;
+    color: var(--moon-white);
+    letter-spacing: 0.15em;
+    margin-bottom: 8px;
+    line-height: 1.5;
+  }
   /* 1 行表記版 */
   .uranai-place-line1, .uranai-place-line2 {
     text-align: center;
@@ -2485,12 +2495,14 @@
   }
   .uranai-balance-desc {
     font-family: 'Shippori Mincho', serif;
-    font-size: 0.78rem;
-    color: rgba(255, 255, 255, 0.78);
-    letter-spacing: 0.06em;
-    line-height: 1.75;
-    padding-top: 10px;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.88);
+    letter-spacing: 0.04em;
+    line-height: 1.85;
+    padding-top: 12px;
     border-top: 1px solid rgba(201, 169, 97, 0.18);
+    white-space: pre-line;
+    text-align: left;
     margin-top: 4px;
   }
 
@@ -4814,9 +4826,9 @@
       </div>
 
 
-      <!-- 場所・時刻カード (1 行表記) -->
+      <!-- 場所・時刻カード (生年月日+場所+時刻、ヘッダなし) -->
       <div class="uranai-card uranai-place">
-        <div class="uranai-card-head">生 ま れ た 瞬 間</div>
+        <div class="uranai-place-line-date" id="uranaiBirthDateStr"></div>
         <div class="uranai-place-line1">
           <span class="uranai-place-city-label">生まれた場所</span>
           <span class="uranai-place-city" id="uranaiCityName"></span>
@@ -4831,8 +4843,8 @@
 
       <!-- 太陽と月の位置カード -->
       <div class="uranai-card uranai-sky">
-        <div class="uranai-card-head">生 ま れ た 時 の 空</div>
-        <div class="uranai-sky-facing" id="uranaiSkyFacing"></div>
+        <div class="uranai-card-head">あ な た が 生 ま れ た 瞬 間 の 空</div>
+        <div class="uranai-sky-facing" id="uranaiSkyFacing">北 を 向 い て 立 つ と</div>
         <svg class="uranai-sky-clock" viewBox="0 0 200 200" aria-hidden="true">
           <!-- 文字盤 -->
           <circle cx="100" cy="100" r="92" fill="rgba(3,8,24,0.65)" stroke="rgba(201,169,97,0.35)" stroke-width="1"/>
@@ -4870,36 +4882,12 @@
         </div>
       </div>
 
-      <!-- マツリ時刻カード -->
-      <div class="uranai-card uranai-matsuri">
-        <div class="uranai-card-head">そ の 日 の マ ツ リ ド キ</div>
-        <div class="uranai-matsuri-row">
-          <div class="uranai-matsuri-item uranai-matsuri-morning">
-            <div class="uranai-matsuri-icon">☀</div>
-            <div class="uranai-matsuri-label">朝 祀 り</div>
-            <div class="uranai-matsuri-time" id="uranaiAsamatsuri"></div>
-          </div>
-          <div class="uranai-matsuri-item uranai-matsuri-evening">
-            <div class="uranai-matsuri-icon">☾</div>
-            <div class="uranai-matsuri-label">夜 祭 り</div>
-            <div class="uranai-matsuri-time" id="uranaiYomatsuri"></div>
-          </div>
-        </div>
-        <div class="uranai-matsuri-note">
-          月 と 太 陽 が 南 北 線 を 挟 ん で 左 右 対 称 に な る 時 刻
-        </div>
-      </div>
-
-      <!-- バランスカード (5花キャラ) -->
+      <!-- 陰陽バランスカード (マツリドキ統合、5花キャラ + 中和論解説) -->
       <div class="uranai-card uranai-balance" id="uranaiBalanceCard">
-        <div class="uranai-card-head">あ な た の バ ラ ン ス</div>
-        <div class="uranai-balance-flower-row">
-          <div class="uranai-balance-flower" id="uranaiBalanceFlower"></div>
-          <div class="uranai-balance-meta">
-            <div class="uranai-balance-name" id="uranaiBalanceName"></div>
-            <div class="uranai-balance-kind" id="uranaiBalanceKind"></div>
-          </div>
-        </div>
+        <div class="uranai-card-head">あ な た の 「 陰 陽 」 バ ラ ン ス</div>
+        <div class="uranai-balance-flower" id="uranaiBalanceFlower"></div>
+        <div class="uranai-balance-name" id="uranaiBalanceName"></div>
+        <div class="uranai-balance-kind" id="uranaiBalanceKind"></div>
         <div class="uranai-balance-dev" id="uranaiBalanceDev"></div>
         <div class="uranai-balance-desc" id="uranaiBalanceDesc"></div>
       </div>
@@ -6281,11 +6269,11 @@ const COASTLINES = [
   // 3 きんもくせい: 西 5分〜90分 (秋)
   // 4 さざんか: 西 90分〜6時間 (冬)
   const BALANCE_TYPES = [
-    { idx:0, name:'茉莉花',     kana:'まつりか',     kind:'真ん中',   season:'',     color:'#f5ebd8' },
-    { idx:1, name:'さくら',     kana:'さくら',       kind:'東に少し', season:'春',   color:'#f7c2d4' },
-    { idx:2, name:'ひまわり',   kana:'ひまわり',     kind:'東に大きく', season:'夏', color:'#f5c44a' },
-    { idx:3, name:'きんもくせい', kana:'きんもくせい', kind:'西に少し', season:'秋',   color:'#f0934e' },
-    { idx:4, name:'さざんか',   kana:'さざんか',     kind:'西に大きく', season:'冬', color:'#c95066' }
+    { idx:0, name:'茉莉花',       kana:'まつりか',     fullLabel:'バランスが完璧に取れた奇跡の人', color:'#f5ebd8' },
+    { idx:1, name:'さくら',       kana:'さくら',       fullLabel:'東に少し傾いた春キャラ',         color:'#f7c2d4' },
+    { idx:2, name:'ひまわり',     kana:'ひまわり',     fullLabel:'東に大きく傾いた夏キャラ',       color:'#f5c44a' },
+    { idx:3, name:'きんもくせい', kana:'きんもくせい', fullLabel:'西に少し傾いた秋キャラ',         color:'#f0934e' },
+    { idx:4, name:'さざんか',     kana:'さざんか',     fullLabel:'西に大きく傾いた冬キャラ',       color:'#c95066' }
   ];
 
   function getBalanceType(devHoursSigned) {
@@ -6450,12 +6438,15 @@ const COASTLINES = [
     'きんもくせい': '🍂',
     'さざんか': '🌺'
   };
+  // 中和論: 「片寄っている地球」に生まれた人は、逆方向に振る舞うことで地球のバランスを取る
+  // 例: マイナス8 (西/冬) に傾いた瞬間 → プラス8 (明るい) 性格として生まれてくる
+  //     本人は明るく振る舞ってしまうが、実は本当のバランスはマイナス側 (静か) へ向かう事
   const BALANCE_DESC = {
-    '茉莉花':     '太 陽 と 月 が 完 璧 に 拮 抗 し た 瞬 間 に 生 ま れ た 、 稀 な 中 心 の 人 。',
-    'さくら':     '東 に わ ず か に 傾 く 春 キ ャ ラ 。 朝 の よ う な 軽 や か さ と 始 ま り の 力 を 持 つ 。',
-    'ひまわり':   '東 の 空 に 太 陽 と 月 が 寄 る 夏 キ ャ ラ 。 拡 散 ・ 前 進 ・ 陽 気 さ が 持 ち 味 。',
-    'きんもくせい':'西 に わ ず か に 傾 く 秋 キ ャ ラ 。 静 け さ と 香 る よ う な 余 韻 を 持 つ 。',
-    'さざんか':   '西 の 空 に 太 陽 と 月 が 寄 る 冬 キ ャ ラ 。 集 中 ・ 突 破 ・ 内 な る 強 さ を 持 つ 。'
+    '茉莉花': '太陽と月が完璧に拮抗した瞬間に生まれた、稀な中心の人。\n地球は中和の必要がない瞬間にあなたを呼んだ。\nあなた自身はもうバランスが取れているので、無理に明るくも静かにもならなくていい。\n中庸を歩むことが、あなた本来の在り方。',
+    'さくら': '東に少し傾いた瞬間に生まれた、明るく軽やかな春キャラ。\n地球が東 (プラス) に傾いた時、あなたは中和のために生まれてきた。\n他者からは明るく春のように見えるが、それは中和の振る舞い。\n本当のバランスは「少し静かに、西寄りに」過ごすことで整う。\n夕暮れの静けさを意識すると、あなた本来の力が戻ってくる。',
+    'ひまわり': '東に大きく傾いた瞬間に生まれた、太陽のような夏キャラ。\n地球が東 (プラス) に大きく傾いた時、あなたは中和のために生まれてきた。\n他者からは陽キャ・パワフル・拡散型に見えるが、それは中和の振る舞い。\nあなたが本当に整うのは「西、内向き、静寂」の方向。\n夜の散歩、瞑想、静かな読書が、過剰なプラスを整えてくれる。\nひまわりの明るさは、地球の暗さを照らすために借りた光。',
+    'きんもくせい': '西に少し傾いた瞬間に生まれた、香り立つ秋キャラ。\n地球が西 (マイナス) に傾いた時、あなたは中和のために生まれてきた。\n他者からは静かで思慮深く見えるが、それは中和の振る舞い。\n本当のバランスは「少し明るく、東寄りに」過ごすことで整う。\n朝の光、軽い運動、人との交流が、あなた本来の力を呼び戻す。',
+    'さざんか': '西に大きく傾いた瞬間に生まれた、内に燃える冬キャラ。\n地球が西 (マイナス) に大きく傾いた時、あなたは中和のために生まれてきた。\n他者からは静か・集中・内向きに見えるが、それは中和の振る舞い。\nあなたが本当に整うのは「東、外向き、陽気さ」の方向。\n朝日を浴びる、声を出して笑う、人前で表現することで、過剰なマイナスが整う。\nさざんかの静けさは、地球の喧騒を抱きしめるために借りた影。'
   };
 
   // ============ 相性 ============
@@ -7274,10 +7265,10 @@ const COASTLINES = [
       const moonPos = moonRADec(jd);
       const sunAA = altaz(sunPos.ra, sunPos.dec, lat, lon, jd);
       const moonAA = altaz(moonPos.ra, moonPos.dec, lat, lon, jd);
-      // 観測者の向き: 地方真太陽時で午前=北, 午後=南
-      const facingSouth = (localH >= 12 && localH < 24);
-      const facingLabel = facingSouth ? '南' : '北';
-      const facingAz = facingSouth ? 180 : 0;
+      // 観測者の向き: 常に北を向いて立つ
+      const facingSouth = false;
+      const facingLabel = '北';
+      const facingAz = 0;
       const sunClock = toClockPosition(sunAA.alt, sunAA.az, facingAz);
       const moonClock = toClockPosition(moonAA.alt, moonAA.az, facingAz);
 
@@ -7322,12 +7313,12 @@ const COASTLINES = [
       document.getElementById('uranaiCityName').textContent = spaceOut(cityName);
       document.getElementById('uranaiCoords').textContent =
         `東経 ${lon.toFixed(2)}° / 北緯 ${lat.toFixed(2)}°`;
+      // 生年月日 (曜日付き)
+      const wd = ['日','月','火','水','木','金','土'];
+      const birthDateStr = `${birth.getFullYear()}年${birth.getMonth()+1}月${birth.getDate()}日（${wd[birth.getDay()]}）`;
+      document.getElementById('uranaiBirthDateStr').textContent = birthDateStr;
       document.getElementById('uranaiTimeJst').textContent = timeStr;
       document.getElementById('uranaiTimeLocal').textContent = hoursToHHMM(localH);
-
-      // マツリ
-      document.getElementById('uranaiAsamatsuri').textContent = hoursToHHMM(tMorning);
-      document.getElementById('uranaiYomatsuri').textContent = hoursToHHMM(tEvening);
 
       // 太陽月の位置 (時計盤)
       document.getElementById('uranaiSkyFacing').textContent =
@@ -7362,16 +7353,17 @@ const COASTLINES = [
       moonDotEl.setAttribute('x', moonSvg.x.toFixed(1));
       moonDotEl.setAttribute('y', moonSvg.y.toFixed(1));
 
-      // バランス
+      // 陰陽バランス
       document.getElementById('uranaiBalanceFlower').textContent =
         BALANCE_EMOJI[balance.name] || '✿';
       document.getElementById('uranaiBalanceName').textContent = balance.name;
-      document.getElementById('uranaiBalanceKind').textContent =
-        balance.season ? `${balance.kind} ・ ${balance.season} キ ャ ラ` : balance.kind;
+      document.getElementById('uranaiBalanceKind').textContent = balance.fullLabel;
+      // 「朝祀り 6:59 から 2時間48分 西より」表記 (一番近いマツリドキからの差)
+      const dirSimple = dev > 0 ? '西より' : dev < 0 ? '東より' : '';
       document.getElementById('uranaiBalanceDev').textContent =
         Math.abs(dev) < 5/60
           ? `${nearestLabel} と ピ ッ タ リ 一 致 ！`
-          : `${nearestLabel} ${hoursToHHMM(nearestT)} か ら ${hoursToHM(dev)} ${directionLabel}`;
+          : `${nearestLabel.replace(/\s/g,'')} ${hoursToHHMM(nearestT)} か ら ${hoursToHM(dev).replace(/\s/g,'')} ${dirSimple}`;
       document.getElementById('uranaiBalanceDesc').textContent =
         BALANCE_DESC[balance.name] || '';
       // バランスカードのアクセント色
