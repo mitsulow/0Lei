@@ -1860,7 +1860,7 @@
   }
   .uranai-view.active { display: block; }
 
-  /* ★v7: マイページビュー (全タブ共通プロファイル) */
+  /* ★v7: マイページビュー (全タブ共通プロファイル) - 真面目フォント */
   .mypage-view {
     position: fixed;
     inset: 0 0 62px 0;
@@ -1868,6 +1868,7 @@
     background: linear-gradient(180deg, #1a0a3a 0%, #0a0418 100%);
     display: none;
     overflow: hidden;
+    font-family: 'Zen Kaku Gothic New', -apple-system, BlinkMacSystemFont, 'Hiragino Sans', sans-serif;
   }
   .mypage-view.active { display: block; }
   .mypage-scroll {
@@ -1877,71 +1878,26 @@
     padding: 26px 18px 50px;
     -webkit-overflow-scrolling: touch;
   }
-  .mypage-header { text-align: center; margin-bottom: 22px; }
-  .mypage-title-wrap {
-    display: inline-flex;
-    align-items: center;
-    gap: 14px;
-  }
-  .mypage-title-deco-left,
-  .mypage-title-deco-right {
-    color: #e8ff00;
-    font-size: 1.1rem;
-    opacity: 0.85;
-    text-shadow: 0 0 10px rgba(232, 255, 0, 0.5);
+  .mypage-header {
+    text-align: center;
+    margin-bottom: 26px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(232, 255, 0, 0.18);
   }
   .mypage-title {
-    font-family: 'Reggae One', 'Shippori Mincho', serif;
-    font-size: 1.5rem;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 500;
     color: #fff;
-    letter-spacing: 0.25em;
-    text-shadow: 0 0 12px rgba(232, 255, 0, 0.3);
+    letter-spacing: 0.08em;
   }
   .mypage-subtitle {
-    margin-top: 8px;
-    font-family: 'Shippori Mincho', serif;
-    font-size: 0.78rem;
+    margin-top: 6px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.82rem;
     color: rgba(255, 255, 255, 0.55);
-    letter-spacing: 0.25em;
-  }
-  /* キャラプレビュー */
-  .mypage-card-preview {
-    margin: 0 auto 22px;
-    max-width: 380px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 14px 16px;
-    background: linear-gradient(180deg, rgba(58, 26, 106, 0.6), rgba(26, 10, 58, 0.6));
-    border: 1px solid rgba(232, 255, 0, 0.35);
-    border-radius: 14px;
-    box-shadow: 0 0 22px rgba(232, 255, 0, 0.18);
-  }
-  .mypage-char-img {
-    width: 78px; height: 78px;
-    flex-shrink: 0;
-    object-fit: contain;
-  }
-  .mypage-char-info { flex: 1; min-width: 0; }
-  .mypage-char-nick {
-    font-family: 'Reggae One', serif;
-    font-size: 1.1rem;
-    color: #e8ff00;
-    letter-spacing: 0.1em;
-    margin-bottom: 4px;
-  }
-  .mypage-char-type {
-    font-family: 'Shippori Mincho', serif;
-    font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.92);
-    letter-spacing: 0.15em;
-    margin-bottom: 2px;
-  }
-  .mypage-char-balance {
-    font-family: 'Shippori Mincho', serif;
-    font-size: 0.78rem;
-    color: rgba(255, 255, 255, 0.65);
-    letter-spacing: 0.12em;
+    letter-spacing: 0.05em;
+    font-weight: 300;
   }
   /* form */
   .mypage-form {
@@ -1953,24 +1909,28 @@
   }
   .mypage-label {
     display: block;
-    font-family: 'Shippori Mincho', serif;
-    font-size: 0.85rem;
-    color: rgba(232, 255, 0, 0.85);
-    letter-spacing: 0.25em;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: rgba(232, 255, 0, 0.9);
+    letter-spacing: 0.05em;
     margin-bottom: 8px;
-    text-align: center;
   }
   .mypage-input {
     width: 100%;
-    padding: 10px 12px;
+    padding: 11px 12px;
     background: rgba(255, 255, 255, 0.07);
     border: 1px solid rgba(232, 255, 0, 0.3);
     border-radius: 8px;
     color: #fff;
-    font-family: inherit;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
     font-size: 1rem;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.02em;
     box-sizing: border-box;
+  }
+  .mypage-input::placeholder {
+    color: rgba(255, 255, 255, 0.35);
+    font-weight: 300;
   }
   .mypage-input:focus {
     outline: none;
@@ -1980,14 +1940,13 @@
   .mypage-date-selects {
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 4px;
   }
   .mypage-date-select {
     width: auto;
     flex: 1;
     min-width: 0;
-    padding: 8px 4px;
+    padding: 9px 4px;
     text-align: center;
   }
   .mypage-date-unit {
@@ -2002,7 +1961,8 @@
     margin-top: 10px;
     color: rgba(255, 255, 255, 0.7);
     font-size: 0.85rem;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.02em;
+    font-weight: 300;
   }
   .mypage-check input { accent-color: #e8ff00; }
   .mypage-custom-coords {
@@ -2020,17 +1980,18 @@
   }
   .mypage-custom-coords-row label {
     flex-shrink: 0;
-    width: 60px;
+    width: 56px;
     color: rgba(232, 255, 0, 0.75);
     font-size: 0.85rem;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.05em;
   }
   .mypage-custom-coords-row input { flex: 1; }
   .mypage-custom-coords-note {
     color: rgba(255, 255, 255, 0.45);
     font-size: 0.72rem;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.02em;
     margin-top: 4px;
+    font-weight: 300;
   }
   .mypage-save {
     display: block;
@@ -2041,10 +2002,10 @@
     color: #1a0a3a;
     border: 1px solid #e8ff00;
     border-radius: 12px;
-    font-family: 'Reggae One', 'Shippori Mincho', serif;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
     font-size: 1.05rem;
     font-weight: 700;
-    letter-spacing: 0.25em;
+    letter-spacing: 0.1em;
     cursor: pointer;
     box-shadow: 0 0 20px rgba(232, 255, 0, 0.4);
     transition: transform 0.15s, box-shadow 0.2s;
@@ -2055,12 +2016,77 @@
   }
   .mypage-help {
     text-align: center;
-    font-family: 'Shippori Mincho', serif;
-    font-size: 0.72rem;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.74rem;
     color: rgba(255, 255, 255, 0.5);
-    letter-spacing: 0.18em;
+    letter-spacing: 0.02em;
     line-height: 1.7;
-    margin-top: 18px;
+    margin-top: 14px;
+    font-weight: 300;
+  }
+  /* マイページ結果セクション */
+  .mypage-result {
+    max-width: 480px;
+    margin: 36px auto 0;
+    padding-top: 26px;
+    border-top: 1px solid rgba(232, 255, 0, 0.22);
+  }
+  .mypage-moon-block {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .mypage-moon-img {
+    display: block;
+    width: 220px;
+    height: 220px;
+    margin: 0 auto 12px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 18px rgba(232, 255, 0, 0.25));
+  }
+  .mypage-moon-age {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 1.1rem;
+    color: #fff;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+  }
+  .mypage-moon-age .num {
+    color: #e8ff00;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 4px;
+    text-shadow: 0 0 8px rgba(232, 255, 0, 0.5);
+  }
+  /* マイページ内に置いた占いカード (uranai-place / sky / balance) のフォント上書き */
+  .mypage-result .uranai-card {
+    font-family: 'Zen Kaku Gothic New', sans-serif !important;
+    background: linear-gradient(180deg, rgba(58, 26, 106, 0.4), rgba(26, 10, 58, 0.5)) !important;
+    border-color: rgba(232, 255, 0, 0.28) !important;
+  }
+  .mypage-result .uranai-card-head,
+  .mypage-result .uranai-place-line-date,
+  .mypage-result .uranai-place-line1,
+  .mypage-result .uranai-place-line2,
+  .mypage-result .uranai-sky-facing,
+  .mypage-result .uranai-sky-label,
+  .mypage-result .uranai-sky-pos,
+  .mypage-result .uranai-sky-coord,
+  .mypage-result .uranai-balance-name,
+  .mypage-result .uranai-balance-kind,
+  .mypage-result .uranai-balance-dev,
+  .mypage-result .uranai-balance-desc,
+  .mypage-result .uranai-place-city-label,
+  .mypage-result .uranai-place-city,
+  .mypage-result .uranai-place-coords {
+    font-family: 'Zen Kaku Gothic New', sans-serif !important;
+    letter-spacing: 0.04em !important;
+  }
+  .mypage-result .uranai-card-head {
+    color: rgba(232, 255, 0, 0.9) !important;
+    font-weight: 500;
+  }
+  .mypage-result .uranai-balance-name {
+    font-weight: 700;
   }
 
   .uranai-scroll {
@@ -5874,75 +5900,8 @@
       </div>
 
 
-      <!-- 場所・時刻カード (生年月日+場所+時刻、ヘッダなし) -->
-      <div class="uranai-card uranai-place">
-        <div class="uranai-place-line-date" id="uranaiBirthDateStr"></div>
-        <div class="uranai-place-line1">
-          <span class="uranai-place-city-label">生まれた場所</span>
-          <span class="uranai-place-city" id="uranaiCityName"></span>
-          <span class="uranai-place-coords" id="uranaiCoords"></span>
-        </div>
-        <div class="uranai-place-line2">
-          <span>日本時刻 <strong id="uranaiTimeJst"></strong></span>
-          <span class="uranai-place-sep">/</span>
-          <span>地方時刻 <strong id="uranaiTimeLocal"></strong></span>
-        </div>
-      </div>
 
-      <!-- 太陽と月の位置カード -->
-      <div class="uranai-card uranai-sky">
-        <div class="uranai-card-head">あ な た が 生 ま れ た 瞬 間 の 空</div>
-        <div class="uranai-sky-facing" id="uranaiSkyFacing">北 を 向 い て 立 つ と</div>
-        <svg class="uranai-sky-clock" viewBox="0 0 200 200" aria-hidden="true">
-          <!-- 文字盤 -->
-          <circle cx="100" cy="100" r="92" fill="rgba(3,8,24,0.65)" stroke="rgba(201,169,97,0.35)" stroke-width="1"/>
-          <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(201,169,97,0.18)" stroke-width="1" stroke-dasharray="2,3"/>
-          <!-- 地平線 -->
-          <line x1="20" y1="100" x2="180" y2="100" stroke="rgba(201,169,97,0.4)" stroke-dasharray="3,3"/>
-          <text x="100" y="107" text-anchor="middle" fill="rgba(201,169,97,0.45)" font-size="6" font-family="Cinzel,serif" letter-spacing="0.1em">HORIZON</text>
-          <!-- 空 / 地下 ラベル -->
-          <text x="100" y="48" text-anchor="middle" fill="rgba(245,196,74,0.55)" font-size="8" font-family="Shippori Mincho,serif" letter-spacing="0.15em">空 の 上</text>
-          <text x="100" y="160" text-anchor="middle" fill="rgba(110,160,210,0.45)" font-size="8" font-family="Shippori Mincho,serif" letter-spacing="0.15em">地 面 の 下</text>
-          <!-- 時計の数字 -->
-          <text x="100" y="20" text-anchor="middle" fill="rgba(201,169,97,0.7)" font-size="9" font-family="Cinzel,serif">12</text>
-          <text x="184" y="103" text-anchor="middle" fill="rgba(201,169,97,0.7)" font-size="9" font-family="Cinzel,serif">3</text>
-          <text x="100" y="190" text-anchor="middle" fill="rgba(201,169,97,0.7)" font-size="9" font-family="Cinzel,serif">6</text>
-          <text x="16" y="103" text-anchor="middle" fill="rgba(201,169,97,0.7)" font-size="9" font-family="Cinzel,serif">9</text>
-          <!-- 観測者 -->
-          <circle cx="100" cy="100" r="2.5" fill="rgba(201,169,97,0.85)"/>
-          <text id="uranaiSkyFacingArrow" x="100" y="113" text-anchor="middle" fill="rgba(201,169,97,0.7)" font-size="7" font-family="Shippori Mincho,serif" letter-spacing="0.1em"></text>
-          <!-- 太陽 -->
-          <text id="uranaiSunDot" x="100" y="100" text-anchor="middle" dominant-baseline="central" font-size="22" fill="#f5c44a">☀</text>
-          <!-- 月 -->
-          <text id="uranaiMoonDot" x="100" y="100" text-anchor="middle" dominant-baseline="central" font-size="20" fill="#dde3ea">☾</text>
-        </svg>
-        <div class="uranai-sky-bodies">
-          <div class="uranai-sky-body">
-            <div class="uranai-sky-row"><span class="uranai-sky-icon" style="color:#f5c44a">☀</span><span class="uranai-sky-label">太 陽</span></div>
-            <div class="uranai-sky-pos" id="uranaiSunPos"></div>
-            <div class="uranai-sky-coord" id="uranaiSunCoord"></div>
-          </div>
-          <div class="uranai-sky-body">
-            <div class="uranai-sky-row"><span class="uranai-sky-icon" style="color:#dde3ea">☾</span><span class="uranai-sky-label">月</span></div>
-            <div class="uranai-sky-pos" id="uranaiMoonPos"></div>
-            <div class="uranai-sky-coord" id="uranaiMoonCoord"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 陰陽バランスカード (マツリドキ統合、5花キャラ + 中和論解説) -->
-      <div class="uranai-card uranai-balance" id="uranaiBalanceCard">
-        <div class="uranai-card-head">あ な た の 「 陰 陽 」 バ ラ ン ス</div>
-        <div class="uranai-balance-flower" id="uranaiBalanceFlower"></div>
-        <div class="uranai-balance-name" id="uranaiBalanceName"></div>
-        <div class="uranai-balance-kind" id="uranaiBalanceKind"></div>
-        <div class="uranai-balance-dev" id="uranaiBalanceDev"></div>
-        <div class="uranai-balance-desc" id="uranaiBalanceDesc" style="display:none"></div>
-      </div>
-
-      <!-- 一行宣言・名言・性格描写は削除済み (整理中) -->
-
-      <!-- 12 タイプ全部見るボタン / モーダルは削除 (整理中) -->
+      <!-- ★ 場所/時刻 / 空 / 陰陽バランス はマイページに移植済み -->
 
       <!-- 相性占い (5人まで) -->
       <div class="uranai-compat-section">
@@ -5950,10 +5909,6 @@
           <span class="uranai-section-title-deco">✦</span>
           <div class="uranai-section-title">相 性 占 い</div>
           <span class="uranai-section-title-deco">✦</span>
-        </div>
-        <div class="uranai-section-sub">
-          5 人 ま で 一 度 に 占 え ま す<br>
-          家 族・恋 人・親 友 を 入 れ て み て ね
         </div>
 
         <div class="uranai-people-list" id="uranaiPeopleList">
@@ -6085,35 +6040,21 @@
 <div class="mypage-view" id="mypageView">
   <div class="mypage-scroll">
     <div class="mypage-header">
-      <div class="mypage-title-wrap">
-        <span class="mypage-title-deco-left">✿</span>
-        <div class="mypage-title">マイページ</div>
-        <span class="mypage-title-deco-right">✿</span>
-      </div>
+      <div class="mypage-title">マイページ</div>
       <div class="mypage-subtitle">
-        あ な た の 月 を 設 定 し ま す
-      </div>
-    </div>
-
-    <!-- 現キャラ プレビュー -->
-    <div class="mypage-card-preview" id="mypageCardPreview" style="display:none">
-      <img class="mypage-char-img" id="mypageCharImg" src="" alt="">
-      <div class="mypage-char-info">
-        <div class="mypage-char-nick" id="mypageCharNick"></div>
-        <div class="mypage-char-type" id="mypageCharType"></div>
-        <div class="mypage-char-balance" id="mypageCharBalance"></div>
+        あなたの情報を設定します
       </div>
     </div>
 
     <!-- form -->
     <div class="mypage-form">
       <div class="mypage-field">
-        <label class="mypage-label">ニ ッ ク ネ ー ム</label>
-        <input type="text" id="mypageNickname" class="mypage-input" maxlength="20" placeholder="例: みつろう / らむちゃん">
+        <label class="mypage-label">ニックネーム</label>
+        <input type="text" id="mypageNickname" class="mypage-input" maxlength="20" placeholder="シェアするニックネームを入力">
       </div>
 
       <div class="mypage-field">
-        <label class="mypage-label">生 ま れ た 日</label>
+        <label class="mypage-label">生まれた日</label>
         <div class="mypage-date-selects">
           <select id="mypageBirthYear" class="mypage-input mypage-date-select"></select>
           <span class="mypage-date-unit">年</span>
@@ -6125,42 +6066,110 @@
       </div>
 
       <div class="mypage-field">
-        <label class="mypage-label">生 ま れ た 時 刻</label>
+        <label class="mypage-label">生まれた時刻</label>
         <input type="time" id="mypageBirthTime" class="mypage-input" value="15:00">
         <label class="mypage-check">
           <input type="checkbox" id="mypageTimeUnknown">
-          <span>分 か ら な い（15 時 で 計 算）</span>
+          <span>分からない（15時で計算）</span>
         </label>
       </div>
 
       <div class="mypage-field">
-        <label class="mypage-label">生 ま れ た 場 所</label>
+        <label class="mypage-label">生まれた場所</label>
         <select id="mypageCity" class="mypage-input"></select>
         <div class="mypage-custom-coords" id="mypageCustomCoords" style="display:none">
           <div class="mypage-custom-coords-row">
-            <label>東 経</label>
+            <label>東経</label>
             <input type="number" id="mypageCustomLon" class="mypage-input" min="-180" max="180" step="0.01" placeholder="例: 127.7" inputmode="decimal">
             <span>°</span>
           </div>
           <div class="mypage-custom-coords-row">
-            <label>北 緯</label>
+            <label>北緯</label>
             <input type="number" id="mypageCustomLat" class="mypage-input" min="-90" max="90" step="0.01" placeholder="例: 26.2" inputmode="decimal">
             <span>°</span>
           </div>
           <div class="mypage-custom-coords-row">
-            <label>場 所 名</label>
+            <label>場所名</label>
             <input type="text" id="mypageCustomName" class="mypage-input" placeholder="例: ハワイ / NY / パリ">
           </div>
           <div class="mypage-custom-coords-note">
-            ※ 海外 や 国 内 市 町 村 外 で 生 ま れ た 方 向 け
+            ※ 海外や国内市町村外で生まれた方向け
           </div>
         </div>
       </div>
 
-      <button id="mypageSave" class="mypage-save">保 存 し て 占 う</button>
+      <button id="mypageSave" class="mypage-save">保存する</button>
 
       <div class="mypage-help">
-        こ こ で 設 定 し た 情 報 は 月 占 い タ ブ に も 自 動 反 映 さ れ ま す
+        ここで設定した情報は月占いタブにも自動反映されます
+      </div>
+    </div>
+
+    <!-- ★ 保存後の結果セクション (占いタブのリボン下〜相性上を移植) -->
+    <div class="mypage-result" id="mypageResult" style="display:none">
+      <!-- 月画像 + 月齢 -->
+      <div class="mypage-moon-block">
+        <img id="mypageMoonImg" class="mypage-moon-img" src="" alt="">
+        <div class="mypage-moon-age" id="mypageMoonAge"></div>
+      </div>
+
+      <!-- 場所・時刻カード -->
+      <div class="uranai-card uranai-place">
+        <div class="uranai-place-line-date" id="uranaiBirthDateStr"></div>
+        <div class="uranai-place-line1">
+          <span class="uranai-place-city-label">生まれた場所</span>
+          <span class="uranai-place-city" id="uranaiCityName"></span>
+          <span class="uranai-place-coords" id="uranaiCoords"></span>
+        </div>
+        <div class="uranai-place-line2">
+          <span>日本時刻 <strong id="uranaiTimeJst"></strong></span>
+          <span class="uranai-place-sep">/</span>
+          <span>地方時刻 <strong id="uranaiTimeLocal"></strong></span>
+        </div>
+      </div>
+
+      <!-- 太陽と月の位置カード -->
+      <div class="uranai-card uranai-sky">
+        <div class="uranai-card-head">あなたが生まれた瞬間の空</div>
+        <div class="uranai-sky-facing" id="uranaiSkyFacing">北を向いて立つと</div>
+        <svg class="uranai-sky-clock" viewBox="0 0 200 200" aria-hidden="true">
+          <circle cx="100" cy="100" r="92" fill="rgba(3,8,24,0.65)" stroke="rgba(232,255,0,0.35)" stroke-width="1"/>
+          <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(232,255,0,0.18)" stroke-width="1" stroke-dasharray="2,3"/>
+          <line x1="20" y1="100" x2="180" y2="100" stroke="rgba(232,255,0,0.4)" stroke-dasharray="3,3"/>
+          <text x="100" y="107" text-anchor="middle" fill="rgba(232,255,0,0.45)" font-size="6" font-family="Cinzel,serif" letter-spacing="0.1em">HORIZON</text>
+          <text x="100" y="48" text-anchor="middle" fill="rgba(232,255,0,0.55)" font-size="8" font-family="Zen Kaku Gothic New,sans-serif" letter-spacing="0.1em">空の上</text>
+          <text x="100" y="160" text-anchor="middle" fill="rgba(180,160,220,0.55)" font-size="8" font-family="Zen Kaku Gothic New,sans-serif" letter-spacing="0.1em">地面の下</text>
+          <text x="100" y="20" text-anchor="middle" fill="rgba(232,255,0,0.7)" font-size="9" font-family="Cinzel,serif">12</text>
+          <text x="184" y="103" text-anchor="middle" fill="rgba(232,255,0,0.7)" font-size="9" font-family="Cinzel,serif">3</text>
+          <text x="100" y="190" text-anchor="middle" fill="rgba(232,255,0,0.7)" font-size="9" font-family="Cinzel,serif">6</text>
+          <text x="16" y="103" text-anchor="middle" fill="rgba(232,255,0,0.7)" font-size="9" font-family="Cinzel,serif">9</text>
+          <circle cx="100" cy="100" r="2.5" fill="rgba(232,255,0,0.85)"/>
+          <text id="uranaiSkyFacingArrow" x="100" y="113" text-anchor="middle" fill="rgba(232,255,0,0.7)" font-size="7" font-family="Zen Kaku Gothic New,sans-serif" letter-spacing="0.08em"></text>
+          <text id="uranaiSunDot" x="100" y="100" text-anchor="middle" dominant-baseline="central" font-size="22" fill="#f5c44a">☀</text>
+          <text id="uranaiMoonDot" x="100" y="100" text-anchor="middle" dominant-baseline="central" font-size="20" fill="#dde3ea">☾</text>
+        </svg>
+        <div class="uranai-sky-bodies">
+          <div class="uranai-sky-body">
+            <div class="uranai-sky-row"><span class="uranai-sky-icon" style="color:#f5c44a">☀</span><span class="uranai-sky-label">太陽</span></div>
+            <div class="uranai-sky-pos" id="uranaiSunPos"></div>
+            <div class="uranai-sky-coord" id="uranaiSunCoord"></div>
+          </div>
+          <div class="uranai-sky-body">
+            <div class="uranai-sky-row"><span class="uranai-sky-icon" style="color:#dde3ea">☾</span><span class="uranai-sky-label">月</span></div>
+            <div class="uranai-sky-pos" id="uranaiMoonPos"></div>
+            <div class="uranai-sky-coord" id="uranaiMoonCoord"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 陰陽バランスカード -->
+      <div class="uranai-card uranai-balance" id="uranaiBalanceCard">
+        <div class="uranai-card-head">あなたの「陰陽」バランス</div>
+        <div class="uranai-balance-flower" id="uranaiBalanceFlower"></div>
+        <div class="uranai-balance-name" id="uranaiBalanceName"></div>
+        <div class="uranai-balance-kind" id="uranaiBalanceKind"></div>
+        <div class="uranai-balance-dev" id="uranaiBalanceDev"></div>
+        <div class="uranai-balance-desc" id="uranaiBalanceDesc" style="display:none"></div>
       </div>
     </div>
   </div>
@@ -8778,22 +8787,16 @@ const COASTLINES = [
 
   function refreshMypagePreview() {
     const data = loadMypageData();
-    const preview = document.getElementById('mypageCardPreview');
-    if (!preview || !data || !data.year) return;
-    const v = getMypageFormValues();
-    if (!v) return;
-    const dateStr = `${v.year}-${String(v.month).padStart(2,'0')}-${String(v.day).padStart(2,'0')}`;
-    const cityName = (v.city === '__custom__' && v.customName) ? v.customName : v.city;
-    const timeStr = v.timeUnknown ? '15:00' : v.time;
-    const person = computePerson(v.nickname, dateStr, timeStr, cityName);
-    if (!person) return;
-    document.getElementById('mypageCharImg').src = `./character_icons/char_${String(person.phaseIdx).padStart(2,'0')}.png`;
-    document.getElementById('mypageCharNick').textContent = v.nickname;
-    document.getElementById('mypageCharType').textContent =
-      `${getDisplayName(person.phase)} / ${person.phase.moon}`;
-    document.getElementById('mypageCharBalance').textContent =
-      `バランス: ${person.balance.name} (${STAGE_PERSON[person.phase.stage] || person.phase.stage})`;
-    preview.style.display = 'flex';
+    if (!data || !data.year) return;
+    const r = document.getElementById('mypageResult');
+    if (!r) return;
+    // 既に表示済みなら再計算しない (最新値が表示されている)
+    if (r.style.display === 'block') return;
+    // 未表示 → 占い submit を裏で発火して mypage-result の各 id を更新
+    syncMypageToUranai();
+    applyMypageToSelfPerson();
+    const sb = document.getElementById('uranaiSubmit');
+    if (sb) sb.click();
   }
 
   function initMypage() {
@@ -8837,19 +8840,18 @@ const COASTLINES = [
       const v = getMypageFormValues();
       if (!v) return;
       saveMypageData(v);
-      // 占いタブへ同期
+      // 占いタブのフォームへ同期 (タブ切替はしない)
       syncMypageToUranai();
-      // self を再計算
+      // self person を再計算 (相性占い用)
       applyMypageToSelfPerson();
-      // 占いタブで再占いを発動
+      // 占い submit を裏で発火 → mypage-result の各 id を更新
       const uranaiSubmit = document.getElementById('uranaiSubmit');
-      // 占いタブを開く
-      const uranaiBtn = document.querySelector('.tab-btn[data-view="uranai"]');
-      if (uranaiBtn) uranaiBtn.click();
-      // submit を発火 (DOMContentLoaded 後)
-      setTimeout(() => { if (uranaiSubmit) uranaiSubmit.click(); }, 80);
-      // プレビュー更新
-      refreshMypagePreview();
+      if (uranaiSubmit) uranaiSubmit.click();
+      // 結果セクションへスムーズスクロール
+      setTimeout(() => {
+        const r = document.getElementById('mypageResult');
+        if (r) r.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 150);
     });
   }
 
@@ -8865,11 +8867,13 @@ const COASTLINES = [
         if (myBtn) myBtn.click();
       }, 400);
     } else if (saved && saved.year) {
-      // 既存ユーザー: マイページデータを占い form にも反映しておく (起動時)
+      // 既存ユーザー: マイページデータを占い form にも反映 + 結果セクション自動表示
       setTimeout(() => {
         syncMypageToUranai();
         applyMypageToSelfPerson();
-        refreshMypagePreview();
+        // 占い submit を裏で発火 → mypage-result の各 id を更新 + 表示
+        const sb = document.getElementById('uranaiSubmit');
+        if (sb) sb.click();
       }, 200);
     }
   });
@@ -9487,6 +9491,18 @@ const COASTLINES = [
       const heroAgeEl = document.getElementById('uranaiHeroAge');
       if (heroAgeEl) heroAgeEl.innerHTML =
         `月 齢 <span class="num">${moonAge.toFixed(1)}</span> に 誕 生`;
+
+      // ★ マイページの月画像 + 月齢 + 結果セクションを更新 (移植先)
+      const mypageMoonImgEl = document.getElementById('mypageMoonImg');
+      if (mypageMoonImgEl) {
+        mypageMoonImgEl.src = `./moon_nasa_round/moon_${String(imgIdx).padStart(2, '0')}.png?v=20260521round`;
+        mypageMoonImgEl.alt = phase.ja;
+      }
+      const mypageMoonAgeEl = document.getElementById('mypageMoonAge');
+      if (mypageMoonAgeEl) mypageMoonAgeEl.innerHTML =
+        `月齢 <span class="num">${moonAge.toFixed(1)}</span> 日に誕生`;
+      const mypageResultEl = document.getElementById('mypageResult');
+      if (mypageResultEl) mypageResultEl.style.display = 'block';
 
       // 性格描写 (削除済みなので null チェック)
       const descEl = document.getElementById('uranaiDesc');
