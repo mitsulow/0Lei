@@ -4307,7 +4307,7 @@
   .uranai-add-form {
     position: fixed;
     inset: 0;
-    z-index: 11000;
+    z-index: 12000;
     /* 紫の宇宙背景 */
     background:
       radial-gradient(ellipse at 30% 20%, rgba(140, 70, 200, 0.35), transparent 55%),
@@ -4318,8 +4318,9 @@
     border-radius: 0;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    display: none;
   }
-  .uranai-add-form[style*="block"] {
+  .uranai-add-form.is-open {
     display: flex !important;
     flex-direction: column;
     align-items: center;
@@ -6742,7 +6743,7 @@
         </button>
 
         <!-- ★ フルスクリーン カード型 編集 modal (カードの上で書き直す感覚) -->
-        <div class="uranai-add-form" id="uranaiAddForm" style="display:none">
+        <div class="uranai-add-form" id="uranaiAddForm">
           <div class="uranai-edit-card-frame">
             <button class="uranai-edit-card-close" id="uranaiAddCancel" type="button" aria-label="閉じる">×</button>
             <div class="uranai-edit-card-header">
@@ -9246,7 +9247,7 @@ const COASTLINES = [
     document.getElementById('uranaiPersonTime').disabled = false;
     setVal('uranaiPersonCity', p.cityName || '東京');
     // フォーム表示 / 追加ボタンを隠す / タイトル & confirm ラベル変更
-    document.getElementById('uranaiAddForm').style.display = 'block';
+    document.getElementById('uranaiAddForm').classList.add('is-open');
     document.getElementById('uranaiAddToggle').style.display = 'none';
     const confirmBtn = document.getElementById('uranaiAddConfirm');
     const titleEl = document.getElementById('uranaiAddFormTitle');
@@ -9276,6 +9277,12 @@ const COASTLINES = [
     const personTimeUnknownEl = document.getElementById('uranaiPersonTimeUnknown');
     if (!addToggleEl || !personCityEl) return;
 
+    // ★ uranai-add-form は uranai-view (z-index 35) の stacking context に閉じ込められて
+    //    ヒーロー要素を覆い隠せないので、body 直下に DOM 移動する
+    if (addFormEl.parentElement !== document.body) {
+      document.body.appendChild(addFormEl);
+    }
+
     populateDateSelects(personYearEl, personMonthEl, personDayEl, { year: 2000, month: 1, day: 1 });
 
     const cityNames = Object.keys(JAPAN_CITIES);
@@ -9299,12 +9306,12 @@ const COASTLINES = [
       const titleEl = document.getElementById('uranaiAddFormTitle');
       if (titleEl) titleEl.textContent = '新しいカード';
       if (confirmEl) confirmEl.textContent = 'カードを保存';
-      addFormEl.style.display = 'block';
+      addFormEl.classList.add('is-open');
       addToggleEl.style.display = 'none';
       document.body.style.overflow = 'hidden';
     });
     cancelEl.addEventListener('click', () => {
-      addFormEl.style.display = 'none';
+      addFormEl.classList.remove('is-open');
       addToggleEl.style.display = '';
       editingPersonIdx = -1;
       if (confirmEl) confirmEl.textContent = 'カードを保存';
@@ -9342,7 +9349,7 @@ const COASTLINES = [
         // 新規追加モード
         uranaiPeople.push(person);
       }
-      addFormEl.style.display = 'none';
+      addFormEl.classList.remove('is-open');
       addToggleEl.style.display = '';
       document.body.style.overflow = '';
       resetAddForm(personYearEl, personMonthEl, personDayEl, personCityEl);
