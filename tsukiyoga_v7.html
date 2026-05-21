@@ -4865,7 +4865,7 @@
     <div class="uranai-header">
       <div class="uranai-title-wrap">
         <span class="uranai-title-deco-left">✦</span>
-        <div class="uranai-title">月 占 い</div>
+        <div class="uranai-title">ツ キ ヨ ガ 占 い</div>
         <span class="uranai-title-deco-right">✦</span>
       </div>
     </div>
@@ -5066,6 +5066,10 @@
         </div>
         <table class="uranai-stats-table">
           <tr>
+            <th>あ な た の 月 相</th>
+            <td id="uranaiStatsMyPhase"></td>
+          </tr>
+          <tr>
             <th>同 じ タ イ プ の<br>有 名 人</th>
             <td><ul class="uranai-stats-list" id="uranaiStatsFamous"></ul></td>
           </tr>
@@ -5088,14 +5092,6 @@
           <tr>
             <th>同 じ 動 物<br>(成 長 段 階 違 い)</th>
             <td id="uranaiStatsSameAnimal"></td>
-          </tr>
-          <tr>
-            <th>多 い 地 域<br>T O P 3</th>
-            <td id="uranaiStatsRegions"></td>
-          </tr>
-          <tr>
-            <th>世 紀 別 分 布</th>
-            <td id="uranaiStatsCenturies"></td>
           </tr>
           <tr>
             <th>全 体 比 率</th>
@@ -6352,15 +6348,27 @@ const COASTLINES = [
       return _profileData;
     } catch (e) { console.warn('profile load failed', e); return null; }
   }
+  // 旧表記 (黒ウサギ/赤ガメ/白ワニ) → 新表記 (黒いうさぎ/紅いカメ/白いワニ)
+  function convertOldTypeName(oldName) {
+    const colorMap = { '黒': '黒', '赤': '紅', '白': '白', '青': '蒼' };
+    const animalMap = { 'ウサギ': 'うさぎ', 'ガメ': 'カメ', 'ワニ': 'ワニ' };
+    const m = (oldName || '').match(/^(黒|赤|白|青)(ウサギ|ガメ|ワニ)$/);
+    if (!m) return oldName;
+    return colorMap[m[1]] + 'い' + animalMap[m[2]];
+  }
   async function renderStatsTable(phaseIdx) {
     const data = await loadProfileData();
     if (!data || !data.types || !data.types[phaseIdx]) return;
     const stats = data.types[phaseIdx];
-    // 有名人 5 人 (representative_people から最初の 5)
+    const phase = PHASES_12[phaseIdx];
+    // 月相 (タイプ index + 月相名)
+    document.getElementById('uranaiStatsMyPhase').innerHTML =
+      `<strong style="color:#f5c44a">${phaseIdx}</strong> (${phase.moon} ／ ${getDisplayName(phase)})`;
+    // 有名人 5 人
     const famous = (stats.representative_people || []).slice(0, 5);
     document.getElementById('uranaiStatsFamous').innerHTML =
       famous.length === 0
-        ? '<li>データ準備中</li>'
+        ? '<li>日本人有名人データ準備中</li>'
         : famous.map(p =>
             `<li><a href="${p.wikipedia}" target="_blank" rel="noopener">${p.label}</a><span class="occ">(${p.occupation_ja}・${p.year || '?'})</span></li>`
           ).join('');
@@ -6368,27 +6376,18 @@ const COASTLINES = [
     const jobs = (stats.top_occupations || []).slice(0, 3);
     document.getElementById('uranaiStatsTopJobs').innerHTML =
       jobs.map(o => `${o.label_ja} <strong style="color:#f5c44a">${(o.share * 100).toFixed(1)}%</strong>`).join(' / ');
-    // 仲良し (三角形)
+    // 仲良し (三角形) - 旧表記を新表記に変換
     document.getElementById('uranaiStatsFriends').textContent =
-      (stats.relations.trine_120deg || []).join(' / ');
+      (stats.relations.trine_120deg || []).map(convertOldTypeName).join(' / ');
     // 真逆
     document.getElementById('uranaiStatsOpposite').textContent =
-      stats.relations.mirror_180deg || '';
+      convertOldTypeName(stats.relations.mirror_180deg || '');
     // 同じ色
     document.getElementById('uranaiStatsSameColor').textContent =
-      (stats.relations.same_color || []).join(' / ');
+      (stats.relations.same_color || []).map(convertOldTypeName).join(' / ');
     // 同じ動物
     document.getElementById('uranaiStatsSameAnimal').textContent =
-      (stats.relations.same_animal || []).join(' / ');
-    // 多い地域 TOP3
-    const regions = (stats.top_regions || []).slice(0, 3);
-    document.getElementById('uranaiStatsRegions').innerHTML =
-      regions.map(r => `${r.key} <strong style="color:#f5c44a">${(r.share * 100).toFixed(1)}%</strong>`).join(' / ');
-    // 世紀別分布
-    const c = stats.century_distribution || {};
-    const cs = Object.entries(c).sort((a,b) => b[1] - a[1]);
-    document.getElementById('uranaiStatsCenturies').innerHTML =
-      cs.map(([k,v]) => `${k} ${v.toLocaleString()}人`).join(' / ');
+      (stats.relations.same_animal || []).map(convertOldTypeName).join(' / ');
     // 全体比率
     const share = (stats.share_of_total * 100).toFixed(2);
     document.getElementById('uranaiStatsShare').innerHTML =
