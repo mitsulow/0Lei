@@ -3837,9 +3837,73 @@
     padding: 4px 4px;
   }
   /* 有名人ルーレット */
+  /* 多い職業 統計セクション */
+  .wheel-occupation-section {
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(232, 255, 0, 0.22);
+  }
+  .wheel-occupation-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.92rem;
+    color: rgba(232, 255, 0, 0.95);
+    letter-spacing: 0.2em;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+  .wheel-occupation-list {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .wheel-occupation-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 9px 14px;
+    background: rgba(0, 0, 0, 0.32);
+    border: 1px solid rgba(232, 255, 0, 0.22);
+    border-radius: 10px;
+  }
+  .wheel-occupation-item:first-child {
+    background: rgba(232, 255, 0, 0.08);
+    border-color: rgba(232, 255, 0, 0.5);
+    box-shadow: 0 0 10px rgba(232, 255, 0, 0.18);
+  }
+  .wheel-occupation-rank {
+    font-family: 'Cinzel', serif;
+    font-size: 1.0rem;
+    color: #e8ff00;
+    font-weight: 700;
+    min-width: 38px;
+    text-shadow: 0 0 6px rgba(232, 255, 0, 0.5);
+  }
+  .wheel-occupation-name {
+    flex: 1;
+    text-align: left;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.95rem;
+    color: #fff;
+    letter-spacing: 0.05em;
+  }
+  .wheel-occupation-share {
+    font-family: 'Cinzel', serif;
+    font-size: 0.78rem;
+    color: rgba(232, 255, 0, 0.75);
+    letter-spacing: 0.04em;
+  }
+  .wheel-occupation-source {
+    text-align: center;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.45);
+    margin-top: 10px;
+    letter-spacing: 0.05em;
+  }
+
   .wheel-celebs-section {
-    margin-top: 22px;
-    padding-top: 16px;
+    margin-top: 18px;
+    padding-top: 14px;
     border-top: 1px solid rgba(232, 255, 0, 0.22);
   }
   .wheel-celebs-title {
@@ -7230,6 +7294,15 @@
           <div class="wheel-detail-stage" id="wheelDetailStage"></div>
           <div class="wheel-detail-divider"></div>
           <div class="wheel-detail-desc" id="wheelDetailDesc"></div>
+          <!-- 多い職業 統計セクション (126万件世界データ) -->
+          <div class="wheel-occupation-section">
+            <div class="wheel-occupation-title" id="wheelOccupationTitle">多 い 職 業</div>
+            <div class="wheel-occupation-list" id="wheelOccupationList">
+              <!-- 動的生成 -->
+            </div>
+            <div class="wheel-occupation-source">126 万件の世界統計データに基づく</div>
+          </div>
+
           <div class="wheel-celebs-section">
             <div class="wheel-celebs-title">この タイプ の 有 名 人</div>
             <div class="wheel-celebs-roulette" id="wheelCelebsRoulette">
@@ -9932,8 +10005,8 @@ const COASTLINES = [
     const rotor = document.getElementById('wheelRotor');
     if (!stage || !rotor) return;
 
-    // 12 アニマルのスロット生成 (半径 = 100px、stage は 320x320 なので余裕)
-    const WHEEL_RADIUS = 100;
+    // 12 アニマルのスロット生成 (半径 = 80px、stage 320x320 内に余裕)
+    const WHEEL_RADIUS = 80;
     let html = '';
     for (let i = 0; i < 12; i++) {
       const angle = i * 30;
@@ -10095,6 +10168,9 @@ const COASTLINES = [
     if (!modal) return;
     const phase = PHASES_12[idx];
     if (!phase) return;
+    // ★ 即時に表示を開始 (重い処理は後で)
+    modal.classList.add('active');
+    // 画像とテキストは同期で更新 (どうせブラウザキャッシュ済み画像)
     document.getElementById('wheelDetailImg').src =
       `./character_icons/char_${String(idx).padStart(2,'0')}.png`;
     document.getElementById('wheelDetailName').textContent = getDisplayName(phase);
@@ -10103,9 +10179,41 @@ const COASTLINES = [
     document.getElementById('wheelDetailStage').textContent = `色: ${phase.color}　／　${sp}`;
     document.getElementById('wheelDetailDesc').textContent =
       (typeof PHASE_DESCRIPTIONS !== 'undefined') ? (PHASE_DESCRIPTIONS[idx] || '') : '';
-    // 有名人ルーレット
-    renderCelebsRoulette(idx);
-    modal.classList.add('active');
+    // 重い処理 (fetch・ルーレット描画) は次フレームに分離
+    requestAnimationFrame(() => {
+      renderWheelOccupations(idx);
+      renderCelebsRoulette(idx);
+    });
+  }
+
+  async function renderWheelOccupations(idx) {
+    const titleEl = document.getElementById('wheelOccupationTitle');
+    const listEl = document.getElementById('wheelOccupationList');
+    const phase = PHASES_12[idx];
+    if (!listEl || !phase) return;
+    if (titleEl) titleEl.textContent = `${getDisplayName(phase)} に 多 い 職 業`;
+    listEl.innerHTML = '<div class="wheel-occupation-item">読み込み中...</div>';
+    try {
+      const data = await loadProfileData();
+      if (!data || !data.types || !data.types[idx]) {
+        listEl.innerHTML = '<div class="wheel-occupation-item">統計データなし</div>';
+        return;
+      }
+      const occ = (data.types[idx].top_occupations || []).slice(0, 5);
+      if (occ.length === 0) {
+        listEl.innerHTML = '<div class="wheel-occupation-item">統計データなし</div>';
+        return;
+      }
+      listEl.innerHTML = occ.map((o, i) => `
+        <div class="wheel-occupation-item">
+          <div class="wheel-occupation-rank">${i+1}位</div>
+          <div class="wheel-occupation-name">${o.label_ja}</div>
+          <div class="wheel-occupation-share">${(o.share*100).toFixed(1)}%</div>
+        </div>
+      `).join('');
+    } catch (e) {
+      listEl.innerHTML = '<div class="wheel-occupation-item">読み込み失敗</div>';
+    }
   }
 
   // 日本人有名人 JSON (後で出来る)
