@@ -8091,21 +8091,17 @@ const COASTLINES = [
 
     document.body.appendChild(overlay);
     setTimeout(() => {
-      // ① 下層の結果セクションを完全に非表示にする (チラ見え対策、二重の防御)
+      // ① onDone を呼ぶ前に結果を初期化 (前回 reveal が残ってる場合の対策)
       const resultEl = document.getElementById('uranaiResult');
-      if (resultEl) {
-        resultEl.style.transition = 'none';
-        resultEl.style.opacity = '0';
-        resultEl.style.visibility = 'hidden'; // visibility も追加で確実に
-        resultEl.classList.remove('reveal');  // reveal も外して `.visible:not(.reveal)` ルールも効かせる
-      }
-      // ② オーバーレイを即削除 (フェードしない、瞬間切替で下層との重なりを最小に)
-      overlay.remove();
-      // ③ 1 フレーム後に handler 実行 (描画が安定してから)
+      if (resultEl) resultEl.classList.remove('reveal');
+      // ② onDone() を呼ぶ → submit.click() → handler 内で reveal 発火 (月画像 fadeIn 開始)
+      onDone();
+      // ③ オーバーレイをゆっくりフェードアウト (0.8s)
+      //   月画像のフェードイン (0.9s) と並行進行、自然なクロスフェード
       requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          onDone();
-        });
+        overlay.style.transition = 'opacity 0.8s ease-out';
+        overlay.style.opacity = '0';
+        setTimeout(() => overlay.remove(), 850);
       });
     }, 5500);
   }
