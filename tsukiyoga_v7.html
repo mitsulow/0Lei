@@ -19,6 +19,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700&family=Cinzel:wght@400;600&family=Shippori+Mincho:wght@400;600;700&family=Reggae+One&family=RocknRoll+One&family=Kaisei+Decol:wght@700&display=swap" rel="stylesheet">
+<!-- QR コード生成ライブラリ (招待用) -->
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
   // SunCalc インライン実装
@@ -3546,6 +3548,157 @@
     border-color: #06c755;
     color: #fff;
   }
+  /* 招待リンク (紫系) */
+  .uranai-invite-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .uranai-share-big-btn.invite-link-btn {
+    background: linear-gradient(180deg, #6a3aa8, #4a2080);
+    border-color: #8a5ac8;
+    color: #fff;
+    flex: 1;
+    margin: 0;
+  }
+  .uranai-share-big-btn.invite-qr-btn {
+    background: linear-gradient(180deg, #5a2aa0, #3a1a6a);
+    border-color: #7a4ab8;
+    color: #fff;
+    flex: 1;
+    margin: 0;
+  }
+  /* 招待受信モーダル */
+  .uranai-invite-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 11000;
+    background: rgba(0, 0, 0, 0.85);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .uranai-invite-modal.active { display: flex; }
+  .uranai-invite-modal-content {
+    background: linear-gradient(180deg, #2a1a5a, #1a0a3a);
+    border: 2px solid #e8ff00;
+    border-radius: 16px;
+    padding: 24px 20px;
+    max-width: 440px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(232, 255, 0, 0.3);
+  }
+  .uranai-invite-modal-title {
+    font-family: 'Reggae One', 'Shippori Mincho', serif;
+    font-size: 1.2rem;
+    color: #e8ff00;
+    letter-spacing: 0.15em;
+    margin-bottom: 16px;
+    text-shadow: 0 0 12px rgba(232, 255, 0, 0.6);
+  }
+  .uranai-invite-modal-desc {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.95);
+    letter-spacing: 0.1em;
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+  .uranai-invite-modal-btns {
+    display: flex;
+    gap: 10px;
+  }
+  .uranai-invite-modal-btn {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.95rem;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    border: 1px solid;
+  }
+  .uranai-invite-modal-btn.invite-accept {
+    background: linear-gradient(180deg, #e8ff00, #c8d800);
+    border-color: #e8ff00;
+    color: #1a0a3a;
+    font-weight: 700;
+  }
+  .uranai-invite-modal-btn.invite-reject {
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .uranai-invite-modal-return {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(232, 255, 0, 0.2);
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.88rem;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.6;
+  }
+  .uranai-invite-modal-return strong {
+    color: #e8ff00;
+  }
+  /* QR モーダル */
+  .uranai-qr-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 11000;
+    background: rgba(0, 0, 0, 0.92);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .uranai-qr-modal.active { display: flex; }
+  .uranai-qr-modal-content {
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px 24px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 0 40px rgba(232, 255, 0, 0.5);
+  }
+  .uranai-qr-close {
+    position: absolute;
+    top: 8px; right: 8px;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.08);
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    color: #333;
+  }
+  .uranai-qr-title {
+    font-family: 'Reggae One', serif;
+    font-size: 1.3rem;
+    color: #1a0a3a;
+    margin-bottom: 4px;
+    letter-spacing: 0.1em;
+  }
+  .uranai-qr-desc {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.85rem;
+    color: #555;
+    margin-bottom: 18px;
+  }
+  #uranaiQrCanvas {
+    display: block;
+    margin: 0 auto;
+  }
+  .uranai-qr-name {
+    margin-top: 14px;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1rem;
+    color: #5a2aa0;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+  }
 
   .uranai-share-tabs {
     display: flex;
@@ -5658,6 +5811,45 @@
         <button class="uranai-share-text-btn share-x" id="uranaiShareXBtn" type="button">
           𝕏 で テ キ ス ト シ ェ ア
         </button>
+        <!-- 招待リンク (友達追加) -->
+        <div class="uranai-invite-row">
+          <button class="uranai-share-big-btn invite-link-btn" id="uranaiInviteLinkBtn" type="button">
+            📨 友 達 に カ ー ド を 送 る
+          </button>
+          <button class="uranai-share-big-btn invite-qr-btn" id="uranaiInviteQrBtn" type="button">
+            📱 Q R を 表 示（対 面 交 換）
+          </button>
+        </div>
+      </div>
+
+      <!-- 招待受信ダイアログ (URL invite= で開いた時) -->
+      <div class="uranai-invite-modal" id="uranaiInviteModal">
+        <div class="uranai-invite-modal-content">
+          <div class="uranai-invite-modal-title">✦ ツキヨガカード が 届 い て い ま す ✦</div>
+          <div class="uranai-invite-modal-desc" id="uranaiInviteModalDesc"></div>
+          <div class="uranai-invite-modal-btns">
+            <button class="uranai-invite-modal-btn invite-accept" id="uranaiInviteAccept" type="button">追加する</button>
+            <button class="uranai-invite-modal-btn invite-reject" id="uranaiInviteReject" type="button">あとで</button>
+          </div>
+          <div class="uranai-invite-modal-return" id="uranaiInviteReturn" style="display:none">
+            お礼に <strong>あなたのカード</strong> も送り返しますか？<br>
+            (送る URL が生成されます)
+            <button class="uranai-share-big-btn" id="uranaiInviteReturnBtn" type="button" style="margin-top:12px">
+              💌 自分のカードを送り返す
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- QR コード表示モーダル -->
+      <div class="uranai-qr-modal" id="uranaiQrModal">
+        <div class="uranai-qr-modal-content">
+          <button class="uranai-qr-close" id="uranaiQrClose" type="button">×</button>
+          <div class="uranai-qr-title">あなたのカード</div>
+          <div class="uranai-qr-desc">友達にスキャンしてもらおう</div>
+          <canvas id="uranaiQrCanvas" width="300" height="300"></canvas>
+          <div class="uranai-qr-name" id="uranaiQrName"></div>
+        </div>
       </div>
 
       <div class="uranai-result-note">
@@ -8065,6 +8257,132 @@ const COASTLINES = [
       drawShareCardSelf(uranaiPeople[currentShareTabIdx]);
     }
   }
+
+  // ===== 招待リンク (友達追加) / QR コード =====
+  const TSUKIYOGA_BASE_URL = 'https://mitsulow.github.io/0Lei/tsukiyoga_v7.html';
+  function buildInviteUrl(person) {
+    // 人物データを URL パラメータにエンコード (名前|生年月日|時刻|場所)
+    const [yy, mm, dd] = (person.birthDate || '1990-01-01').split('-');
+    const payload = `${person.name}|${person.birthDate}|${person.birthTime}|${person.cityName}`;
+    return `${TSUKIYOGA_BASE_URL}?invite=${encodeURIComponent(payload)}`;
+  }
+  function parseInviteUrl() {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const inv = params.get('invite');
+      if (!inv) return null;
+      const decoded = decodeURIComponent(inv);
+      const [name, birthDate, birthTime, cityName] = decoded.split('|');
+      if (!name || !birthDate) return null;
+      return { name, birthDate, birthTime: birthTime || '15:00', cityName: cityName || '東京' };
+    } catch (e) { return null; }
+  }
+  // 招待リンクをシェア
+  async function shareInvite(person) {
+    const url = buildInviteUrl(person);
+    const text = `🌙 ツキヨガ占いのカード送ります\n\n${person.name} の月相タイプを見てね!\nタップで自動追加できます👇`;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: 'ツキヨガカード', text, url });
+      } else if (navigator.clipboard) {
+        await navigator.clipboard.writeText(text + '\n' + url);
+        alert('招待 URL をコピーしました。LINE 等に貼り付けて送ってください。');
+      } else {
+        prompt('URL をコピーして送ってください:', url);
+      }
+    } catch (e) {}
+  }
+  // QR コード表示
+  function showQrModal(person) {
+    const modal = document.getElementById('uranaiQrModal');
+    const canvas = document.getElementById('uranaiQrCanvas');
+    if (!modal || !canvas || typeof QRCode === 'undefined') {
+      alert('QR コードライブラリが読み込まれていません。再読み込みしてください。');
+      return;
+    }
+    const url = buildInviteUrl(person);
+    QRCode.toCanvas(canvas, url, { width: 300, margin: 1 }, function () {});
+    document.getElementById('uranaiQrName').textContent = `${person.name} のカード`;
+    modal.classList.add('active');
+  }
+  // 招待受信ダイアログ
+  function showInviteAcceptModal(invitePerson) {
+    const modal = document.getElementById('uranaiInviteModal');
+    const desc = document.getElementById('uranaiInviteModalDesc');
+    if (!modal) return;
+    desc.innerHTML = `<strong style="color:#e8ff00;font-size:1.2rem">${invitePerson.name}</strong> さん から<br>カードが届いています`;
+    modal.classList.add('active');
+
+    const accept = document.getElementById('uranaiInviteAccept');
+    const reject = document.getElementById('uranaiInviteReject');
+    const returnArea = document.getElementById('uranaiInviteReturn');
+    const returnBtn = document.getElementById('uranaiInviteReturnBtn');
+
+    const closeModal = () => modal.classList.remove('active');
+
+    accept.onclick = () => {
+      // 既存に同名の人物がいたら追加しない
+      const exists = uranaiPeople.some(p => p.name === invitePerson.name && p.birthDate === invitePerson.birthDate);
+      if (!exists && uranaiPeople.length < 100) {
+        const person = computePerson(invitePerson.name, invitePerson.birthDate, invitePerson.birthTime, invitePerson.cityName);
+        if (person) {
+          uranaiPeople.push(person);
+          renderPeople();
+          renderCompatibility();
+          updateAddRemaining();
+        }
+      }
+      // お礼の返送 UI 表示
+      returnArea.style.display = 'block';
+      // 「あとで」を「閉じる」に変える
+      reject.textContent = '閉じる';
+    };
+    reject.onclick = () => closeModal();
+    returnBtn.onclick = () => {
+      // 自分のカード = uranaiPeople[0] を相手に送り返す
+      if (uranaiPeople[0]) {
+        shareInvite(uranaiPeople[0]);
+      } else {
+        alert('先にあなた自身を占ってからお礼をお返しください。');
+      }
+    };
+  }
+  // ページロード時に URL invite= をチェック
+  document.addEventListener('DOMContentLoaded', () => {
+    const invite = parseInviteUrl();
+    if (!invite) return;
+    // 占いタブを開く
+    setTimeout(() => {
+      const btn = document.querySelector('.tab-btn[data-view="uranai"]');
+      if (btn) btn.click();
+      // さらに少し待ってからモーダル表示
+      setTimeout(() => showInviteAcceptModal(invite), 400);
+    }, 200);
+  });
+  // 招待ボタン / QR ボタンのハンドラ (動的に再バインド)
+  function bindInviteButtons() {
+    const linkBtn = document.getElementById('uranaiInviteLinkBtn');
+    if (linkBtn) linkBtn.onclick = () => {
+      const p = uranaiPeople[currentShareTabIdx];
+      if (!p) { alert('先に占ってください'); return; }
+      shareInvite(p);
+    };
+    const qrBtn = document.getElementById('uranaiInviteQrBtn');
+    if (qrBtn) qrBtn.onclick = () => {
+      const p = uranaiPeople[currentShareTabIdx];
+      if (!p) { alert('先に占ってください'); return; }
+      showQrModal(p);
+    };
+    const qrClose = document.getElementById('uranaiQrClose');
+    if (qrClose) qrClose.onclick = () => {
+      document.getElementById('uranaiQrModal').classList.remove('active');
+    };
+    const qrModal = document.getElementById('uranaiQrModal');
+    if (qrModal) qrModal.addEventListener('click', (e) => {
+      if (e.target === qrModal) qrModal.classList.remove('active');
+    });
+  }
+  document.addEventListener('DOMContentLoaded', bindInviteButtons);
 
   function initUranaiShare() {
     // トレーディングカード左右スワイプ (指追従式、手帳モーダルと同じ仕様)
