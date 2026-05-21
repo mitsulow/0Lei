@@ -4861,10 +4861,6 @@
               ※ 海外 や 国 内 市 町 村 外 で 生 ま れ た 方 向 け
             </div>
           </div>
-          <label class="uranai-check">
-            <input type="checkbox" id="uranaiCityUnknown">
-            <span>分 か ら な い（東 京 で 計 算）</span>
-          </label>
         </div>
       </div>
 
@@ -6669,7 +6665,7 @@ const COASTLINES = [
           time: document.getElementById('uranaiBirthTime').value,
           timeUnknown: document.getElementById('uranaiTimeUnknown').checked,
           city: document.getElementById('uranaiCity').value,
-          cityUnknown: document.getElementById('uranaiCityUnknown').checked
+          cityUnknown: false
         },
         others: uranaiPeople.slice(1).map(p => {
           const [yy, mm, dd] = (p.birthDate || '1990-01-01').split('-').map(Number);
@@ -7297,7 +7293,6 @@ const COASTLINES = [
       const tEl = document.getElementById('uranaiBirthTime');
       if (tEl) tEl.disabled = !!y.timeUnknown;
       if (y.city) setVal('uranaiCity', y.city);
-      setChk('uranaiCityUnknown', y.cityUnknown);
       const cEl = document.getElementById('uranaiCity');
       if (cEl) cEl.disabled = !!y.cityUnknown;
 
@@ -7328,7 +7323,6 @@ const COASTLINES = [
     const timeEl = document.getElementById('uranaiBirthTime');
     const timeUnknownEl = document.getElementById('uranaiTimeUnknown');
     const cityEl = document.getElementById('uranaiCity');
-    const cityUnknownEl = document.getElementById('uranaiCityUnknown');
     const submitEl = document.getElementById('uranaiSubmit');
     const resultEl = document.getElementById('uranaiResult');
     if (!yearEl || !submitEl) return;
@@ -7336,10 +7330,10 @@ const COASTLINES = [
     // 年/月/日 select を生成
     populateDateSelects(yearEl, monthEl, dayEl);
 
-    // 都市 select を生成 (先頭に「東経・北緯で入力」を追加、デフォルト: 東京)
+    // 都市 select を生成 (先頭に「東経北緯で入力」を追加、デフォルト: 東京)
     const cityNames = Object.keys(JAPAN_CITIES);
     cityEl.innerHTML =
-      `<option value="__custom__">東 経 ・ 北 緯 で 入 力 （ 海 外 ・ そ の 他 ）</option>` +
+      `<option value="__custom__">東 経 北 緯 で 入 力 （ 海 外 な ど ）</option>` +
       cityNames.map(name =>
         `<option value="${name}"${name === '東京' ? ' selected' : ''}>${name}</option>`
       ).join('');
@@ -7360,15 +7354,7 @@ const COASTLINES = [
       }
     });
 
-    // 都市不明 → 東京固定
-    cityUnknownEl.addEventListener('change', () => {
-      if (cityUnknownEl.checked) {
-        cityEl.value = '東京';
-        cityEl.disabled = true;
-      } else {
-        cityEl.disabled = false;
-      }
-    });
+    // 都市不明チェックボックスは削除済み
 
     function spaceOut(s) { return (s || '').split('').join(' '); }
     function pad2(n) { return String(Math.floor(n)).padStart(2, '0'); }
@@ -7391,10 +7377,7 @@ const COASTLINES = [
 
       // 都市 / カスタム経緯度
       let cityName, lon, lat;
-      if (cityUnknownEl.checked) {
-        cityName = '東京';
-        [lon, lat] = JAPAN_CITIES[cityName];
-      } else if (cityEl.value === '__custom__') {
+      if (cityEl.value === '__custom__') {
         const cLon = parseFloat(document.getElementById('uranaiCustomLon').value);
         const cLat = parseFloat(document.getElementById('uranaiCustomLat').value);
         const cName = (document.getElementById('uranaiCustomName').value || '').trim();
