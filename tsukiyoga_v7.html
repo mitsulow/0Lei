@@ -2165,23 +2165,67 @@
     vertical-align: -0.4em;
   }
 
-  /* ★Claude 提案: シェアテキストボタン */
+  /* ★Claude 提案: シェアボタン群 */
+  .uranai-share-row {
+    display: flex;
+    gap: 10px;
+    margin: 16px 0 8px;
+  }
   .uranai-share-text-btn {
     display: block;
     width: 100%;
-    padding: 14px;
-    margin: 14px 0 20px;
-    background: linear-gradient(180deg, rgba(110, 196, 245, 0.25), rgba(110, 196, 245, 0.1));
-    border: 1px solid rgba(110, 196, 245, 0.6);
+    padding: 13px;
     border-radius: 12px;
     color: rgba(255, 255, 255, 0.95);
     font-family: 'Shippori Mincho', serif;
-    font-size: 0.95rem;
-    letter-spacing: 0.2em;
+    font-size: 0.92rem;
+    letter-spacing: 0.18em;
     cursor: pointer;
+    border: 1px solid;
   }
-  .uranai-share-text-btn:active {
-    background: linear-gradient(180deg, rgba(110, 196, 245, 0.45), rgba(110, 196, 245, 0.2));
+  .uranai-share-text-btn.share-x {
+    background: linear-gradient(180deg, #0d0d0d, #000);
+    border-color: #444;
+  }
+  .uranai-share-text-btn.share-line {
+    background: linear-gradient(180deg, #06c755, #04a042);
+    border-color: #06c755;
+  }
+  .uranai-share-text-btn.share-copy {
+    width: 100%;
+    background: linear-gradient(180deg, rgba(110, 196, 245, 0.25), rgba(110, 196, 245, 0.1));
+    border-color: rgba(110, 196, 245, 0.6);
+    margin-bottom: 16px;
+  }
+  .uranai-share-text-btn:active { opacity: 0.7; }
+
+  /* ★Claude 提案: 今月のラッキー日 */
+  .uranai-lucky-day {
+    text-align: center;
+    background: linear-gradient(180deg, rgba(245, 196, 74, 0.12), rgba(20, 30, 55, 0.4)) !important;
+  }
+  .uranai-lucky-day-note {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.75rem;
+    color: rgba(201, 169, 97, 0.85);
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+    line-height: 1.5;
+  }
+  .uranai-lucky-day-date {
+    font-family: 'Reggae One', 'Shippori Mincho', serif;
+    font-size: 1.6rem;
+    color: rgba(255, 235, 185, 1);
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+    text-shadow: 0 0 12px rgba(245, 196, 74, 0.5);
+  }
+  .uranai-lucky-day-desc {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.82rem;
+    color: rgba(255, 245, 220, 0.9);
+    letter-spacing: 0.06em;
+    line-height: 1.7;
   }
 
   /* 統計情報カード */
@@ -5348,10 +5392,28 @@
       <!-- ★Claude 提案②: キャラからの一言名言 -->
       <div class="uranai-quote" id="uranaiQuote"></div>
 
-      <!-- ★Claude 提案③: シェアテキスト一発生成 -->
-      <button class="uranai-share-text-btn" id="uranaiShareTextBtn" type="button">
-        📋 こ の 結 果 を コ ピ ー し て シ ェ ア
+      <!-- ★Claude 提案: シェアボタン群 (X + コピー + LINE) -->
+      <div class="uranai-share-row">
+        <button class="uranai-share-text-btn share-x" id="uranaiShareXBtn" type="button">
+          𝕏 で シ ェ ア
+        </button>
+        <button class="uranai-share-text-btn share-line" id="uranaiShareLineBtn" type="button">
+          L I N E で シ ェ ア
+        </button>
+      </div>
+      <button class="uranai-share-text-btn share-copy" id="uranaiShareTextBtn" type="button">
+        📋 コ ピ ー し て シ ェ ア
       </button>
+
+      <!-- ★Claude 提案: 今月のラッキー日 (月齢が同じになる日) -->
+      <div class="uranai-card uranai-lucky-day" id="uranaiLuckyDayCard" style="display:none">
+        <div class="uranai-card-head">今 月 の あ な た の ラ ッ キ ー 日</div>
+        <div class="uranai-lucky-day-note">
+          あ な た が 生 ま れ た 月 齢 が も う 一 度 巡 っ て く る 日
+        </div>
+        <div class="uranai-lucky-day-date" id="uranaiLuckyDayDate"></div>
+        <div class="uranai-lucky-day-desc" id="uranaiLuckyDayDesc"></div>
+      </div>
 
       <!-- 統計情報カード (Wikidata 有名人 126万人 + CDC 一般 6200万人) -->
       <div class="uranai-card uranai-stats" id="uranaiStatsCard">
@@ -6638,6 +6700,36 @@ const COASTLINES = [
     return Math.max(1, Math.min(30, Math.round(norm) + 1));
   }
 
+  // ★Claude 提案: 今月のラッキー日 (今後 60 日以内で自分の月齢が同じになる日)
+  function renderLuckyDay(myMoonAge) {
+    const cardEl = document.getElementById('uranaiLuckyDayCard');
+    if (!cardEl) return;
+    const now = new Date();
+    // 60 日以内で moonAge が myMoonAge (±0.5 日) に最も近い日を探す
+    let best = null;
+    for (let dayOffset = 0; dayOffset < 60; dayOffset++) {
+      const d = new Date(now.getTime() + dayOffset * 86400000);
+      d.setHours(12, 0, 0, 0);
+      const age = getMoonAge(d);
+      const SYNODIC = 29.530588853;
+      let diff = Math.abs(age - myMoonAge);
+      diff = Math.min(diff, SYNODIC - diff); // 循環差
+      if (best === null || diff < best.diff) {
+        best = { date: d, diff, age };
+      }
+    }
+    if (!best) { cardEl.style.display = 'none'; return; }
+    const wd = ['日','月','火','水','木','金','土'];
+    const dateStr = `${best.date.getMonth()+1}月${best.date.getDate()}日（${wd[best.date.getDay()]}）`;
+    document.getElementById('uranaiLuckyDayDate').textContent = dateStr;
+    const daysAway = Math.round((best.date - now) / 86400000);
+    document.getElementById('uranaiLuckyDayDesc').textContent =
+      daysAway === 0
+        ? '今日があなたのラッキー日！'
+        : `あと ${daysAway} 日 で あ な た の 月 齢 (${best.age.toFixed(1)}) に な り ま す`;
+    cardEl.style.display = 'block';
+  }
+
   // ★Claude 提案: 今日の月齢ウィジェット (占いタブ開いた瞬間に表示)
   function updateTodayWidget() {
     const el = document.getElementById('uranaiTodayWidget');
@@ -7814,35 +7906,52 @@ const COASTLINES = [
   }
   document.addEventListener('DOMContentLoaded', initUranaiShare);
 
-  // ★Claude 提案: シェアテキスト一発生成 (バズる導線)
+  // ★Claude 提案: シェアテキスト (3 ボタン: X / LINE / コピー)
+  function _buildShareText() {
+    const heroType = document.getElementById('uranaiHeroType');
+    const heroMoon = document.getElementById('uranaiHeroMoon');
+    const heroAge = document.getElementById('uranaiHeroAge');
+    if (!heroType || !heroType.textContent) return null;
+    const typeName = (heroType.textContent || '').replace(/\s/g, '');
+    const ageNum = (heroAge && heroAge.textContent || '').match(/[\d.]+/);
+    const ageStr = ageNum ? ageNum[0] : '';
+    const moonName = (heroMoon && heroMoon.textContent || '').replace(/\s/g, '').replace('産まれの','').replace('生まれの','');
+    return `🌙 ツキヨガ占い で 占 っ て み た ら…\n\n私 は『${typeName}』で し た！\n月齢 ${ageStr} ${moonName} 生 ま れ\n\nあ な た も 占 っ て み る 👇\n#ツキヨガ占い #月占い`;
+  }
+  const TSUKIYOGA_URL = 'https://mitsulow.github.io/0Lei/tsukiyoga_v7.html';
   document.addEventListener('DOMContentLoaded', () => {
-    const btn = document.getElementById('uranaiShareTextBtn');
-    if (!btn) return;
-    btn.addEventListener('click', async () => {
-      const heroType = document.getElementById('uranaiHeroType');
-      const heroMoon = document.getElementById('uranaiHeroMoon');
-      const heroAge = document.getElementById('uranaiHeroAge');
-      if (!heroType || !heroType.textContent) {
-        alert('先 に 占 っ て く だ さ い');
-        return;
-      }
-      const typeName = (heroType.textContent || '').replace(/\s/g, '');
-      const ageNum = (heroAge && heroAge.textContent || '').match(/[\d.]+/);
-      const ageStr = ageNum ? ageNum[0] : '';
-      const moonName = (heroMoon && heroMoon.textContent || '').replace(/\s/g, '').replace('産まれの','').replace('生まれの','');
-      const text = `🌙 ツキヨガ占いで占ってみたら…\n\n私は『${typeName}』でした!\n月齢 ${ageStr} ${moonName}生まれ\n\nあなたも占ってみる👇\nhttps://mitsulow.github.io/0Lei/tsukiyoga_v7.html\n\n#ツキヨガ占い #月占い`;
+    // X (Twitter) シェア
+    const xBtn = document.getElementById('uranaiShareXBtn');
+    if (xBtn) xBtn.addEventListener('click', () => {
+      const text = _buildShareText();
+      if (!text) { alert('先 に 占 っ て く だ さ い'); return; }
+      const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(TSUKIYOGA_URL)}`;
+      window.open(url, '_blank', 'noopener');
+    });
+    // LINE シェア
+    const lineBtn = document.getElementById('uranaiShareLineBtn');
+    if (lineBtn) lineBtn.addEventListener('click', () => {
+      const text = _buildShareText();
+      if (!text) { alert('先 に 占 っ て く だ さ い'); return; }
+      const url = `https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(TSUKIYOGA_URL)}&text=${encodeURIComponent(text)}`;
+      window.open(url, '_blank', 'noopener');
+    });
+    // コピー
+    const copyBtn = document.getElementById('uranaiShareTextBtn');
+    if (copyBtn) copyBtn.addEventListener('click', async () => {
+      const text = _buildShareText();
+      if (!text) { alert('先 に 占 っ て く だ さ い'); return; }
+      const fullText = text + '\n' + TSUKIYOGA_URL;
       try {
         if (navigator.share) {
-          await navigator.share({ text, url: 'https://mitsulow.github.io/0Lei/tsukiyoga_v7.html' });
+          await navigator.share({ text: fullText, url: TSUKIYOGA_URL });
         } else if (navigator.clipboard) {
-          await navigator.clipboard.writeText(text);
-          alert('シ ェ ア テ キ ス ト を コ ピ ー し ま し た！\nX や LINE に 貼 り 付 け て シ ェ ア で き ま す。');
+          await navigator.clipboard.writeText(fullText);
+          alert('シ ェ ア テ キ ス ト を コ ピ ー し ま し た！');
         } else {
-          prompt('以 下 を コ ピ ー し て シ ェ ア:', text);
+          prompt('以 下 を コ ピ ー:', fullText);
         }
-      } catch(e) {
-        // share キャンセル等は無視
-      }
+      } catch(e) {}
     });
   });
 
@@ -8233,6 +8342,9 @@ const COASTLINES = [
 
       // ★Claude 提案④: 月齢ドーナツチャート (12 タイプ円周 + 自分マーカー)
       renderMoonWheel(phaseIdx, moonAge, phase);
+
+      // ★Claude 提案⑤: 今月のラッキー日 (自分の月齢と同じ日)
+      renderLuckyDay(moonAge);
 
       // 自分を相性占いの1人目として登録 (占うたびにリセット)
       const selfPerson = computePerson('あなた', dateStr, timeStr, cityName);
