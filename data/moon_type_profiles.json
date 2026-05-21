@@ -1,0 +1,2783 @@
+{
+  "version": "2.0",
+  "generated_at": "2026-05-19T15:50:18",
+  "synodic_month_days": 29.530588853,
+  "phase_count": 12,
+  "phase_width_days": 2.4608823333333336,
+  "n_total": 1268697,
+  "structure": {
+    "colors": [
+      "黒",
+      "赤",
+      "白",
+      "青"
+    ],
+    "animals": [
+      "ウサギ",
+      "カメ",
+      "ワニ"
+    ],
+    "stages": {
+      "離": "創造 (ウサギ)",
+      "守": "維持 (カメ)",
+      "破": "破壊 (ワニ)"
+    },
+    "holy_positions_0369": [
+      "黒ウサギ",
+      "赤ウサギ",
+      "白ウサギ",
+      "青ウサギ"
+    ],
+    "trines_120deg": [
+      [
+        "黒ウサギ",
+        "赤ガメ",
+        "白ワニ"
+      ],
+      [
+        "黒ガメ",
+        "赤ワニ",
+        "青ウサギ"
+      ],
+      [
+        "黒ワニ",
+        "白ウサギ",
+        "青ガメ"
+      ],
+      [
+        "赤ウサギ",
+        "白ガメ",
+        "青ワニ"
+      ]
+    ],
+    "mirror_pairs_180deg": [
+      [
+        "黒ウサギ",
+        "白ウサギ"
+      ],
+      [
+        "黒ガメ",
+        "白ガメ"
+      ],
+      [
+        "黒ワニ",
+        "白ワニ"
+      ],
+      [
+        "赤ウサギ",
+        "青ウサギ"
+      ],
+      [
+        "赤ガメ",
+        "青ガメ"
+      ],
+      [
+        "赤ワニ",
+        "青ワニ"
+      ]
+    ]
+  },
+  "note": "ツキヨガ月占い 12 タイプ (4色 x 3動物 = 12)。ウサギ=離(創造) / カメ=守(維持) / ワニ=破(破壊)。0/3/6/9 の聖位がウサギ。ツキヨガの 0369 と一致。代表人物は en.wikipedia 記事ありを優先サンプリング。月相が原因と断定する根拠はないため『占い的解釈』はアプリ側コンテンツで付与すること。",
+  "types": [
+    {
+      "index": 0,
+      "name_ja": "黒ウサギ",
+      "name_romaji": "Kuro-Usagi",
+      "moon_phase": "新月",
+      "color": "黒",
+      "animal": "ウサギ",
+      "stage": "離",
+      "stage_meaning": "創造",
+      "is_holy_position": true,
+      "age_range_days": {
+        "lower_inclusive": 0.0,
+        "upper_exclusive": 2.4608823,
+        "starting_principal_phase_deg": 0
+      },
+      "relations": {
+        "mirror_180deg": "白ウサギ",
+        "trine_120deg": [
+          "赤ガメ",
+          "白ワニ"
+        ],
+        "same_color": [
+          "黒ガメ",
+          "黒ワニ"
+        ],
+        "same_animal": [
+          "赤ウサギ",
+          "白ウサギ",
+          "青ウサギ"
+        ],
+        "same_stage": [
+          "赤ウサギ",
+          "白ウサギ",
+          "青ウサギ"
+        ]
+      },
+      "n": 104079,
+      "share_of_total": 0.082036,
+      "top_occupations": [
+        {
+          "key": "politician",
+          "label_ja": "政治家",
+          "count": 20442,
+          "share": 0.19640849739140462
+        },
+        {
+          "key": "athlete",
+          "label_ja": "アスリート",
+          "count": 14231,
+          "share": 0.1367326742186224
+        },
+        {
+          "key": "writer",
+          "label_ja": "作家",
+          "count": 12152,
+          "share": 0.11675746308092891
+        },
+        {
+          "key": "musician",
+          "label_ja": "音楽家",
+          "count": 10274,
+          "share": 0.09871347726246409
+        },
+        {
+          "key": "artist",
+          "label_ja": "芸術家",
+          "count": 9654,
+          "share": 0.09275646383996772
+        }
+      ],
+      "top_regions": [
+        {
+          "key": "Europe",
+          "count": 48363,
+          "share": 0.464675871213213
+        },
+        {
+          "key": "Other",
+          "count": 22506,
+          "share": 0.21623958723661835
+        },
+        {
+          "key": "North America",
+          "count": 14993,
+          "share": 0.14405403587659374
+        },
+        {
+          "key": "Asia",
+          "count": 8762,
+          "share": 0.08418605098050519
+        },
+        {
+          "key": "South America",
+          "count": 4490,
+          "share": 0.04314030688227212
+        }
+      ],
+      "century_distribution": {
+        "20C": 78212,
+        "19C": 24801,
+        "21C": 1066
+      },
+      "representative_people": [
+        {
+          "qid": "Q1861686",
+          "label": "19th Kushok Bakula Rinpoche",
+          "wikipedia": "https://en.wikipedia.org/wiki/19th_Kushok_Bakula_Rinpoche",
+          "occupation_key": "politician",
+          "occupation_ja": "政治家",
+          "year": 1917,
+          "country": "India",
+          "region": "Asia"
+        },
+        {
+          "qid": "Q3013251",
+          "label": "4th Disciple",
+          "wikipedia": "https://en.wikipedia.org/wiki/4th_Disciple",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1974,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q26178996",
+          "label": "A C Bertelli",
+          "wikipedia": "https://en.wikipedia.org/wiki/A_C_Bertelli",
+          "occupation_key": "entrepreneur",
+          "occupation_ja": "起業家",
+          "year": 1890,
+          "country": null,
+          "region": "Other"
+        },
+        {
+          "qid": "Q119307117",
+          "label": "A Little Sound",
+          "wikipedia": "https://en.wikipedia.org/wiki/A_Little_Sound",
+          "occupation_key": "artist",
+          "occupation_ja": "芸術家",
+          "year": 1999,
+          "country": "United Kingdom",
+          "region": "Europe"
+        },
+        {
+          "qid": "Q4646797",
+          "label": "A'Me Lorain",
+          "wikipedia": "https://en.wikipedia.org/wiki/A%27Me_Lorain",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1967,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q4646917",
+          "label": "A-Lee",
+          "wikipedia": "https://en.wikipedia.org/wiki/A-Lee",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1988,
+          "country": "Norway",
+          "region": "Europe"
+        },
+        {
+          "qid": "Q713461",
+          "label": "A-Mei",
+          "wikipedia": "https://en.wikipedia.org/wiki/A-Mei",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1972,
+          "country": "Taiwan",
+          "region": "Asia"
+        },
+        {
+          "qid": "Q4647493",
+          "label": "A. A. Thomson",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._A._Thomson",
+          "occupation_key": "writer",
+          "occupation_ja": "作家",
+          "year": 1894,
+          "country": null,
+          "region": "Other"
+        },
+        {
+          "qid": "Q58003150",
+          "label": "A. Alan Hill",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._Alan_Hill",
+          "occupation_key": "politician",
+          "occupation_ja": "政治家",
+          "year": 1938,
+          "country": null,
+          "region": "Other"
+        },
+        {
+          "qid": "Q24565110",
+          "label": "A. Breeze Harper",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._Breeze_Harper",
+          "occupation_key": "writer",
+          "occupation_ja": "作家",
+          "year": 1976,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q4647599",
+          "label": "A. Bromley Davenport",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._Bromley_Davenport",
+          "occupation_key": "actor",
+          "occupation_ja": "俳優",
+          "year": 1867,
+          "country": "United Kingdom",
+          "region": "Europe"
+        },
+        {
+          "qid": "Q1423151",
+          "label": "A. C. Ewing",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._C._Ewing",
+          "occupation_key": "philosopher",
+          "occupation_ja": "哲学者",
+          "year": 1899,
+          "country": "United States",
+          "region": "North America"
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "name_ja": "黒ガメ",
+      "name_romaji": "Kuro-Game",
+      "moon_phase": "三日月",
+      "color": "黒",
+      "animal": "カメ",
+      "stage": "守",
+      "stage_meaning": "維持",
+      "is_holy_position": false,
+      "age_range_days": {
+        "lower_inclusive": 2.4608823,
+        "upper_exclusive": 4.9217647,
+        "starting_principal_phase_deg": 30
+      },
+      "relations": {
+        "mirror_180deg": "白ガメ",
+        "trine_120deg": [
+          "赤ワニ",
+          "青ウサギ"
+        ],
+        "same_color": [
+          "黒ウサギ",
+          "黒ワニ"
+        ],
+        "same_animal": [
+          "赤ガメ",
+          "白ガメ",
+          "青ガメ"
+        ],
+        "same_stage": [
+          "赤ガメ",
+          "白ガメ",
+          "青ガメ"
+        ]
+      },
+      "n": 105440,
+      "share_of_total": 0.083109,
+      "top_occupations": [
+        {
+          "key": "politician",
+          "label_ja": "政治家",
+          "count": 20724,
+          "share": 0.19654779969650987
+        },
+        {
+          "key": "athlete",
+          "label_ja": "アスリート",
+          "count": 14400,
+          "share": 0.13657056145675264
+        },
+        {
+          "key": "writer",
+          "label_ja": "作家",
+          "count": 12376,
+          "share": 0.11737481031866465
+        },
+        {
+          "key": "musician",
+          "label_ja": "音楽家",
+          "count": 10397,
+          "share": 0.09860584218512898
+        },
+        {
+          "key": "artist",
+          "label_ja": "芸術家",
+          "count": 9797,
+          "share": 0.09291540212443096
+        }
+      ],
+      "top_regions": [
+        {
+          "key": "Europe",
+          "count": 48420,
+          "share": 0.4592185128983308
+        },
+        {
+          "key": "Other",
+          "count": 23079,
+          "share": 0.2188827769347496
+        },
+        {
+          "key": "North America",
+          "count": 15147,
+          "share": 0.1436551593323217
+        },
+        {
+          "key": "Asia",
+          "count": 9127,
+          "share": 0.08656107738998482
+        },
+        {
+          "key": "South America",
+          "count": 4636,
+          "share": 0.04396813353566009
+        }
+      ],
+      "century_distribution": {
+        "20C": 79878,
+        "19C": 24354,
+        "21C": 1208
+      },
+      "representative_people": [
+        {
+          "qid": "Q105452371",
+          "label": "220 Kid",
+          "wikipedia": "https://en.wikipedia.org/wiki/220_Kid",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1989,
+          "country": null,
+          "region": "Other"
+        },
+        {
+          "qid": "Q67936947",
+          "label": "9m88",
+          "wikipedia": "https://en.wikipedia.org/wiki/9m88",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1990,
+          "country": "Taiwan",
+          "region": "Asia"
+        },
+        {
+          "qid": "Q277652",
+          "label": "A'ala Hubail",
+          "wikipedia": "https://en.wikipedia.org/wiki/A%27ala_Hubail",
+          "occupation_key": "athlete",
+          "occupation_ja": "アスリート",
+          "year": 1982,
+          "country": "Bahrain",
+          "region": "Middle East"
+        },
+        {
+          "qid": "Q20675747",
+          "label": "A. Andrew Torrence",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._Andrew_Torrence",
+          "occupation_key": "politician",
+          "occupation_ja": "政治家",
+          "year": 1902,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q4647575",
+          "label": "A. B. Walawalkar",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._B._Walawalkar",
+          "occupation_key": "engineer",
+          "occupation_ja": "技術者",
+          "year": 1897,
+          "country": "India",
+          "region": "Asia"
+        },
+        {
+          "qid": "Q278583",
+          "label": "A. C. Grayling",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._C._Grayling",
+          "occupation_key": "philosopher",
+          "occupation_ja": "哲学者",
+          "year": 1949,
+          "country": "United Kingdom",
+          "region": "Europe"
+        },
+        {
+          "qid": "Q4647679",
+          "label": "A. D. S. N. Prasad",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._D._S._N._Prasad",
+          "occupation_key": "entrepreneur",
+          "occupation_ja": "起業家",
+          "year": 1952,
+          "country": "India",
+          "region": "Asia"
+        },
+        {
+          "qid": "Q4647770",
+          "label": "A. Felix du Pont, Jr.",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._Felix_du_Pont_Jr.",
+          "occupation_key": "entrepreneur",
+          "occupation_ja": "起業家",
+          "year": 1905,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q18763975",
+          "label": "A. G. Cook",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._G._Cook",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1990,
+          "country": "United Kingdom",
+          "region": "Europe"
+        },
+        {
+          "qid": "Q3847725",
+          "label": "A. G. Weinberger",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._G._Weinberger",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1965,
+          "country": "Romania",
+          "region": "Europe"
+        },
+        {
+          "qid": "Q19360604",
+          "label": "A. J. Pardini",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._J._Pardini",
+          "occupation_key": "politician",
+          "occupation_ja": "政治家",
+          "year": 1932,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q3595806",
+          "label": "A. K. Hangal",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._K._Hangal",
+          "occupation_key": "politician",
+          "occupation_ja": "政治家",
+          "year": 1915,
+          "country": "India",
+          "region": "Asia"
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "name_ja": "黒ワニ",
+      "name_romaji": "Kuro-Wani",
+      "moon_phase": "五日月",
+      "color": "黒",
+      "animal": "ワニ",
+      "stage": "破",
+      "stage_meaning": "破壊",
+      "is_holy_position": false,
+      "age_range_days": {
+        "lower_inclusive": 4.9217647,
+        "upper_exclusive": 7.382647,
+        "starting_principal_phase_deg": 60
+      },
+      "relations": {
+        "mirror_180deg": "白ワニ",
+        "trine_120deg": [
+          "白ウサギ",
+          "青ガメ"
+        ],
+        "same_color": [
+          "黒ウサギ",
+          "黒ガメ"
+        ],
+        "same_animal": [
+          "赤ワニ",
+          "白ワニ",
+          "青ワニ"
+        ],
+        "same_stage": [
+          "赤ワニ",
+          "白ワニ",
+          "青ワニ"
+        ]
+      },
+      "n": 107472,
+      "share_of_total": 0.084711,
+      "top_occupations": [
+        {
+          "key": "politician",
+          "label_ja": "政治家",
+          "count": 21293,
+          "share": 0.19812602352240583
+        },
+        {
+          "key": "athlete",
+          "label_ja": "アスリート",
+          "count": 14791,
+          "share": 0.1376265445883579
+        },
+        {
+          "key": "writer",
+          "label_ja": "作家",
+          "count": 12600,
+          "share": 0.1172398392139348
+        },
+        {
+          "key": "musician",
+          "label_ja": "音楽家",
+          "count": 10735,
+          "share": 0.09988648206044365
+        },
+        {
+          "key": "artist",
+          "label_ja": "芸術家",
+          "count": 10050,
+          "share": 0.09351272889682895
+        }
+      ],
+      "top_regions": [
+        {
+          "key": "Europe",
+          "count": 49882,
+          "share": 0.4641394967991663
+        },
+        {
+          "key": "Other",
+          "count": 23126,
+          "share": 0.21518162870329016
+        },
+        {
+          "key": "North America",
+          "count": 15167,
+          "share": 0.141125130266488
+        },
+        {
+          "key": "Asia",
+          "count": 9293,
+          "share": 0.0864690337948489
+        },
+        {
+          "key": "South America",
+          "count": 4763,
+          "share": 0.04431852017269614
+        }
+      ],
+      "century_distribution": {
+        "20C": 81458,
+        "19C": 24911,
+        "21C": 1103
+      },
+      "representative_people": [
+        {
+          "qid": "Q106467214",
+          "label": "\"Little Billy\" Rhodes",
+          "wikipedia": "https://en.wikipedia.org/wiki/%22Little_Billy%22_Rhodes",
+          "occupation_key": "actor",
+          "occupation_ja": "俳優",
+          "year": 1895,
+          "country": null,
+          "region": "Other"
+        },
+        {
+          "qid": "Q76434383",
+          "label": "2Shotz",
+          "wikipedia": "https://en.wikipedia.org/wiki/2Shotz",
+          "occupation_key": "artist",
+          "occupation_ja": "芸術家",
+          "year": 1979,
+          "country": null,
+          "region": "Other"
+        },
+        {
+          "qid": "Q4635634",
+          "label": "360",
+          "wikipedia": "https://en.wikipedia.org/wiki/360_(rapper)",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1986,
+          "country": "Australia",
+          "region": "Oceania"
+        },
+        {
+          "qid": "Q87411135",
+          "label": "A Fernández-Canteli",
+          "wikipedia": "https://en.wikipedia.org/wiki/Alfonso_Fern%C3%A1ndez-Canteli",
+          "occupation_key": "engineer",
+          "occupation_ja": "技術者",
+          "year": 1945,
+          "country": null,
+          "region": "Other"
+        },
+        {
+          "qid": "Q300430",
+          "label": "A Guy Called Gerald",
+          "wikipedia": "https://en.wikipedia.org/wiki/A_Guy_Called_Gerald",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1967,
+          "country": "United Kingdom",
+          "region": "Europe"
+        },
+        {
+          "qid": "Q23815275",
+          "label": "A K M Nurul Islam",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._K._M._Nurul_Islam",
+          "occupation_key": "politician",
+          "occupation_ja": "政治家",
+          "year": 1919,
+          "country": "British Raj",
+          "region": "Other"
+        },
+        {
+          "qid": "Q4646922",
+          "label": "A-Love",
+          "wikipedia": "https://en.wikipedia.org/wiki/A-Love",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1983,
+          "country": "Australia",
+          "region": "Oceania"
+        },
+        {
+          "qid": "Q277976",
+          "label": "A-Trak",
+          "wikipedia": "https://en.wikipedia.org/wiki/A-Trak",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1982,
+          "country": "Canada",
+          "region": "North America"
+        },
+        {
+          "qid": "Q4647485",
+          "label": "A. A. Luce",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._A._Luce",
+          "occupation_key": "philosopher",
+          "occupation_ja": "哲学者",
+          "year": 1882,
+          "country": "United Kingdom",
+          "region": "Europe"
+        },
+        {
+          "qid": "Q329758",
+          "label": "A. B. Yehoshua",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._B._Yehoshua",
+          "occupation_key": "writer",
+          "occupation_ja": "作家",
+          "year": 1936,
+          "country": "Israel",
+          "region": "Middle East"
+        },
+        {
+          "qid": "Q131840677",
+          "label": "A. Balasubramaniam",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._Balasubramaniam_(politician)",
+          "occupation_key": "politician",
+          "occupation_ja": "政治家",
+          "year": 1917,
+          "country": null,
+          "region": "Other"
+        },
+        {
+          "qid": "Q4731569",
+          "label": "A. Caperton Braxton",
+          "wikipedia": "https://en.wikipedia.org/wiki/Allen_Caperton_Braxton",
+          "occupation_key": "politician",
+          "occupation_ja": "政治家",
+          "year": 1862,
+          "country": "United States",
+          "region": "North America"
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "name_ja": "赤ウサギ",
+      "name_romaji": "Aka-Usagi",
+      "moon_phase": "上弦",
+      "color": "赤",
+      "animal": "ウサギ",
+      "stage": "離",
+      "stage_meaning": "創造",
+      "is_holy_position": true,
+      "age_range_days": {
+        "lower_inclusive": 7.382647,
+        "upper_exclusive": 9.8435293,
+        "starting_principal_phase_deg": 90
+      },
+      "relations": {
+        "mirror_180deg": "青ウサギ",
+        "trine_120deg": [
+          "白ガメ",
+          "青ワニ"
+        ],
+        "same_color": [
+          "赤ガメ",
+          "赤ワニ"
+        ],
+        "same_animal": [
+          "黒ウサギ",
+          "白ウサギ",
+          "青ウサギ"
+        ],
+        "same_stage": [
+          "黒ウサギ",
+          "白ウサギ",
+          "青ウサギ"
+        ]
+      },
+      "n": 107308,
+      "share_of_total": 0.084581,
+      "top_occupations": [
+        {
+          "key": "politician",
+          "label_ja": "政治家",
+          "count": 20598,
+          "share": 0.19195213777164796
+        },
+        {
+          "key": "athlete",
+          "label_ja": "アスリート",
+          "count": 14659,
+          "share": 0.136606776754762
+        },
+        {
+          "key": "writer",
+          "label_ja": "作家",
+          "count": 12596,
+          "share": 0.11738174227457412
+        },
+        {
+          "key": "musician",
+          "label_ja": "音楽家",
+          "count": 10872,
+          "share": 0.10131583852089313
+        },
+        {
+          "key": "artist",
+          "label_ja": "芸術家",
+          "count": 10032,
+          "share": 0.09348790397733626
+        }
+      ],
+      "top_regions": [
+        {
+          "key": "Europe",
+          "count": 49496,
+          "share": 0.4612517240093935
+        },
+        {
+          "key": "Other",
+          "count": 23360,
+          "share": 0.21769113206843851
+        },
+        {
+          "key": "North America",
+          "count": 15442,
+          "share": 0.14390353002572034
+        },
+        {
+          "key": "Asia",
+          "count": 9083,
+          "share": 0.08464420173705595
+        },
+        {
+          "key": "South America",
+          "count": 4726,
+          "share": 0.04404145077720207
+        }
+      ],
+      "century_distribution": {
+        "20C": 81531,
+        "19C": 24718,
+        "21C": 1059
+      },
+      "representative_people": [
+        {
+          "qid": "Q4540464",
+          "label": "'Galway Joe' Dolan",
+          "wikipedia": "https://en.wikipedia.org/wiki/%22Galway_Joe%22_Dolan",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1942,
+          "country": "Ireland",
+          "region": "Europe"
+        },
+        {
+          "qid": "Q29958071",
+          "label": "'Mamphono Khaketla",
+          "wikipedia": "https://en.wikipedia.org/wiki/%27Mamphono_Khaketla",
+          "occupation_key": "politician",
+          "occupation_ja": "政治家",
+          "year": 1960,
+          "country": "Lesotho",
+          "region": "Other"
+        },
+        {
+          "qid": "Q12412113",
+          "label": "67",
+          "wikipedia": "https://en.wikipedia.org/wiki/Tami_Shem-Tov",
+          "occupation_key": "writer",
+          "occupation_ja": "作家",
+          "year": 1969,
+          "country": "Israel",
+          "region": "Middle East"
+        },
+        {
+          "qid": "Q4645217",
+          "label": "8 Ball Aitken",
+          "wikipedia": "https://en.wikipedia.org/wiki/8_Ball_Aitken",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1981,
+          "country": "Australia",
+          "region": "Oceania"
+        },
+        {
+          "qid": "Q15648254",
+          "label": "A$AP Ferg",
+          "wikipedia": "https://en.wikipedia.org/wiki/ASAP_Ferg",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1988,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q738615",
+          "label": "A. C. Baantjer",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._C._Baantjer",
+          "occupation_key": "writer",
+          "occupation_ja": "作家",
+          "year": 1923,
+          "country": "Kingdom of the Netherlands",
+          "region": "Other"
+        },
+        {
+          "qid": "Q4647606",
+          "label": "A. C. Clemons",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._C._Clemons",
+          "occupation_key": "military_officer",
+          "occupation_ja": "軍人",
+          "year": 1921,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q24851727",
+          "label": "A. C. Moideen",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._C._Moideen",
+          "occupation_key": "politician",
+          "occupation_ja": "政治家",
+          "year": 1956,
+          "country": "India",
+          "region": "Asia"
+        },
+        {
+          "qid": "Q4647633",
+          "label": "A. Carl Helmholz",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._Carl_Helmholz",
+          "occupation_key": "scientist",
+          "occupation_ja": "科学者",
+          "year": 1915,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q4647642",
+          "label": "A. Charles Baillie",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._Charles_Baillie",
+          "occupation_key": "entrepreneur",
+          "occupation_ja": "起業家",
+          "year": 1939,
+          "country": "Canada",
+          "region": "North America"
+        },
+        {
+          "qid": "Q93400",
+          "label": "A. D. Walsh",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._D._Walsh",
+          "occupation_key": "scientist",
+          "occupation_ja": "科学者",
+          "year": 1916,
+          "country": "United Kingdom",
+          "region": "Europe"
+        },
+        {
+          "qid": "Q4647707",
+          "label": "A. E. Backus",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._E._Backus",
+          "occupation_key": "artist",
+          "occupation_ja": "芸術家",
+          "year": 1906,
+          "country": "United States",
+          "region": "North America"
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "name_ja": "赤ガメ",
+      "name_romaji": "Aka-Game",
+      "moon_phase": "十日夜",
+      "color": "赤",
+      "animal": "カメ",
+      "stage": "守",
+      "stage_meaning": "維持",
+      "is_holy_position": false,
+      "age_range_days": {
+        "lower_inclusive": 9.8435293,
+        "upper_exclusive": 12.3044117,
+        "starting_principal_phase_deg": 120
+      },
+      "relations": {
+        "mirror_180deg": "青ガメ",
+        "trine_120deg": [
+          "白ワニ",
+          "黒ウサギ"
+        ],
+        "same_color": [
+          "赤ウサギ",
+          "赤ワニ"
+        ],
+        "same_animal": [
+          "黒ガメ",
+          "白ガメ",
+          "青ガメ"
+        ],
+        "same_stage": [
+          "黒ガメ",
+          "白ガメ",
+          "青ガメ"
+        ]
+      },
+      "n": 105896,
+      "share_of_total": 0.083468,
+      "top_occupations": [
+        {
+          "key": "politician",
+          "label_ja": "政治家",
+          "count": 20428,
+          "share": 0.19290624763919317
+        },
+        {
+          "key": "athlete",
+          "label_ja": "アスリート",
+          "count": 14497,
+          "share": 0.13689846641988365
+        },
+        {
+          "key": "writer",
+          "label_ja": "作家",
+          "count": 12485,
+          "share": 0.11789869305733927
+        },
+        {
+          "key": "musician",
+          "label_ja": "音楽家",
+          "count": 10553,
+          "share": 0.09965437788018433
+        },
+        {
+          "key": "artist",
+          "label_ja": "芸術家",
+          "count": 9738,
+          "share": 0.09195814761652943
+        }
+      ],
+      "top_regions": [
+        {
+          "key": "Europe",
+          "count": 49153,
+          "share": 0.4641629523305885
+        },
+        {
+          "key": "Other",
+          "count": 22834,
+          "share": 0.21562665256478053
+        },
+        {
+          "key": "North America",
+          "count": 15143,
+          "share": 0.14299879126690337
+        },
+        {
+          "key": "Asia",
+          "count": 9048,
+          "share": 0.08544232076754552
+        },
+        {
+          "key": "South America",
+          "count": 4621,
+          "share": 0.04363715343355745
+        }
+      ],
+      "century_distribution": {
+        "20C": 80160,
+        "19C": 24693,
+        "21C": 1043
+      },
+      "representative_people": [
+        {
+          "qid": "Q95694810",
+          "label": "42 Dugg",
+          "wikipedia": "https://en.wikipedia.org/wiki/42_Dugg",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1993,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q16334212",
+          "label": "A B M Musa",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._B._M._Musa",
+          "occupation_key": "writer",
+          "occupation_ja": "作家",
+          "year": 1931,
+          "country": "Pakistan",
+          "region": "Asia"
+        },
+        {
+          "qid": "Q4657536",
+          "label": "A K Dolven",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._K._Dolven",
+          "occupation_key": "artist",
+          "occupation_ja": "芸術家",
+          "year": 1953,
+          "country": "Norway",
+          "region": "Europe"
+        },
+        {
+          "qid": "Q4659339",
+          "label": "A Satyanarayana Shastri",
+          "wikipedia": "https://en.wikipedia.org/wiki/A_Satyanarayana_Shastri",
+          "occupation_key": "philosopher",
+          "occupation_ja": "哲学者",
+          "year": 1925,
+          "country": "India",
+          "region": "Asia"
+        },
+        {
+          "qid": "Q18611756",
+          "label": "A V Swamy",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._V._Swamy",
+          "occupation_key": "politician",
+          "occupation_ja": "政治家",
+          "year": 1929,
+          "country": "India",
+          "region": "Asia"
+        },
+        {
+          "qid": "Q4652102",
+          "label": "A-Jay Leitch-Smith",
+          "wikipedia": "https://en.wikipedia.org/wiki/A-Jay_Leitch-Smith",
+          "occupation_key": "athlete",
+          "occupation_ja": "アスリート",
+          "year": 1990,
+          "country": "United Kingdom",
+          "region": "Europe"
+        },
+        {
+          "qid": "Q4647478",
+          "label": "A. A. Krishnaswami Ayyangar",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._A._Krishnaswami_Ayyangar",
+          "occupation_key": "scientist",
+          "occupation_ja": "科学者",
+          "year": 1892,
+          "country": "India",
+          "region": "Asia"
+        },
+        {
+          "qid": "Q16001285",
+          "label": "A. Adomako",
+          "wikipedia": "https://en.wikipedia.org/wiki/Albert_Adomakoh",
+          "occupation_key": "military_officer",
+          "occupation_ja": "軍人",
+          "year": 1922,
+          "country": "Ghana",
+          "region": "Africa"
+        },
+        {
+          "qid": "Q23073484",
+          "label": "A. B. Comstock",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._B._Comstock",
+          "occupation_key": "politician",
+          "occupation_ja": "政治家",
+          "year": 1857,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q4710031",
+          "label": "A. B. Dick",
+          "wikipedia": "https://en.wikipedia.org/wiki/Albert_Dick",
+          "occupation_key": "entrepreneur",
+          "occupation_ja": "起業家",
+          "year": 1856,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q4647607",
+          "label": "A. C. Dixon",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._C._Dixon",
+          "occupation_key": "religious_figure",
+          "occupation_ja": "宗教家",
+          "year": 1854,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q16058474",
+          "label": "A. C. Hamlin",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._C._Hamlin",
+          "occupation_key": "politician",
+          "occupation_ja": "政治家",
+          "year": 1881,
+          "country": "United States",
+          "region": "North America"
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "name_ja": "赤ワニ",
+      "name_romaji": "Aka-Wani",
+      "moon_phase": "十三夜",
+      "color": "赤",
+      "animal": "ワニ",
+      "stage": "破",
+      "stage_meaning": "破壊",
+      "is_holy_position": false,
+      "age_range_days": {
+        "lower_inclusive": 12.3044117,
+        "upper_exclusive": 14.765294,
+        "starting_principal_phase_deg": 150
+      },
+      "relations": {
+        "mirror_180deg": "青ワニ",
+        "trine_120deg": [
+          "青ウサギ",
+          "黒ガメ"
+        ],
+        "same_color": [
+          "赤ウサギ",
+          "赤ガメ"
+        ],
+        "same_animal": [
+          "黒ワニ",
+          "白ワニ",
+          "青ワニ"
+        ],
+        "same_stage": [
+          "黒ワニ",
+          "白ワニ",
+          "青ワニ"
+        ]
+      },
+      "n": 105089,
+      "share_of_total": 0.082832,
+      "top_occupations": [
+        {
+          "key": "politician",
+          "label_ja": "政治家",
+          "count": 20395,
+          "share": 0.1940735947625346
+        },
+        {
+          "key": "athlete",
+          "label_ja": "アスリート",
+          "count": 14211,
+          "share": 0.13522823511499776
+        },
+        {
+          "key": "writer",
+          "label_ja": "作家",
+          "count": 12300,
+          "share": 0.11704364871680195
+        },
+        {
+          "key": "musician",
+          "label_ja": "音楽家",
+          "count": 10369,
+          "share": 0.09866874744264385
+        },
+        {
+          "key": "artist",
+          "label_ja": "芸術家",
+          "count": 9812,
+          "share": 0.09336847814709437
+        }
+      ],
+      "top_regions": [
+        {
+          "key": "Europe",
+          "count": 48440,
+          "share": 0.4609426295806412
+        },
+        {
+          "key": "Other",
+          "count": 22794,
+          "share": 0.21690186413421006
+        },
+        {
+          "key": "North America",
+          "count": 15026,
+          "share": 0.14298356631046066
+        },
+        {
+          "key": "Asia",
+          "count": 9224,
+          "share": 0.08777322079380334
+        },
+        {
+          "key": "South America",
+          "count": 4545,
+          "share": 0.043249055562428036
+        }
+      ],
+      "century_distribution": {
+        "20C": 79427,
+        "19C": 24596,
+        "21C": 1066
+      },
+      "representative_people": [
+        {
+          "qid": "Q105128110",
+          "label": "'Mamoshebi Kabi",
+          "wikipedia": "https://en.wikipedia.org/wiki/%27Mamoshebi_Kabi",
+          "occupation_key": "military_officer",
+          "occupation_ja": "軍人",
+          "year": 1936,
+          "country": "Lesotho",
+          "region": "Other"
+        },
+        {
+          "qid": "Q65029103",
+          "label": "24hrs",
+          "wikipedia": "https://en.wikipedia.org/wiki/24hrs_(rapper)",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1990,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q1970451",
+          "label": "3 Steps Ahead",
+          "wikipedia": "https://en.wikipedia.org/wiki/3_Steps_Ahead",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1961,
+          "country": "Kingdom of the Netherlands",
+          "region": "Other"
+        },
+        {
+          "qid": "Q107178126",
+          "label": "88 Camino",
+          "wikipedia": "https://en.wikipedia.org/wiki/88_Camino",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1992,
+          "country": null,
+          "region": "Other"
+        },
+        {
+          "qid": "Q108272179",
+          "label": "88Camino",
+          "wikipedia": "https://en.wikipedia.org/wiki/88Camino",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1992,
+          "country": null,
+          "region": "Other"
+        },
+        {
+          "qid": "Q27927826",
+          "label": "A Boogie wit da Hoodie",
+          "wikipedia": "https://en.wikipedia.org/wiki/A_Boogie_wit_da_Hoodie",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1995,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q5673777",
+          "label": "A Harsha",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._Harsha",
+          "occupation_key": "director",
+          "occupation_ja": "映画監督",
+          "year": 1980,
+          "country": "India",
+          "region": "Asia"
+        },
+        {
+          "qid": "Q56268277",
+          "label": "A Zin Latt",
+          "wikipedia": "https://en.wikipedia.org/wiki/A_Zin_Latt",
+          "occupation_key": "politician",
+          "occupation_ja": "政治家",
+          "year": 1981,
+          "country": "Myanmar",
+          "region": "Asia"
+        },
+        {
+          "qid": "Q6481280",
+          "label": "A. Atwater Kent",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._Atwater_Kent",
+          "occupation_key": "entrepreneur",
+          "occupation_ja": "起業家",
+          "year": 1873,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q93443565",
+          "label": "A. B. Comathiere",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._B._DeComathiere",
+          "occupation_key": "actor",
+          "occupation_ja": "俳優",
+          "year": 1877,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q278551",
+          "label": "A. B. Spellman",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._B._Spellman",
+          "occupation_key": "writer",
+          "occupation_ja": "作家",
+          "year": 1935,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q17310089",
+          "label": "A. C. Miller",
+          "wikipedia": "https://en.wikipedia.org/wiki/Albert_C._Miller",
+          "occupation_key": "politician",
+          "occupation_ja": "政治家",
+          "year": 1898,
+          "country": "United States",
+          "region": "North America"
+        }
+      ]
+    },
+    {
+      "index": 6,
+      "name_ja": "白ウサギ",
+      "name_romaji": "Shiro-Usagi",
+      "moon_phase": "満月",
+      "color": "白",
+      "animal": "ウサギ",
+      "stage": "離",
+      "stage_meaning": "創造",
+      "is_holy_position": true,
+      "age_range_days": {
+        "lower_inclusive": 14.765294,
+        "upper_exclusive": 17.2261763,
+        "starting_principal_phase_deg": 180
+      },
+      "relations": {
+        "mirror_180deg": "黒ウサギ",
+        "trine_120deg": [
+          "青ガメ",
+          "黒ワニ"
+        ],
+        "same_color": [
+          "白ガメ",
+          "白ワニ"
+        ],
+        "same_animal": [
+          "黒ウサギ",
+          "赤ウサギ",
+          "青ウサギ"
+        ],
+        "same_stage": [
+          "黒ウサギ",
+          "赤ウサギ",
+          "青ウサギ"
+        ]
+      },
+      "n": 104206,
+      "share_of_total": 0.082136,
+      "top_occupations": [
+        {
+          "key": "politician",
+          "label_ja": "政治家",
+          "count": 20426,
+          "share": 0.19601558451528703
+        },
+        {
+          "key": "athlete",
+          "label_ja": "アスリート",
+          "count": 14089,
+          "share": 0.1352033472160912
+        },
+        {
+          "key": "writer",
+          "label_ja": "作家",
+          "count": 12151,
+          "share": 0.11660556973686736
+        },
+        {
+          "key": "musician",
+          "label_ja": "音楽家",
+          "count": 10448,
+          "share": 0.10026294071358655
+        },
+        {
+          "key": "artist",
+          "label_ja": "芸術家",
+          "count": 9669,
+          "share": 0.0927873634915456
+        }
+      ],
+      "top_regions": [
+        {
+          "key": "Europe",
+          "count": 48117,
+          "share": 0.4617488436366428
+        },
+        {
+          "key": "Other",
+          "count": 22319,
+          "share": 0.2141815250561388
+        },
+        {
+          "key": "North America",
+          "count": 15015,
+          "share": 0.1440895917701476
+        },
+        {
+          "key": "Asia",
+          "count": 9141,
+          "share": 0.08772047674797996
+        },
+        {
+          "key": "South America",
+          "count": 4559,
+          "share": 0.0437498800452949
+        }
+      ],
+      "century_distribution": {
+        "20C": 78267,
+        "19C": 24865,
+        "21C": 1074
+      },
+      "representative_people": [
+        {
+          "qid": "Q23923",
+          "label": "12th Planet",
+          "wikipedia": "https://en.wikipedia.org/wiki/12th_Planet_(musician)",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1982,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q4636299",
+          "label": "3D Na'Tee",
+          "wikipedia": "https://en.wikipedia.org/wiki/3D_Na%27Tee",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1986,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q106906868",
+          "label": "A Mili",
+          "wikipedia": "https://en.wikipedia.org/wiki/A_Mili",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1990,
+          "country": "Suriname",
+          "region": "Other"
+        },
+        {
+          "qid": "Q2865030",
+          "label": "A. B. Frost",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._B._Frost",
+          "occupation_key": "artist",
+          "occupation_ja": "芸術家",
+          "year": 1851,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q4647560",
+          "label": "A. B. MacDonald",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._B._MacDonald",
+          "occupation_key": "writer",
+          "occupation_ja": "作家",
+          "year": 1871,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q133891224",
+          "label": "A. B. Philpott",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._B._Philpott",
+          "occupation_key": "politician",
+          "occupation_ja": "政治家",
+          "year": 1858,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q4647628",
+          "label": "A. C. Tirulokchandar",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._C._Thirulokachandar",
+          "occupation_key": "director",
+          "occupation_ja": "映画監督",
+          "year": 1930,
+          "country": "India",
+          "region": "Asia"
+        },
+        {
+          "qid": "Q28373990",
+          "label": "A. Chase Fawcett",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._Chase_Fawcett",
+          "occupation_key": "politician",
+          "occupation_ja": "政治家",
+          "year": 1863,
+          "country": "Canada",
+          "region": "North America"
+        },
+        {
+          "qid": "Q321816",
+          "label": "A. E. Wilder-Smith",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._E._Wilder-Smith",
+          "occupation_key": "scientist",
+          "occupation_ja": "科学者",
+          "year": 1915,
+          "country": "United Kingdom",
+          "region": "Europe"
+        },
+        {
+          "qid": "Q4647739",
+          "label": "A. Edward Nussbaum",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._Edward_Nussbaum",
+          "occupation_key": "scientist",
+          "occupation_ja": "科学者",
+          "year": 1925,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q4647799",
+          "label": "A. G. Macdonell",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._G._Macdonell",
+          "occupation_key": "writer",
+          "occupation_ja": "作家",
+          "year": 1895,
+          "country": null,
+          "region": "Other"
+        },
+        {
+          "qid": "Q4647919",
+          "label": "A. J. Hammer",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._J._Hammer",
+          "occupation_key": "writer",
+          "occupation_ja": "作家",
+          "year": 1966,
+          "country": "United States",
+          "region": "North America"
+        }
+      ]
+    },
+    {
+      "index": 7,
+      "name_ja": "白ガメ",
+      "name_romaji": "Shiro-Game",
+      "moon_phase": "十六夜",
+      "color": "白",
+      "animal": "カメ",
+      "stage": "守",
+      "stage_meaning": "維持",
+      "is_holy_position": false,
+      "age_range_days": {
+        "lower_inclusive": 17.2261763,
+        "upper_exclusive": 19.6870587,
+        "starting_principal_phase_deg": 210
+      },
+      "relations": {
+        "mirror_180deg": "黒ガメ",
+        "trine_120deg": [
+          "青ワニ",
+          "赤ウサギ"
+        ],
+        "same_color": [
+          "白ウサギ",
+          "白ワニ"
+        ],
+        "same_animal": [
+          "黒ガメ",
+          "赤ガメ",
+          "青ガメ"
+        ],
+        "same_stage": [
+          "黒ガメ",
+          "赤ガメ",
+          "青ガメ"
+        ]
+      },
+      "n": 105087,
+      "share_of_total": 0.082831,
+      "top_occupations": [
+        {
+          "key": "politician",
+          "label_ja": "政治家",
+          "count": 20302,
+          "share": 0.19319230732631057
+        },
+        {
+          "key": "athlete",
+          "label_ja": "アスリート",
+          "count": 14219,
+          "share": 0.13530693615765985
+        },
+        {
+          "key": "writer",
+          "label_ja": "作家",
+          "count": 12212,
+          "share": 0.11620847488271623
+        },
+        {
+          "key": "musician",
+          "label_ja": "音楽家",
+          "count": 10393,
+          "share": 0.0988990074890329
+        },
+        {
+          "key": "artist",
+          "label_ja": "芸術家",
+          "count": 9866,
+          "share": 0.0938841150665639
+        }
+      ],
+      "top_regions": [
+        {
+          "key": "Europe",
+          "count": 48434,
+          "share": 0.46089430662213215
+        },
+        {
+          "key": "Other",
+          "count": 22827,
+          "share": 0.21722001769962032
+        },
+        {
+          "key": "North America",
+          "count": 15378,
+          "share": 0.14633589311713152
+        },
+        {
+          "key": "Asia",
+          "count": 9093,
+          "share": 0.086528305118616
+        },
+        {
+          "key": "South America",
+          "count": 4485,
+          "share": 0.04267892317793828
+        }
+      ],
+      "century_distribution": {
+        "20C": 79566,
+        "19C": 24520,
+        "21C": 1001
+      },
+      "representative_people": [
+        {
+          "qid": "Q122236747",
+          "label": "250",
+          "wikipedia": "https://en.wikipedia.org/wiki/250_(musician)",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1982,
+          "country": "South Korea",
+          "region": "Asia"
+        },
+        {
+          "qid": "Q3599072",
+          "label": "40",
+          "wikipedia": "https://en.wikipedia.org/wiki/40_(music_producer)",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1983,
+          "country": "Canada",
+          "region": "North America"
+        },
+        {
+          "qid": "Q4655288",
+          "label": "A A Mamun",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._A._Mamun",
+          "occupation_key": "scientist",
+          "occupation_ja": "科学者",
+          "year": 1966,
+          "country": "Pakistan",
+          "region": "Asia"
+        },
+        {
+          "qid": "Q16334212",
+          "label": "A B M Musa",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._B._M._Musa",
+          "occupation_key": "writer",
+          "occupation_ja": "作家",
+          "year": 1931,
+          "country": "Bangladesh",
+          "region": "Asia"
+        },
+        {
+          "qid": "Q1401499",
+          "label": "A-Plus",
+          "wikipedia": "https://en.wikipedia.org/wiki/A-Plus_(rapper)",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1974,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q27899052",
+          "label": "A-Reece",
+          "wikipedia": "https://en.wikipedia.org/wiki/A-Reece",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1997,
+          "country": "South Africa",
+          "region": "Africa"
+        },
+        {
+          "qid": "Q4647494",
+          "label": "A. A. Rahim",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._A._Rahim",
+          "occupation_key": "politician",
+          "occupation_ja": "政治家",
+          "year": 1920,
+          "country": "India",
+          "region": "Asia"
+        },
+        {
+          "qid": "Q4647596",
+          "label": "A. Bhimsingh",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._Bhimsingh",
+          "occupation_key": "director",
+          "occupation_ja": "映画監督",
+          "year": 1924,
+          "country": "India",
+          "region": "Asia"
+        },
+        {
+          "qid": "Q440569",
+          "label": "A. C. Crispin",
+          "wikipedia": "https://en.wikipedia.org/wiki/Ann_C._Crispin",
+          "occupation_key": "writer",
+          "occupation_ja": "作家",
+          "year": 1950,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q3600312",
+          "label": "A. D. Winans",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._D._Winans",
+          "occupation_key": "writer",
+          "occupation_ja": "作家",
+          "year": 1936,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q4647687",
+          "label": "A. Daniel McKenzie",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._Daniel_McKenzie",
+          "occupation_key": "politician",
+          "occupation_ja": "政治家",
+          "year": 1924,
+          "country": "Canada",
+          "region": "North America"
+        },
+        {
+          "qid": "Q4647694",
+          "label": "A. David Lewis",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._David_Lewis",
+          "occupation_key": "writer",
+          "occupation_ja": "作家",
+          "year": 1977,
+          "country": "United States",
+          "region": "North America"
+        }
+      ]
+    },
+    {
+      "index": 8,
+      "name_ja": "白ワニ",
+      "name_romaji": "Shiro-Wani",
+      "moon_phase": "寝待月",
+      "color": "白",
+      "animal": "ワニ",
+      "stage": "破",
+      "stage_meaning": "破壊",
+      "is_holy_position": false,
+      "age_range_days": {
+        "lower_inclusive": 19.6870587,
+        "upper_exclusive": 22.147941,
+        "starting_principal_phase_deg": 240
+      },
+      "relations": {
+        "mirror_180deg": "黒ワニ",
+        "trine_120deg": [
+          "黒ウサギ",
+          "赤ガメ"
+        ],
+        "same_color": [
+          "白ウサギ",
+          "白ガメ"
+        ],
+        "same_animal": [
+          "黒ワニ",
+          "赤ワニ",
+          "青ワニ"
+        ],
+        "same_stage": [
+          "黒ワニ",
+          "赤ワニ",
+          "青ワニ"
+        ]
+      },
+      "n": 106670,
+      "share_of_total": 0.084078,
+      "top_occupations": [
+        {
+          "key": "politician",
+          "label_ja": "政治家",
+          "count": 20624,
+          "share": 0.19334395800131246
+        },
+        {
+          "key": "athlete",
+          "label_ja": "アスリート",
+          "count": 14496,
+          "share": 0.1358957532577107
+        },
+        {
+          "key": "writer",
+          "label_ja": "作家",
+          "count": 12425,
+          "share": 0.11648073497703197
+        },
+        {
+          "key": "musician",
+          "label_ja": "音楽家",
+          "count": 10565,
+          "share": 0.0990437798818787
+        },
+        {
+          "key": "artist",
+          "label_ja": "芸術家",
+          "count": 9937,
+          "share": 0.09315646386050436
+        }
+      ],
+      "top_regions": [
+        {
+          "key": "Europe",
+          "count": 49286,
+          "share": 0.4620418111934002
+        },
+        {
+          "key": "Other",
+          "count": 22981,
+          "share": 0.21544014249554702
+        },
+        {
+          "key": "North America",
+          "count": 15554,
+          "share": 0.14581419330645917
+        },
+        {
+          "key": "Asia",
+          "count": 9101,
+          "share": 0.08531920877472579
+        },
+        {
+          "key": "South America",
+          "count": 4616,
+          "share": 0.04327364769850942
+        }
+      ],
+      "century_distribution": {
+        "20C": 81328,
+        "19C": 24280,
+        "21C": 1062
+      },
+      "representative_people": [
+        {
+          "qid": "Q4540491",
+          "label": "'Monsewer' Eddie Gray",
+          "wikipedia": "https://en.wikipedia.org/wiki/%27Monsewer%27_Eddie_Gray",
+          "occupation_key": "actor",
+          "occupation_ja": "俳優",
+          "year": 1898,
+          "country": null,
+          "region": "Other"
+        },
+        {
+          "qid": "Q44479972",
+          "label": "6ix9ine",
+          "wikipedia": "https://en.wikipedia.org/wiki/6ix9ine",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1996,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q43549329",
+          "label": "A F M Khalid Hossain",
+          "wikipedia": "https://en.wikipedia.org/wiki/A_F_M_Khalid_Hossain",
+          "occupation_key": "politician",
+          "occupation_ja": "政治家",
+          "year": 1956,
+          "country": "Bangladesh",
+          "region": "Asia"
+        },
+        {
+          "qid": "Q278510",
+          "label": "A. A. Attanasio",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._A._Attanasio",
+          "occupation_key": "writer",
+          "occupation_ja": "作家",
+          "year": 1951,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q4647514",
+          "label": "A. Andrew Hauk",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._Andrew_Hauk",
+          "occupation_key": "military_officer",
+          "occupation_ja": "軍人",
+          "year": 1912,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q278575",
+          "label": "A. Brooks Harris",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._Brooks_Harris",
+          "occupation_key": "scientist",
+          "occupation_ja": "科学者",
+          "year": 1935,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q106574326",
+          "label": "A. C. Roper",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._C._Roper",
+          "occupation_key": "military_officer",
+          "occupation_ja": "軍人",
+          "year": 1963,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q4647635",
+          "label": "A. Carville Foster",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._Carville_Foster",
+          "occupation_key": "politician",
+          "occupation_ja": "政治家",
+          "year": 1932,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q61965886",
+          "label": "A. D. Carmichael",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._D._Carmichael",
+          "occupation_key": "scientist",
+          "occupation_ja": "科学者",
+          "year": 1859,
+          "country": null,
+          "region": "Other"
+        },
+        {
+          "qid": "Q4647131",
+          "label": "A. E. Muthunayagam",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._E._Muthunayagam",
+          "occupation_key": "engineer",
+          "occupation_ja": "技術者",
+          "year": 1939,
+          "country": "India",
+          "region": "Asia"
+        },
+        {
+          "qid": "Q4647743",
+          "label": "A. Ernest Fitzgerald",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._Ernest_Fitzgerald",
+          "occupation_key": "engineer",
+          "occupation_ja": "技術者",
+          "year": 1926,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q18739769",
+          "label": "A. Frederick Meyerson",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._Frederick_Meyerson",
+          "occupation_key": "politician",
+          "occupation_ja": "政治家",
+          "year": 1918,
+          "country": "United States",
+          "region": "North America"
+        }
+      ]
+    },
+    {
+      "index": 9,
+      "name_ja": "青ウサギ",
+      "name_romaji": "Ao-Usagi",
+      "moon_phase": "下弦",
+      "color": "青",
+      "animal": "ウサギ",
+      "stage": "離",
+      "stage_meaning": "創造",
+      "is_holy_position": true,
+      "age_range_days": {
+        "lower_inclusive": 22.147941,
+        "upper_exclusive": 24.6088233,
+        "starting_principal_phase_deg": 270
+      },
+      "relations": {
+        "mirror_180deg": "赤ウサギ",
+        "trine_120deg": [
+          "黒ガメ",
+          "赤ワニ"
+        ],
+        "same_color": [
+          "青ガメ",
+          "青ワニ"
+        ],
+        "same_animal": [
+          "黒ウサギ",
+          "赤ウサギ",
+          "白ウサギ"
+        ],
+        "same_stage": [
+          "黒ウサギ",
+          "赤ウサギ",
+          "白ウサギ"
+        ]
+      },
+      "n": 107179,
+      "share_of_total": 0.08448,
+      "top_occupations": [
+        {
+          "key": "politician",
+          "label_ja": "政治家",
+          "count": 21188,
+          "share": 0.19768797992143983
+        },
+        {
+          "key": "athlete",
+          "label_ja": "アスリート",
+          "count": 14395,
+          "share": 0.1343080267589733
+        },
+        {
+          "key": "writer",
+          "label_ja": "作家",
+          "count": 12721,
+          "share": 0.11868929547765887
+        },
+        {
+          "key": "musician",
+          "label_ja": "音楽家",
+          "count": 10546,
+          "share": 0.09839614103509083
+        },
+        {
+          "key": "artist",
+          "label_ja": "芸術家",
+          "count": 9963,
+          "share": 0.09295664262588753
+        }
+      ],
+      "top_regions": [
+        {
+          "key": "Europe",
+          "count": 49331,
+          "share": 0.4602674031293444
+        },
+        {
+          "key": "Other",
+          "count": 23224,
+          "share": 0.21668423851687363
+        },
+        {
+          "key": "North America",
+          "count": 15484,
+          "share": 0.14446859925918323
+        },
+        {
+          "key": "Asia",
+          "count": 9285,
+          "share": 0.08663077655137667
+        },
+        {
+          "key": "South America",
+          "count": 4748,
+          "share": 0.044299722893477264
+        }
+      ],
+      "century_distribution": {
+        "20C": 81202,
+        "19C": 24985,
+        "21C": 992
+      },
+      "representative_people": [
+        {
+          "qid": "Q13416958",
+          "label": "\"Bassy\" Bob Brockmann",
+          "wikipedia": "https://en.wikipedia.org/wiki/%22Bassy%22_Bob_Brockmann",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1962,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q16148031",
+          "label": "3LAU",
+          "wikipedia": "https://en.wikipedia.org/wiki/3lau",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1991,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q56871104",
+          "label": "3robi",
+          "wikipedia": "https://en.wikipedia.org/wiki/3robi",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1995,
+          "country": "Kingdom of the Netherlands",
+          "region": "Other"
+        },
+        {
+          "qid": "Q27886640",
+          "label": "6lack",
+          "wikipedia": "https://en.wikipedia.org/wiki/6lack",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1992,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q300479",
+          "label": "A Martinez",
+          "wikipedia": "https://en.wikipedia.org/wiki/A_Martinez",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1948,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q19757734",
+          "label": "A Pass",
+          "wikipedia": "https://en.wikipedia.org/wiki/A_Pass",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1989,
+          "country": "Uganda",
+          "region": "Africa"
+        },
+        {
+          "qid": "Q3600282",
+          "label": "A'Lelia Walker",
+          "wikipedia": "https://en.wikipedia.org/wiki/A%27Lelia_Walker",
+          "occupation_key": "entrepreneur",
+          "occupation_ja": "起業家",
+          "year": 1885,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q4097623",
+          "label": "A. A.  Bublikov",
+          "wikipedia": "https://en.wikipedia.org/wiki/Aleksandr_Bublikov",
+          "occupation_key": "politician",
+          "occupation_ja": "政治家",
+          "year": 1875,
+          "country": "Russian Empire",
+          "region": "Europe"
+        },
+        {
+          "qid": "Q4647476",
+          "label": "A. A. MacLeod",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._A._MacLeod",
+          "occupation_key": "politician",
+          "occupation_ja": "政治家",
+          "year": 1902,
+          "country": "Canada",
+          "region": "North America"
+        },
+        {
+          "qid": "Q234898",
+          "label": "A. C. Bhaktivedanta Swami Prabhupada",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._C._Bhaktivedanta_Swami_Prabhupada",
+          "occupation_key": "writer",
+          "occupation_ja": "作家",
+          "year": 1896,
+          "country": "India",
+          "region": "Asia"
+        },
+        {
+          "qid": "Q2818917",
+          "label": "A. C. Bradley",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._C._Bradley",
+          "occupation_key": "writer",
+          "occupation_ja": "作家",
+          "year": 1851,
+          "country": "United Kingdom",
+          "region": "Europe"
+        },
+        {
+          "qid": "Q2865086",
+          "label": "A. E. Boycott",
+          "wikipedia": "https://en.wikipedia.org/wiki/Arthur_Boycott",
+          "occupation_key": "scientist",
+          "occupation_ja": "科学者",
+          "year": 1877,
+          "country": "United Kingdom",
+          "region": "Europe"
+        }
+      ]
+    },
+    {
+      "index": 10,
+      "name_ja": "青ガメ",
+      "name_romaji": "Ao-Game",
+      "moon_phase": "二十五夜",
+      "color": "青",
+      "animal": "カメ",
+      "stage": "守",
+      "stage_meaning": "維持",
+      "is_holy_position": false,
+      "age_range_days": {
+        "lower_inclusive": 24.6088233,
+        "upper_exclusive": 27.0697057,
+        "starting_principal_phase_deg": 300
+      },
+      "relations": {
+        "mirror_180deg": "赤ガメ",
+        "trine_120deg": [
+          "黒ワニ",
+          "白ウサギ"
+        ],
+        "same_color": [
+          "青ウサギ",
+          "青ワニ"
+        ],
+        "same_animal": [
+          "黒ガメ",
+          "赤ガメ",
+          "白ガメ"
+        ],
+        "same_stage": [
+          "黒ガメ",
+          "赤ガメ",
+          "白ガメ"
+        ]
+      },
+      "n": 105908,
+      "share_of_total": 0.083478,
+      "top_occupations": [
+        {
+          "key": "politician",
+          "label_ja": "政治家",
+          "count": 20531,
+          "share": 0.19385693243192204
+        },
+        {
+          "key": "athlete",
+          "label_ja": "アスリート",
+          "count": 14583,
+          "share": 0.13769498054915588
+        },
+        {
+          "key": "writer",
+          "label_ja": "作家",
+          "count": 12280,
+          "share": 0.11594969218567058
+        },
+        {
+          "key": "musician",
+          "label_ja": "音楽家",
+          "count": 10649,
+          "share": 0.1005495335574272
+        },
+        {
+          "key": "artist",
+          "label_ja": "芸術家",
+          "count": 9895,
+          "share": 0.09343014691996827
+        }
+      ],
+      "top_regions": [
+        {
+          "key": "Europe",
+          "count": 49142,
+          "share": 0.46400649620425277
+        },
+        {
+          "key": "Other",
+          "count": 22738,
+          "share": 0.21469577369037277
+        },
+        {
+          "key": "North America",
+          "count": 15249,
+          "share": 0.14398345734033313
+        },
+        {
+          "key": "Asia",
+          "count": 9091,
+          "share": 0.08583865241530385
+        },
+        {
+          "key": "South America",
+          "count": 4650,
+          "share": 0.043906031650111414
+        }
+      ],
+      "century_distribution": {
+        "20C": 80199,
+        "19C": 24375,
+        "21C": 1334
+      },
+      "representative_people": [
+        {
+          "qid": "Q3466056",
+          "label": "!PAUS3",
+          "wikipedia": "https://en.wikipedia.org/wiki/!PAUS3",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1981,
+          "country": "Ukraine",
+          "region": "Europe"
+        },
+        {
+          "qid": "Q1742005",
+          "label": "\"King\" Bennie Nawahi",
+          "wikipedia": "https://en.wikipedia.org/wiki/%22King%22_Bennie_Nawahi",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1899,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q12270382",
+          "label": "100 Kila",
+          "wikipedia": "https://en.wikipedia.org/wiki/100_Kila",
+          "occupation_key": "actor",
+          "occupation_ja": "俳優",
+          "year": 1985,
+          "country": "Bulgaria",
+          "region": "Europe"
+        },
+        {
+          "qid": "Q25095399",
+          "label": "21 Savage",
+          "wikipedia": "https://en.wikipedia.org/wiki/21_Savage",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1992,
+          "country": "United Kingdom",
+          "region": "Europe"
+        },
+        {
+          "qid": "Q6060",
+          "label": "50 Cent",
+          "wikipedia": "https://en.wikipedia.org/wiki/50_Cent",
+          "occupation_key": "entrepreneur",
+          "occupation_ja": "起業家",
+          "year": 1975,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q24084994",
+          "label": "A Mít",
+          "wikipedia": "https://en.wikipedia.org/wiki/A_M%C3%ADt",
+          "occupation_key": "athlete",
+          "occupation_ja": "アスリート",
+          "year": 1995,
+          "country": "Vietnam",
+          "region": "Asia"
+        },
+        {
+          "qid": "Q111429696",
+          "label": "A-F-R-O",
+          "wikipedia": "https://en.wikipedia.org/wiki/A-F-R-O",
+          "occupation_key": "director",
+          "occupation_ja": "映画監督",
+          "year": 1997,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q16148042",
+          "label": "A-Q",
+          "wikipedia": "https://en.wikipedia.org/wiki/A-Q",
+          "occupation_key": "entrepreneur",
+          "occupation_ja": "起業家",
+          "year": 1986,
+          "country": "Nigeria",
+          "region": "Africa"
+        },
+        {
+          "qid": "Q30094647",
+          "label": "A. Alan Post",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._Alan_Post",
+          "occupation_key": "artist",
+          "occupation_ja": "芸術家",
+          "year": 1914,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q4647573",
+          "label": "A. B. Stoney",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._Burnet_Stoney",
+          "occupation_key": "politician",
+          "occupation_ja": "政治家",
+          "year": 1892,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q329758",
+          "label": "A. B. Yehoshua",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._B._Yehoshua",
+          "occupation_key": "writer",
+          "occupation_ja": "作家",
+          "year": 1936,
+          "country": "Israel",
+          "region": "Middle East"
+        },
+        {
+          "qid": "Q708934",
+          "label": "A. C. Benson",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._C._Benson",
+          "occupation_key": "writer",
+          "occupation_ja": "作家",
+          "year": 1862,
+          "country": "United Kingdom of Great Britain and Ireland",
+          "region": "Other"
+        }
+      ]
+    },
+    {
+      "index": 11,
+      "name_ja": "青ワニ",
+      "name_romaji": "Ao-Wani",
+      "moon_phase": "有明月",
+      "color": "青",
+      "animal": "ワニ",
+      "stage": "破",
+      "stage_meaning": "破壊",
+      "is_holy_position": false,
+      "age_range_days": {
+        "lower_inclusive": 27.0697057,
+        "upper_exclusive": 29.530588,
+        "starting_principal_phase_deg": 330
+      },
+      "relations": {
+        "mirror_180deg": "赤ワニ",
+        "trine_120deg": [
+          "赤ウサギ",
+          "白ガメ"
+        ],
+        "same_color": [
+          "青ウサギ",
+          "青ガメ"
+        ],
+        "same_animal": [
+          "黒ワニ",
+          "赤ワニ",
+          "白ワニ"
+        ],
+        "same_stage": [
+          "黒ワニ",
+          "赤ワニ",
+          "白ワニ"
+        ]
+      },
+      "n": 104363,
+      "share_of_total": 0.08226,
+      "top_occupations": [
+        {
+          "key": "politician",
+          "label_ja": "政治家",
+          "count": 20410,
+          "share": 0.1955673945747056
+        },
+        {
+          "key": "athlete",
+          "label_ja": "アスリート",
+          "count": 14233,
+          "share": 0.13637975144447745
+        },
+        {
+          "key": "writer",
+          "label_ja": "作家",
+          "count": 12161,
+          "share": 0.1165259718482604
+        },
+        {
+          "key": "musician",
+          "label_ja": "音楽家",
+          "count": 10191,
+          "share": 0.0976495501279189
+        },
+        {
+          "key": "artist",
+          "label_ja": "芸術家",
+          "count": 9646,
+          "share": 0.09242739284995641
+        }
+      ],
+      "top_regions": [
+        {
+          "key": "Europe",
+          "count": 48461,
+          "share": 0.46435039238044135
+        },
+        {
+          "key": "Other",
+          "count": 22705,
+          "share": 0.21755794678190546
+        },
+        {
+          "key": "North America",
+          "count": 14961,
+          "share": 0.1433554037350402
+        },
+        {
+          "key": "Asia",
+          "count": 8756,
+          "share": 0.08389946628594425
+        },
+        {
+          "key": "South America",
+          "count": 4482,
+          "share": 0.04294625489876681
+        }
+      ],
+      "century_distribution": {
+        "20C": 78637,
+        "19C": 24572,
+        "21C": 1154
+      },
+      "representative_people": [
+        {
+          "qid": "Q18645783",
+          "label": "\"Big\" Donnie MacLeod",
+          "wikipedia": "https://en.wikipedia.org/wiki/%22Big%22_Donnie_MacLeod",
+          "occupation_key": "politician",
+          "occupation_ja": "政治家",
+          "year": 1928,
+          "country": "Canada",
+          "region": "North America"
+        },
+        {
+          "qid": "Q129668",
+          "label": "2 Chainz",
+          "wikipedia": "https://en.wikipedia.org/wiki/2_Chainz",
+          "occupation_key": "entrepreneur",
+          "occupation_ja": "起業家",
+          "year": 1977,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q85014708",
+          "label": "22Gz",
+          "wikipedia": "https://en.wikipedia.org/wiki/22Gz",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1997,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q54869322",
+          "label": "7liwa",
+          "wikipedia": "https://en.wikipedia.org/wiki/7liwa",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1996,
+          "country": "Morocco",
+          "region": "Africa"
+        },
+        {
+          "qid": "Q4646468",
+          "label": "9ice",
+          "wikipedia": "https://en.wikipedia.org/wiki/9ice",
+          "occupation_key": "musician",
+          "occupation_ja": "音楽家",
+          "year": 1980,
+          "country": "Nigeria",
+          "region": "Africa"
+        },
+        {
+          "qid": "Q19360456",
+          "label": "A. A. Adams",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._A._Adams",
+          "occupation_key": "politician",
+          "occupation_ja": "政治家",
+          "year": 1900,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q207036",
+          "label": "A. A. Milne",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._A._Milne",
+          "occupation_key": "writer",
+          "occupation_ja": "作家",
+          "year": 1882,
+          "country": "United Kingdom",
+          "region": "Europe"
+        },
+        {
+          "qid": "Q3535030",
+          "label": "A. Amirthalingam",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._Amirthalingam",
+          "occupation_key": "politician",
+          "occupation_ja": "政治家",
+          "year": 1927,
+          "country": "Sri Lanka",
+          "region": "Asia"
+        },
+        {
+          "qid": "Q4647532",
+          "label": "A. Aubrey Bodine",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._Aubrey_Bodine",
+          "occupation_key": "artist",
+          "occupation_ja": "芸術家",
+          "year": 1906,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q4647568",
+          "label": "A. B. Raj",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._B._Raj",
+          "occupation_key": "director",
+          "occupation_ja": "映画監督",
+          "year": 1925,
+          "country": "India",
+          "region": "Asia"
+        },
+        {
+          "qid": "Q93248367",
+          "label": "A. Cornelius Benjamin",
+          "wikipedia": "https://en.wikipedia.org/wiki/Abraham_Cornelius_Benjamin",
+          "occupation_key": "philosopher",
+          "occupation_ja": "哲学者",
+          "year": 1897,
+          "country": "United States",
+          "region": "North America"
+        },
+        {
+          "qid": "Q24206436",
+          "label": "A. D. Eldridge",
+          "wikipedia": "https://en.wikipedia.org/wiki/A._D._Eldridge",
+          "occupation_key": "politician",
+          "occupation_ja": "政治家",
+          "year": 1851,
+          "country": "United States",
+          "region": "North America"
+        }
+      ]
+    }
+  ]
+}

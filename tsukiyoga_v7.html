@@ -1957,6 +1957,75 @@
     user-select: none;
   }
 
+  /* 統計情報カード */
+  .uranai-stats {
+    margin-top: 16px;
+  }
+  .uranai-stats-note {
+    text-align: center;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.78rem;
+    color: rgba(110, 196, 245, 0.85);
+    letter-spacing: 0.08em;
+    margin-bottom: 14px;
+    line-height: 1.7;
+  }
+  .uranai-stats-note strong {
+    color: rgba(245, 196, 74, 0.95);
+    font-weight: 600;
+    font-size: 0.92rem;
+  }
+  .uranai-stats-note small {
+    color: rgba(201, 169, 97, 0.65);
+    font-size: 0.7rem;
+  }
+  .uranai-stats-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Shippori Mincho', serif;
+  }
+  .uranai-stats-table th {
+    text-align: left;
+    vertical-align: top;
+    padding: 10px 10px 10px 0;
+    font-size: 0.7rem;
+    color: rgba(201, 169, 97, 0.92);
+    letter-spacing: 0.12em;
+    width: 38%;
+    font-weight: normal;
+    line-height: 1.5;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .uranai-stats-table td {
+    padding: 10px 0;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.92);
+    letter-spacing: 0.04em;
+    line-height: 1.65;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    vertical-align: top;
+  }
+  .uranai-stats-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .uranai-stats-list li {
+    margin-bottom: 3px;
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+  .uranai-stats-list li a {
+    color: rgba(110, 196, 245, 0.95);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(110, 196, 245, 0.25);
+  }
+  .uranai-stats-list li .occ {
+    color: rgba(201, 169, 97, 0.7);
+    font-size: 0.74rem;
+    margin-left: 4px;
+  }
+
   /* Pull-to-refresh 用キャラピュンピュン演出 */
   .uranai-pull-overlay {
     position: fixed;
@@ -4988,6 +5057,53 @@
         <div class="uranai-balance-desc" id="uranaiBalanceDesc"></div>
       </div>
 
+      <!-- 統計情報カード (Wikidata 有名人 126万人 + CDC 一般 6200万人) -->
+      <div class="uranai-card uranai-stats" id="uranaiStatsCard">
+        <div class="uranai-card-head">あ な た の 統 計 情 報</div>
+        <div class="uranai-stats-note">
+          世界 <strong>126 万人</strong> の有名人 + 米国 <strong>6,200 万人</strong> の一般出生データに基づく<br>
+          <small>(Wikidata + CDC、合計 6,300 万人)</small>
+        </div>
+        <table class="uranai-stats-table">
+          <tr>
+            <th>同 じ タ イ プ の<br>有 名 人</th>
+            <td><ul class="uranai-stats-list" id="uranaiStatsFamous"></ul></td>
+          </tr>
+          <tr>
+            <th>多 い 職 業<br>T O P 3</th>
+            <td id="uranaiStatsTopJobs"></td>
+          </tr>
+          <tr>
+            <th>仲 良 し<br>(三 角 形)</th>
+            <td id="uranaiStatsFriends"></td>
+          </tr>
+          <tr>
+            <th>憧 れ パ ー ト ナ ー<br>(真 逆 タ イ プ)</th>
+            <td id="uranaiStatsOpposite"></td>
+          </tr>
+          <tr>
+            <th>同 じ 色<br>(色 仲 間)</th>
+            <td id="uranaiStatsSameColor"></td>
+          </tr>
+          <tr>
+            <th>同 じ 動 物<br>(成 長 段 階 違 い)</th>
+            <td id="uranaiStatsSameAnimal"></td>
+          </tr>
+          <tr>
+            <th>多 い 地 域<br>T O P 3</th>
+            <td id="uranaiStatsRegions"></td>
+          </tr>
+          <tr>
+            <th>世 紀 別 分 布</th>
+            <td id="uranaiStatsCenturies"></td>
+          </tr>
+          <tr>
+            <th>全 体 比 率</th>
+            <td id="uranaiStatsShare"></td>
+          </tr>
+        </table>
+      </div>
+
 
       <!-- 性格描写 -->
       <div class="uranai-desc" id="uranaiDesc"></div>
@@ -6224,6 +6340,59 @@ const COASTLINES = [
   function getMoonImgIdxFromAge(moonAge) {
     const norm = ((moonAge % SYNODIC_MONTH_CONST) + SYNODIC_MONTH_CONST) % SYNODIC_MONTH_CONST;
     return Math.max(1, Math.min(30, Math.round(norm) + 1));
+  }
+
+  // ============ 統計プロファイル (Wikidata 126万人 有名人) ============
+  let _profileData = null;
+  async function loadProfileData() {
+    if (_profileData) return _profileData;
+    try {
+      const res = await fetch('./data/moon_type_profiles.json');
+      _profileData = await res.json();
+      return _profileData;
+    } catch (e) { console.warn('profile load failed', e); return null; }
+  }
+  async function renderStatsTable(phaseIdx) {
+    const data = await loadProfileData();
+    if (!data || !data.types || !data.types[phaseIdx]) return;
+    const stats = data.types[phaseIdx];
+    // 有名人 5 人 (representative_people から最初の 5)
+    const famous = (stats.representative_people || []).slice(0, 5);
+    document.getElementById('uranaiStatsFamous').innerHTML =
+      famous.length === 0
+        ? '<li>データ準備中</li>'
+        : famous.map(p =>
+            `<li><a href="${p.wikipedia}" target="_blank" rel="noopener">${p.label}</a><span class="occ">(${p.occupation_ja}・${p.year || '?'})</span></li>`
+          ).join('');
+    // 多い職業 TOP3
+    const jobs = (stats.top_occupations || []).slice(0, 3);
+    document.getElementById('uranaiStatsTopJobs').innerHTML =
+      jobs.map(o => `${o.label_ja} <strong style="color:#f5c44a">${(o.share * 100).toFixed(1)}%</strong>`).join(' / ');
+    // 仲良し (三角形)
+    document.getElementById('uranaiStatsFriends').textContent =
+      (stats.relations.trine_120deg || []).join(' / ');
+    // 真逆
+    document.getElementById('uranaiStatsOpposite').textContent =
+      stats.relations.mirror_180deg || '';
+    // 同じ色
+    document.getElementById('uranaiStatsSameColor').textContent =
+      (stats.relations.same_color || []).join(' / ');
+    // 同じ動物
+    document.getElementById('uranaiStatsSameAnimal').textContent =
+      (stats.relations.same_animal || []).join(' / ');
+    // 多い地域 TOP3
+    const regions = (stats.top_regions || []).slice(0, 3);
+    document.getElementById('uranaiStatsRegions').innerHTML =
+      regions.map(r => `${r.key} <strong style="color:#f5c44a">${(r.share * 100).toFixed(1)}%</strong>`).join(' / ');
+    // 世紀別分布
+    const c = stats.century_distribution || {};
+    const cs = Object.entries(c).sort((a,b) => b[1] - a[1]);
+    document.getElementById('uranaiStatsCenturies').innerHTML =
+      cs.map(([k,v]) => `${k} ${v.toLocaleString()}人`).join(' / ');
+    // 全体比率
+    const share = (stats.share_of_total * 100).toFixed(2);
+    document.getElementById('uranaiStatsShare').innerHTML =
+      `<strong style="color:#f5c44a">${share}%</strong> (${stats.n.toLocaleString()}人 / ${data.n_total.toLocaleString()}人中)`;
   }
 
   // ============ リボン Canvas 合成 (テキストを画像内に焼き込み) ============
@@ -7540,6 +7709,9 @@ const COASTLINES = [
       // 性格描写
       document.getElementById('uranaiDesc').textContent =
         PHASE_DESCRIPTIONS[phaseIdx] || '';
+
+      // 統計情報表 (非同期で fetch、描画完了を待たずに次へ)
+      renderStatsTable(phaseIdx);
 
       // 自分を相性占いの1人目として登録 (占うたびにリセット)
       const selfPerson = computePerson('あなた', dateStr, timeStr, cityName);
