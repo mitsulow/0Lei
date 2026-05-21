@@ -3586,12 +3586,12 @@
   }
   .wheel-stage {
     position: relative;
-    width: 320px;
-    height: 320px;
+    width: 220px;
+    height: 220px;
     margin: 0 auto;
     user-select: none;
     -webkit-user-select: none;
-    touch-action: none; /* drag を捕捉、ブラウザのスクロールにしない */
+    touch-action: none;
   }
   /* 上の選択ポインタ */
   .wheel-pointer {
@@ -3624,7 +3624,7 @@
   .wheel-rotor::before {
     content: '';
     position: absolute;
-    inset: 24px;
+    inset: 16px;
     border-radius: 50%;
     border: 1px dashed rgba(232, 255, 0, 0.25);
     pointer-events: none;
@@ -3633,12 +3633,11 @@
     position: absolute;
     top: 0;
     left: 50%;
-    width: 52px;
-    height: 52px;
-    margin-left: -26px;
-    /* transform-origin は『slot 内の点で stage 中央に重なる位置』
-       slot top:0 / 中央 y=26, stage 320x320 中央 y=160 → (26, 160) */
-    transform-origin: 26px 160px;
+    width: 38px;
+    height: 38px;
+    margin-left: -19px;
+    /* slot 中央 y=19, stage 220 中央 y=110 → (19, 110) */
+    transform-origin: 19px 110px;
     cursor: pointer;
   }
   .wheel-slot-inner {
@@ -3653,10 +3652,29 @@
   }
   .wheel-slot.is-active .wheel-slot-inner {
     border-color: #e8ff00;
+    border-width: 2.5px;
     box-shadow:
-      0 0 14px rgba(232, 255, 0, 0.7),
-      inset 0 0 0 1px rgba(232, 255, 0, 0.3);
-    transform: scale(1.12);
+      0 0 18px rgba(232, 255, 0, 0.95),
+      0 0 36px rgba(232, 255, 0, 0.5),
+      inset 0 0 0 2px rgba(232, 255, 0, 0.45);
+    transform: scale(1.35);
+    animation: wheelActivePulse 1.0s ease-in-out infinite;
+  }
+  @keyframes wheelActivePulse {
+    0%, 100% {
+      box-shadow:
+        0 0 18px rgba(232, 255, 0, 0.9),
+        0 0 36px rgba(232, 255, 0, 0.45),
+        inset 0 0 0 2px rgba(232, 255, 0, 0.4);
+      transform: scale(1.32);
+    }
+    50% {
+      box-shadow:
+        0 0 26px rgba(232, 255, 0, 1),
+        0 0 50px rgba(232, 255, 0, 0.7),
+        inset 0 0 0 2px rgba(232, 255, 0, 0.55);
+      transform: scale(1.42);
+    }
   }
   .wheel-slot img {
     width: 100%; height: 100%;
@@ -3671,7 +3689,7 @@
   .wheel-center {
     position: absolute;
     top: 50%; left: 50%;
-    width: 130px; height: 130px;
+    width: 90px; height: 90px;
     transform: translate(-50%, -50%);
     z-index: 2;
     pointer-events: none;
@@ -3725,45 +3743,36 @@
     0%, 100% { opacity: 0.7; }
     50%      { opacity: 1; }
   }
-  /* 選択中スロット の横に押せる目印 (👉 + 「タップ」) */
+  /* 選択中スロット の上に大きな『ココをタップ』バナー */
   .wheel-slot.is-active::after {
-    content: '👉';
+    content: '👆 ココをタップ';
     position: absolute;
-    top: 50%;
-    left: 100%;
-    margin-left: 4px;
-    transform: translateY(-50%);
-    font-size: 1.4rem;
-    pointer-events: none;
-    animation: pushHandWave 0.9s ease-in-out infinite;
-    filter: drop-shadow(0 0 8px rgba(232, 255, 0, 0.85));
-  }
-  @keyframes pushHandWave {
-    0%, 100% { transform: translateY(-50%) translateX(0) rotate(0deg); }
-    50%      { transform: translateY(-50%) translateX(-4px) rotate(-10deg); }
-  }
-  /* 選択中スロット の内側に蛍光黄色の「タップ」ピル */
-  .wheel-slot.is-active .wheel-slot-inner::after {
-    content: 'タップ';
-    position: absolute;
-    bottom: -22px;
+    bottom: 100%;
     left: 50%;
     transform: translateX(-50%);
+    margin-bottom: 6px;
     font-family: 'Zen Kaku Gothic New', sans-serif;
-    font-size: 0.6rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
     color: #1a0a3a;
-    background: #e8ff00;
-    padding: 2px 7px;
+    background: linear-gradient(180deg, #e8ff00, #c8d800);
+    padding: 4px 10px 4px 8px;
     border-radius: 999px;
-    border: 1px solid #e8ff00;
-    box-shadow: 0 0 10px rgba(232, 255, 0, 0.7);
+    border: 1.5px solid #e8ff00;
+    box-shadow: 0 0 14px rgba(232, 255, 0, 0.85), 0 0 28px rgba(232, 255, 0, 0.45);
     pointer-events: none;
     white-space: nowrap;
-    animation: tapPillPulse 1.4s ease-in-out infinite;
+    animation: tapBannerBob 0.9s ease-in-out infinite;
+    z-index: 3;
   }
-  @keyframes tapPillPulse {
-    0%, 100% { transform: translateX(-50%) scale(0.95); opacity: 0.9; }
-    50%      { transform: translateX(-50%) scale(1.1); opacity: 1; }
+  @keyframes tapBannerBob {
+    0%, 100% {
+      transform: translateX(-50%) translateY(0) scale(0.96);
+    }
+    50% {
+      transform: translateX(-50%) translateY(-3px) scale(1.04);
+    }
   }
 
   /* ★ 12 アニマル詳細モーダル (display 切替→ visibility/opacity 即時化) */
@@ -3961,6 +3970,16 @@
     background: linear-gradient(180deg, rgba(180, 130, 255, 0.15), rgba(0, 0, 0, 0.4));
     border-color: rgba(180, 130, 255, 0.45);
   }
+  .wheel-detail-desc-head {
+    margin-top: 6px;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.92rem;
+    color: rgba(232, 255, 0, 0.95);
+    letter-spacing: 0.4em;
+    text-align: center;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(232, 255, 0, 0.22);
+  }
   .wheel-detail-desc {
     font-family: 'Shippori Mincho', serif;
     font-size: 0.85rem;
@@ -3969,7 +3988,17 @@
     line-height: 1.85;
     text-align: left;
     white-space: pre-line;
-    padding: 4px 4px;
+    padding: 10px 4px 4px;
+  }
+  .wheel-stats-divider {
+    margin: 22px 0 14px;
+    text-align: center;
+  }
+  .wheel-stats-divider .stats-label {
+    font-family: 'Cinzel', 'Shippori Mincho', serif;
+    font-size: 0.75rem;
+    color: rgba(232, 255, 0, 0.75);
+    letter-spacing: 0.35em;
   }
   /* 有名人ルーレット */
   /* 同タイプの出生比率 (CDC 6200万) */
@@ -7584,10 +7613,33 @@
           <!-- 族表記 (○○族 ～ ○○から約2.5日間に生まれた人) -->
           <div class="wheel-detail-tribe" id="wheelDetailTribe"></div>
 
-          <div class="wheel-detail-divider"></div>
-          <div class="wheel-detail-desc" id="wheelDetailDesc"></div>
+          <!-- 1. 多い職業 (最初に見せる) -->
+          <div class="wheel-occupation-section">
+            <div class="wheel-occupation-title" id="wheelOccupationTitle">多 い 職 業</div>
+            <div class="wheel-occupation-list" id="wheelOccupationList">
+              <!-- 動的生成 -->
+            </div>
+            <div class="wheel-occupation-source">
+              世界最大規模の統計データに基づく<br>
+              （Wikidata の有名人 126 万人 + 米国 CDC 出生 6200 万人）
+            </div>
+          </div>
 
-          <!-- 関係性 (つながり) 5 カード -->
+          <!-- 2. 有名人ルーレット -->
+          <div class="wheel-celebs-section">
+            <div class="wheel-celebs-title">この タイプ の 有 名 人</div>
+            <div class="wheel-celebs-roulette" id="wheelCelebsRoulette">
+              <div class="celebs-track" id="celebsTrack">
+                <!-- 動的生成: 名前を縦に並べる (循環) -->
+              </div>
+              <div class="celebs-mask-top"></div>
+              <div class="celebs-mask-bottom"></div>
+              <div class="celebs-pointer"></div>
+            </div>
+            <div class="wheel-celebs-hint">指でクルクル回して、有名人を見つけよう</div>
+          </div>
+
+          <!-- 3. 関係性 (つながり) 5 カード -->
           <div class="wheel-relations-section">
             <div class="wheel-relations-title" id="wheelRelationsTitle">つ な が り の 表</div>
             <div class="wheel-relations-grid" id="wheelRelationsGrid">
@@ -7595,7 +7647,16 @@
             </div>
           </div>
 
-          <!-- 同タイプの出生比率 (CDC 6200万人 世界最大規模) -->
+          <!-- 4. 性格説明 (長文) -->
+          <div class="wheel-detail-divider"></div>
+          <div class="wheel-detail-desc-head">性 格</div>
+          <div class="wheel-detail-desc" id="wheelDetailDesc"></div>
+
+          <!-- 5. 統計データ (出生比率 + 30日棒グラフ + 平均寿命) -->
+          <div class="wheel-stats-divider">
+            <span class="stats-label">─ 統 計 デ ー タ ─</span>
+          </div>
+
           <div class="wheel-cdc-section">
             <div class="wheel-cdc-title" id="wheelCdcTitle">同 タ イ プ の 出 生 比 率</div>
             <div class="wheel-cdc-value">
@@ -7607,7 +7668,6 @@
             </div>
           </div>
 
-          <!-- 30 日 月齢別 出生数 棒グラフ -->
           <div class="wheel-distribution-section">
             <div class="wheel-distribution-title">30 日 月 齢 別 の 出 生 数</div>
             <div class="wheel-distribution-help" id="wheelDistHelp">期待値 (1/30) からの 偏差</div>
@@ -7620,7 +7680,6 @@
             </div>
           </div>
 
-          <!-- 平均寿命 統計 -->
           <div class="wheel-lifespan-section">
             <div class="wheel-lifespan-title" id="wheelLifespanTitle">平 均 寿 命</div>
             <div class="wheel-lifespan-value">
@@ -7631,31 +7690,6 @@
             <div class="wheel-lifespan-source" id="wheelLifespanSource">
               世界の著名人 寿命 統計
             </div>
-          </div>
-
-          <!-- 多い職業 統計セクション (126万+6200万 統計) -->
-          <div class="wheel-occupation-section">
-            <div class="wheel-occupation-title" id="wheelOccupationTitle">多 い 職 業</div>
-            <div class="wheel-occupation-list" id="wheelOccupationList">
-              <!-- 動的生成 -->
-            </div>
-            <div class="wheel-occupation-source">
-              世界最大規模の統計データに基づく<br>
-              （Wikidata の有名人 126 万人 + 米国 CDC 出生 6200 万人）
-            </div>
-          </div>
-
-          <div class="wheel-celebs-section">
-            <div class="wheel-celebs-title">この タイプ の 有 名 人</div>
-            <div class="wheel-celebs-roulette" id="wheelCelebsRoulette">
-              <div class="celebs-track" id="celebsTrack">
-                <!-- 動的生成: 名前を縦に並べる (循環) -->
-              </div>
-              <div class="celebs-mask-top"></div>
-              <div class="celebs-mask-bottom"></div>
-              <div class="celebs-pointer"></div>
-            </div>
-            <div class="wheel-celebs-hint">指でクルクル回して、有名人を見つけよう</div>
           </div>
         </div>
       </div>
@@ -10347,8 +10381,8 @@ const COASTLINES = [
     const rotor = document.getElementById('wheelRotor');
     if (!stage || !rotor) return;
 
-    // 12 アニマルのスロット生成 (半径 = 80px、stage 320x320 内に余裕)
-    const WHEEL_RADIUS = 80;
+    // 12 アニマルのスロット生成 (半径 = 60px、stage 220x220 にぴったり)
+    const WHEEL_RADIUS = 60;
     let html = '';
     for (let i = 0; i < 12; i++) {
       const angle = i * 30;
