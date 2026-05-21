@@ -3972,6 +3972,103 @@
     padding: 4px 4px;
   }
   /* 有名人ルーレット */
+  /* 同タイプの出生比率 (CDC 6200万) */
+  .wheel-cdc-section {
+    margin-top: 18px;
+    padding: 14px 14px 12px;
+    border-radius: 12px;
+    background: linear-gradient(180deg, rgba(232, 255, 0, 0.1), rgba(90, 42, 160, 0.2));
+    border: 1.5px solid rgba(232, 255, 0, 0.35);
+    text-align: center;
+  }
+  .wheel-cdc-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.88rem;
+    color: rgba(232, 255, 0, 0.9);
+    letter-spacing: 0.18em;
+    margin-bottom: 4px;
+  }
+  .wheel-cdc-value {
+    line-height: 1;
+    margin: 4px 0 2px;
+  }
+  .wheel-cdc-value .cdc-share-num {
+    font-family: 'Cinzel', serif;
+    font-size: 2.0rem;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 0 12px rgba(232, 255, 0, 0.65), 0 0 24px rgba(232, 255, 0, 0.3);
+    letter-spacing: 0.02em;
+  }
+  .wheel-cdc-value .cdc-share-unit {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.0rem;
+    color: rgba(232, 255, 0, 0.85);
+    margin-left: 2px;
+  }
+  .wheel-cdc-diff {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.85);
+    letter-spacing: 0.05em;
+    line-height: 1.6;
+  }
+  .wheel-cdc-diff strong {
+    margin: 0 2px;
+    text-shadow: 0 0 6px currentColor;
+    font-weight: 700;
+  }
+  .wheel-cdc-diff.diff-positive strong { color: #e8ff00; }
+  .wheel-cdc-diff.diff-negative strong { color: #ff80a0; }
+  .wheel-cdc-source {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.68rem;
+    color: rgba(255, 255, 255, 0.55);
+    letter-spacing: 0.05em;
+    margin-top: 6px;
+  }
+  .wheel-cdc-source strong {
+    color: #e8ff00;
+    font-weight: 700;
+  }
+  /* 30 日 月齢別 棒グラフ */
+  .wheel-distribution-section {
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(232, 255, 0, 0.22);
+  }
+  .wheel-distribution-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.9rem;
+    color: rgba(232, 255, 0, 0.95);
+    letter-spacing: 0.2em;
+    text-align: center;
+    margin-bottom: 4px;
+  }
+  .wheel-distribution-help {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.55);
+    letter-spacing: 0.05em;
+    text-align: center;
+    margin-bottom: 6px;
+  }
+  .wheel-distribution-svg {
+    display: block;
+    width: 100%;
+    height: 110px;
+  }
+  .wheel-distribution-legend {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.65);
+    letter-spacing: 0.05em;
+    text-align: center;
+    margin-top: 6px;
+  }
+  .wheel-distribution-legend .legend-self { color: #e8ff00; margin-right: 2px; }
+  .wheel-distribution-legend .legend-other { color: rgba(180, 130, 255, 0.7); margin-left: 14px; margin-right: 2px; }
+
   /* 平均寿命 セクション */
   .wheel-lifespan-section {
     margin-top: 18px;
@@ -7498,6 +7595,31 @@
             </div>
           </div>
 
+          <!-- 同タイプの出生比率 (CDC 6200万人 世界最大規模) -->
+          <div class="wheel-cdc-section">
+            <div class="wheel-cdc-title" id="wheelCdcTitle">同 タ イ プ の 出 生 比 率</div>
+            <div class="wheel-cdc-value">
+              <span class="cdc-share-num" id="wheelCdcShareNum">—</span><span class="cdc-share-unit">%</span>
+            </div>
+            <div class="wheel-cdc-diff" id="wheelCdcDiff"></div>
+            <div class="wheel-cdc-source">
+              米国 CDC 出生統計 6,200 万 人 <strong>(世界最大規模)</strong>
+            </div>
+          </div>
+
+          <!-- 30 日 月齢別 出生数 棒グラフ -->
+          <div class="wheel-distribution-section">
+            <div class="wheel-distribution-title">30 日 月 齢 別 の 出 生 数</div>
+            <div class="wheel-distribution-help" id="wheelDistHelp">期待値 (1/30) からの 偏差</div>
+            <svg class="wheel-distribution-svg" viewBox="0 0 300 110" id="wheelDistSvg">
+              <!-- 動的描画 -->
+            </svg>
+            <div class="wheel-distribution-legend">
+              <span class="legend-self">▮</span> あなたのタイプ
+              <span class="legend-other">▮</span> 他のタイプ
+            </div>
+          </div>
+
           <!-- 平均寿命 統計 -->
           <div class="wheel-lifespan-section">
             <div class="wheel-lifespan-title" id="wheelLifespanTitle">平 均 寿 命</div>
@@ -10411,10 +10533,105 @@ const COASTLINES = [
     renderWheelRelations(idx);
     // 重い処理 (fetch・ルーレット描画) は次フレームに分離
     requestAnimationFrame(() => {
+      renderWheelCdcStats(idx);
       renderWheelLifespan(idx);
       renderWheelOccupations(idx);
       renderCelebsRoulette(idx);
     });
+  }
+
+  // CDC 出生分布データ
+  let wheelCdcData = null;
+  async function loadCdcData() {
+    if (wheelCdcData) return wheelCdcData;
+    try {
+      const res = await fetch('./data/cdc_birth_distribution.json?v=20260522');
+      if (!res.ok) throw new Error('404');
+      wheelCdcData = await res.json();
+      return wheelCdcData;
+    } catch (e) {
+      wheelCdcData = null;
+      return null;
+    }
+  }
+  async function renderWheelCdcStats(idx) {
+    const titleEl = document.getElementById('wheelCdcTitle');
+    const numEl = document.getElementById('wheelCdcShareNum');
+    const diffEl = document.getElementById('wheelCdcDiff');
+    const svg = document.getElementById('wheelDistSvg');
+    if (!numEl) return;
+    const phase = PHASES_12[idx];
+    if (titleEl && phase) titleEl.textContent = `${getDisplayName(phase)} 族 の 出 生 比 率`;
+    const data = await loadCdcData();
+    if (!data || !data.types || !data.types[idx]) {
+      numEl.textContent = '—';
+      if (diffEl) diffEl.textContent = 'データ準備中';
+      return;
+    }
+    const t = data.types[idx];
+    numEl.textContent = Number(t.share_pct).toFixed(2);
+    if (diffEl) {
+      const diff = t.diff_from_equal_pct;
+      const sign = diff >= 0 ? '+' : '';
+      diffEl.classList.toggle('diff-positive', diff >= 0);
+      diffEl.classList.toggle('diff-negative', diff < 0);
+      const expect = data.expected_share_pct_12 || 8.333;
+      diffEl.innerHTML =
+        `期待値 ${expect.toFixed(2)}% より <strong>${sign}${diff.toFixed(2)}</strong>%`;
+    }
+    // 30 日棒グラフ
+    if (svg && data.bins_30) {
+      renderDistributionChart(svg, data.bins_30, idx);
+    }
+  }
+
+  function renderDistributionChart(svg, bins, selectedIdx) {
+    const W = 300, H = 110;
+    const baseY = 60;       // 0 ライン
+    const maxBar = 42;       // 最大バー長
+    const maxAbs = Math.max(...bins.map(b => Math.abs(b.diff_from_equal_pct)));
+    const scale = maxAbs > 0 ? maxBar / maxAbs : 0;
+    const barW = 8;
+    const gap = 1.5;
+    const totalW = bins.length * barW + (bins.length - 1) * gap;
+    const startX = (W - totalW) / 2;
+
+    // selectedIdx が属する bin range (各タイプ 2.5 bin 幅)
+    const myBinLow = selectedIdx * 2.5;
+    const myBinHigh = (selectedIdx + 1) * 2.5;
+
+    let html = '';
+    // 0 ライン
+    html += `<line x1="0" y1="${baseY}" x2="${W}" y2="${baseY}" stroke="rgba(232,255,0,0.35)" stroke-width="0.6" stroke-dasharray="2,2"/>`;
+    // 各バー
+    bins.forEach((b, i) => {
+      const x = startX + i * (barW + gap);
+      const h = Math.abs(b.diff_from_equal_pct) * scale;
+      const isUp = b.diff_from_equal_pct >= 0;
+      const y = isUp ? (baseY - h) : baseY;
+      const isMyBin = (i >= myBinLow && i < myBinHigh);
+      const fill = isMyBin ? '#e8ff00' : 'rgba(180, 130, 255, 0.6)';
+      const opacity = isMyBin ? '1' : '0.85';
+      const filter = isMyBin ? ' filter="drop-shadow(0 0 4px rgba(232,255,0,0.85))"' : '';
+      html += `<rect x="${x}" y="${y}" width="${barW}" height="${h.toFixed(2)}" fill="${fill}" opacity="${opacity}"${filter}/>`;
+    });
+    // 主要月相ラベル (0=新月, 7.5=上弦, 15=満月, 22.5=下弦)
+    const labels = [
+      { idx: 0, text: '新' },
+      { idx: 7.5, text: '上' },
+      { idx: 15, text: '満' },
+      { idx: 22.5, text: '下' },
+    ];
+    labels.forEach(l => {
+      const x = startX + l.idx * (barW + gap) + barW / 2;
+      html += `<text x="${x}" y="${H - 4}" text-anchor="middle" fill="rgba(232,255,0,0.75)" font-size="8" font-family="Shippori Mincho,serif">${l.text}</text>`;
+    });
+    // 縦のソフトな目盛り
+    [0, 7.5, 15, 22.5].forEach(li => {
+      const x = startX + li * (barW + gap) + barW / 2;
+      html += `<line x1="${x}" y1="${baseY-50}" x2="${x}" y2="${baseY+45}" stroke="rgba(232,255,0,0.12)" stroke-width="0.4"/>`;
+    });
+    svg.innerHTML = html;
   }
 
   // 平均寿命データ
