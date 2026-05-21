@@ -2047,14 +2047,20 @@
     background: rgba(232, 255, 0, 0.18);
   }
   .mypage-edit-icon { margin-right: 5px; }
-  /* 月画像の上のキャプション */
+  /* 月画像の上のキャプション (○○さんが生まれた日の月のカタチです) */
   .mypage-moon-caption {
     font-family: 'Zen Kaku Gothic New', sans-serif;
-    font-size: 0.88rem;
-    color: rgba(232, 255, 0, 0.85);
-    letter-spacing: 0.04em;
+    font-size: 0.95rem;
+    color: rgba(232, 255, 0, 0.9);
+    letter-spacing: 0;
     margin-bottom: 14px;
     font-weight: 500;
+  }
+  #mypageMoonCaptionName {
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: 0;
+    margin-right: 0;
   }
   /* マイページ結果セクション */
   .mypage-result {
@@ -2119,6 +2125,21 @@
   }
   .mypage-result .uranai-balance-name {
     font-weight: 700;
+  }
+  /* 旧暦行 (誕生日の直下) */
+  .mypage-result .uranai-place-line-lunar {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.85rem;
+    color: rgba(232, 255, 0, 0.7);
+    letter-spacing: 0.02em;
+    margin-top: 4px;
+    margin-bottom: 8px;
+    font-weight: 400;
+  }
+  .mypage-result .uranai-place-line-lunar strong {
+    color: #e8ff00;
+    font-weight: 700;
+    margin: 0 2px;
   }
 
   .uranai-scroll {
@@ -6065,11 +6086,11 @@
       </div>
     </div>
 
-    <!-- 保存済みのときに表示される「変更する」開閉ボタン -->
+    <!-- 入力欄の折りたたみ展開ボタン (form が閉じている時に表示) -->
     <div class="mypage-edit-row" id="mypageEditRow" style="display:none">
       <button id="mypageEditBtn" class="mypage-edit-btn" type="button">
         <span class="mypage-edit-icon">✎</span>
-        設定を変更する
+        登 録
       </button>
     </div>
 
@@ -6136,7 +6157,7 @@
     <div class="mypage-result" id="mypageResult" style="display:none">
       <!-- 月画像 + 月のカタチ説明 + 月齢 -->
       <div class="mypage-moon-block">
-        <div class="mypage-moon-caption">あなたが生まれた瞬間の月のカタチです</div>
+        <div class="mypage-moon-caption" id="mypageMoonCaption"><span id="mypageMoonCaptionName"></span>さんが生まれた日の月のカタチです</div>
         <img id="mypageMoonImg" class="mypage-moon-img" src="" alt="">
         <div class="mypage-moon-age" id="mypageMoonAge"></div>
       </div>
@@ -6144,6 +6165,7 @@
       <!-- 場所・時刻カード -->
       <div class="uranai-card uranai-place">
         <div class="uranai-place-line-date" id="uranaiBirthDateStr"></div>
+        <div class="uranai-place-line-lunar" id="uranaiBirthDateLunar"></div>
         <div class="uranai-place-line1">
           <span class="uranai-place-city-label">生まれた場所</span>
           <span class="uranai-place-city" id="uranaiCityName"></span>
@@ -8916,26 +8938,16 @@ const COASTLINES = [
       }, 50);
     });
 
-    // 保存済みなら起動時に form を collapsed 状態に
-    if (hasMypageSavedOnce()) setMypageFormCollapsed(true);
+    // ★ 起動時は常に form を collapsed (登録ボタンに折りたたみ表示)
+    setMypageFormCollapsed(true);
   }
 
   document.addEventListener('DOMContentLoaded', () => {
     initMypage();
     // invite URL がある時は invite フローを優先 (mypage 自動オープンしない)
-    const hasInvite = !!parseInviteUrl();
+    // ★ マイページ自動オープンは完全停止 (起動は常に暦タブから)
+    //   初回ユーザーはマイページタブの「✎ 登録」ボタンから入力する
     const saved = loadMypageData();
-    const savedOnce = hasMypageSavedOnce();
-
-    // ★ 一度でも「保存する」を押した人 → 自動オープンなし、暦タブから起動
-    //   未保存ユーザー → マイページをパワープッシュで自動オープン
-    if (!hasInvite && !savedOnce) {
-      setTimeout(() => {
-        const myBtn = document.querySelector('.tab-btn[data-view="mypage"]');
-        if (myBtn) myBtn.click();
-      }, 400);
-    }
-
     // 保存済みデータがあれば占い form / self person を裏で更新 (相性占い等のため)
     if (saved && saved.year) {
       setTimeout(() => {
@@ -9508,8 +9520,24 @@ const COASTLINES = [
       const wd = ['日','月','火','水','木','金','土'];
       const birthDateStr = `${birth.getFullYear()}年${birth.getMonth()+1}月${birth.getDate()}日（${wd[birth.getDay()]}）`;
       document.getElementById('uranaiBirthDateStr').textContent = birthDateStr;
+      // ★ 旧暦行 (誕生日の直下)
+      const lunarEl = document.getElementById('uranaiBirthDateLunar');
+      if (lunarEl) {
+        try {
+          const lunar = getLunarDate(birth);
+          lunarEl.innerHTML = `旧暦 <strong>${lunar.month}月${lunar.day}日</strong>`;
+        } catch (e) { lunarEl.textContent = ''; }
+      }
       document.getElementById('uranaiTimeJst').textContent = timeStr;
       document.getElementById('uranaiTimeLocal').textContent = hoursToHHMM(localH);
+
+      // ★ マイページ 月のカタチ caption に nickname を入れる
+      const captionNameEl = document.getElementById('mypageMoonCaptionName');
+      if (captionNameEl) {
+        const _myp2 = (typeof loadMypageData === 'function') ? loadMypageData() : null;
+        const _capName = (_myp2 && _myp2.nickname && _myp2.nickname !== 'あなた') ? _myp2.nickname : 'あなた';
+        captionNameEl.textContent = _capName;
+      }
 
       // 太陽月の位置 (時計盤)
       document.getElementById('uranaiSkyFacing').textContent =
