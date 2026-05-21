@@ -15,6 +15,8 @@
 <link rel="apple-touch-icon" sizes="152x152" href="./icons_v7/icon-152.png">
 <link rel="apple-touch-icon" sizes="120x120" href="./icons_v7/icon-120.png">
 <link rel="icon" type="image/png" sizes="192x192" href="./icons_v7/icon-192.png">
+<!-- iOS PWA splash: 半月アイコンの代わりに瞑想画像でフェードイン -->
+<link rel="apple-touch-startup-image" href="./images/meditation_goddess.jpg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2026,27 +2028,33 @@
   }
   /* 保存後の collapsed form (折りたたみ) */
   .mypage-form.is-collapsed { display: none; }
+  /* ★ 登録ボタンはマイページヘッダの右上に小さく */
+  .mypage-header { position: relative; }
   .mypage-edit-row {
-    text-align: center;
-    margin: 0 auto 18px;
-    max-width: 440px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    height: 100%;
   }
   .mypage-edit-btn {
     background: rgba(232, 255, 0, 0.08);
     border: 1px solid rgba(232, 255, 0, 0.45);
     color: rgba(232, 255, 0, 0.9);
     font-family: 'Zen Kaku Gothic New', sans-serif;
-    font-size: 0.85rem;
+    font-size: 0.74rem;
     font-weight: 500;
-    letter-spacing: 0.05em;
-    padding: 9px 18px;
+    letter-spacing: 0.03em;
+    padding: 5px 12px;
     border-radius: 999px;
     cursor: pointer;
+    line-height: 1;
   }
   .mypage-edit-btn:active {
     background: rgba(232, 255, 0, 0.18);
   }
-  .mypage-edit-icon { margin-right: 5px; }
+  .mypage-edit-icon { margin-right: 3px; font-size: 0.85em; }
   /* 月画像の上のキャプション (○○さんが生まれた日の月のカタチです) */
   .mypage-moon-caption {
     font-family: 'Zen Kaku Gothic New', sans-serif;
@@ -2135,6 +2143,7 @@
     margin-top: 4px;
     margin-bottom: 8px;
     font-weight: 400;
+    text-align: center;
   }
   .mypage-result .uranai-place-line-lunar strong {
     color: #e8ff00;
@@ -2665,7 +2674,7 @@
     75%  { transform: translateX(100%) rotate(-90deg);     opacity: 0.7; }
     100% { transform: translateX(100%) rotate(-90deg);     opacity: 0; }
   }
-  /* 中央大タイトル (縦書き、早めに登場) */
+  /* 中央大タイトル (縦書き、早めに登場、コーポレート紫×蛍光黄色) */
   .uranai-pull-title-big {
     position: absolute;
     top: 50%;
@@ -2674,15 +2683,27 @@
     writing-mode: vertical-rl;
     font-family: 'Reggae One', 'Shippori Mincho', serif;
     font-size: clamp(2.8rem, 13vw, 5rem);
-    color: rgba(255, 250, 230, 1);
     letter-spacing: 0.15em;
     line-height: 1;
-    text-shadow:
-      0 0 20px rgba(255, 220, 130, 0.85),
-      0 0 40px rgba(245, 196, 74, 0.6),
-      0 4px 8px rgba(0, 0, 0, 0.9);
     opacity: 0;
-    animation: pullTitleAppear 1.2s cubic-bezier(0.3, 1.2, 0.5, 1) 1.2s forwards;
+    animation: pullTitleAppear 1.0s cubic-bezier(0.3, 1.2, 0.5, 1) 0.7s forwards;
+  }
+  .uranai-pull-title-big .pull-title-char {
+    display: inline-block;
+  }
+  .uranai-pull-title-big .pull-title-char-yellow {
+    color: #e8ff00;
+    text-shadow:
+      0 0 14px rgba(232, 255, 0, 0.85),
+      0 0 32px rgba(232, 255, 0, 0.5),
+      0 4px 6px rgba(0, 0, 0, 0.9);
+  }
+  .uranai-pull-title-big .pull-title-char-purple {
+    color: #d8b8ff;
+    text-shadow:
+      0 0 14px rgba(160, 100, 240, 0.85),
+      0 0 32px rgba(110, 60, 200, 0.55),
+      0 4px 6px rgba(0, 0, 0, 0.9);
   }
   @keyframes pullTitleAppear {
     0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.5) rotate(-4deg); }
@@ -3561,6 +3582,227 @@
     line-height: 1;
     cursor: pointer;
     padding: 0;
+  }
+  /* ✎ 編集ボタン (全カード共通、× の代替) */
+  .uranai-person-edit {
+    position: absolute;
+    top: 4px; right: 4px;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    border: 1px solid rgba(232, 255, 0, 0.5);
+    background: rgba(26, 10, 58, 0.85);
+    color: rgba(232, 255, 0, 0.9);
+    font-size: 0.7rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .uranai-person-edit:active {
+    background: rgba(232, 255, 0, 0.2);
+  }
+  /* もっと見る / 閉じる カード */
+  .uranai-person-more {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background: linear-gradient(180deg, rgba(58, 26, 106, 0.5), rgba(26, 10, 58, 0.6)) !important;
+    border: 1px dashed rgba(232, 255, 0, 0.5) !important;
+    cursor: pointer;
+    min-height: 110px;
+    padding: 14px 8px !important;
+  }
+  .uranai-person-more .uranai-more-plus {
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem;
+    color: #e8ff00;
+    letter-spacing: 0.05em;
+    text-shadow: 0 0 8px rgba(232, 255, 0, 0.5);
+    margin-bottom: 4px;
+  }
+  .uranai-person-more .uranai-more-text {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.72rem;
+    color: rgba(232, 255, 0, 0.85);
+    letter-spacing: 0.05em;
+    font-weight: 500;
+  }
+  .uranai-person-more.uranai-person-close .uranai-more-text {
+    font-size: 0.82rem;
+  }
+
+  /* ★ チーム力を占う セクション (折りたたみ) */
+  .uranai-team-section {
+    margin: 24px 0 28px;
+    border: 1px solid rgba(232, 255, 0, 0.18);
+    border-radius: 14px;
+    background: linear-gradient(180deg, rgba(58, 26, 106, 0.18), rgba(26, 10, 58, 0.25));
+    overflow: hidden;
+  }
+  .uranai-team-toggle {
+    width: 100%;
+    padding: 16px 18px;
+    background: transparent;
+    border: none;
+    color: #e8ff00;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1rem;
+    letter-spacing: 0.15em;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .uranai-team-toggle .team-toggle-icon {
+    transition: transform 0.25s;
+    color: rgba(232, 255, 0, 0.85);
+    font-size: 0.85rem;
+  }
+  .uranai-team-toggle.is-open .team-toggle-icon {
+    transform: rotate(90deg);
+  }
+  .team-toggle-sub {
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    margin-left: auto;
+  }
+  .uranai-team-content {
+    padding: 8px 18px 22px;
+    border-top: 1px solid rgba(232, 255, 0, 0.12);
+  }
+  .uranai-team-help {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.65);
+    letter-spacing: 0.12em;
+    text-align: center;
+    margin: 14px 0 12px;
+    line-height: 1.7;
+  }
+  .uranai-team-help strong {
+    color: #e8ff00;
+    font-weight: 700;
+  }
+  .uranai-team-slots {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .uranai-team-slot {
+    aspect-ratio: 3 / 4;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1.5px dashed rgba(232, 255, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .uranai-team-slot.empty .team-slot-num {
+    font-family: 'Cinzel', serif;
+    color: rgba(232, 255, 0, 0.35);
+    font-size: 1.1rem;
+  }
+  .uranai-team-slot.filled {
+    border-style: solid;
+    border-color: rgba(232, 255, 0, 0.6);
+  }
+  .uranai-team-pick-btn {
+    display: block;
+    width: 100%;
+    padding: 11px;
+    background: linear-gradient(180deg, rgba(232, 255, 0, 0.18), rgba(232, 255, 0, 0.08));
+    border: 1px solid rgba(232, 255, 0, 0.5);
+    border-radius: 10px;
+    color: #e8ff00;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.92rem;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    margin-bottom: 14px;
+  }
+
+  /* ★ 今日の相性 セクション */
+  .uranai-today-section {
+    margin: 24px 0 30px;
+  }
+  .uranai-today-sub {
+    text-align: center;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.55);
+    letter-spacing: 0.1em;
+    margin: 4px 0 14px;
+  }
+  .uranai-today-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .uranai-today-card {
+    background: linear-gradient(180deg, rgba(58, 26, 106, 0.4), rgba(26, 10, 58, 0.5));
+    border: 1px solid rgba(232, 255, 0, 0.2);
+    border-radius: 12px;
+    padding: 12px 8px;
+    text-align: center;
+  }
+  .uranai-today-good {
+    border-color: rgba(110, 230, 180, 0.55);
+    box-shadow: 0 0 14px rgba(110, 230, 180, 0.15);
+  }
+  .uranai-today-caution {
+    border-color: rgba(245, 80, 100, 0.5);
+    box-shadow: 0 0 14px rgba(245, 80, 100, 0.12);
+  }
+  .uranai-today-insight {
+    border-color: rgba(232, 255, 0, 0.55);
+    box-shadow: 0 0 14px rgba(232, 255, 0, 0.18);
+  }
+  .today-card-label {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.7rem;
+    color: rgba(232, 255, 0, 0.85);
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+    line-height: 1.4;
+    min-height: 2.6em;
+  }
+  .uranai-today-good .today-card-label { color: rgba(110, 230, 180, 0.95); }
+  .uranai-today-caution .today-card-label { color: rgba(245, 130, 145, 0.95); }
+  .uranai-today-insight .today-card-label { color: rgba(232, 255, 0, 0.95); }
+  .today-card-img {
+    width: 56px; height: 56px;
+    object-fit: contain;
+    border-radius: 50%;
+    margin: 0 auto 6px;
+    display: block;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(232, 255, 0, 0.3);
+    filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.4));
+  }
+  .today-card-img[src=""] {
+    visibility: hidden;
+  }
+  .today-card-name {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.78rem;
+    color: #fff;
+    letter-spacing: 0.05em;
+    margin-bottom: 2px;
+    line-height: 1.3;
+  }
+  .today-card-type {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 0.08em;
+    line-height: 1.3;
   }
 
   /* 家族マップ表 */
@@ -5956,7 +6198,7 @@
         </div>
 
         <button class="uranai-add-toggle" id="uranaiAddToggle" type="button">
-          ＋ 人 を 追 加（あ と <span id="uranaiAddRemaining">4</span> 人）
+          ＋ 新 し い カ ー ド を 登 録
         </button>
 
         <!-- 追加フォーム (折りたたみ) -->
@@ -5996,9 +6238,60 @@
 
         <!-- 家族マップ表 -->
         <div class="uranai-family-table-wrap" id="uranaiFamilyTableWrap"></div>
+      </div>
 
-        <!-- 相性結果 -->
-        <div class="uranai-compat-results" id="uranaiCompatResults"></div>
+      <!-- ★ チーム力を占う (5人チーム) — 折りたたみ式 -->
+      <div class="uranai-team-section">
+        <button class="uranai-team-toggle" id="uranaiTeamToggle" type="button">
+          <span class="team-toggle-icon" id="uranaiTeamToggleIcon">▶</span>
+          チーム力を占う <span class="team-toggle-sub">（5人チーム）</span>
+        </button>
+        <div class="uranai-team-content" id="uranaiTeamContent" style="display:none">
+          <div class="uranai-team-help">
+            上のカードから <strong>5 枚</strong> まで選んで、チームの関係性を占おう
+          </div>
+          <div class="uranai-team-slots" id="uranaiTeamSlots">
+            <!-- 5 枚スロット (動的に描画、今は見た目だけのプレースホルダー) -->
+            <div class="uranai-team-slot empty"><div class="team-slot-num">1</div></div>
+            <div class="uranai-team-slot empty"><div class="team-slot-num">2</div></div>
+            <div class="uranai-team-slot empty"><div class="team-slot-num">3</div></div>
+            <div class="uranai-team-slot empty"><div class="team-slot-num">4</div></div>
+            <div class="uranai-team-slot empty"><div class="team-slot-num">5</div></div>
+          </div>
+          <button class="uranai-team-pick-btn" type="button">＋ カードを選ぶ</button>
+          <!-- 相性結果 -->
+          <div class="uranai-compat-results" id="uranaiCompatResults"></div>
+        </div>
+      </div>
+
+      <!-- ★ 今日の相性 セクション (見た目のみ、ロジックは仮) -->
+      <div class="uranai-today-section">
+        <div class="uranai-section-title-wrap">
+          <span class="uranai-section-title-deco">✦</span>
+          <div class="uranai-section-title">今 日 の 相 性</div>
+          <span class="uranai-section-title-deco">✦</span>
+        </div>
+        <div class="uranai-today-sub" id="uranaiTodaySub">きょうのあなたへ</div>
+        <div class="uranai-today-cards">
+          <div class="uranai-today-card uranai-today-good" id="uranaiTodayGoodCard">
+            <div class="today-card-label">今日 会うべき</div>
+            <img class="today-card-img" id="uranaiTodayGoodImg" src="" alt="">
+            <div class="today-card-name" id="uranaiTodayGoodName">—</div>
+            <div class="today-card-type" id="uranaiTodayGoodType">—</div>
+          </div>
+          <div class="uranai-today-card uranai-today-caution" id="uranaiTodayCautionCard">
+            <div class="today-card-label">気をつけたい</div>
+            <img class="today-card-img" id="uranaiTodayCautionImg" src="" alt="">
+            <div class="today-card-name" id="uranaiTodayCautionName">—</div>
+            <div class="today-card-type" id="uranaiTodayCautionType">—</div>
+          </div>
+          <div class="uranai-today-card uranai-today-insight" id="uranaiTodayInsightCard">
+            <div class="today-card-label">気付きを与える</div>
+            <img class="today-card-img" id="uranaiTodayInsightImg" src="" alt="">
+            <div class="today-card-name" id="uranaiTodayInsightName">—</div>
+            <div class="today-card-type" id="uranaiTodayInsightType">—</div>
+          </div>
+        </div>
       </div>
 
       <!-- シェアカード -->
@@ -7993,39 +8286,75 @@ const COASTLINES = [
   // ============ 人物リスト管理 (相性占い) ============
   let uranaiPeople = [];
 
+  // 「もっと見る」展開状態 (global)
+  let peopleExpanded = false;
+  const PEOPLE_SHOW_LIMIT = 8;
+
   function renderPeople() {
     const listEl = document.getElementById('uranaiPeopleList');
     if (!listEl) return;
-    listEl.innerHTML = uranaiPeople.map((p, i) => `
-      <div class="uranai-person-card${i === 0 ? ' is-self' : ''}">
-        ${i > 0 ? `<button class="uranai-person-remove" data-idx="${i}" type="button">×</button>` : ''}
-        <img class="uranai-person-img" src="./character_icons/char_${String(p.phaseIdx).padStart(2,'0')}.png" alt="">
-        <div class="uranai-person-name">${(p.name || (i === 0 ? 'あなた' : '名前なし')).split('').join(' ')}</div>
-        <div class="uranai-person-type">${getDisplayName(p.phase).split('').join(' ')}</div>
-        <div class="uranai-person-lucky">L. ${p.phaseIdx}</div>
-      </div>
-    `).join('');
-    listEl.querySelectorAll('.uranai-person-remove').forEach(btn => {
-      btn.addEventListener('click', () => {
+    const total = uranaiPeople.length;
+    const showAll = (total <= 9 || peopleExpanded);
+    const visibleCount = showAll ? total : PEOPLE_SHOW_LIMIT;
+
+    let html = '';
+    for (let i = 0; i < visibleCount; i++) {
+      const p = uranaiPeople[i];
+      html += `
+        <div class="uranai-person-card${i === 0 ? ' is-self' : ''}">
+          <button class="uranai-person-edit" data-idx="${i}" type="button" aria-label="編集">✎</button>
+          <img class="uranai-person-img" src="./character_icons/char_${String(p.phaseIdx).padStart(2,'0')}.png" alt="">
+          <div class="uranai-person-name">${(p.name || (i === 0 ? 'あなた' : '名前なし')).split('').join(' ')}</div>
+          <div class="uranai-person-type">${getDisplayName(p.phase).split('').join(' ')}</div>
+          <div class="uranai-person-lucky">L. ${p.phaseIdx}</div>
+        </div>
+      `;
+    }
+    // 9 枚以上で 8 枚しか出してない時 → 「もっと見る」カード
+    if (total > 9 && !peopleExpanded) {
+      const remaining = total - PEOPLE_SHOW_LIMIT;
+      html += `
+        <div class="uranai-person-card uranai-person-more" id="uranaiMoreCard" data-action="expand">
+          <div class="uranai-more-plus">＋${remaining}</div>
+          <div class="uranai-more-text">もっと見る</div>
+        </div>
+      `;
+    } else if (total > 9 && peopleExpanded) {
+      html += `
+        <div class="uranai-person-card uranai-person-more uranai-person-close" id="uranaiMoreCard" data-action="collapse">
+          <div class="uranai-more-text">閉じる</div>
+        </div>
+      `;
+    }
+    listEl.innerHTML = html;
+
+    // ✎ 編集ボタン
+    listEl.querySelectorAll('.uranai-person-edit').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
         const idx = parseInt(btn.dataset.idx);
-        uranaiPeople.splice(idx, 1);
-        renderPeople();
-        renderCompatibility();
-        updateAddRemaining();
+        if (typeof openEditCardForm === 'function') openEditCardForm(idx);
       });
     });
-    // 家族マップ表 & シェアカードも自動更新
+    // もっと見る / 閉じる
+    const moreCard = document.getElementById('uranaiMoreCard');
+    if (moreCard) {
+      moreCard.addEventListener('click', () => {
+        peopleExpanded = moreCard.dataset.action === 'expand';
+        renderPeople();
+      });
+    }
+
     renderFamilyTable();
     if (typeof refreshShareCard === 'function') refreshShareCard();
     if (typeof saveUranaiData === 'function') saveUranaiData();
+    if (typeof refreshTodayCompat === 'function') refreshTodayCompat();
   }
 
   function updateAddRemaining() {
-    const remain = 5 - uranaiPeople.length;
-    const remEl = document.getElementById('uranaiAddRemaining');
+    // 制限を撤廃: 「新しいカードを登録」ボタンは常に有効
     const tglEl = document.getElementById('uranaiAddToggle');
-    if (remEl) remEl.textContent = String(Math.max(0, remain));
-    if (tglEl) tglEl.disabled = (remain <= 0);
+    if (tglEl) tglEl.disabled = false;
   }
 
   // 年/月/日 の select を populate
@@ -8172,6 +8501,46 @@ const COASTLINES = [
     out.innerHTML = html;
   }
 
+  // 編集モード管理 (-1 = 新規追加 / >=0 = uranaiPeople[idx] 編集)
+  let editingPersonIdx = -1;
+
+  function resetAddForm(personYearEl, personMonthEl, personDayEl, personCityEl) {
+    document.getElementById('uranaiPersonName').value = '';
+    populateDateSelects(personYearEl, personMonthEl, personDayEl, { year: 2000, month: 1, day: 1 });
+    document.getElementById('uranaiPersonTime').value = '15:00';
+    document.getElementById('uranaiPersonTimeUnknown').checked = false;
+    document.getElementById('uranaiPersonTime').disabled = false;
+    if (personCityEl) personCityEl.value = '東京';
+  }
+
+  // カード編集を開く (idx を uranaiPeople 内で指定)
+  function openEditCardForm(idx) {
+    const p = uranaiPeople[idx];
+    if (!p) return;
+    editingPersonIdx = idx;
+    document.getElementById('uranaiPersonName').value = p.name || '';
+    const [yy, mm, dd] = (p.birthDate || '1990-01-01').split('-').map(Number);
+    const setVal = (id, v) => { const el = document.getElementById(id); if (el) el.value = v; };
+    setVal('uranaiPersonYear', yy);
+    setVal('uranaiPersonMonth', mm);
+    setVal('uranaiPersonDay', dd);
+    setVal('uranaiPersonTime', p.birthTime || '15:00');
+    const tu = document.getElementById('uranaiPersonTimeUnknown');
+    if (tu) tu.checked = false;
+    document.getElementById('uranaiPersonTime').disabled = false;
+    setVal('uranaiPersonCity', p.cityName || '東京');
+    // フォーム表示 / 追加ボタンを隠す / confirm ラベル変更
+    document.getElementById('uranaiAddForm').style.display = 'block';
+    document.getElementById('uranaiAddToggle').style.display = 'none';
+    const confirmBtn = document.getElementById('uranaiAddConfirm');
+    if (confirmBtn) confirmBtn.textContent = idx === 0 ? '本 人 情 報 を 保 存' : '保 存';
+    // スクロール
+    setTimeout(() => {
+      document.getElementById('uranaiAddForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+  }
+  window.openEditCardForm = openEditCardForm;
+
   // 追加フォームの初期化
   function initUranaiAddForm() {
     const addToggleEl = document.getElementById('uranaiAddToggle');
@@ -8186,16 +8555,13 @@ const COASTLINES = [
     const personTimeUnknownEl = document.getElementById('uranaiPersonTimeUnknown');
     if (!addToggleEl || !personCityEl) return;
 
-    // 年/月/日 select を生成
     populateDateSelects(personYearEl, personMonthEl, personDayEl, { year: 2000, month: 1, day: 1 });
 
-    // 都市 select
     const cityNames = Object.keys(JAPAN_CITIES);
     personCityEl.innerHTML = cityNames.map(name =>
       `<option value="${name}"${name === '東京' ? ' selected' : ''}>${name}</option>`
     ).join('');
 
-    // 時刻不明
     personTimeUnknownEl.addEventListener('change', () => {
       if (personTimeUnknownEl.checked) {
         personTimeEl.value = '15:00';
@@ -8205,18 +8571,23 @@ const COASTLINES = [
       }
     });
 
-    // フォーム開閉
+    // フォーム開閉 (新規追加モード)
     addToggleEl.addEventListener('click', () => {
-      if (uranaiPeople.length >= 5) return;
+      editingPersonIdx = -1; // 新規モード
+      resetAddForm(personYearEl, personMonthEl, personDayEl, personCityEl);
+      if (confirmEl) confirmEl.textContent = '追 加';
       addFormEl.style.display = 'block';
       addToggleEl.style.display = 'none';
     });
     cancelEl.addEventListener('click', () => {
       addFormEl.style.display = 'none';
       addToggleEl.style.display = '';
+      editingPersonIdx = -1;
+      if (confirmEl) confirmEl.textContent = '追 加';
     });
     confirmEl.addEventListener('click', () => {
-      const name = document.getElementById('uranaiPersonName').value.trim() || '名前なし';
+      const fallbackName = (editingPersonIdx === 0) ? 'あなた' : '名前なし';
+      const name = document.getElementById('uranaiPersonName').value.trim() || fallbackName;
       const date = readDateStr(personYearEl, personMonthEl, personDayEl);
       let time = document.getElementById('uranaiPersonTime').value;
       if (!time || personTimeUnknownEl.checked) time = '15:00';
@@ -8226,15 +8597,31 @@ const COASTLINES = [
         alert('日 付 / 時 刻 の 形 式 が 正 し く あ り ま せ ん');
         return;
       }
-      uranaiPeople.push(person);
+      if (editingPersonIdx >= 0) {
+        // ★ 編集モード
+        uranaiPeople[editingPersonIdx] = person;
+        // 本人カード (idx=0) の編集 → マイページプロファイルも同期
+        if (editingPersonIdx === 0 && typeof saveMypageData === 'function') {
+          const [yy, mm, dd] = date.split('-').map(Number);
+          const existing = (typeof loadMypageData === 'function') ? loadMypageData() : {};
+          saveMypageData(Object.assign({}, existing || {}, {
+            nickname: name,
+            year: yy, month: mm, day: dd,
+            time: time, timeUnknown: personTimeUnknownEl.checked, city: city
+          }));
+          if (typeof syncMypageToUranai === 'function') syncMypageToUranai();
+          const sb = document.getElementById('uranaiSubmit');
+          if (sb) sb.click();
+        }
+      } else {
+        // 新規追加モード
+        uranaiPeople.push(person);
+      }
       addFormEl.style.display = 'none';
       addToggleEl.style.display = '';
-      document.getElementById('uranaiPersonName').value = '';
-      populateDateSelects(personYearEl, personMonthEl, personDayEl, { year: 2000, month: 1, day: 1 });
-      document.getElementById('uranaiPersonTime').value = '15:00';
-      document.getElementById('uranaiPersonTimeUnknown').checked = false;
-      document.getElementById('uranaiPersonTime').disabled = false;
-      personCityEl.value = '東京';
+      resetAddForm(personYearEl, personMonthEl, personDayEl, personCityEl);
+      editingPersonIdx = -1;
+      if (confirmEl) confirmEl.textContent = '追 加';
       renderPeople();
       renderCompatibility();
       updateAddRemaining();
@@ -8244,6 +8631,72 @@ const COASTLINES = [
   }
 
   document.addEventListener('DOMContentLoaded', initUranaiAddForm);
+
+  // ★ チーム力を占う セクション 折りたたみ
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.getElementById('uranaiTeamToggle');
+    const content = document.getElementById('uranaiTeamContent');
+    if (!toggle || !content) return;
+    toggle.addEventListener('click', () => {
+      const isOpen = toggle.classList.toggle('is-open');
+      content.style.display = isOpen ? 'block' : 'none';
+    });
+  });
+
+  // ★ 今日の相性セクション (見た目のみ、ロジックは仮: uranaiPeople から月相タイプを参照)
+  function refreshTodayCompat() {
+    const sub = document.getElementById('uranaiTodaySub');
+    const now = new Date();
+    if (sub) sub.textContent = `${now.getMonth()+1}月${now.getDate()}日 のあなたへ`;
+
+    if (uranaiPeople.length === 0) return;
+    const self = uranaiPeople[0];
+    if (!self) return;
+    // 今日の月齢から「今日のタイプ」を計算 → self との関係性で 3 枚を選定 (仮)
+    let todayPhaseIdx = 0;
+    try {
+      todayPhaseIdx = getPhase12FromAge(getMoonAge(now));
+    } catch (e) { todayPhaseIdx = 0; }
+    // 候補プール: 本人以外の人物カード (なければ 12 タイプから sample)
+    const pool = uranaiPeople.length >= 2 ? uranaiPeople.slice(1) : null;
+    function pickByAspect(kind) {
+      if (pool && pool.length > 0) {
+        // 今日のタイプと aspect 関係が「kind」に近い人物を選ぶ (簡易)
+        let best = pool[0]; let bestScore = -1;
+        pool.forEach(p => {
+          const a = aspectBetween(todayPhaseIdx, p.phaseIdx);
+          const score =
+            (kind === 'good'    && (a.kind === 'trine'  || a.kind === 'sextile')) ? 2 :
+            (kind === 'caution' && (a.kind === 'opposition' || a.kind === 'square')) ? 2 :
+            (kind === 'insight' && (a.kind === 'sesqui' || a.kind === 'friction')) ? 2 : 0;
+          if (score > bestScore) { bestScore = score; best = p; }
+        });
+        return best;
+      } else {
+        // 候補なし → 12 タイプから疑似選出 (見た目だけ)
+        const offset = { good: 4, caution: 6, insight: 5 }[kind] || 1;
+        const idx = (todayPhaseIdx + offset) % 12;
+        const phase = PHASES_12[idx];
+        return { name: '—', phase, phaseIdx: idx };
+      }
+    }
+    const fill = (slotId, person, prefix) => {
+      const img = document.getElementById(prefix + 'Img');
+      const name = document.getElementById(prefix + 'Name');
+      const type = document.getElementById(prefix + 'Type');
+      if (img) img.src = `./character_icons/char_${String(person.phaseIdx).padStart(2,'0')}.png`;
+      if (name) name.textContent = person.name || '—';
+      if (type) type.textContent = getDisplayName(person.phase);
+    };
+    fill('uranaiTodayGoodCard',    pickByAspect('good'),    'uranaiTodayGood');
+    fill('uranaiTodayCautionCard', pickByAspect('caution'), 'uranaiTodayCaution');
+    fill('uranaiTodayInsightCard', pickByAspect('insight'), 'uranaiTodayInsight');
+  }
+  // 占い submit / renderPeople 後に再計算したいので公開
+  window.refreshTodayCompat = refreshTodayCompat;
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(refreshTodayCompat, 600);
+  });
 
   // ============ シェアカード ============
   let currentShareCard = 'self';
@@ -9211,10 +9664,14 @@ const COASTLINES = [
       img.style.cssText = style;
       overlay.appendChild(img);
     }
-    // 中央タイトル「ツキヨガ占い」(キャラ出揃ったあと出現)
+    // 中央タイトル「ツキヨガ占い」(キャラ出揃ったあと出現、紫×黄色カラフル)
     const title = document.createElement('div');
     title.className = 'uranai-pull-title-big';
-    title.textContent = 'ツキヨガ占い';
+    const _chars = 'ツキヨガ占い';
+    title.innerHTML = _chars.split('').map((c, i) => {
+      const cls = (i % 2 === 0) ? 'pull-title-char-yellow' : 'pull-title-char-purple';
+      return `<span class="pull-title-char ${cls}">${c}</span>`;
+    }).join('');
     overlay.appendChild(title);
 
     document.body.appendChild(overlay);
@@ -9236,7 +9693,7 @@ const COASTLINES = [
           if (uranaiView) uranaiView.classList.remove('during-pull-anim');
         }, 650);
       });
-    }, 3500);
+    }, 2500);
   }
 
   // (結果表示前のイントロは削除、占うボタン後はそのまま reveal へ)
