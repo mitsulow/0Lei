@@ -3132,10 +3132,45 @@
 
   /* ★v7 月占い - 相性占い (5人) */
   .uranai-compat-section {
-    margin-top: 28px;
-    padding-top: 18px;
+    margin-top: 36px;
+    padding-top: 22px;
     border-top: none;
   }
+  /* デカデカ題字 (相性占い) */
+  .uranai-section-title-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin: 0 auto 8px;
+    padding: 14px 22px;
+    background:
+      radial-gradient(ellipse at center, rgba(245, 196, 74, 0.18), transparent 70%),
+      linear-gradient(180deg, rgba(60, 50, 30, 0.5), rgba(20, 18, 10, 0.7));
+    border-top: 1px solid rgba(245, 196, 74, 0.5);
+    border-bottom: 1px solid rgba(245, 196, 74, 0.5);
+    box-shadow:
+      0 0 24px rgba(245, 196, 74, 0.18),
+      inset 0 0 18px rgba(245, 196, 74, 0.08);
+  }
+  .uranai-section-title {
+    font-family: 'Reggae One', 'Shippori Mincho', serif;
+    font-size: clamp(1.4rem, 6.5vw, 2.2rem);
+    font-weight: 700;
+    color: rgba(255, 245, 220, 0.98);
+    letter-spacing: 0.18em;
+    white-space: nowrap;
+    text-shadow:
+      0 0 12px rgba(245, 196, 74, 0.55),
+      0 0 24px rgba(245, 196, 74, 0.3),
+      0 2px 4px rgba(0, 0, 0, 0.8);
+  }
+  .uranai-section-title-deco {
+    color: rgba(245, 196, 74, 0.95);
+    font-size: 1.2rem;
+    text-shadow: 0 0 8px rgba(245, 196, 74, 0.7);
+  }
+  /* 旧 .uranai-section-head は使わないが互換性のため残す */
   .uranai-section-head {
     font-family: 'Shippori Mincho', serif;
     font-size: 1.1rem;
@@ -3146,8 +3181,8 @@
   }
   .uranai-section-sub {
     font-family: 'Shippori Mincho', serif;
-    font-size: 0.72rem;
-    color: rgba(201, 169, 97, 0.75);
+    font-size: 0.78rem;
+    color: rgba(201, 169, 97, 0.85);
     letter-spacing: 0.12em;
     text-align: center;
     line-height: 1.7;
@@ -3287,23 +3322,41 @@
     background: rgba(40, 30, 15, 0.4);
   }
 
-  /* 追加ボタン (枠線なし、薄背景で識別) */
+  /* 追加ボタン (タブ風に強調、見やすく) */
   .uranai-add-toggle {
+    display: block;
     width: 100%;
-    padding: 11px;
-    background: rgba(201, 169, 97, 0.10);
-    border: none;
-    border-radius: 10px;
-    color: rgba(201, 169, 97, 0.95);
+    padding: 16px 14px;
+    background: linear-gradient(180deg, rgba(245, 196, 74, 0.28), rgba(245, 196, 74, 0.12));
+    border: 2px solid rgba(245, 196, 74, 0.65);
+    border-radius: 14px;
+    color: rgba(255, 248, 230, 1);
     font-family: 'Shippori Mincho', serif;
-    font-size: 0.85rem;
+    font-size: 1.05rem;
+    font-weight: 600;
     letter-spacing: 0.18em;
     cursor: pointer;
     margin-bottom: 16px;
+    box-shadow:
+      0 0 14px rgba(245, 196, 74, 0.22),
+      inset 0 0 12px rgba(245, 196, 74, 0.1);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+    transition: all 0.2s;
+  }
+  .uranai-add-toggle:active {
+    transform: scale(0.98);
+    background: linear-gradient(180deg, rgba(245, 196, 74, 0.4), rgba(245, 196, 74, 0.2));
   }
   .uranai-add-toggle:disabled {
     opacity: 0.4;
     cursor: not-allowed;
+  }
+  .uranai-add-toggle #uranaiAddRemaining {
+    color: rgba(245, 196, 74, 1);
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0 4px;
   }
 
   /* 追加フォーム (枠線なし、薄背景で識別) */
@@ -5498,7 +5551,11 @@
 
       <!-- 相性占い (5人まで) -->
       <div class="uranai-compat-section">
-        <div class="uranai-section-head">大 切 な 人 と の 相 性</div>
+        <div class="uranai-section-title-wrap">
+          <span class="uranai-section-title-deco">✦</span>
+          <div class="uranai-section-title">相 性 占 い</div>
+          <span class="uranai-section-title-deco">✦</span>
+        </div>
         <div class="uranai-section-sub">
           5 人 ま で 一 度 に 占 え ま す<br>
           家 族・恋 人・親 友 を 入 れ て み て ね
