@@ -3516,6 +3516,25 @@
     border-top: 1px dashed rgba(201, 169, 97, 0.35);
     text-align: center;
   }
+  .uranai-share-big-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    margin: 16px 0 10px;
+    background: linear-gradient(180deg, rgba(245, 196, 74, 0.32), rgba(245, 196, 74, 0.14));
+    border: 2px solid rgba(245, 196, 74, 0.7);
+    border-radius: 12px;
+    color: rgba(255, 248, 230, 1);
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.0rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    cursor: pointer;
+    box-shadow: 0 0 14px rgba(245, 196, 74, 0.22);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+  }
+  .uranai-share-big-btn:active { transform: scale(0.98); }
+
   .uranai-share-tabs {
     display: flex;
     gap: 8px;
@@ -5603,28 +5622,34 @@
 
       <!-- シェアカード -->
       <div class="uranai-share-section" id="uranaiShareSection">
-        <div class="uranai-section-head">シ ェ ア カ ー ド</div>
+        <div class="uranai-section-title-wrap">
+          <span class="uranai-section-title-deco">✦</span>
+          <div class="uranai-section-title">ツキヨガカード</div>
+          <span class="uranai-section-title-deco">✦</span>
+        </div>
         <div class="uranai-section-sub">
-          画 像 を 保 存 し て イ ン ス タ や X に シ ェ ア で き ま す
+          ト レ ー デ ィ ン グ カ ー ド を 保 存 し て<br>
+          家 族・友 達 に シ ェ ア し よ う
         </div>
-        <div class="uranai-share-tabs">
-          <button class="uranai-share-tab is-active" data-card="self" type="button">あなた</button>
-          <button class="uranai-share-tab" data-card="group" type="button" disabled>仲間 (2人〜)</button>
-        </div>
+        <!-- 人物選択タブ (動的に生成: あなた / 家族 1〜4 人) -->
+        <div class="uranai-share-tabs" id="uranaiShareTabs"></div>
         <div class="uranai-share-canvas-wrap">
-          <canvas id="uranaiShareCanvas" width="1080" height="1080"></canvas>
+          <canvas id="uranaiShareCanvas" width="1080" height="1620"></canvas>
         </div>
-        <!-- X / LINE / コピー シェア (テキスト共有のみ、画像保存と汎用シェアは削除) -->
+        <!-- 画像保存 + シェアボタン -->
+        <button class="uranai-share-big-btn" id="uranaiShareDownload" type="button">
+          📥 こ の カ ー ド を 画 像 保 存
+        </button>
         <div class="uranai-share-row">
           <button class="uranai-share-text-btn share-x" id="uranaiShareXBtn" type="button">
             𝕏 で シ ェ ア
           </button>
           <button class="uranai-share-text-btn share-line" id="uranaiShareLineBtn" type="button">
-            L I N E で シ ェ ア
+            L I N E
           </button>
         </div>
         <button class="uranai-share-text-btn share-copy" id="uranaiShareTextBtn" type="button">
-          📋 コ ピ ー し て シ ェ ア
+          📋 リ ン ク を コ ピ ー
         </button>
       </div>
 
@@ -7683,18 +7708,66 @@ const COASTLINES = [
     ctx.closePath();
   }
 
+  // トレーディングカード風シェア画像
   function drawShareCardSelf(person) {
     const canvas = document.getElementById('uranaiShareCanvas');
     if (!canvas || !person) return;
     const ctx = canvas.getContext('2d');
-    const W = canvas.width, H = canvas.height;
-    drawShareBackground(ctx, W, H);
+    const W = canvas.width, H = canvas.height;  // 1080 x 1620
+
+    // 色マップ (キャラの色に応じてカード色)
+    const COLOR_BG = {
+      '黒': { dark:'#0a0a18', mid:'#1a1a30', accent:'#3a3a5a' },
+      '赤': { dark:'#1f0a08', mid:'#4a1812', accent:'#7a2820' },
+      '白': { dark:'#1a1a1f', mid:'#3a3a40', accent:'#888' },
+      '青': { dark:'#08101f', mid:'#10204a', accent:'#2858a0' }
+    };
+    const cc = COLOR_BG[person.phase.color] || COLOR_BG['赤'];
+
+    // 背景 (グラデーション + 紙テクスチャ風)
+    const bgGrad = ctx.createLinearGradient(0, 0, 0, H);
+    bgGrad.addColorStop(0, cc.dark);
+    bgGrad.addColorStop(0.5, cc.mid);
+    bgGrad.addColorStop(1, cc.dark);
+    ctx.fillStyle = bgGrad;
+    ctx.fillRect(0, 0, W, H);
+    // 放射ハロー
+    const halo = ctx.createRadialGradient(W/2, 600, 100, W/2, 600, 700);
+    halo.addColorStop(0, 'rgba(245, 196, 74, 0.18)');
+    halo.addColorStop(1, 'rgba(245, 196, 74, 0)');
+    ctx.fillStyle = halo;
+    ctx.fillRect(0, 0, W, H);
+
+    // 金フレーム (二重)
+    ctx.strokeStyle = 'rgba(245, 196, 74, 0.85)';
+    ctx.lineWidth = 6;
+    roundedRect(ctx, 30, 30, W - 60, H - 60, 32);
+    ctx.stroke();
+    ctx.strokeStyle = 'rgba(245, 196, 74, 0.4)';
+    ctx.lineWidth = 2;
+    roundedRect(ctx, 48, 48, W - 96, H - 96, 22);
+    ctx.stroke();
+
     ctx.textAlign = 'center';
 
-    // ヘッダー
-    ctx.fillStyle = 'rgba(201, 169, 97, 0.78)';
-    ctx.font = '26px "Shippori Mincho", serif';
-    ctx.fillText('ツ キ ヨ ガ  月 占 い', W/2, 110);
+    // ヘッダー: ツキヨガ占い (上中央)
+    ctx.fillStyle = 'rgba(245, 196, 74, 0.95)';
+    ctx.font = 'bold 38px "Shippori Mincho", serif';
+    ctx.fillText('✦ ツキヨガ占い ✦', W/2, 110);
+
+    // タイプ番号 (大、左上)
+    ctx.textAlign = 'left';
+    ctx.fillStyle = 'rgba(245, 196, 74, 0.9)';
+    ctx.font = 'bold 50px "Cinzel", serif';
+    ctx.fillText(`No.${person.phaseIdx}`, 90, 195);
+
+    // 人物名 (右上)
+    ctx.textAlign = 'right';
+    ctx.fillStyle = 'rgba(255, 245, 220, 0.95)';
+    ctx.font = '40px "Shippori Mincho", serif';
+    ctx.fillText(person.name || 'あなた', W - 90, 195);
+
+    ctx.textAlign = 'center';
 
     const loadImg = src => new Promise(r => {
       const im = new Image();
@@ -7702,103 +7775,82 @@ const COASTLINES = [
       im.onerror = () => r(null);
       im.src = src;
     });
+    const moonSrc = `./moon_nasa_round/moon_${String(person.imgIdx).padStart(2,'0')}.png`;
     Promise.all([
       loadImg(`./character_icons/char_${String(person.phaseIdx).padStart(2,'0')}.png`),
-      loadImg(`./moon_nasa/moon_${String(person.imgIdx).padStart(2,'0')}.jpg`)
+      loadImg(moonSrc)
     ]).then(([charImg, moonImg]) => {
-      // キャラ画像 (中央大・円形クリップ)
-      const size = 440, cx = W/2, cy = 365;
-      const glow = ctx.createRadialGradient(cx, cy, 80, cx, cy, 340);
-      glow.addColorStop(0, 'rgba(255, 255, 255, 0.18)');
-      glow.addColorStop(1, 'rgba(255, 255, 255, 0)');
-      ctx.fillStyle = glow;
-      ctx.fillRect(0, cy - size/2 - 30, W, size + 60);
-      if (charImg) {
+      // 月画像 (背景円、大)
+      const cx = W/2, cy = 620;
+      const moonSize = 580;
+      if (moonImg) {
         ctx.save();
         ctx.beginPath();
-        ctx.arc(cx, cy, size/2, 0, Math.PI * 2);
+        ctx.arc(cx, cy, moonSize/2, 0, Math.PI * 2);
         ctx.clip();
-        // 白いフチ + 暖色光彩
-        ctx.filter = 'drop-shadow(0 0 5px rgba(255,255,255,0.95)) drop-shadow(0 0 10px rgba(255,255,255,0.7)) drop-shadow(0 0 20px rgba(255,235,200,0.5))';
-        ctx.drawImage(charImg, cx - size/2, cy - size/2, size, size);
+        ctx.drawImage(moonImg, cx - moonSize/2, cy - moonSize/2, moonSize, moonSize);
         ctx.restore();
-        // 円形ボーダー (金)
+        // 金縁
         ctx.beginPath();
-        ctx.arc(cx, cy, size/2, 0, Math.PI * 2);
-        ctx.strokeStyle = 'rgba(201, 169, 97, 0.7)';
-        ctx.lineWidth = 3;
+        ctx.arc(cx, cy, moonSize/2, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(245, 196, 74, 0.7)';
+        ctx.lineWidth = 4;
         ctx.stroke();
       }
-
-      // 「○○生まれの」
-      ctx.fillStyle = 'rgba(201, 169, 97, 0.95)';
-      ctx.font = '36px "Shippori Mincho", serif';
-      ctx.fillText(`${person.moonName.name}  生 ま れ の`, W/2, 660);
-
-      // 12タイプ名 (大)
-      ctx.fillStyle = '#ffffff';
-      ctx.font = 'bold 96px "Shippori Mincho", serif';
-      ctx.fillText(person.phase.ja, W/2, 770);
-
-      // 月画像 + キャプション (暖色フィルター適用)
-      if (moonImg) {
-        const mSize = 56, my = 800;
+      // キャラ画像 (月の上に重ねて中央)
+      if (charImg) {
+        const charSize = 440;
         ctx.save();
-        ctx.filter = 'sepia(0.55) saturate(1.35) brightness(1.05)';
-        ctx.drawImage(moonImg, W/2 - 170, my, mSize, mSize);
+        ctx.filter = 'drop-shadow(0 0 8px rgba(255,255,255,0.85)) drop-shadow(0 0 16px rgba(255,235,200,0.4)) drop-shadow(0 8px 16px rgba(0,0,0,0.6))';
+        ctx.drawImage(charImg, cx - charSize/2, cy - charSize/2 - 10, charSize, charSize);
         ctx.restore();
-        ctx.fillStyle = 'rgba(201, 169, 97, 0.85)';
-        ctx.font = '22px "Shippori Mincho", serif';
-        ctx.textAlign = 'left';
-        ctx.fillText(`生 ま れ た 時 の 月: ${person.moonName.name}`, W/2 - 105, my + 36);
-        ctx.textAlign = 'center';
       }
 
-      // ラッキーナンバー
-      ctx.fillStyle = 'rgba(201, 169, 97, 0.88)';
-      ctx.font = '22px "Shippori Mincho", serif';
-      ctx.fillText('ラ ッ キ ー ナ ン バ ー', W/2, 905);
+      // タイプ名 (大、下)
       ctx.fillStyle = '#ffffff';
-      ctx.font = 'bold 56px "Cinzel", serif';
-      ctx.fillText(String(person.phaseIdx), W/2, 955);
+      ctx.font = 'bold 110px "Reggae One", "Shippori Mincho", serif';
+      ctx.fillText(getDisplayName(person.phase), W/2, 1080);
 
-      // チップ 4 個
-      const chipY = 980, chipW = 200, chipH = 72, chipGap = 12;
-      const totalW = chipW * 4 + chipGap * 3;
-      let ccx = (W - totalW) / 2;
-      const chips = [
-        { l:'月相', v:person.phase.moon },
-        { l:'色',   v:person.phase.color },
-        { l:'動物', v:person.phase.animal },
-        { l:'段階', v:person.phase.stage }
+      // 月相名 + 月齢
+      ctx.fillStyle = 'rgba(245, 196, 74, 0.95)';
+      ctx.font = '40px "Shippori Mincho", serif';
+      ctx.fillText(`${person.phase.moon}  生まれ`, W/2, 1170);
+
+      ctx.fillStyle = 'rgba(255, 245, 220, 0.92)';
+      ctx.font = '34px "Shippori Mincho", serif';
+      ctx.fillText(`月齢 ${(person.moonAge || 0).toFixed(1)} に誕生`, W/2, 1230);
+
+      // 中段の区切り線
+      ctx.strokeStyle = 'rgba(245, 196, 74, 0.45)';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(150, 1280);
+      ctx.lineTo(W - 150, 1280);
+      ctx.stroke();
+
+      // ステータス 3 項目
+      const stats = [
+        { l:'陰陽バランス', v: person.balance.name, c: person.balance.color },
+        { l:'ラッキーナンバー', v: String(person.phaseIdx), c: 'rgba(245,196,74,1)' },
+        { l:'守破離', v: person.phase.stage, c: 'rgba(255,245,220,1)' }
       ];
-      chips.forEach(c => {
-        ctx.fillStyle = 'rgba(20, 30, 55, 0.75)';
-        ctx.strokeStyle = 'rgba(201, 169, 97, 0.55)';
-        ctx.lineWidth = 1.5;
-        roundedRect(ctx, ccx, chipY, chipW, chipH, 12);
-        ctx.fill(); ctx.stroke();
-        ctx.fillStyle = 'rgba(201, 169, 97, 0.88)';
-        ctx.font = '20px "Shippori Mincho", serif';
-        ctx.fillText(c.l, ccx + chipW/2, chipY + 26);
-        ctx.fillStyle = '#ffffff';
-        ctx.font = '28px "Shippori Mincho", serif';
-        ctx.fillText(c.v, ccx + chipW/2, chipY + 60);
-        ccx += chipW + chipGap;
+      stats.forEach((s, i) => {
+        const cx = (i + 0.5) * (W / 3);
+        ctx.fillStyle = 'rgba(245, 196, 74, 0.85)';
+        ctx.font = '24px "Shippori Mincho", serif';
+        ctx.fillText(s.l, cx, 1350);
+        ctx.fillStyle = s.c;
+        ctx.font = 'bold 46px "Shippori Mincho", serif';
+        ctx.fillText(s.v, cx, 1410);
       });
 
-      // バランス (花キャラ)
-      ctx.fillStyle = 'rgba(201, 169, 97, 0.85)';
-      ctx.font = '20px "Shippori Mincho", serif';
-      ctx.fillText('バ ラ ン ス', W/2, 1080);
-      ctx.fillStyle = person.balance.color;
-      ctx.font = 'bold 38px "Shippori Mincho", serif';
-      ctx.fillText(person.balance.name, W/2, 1080 + 44);
-
-      // フッター
-      ctx.fillStyle = 'rgba(138, 160, 184, 0.55)';
-      ctx.font = '18px "Shippori Mincho", serif';
-      ctx.fillText('— あ な た 自 身 を 見 つ め る 窓 と し て —', W/2, H - 80);
+      // フッター URL
+      ctx.fillStyle = 'rgba(245, 196, 74, 0.75)';
+      ctx.font = '24px "Cinzel", serif';
+      ctx.fillText('mitsulow.github.io/0Lei/tsukiyoga_v7.html', W/2, H - 70);
+      ctx.fillStyle = 'rgba(255, 245, 220, 0.55)';
+      ctx.font = '22px "Shippori Mincho", serif';
+      ctx.fillText('— あなたも占ってみる —', W/2, H - 100);
     });
   }
 
@@ -7952,37 +8004,36 @@ const COASTLINES = [
     }
   }
 
+  // 現在表示中のカードの人物インデックス
+  let currentShareTabIdx = 0;
+
   function refreshShareCard() {
-    if (currentShareCard === 'group' && uranaiPeople.length >= 2) {
-      drawShareCardGroup();
-    } else if (uranaiPeople.length >= 1) {
-      currentShareCard = 'self';
-      // タブ表示同期
-      document.querySelectorAll('.uranai-share-tab').forEach(t => {
-        t.classList.toggle('is-active', t.dataset.card === 'self');
-      });
-      drawShareCardSelf(uranaiPeople[0]);
+    // 人物選択タブを動的に再生成 (uranaiPeople の人数分)
+    const tabsEl = document.getElementById('uranaiShareTabs');
+    if (!tabsEl) return;
+    if (uranaiPeople.length === 0) {
+      tabsEl.innerHTML = '';
+      return;
     }
-    // 仲間タブの有効/無効
-    const groupTab = document.querySelector('.uranai-share-tab[data-card="group"]');
-    if (groupTab) groupTab.disabled = uranaiPeople.length < 2;
+    if (currentShareTabIdx >= uranaiPeople.length) currentShareTabIdx = 0;
+    tabsEl.innerHTML = uranaiPeople.map((p, i) =>
+      `<button class="uranai-share-tab${i === currentShareTabIdx ? ' is-active' : ''}" data-idx="${i}" type="button">${p.name}</button>`
+    ).join('');
+    tabsEl.querySelectorAll('.uranai-share-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        currentShareTabIdx = parseInt(tab.dataset.idx);
+        refreshShareCard();
+      });
+    });
+    // 選択中の人物のカード描画
+    if (uranaiPeople[currentShareTabIdx]) {
+      drawShareCardSelf(uranaiPeople[currentShareTabIdx]);
+    }
   }
 
   function initUranaiShare() {
     const dlBtn = document.getElementById('uranaiShareDownload');
-    const shareBtn = document.getElementById('uranaiShareNative');
-    if (!dlBtn) return;
-    dlBtn.addEventListener('click', downloadShareCard);
-    shareBtn.addEventListener('click', shareNativeCard);
-    document.querySelectorAll('.uranai-share-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        if (tab.disabled) return;
-        currentShareCard = tab.dataset.card;
-        document.querySelectorAll('.uranai-share-tab').forEach(t => t.classList.remove('is-active'));
-        tab.classList.add('is-active');
-        refreshShareCard();
-      });
-    });
+    if (dlBtn) dlBtn.addEventListener('click', downloadShareCard);
   }
   document.addEventListener('DOMContentLoaded', initUranaiShare);
 
