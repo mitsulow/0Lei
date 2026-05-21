@@ -3032,8 +3032,14 @@
     margin-bottom: 6px;
   }
   .uranai-balance-flower {
-    font-size: 3rem;
-    line-height: 1;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+  .uranai-balance-flower-img {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 12px rgba(180, 130, 240, 0.4));
   }
   .uranai-balance-meta { text-align: left; }
   .uranai-balance-name {
@@ -3534,6 +3540,12 @@
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
   }
   .uranai-share-big-btn:active { transform: scale(0.98); }
+  /* LINE 系の画像シェアボタン (緑系) */
+  .uranai-share-big-btn.share-line-big {
+    background: linear-gradient(180deg, #06c755, #04a042);
+    border-color: #06c755;
+    color: #fff;
+  }
 
   .uranai-share-tabs {
     display: flex;
@@ -5636,20 +5648,15 @@
         <div class="uranai-share-canvas-wrap">
           <canvas id="uranaiShareCanvas" width="1080" height="1620"></canvas>
         </div>
-        <!-- 画像保存 + シェアボタン -->
+        <!-- 画像保存 + 画像シェア -->
         <button class="uranai-share-big-btn" id="uranaiShareDownload" type="button">
           📥 こ の カ ー ド を 画 像 保 存
         </button>
-        <div class="uranai-share-row">
-          <button class="uranai-share-text-btn share-x" id="uranaiShareXBtn" type="button">
-            𝕏 で シ ェ ア
-          </button>
-          <button class="uranai-share-text-btn share-line" id="uranaiShareLineBtn" type="button">
-            L I N E
-          </button>
-        </div>
-        <button class="uranai-share-text-btn share-copy" id="uranaiShareTextBtn" type="button">
-          📋 リ ン ク を コ ピ ー
+        <button class="uranai-share-big-btn share-line-big" id="uranaiShareImgBtn" type="button">
+          📱 画 像 を シ ェ ア（L I N E な ど）
+        </button>
+        <button class="uranai-share-text-btn share-x" id="uranaiShareXBtn" type="button">
+          𝕏 で テ キ ス ト シ ェ ア
         </button>
       </div>
 
@@ -7186,16 +7193,19 @@ const COASTLINES = [
   // 3 きんもくせい: 西 5分〜90分 (秋)
   // 4 さざんか: 西 90分〜6時間 (冬)
   const BALANCE_TYPES = [
-    { idx:0, name:'茉莉花',       kana:'まつりか',     fullLabel:'バランスが完璧に取れた奇跡の人', color:'#f5ebd8' },
-    { idx:1, name:'さくら',       kana:'さくら',       fullLabel:'東に少し傾いた春キャラ',         color:'#f7c2d4' },
-    { idx:2, name:'ひまわり',     kana:'ひまわり',     fullLabel:'東に大きく傾いた夏キャラ',       color:'#f5c44a' },
-    { idx:3, name:'きんもくせい', kana:'きんもくせい', fullLabel:'西に少し傾いた秋キャラ',         color:'#f0934e' },
-    { idx:4, name:'さざんか',     kana:'さざんか',     fullLabel:'西に大きく傾いた冬キャラ',       color:'#c95066' }
+    { idx:0, name:'茉莉花',       kana:'まつりか',     fullLabel:'バランスが完璧に取れた奇跡の人', color:'#f5ebd8', img:'matsurika.png' },
+    { idx:1, name:'さくら',       kana:'さくら',       fullLabel:'東に少し傾いた春キャラ',         color:'#f7c2d4', img:'sakura.png' },
+    { idx:2, name:'ひまわり',     kana:'ひまわり',     fullLabel:'東に大きく傾いた夏キャラ',       color:'#f5c44a', img:'himawari.png' },
+    { idx:3, name:'きんもくせい', kana:'きんもくせい', fullLabel:'西に少し傾いた秋キャラ',         color:'#f0934e', img:'kinmokusei.png' },
+    { idx:4, name:'さざんか',     kana:'さざんか',     fullLabel:'西に大きく傾いた冬キャラ',       color:'#c95066', img:'sazanka.png' }
   ];
+
+  // 守破離 → 分かりやすい表記
+  const STAGE_PERSON = { '離': '創る人', '守': '守る人', '破': '壊す人' };
 
   function getBalanceType(devHoursSigned) {
     const a = Math.abs(devHoursSigned);
-    if (a <= 5/60) return BALANCE_TYPES[0];           // 茉莉花
+    if (a <= 36/60) return BALANCE_TYPES[0];          // 茉莉花 (36分以内、緩和した中庸)
     const east = devHoursSigned < 0;
     if (a <= 90/60) return east ? BALANCE_TYPES[1] : BALANCE_TYPES[3];
     return east ? BALANCE_TYPES[2] : BALANCE_TYPES[4];
@@ -7708,62 +7718,63 @@ const COASTLINES = [
     ctx.closePath();
   }
 
-  // トレーディングカード風シェア画像
+  // ツキヨガ ブランドカラー
+  const TSUKIYOGA_PURPLE_DARK = '#1a0a3a';
+  const TSUKIYOGA_PURPLE_MID  = '#3a1a6a';
+  const TSUKIYOGA_PURPLE      = '#5a2aa0';
+  const TSUKIYOGA_YELLOW      = '#e8ff00';     // 蛍光黄色
+  const TSUKIYOGA_YELLOW_SOFT = '#f8ff66';
+
+  // トレーディングカード (ツキヨガ ブランドカラー: 紫 + 蛍光黄色)
   function drawShareCardSelf(person) {
     const canvas = document.getElementById('uranaiShareCanvas');
     if (!canvas || !person) return;
     const ctx = canvas.getContext('2d');
     const W = canvas.width, H = canvas.height;  // 1080 x 1620
 
-    // 色マップ (キャラの色に応じてカード色)
-    const COLOR_BG = {
-      '黒': { dark:'#0a0a18', mid:'#1a1a30', accent:'#3a3a5a' },
-      '赤': { dark:'#1f0a08', mid:'#4a1812', accent:'#7a2820' },
-      '白': { dark:'#1a1a1f', mid:'#3a3a40', accent:'#888' },
-      '青': { dark:'#08101f', mid:'#10204a', accent:'#2858a0' }
-    };
-    const cc = COLOR_BG[person.phase.color] || COLOR_BG['赤'];
-
-    // 背景 (グラデーション + 紙テクスチャ風)
+    // 背景 (紫グラデーション)
     const bgGrad = ctx.createLinearGradient(0, 0, 0, H);
-    bgGrad.addColorStop(0, cc.dark);
-    bgGrad.addColorStop(0.5, cc.mid);
-    bgGrad.addColorStop(1, cc.dark);
+    bgGrad.addColorStop(0, TSUKIYOGA_PURPLE_DARK);
+    bgGrad.addColorStop(0.5, TSUKIYOGA_PURPLE_MID);
+    bgGrad.addColorStop(1, TSUKIYOGA_PURPLE_DARK);
     ctx.fillStyle = bgGrad;
     ctx.fillRect(0, 0, W, H);
-    // 放射ハロー
-    const halo = ctx.createRadialGradient(W/2, 600, 100, W/2, 600, 700);
-    halo.addColorStop(0, 'rgba(245, 196, 74, 0.18)');
-    halo.addColorStop(1, 'rgba(245, 196, 74, 0)');
+    // 放射ハロー (蛍光黄色)
+    const halo = ctx.createRadialGradient(W/2, 600, 100, W/2, 600, 750);
+    halo.addColorStop(0, 'rgba(232, 255, 0, 0.18)');
+    halo.addColorStop(1, 'rgba(232, 255, 0, 0)');
     ctx.fillStyle = halo;
     ctx.fillRect(0, 0, W, H);
 
-    // 金フレーム (二重)
-    ctx.strokeStyle = 'rgba(245, 196, 74, 0.85)';
+    // 蛍光黄色フレーム (二重)
+    ctx.strokeStyle = TSUKIYOGA_YELLOW;
     ctx.lineWidth = 6;
     roundedRect(ctx, 30, 30, W - 60, H - 60, 32);
     ctx.stroke();
-    ctx.strokeStyle = 'rgba(245, 196, 74, 0.4)';
+    ctx.strokeStyle = 'rgba(232, 255, 0, 0.4)';
     ctx.lineWidth = 2;
     roundedRect(ctx, 48, 48, W - 96, H - 96, 22);
     ctx.stroke();
 
     ctx.textAlign = 'center';
 
-    // ヘッダー: ツキヨガ占い (上中央)
-    ctx.fillStyle = 'rgba(245, 196, 74, 0.95)';
-    ctx.font = 'bold 38px "Shippori Mincho", serif';
+    // ヘッダー: ツキヨガ占い (上中央、蛍光黄色)
+    ctx.fillStyle = TSUKIYOGA_YELLOW;
+    ctx.font = 'bold 38px "Reggae One", "Shippori Mincho", serif';
+    ctx.shadowColor = 'rgba(232, 255, 0, 0.6)';
+    ctx.shadowBlur = 12;
     ctx.fillText('✦ ツキヨガ占い ✦', W/2, 110);
+    ctx.shadowBlur = 0;
 
     // タイプ番号 (大、左上)
     ctx.textAlign = 'left';
-    ctx.fillStyle = 'rgba(245, 196, 74, 0.9)';
+    ctx.fillStyle = TSUKIYOGA_YELLOW;
     ctx.font = 'bold 50px "Cinzel", serif';
     ctx.fillText(`No.${person.phaseIdx}`, 90, 195);
 
-    // 人物名 (右上)
+    // 人物名 (右上、白)
     ctx.textAlign = 'right';
-    ctx.fillStyle = 'rgba(255, 245, 220, 0.95)';
+    ctx.fillStyle = '#ffffff';
     ctx.font = '40px "Shippori Mincho", serif';
     ctx.fillText(person.name || 'あなた', W - 90, 195);
 
@@ -7776,10 +7787,12 @@ const COASTLINES = [
       im.src = src;
     });
     const moonSrc = `./moon_nasa_round/moon_${String(person.imgIdx).padStart(2,'0')}.png`;
+    const flowerSrc = `./balance_icons/${person.balance.img}`;
     Promise.all([
       loadImg(`./character_icons/char_${String(person.phaseIdx).padStart(2,'0')}.png`),
-      loadImg(moonSrc)
-    ]).then(([charImg, moonImg]) => {
+      loadImg(moonSrc),
+      loadImg(flowerSrc)
+    ]).then(([charImg, moonImg, flowerImg]) => {
       // 月画像 (背景円、大)
       const cx = W/2, cy = 620;
       const moonSize = 580;
@@ -7790,18 +7803,21 @@ const COASTLINES = [
         ctx.clip();
         ctx.drawImage(moonImg, cx - moonSize/2, cy - moonSize/2, moonSize, moonSize);
         ctx.restore();
-        // 金縁
+        // 蛍光黄色フチ
         ctx.beginPath();
         ctx.arc(cx, cy, moonSize/2, 0, Math.PI * 2);
-        ctx.strokeStyle = 'rgba(245, 196, 74, 0.7)';
+        ctx.strokeStyle = TSUKIYOGA_YELLOW;
         ctx.lineWidth = 4;
+        ctx.shadowColor = 'rgba(232, 255, 0, 0.7)';
+        ctx.shadowBlur = 16;
         ctx.stroke();
+        ctx.shadowBlur = 0;
       }
       // キャラ画像 (月の上に重ねて中央)
       if (charImg) {
         const charSize = 440;
         ctx.save();
-        ctx.filter = 'drop-shadow(0 0 8px rgba(255,255,255,0.85)) drop-shadow(0 0 16px rgba(255,235,200,0.4)) drop-shadow(0 8px 16px rgba(0,0,0,0.6))';
+        ctx.filter = 'drop-shadow(0 0 8px rgba(255,255,255,0.85)) drop-shadow(0 0 16px rgba(232,255,0,0.4)) drop-shadow(0 8px 16px rgba(0,0,0,0.6))';
         ctx.drawImage(charImg, cx - charSize/2, cy - charSize/2 - 10, charSize, charSize);
         ctx.restore();
       }
@@ -7809,48 +7825,67 @@ const COASTLINES = [
       // タイプ名 (大、下)
       ctx.fillStyle = '#ffffff';
       ctx.font = 'bold 110px "Reggae One", "Shippori Mincho", serif';
+      ctx.shadowColor = TSUKIYOGA_YELLOW;
+      ctx.shadowBlur = 8;
       ctx.fillText(getDisplayName(person.phase), W/2, 1080);
+      ctx.shadowBlur = 0;
 
-      // 月相名 + 月齢
-      ctx.fillStyle = 'rgba(245, 196, 74, 0.95)';
+      // 月相名 + 月齢 (蛍光黄色)
+      ctx.fillStyle = TSUKIYOGA_YELLOW;
       ctx.font = '40px "Shippori Mincho", serif';
       ctx.fillText(`${person.phase.moon}  生まれ`, W/2, 1170);
 
-      ctx.fillStyle = 'rgba(255, 245, 220, 0.92)';
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.92)';
       ctx.font = '34px "Shippori Mincho", serif';
       ctx.fillText(`月齢 ${(person.moonAge || 0).toFixed(1)} に誕生`, W/2, 1230);
 
-      // 中段の区切り線
-      ctx.strokeStyle = 'rgba(245, 196, 74, 0.45)';
+      // 中段の区切り線 (蛍光黄色)
+      ctx.strokeStyle = 'rgba(232, 255, 0, 0.45)';
       ctx.lineWidth = 1.5;
       ctx.beginPath();
       ctx.moveTo(150, 1280);
       ctx.lineTo(W - 150, 1280);
       ctx.stroke();
 
-      // ステータス 3 項目
-      const stats = [
-        { l:'陰陽バランス', v: person.balance.name, c: person.balance.color },
-        { l:'ラッキーナンバー', v: String(person.phaseIdx), c: 'rgba(245,196,74,1)' },
-        { l:'守破離', v: person.phase.stage, c: 'rgba(255,245,220,1)' }
-      ];
-      stats.forEach((s, i) => {
-        const cx = (i + 0.5) * (W / 3);
-        ctx.fillStyle = 'rgba(245, 196, 74, 0.85)';
-        ctx.font = '24px "Shippori Mincho", serif';
-        ctx.fillText(s.l, cx, 1350);
-        ctx.fillStyle = s.c;
-        ctx.font = 'bold 46px "Shippori Mincho", serif';
-        ctx.fillText(s.v, cx, 1410);
-      });
+      // ステータス 3 項目 (花画像 + 番号 + 創守壊)
+      // [1] 花画像 + 名前 (陰陽バランス)
+      if (flowerImg) {
+        ctx.drawImage(flowerImg, W/6 - 70, 1310, 140, 140);
+      }
+      ctx.fillStyle = TSUKIYOGA_YELLOW;
+      ctx.font = '22px "Shippori Mincho", serif';
+      ctx.fillText('陰陽バランス', W/6, 1300);
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 32px "Shippori Mincho", serif';
+      ctx.fillText(person.balance.name, W/6, 1490);
+
+      // [2] ラッキーナンバー
+      ctx.fillStyle = TSUKIYOGA_YELLOW;
+      ctx.font = '22px "Shippori Mincho", serif';
+      ctx.fillText('ラッキーナンバー', W/2, 1300);
+      ctx.fillStyle = TSUKIYOGA_YELLOW;
+      ctx.font = 'bold 100px "Cinzel", serif';
+      ctx.shadowColor = 'rgba(232, 255, 0, 0.6)';
+      ctx.shadowBlur = 12;
+      ctx.fillText(String(person.phaseIdx), W/2, 1430);
+      ctx.shadowBlur = 0;
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '24px "Shippori Mincho", serif';
+      ctx.fillText(' ', W/2, 1490);
+
+      // [3] 創る/守る/壊す
+      const stagePerson = STAGE_PERSON[person.phase.stage] || person.phase.stage;
+      ctx.fillStyle = TSUKIYOGA_YELLOW;
+      ctx.font = '22px "Shippori Mincho", serif';
+      ctx.fillText('成長段階', 5*W/6, 1300);
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 46px "Shippori Mincho", serif';
+      ctx.fillText(stagePerson, 5*W/6, 1410);
 
       // フッター URL
-      ctx.fillStyle = 'rgba(245, 196, 74, 0.75)';
-      ctx.font = '24px "Cinzel", serif';
-      ctx.fillText('mitsulow.github.io/0Lei/tsukiyoga_v7.html', W/2, H - 70);
-      ctx.fillStyle = 'rgba(255, 245, 220, 0.55)';
-      ctx.font = '22px "Shippori Mincho", serif';
-      ctx.fillText('— あなたも占ってみる —', W/2, H - 100);
+      ctx.fillStyle = TSUKIYOGA_YELLOW;
+      ctx.font = '22px "Cinzel", serif';
+      ctx.fillText('mitsulow.github.io/0Lei/tsukiyoga_v7.html', W/2, H - 50);
     });
   }
 
@@ -8034,6 +8069,34 @@ const COASTLINES = [
   function initUranaiShare() {
     const dlBtn = document.getElementById('uranaiShareDownload');
     if (dlBtn) dlBtn.addEventListener('click', downloadShareCard);
+    // 画像シェア (navigator.share で画像 + テキスト送信、LINE 等を選べる)
+    const imgShareBtn = document.getElementById('uranaiShareImgBtn');
+    if (imgShareBtn) imgShareBtn.addEventListener('click', async () => {
+      const canvas = document.getElementById('uranaiShareCanvas');
+      if (!canvas) return;
+      try {
+        const blob = await new Promise(r => canvas.toBlob(r, 'image/png'));
+        const file = new File([blob], 'tsukiyoga-card.png', { type: 'image/png' });
+        const shareData = {
+          files: [file],
+          title: 'ツキヨガ占い',
+          text: '私のツキヨガカード🌙\nあなたも占ってみる:\nhttps://mitsulow.github.io/0Lei/tsukiyoga_v7.html'
+        };
+        if (navigator.canShare && navigator.canShare(shareData)) {
+          await navigator.share(shareData);
+        } else if (navigator.share) {
+          await navigator.share({
+            title: 'ツキヨガ占い',
+            text: shareData.text,
+            url: 'https://mitsulow.github.io/0Lei/tsukiyoga_v7.html'
+          });
+        } else {
+          alert('お使いの環境では画像シェアができません。「画像を保存」を使って LINE に手動で送ってください。');
+        }
+      } catch (e) {
+        if (e.name !== 'AbortError') console.warn('share failed', e);
+      }
+    });
   }
   document.addEventListener('DOMContentLoaded', initUranaiShare);
 
@@ -8470,8 +8533,10 @@ const COASTLINES = [
       moonDotEl.setAttribute('y', moonSvg.y.toFixed(1));
 
       // 陰陽バランス
-      document.getElementById('uranaiBalanceFlower').textContent =
-        BALANCE_EMOJI[balance.name] || '✿';
+      // 花アイコン画像で表示 (テキスト emoji から差し替え)
+      const flowerEl = document.getElementById('uranaiBalanceFlower');
+      if (flowerEl) flowerEl.innerHTML =
+        `<img src="./balance_icons/${balance.img}" alt="${balance.name}" class="uranai-balance-flower-img">`;
       document.getElementById('uranaiBalanceName').textContent = balance.name;
       document.getElementById('uranaiBalanceKind').textContent = balance.fullLabel;
       // 「誕生日の朝祀り 9:59 から 2時間48分 西に片寄り」表記 (一番近いマツリドキからの差)
