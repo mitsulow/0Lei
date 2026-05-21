@@ -3532,7 +3532,7 @@
         rgba(26, 10, 58, 0.85) 100%);
     border: 1.5px solid rgba(232, 255, 0, 0.55);
     border-radius: 14px;
-    padding: 12px 6px 10px;
+    padding: 12px 6px 26px;
     text-align: center;
     box-shadow:
       0 0 12px rgba(232, 255, 0, 0.18),
@@ -3548,6 +3548,50 @@
     height: 36%;
     background: linear-gradient(180deg, rgba(232, 255, 0, 0.18), transparent);
     pointer-events: none;
+  }
+  /* ★ 「ここをプッシュ」ヒントバッジ (カード下) */
+  .uranai-person-card::after {
+    content: '👆 タップ';
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%) scale(0.95);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: #1a0a3a;
+    background: linear-gradient(180deg, #e8ff00, #c8d800);
+    padding: 2px 8px 2px 7px;
+    border-radius: 999px;
+    border: 1px solid rgba(232, 255, 0, 0.85);
+    box-shadow: 0 0 10px rgba(232, 255, 0, 0.55);
+    pointer-events: none;
+    animation: cardTapPulse 1.8s ease-in-out infinite;
+    white-space: nowrap;
+    z-index: 2;
+  }
+  @keyframes cardTapPulse {
+    0%, 100% {
+      transform: translateX(-50%) scale(0.92);
+      opacity: 0.85;
+      box-shadow: 0 0 8px rgba(232, 255, 0, 0.4);
+    }
+    50% {
+      transform: translateX(-50%) scale(1.08);
+      opacity: 1;
+      box-shadow: 0 0 16px rgba(232, 255, 0, 0.85);
+    }
+  }
+  /* 「もっと見る/閉じる」のヒントバッジは要らない */
+  .uranai-person-more::after { display: none !important; }
+  /* カードの押下フィードバック */
+  .uranai-person-card:not(.uranai-person-more) {
+    cursor: pointer;
+    transition: transform 0.12s, box-shadow 0.2s;
+  }
+  .uranai-person-card:not(.uranai-person-more):active {
+    transform: scale(0.96);
   }
   /* 本人カードは少し強めに glow */
   .uranai-person-card.is-self {
@@ -4134,7 +4178,11 @@
       0 0 80px rgba(140, 70, 200, 0.35),
       inset 0 0 0 1px rgba(232, 255, 0, 0.12);
     position: relative;
-    animation: editModalFadeIn 0.3s ease-out;
+    animation: detailModalSnap 0.12s ease-out;
+  }
+  @keyframes detailModalSnap {
+    from { opacity: 0; }
+    to   { opacity: 1; }
   }
   /* 上部のシール風ハイライト */
   .uranai-detail-modal-content::before {
