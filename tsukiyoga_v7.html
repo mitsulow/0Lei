@@ -1986,6 +1986,118 @@
     margin: 0 4px;
   }
 
+  /* ★Claude 提案: 今日の月齢ウィジェット */
+  .uranai-today-widget {
+    text-align: center;
+    margin: 10px auto 4px;
+    padding: 10px 16px;
+    max-width: 320px;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.85rem;
+    color: rgba(255, 245, 220, 0.95);
+    letter-spacing: 0.1em;
+    background: linear-gradient(180deg, rgba(110, 196, 245, 0.1), transparent);
+    border-radius: 12px;
+    line-height: 1.5;
+  }
+  .uranai-today-widget .lbl { color: rgba(201, 169, 97, 0.85); margin-right: 6px; font-size: 0.75rem; }
+  .uranai-today-widget .num {
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    color: rgba(255, 235, 185, 1);
+    margin: 0 4px;
+  }
+  .uranai-today-widget .nm { color: rgba(245, 196, 74, 0.95); margin-left: 6px; }
+
+  /* ★Claude 提案: 12 タイプ全部見る モーダル */
+  .uranai-all-types-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin: 14px 0 4px;
+    background: rgba(245, 196, 74, 0.12);
+    border: 1px solid rgba(245, 196, 74, 0.4);
+    border-radius: 12px;
+    color: rgba(245, 196, 74, 0.95);
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.92rem;
+    letter-spacing: 0.18em;
+    cursor: pointer;
+  }
+  .uranai-all-types-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(0, 0, 0, 0.92);
+    display: none;
+    overflow-y: auto;
+    padding: 40px 16px 60px;
+  }
+  .uranai-all-types-modal.active { display: block; }
+  .uranai-all-types-modal-close {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: rgba(245, 196, 74, 0.2);
+    border: 1px solid rgba(245, 196, 74, 0.5);
+    color: rgba(255, 245, 220, 0.95);
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 10001;
+  }
+  .uranai-all-types-title {
+    text-align: center;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.2rem;
+    color: rgba(255, 245, 220, 0.95);
+    letter-spacing: 0.25em;
+    margin-bottom: 18px;
+  }
+  .uranai-all-types-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .uranai-all-types-cell {
+    background: rgba(20, 30, 55, 0.55);
+    border: 1px solid rgba(201, 169, 97, 0.3);
+    border-radius: 12px;
+    padding: 14px 10px;
+    text-align: center;
+  }
+  .uranai-all-types-cell.is-seiten {
+    background: linear-gradient(180deg, rgba(60,50,30,0.55), rgba(20,30,55,0.55));
+    border-color: rgba(245, 196, 74, 0.7);
+    box-shadow: 0 0 14px rgba(245, 196, 74, 0.18);
+  }
+  .uranai-all-types-cell img {
+    width: 72px; height: 72px;
+    margin-bottom: 6px;
+  }
+  .uranai-all-types-cell .nm {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.85rem;
+    color: rgba(255, 245, 220, 0.95);
+    letter-spacing: 0.08em;
+    margin-bottom: 2px;
+  }
+  .uranai-all-types-cell .ph {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.7rem;
+    color: rgba(201, 169, 97, 0.85);
+    letter-spacing: 0.1em;
+  }
+  .uranai-all-types-cell .id {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    color: rgba(110, 196, 245, 0.75);
+    margin-top: 2px;
+  }
+
   /* ★Claude 提案: 月齢ドーナツチャート */
   .uranai-wheel {
     width: 280px;
@@ -5019,6 +5131,8 @@
         <div class="uranai-title">ツキヨガ占い</div>
         <span class="uranai-title-deco-right">✦</span>
       </div>
+      <!-- ★Claude 提案: 今日の月齢ウィジェット (フォーム上) -->
+      <div class="uranai-today-widget" id="uranaiTodayWidget"></div>
     </div>
 
     <div class="uranai-toggle-row" id="uranaiToggleRow" style="display:none">
@@ -5277,6 +5391,18 @@
 
       <!-- 性格描写 -->
       <div class="uranai-desc" id="uranaiDesc"></div>
+
+      <!-- ★Claude 提案: 12 タイプ全部見るボタン -->
+      <button class="uranai-all-types-btn" type="button" id="uranaiAllTypesBtn">
+        ◇ 1 2 タ イ プ 全 部 見 る ◇
+      </button>
+
+      <!-- 12 タイプ全部見るモーダル -->
+      <div class="uranai-all-types-modal" id="uranaiAllTypesModal">
+        <button class="uranai-all-types-modal-close" id="uranaiAllTypesClose" type="button">×</button>
+        <div class="uranai-all-types-title">1 2 タ イ プ の キ ャ ラ</div>
+        <div class="uranai-all-types-grid" id="uranaiAllTypesGrid"></div>
+      </div>
 
       <!-- 相性占い (5人まで) -->
       <div class="uranai-compat-section">
@@ -6511,6 +6637,53 @@ const COASTLINES = [
     const norm = ((moonAge % SYNODIC_MONTH_CONST) + SYNODIC_MONTH_CONST) % SYNODIC_MONTH_CONST;
     return Math.max(1, Math.min(30, Math.round(norm) + 1));
   }
+
+  // ★Claude 提案: 今日の月齢ウィジェット (占いタブ開いた瞬間に表示)
+  function updateTodayWidget() {
+    const el = document.getElementById('uranaiTodayWidget');
+    if (!el) return;
+    const now = new Date();
+    const age = getMoonAge(now);
+    const idx = getPhase12FromAge(age);
+    const phase = PHASES_12[idx];
+    el.innerHTML =
+      `<span class="lbl">今 日 の 月 齢</span>` +
+      `<span class="num">${age.toFixed(1)}</span>` +
+      `<span class="lbl">日</span>` +
+      `<span class="nm">${phase.moon}</span>`;
+  }
+  document.addEventListener('DOMContentLoaded', () => {
+    updateTodayWidget();
+    // 1 分ごとに更新
+    setInterval(updateTodayWidget, 60000);
+  });
+
+  // ★Claude 提案: 12 タイプ全部見るモーダル
+  document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('uranaiAllTypesBtn');
+    const modal = document.getElementById('uranaiAllTypesModal');
+    const close = document.getElementById('uranaiAllTypesClose');
+    const grid = document.getElementById('uranaiAllTypesGrid');
+    if (!btn || !modal || !grid) return;
+    btn.addEventListener('click', () => {
+      grid.innerHTML = PHASES_12.map((p, i) => {
+        const seitenCls = p.seiten ? ' is-seiten' : '';
+        return `
+          <div class="uranai-all-types-cell${seitenCls}">
+            <img src="./character_icons/char_${String(i).padStart(2,'0')}.png" alt="${getDisplayName(p)}">
+            <div class="nm">${getDisplayName(p)}</div>
+            <div class="ph">${p.moon}</div>
+            <div class="id">No. ${i}</div>
+          </div>
+        `;
+      }).join('');
+      modal.classList.add('active');
+    });
+    close.addEventListener('click', () => modal.classList.remove('active'));
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.classList.remove('active');
+    });
+  });
 
   // ★Claude 提案: 月齢ドーナツチャート (12 タイプ円周視覚化)
   function renderMoonWheel(myIdx, moonAge, phase) {
