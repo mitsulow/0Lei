@@ -3571,68 +3571,23 @@
       0 4px 14px rgba(0, 0, 0, 0.5);
   }
 
-  /* ★ 9枚全体の上に「クリック 👉」オーバーレイ (定期出現) */
-  .uranai-people-hint {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 6;
-    pointer-events: none;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 18px;
-    background: rgba(10, 4, 24, 0.82);
-    border: 1.5px solid rgba(232, 255, 0, 0.65);
-    border-radius: 999px;
-    color: #fff;
-    font-family: 'Shippori Mincho', serif;
-    font-size: 0.95rem;
-    letter-spacing: 0.15em;
+  /* ★ 「選択中」のカード (黄色枠で強調、クリックで選択移動 → もう一度押すと詳細) */
+  .uranai-person-card.is-selected {
+    border-color: #e8ff00 !important;
     box-shadow:
-      0 0 18px rgba(232, 255, 0, 0.55),
-      0 0 40px rgba(140, 70, 200, 0.45);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    opacity: 0;
-    animation: peopleHintCycle 7s ease-in-out infinite;
-    white-space: nowrap;
+      0 0 22px rgba(232, 255, 0, 0.55),
+      inset 0 0 0 1px rgba(232, 255, 0, 0.25),
+      0 4px 14px rgba(0, 0, 0, 0.5) !important;
+    background:
+      linear-gradient(165deg,
+        rgba(232, 255, 0, 0.22) 0%,
+        rgba(120, 60, 200, 0.78) 35%,
+        rgba(26, 10, 58, 0.95) 100%) !important;
+    transform: translateY(-2px);
   }
-  .uranai-people-hint .hint-hand {
-    font-size: 1.4rem;
-    display: inline-block;
-    animation: handTapBounce 1.0s ease-in-out infinite;
+  .uranai-person-card.is-selected::before {
+    background: linear-gradient(180deg, rgba(232, 255, 0, 0.22), transparent) !important;
   }
-  .uranai-people-hint .hint-text {
-    color: #e8ff00;
-    text-shadow: 0 0 8px rgba(232, 255, 0, 0.55);
-  }
-  @keyframes peopleHintCycle {
-    0%, 60%, 100% {
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(0.85);
-    }
-    65% {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1.1);
-    }
-    85% {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1.0);
-    }
-    95% {
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(0.95);
-    }
-  }
-  @keyframes handTapBounce {
-    0%, 100% { transform: translateX(0) translateY(0) rotate(0); }
-    40%      { transform: translateX(-4px) translateY(-2px) rotate(-10deg); }
-    60%      { transform: translateX(2px) translateY(1px) rotate(4deg); }
-  }
-  /* カードが1枚しかない時はヒント不要 (CSS で人数判定できないので JS で hide) */
-  .uranai-people-hint.is-hidden { display: none; }
   /* 本人カードは少し強めに glow */
   .uranai-person-card.is-self {
     border-color: #e8ff00;
@@ -4218,11 +4173,7 @@
       0 0 80px rgba(140, 70, 200, 0.35),
       inset 0 0 0 1px rgba(232, 255, 0, 0.12);
     position: relative;
-    animation: detailModalSnap 0.12s ease-out;
-  }
-  @keyframes detailModalSnap {
-    from { opacity: 0; }
-    to   { opacity: 1; }
+    /* アニメ無しで即時表示 (体感遅延ゼロ) */
   }
   /* 上部のシール風ハイライト */
   .uranai-detail-modal-content::before {
@@ -6878,15 +6829,8 @@
           <span class="uranai-section-title-deco">✦</span>
         </div>
 
-        <div class="uranai-people-list-wrap">
-          <div class="uranai-people-list" id="uranaiPeopleList">
-            <!-- 動的生成 -->
-          </div>
-          <!-- ★ カード操作ヒント (たまに現れる『クリック 👉』) -->
-          <div class="uranai-people-hint is-hidden" id="uranaiPeopleHint">
-            <span class="hint-text">クリック</span>
-            <span class="hint-hand">👉</span>
-          </div>
+        <div class="uranai-people-list" id="uranaiPeopleList">
+          <!-- 動的生成 -->
         </div>
 
         <button class="uranai-add-toggle" id="uranaiAddToggle" type="button">
@@ -9051,6 +8995,8 @@ const COASTLINES = [
   // 「もっと見る」展開状態 (global)
   let peopleExpanded = false;
   const PEOPLE_SHOW_LIMIT = 8;
+  // ★ 選択中のカード (初期: 本人 = 0)
+  let selectedPersonIdx = 0;
 
   function renderPeople() {
     const listEl = document.getElementById('uranaiPeopleList');
@@ -9062,8 +9008,13 @@ const COASTLINES = [
     let html = '';
     for (let i = 0; i < visibleCount; i++) {
       const p = uranaiPeople[i];
+      const cls = [
+        'uranai-person-card',
+        i === 0 ? 'is-self' : '',
+        i === selectedPersonIdx ? 'is-selected' : ''
+      ].filter(Boolean).join(' ');
       html += `
-        <div class="uranai-person-card${i === 0 ? ' is-self' : ''}" data-idx="${i}">
+        <div class="${cls}" data-idx="${i}">
           <img class="uranai-person-img" src="./character_icons/char_${String(p.phaseIdx).padStart(2,'0')}.png" alt="">
           <div class="uranai-person-name">${(p.name || (i === 0 ? 'あなた' : '名前なし')).split('').join(' ')}</div>
           <div class="uranai-person-type">${getDisplayName(p.phase).split('').join(' ')}</div>
@@ -9089,13 +9040,24 @@ const COASTLINES = [
     }
     listEl.innerHTML = html;
 
-    // ★ カード全体クリックで詳細モーダルを開く
+    // ★ 2 段階クリック: 1度目 = 選択、2度目 (同じカード) = 詳細を開く
     listEl.querySelectorAll('.uranai-person-card:not(.uranai-person-more)').forEach(card => {
       card.addEventListener('click', () => {
         const idx = parseInt(card.dataset.idx);
         const person = uranaiPeople[idx];
-        if (person && typeof showPersonDetailModal === 'function') {
-          showPersonDetailModal(person, idx);
+        if (!person) return;
+        if (idx === selectedPersonIdx) {
+          // 既に選択済み → 詳細を開く
+          if (typeof showPersonDetailModal === 'function') {
+            showPersonDetailModal(person, idx);
+          }
+        } else {
+          // 別カード → 選択移動 (黄色枠だけ動く)
+          selectedPersonIdx = idx;
+          // 部分更新: クラスだけ付け替え (再描画より速い)
+          listEl.querySelectorAll('.uranai-person-card.is-selected').forEach(el =>
+            el.classList.remove('is-selected'));
+          card.classList.add('is-selected');
         }
       });
     });
@@ -9108,9 +9070,8 @@ const COASTLINES = [
       });
     }
 
-    // ヒント (たまに表示の『クリック 👉』) は 2 人以上のときだけ
-    const hint = document.getElementById('uranaiPeopleHint');
-    if (hint) hint.classList.toggle('is-hidden', uranaiPeople.length < 2);
+    // selectedPersonIdx が範囲外なら 0 に戻す
+    if (selectedPersonIdx >= uranaiPeople.length) selectedPersonIdx = 0;
 
     renderFamilyTable();
     if (typeof refreshShareCard === 'function') refreshShareCard();
