@@ -2712,6 +2712,22 @@
   .uranai-result.visible:not(.reveal) {
     opacity: 0;
   }
+
+  /* スワイプ演出中は占いタブの「ヘッダー / フォーム / 登録ボタン」も非表示
+     → オーバーレイが消える瞬間にヘッダー (ツキヨガ占い題字 + 登録ボタン) が
+       見えてしまうのを防ぐ */
+  .uranai-view .uranai-header,
+  .uranai-view .uranai-form,
+  .uranai-view .uranai-toggle-row,
+  .uranai-view .uranai-submit {
+    transition: opacity 0.5s ease-out;
+  }
+  .uranai-view.during-pull-anim .uranai-header,
+  .uranai-view.during-pull-anim .uranai-form,
+  .uranai-view.during-pull-anim .uranai-toggle-row,
+  .uranai-view.during-pull-anim .uranai-submit {
+    opacity: 0;
+  }
   @keyframes heroFadeInScale {
     from { opacity: 0; transform: scale(0.7); }
     to   { opacity: 1; transform: scale(1); }
@@ -8055,6 +8071,9 @@ const COASTLINES = [
     //   → 演出オーバーレイの下層では一切前回結果が見えない
     const resultEl = document.getElementById('uranaiResult');
     if (resultEl) resultEl.classList.remove('reveal');
+    // ★占いタブ全体に during-pull-anim クラスを付与 → ヘッダー/フォーム/ボタンが透明
+    const uranaiView = document.querySelector('.uranai-view');
+    if (uranaiView) uranaiView.classList.add('during-pull-anim');
 
     const overlay = document.createElement('div');
     overlay.className = 'uranai-pull-overlay';
@@ -8100,8 +8119,6 @@ const COASTLINES = [
       // ① onDone() で reveal 発火 (月画像 fadeIn 開始)
       onDone();
       // ② 結果セクション位置へ即座にスクロール (smooth なし)
-      //    オーバーレイが消える前にスクロール位置を確定させて
-      //    「画面が上がって下がる」動きを防ぐ
       const resultEl2 = document.getElementById('uranaiResult');
       if (resultEl2) {
         resultEl2.scrollIntoView({ behavior: 'auto', block: 'start' });
@@ -8110,7 +8127,11 @@ const COASTLINES = [
       requestAnimationFrame(() => {
         overlay.style.transition = 'opacity 0.6s ease-out';
         overlay.style.opacity = '0';
-        setTimeout(() => overlay.remove(), 650);
+        setTimeout(() => {
+          overlay.remove();
+          // ④ オーバーレイ完全消失後、ヘッダー類を 0.5s かけて自然にフェードイン
+          if (uranaiView) uranaiView.classList.remove('during-pull-anim');
+        }, 650);
       });
     }, 5500);
   }
