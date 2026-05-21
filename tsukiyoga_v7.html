@@ -8427,10 +8427,14 @@ const COASTLINES = [
       // ★Claude 提案⑤: 今月のラッキー日 (削除済みだが内部で null チェック)
       renderLuckyDay(moonAge);
 
-      // 自分を相性占いの1人目として登録 (占うたびにリセット)
+      // 自分を相性占いの1人目として登録 (他人は保持、selfのみ更新)
       const selfPerson = computePerson('あなた', dateStr, timeStr, cityName);
       if (selfPerson) {
-        uranaiPeople = [selfPerson];
+        if (uranaiPeople.length === 0) {
+          uranaiPeople = [selfPerson];
+        } else {
+          uranaiPeople[0] = selfPerson; // ★ 他の家族を保持して self だけ更新
+        }
         renderPeople();
         renderCompatibility();
         updateAddRemaining();
