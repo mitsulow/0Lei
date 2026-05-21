@@ -3768,6 +3768,166 @@
     cursor: pointer;
     margin-bottom: 14px;
   }
+  .uranai-team-pick-btn:active {
+    background: rgba(232, 255, 0, 0.3);
+  }
+  /* チーム選択モーダル */
+  .uranai-team-pick-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 11500;
+    background: rgba(0, 0, 0, 0.88);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .uranai-team-pick-modal.active { display: flex; }
+  .uranai-team-pick-modal-content {
+    background: linear-gradient(180deg, #2a1a5a, #1a0a3a);
+    border: 2px solid rgba(232, 255, 0, 0.55);
+    border-radius: 16px;
+    padding: 22px 18px;
+    max-width: 440px;
+    width: 100%;
+    max-height: 86vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 0 0 30px rgba(232, 255, 0, 0.25);
+  }
+  .uranai-team-pick-close {
+    position: absolute;
+    top: 8px; right: 8px;
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(232, 255, 0, 0.45);
+    color: #e8ff00;
+    font-size: 1.15rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+  }
+  .uranai-team-pick-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.05rem;
+    color: #fff;
+    letter-spacing: 0.18em;
+    text-align: center;
+    margin-bottom: 4px;
+    text-shadow: 0 0 8px rgba(232, 255, 0, 0.4);
+  }
+  .uranai-team-pick-count {
+    font-family: 'Cinzel', serif;
+    font-size: 0.95rem;
+    color: #e8ff00;
+    letter-spacing: 0.15em;
+    text-align: center;
+    margin-bottom: 14px;
+  }
+  .uranai-team-pick-list {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 8px;
+    padding: 6px 4px;
+  }
+  .uranai-team-pick-item {
+    position: relative;
+    padding: 8px 4px;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1.5px solid rgba(232, 255, 0, 0.18);
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.12s, border-color 0.2s;
+  }
+  .uranai-team-pick-item.is-selected {
+    border-color: #e8ff00;
+    background: rgba(232, 255, 0, 0.12);
+    box-shadow: 0 0 12px rgba(232, 255, 0, 0.4);
+    transform: translateY(-2px);
+  }
+  .uranai-team-pick-item img {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    margin: 0 auto 4px;
+    display: block;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(232, 255, 0, 0.4);
+  }
+  .uranai-team-pick-item .pick-name {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.72rem;
+    color: #fff;
+    letter-spacing: 0.05em;
+  }
+  .uranai-team-pick-item .pick-num {
+    position: absolute;
+    top: 4px; right: 4px;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: #e8ff00;
+    color: #1a0a3a;
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 20px;
+    text-align: center;
+    box-shadow: 0 0 8px rgba(232, 255, 0, 0.6);
+  }
+  .uranai-team-pick-confirm {
+    margin-top: 14px;
+    padding: 13px;
+    background: linear-gradient(180deg, #e8ff00, #c8d800);
+    color: #1a0a3a;
+    border: 1px solid #e8ff00;
+    border-radius: 10px;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    cursor: pointer;
+    box-shadow: 0 0 18px rgba(232, 255, 0, 0.35);
+  }
+  .uranai-team-pick-confirm:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+  /* 選択済みスロットの中身 */
+  .uranai-team-slot.filled {
+    background: rgba(232, 255, 0, 0.1);
+    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .uranai-team-slot.filled img {
+    width: 70%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1.5px solid rgba(232, 255, 0, 0.55);
+    background: rgba(0, 0, 0, 0.3);
+    margin-bottom: 3px;
+  }
+  .uranai-team-slot.filled .slot-name {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.6rem;
+    color: #fff;
+    letter-spacing: 0.03em;
+    text-align: center;
+    line-height: 1.1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
 
   /* ★ 今日の相性 セクション */
   .uranai-today-section {
@@ -6637,16 +6797,26 @@
             上のカードから <strong>5 枚</strong> まで選んで、チームの関係性を占おう
           </div>
           <div class="uranai-team-slots" id="uranaiTeamSlots">
-            <!-- 5 枚スロット (動的に描画、今は見た目だけのプレースホルダー) -->
             <div class="uranai-team-slot empty"><div class="team-slot-num">1</div></div>
             <div class="uranai-team-slot empty"><div class="team-slot-num">2</div></div>
             <div class="uranai-team-slot empty"><div class="team-slot-num">3</div></div>
             <div class="uranai-team-slot empty"><div class="team-slot-num">4</div></div>
             <div class="uranai-team-slot empty"><div class="team-slot-num">5</div></div>
           </div>
-          <button class="uranai-team-pick-btn" type="button">＋ カードを選ぶ</button>
+          <button class="uranai-team-pick-btn" id="uranaiTeamPickBtn" type="button">＋ カードを選ぶ</button>
           <!-- 相性結果 -->
           <div class="uranai-compat-results" id="uranaiCompatResults"></div>
+        </div>
+      </div>
+
+      <!-- ★ チーム選択モーダル -->
+      <div class="uranai-team-pick-modal" id="uranaiTeamPickModal">
+        <div class="uranai-team-pick-modal-content">
+          <button class="uranai-team-pick-close" id="uranaiTeamPickClose" type="button">×</button>
+          <div class="uranai-team-pick-title">チームを 5 人まで選ぶ</div>
+          <div class="uranai-team-pick-count" id="uranaiTeamPickCount">0 / 5</div>
+          <div class="uranai-team-pick-list" id="uranaiTeamPickList"></div>
+          <button class="uranai-team-pick-confirm" id="uranaiTeamPickConfirm" type="button">この メンバーで占う</button>
         </div>
       </div>
 
@@ -8882,14 +9052,31 @@ const COASTLINES = [
     wrap.innerHTML = html;
   }
 
+  // ★ チームに選ばれた人物 (uranaiPeople のインデックス配列、max 5)
+  let teamSelectedIndices = [];
+
   function renderCompatibility() {
     const out = document.getElementById('uranaiCompatResults');
     if (!out) return;
-    if (uranaiPeople.length < 2) { out.innerHTML = ''; return; }
-    let html = '<div class="uranai-section-head" style="margin-top:20px;font-size:0.95rem;letter-spacing:0.25em">ペ ア 相 性</div>';
-    for (let i = 0; i < uranaiPeople.length; i++) {
-      for (let j = i + 1; j < uranaiPeople.length; j++) {
-        const a = uranaiPeople[i], b = uranaiPeople[j];
+    // ★ チーム選択モードが有効ならその人達だけ、そうでなければ uranaiPeople 全員
+    const pool = (teamSelectedIndices.length >= 2)
+      ? teamSelectedIndices.map(i => uranaiPeople[i]).filter(p => p)
+      : uranaiPeople;
+    if (pool.length < 2) {
+      if (teamSelectedIndices.length > 0 && teamSelectedIndices.length < 2) {
+        out.innerHTML = '<div class="uranai-team-empty">2 人以上 選ぶと、関係性が表示されます</div>';
+      } else {
+        out.innerHTML = '';
+      }
+      return;
+    }
+    const headLabel = teamSelectedIndices.length >= 2
+      ? `チーム ${pool.length} 人 の 関 係 性`
+      : 'ペ ア 相 性';
+    let html = `<div class="uranai-section-head" style="margin-top:20px;font-size:0.95rem;letter-spacing:0.25em">${headLabel}</div>`;
+    for (let i = 0; i < pool.length; i++) {
+      for (let j = i + 1; j < pool.length; j++) {
+        const a = pool[i], b = pool[j];
         const aspect = aspectBetween(a.phaseIdx, b.phaseIdx);
         html += `
           <div class="uranai-compat-card is-${aspect.kind}">
@@ -8906,15 +9093,15 @@ const COASTLINES = [
       }
     }
     // グループ分析 (3人以上)
-    if (uranaiPeople.length >= 3) {
+    if (pool.length >= 3) {
       const colors = ['黒', '赤', '白', '青'];
       const animals = ['うさぎ', 'かめ', 'わに'];
       const stages = ['離', '守', '破'];
-      const colorCount = colors.map(c => ({c, n: uranaiPeople.filter(p => p.phase.color === c).length}));
-      const animalCount = animals.map(a => ({a, n: uranaiPeople.filter(p => p.phase.animal === a).length}));
-      const stageCount = stages.map(s => ({s, n: uranaiPeople.filter(p => p.phase.stage === s).length}));
+      const colorCount = colors.map(c => ({c, n: pool.filter(p => p.phase.color === c).length}));
+      const animalCount = animals.map(a => ({a, n: pool.filter(p => p.phase.animal === a).length}));
+      const stageCount = stages.map(s => ({s, n: pool.filter(p => p.phase.stage === s).length}));
       const seitenIds = [0, 3, 6, 9];
-      const seitenHeld = seitenIds.filter(id => uranaiPeople.some(p => p.phaseIdx === id));
+      const seitenHeld = seitenIds.filter(id => pool.some(p => p.phaseIdx === id));
       const colorsPresent = colorCount.filter(x => x.n > 0).length;
       const animalsPresent = animalCount.filter(x => x.n > 0).length;
       const stagesPresent = stageCount.filter(x => x.n > 0).length;
@@ -8936,6 +9123,99 @@ const COASTLINES = [
     }
     out.innerHTML = html;
   }
+
+  // ★ チーム選択モーダル ロジック
+  function openTeamPickModal() {
+    if (uranaiPeople.length === 0) {
+      alert('まず カードを登録してください');
+      return;
+    }
+    renderTeamPickList();
+    const modal = document.getElementById('uranaiTeamPickModal');
+    if (modal) modal.classList.add('active');
+  }
+  function closeTeamPickModal() {
+    const modal = document.getElementById('uranaiTeamPickModal');
+    if (modal) modal.classList.remove('active');
+  }
+  function renderTeamPickList() {
+    const list = document.getElementById('uranaiTeamPickList');
+    if (!list) return;
+    list.innerHTML = uranaiPeople.map((p, i) => {
+      const sel = teamSelectedIndices.indexOf(i);
+      const isSelected = sel >= 0;
+      return `
+        <div class="uranai-team-pick-item${isSelected ? ' is-selected' : ''}" data-idx="${i}">
+          <img src="./character_icons/char_${String(p.phaseIdx).padStart(2,'0')}.png" alt="">
+          <div class="pick-name">${p.name || '名前なし'}</div>
+          ${isSelected ? `<div class="pick-num">${sel + 1}</div>` : ''}
+        </div>
+      `;
+    }).join('');
+    list.querySelectorAll('.uranai-team-pick-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const idx = parseInt(item.dataset.idx);
+        const pos = teamSelectedIndices.indexOf(idx);
+        if (pos >= 0) {
+          teamSelectedIndices.splice(pos, 1);
+        } else {
+          if (teamSelectedIndices.length >= 5) return;
+          teamSelectedIndices.push(idx);
+        }
+        renderTeamPickList();
+        updateTeamPickCount();
+      });
+    });
+    updateTeamPickCount();
+  }
+  function updateTeamPickCount() {
+    const el = document.getElementById('uranaiTeamPickCount');
+    if (el) el.textContent = `${teamSelectedIndices.length} / 5`;
+    const confirm = document.getElementById('uranaiTeamPickConfirm');
+    if (confirm) confirm.disabled = teamSelectedIndices.length < 2;
+  }
+  function renderTeamSlots() {
+    const slots = document.getElementById('uranaiTeamSlots');
+    if (!slots) return;
+    let html = '';
+    for (let i = 0; i < 5; i++) {
+      const personIdx = teamSelectedIndices[i];
+      if (personIdx != null && uranaiPeople[personIdx]) {
+        const p = uranaiPeople[personIdx];
+        html += `
+          <div class="uranai-team-slot filled">
+            <img src="./character_icons/char_${String(p.phaseIdx).padStart(2,'0')}.png" alt="">
+            <div class="slot-name">${p.name || '—'}</div>
+          </div>
+        `;
+      } else {
+        html += `<div class="uranai-team-slot empty"><div class="team-slot-num">${i+1}</div></div>`;
+      }
+    }
+    slots.innerHTML = html;
+  }
+  document.addEventListener('DOMContentLoaded', () => {
+    const pickBtn = document.getElementById('uranaiTeamPickBtn');
+    const closeBtn = document.getElementById('uranaiTeamPickClose');
+    const confirmBtn = document.getElementById('uranaiTeamPickConfirm');
+    const modal = document.getElementById('uranaiTeamPickModal');
+    if (pickBtn) pickBtn.addEventListener('click', openTeamPickModal);
+    if (closeBtn) closeBtn.addEventListener('click', closeTeamPickModal);
+    if (confirmBtn) confirmBtn.addEventListener('click', () => {
+      closeTeamPickModal();
+      renderTeamSlots();
+      renderCompatibility();
+      // 結果セクションへスクロール
+      setTimeout(() => {
+        const res = document.getElementById('uranaiCompatResults');
+        if (res) res.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+    });
+    if (modal) modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeTeamPickModal();
+    });
+    // ボタンのラベルを「カードを変える」に状況応じて切り替え (初期は「+ カードを選ぶ」)
+  });
 
   // 編集モード管理 (-1 = 新規追加 / >=0 = uranaiPeople[idx] 編集)
   let editingPersonIdx = -1;
