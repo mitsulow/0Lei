@@ -3972,6 +3972,63 @@
     padding: 4px 4px;
   }
   /* 有名人ルーレット */
+  /* 平均寿命 セクション */
+  .wheel-lifespan-section {
+    margin-top: 18px;
+    padding: 16px 14px 14px;
+    border-radius: 12px;
+    background: linear-gradient(180deg, rgba(232, 255, 0, 0.1), rgba(90, 42, 160, 0.2));
+    border: 1.5px solid rgba(232, 255, 0, 0.35);
+    text-align: center;
+  }
+  .wheel-lifespan-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.9rem;
+    color: rgba(232, 255, 0, 0.9);
+    letter-spacing: 0.2em;
+    margin-bottom: 6px;
+  }
+  .wheel-lifespan-value {
+    line-height: 1;
+    margin: 4px 0;
+  }
+  .wheel-lifespan-value .lifespan-num {
+    font-family: 'Cinzel', 'Shippori Mincho', serif;
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 0 14px rgba(232, 255, 0, 0.7), 0 0 28px rgba(232, 255, 0, 0.35);
+    letter-spacing: 0.02em;
+  }
+  .wheel-lifespan-value .lifespan-unit {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.2rem;
+    color: rgba(232, 255, 0, 0.85);
+    letter-spacing: 0.05em;
+    margin-left: 4px;
+  }
+  .wheel-lifespan-diff {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.85);
+    letter-spacing: 0.08em;
+    margin-top: 4px;
+  }
+  .wheel-lifespan-diff strong {
+    color: #e8ff00;
+    font-weight: 700;
+    text-shadow: 0 0 6px rgba(232, 255, 0, 0.5);
+    margin: 0 2px;
+  }
+  .wheel-lifespan-diff.diff-positive strong { color: #e8ff00; }
+  .wheel-lifespan-diff.diff-negative strong { color: #ff80a0; text-shadow: 0 0 6px rgba(255, 128, 160, 0.45); }
+  .wheel-lifespan-source {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.68rem;
+    color: rgba(255, 255, 255, 0.45);
+    letter-spacing: 0.05em;
+    margin-top: 8px;
+  }
   /* 多い職業 統計セクション */
   .wheel-occupation-section {
     margin-top: 18px;
@@ -7441,6 +7498,19 @@
             </div>
           </div>
 
+          <!-- 平均寿命 統計 -->
+          <div class="wheel-lifespan-section">
+            <div class="wheel-lifespan-title" id="wheelLifespanTitle">平 均 寿 命</div>
+            <div class="wheel-lifespan-value">
+              <span class="lifespan-num" id="wheelLifespanNum">—</span>
+              <span class="lifespan-unit">才</span>
+            </div>
+            <div class="wheel-lifespan-diff" id="wheelLifespanDiff"></div>
+            <div class="wheel-lifespan-source" id="wheelLifespanSource">
+              世界の著名人 寿命 統計
+            </div>
+          </div>
+
           <!-- 多い職業 統計セクション (126万+6200万 統計) -->
           <div class="wheel-occupation-section">
             <div class="wheel-occupation-title" id="wheelOccupationTitle">多 い 職 業</div>
@@ -10341,9 +10411,54 @@ const COASTLINES = [
     renderWheelRelations(idx);
     // 重い処理 (fetch・ルーレット描画) は次フレームに分離
     requestAnimationFrame(() => {
+      renderWheelLifespan(idx);
       renderWheelOccupations(idx);
       renderCelebsRoulette(idx);
     });
+  }
+
+  // 平均寿命データ
+  let wheelLifespanData = null;
+  async function loadLifespanData() {
+    if (wheelLifespanData) return wheelLifespanData;
+    try {
+      const res = await fetch('./data/lifespan_by_type.json?v=20260522');
+      if (!res.ok) throw new Error('404');
+      wheelLifespanData = await res.json();
+      return wheelLifespanData;
+    } catch (e) {
+      wheelLifespanData = { types: [] };
+      return wheelLifespanData;
+    }
+  }
+  async function renderWheelLifespan(idx) {
+    const titleEl = document.getElementById('wheelLifespanTitle');
+    const numEl = document.getElementById('wheelLifespanNum');
+    const diffEl = document.getElementById('wheelLifespanDiff');
+    const srcEl = document.getElementById('wheelLifespanSource');
+    if (!numEl) return;
+    const phase = PHASES_12[idx];
+    if (titleEl && phase) titleEl.textContent = `${getDisplayName(phase)} の 平 均 寿 命`;
+    const data = await loadLifespanData();
+    const t = data && data.types && data.types[idx];
+    if (!t || t.mean_age == null) {
+      numEl.textContent = '—';
+      if (diffEl) { diffEl.textContent = '集計準備中'; diffEl.classList.remove('diff-positive','diff-negative'); }
+      if (srcEl) srcEl.textContent = '世界の著名人 寿命 統計';
+      return;
+    }
+    numEl.textContent = Number(t.mean_age).toFixed(1);
+    if (diffEl) {
+      const diff = t.diff_from_overall != null ? t.diff_from_overall : 0;
+      const sign = diff >= 0 ? '+' : '';
+      diffEl.classList.toggle('diff-positive', diff >= 0);
+      diffEl.classList.toggle('diff-negative', diff < 0);
+      const overall = data.overall_mean_age != null ? data.overall_mean_age.toFixed(1) : '—';
+      diffEl.innerHTML = `（全 平 均 ${overall} 才 よ り <strong>${sign}${diff.toFixed(1)}</strong> 才）`;
+    }
+    if (srcEl) {
+      srcEl.textContent = `世界の著名人 ${(data.n_total || 0).toLocaleString()} 人 の 寿命 統計`;
+    }
   }
 
   function renderWheelRelations(idx) {
