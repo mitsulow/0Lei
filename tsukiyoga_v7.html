@@ -3571,6 +3571,364 @@
       0 4px 14px rgba(0, 0, 0, 0.5);
   }
 
+  /* ★ 12 アニマル ホイール */
+  .wheel-section {
+    margin: 24px 0 28px;
+    text-align: center;
+  }
+  .wheel-help {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.78rem;
+    color: rgba(232, 255, 0, 0.7);
+    letter-spacing: 0.05em;
+    margin-top: 4px;
+    margin-bottom: 14px;
+  }
+  .wheel-stage {
+    position: relative;
+    width: 320px;
+    height: 320px;
+    margin: 0 auto;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none; /* drag を捕捉、ブラウザのスクロールにしない */
+  }
+  /* 上の選択ポインタ */
+  .wheel-pointer {
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #e8ff00;
+    font-size: 1.2rem;
+    line-height: 1;
+    text-shadow: 0 0 12px rgba(232, 255, 0, 0.85);
+    z-index: 3;
+    animation: wheelPointerPulse 1.6s ease-in-out infinite;
+  }
+  @keyframes wheelPointerPulse {
+    0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.85; }
+    50%      { transform: translateX(-50%) translateY(4px); opacity: 1; }
+  }
+  /* 回転リング (12 アニマル) */
+  .wheel-rotor {
+    position: absolute;
+    inset: 0;
+    transform: rotate(0deg);
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    /* 内側に光る軌道 */
+  }
+  .wheel-rotor.is-dragging {
+    transition: none;
+  }
+  .wheel-rotor::before {
+    content: '';
+    position: absolute;
+    inset: 24px;
+    border-radius: 50%;
+    border: 1px dashed rgba(232, 255, 0, 0.25);
+    pointer-events: none;
+  }
+  .wheel-slot {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 56px;
+    height: 56px;
+    margin-left: -28px;
+    /* 円周上に配置: rotate(angle) translateY(-r) で中心からの距離 */
+    transform-origin: 28px 160px;
+    cursor: pointer;
+  }
+  .wheel-slot-inner {
+    position: relative;
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    background: linear-gradient(180deg, rgba(58, 26, 106, 0.85), rgba(26, 10, 58, 0.95));
+    border: 1.5px solid rgba(232, 255, 0, 0.35);
+    box-shadow: 0 0 10px rgba(140, 70, 200, 0.4);
+    overflow: hidden;
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  }
+  .wheel-slot.is-active .wheel-slot-inner {
+    border-color: #e8ff00;
+    box-shadow:
+      0 0 14px rgba(232, 255, 0, 0.7),
+      inset 0 0 0 1px rgba(232, 255, 0, 0.3);
+    transform: scale(1.12);
+  }
+  .wheel-slot img {
+    width: 100%; height: 100%;
+    object-fit: contain;
+  }
+  /* 各スロット内のアニマルは回転を打ち消す (常に正立) */
+  .wheel-slot .wheel-slot-counterrot {
+    width: 100%; height: 100%;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  /* 中心の月 + 選択中キャラ */
+  .wheel-center {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 130px; height: 130px;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    pointer-events: none;
+  }
+  .wheel-center-moon {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 0 14px rgba(232, 255, 0, 0.4)) drop-shadow(0 0 28px rgba(140, 70, 200, 0.4));
+    opacity: 0.55;
+  }
+  .wheel-center-char {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 0 10px rgba(232, 255, 0, 0.5));
+    transition: opacity 0.25s;
+  }
+  .wheel-center-char[src=""], .wheel-center-char:not([src]) {
+    opacity: 0;
+  }
+  /* 選択情報表示 */
+  .wheel-info {
+    margin-top: 18px;
+  }
+  .wheel-info-name {
+    font-family: 'Reggae One', 'Shippori Mincho', serif;
+    font-size: 1.35rem;
+    color: #fff;
+    letter-spacing: 0.2em;
+    text-shadow: 0 0 12px rgba(232, 255, 0, 0.5);
+    margin-bottom: 4px;
+  }
+  .wheel-info-sub {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.85rem;
+    color: rgba(232, 255, 0, 0.85);
+    letter-spacing: 0.15em;
+  }
+  .wheel-open-btn {
+    margin-top: 16px;
+    padding: 12px 32px;
+    background: linear-gradient(180deg, #e8ff00, #c8d800);
+    color: #1a0a3a;
+    border: 1px solid #e8ff00;
+    border-radius: 999px;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    cursor: pointer;
+    box-shadow: 0 0 18px rgba(232, 255, 0, 0.4);
+  }
+  .wheel-open-btn:active {
+    transform: scale(0.97);
+  }
+
+  /* ★ 12 アニマル詳細モーダル */
+  .wheel-detail-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 12500;
+    background: rgba(0, 0, 0, 0.92);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .wheel-detail-modal.active { display: flex; }
+  .wheel-detail-content {
+    background:
+      linear-gradient(165deg, rgba(232, 255, 0, 0.2) 0%, rgba(90, 42, 160, 0.78) 30%, rgba(26, 10, 58, 0.97) 100%);
+    border: 2px solid rgba(232, 255, 0, 0.65);
+    border-radius: 20px;
+    padding: 28px 22px 22px;
+    max-width: 440px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    text-align: center;
+    box-shadow: 0 0 36px rgba(232, 255, 0, 0.3), 0 0 80px rgba(140, 70, 200, 0.4);
+    position: relative;
+  }
+  .wheel-detail-content::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 28%;
+    background: linear-gradient(180deg, rgba(232, 255, 0, 0.16), transparent);
+    pointer-events: none;
+    border-radius: 20px 20px 0 0;
+  }
+  .wheel-detail-close {
+    position: absolute;
+    top: 10px; right: 10px;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(232, 255, 0, 0.5);
+    color: #e8ff00;
+    font-size: 1.15rem;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 2;
+  }
+  .wheel-detail-rarity {
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    color: rgba(232, 255, 0, 0.9);
+    letter-spacing: 0.4em;
+    margin-bottom: 10px;
+    text-shadow: 0 0 8px rgba(232, 255, 0, 0.5);
+    position: relative;
+    z-index: 1;
+  }
+  .wheel-detail-img {
+    width: 130px; height: 130px;
+    border-radius: 50%;
+    border: 2.5px solid rgba(232, 255, 0, 0.7);
+    background: rgba(0, 0, 0, 0.3);
+    margin: 0 auto 12px;
+    display: block;
+    filter: drop-shadow(0 0 10px rgba(232, 255, 0, 0.5));
+    position: relative;
+    z-index: 1;
+  }
+  .wheel-detail-name {
+    font-family: 'Reggae One', 'Shippori Mincho', serif;
+    font-size: 1.4rem;
+    color: #fff;
+    letter-spacing: 0.15em;
+    text-shadow: 0 0 10px rgba(232, 255, 0, 0.5);
+    margin-bottom: 4px;
+  }
+  .wheel-detail-moon {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.92rem;
+    color: rgba(232, 255, 0, 0.9);
+    letter-spacing: 0.18em;
+  }
+  .wheel-detail-stage {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.65);
+    letter-spacing: 0.15em;
+    margin-top: 2px;
+  }
+  .wheel-detail-divider {
+    height: 1px;
+    background: rgba(232, 255, 0, 0.3);
+    margin: 14px 0 12px;
+  }
+  .wheel-detail-desc {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.92);
+    letter-spacing: 0.05em;
+    line-height: 1.85;
+    text-align: left;
+    white-space: pre-line;
+    padding: 4px 4px;
+  }
+  /* 有名人ルーレット */
+  .wheel-celebs-section {
+    margin-top: 22px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(232, 255, 0, 0.22);
+  }
+  .wheel-celebs-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.92rem;
+    color: rgba(232, 255, 0, 0.95);
+    letter-spacing: 0.25em;
+    margin-bottom: 10px;
+  }
+  .wheel-celebs-roulette {
+    position: relative;
+    height: 220px;
+    border: 1.5px solid rgba(232, 255, 0, 0.45);
+    border-radius: 14px;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at 50% 50%, rgba(140, 70, 200, 0.35), transparent 70%),
+      linear-gradient(180deg, rgba(10, 4, 24, 0.85), rgba(26, 10, 58, 0.95));
+    box-shadow: inset 0 0 18px rgba(232, 255, 0, 0.15);
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .celebs-track {
+    position: absolute;
+    inset: 0;
+    will-change: transform;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .celebs-track.is-dragging { transition: none; }
+  .celebs-item {
+    height: 44px;
+    line-height: 44px;
+    text-align: center;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.0rem;
+    color: rgba(255, 255, 255, 0.55);
+    letter-spacing: 0.1em;
+    transition: color 0.25s, font-size 0.25s, text-shadow 0.25s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 14px;
+  }
+  .celebs-item.is-current {
+    color: #fff;
+    font-size: 1.15rem;
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(232, 255, 0, 0.65);
+  }
+  .celebs-item .celebs-birth {
+    color: rgba(232, 255, 0, 0.7);
+    font-size: 0.78rem;
+    margin-left: 8px;
+  }
+  .celebs-mask-top, .celebs-mask-bottom {
+    position: absolute;
+    left: 0; right: 0;
+    height: 60px;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .celebs-mask-top {
+    top: 0;
+    background: linear-gradient(180deg, rgba(10, 4, 24, 0.95), transparent);
+  }
+  .celebs-mask-bottom {
+    bottom: 0;
+    background: linear-gradient(0deg, rgba(10, 4, 24, 0.95), transparent);
+  }
+  .celebs-pointer {
+    position: absolute;
+    top: 50%; left: 0; right: 0;
+    height: 44px;
+    transform: translateY(-50%);
+    border-top: 1px solid rgba(232, 255, 0, 0.55);
+    border-bottom: 1px solid rgba(232, 255, 0, 0.55);
+    pointer-events: none;
+    z-index: 1;
+    background: rgba(232, 255, 0, 0.04);
+    box-shadow: 0 0 14px rgba(232, 255, 0, 0.2);
+  }
+  .wheel-celebs-hint {
+    margin-top: 10px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.74rem;
+    color: rgba(255, 255, 255, 0.55);
+    letter-spacing: 0.1em;
+  }
+
   /* ★ 「選択中」のカード (黄色枠で強調、クリックで選択移動 → もう一度押すと詳細) */
   .uranai-person-card.is-selected {
     border-color: #e8ff00 !important;
@@ -6821,6 +7179,57 @@
 
       <!-- ★ 場所/時刻 / 空 / 陰陽バランス はマイページに移植済み -->
 
+      <!-- ★ 12 アニマル ホイール (月を中心に円形配置、指で回せる) -->
+      <div class="wheel-section">
+        <div class="uranai-section-title-wrap">
+          <span class="uranai-section-title-deco">✦</span>
+          <div class="uranai-section-title">1 2 ア ニ マ ル</div>
+          <span class="uranai-section-title-deco">✦</span>
+        </div>
+        <div class="wheel-help">月を中心にクルクル回して、気になるアニマルを上に</div>
+        <div class="wheel-stage" id="wheelStage">
+          <div class="wheel-pointer" aria-hidden="true">▼</div>
+          <div class="wheel-rotor" id="wheelRotor">
+            <!-- 12 アニマルを動的に配置 (JS) -->
+          </div>
+          <div class="wheel-center">
+            <img class="wheel-center-moon" src="./moon_nasa_round/moon_15.png?v=20260521round" alt="月">
+            <img class="wheel-center-char" id="wheelCenterChar" src="" alt="">
+          </div>
+        </div>
+        <div class="wheel-info">
+          <div class="wheel-info-name" id="wheelSelectedName">—</div>
+          <div class="wheel-info-sub" id="wheelSelectedSub">月相 — / 創る人</div>
+        </div>
+        <button class="wheel-open-btn" id="wheelOpenBtn" type="button">この カードを 開く</button>
+      </div>
+
+      <!-- 12 アニマル タイプ詳細モーダル + 有名人ルーレット -->
+      <div class="wheel-detail-modal" id="wheelDetailModal">
+        <div class="wheel-detail-content">
+          <button class="wheel-detail-close" id="wheelDetailClose" type="button">×</button>
+          <div class="wheel-detail-rarity">★ TSUKIYOGA CARD</div>
+          <img class="wheel-detail-img" id="wheelDetailImg" src="" alt="">
+          <div class="wheel-detail-name" id="wheelDetailName"></div>
+          <div class="wheel-detail-moon" id="wheelDetailMoon"></div>
+          <div class="wheel-detail-stage" id="wheelDetailStage"></div>
+          <div class="wheel-detail-divider"></div>
+          <div class="wheel-detail-desc" id="wheelDetailDesc"></div>
+          <div class="wheel-celebs-section">
+            <div class="wheel-celebs-title">この タイプ の 有 名 人</div>
+            <div class="wheel-celebs-roulette" id="wheelCelebsRoulette">
+              <div class="celebs-track" id="celebsTrack">
+                <!-- 動的生成: 名前を縦に並べる (循環) -->
+              </div>
+              <div class="celebs-mask-top"></div>
+              <div class="celebs-mask-bottom"></div>
+              <div class="celebs-pointer"></div>
+            </div>
+            <div class="wheel-celebs-hint">指でクルクル回して、有名人を見つけよう</div>
+          </div>
+        </div>
+      </div>
+
       <!-- 友だちカード (旧 相性占い) -->
       <div class="uranai-compat-section">
         <div class="uranai-section-title-wrap">
@@ -9496,6 +9905,365 @@ const COASTLINES = [
       content.style.display = isOpen ? 'block' : 'none';
     });
   });
+
+  // ===== 12 アニマル ホイール =====
+  // 12 個を 30 度ずつ円周配置、12 時 (上) が選択位置
+  let wheelRotation = 0;     // current rotation (degrees, CSS rotate)
+  let wheelSelectedIdx = 0;  // 0..11
+  let wheelCelebsData = null; // japan_celebrities.json (後で fetch)
+
+  function initWheel() {
+    const stage = document.getElementById('wheelStage');
+    const rotor = document.getElementById('wheelRotor');
+    if (!stage || !rotor) return;
+
+    // 12 アニマルのスロット生成
+    let html = '';
+    for (let i = 0; i < 12; i++) {
+      const angle = i * 30;
+      html += `
+        <div class="wheel-slot" data-idx="${i}" style="transform: rotate(${angle}deg) translateY(-130px);">
+          <div class="wheel-slot-counterrot" style="transform: rotate(${-angle}deg);">
+            <div class="wheel-slot-inner">
+              <img src="./character_icons/char_${String(i).padStart(2,'0')}.png" alt="">
+            </div>
+          </div>
+        </div>
+      `;
+    }
+    rotor.innerHTML = html;
+
+    // 各スロットクリックでそのアニマルを選択 (回転で上に持ってくる)
+    rotor.querySelectorAll('.wheel-slot').forEach(slot => {
+      slot.addEventListener('click', (e) => {
+        if (rotor.dataset.justDragged === '1') {
+          rotor.dataset.justDragged = '';
+          return;
+        }
+        const idx = parseInt(slot.dataset.idx);
+        wheelSnapTo(idx);
+      });
+    });
+
+    // ★ ドラッグで回転
+    let dragging = false;
+    let startAngle = 0;     // ドラッグ開始時の中心からの角度
+    let startRotation = 0;
+    let lastMoveTime = 0;
+    let lastMoveAngle = 0;
+    let velocity = 0;
+    let moved = false;
+
+    function getAngleFromCenter(x, y) {
+      const r = stage.getBoundingClientRect();
+      const cx = r.left + r.width / 2;
+      const cy = r.top + r.height / 2;
+      return Math.atan2(y - cy, x - cx) * 180 / Math.PI;
+    }
+    function onDown(e) {
+      const t = e.touches ? e.touches[0] : e;
+      dragging = true;
+      moved = false;
+      startAngle = getAngleFromCenter(t.clientX, t.clientY);
+      startRotation = wheelRotation;
+      lastMoveTime = performance.now();
+      lastMoveAngle = startAngle;
+      velocity = 0;
+      rotor.classList.add('is-dragging');
+    }
+    function onMove(e) {
+      if (!dragging) return;
+      const t = e.touches ? e.touches[0] : e;
+      const a = getAngleFromCenter(t.clientX, t.clientY);
+      let delta = a - startAngle;
+      // shortest path
+      if (delta > 180) delta -= 360;
+      if (delta < -180) delta += 360;
+      wheelRotation = startRotation + delta;
+      rotor.style.transform = `rotate(${wheelRotation}deg)`;
+      // 内側のアニマル画像を逆回転 (常に正立)
+      rotor.querySelectorAll('.wheel-slot').forEach(slot => {
+        const idx = parseInt(slot.dataset.idx);
+        const cr = slot.querySelector('.wheel-slot-counterrot');
+        if (cr) cr.style.transform = `rotate(${-idx*30 - wheelRotation}deg)`;
+      });
+      // velocity 計算 (慣性用)
+      const now = performance.now();
+      const dt = now - lastMoveTime;
+      if (dt > 0) {
+        let da = a - lastMoveAngle;
+        if (da > 180) da -= 360;
+        if (da < -180) da += 360;
+        velocity = da / dt * 1000; // deg / sec
+      }
+      lastMoveTime = now;
+      lastMoveAngle = a;
+      if (Math.abs(delta) > 4) moved = true;
+      if (e.cancelable) e.preventDefault();
+    }
+    function onUp(e) {
+      if (!dragging) return;
+      dragging = false;
+      rotor.classList.remove('is-dragging');
+      if (moved) rotor.dataset.justDragged = '1';
+      // 慣性でさらに回転 → 一番近い idx にスナップ
+      const inertia = velocity * 0.4; // 慣性係数
+      let target = wheelRotation + inertia;
+      // -target / 30 = idx (上方向)
+      const idx = ((Math.round(-target / 30) % 12) + 12) % 12;
+      wheelSnapTo(idx);
+    }
+    stage.addEventListener('mousedown', onDown);
+    stage.addEventListener('mousemove', onMove);
+    stage.addEventListener('mouseup', onUp);
+    stage.addEventListener('mouseleave', onUp);
+    stage.addEventListener('touchstart', onDown, { passive: true });
+    stage.addEventListener('touchmove', onMove, { passive: false });
+    stage.addEventListener('touchend', onUp);
+
+    // 初期選択: 0 (黒うさぎ)
+    wheelSnapTo(0);
+
+    // 「このカードを開く」ボタン
+    const openBtn = document.getElementById('wheelOpenBtn');
+    if (openBtn) openBtn.addEventListener('click', () => {
+      openWheelDetailModal(wheelSelectedIdx);
+    });
+    // 閉じる
+    const close = document.getElementById('wheelDetailClose');
+    const modal = document.getElementById('wheelDetailModal');
+    if (close) close.addEventListener('click', () => modal.classList.remove('active'));
+    if (modal) modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.classList.remove('active');
+    });
+  }
+  function wheelSnapTo(idx) {
+    wheelSelectedIdx = idx;
+    // 上 (12 時) に idx が来るためには、rotor を -idx*30 回転する
+    // 現在の wheelRotation の周回を保持しつつ近い角度に
+    const currentBase = wheelRotation % 360;
+    const desired = -idx * 30;
+    let diff = desired - currentBase;
+    if (diff > 180) diff -= 360;
+    if (diff < -180) diff += 360;
+    wheelRotation = wheelRotation + diff;
+    const rotor = document.getElementById('wheelRotor');
+    if (rotor) {
+      rotor.style.transform = `rotate(${wheelRotation}deg)`;
+      rotor.querySelectorAll('.wheel-slot').forEach(slot => {
+        const i = parseInt(slot.dataset.idx);
+        slot.classList.toggle('is-active', i === idx);
+        const cr = slot.querySelector('.wheel-slot-counterrot');
+        if (cr) cr.style.transform = `rotate(${-i*30 - wheelRotation}deg)`;
+      });
+    }
+    // 中央キャラ
+    const charImg = document.getElementById('wheelCenterChar');
+    if (charImg) charImg.src = `./character_icons/char_${String(idx).padStart(2,'0')}.png`;
+    // 選択情報
+    const phase = (typeof PHASES_12 !== 'undefined') ? PHASES_12[idx] : null;
+    if (phase) {
+      const name = (typeof getDisplayName === 'function') ? getDisplayName(phase) : phase.ja;
+      const stagePerson = (typeof STAGE_PERSON !== 'undefined') ? (STAGE_PERSON[phase.stage] || phase.stage) : phase.stage;
+      const nameEl = document.getElementById('wheelSelectedName');
+      const subEl = document.getElementById('wheelSelectedSub');
+      if (nameEl) nameEl.textContent = name;
+      if (subEl) subEl.textContent = `${phase.moon}　／　${stagePerson}`;
+    }
+  }
+  document.addEventListener('DOMContentLoaded', initWheel);
+
+  // ===== タイプ詳細モーダル + 有名人ルーレット =====
+  function openWheelDetailModal(idx) {
+    const modal = document.getElementById('wheelDetailModal');
+    if (!modal) return;
+    const phase = PHASES_12[idx];
+    if (!phase) return;
+    document.getElementById('wheelDetailImg').src =
+      `./character_icons/char_${String(idx).padStart(2,'0')}.png`;
+    document.getElementById('wheelDetailName').textContent = getDisplayName(phase);
+    document.getElementById('wheelDetailMoon').textContent = `${phase.moon}（${phase.kanji}）`;
+    const sp = STAGE_PERSON[phase.stage] || phase.stage;
+    document.getElementById('wheelDetailStage').textContent = `色: ${phase.color}　／　${sp}`;
+    document.getElementById('wheelDetailDesc').textContent =
+      (typeof PHASE_DESCRIPTIONS !== 'undefined') ? (PHASE_DESCRIPTIONS[idx] || '') : '';
+    // 有名人ルーレット
+    renderCelebsRoulette(idx);
+    modal.classList.add('active');
+  }
+
+  // 日本人有名人 JSON (後で出来る)
+  async function loadCelebsData() {
+    if (wheelCelebsData) return wheelCelebsData;
+    try {
+      const res = await fetch('./data/japan_celebrities.json?v=20260522');
+      if (!res.ok) throw new Error('404');
+      wheelCelebsData = await res.json();
+      return wheelCelebsData;
+    } catch (e) {
+      wheelCelebsData = { types: [] };
+      return wheelCelebsData;
+    }
+  }
+
+  // フォールバック (JSON 未配置時のダミー)
+  const CELEBS_FALLBACK = [
+    { name: '読み込み中...', birth: '' },
+    { name: 'データ準備中', birth: '' },
+    { name: 'もうしばらく', birth: '' }
+  ];
+
+  async function renderCelebsRoulette(idx) {
+    const track = document.getElementById('celebsTrack');
+    const roulette = document.getElementById('wheelCelebsRoulette');
+    if (!track || !roulette) return;
+    const data = await loadCelebsData();
+    let people = CELEBS_FALLBACK;
+    if (data && data.types && data.types[idx] && data.types[idx].top_people) {
+      people = data.types[idx].top_people;
+    }
+    // 循環: 表示用に 3 周分を用意
+    const cycle = people.concat(people, people);
+    track.innerHTML = cycle.map((p, i) =>
+      `<div class="celebs-item" data-i="${i}">${p.name}<span class="celebs-birth">${p.birth || ''}</span></div>`
+    ).join('');
+    // 中心が「現在の名前」になるよう track の transform を初期化
+    const containerH = roulette.clientHeight || 220;
+    const itemH = 44;
+    const visibleCenterY = containerH / 2 - itemH / 2;
+    // 中央セット (people.length 個目) の 0 番目を中央に
+    const offset = visibleCenterY - people.length * itemH;
+    track.style.transition = 'none';
+    track.style.transform = `translateY(${offset}px)`;
+    requestAnimationFrame(() => { track.style.transition = ''; });
+    updateCelebsCurrent();
+
+    // ★ ドラッグで縦スクロール
+    initCelebsDrag(roulette, track, people.length, itemH, offset);
+  }
+
+  function initCelebsDrag(roulette, track, n, itemH, initialOffset) {
+    if (roulette.dataset.bound === '1') {
+      roulette._setData && roulette._setData(track, n, itemH, initialOffset);
+      return;
+    }
+    roulette.dataset.bound = '1';
+    let curOffset = initialOffset;
+    let dragging = false;
+    let startY = 0;
+    let startOffset = 0;
+    let lastT = 0, lastY = 0, velocity = 0;
+    let raf = 0;
+    let activeTrack = track;
+    let activeN = n;
+    let activeItemH = itemH;
+    let baseOffset = initialOffset;
+
+    roulette._setData = (t, _n, _itemH, _init) => {
+      cancelAnimationFrame(raf);
+      activeTrack = t;
+      activeN = _n;
+      activeItemH = _itemH;
+      baseOffset = _init;
+      curOffset = _init;
+    };
+
+    function setOffset(off) {
+      // 中央周回内に正規化 (track の中央の周回 = people.length 個目 の周辺を維持)
+      const groupH = activeN * activeItemH;
+      // 中央セットを基準に、上下に1セットずつ
+      while (off > baseOffset + groupH / 2) off -= groupH;
+      while (off < baseOffset - groupH / 2) off += groupH;
+      curOffset = off;
+      activeTrack.style.transform = `translateY(${off}px)`;
+      updateCelebsCurrent();
+    }
+    function inertia() {
+      // velocity (px/ms) → 慣性
+      const friction = 0.94;
+      const minV = 0.05;
+      function step() {
+        velocity *= friction;
+        if (Math.abs(velocity) < minV) {
+          // snap: 中央が item の中心に来るように
+          const centerY = roulette.clientHeight / 2;
+          // 中央の Y 座標 (track 内) = centerY - curOffset
+          const localY = centerY - curOffset;
+          const idx = Math.round(localY / activeItemH - 0.5);
+          const targetLocalY = idx * activeItemH + activeItemH / 2;
+          const targetOffset = centerY - targetLocalY;
+          activeTrack.classList.remove('is-dragging');
+          activeTrack.style.transition = '';
+          setOffset(targetOffset);
+          return;
+        }
+        setOffset(curOffset + velocity * 16);
+        raf = requestAnimationFrame(step);
+      }
+      activeTrack.classList.add('is-dragging');
+      raf = requestAnimationFrame(step);
+    }
+    function onDown(e) {
+      const t = e.touches ? e.touches[0] : e;
+      dragging = true;
+      startY = t.clientY;
+      startOffset = curOffset;
+      lastT = performance.now();
+      lastY = startY;
+      velocity = 0;
+      cancelAnimationFrame(raf);
+      activeTrack.classList.add('is-dragging');
+    }
+    function onMove(e) {
+      if (!dragging) return;
+      const t = e.touches ? e.touches[0] : e;
+      setOffset(startOffset + (t.clientY - startY));
+      const now = performance.now();
+      const dt = now - lastT;
+      if (dt > 0) velocity = (t.clientY - lastY) / dt;
+      lastT = now;
+      lastY = t.clientY;
+      if (e.cancelable) e.preventDefault();
+    }
+    function onUp() {
+      if (!dragging) return;
+      dragging = false;
+      if (Math.abs(velocity) > 0.1) inertia();
+      else {
+        // 即スナップ
+        const centerY = roulette.clientHeight / 2;
+        const localY = centerY - curOffset;
+        const idx = Math.round(localY / activeItemH - 0.5);
+        const targetLocalY = idx * activeItemH + activeItemH / 2;
+        setOffset(centerY - targetLocalY);
+        activeTrack.classList.remove('is-dragging');
+      }
+    }
+    roulette.addEventListener('mousedown', onDown);
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+    roulette.addEventListener('touchstart', onDown, { passive: true });
+    roulette.addEventListener('touchmove', onMove, { passive: false });
+    roulette.addEventListener('touchend', onUp);
+  }
+
+  function updateCelebsCurrent() {
+    const track = document.getElementById('celebsTrack');
+    const roulette = document.getElementById('wheelCelebsRoulette');
+    if (!track || !roulette) return;
+    const items = track.querySelectorAll('.celebs-item');
+    if (items.length === 0) return;
+    const rouletteRect = roulette.getBoundingClientRect();
+    const centerY = rouletteRect.top + rouletteRect.height / 2;
+    let best = null, bestDist = Infinity;
+    items.forEach(it => {
+      const r = it.getBoundingClientRect();
+      const itemCenter = r.top + r.height / 2;
+      const d = Math.abs(itemCenter - centerY);
+      if (d < bestDist) { bestDist = d; best = it; }
+    });
+    items.forEach(it => it.classList.toggle('is-current', it === best));
+  }
 
   // ★ 今日の相性カード フリップ + 詳細モーダル
   // 各カードに表示中の人物を保持 (詳細モーダル用)
