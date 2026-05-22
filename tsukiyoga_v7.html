@@ -4063,6 +4063,55 @@
   .wheel-distribution-legend .legend-self { color: #e8ff00; margin-right: 2px; }
   .wheel-distribution-legend .legend-other { color: rgba(180, 130, 255, 0.7); margin-left: 14px; margin-right: 2px; }
 
+  /* 月齢別 死亡分布 */
+  .wheel-death-section {
+    margin-top: 18px;
+    padding: 14px 14px 12px;
+    border-radius: 12px;
+    background: linear-gradient(180deg, rgba(180, 60, 130, 0.12), rgba(90, 42, 160, 0.22));
+    border: 1.5px solid rgba(245, 130, 200, 0.4);
+    text-align: center;
+  }
+  .wheel-death-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.88rem;
+    color: rgba(245, 130, 200, 0.9);
+    letter-spacing: 0.18em;
+    margin-bottom: 4px;
+  }
+  .wheel-death-value { line-height: 1; margin: 4px 0 2px; }
+  .wheel-death-value .death-share-num {
+    font-family: 'Cinzel', serif;
+    font-size: 2.0rem;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 0 12px rgba(245, 130, 200, 0.55), 0 0 24px rgba(180, 130, 255, 0.3);
+  }
+  .wheel-death-value .death-share-unit {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.0rem;
+    color: rgba(245, 130, 200, 0.85);
+    margin-left: 2px;
+  }
+  .wheel-death-diff {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.85);
+    letter-spacing: 0.05em;
+    line-height: 1.6;
+  }
+  .wheel-death-diff strong { margin: 0 2px; text-shadow: 0 0 6px currentColor; font-weight: 700; }
+  .wheel-death-diff.diff-positive strong { color: #ff9ad4; }
+  .wheel-death-diff.diff-negative strong { color: #b8f5d5; }
+  .wheel-death-source {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.68rem;
+    color: rgba(255, 255, 255, 0.55);
+    letter-spacing: 0.05em;
+    margin-top: 6px;
+  }
+  .wheel-death-source strong { color: rgba(245, 130, 200, 0.9); font-weight: 700; }
+
   /* 平均寿命 セクション */
   .wheel-lifespan-section {
     margin-top: 18px;
@@ -7721,6 +7770,22 @@
             </div>
           </div>
 
+          <!-- 月齢別 死亡分布 (Wikidata P570 - 5.7 万人) -->
+          <div class="wheel-death-section">
+            <div class="wheel-death-title" id="wheelDeathTitle">同 タ イ プ の 死 亡 比 率</div>
+            <div class="wheel-death-value">
+              <span class="death-share-num" id="wheelDeathShareNum">—</span><span class="death-share-unit">%</span>
+            </div>
+            <div class="wheel-death-diff" id="wheelDeathDiff"></div>
+            <div class="wheel-distribution-section" style="margin-top:10px;padding-top:8px;border-top:none">
+              <div class="wheel-distribution-help">月齢別 死亡数 (期待値 1/30 からの偏差)</div>
+              <svg class="wheel-distribution-svg" viewBox="0 0 300 110" id="wheelDeathSvg"></svg>
+            </div>
+            <div class="wheel-death-source">
+              世界の著名人 死亡日 <strong>5.7 万人</strong> (Wikidata P570) より
+            </div>
+          </div>
+
           <div class="wheel-lifespan-section">
             <div class="wheel-lifespan-title" id="wheelLifespanTitle">平 均 寿 命</div>
             <div class="wheel-lifespan-value">
@@ -10603,11 +10668,83 @@ const COASTLINES = [
     // 重い処理 (fetch・ルーレット描画) は次フレームに分離
     requestAnimationFrame(() => {
       renderWheelCdcStats(idx);
+      renderWheelDeathStats(idx);
       renderWheelLifespan(idx);
       renderWheelOccupations(idx);
-      injectPositionNoteIntoDesc(idx);  // 大統領・総理 を説明文末に追記
+      injectPositionNoteIntoDesc(idx);
       renderCelebsRoulette(idx);
     });
+  }
+
+  // 月齢別 死亡分布
+  let wheelDeathData = null;
+  async function loadDeathData() {
+    if (wheelDeathData) return wheelDeathData;
+    try {
+      const res = await fetch('./data/death_distribution.json?v=20260522');
+      if (!res.ok) throw new Error('404');
+      wheelDeathData = await res.json();
+      return wheelDeathData;
+    } catch (e) { return null; }
+  }
+  async function renderWheelDeathStats(idx) {
+    const titleEl = document.getElementById('wheelDeathTitle');
+    const numEl = document.getElementById('wheelDeathShareNum');
+    const diffEl = document.getElementById('wheelDeathDiff');
+    const svg = document.getElementById('wheelDeathSvg');
+    if (!numEl) return;
+    const phase = PHASES_12[idx];
+    if (titleEl && phase) titleEl.textContent = `${getDisplayName(phase)} 族 の 死 亡 比 率`;
+    const data = await loadDeathData();
+    if (!data || !data.types || !data.types[idx]) {
+      numEl.textContent = '—';
+      if (diffEl) diffEl.textContent = '集計準備中';
+      return;
+    }
+    const t = data.types[idx];
+    numEl.textContent = Number(t.share_pct).toFixed(2);
+    if (diffEl) {
+      const diff = t.diff_from_equal_pct;
+      const sign = diff >= 0 ? '+' : '';
+      diffEl.classList.toggle('diff-positive', diff >= 0);
+      diffEl.classList.toggle('diff-negative', diff < 0);
+      const expect = data.expected_share_pct_12 || 8.333;
+      diffEl.innerHTML = `期待値 ${expect.toFixed(2)}% より <strong>${sign}${diff.toFixed(2)}</strong>%`;
+    }
+    if (svg && data.bins_30) {
+      // ピンク系で棒グラフ (出生分布と区別)
+      renderDeathChart(svg, data.bins_30, idx);
+    }
+  }
+  function renderDeathChart(svg, bins, selectedIdx) {
+    const W = 300;
+    const baseY = 60;
+    const maxBar = 42;
+    const maxAbs = Math.max(...bins.map(b => Math.abs(b.diff_from_equal_pct)));
+    const scale = maxAbs > 0 ? maxBar / maxAbs : 0;
+    const barW = 8;
+    const gap = 1.5;
+    const totalW = bins.length * barW + (bins.length - 1) * gap;
+    const startX = (W - totalW) / 2;
+    const myBinLow = selectedIdx * 2.5;
+    const myBinHigh = (selectedIdx + 1) * 2.5;
+    let html = '';
+    html += `<line x1="0" y1="${baseY}" x2="${W}" y2="${baseY}" stroke="rgba(245,130,200,0.35)" stroke-width="0.6" stroke-dasharray="2,2"/>`;
+    bins.forEach((b, i) => {
+      const x = startX + i * (barW + gap);
+      const h = Math.abs(b.diff_from_equal_pct) * scale;
+      const isUp = b.diff_from_equal_pct >= 0;
+      const y = isUp ? (baseY - h) : baseY;
+      const isMyBin = (i >= myBinLow && i < myBinHigh);
+      const fill = isMyBin ? '#ff9ad4' : 'rgba(180, 130, 255, 0.55)';
+      const filter = isMyBin ? ' filter="drop-shadow(0 0 4px rgba(245,130,200,0.85))"' : '';
+      html += `<rect x="${x}" y="${y}" width="${barW}" height="${h.toFixed(2)}" fill="${fill}"${filter}/>`;
+    });
+    [0, 7.5, 15, 22.5].forEach(li => {
+      const x = startX + li * (barW + gap) + barW / 2;
+      html += `<text x="${x}" y="106" text-anchor="middle" fill="rgba(245,130,200,0.75)" font-size="8" font-family="Shippori Mincho,serif">${['新','上','満','下'][[0,7.5,15,22.5].indexOf(li)]}</text>`;
+    });
+    svg.innerHTML = html;
   }
 
   // 役職者情報を説明文末尾に追記 (説明文を上書きしない)

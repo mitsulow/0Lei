@@ -1,0 +1,348 @@
+{
+  "version": "1.0",
+  "source": "Wikidata SPARQL (P570 day-precision, sitelinks>=5, 1700-2024 死亡)",
+  "n_total_deaths": 57431,
+  "expected_share_pct_12": 8.3333,
+  "expected_share_pct_30": 3.3333,
+  "note": "世界の著名人 (sitelinks>=5) の死亡日を 12 タイプ + 30 月齢 bin に分けた集計。8.333% (1/12) や 3.333% (1/30) から外れていれば月相と死亡に相関の兆候。出生時刻不明なので 12:00 UT 固定で計算しているため日付境界では誤差あり。",
+  "types": [
+    {
+      "index": 0,
+      "name_ja": "黒ウサギ",
+      "moon_phase": "新月",
+      "n_deaths": 4733,
+      "share_pct": 8.2412,
+      "diff_from_equal_pct": -0.0921
+    },
+    {
+      "index": 1,
+      "name_ja": "黒ガメ",
+      "moon_phase": "三日月",
+      "n_deaths": 4861,
+      "share_pct": 8.4641,
+      "diff_from_equal_pct": 0.1307
+    },
+    {
+      "index": 2,
+      "name_ja": "黒ワニ",
+      "moon_phase": "五日月",
+      "n_deaths": 4886,
+      "share_pct": 8.5076,
+      "diff_from_equal_pct": 0.1743
+    },
+    {
+      "index": 3,
+      "name_ja": "赤ウサギ",
+      "moon_phase": "上弦",
+      "n_deaths": 4834,
+      "share_pct": 8.4171,
+      "diff_from_equal_pct": 0.0837
+    },
+    {
+      "index": 4,
+      "name_ja": "赤ガメ",
+      "moon_phase": "十日夜",
+      "n_deaths": 4713,
+      "share_pct": 8.2064,
+      "diff_from_equal_pct": -0.127
+    },
+    {
+      "index": 5,
+      "name_ja": "赤ワニ",
+      "moon_phase": "十三夜",
+      "n_deaths": 4644,
+      "share_pct": 8.0862,
+      "diff_from_equal_pct": -0.2471
+    },
+    {
+      "index": 6,
+      "name_ja": "白ウサギ",
+      "moon_phase": "満月",
+      "n_deaths": 4653,
+      "share_pct": 8.1019,
+      "diff_from_equal_pct": -0.2314
+    },
+    {
+      "index": 7,
+      "name_ja": "白ガメ",
+      "moon_phase": "十六夜",
+      "n_deaths": 4866,
+      "share_pct": 8.4728,
+      "diff_from_equal_pct": 0.1394
+    },
+    {
+      "index": 8,
+      "name_ja": "白ワニ",
+      "moon_phase": "寝待月",
+      "n_deaths": 4838,
+      "share_pct": 8.424,
+      "diff_from_equal_pct": 0.0907
+    },
+    {
+      "index": 9,
+      "name_ja": "青ウサギ",
+      "moon_phase": "下弦",
+      "n_deaths": 4940,
+      "share_pct": 8.6016,
+      "diff_from_equal_pct": 0.2683
+    },
+    {
+      "index": 10,
+      "name_ja": "青ガメ",
+      "moon_phase": "二十五夜",
+      "n_deaths": 4820,
+      "share_pct": 8.3927,
+      "diff_from_equal_pct": 0.0593
+    },
+    {
+      "index": 11,
+      "name_ja": "青ワニ",
+      "moon_phase": "有明月",
+      "n_deaths": 4643,
+      "share_pct": 8.0845,
+      "diff_from_equal_pct": -0.2488
+    }
+  ],
+  "bins_30": [
+    {
+      "bin": 0,
+      "moon_age_from": 0.0,
+      "moon_age_to": 0.984,
+      "n_deaths": 1884,
+      "share_pct": 3.2805,
+      "diff_from_equal_pct": -0.0529
+    },
+    {
+      "bin": 1,
+      "moon_age_from": 0.984,
+      "moon_age_to": 1.969,
+      "n_deaths": 2014,
+      "share_pct": 3.5068,
+      "diff_from_equal_pct": 0.1735
+    },
+    {
+      "bin": 2,
+      "moon_age_from": 1.969,
+      "moon_age_to": 2.953,
+      "n_deaths": 1838,
+      "share_pct": 3.2004,
+      "diff_from_equal_pct": -0.133
+    },
+    {
+      "bin": 3,
+      "moon_age_from": 2.953,
+      "moon_age_to": 3.937,
+      "n_deaths": 1911,
+      "share_pct": 3.3275,
+      "diff_from_equal_pct": -0.0059
+    },
+    {
+      "bin": 4,
+      "moon_age_from": 3.937,
+      "moon_age_to": 4.922,
+      "n_deaths": 1947,
+      "share_pct": 3.3902,
+      "diff_from_equal_pct": 0.0568
+    },
+    {
+      "bin": 5,
+      "moon_age_from": 4.922,
+      "moon_age_to": 5.906,
+      "n_deaths": 1958,
+      "share_pct": 3.4093,
+      "diff_from_equal_pct": 0.076
+    },
+    {
+      "bin": 6,
+      "moon_age_from": 5.906,
+      "moon_age_to": 6.89,
+      "n_deaths": 1908,
+      "share_pct": 3.3222,
+      "diff_from_equal_pct": -0.0111
+    },
+    {
+      "bin": 7,
+      "moon_age_from": 6.89,
+      "moon_age_to": 7.875,
+      "n_deaths": 1989,
+      "share_pct": 3.4633,
+      "diff_from_equal_pct": 0.13
+    },
+    {
+      "bin": 8,
+      "moon_age_from": 7.875,
+      "moon_age_to": 8.859,
+      "n_deaths": 2002,
+      "share_pct": 3.4859,
+      "diff_from_equal_pct": 0.1526
+    },
+    {
+      "bin": 9,
+      "moon_age_from": 8.859,
+      "moon_age_to": 9.844,
+      "n_deaths": 1863,
+      "share_pct": 3.2439,
+      "diff_from_equal_pct": -0.0894
+    },
+    {
+      "bin": 10,
+      "moon_age_from": 9.844,
+      "moon_age_to": 10.828,
+      "n_deaths": 1790,
+      "share_pct": 3.1168,
+      "diff_from_equal_pct": -0.2165
+    },
+    {
+      "bin": 11,
+      "moon_age_from": 10.828,
+      "moon_age_to": 11.812,
+      "n_deaths": 1957,
+      "share_pct": 3.4076,
+      "diff_from_equal_pct": 0.0742
+    },
+    {
+      "bin": 12,
+      "moon_age_from": 11.812,
+      "moon_age_to": 12.797,
+      "n_deaths": 1825,
+      "share_pct": 3.1777,
+      "diff_from_equal_pct": -0.1556
+    },
+    {
+      "bin": 13,
+      "moon_age_from": 12.797,
+      "moon_age_to": 13.781,
+      "n_deaths": 1944,
+      "share_pct": 3.3849,
+      "diff_from_equal_pct": 0.0516
+    },
+    {
+      "bin": 14,
+      "moon_age_from": 13.781,
+      "moon_age_to": 14.765,
+      "n_deaths": 1841,
+      "share_pct": 3.2056,
+      "diff_from_equal_pct": -0.1277
+    },
+    {
+      "bin": 15,
+      "moon_age_from": 14.765,
+      "moon_age_to": 15.75,
+      "n_deaths": 1835,
+      "share_pct": 3.1951,
+      "diff_from_equal_pct": -0.1382
+    },
+    {
+      "bin": 16,
+      "moon_age_from": 15.75,
+      "moon_age_to": 16.734,
+      "n_deaths": 1908,
+      "share_pct": 3.3222,
+      "diff_from_equal_pct": -0.0111
+    },
+    {
+      "bin": 17,
+      "moon_age_from": 16.734,
+      "moon_age_to": 17.718,
+      "n_deaths": 1935,
+      "share_pct": 3.3693,
+      "diff_from_equal_pct": 0.0359
+    },
+    {
+      "bin": 18,
+      "moon_age_from": 17.718,
+      "moon_age_to": 18.703,
+      "n_deaths": 1936,
+      "share_pct": 3.371,
+      "diff_from_equal_pct": 0.0377
+    },
+    {
+      "bin": 19,
+      "moon_age_from": 18.703,
+      "moon_age_to": 19.687,
+      "n_deaths": 1905,
+      "share_pct": 3.317,
+      "diff_from_equal_pct": -0.0163
+    },
+    {
+      "bin": 20,
+      "moon_age_from": 19.687,
+      "moon_age_to": 20.671,
+      "n_deaths": 1874,
+      "share_pct": 3.263,
+      "diff_from_equal_pct": -0.0703
+    },
+    {
+      "bin": 21,
+      "moon_age_from": 20.671,
+      "moon_age_to": 21.656,
+      "n_deaths": 1961,
+      "share_pct": 3.4145,
+      "diff_from_equal_pct": 0.0812
+    },
+    {
+      "bin": 22,
+      "moon_age_from": 21.656,
+      "moon_age_to": 22.64,
+      "n_deaths": 1921,
+      "share_pct": 3.3449,
+      "diff_from_equal_pct": 0.0116
+    },
+    {
+      "bin": 23,
+      "moon_age_from": 22.64,
+      "moon_age_to": 23.624,
+      "n_deaths": 2092,
+      "share_pct": 3.6426,
+      "diff_from_equal_pct": 0.3093
+    },
+    {
+      "bin": 24,
+      "moon_age_from": 23.624,
+      "moon_age_to": 24.609,
+      "n_deaths": 1930,
+      "share_pct": 3.3606,
+      "diff_from_equal_pct": 0.0272
+    },
+    {
+      "bin": 25,
+      "moon_age_from": 24.609,
+      "moon_age_to": 25.593,
+      "n_deaths": 1912,
+      "share_pct": 3.3292,
+      "diff_from_equal_pct": -0.0041
+    },
+    {
+      "bin": 26,
+      "moon_age_from": 25.593,
+      "moon_age_to": 26.578,
+      "n_deaths": 1983,
+      "share_pct": 3.4528,
+      "diff_from_equal_pct": 0.1195
+    },
+    {
+      "bin": 27,
+      "moon_age_from": 26.578,
+      "moon_age_to": 27.562,
+      "n_deaths": 1905,
+      "share_pct": 3.317,
+      "diff_from_equal_pct": -0.0163
+    },
+    {
+      "bin": 28,
+      "moon_age_from": 27.562,
+      "moon_age_to": 28.546,
+      "n_deaths": 1770,
+      "share_pct": 3.082,
+      "diff_from_equal_pct": -0.2514
+    },
+    {
+      "bin": 29,
+      "moon_age_from": 28.546,
+      "moon_age_to": 29.531,
+      "n_deaths": 1893,
+      "share_pct": 3.2961,
+      "diff_from_equal_pct": -0.0372
+    }
+  ]
+}
