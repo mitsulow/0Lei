@@ -21,6 +21,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700&family=Cinzel:wght@400;600&family=Shippori+Mincho:wght@400;600;700&family=Reggae+One&family=RocknRoll+One&family=Kaisei+Decol:wght@700&display=swap" rel="stylesheet">
 <!-- QR コード生成ライブラリ (招待用) -->
 <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js" defer></script>
+<!-- face-api.js (ハナサカリ判定: 顔ランドマーク + 左右対称性) -->
+<script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
   // SunCalc インライン実装
@@ -1859,6 +1861,308 @@
     overflow: hidden;
   }
   .uranai-view.active { display: block; }
+
+  /* ★ ハナサカリ判定ビュー */
+  .hanasakari-view {
+    position: fixed;
+    inset: 0 0 62px 0;
+    z-index: 35;
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(245, 130, 200, 0.25), transparent 55%),
+      radial-gradient(ellipse at 75% 80%, rgba(232, 255, 0, 0.12), transparent 50%),
+      linear-gradient(180deg, #1a0a3a 0%, #0a0418 100%);
+    display: none;
+    overflow: hidden;
+  }
+  .hanasakari-view.active { display: block; }
+  .hanasakari-scroll {
+    position: absolute;
+    inset: 0;
+    overflow-y: auto;
+    padding: 22px 18px 50px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .hanasakari-header {
+    text-align: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(245, 130, 200, 0.25);
+  }
+  .hanasakari-title {
+    font-family: 'Reggae One', 'Shippori Mincho', serif;
+    font-size: 1.35rem;
+    color: #fff;
+    letter-spacing: 0.15em;
+    text-shadow: 0 0 12px rgba(245, 130, 200, 0.55);
+  }
+  .hanasakari-subtitle {
+    margin-top: 4px;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.82rem;
+    color: rgba(245, 130, 200, 0.85);
+    letter-spacing: 0.1em;
+  }
+  .hanasakari-intro {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.88);
+    letter-spacing: 0.05em;
+    line-height: 1.75;
+    padding: 12px 14px;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    border: 1px solid rgba(245, 130, 200, 0.22);
+    margin-bottom: 14px;
+  }
+  .hanasakari-intro strong { color: #ff9ad4; }
+  .hanasakari-tips {
+    margin-bottom: 14px;
+    padding: 10px 14px;
+    background: rgba(232, 255, 0, 0.07);
+    border: 1px solid rgba(232, 255, 0, 0.25);
+    border-radius: 10px;
+    color: rgba(255, 255, 255, 0.92);
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.03em;
+    line-height: 1.7;
+  }
+  .hanasakari-tips .tips-head {
+    color: #e8ff00;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .hanasakari-tips ul {
+    margin: 0;
+    padding-left: 18px;
+  }
+  .hanasakari-tips li { margin-bottom: 2px; }
+
+  .hanasakari-camera-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 340px;
+    aspect-ratio: 3 / 4;
+    margin: 0 auto 14px;
+    background: #000;
+    border: 2px solid rgba(245, 130, 200, 0.55);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(245, 130, 200, 0.25);
+  }
+  #hanasakariCanvas, #hanasakariVideo {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .hanasakari-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.95rem;
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.65);
+    text-align: center;
+    line-height: 1.6;
+    background: rgba(10, 4, 24, 0.7);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  .hanasakari-overlay.is-hidden { display: none; }
+  .hanasakari-status {
+    position: absolute;
+    bottom: 6px; left: 6px; right: 6px;
+    text-align: center;
+    color: rgba(232, 255, 0, 0.9);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    text-shadow: 0 0 6px rgba(0, 0, 0, 0.95);
+    pointer-events: none;
+  }
+  .hanasakari-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .hanasakari-btn {
+    flex: 1;
+    min-width: 140px;
+    padding: 13px;
+    border-radius: 10px;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.95rem;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    border: 1px solid;
+  }
+  .hanasakari-btn.primary {
+    background: linear-gradient(180deg, rgba(245, 130, 200, 0.85), rgba(200, 80, 160, 0.95));
+    border-color: rgba(255, 154, 212, 0.95);
+    color: #1a0a3a;
+    font-weight: 700;
+    box-shadow: 0 0 16px rgba(245, 130, 200, 0.4);
+  }
+  .hanasakari-btn.shoot {
+    background: linear-gradient(180deg, #e8ff00, #c8d800);
+    border-color: #e8ff00;
+    color: #1a0a3a;
+    font-weight: 700;
+    box-shadow: 0 0 18px rgba(232, 255, 0, 0.4);
+  }
+  .hanasakari-btn:active { transform: scale(0.97); }
+
+  .hanasakari-result {
+    margin-bottom: 18px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: linear-gradient(180deg, rgba(245, 130, 200, 0.18), rgba(90, 42, 160, 0.25));
+    border: 1.5px solid rgba(245, 130, 200, 0.55);
+    text-align: center;
+  }
+  .hanasakari-score-label {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.85rem;
+    color: rgba(245, 130, 200, 0.9);
+    letter-spacing: 0.15em;
+    margin-bottom: 4px;
+  }
+  .hanasakari-score-value { line-height: 1; }
+  .hanasakari-score-value .hanasakari-score-num {
+    font-family: 'Cinzel', serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 0 16px rgba(245, 130, 200, 0.7), 0 0 32px rgba(245, 130, 200, 0.4);
+  }
+  .hanasakari-score-value .hanasakari-score-unit {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.1rem;
+    color: rgba(245, 130, 200, 0.85);
+    margin-left: 4px;
+  }
+  .hanasakari-score-state {
+    margin-top: 6px;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.92);
+    letter-spacing: 0.08em;
+  }
+  .hanasakari-score-state.is-bloom {
+    color: #ff9ad4;
+    font-weight: 700;
+    text-shadow: 0 0 8px rgba(245, 130, 200, 0.55);
+  }
+
+  /* 30 日タイムライン */
+  .hanasakari-timeline-section {
+    margin-bottom: 18px;
+    padding: 12px 12px 10px;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    border: 1px solid rgba(232, 255, 0, 0.2);
+  }
+  .hanasakari-timeline-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.92rem;
+    color: rgba(232, 255, 0, 0.95);
+    letter-spacing: 0.2em;
+    text-align: center;
+    margin-bottom: 6px;
+  }
+  .hanasakari-timeline-svg {
+    display: block;
+    width: 100%;
+    height: 140px;
+  }
+  .hanasakari-timeline-legend {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    margin-top: 4px;
+  }
+  .legend-dot {
+    display: inline-block;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    margin: 0 4px 0 12px;
+    vertical-align: middle;
+  }
+  .legend-dot.legend-normal { background: rgba(232, 255, 0, 0.7); }
+  .legend-dot.legend-bloom  { background: #ff9ad4; box-shadow: 0 0 5px rgba(245, 130, 200, 0.7); }
+
+  /* 月経周期入力 */
+  .hanasakari-cycle-section {
+    padding: 12px 14px;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    border: 1px solid rgba(245, 130, 200, 0.22);
+    margin-bottom: 16px;
+  }
+  .hanasakari-cycle-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.9rem;
+    color: rgba(245, 130, 200, 0.9);
+    letter-spacing: 0.15em;
+    margin-bottom: 4px;
+  }
+  .hanasakari-cycle-help {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.74rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 10px;
+    line-height: 1.6;
+  }
+  .hanasakari-cycle-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .hanasakari-cycle-row label {
+    flex-shrink: 0;
+    width: 80px;
+    color: rgba(255, 255, 255, 0.85);
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+  }
+  .hanasakari-input {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(245, 130, 200, 0.4);
+    border-radius: 8px;
+    color: #fff;
+    padding: 8px 10px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.95rem;
+  }
+  .hanasakari-cycle-est {
+    margin-top: 8px;
+    padding: 8px 10px;
+    background: rgba(245, 130, 200, 0.1);
+    border-radius: 6px;
+    border: 1px solid rgba(245, 130, 200, 0.3);
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.92);
+    text-align: center;
+  }
+  .hanasakari-cycle-est strong { color: #ff9ad4; }
+
+  .hanasakari-note {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+    letter-spacing: 0.05em;
+  }
 
   /* ★v7: マイページビュー (全タブ共通プロファイル) - 真面目フォント */
   .mypage-view {
@@ -8223,6 +8527,87 @@
   </div>
 </div>
 
+<!-- ★ ハナサカリ判定ビュー -->
+<div class="hanasakari-view" id="hanasakariView">
+  <div class="hanasakari-scroll">
+    <div class="hanasakari-header">
+      <div class="hanasakari-title">ハナサカリ判定</div>
+      <div class="hanasakari-subtitle">あなたの「美しさの周期」を可視化</div>
+    </div>
+
+    <div class="hanasakari-intro">
+      <p>排卵期の <strong>5 日間「ハナサカリ」</strong> では、女性の顔の <strong>左右対称性が高まる</strong> という研究結果があります。</p>
+      <p>毎日のセルフィーで対称性スコアを記録し、あなたの「美しい 5 日間」を可視化します。</p>
+    </div>
+
+    <div class="hanasakari-tips">
+      <div class="tips-head">💡 撮影のコツ</div>
+      <ul>
+        <li>自然光の下で (蛍光灯・室内灯は陰影が偏ります)</li>
+        <li>顔を正面に向ける</li>
+        <li>前髪・帽子で顔を隠さない</li>
+        <li>毎日同じ時間帯・同じ場所がベスト</li>
+        <li>表情はリラックス (笑顔も微笑も同じ条件で)</li>
+      </ul>
+    </div>
+
+    <div class="hanasakari-camera-wrap">
+      <video id="hanasakariVideo" autoplay playsinline muted style="display:none"></video>
+      <canvas id="hanasakariCanvas"></canvas>
+      <div class="hanasakari-overlay" id="hanasakariOverlay">
+        📷<br>カメラを起動してください
+      </div>
+      <div class="hanasakari-status" id="hanasakariStatus"></div>
+    </div>
+
+    <div class="hanasakari-controls">
+      <button class="hanasakari-btn primary" id="hanasakariStartBtn" type="button">📷 カメラを起動</button>
+      <button class="hanasakari-btn shoot" id="hanasakariShootBtn" type="button" style="display:none">📸 今日の セルフィーで判定</button>
+    </div>
+
+    <div class="hanasakari-result" id="hanasakariResult" style="display:none">
+      <div class="hanasakari-score-wrap">
+        <div class="hanasakari-score-label">今日 の 左右対称性</div>
+        <div class="hanasakari-score-value">
+          <span class="hanasakari-score-num" id="hanasakariScoreNum">—</span><span class="hanasakari-score-unit">点</span>
+        </div>
+        <div class="hanasakari-score-state" id="hanasakariScoreState"></div>
+      </div>
+    </div>
+
+    <!-- 30 日 タイムライン -->
+    <div class="hanasakari-timeline-section">
+      <div class="hanasakari-timeline-title">30 日 タ イ ム ラ イ ン</div>
+      <svg class="hanasakari-timeline-svg" viewBox="0 0 320 140" id="hanasakariTimelineSvg">
+        <!-- 動的描画 -->
+      </svg>
+      <div class="hanasakari-timeline-legend">
+        <span class="legend-dot legend-normal"></span>普通の日
+        <span class="legend-dot legend-bloom"></span>ハナサカリ期 (推定)
+      </div>
+    </div>
+
+    <!-- 月経周期入力 -->
+    <div class="hanasakari-cycle-section">
+      <div class="hanasakari-cycle-title">月経周期 (排卵期 推定用)</div>
+      <div class="hanasakari-cycle-help">最終生理開始日を入れると、排卵期 (生理から約 14 日後) を推定します</div>
+      <div class="hanasakari-cycle-row">
+        <label>最終生理日</label>
+        <input type="date" id="hanasakariLastPeriod" class="hanasakari-input">
+      </div>
+      <div class="hanasakari-cycle-row">
+        <label>周期 (日)</label>
+        <input type="number" id="hanasakariCycleLen" class="hanasakari-input" min="21" max="40" value="28">
+      </div>
+      <div class="hanasakari-cycle-est" id="hanasakariCycleEst"></div>
+    </div>
+
+    <div class="hanasakari-note">
+      💾 撮影データは あなたの端末内のみに保存されます (外部送信なし)
+    </div>
+  </div>
+</div>
+
 <!-- ★v7: タブバー（暦 → 月ナビ → 宙 → 月占い） -->
 <div class="tab-bar">
   <button class="tab-btn active" data-view="calendar">
@@ -8249,6 +8634,11 @@
     <div class="tab-icon">✿</div>
     <div class="tab-label">マ イ</div>
     <div class="tab-en">profile</div>
+  </button>
+  <button class="tab-btn" data-view="hanasakari">
+    <div class="tab-icon">🌸</div>
+    <div class="tab-label">ハ ナ サ カ リ</div>
+    <div class="tab-en">bloom</div>
   </button>
 </div>
 <script>
@@ -9302,6 +9692,8 @@ const COASTLINES = [
       if (uranaiViewEl) uranaiViewEl.classList.remove('active');
       const mypageViewEl = document.getElementById('mypageView');
       if (mypageViewEl) mypageViewEl.classList.remove('active');
+      const hanasakariViewEl = document.getElementById('hanasakariView');
+      if (hanasakariViewEl) hanasakariViewEl.classList.remove('active');
 
       if (view === 'calendar') {
         document.getElementById('calendarView').classList.add('active');
@@ -9326,6 +9718,12 @@ const COASTLINES = [
         if (mypageViewEl) mypageViewEl.classList.add('active');
         deactivateMoonNav();
         if (typeof refreshMypagePreview === 'function') refreshMypagePreview();
+      } else if (view === 'hanasakari') {
+        // ★ ハナサカリ判定タブ
+        const hv = document.getElementById('hanasakariView');
+        if (hv) hv.classList.add('active');
+        deactivateMoonNav();
+        if (typeof initHanasakari === 'function') initHanasakari();
       } else {
         deactivateMoonNav();
       }
@@ -11913,6 +12311,335 @@ const COASTLINES = [
     }, 200);
   });
   // 招待ボタン / QR ボタンのハンドラ (動的に再バインド)
+  // ===== ハナサカリ 判定 (顔の左右対称性) =====
+  const HANASAKARI_STORAGE_KEY = 'tsukiyoga.hanasakari.v1';
+  // face-api.js モデル URL
+  const FACEAPI_MODEL_URL = 'https://justadudewhohacks.github.io/face-api.js/models';
+  let _hanasakariInited = false;
+  let _hanasakariModelsLoaded = false;
+  let _hanasakariStream = null;
+
+  function loadHanasakariData() {
+    try {
+      const j = localStorage.getItem(HANASAKARI_STORAGE_KEY);
+      return j ? JSON.parse(j) : { records: [], lastPeriod: null, cycleLen: 28 };
+    } catch (e) { return { records: [], lastPeriod: null, cycleLen: 28 }; }
+  }
+  function saveHanasakariData(d) {
+    try { localStorage.setItem(HANASAKARI_STORAGE_KEY, JSON.stringify(d)); } catch (e) {}
+  }
+
+  async function initHanasakari() {
+    if (_hanasakariInited) {
+      renderHanasakariTimeline();
+      renderHanasakariCycleEst();
+      return;
+    }
+    _hanasakariInited = true;
+    // ボタンハンドラ
+    document.getElementById('hanasakariStartBtn').addEventListener('click', startHanasakariCamera);
+    document.getElementById('hanasakariShootBtn').addEventListener('click', shootHanasakari);
+    // 周期入力
+    const data = loadHanasakariData();
+    const lpEl = document.getElementById('hanasakariLastPeriod');
+    const clEl = document.getElementById('hanasakariCycleLen');
+    if (data.lastPeriod) lpEl.value = data.lastPeriod;
+    if (data.cycleLen) clEl.value = data.cycleLen;
+    const saveCycle = () => {
+      const d2 = loadHanasakariData();
+      d2.lastPeriod = lpEl.value || null;
+      d2.cycleLen = parseInt(clEl.value) || 28;
+      saveHanasakariData(d2);
+      renderHanasakariCycleEst();
+      renderHanasakariTimeline();
+    };
+    lpEl.addEventListener('change', saveCycle);
+    clEl.addEventListener('change', saveCycle);
+    renderHanasakariTimeline();
+    renderHanasakariCycleEst();
+  }
+
+  async function startHanasakariCamera() {
+    const overlay = document.getElementById('hanasakariOverlay');
+    const status = document.getElementById('hanasakariStatus');
+    const startBtn = document.getElementById('hanasakariStartBtn');
+    const shootBtn = document.getElementById('hanasakariShootBtn');
+    overlay.textContent = '初回はモデル読み込み中... (約 5MB)';
+    try {
+      if (typeof faceapi === 'undefined') {
+        // CDN がまだロードされてない
+        await new Promise((resolve, reject) => {
+          const start = Date.now();
+          const check = () => {
+            if (typeof faceapi !== 'undefined') return resolve();
+            if (Date.now() - start > 8000) return reject(new Error('face-api.js が読み込めません'));
+            setTimeout(check, 100);
+          };
+          check();
+        });
+      }
+      if (!_hanasakariModelsLoaded) {
+        status.textContent = '顔認識モデル読み込み中...';
+        await faceapi.nets.tinyFaceDetector.loadFromUri(FACEAPI_MODEL_URL);
+        await faceapi.nets.faceLandmark68Net.loadFromUri(FACEAPI_MODEL_URL);
+        _hanasakariModelsLoaded = true;
+      }
+      status.textContent = 'カメラ起動中...';
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 480 } }
+      });
+      _hanasakariStream = stream;
+      const video = document.getElementById('hanasakariVideo');
+      video.srcObject = stream;
+      video.style.display = 'block';
+      const canvas = document.getElementById('hanasakariCanvas');
+      canvas.style.display = 'none';
+      overlay.classList.add('is-hidden');
+      status.textContent = '顔を中央に合わせて撮影してください';
+      startBtn.style.display = 'none';
+      shootBtn.style.display = '';
+    } catch (e) {
+      overlay.classList.remove('is-hidden');
+      overlay.textContent = '⚠ ' + (e.message || 'カメラを起動できません');
+      status.textContent = '';
+    }
+  }
+
+  async function shootHanasakari() {
+    const video = document.getElementById('hanasakariVideo');
+    const canvas = document.getElementById('hanasakariCanvas');
+    const status = document.getElementById('hanasakariStatus');
+    if (!video.videoWidth) return;
+    status.textContent = '解析中...';
+    // video から canvas にコピー
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    let detection = null;
+    try {
+      detection = await faceapi
+        .detectSingleFace(canvas, new faceapi.TinyFaceDetectorOptions({ inputSize: 416, scoreThreshold: 0.5 }))
+        .withFaceLandmarks();
+    } catch (e) {}
+
+    if (!detection) {
+      status.textContent = '顔が検出できません。光を確認して再撮影してください';
+      return;
+    }
+    const pts = detection.landmarks.positions;
+    const score = calcSymmetryScore(pts);
+
+    // canvas を表示 (静止画)
+    video.style.display = 'none';
+    canvas.style.display = 'block';
+    // 中心線と対応点を描画 (デバッグ的に)
+    drawSymmetryAnnotation(ctx, pts);
+
+    // 結果表示 + 記録
+    showHanasakariScore(score);
+    saveHanasakariRecord(score);
+    renderHanasakariTimeline();
+    status.textContent = '今日のスコアを記録しました';
+
+    // 「もう一度」ボタン
+    const shootBtn = document.getElementById('hanasakariShootBtn');
+    shootBtn.textContent = '📸 もう一度 撮り直す';
+
+    // カメラ停止 (バッテリ・プライバシ)
+    setTimeout(() => {
+      if (_hanasakariStream) {
+        _hanasakariStream.getTracks().forEach(t => t.stop());
+        _hanasakariStream = null;
+      }
+      shootBtn.style.display = 'none';
+      document.getElementById('hanasakariStartBtn').style.display = '';
+      document.getElementById('hanasakariStartBtn').textContent = '📷 もう一度カメラ起動';
+    }, 1200);
+  }
+
+  function calcSymmetryScore(pts) {
+    // 顔中心線 = 鼻根 (27) + 鼻先 (30) + 顎 (8) の x 平均
+    const centerX = (pts[27].x + pts[30].x + pts[8].x) / 3;
+    // 左右ペア
+    const pairs = [
+      // 輪郭
+      [0, 16], [1, 15], [2, 14], [3, 13], [4, 12], [5, 11], [6, 10], [7, 9],
+      // 眉
+      [17, 26], [18, 25], [19, 24], [20, 23], [21, 22],
+      // 目尻/目頭
+      [36, 45], [37, 44], [38, 43], [39, 42], [40, 47], [41, 46],
+      // 口
+      [48, 54], [49, 53], [50, 52], [59, 55], [58, 56], [60, 64], [61, 63], [67, 65],
+    ];
+    let totalDev = 0;
+    let count = 0;
+    for (const [l, r] of pairs) {
+      const dL = centerX - pts[l].x;       // 中心からの距離 (左、正)
+      const dR = pts[r].x - centerX;       // 中心からの距離 (右、正)
+      const yDiff = Math.abs(pts[l].y - pts[r].y);
+      // x の左右差 + y の高低差 を合算
+      totalDev += Math.abs(dL - dR) + yDiff * 0.5;
+      count++;
+    }
+    const avgDev = totalDev / count;
+    // 顔幅で正規化
+    const faceWidth = Math.abs(pts[16].x - pts[0].x);
+    const normalized = avgDev / Math.max(1, faceWidth);
+    // 0 = 完全対称 → 100点 / 0.05 = 50点
+    const score = Math.max(0, Math.min(100, 100 - normalized * 2000));
+    return Math.round(score * 10) / 10;
+  }
+
+  function drawSymmetryAnnotation(ctx, pts) {
+    const centerX = (pts[27].x + pts[30].x + pts[8].x) / 3;
+    ctx.strokeStyle = 'rgba(232, 255, 0, 0.85)';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(centerX, pts[27].y);
+    ctx.lineTo(centerX, pts[8].y);
+    ctx.stroke();
+    // 主要ペアの線
+    ctx.strokeStyle = 'rgba(255, 154, 212, 0.7)';
+    ctx.lineWidth = 0.8;
+    const keyPairs = [[36, 45], [48, 54], [17, 26], [0, 16]];
+    for (const [l, r] of keyPairs) {
+      ctx.beginPath();
+      ctx.moveTo(pts[l].x, pts[l].y);
+      ctx.lineTo(pts[r].x, pts[r].y);
+      ctx.stroke();
+    }
+  }
+
+  function showHanasakariScore(score) {
+    const result = document.getElementById('hanasakariResult');
+    const num = document.getElementById('hanasakariScoreNum');
+    const state = document.getElementById('hanasakariScoreState');
+    result.style.display = 'block';
+    num.textContent = score.toFixed(1);
+    const data = loadHanasakariData();
+    // 過去 30 日 平均と比較
+    const recent = data.records.slice(-30);
+    const avg = recent.length > 0 ? recent.reduce((a, r) => a + r.score, 0) / recent.length : score;
+    const diff = score - avg;
+    let msg = '';
+    if (diff > 2) {
+      msg = `✨ 平均より <strong>+${diff.toFixed(1)}</strong> 点。ハナサカリの兆し！`;
+      state.classList.add('is-bloom');
+    } else if (diff < -2) {
+      msg = `平均より ${diff.toFixed(1)} 点。お疲れ気味かも、休息を`;
+      state.classList.remove('is-bloom');
+    } else {
+      msg = `平均的な日 (平均 ${avg.toFixed(1)} 点)`;
+      state.classList.remove('is-bloom');
+    }
+    state.innerHTML = msg;
+  }
+
+  function saveHanasakariRecord(score) {
+    const data = loadHanasakariData();
+    const today = new Date().toISOString().slice(0, 10);
+    data.records = (data.records || []).filter(r => r.date !== today);
+    data.records.push({ date: today, score });
+    data.records.sort((a, b) => a.date.localeCompare(b.date));
+    // 90日まで保持
+    if (data.records.length > 90) data.records = data.records.slice(-90);
+    saveHanasakariData(data);
+  }
+
+  function renderHanasakariTimeline() {
+    const svg = document.getElementById('hanasakariTimelineSvg');
+    if (!svg) return;
+    const data = loadHanasakariData();
+    const records = (data.records || []).slice(-30);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const days = 30;
+    const W = 320, H = 140;
+    const padX = 8, padY = 10;
+    const plotW = W - padX * 2;
+    const plotH = H - padY * 2 - 18;
+    const dayW = plotW / days;
+
+    // 排卵期 (ハナサカリ) 推定
+    let bloomStart = null, bloomEnd = null;
+    if (data.lastPeriod && data.cycleLen) {
+      const lp = new Date(data.lastPeriod);
+      const ov = new Date(lp.getTime() + (data.cycleLen - 14) * 86400000);
+      // ハナサカリ = 排卵日 ± 2日
+      bloomStart = new Date(ov.getTime() - 2 * 86400000);
+      bloomEnd = new Date(ov.getTime() + 2 * 86400000);
+    }
+
+    let html = '';
+    // y=mid (50点) の基準線
+    const midY = padY + plotH / 2;
+    html += `<line x1="${padX}" y1="${midY}" x2="${W - padX}" y2="${midY}" stroke="rgba(255,255,255,0.15)" stroke-width="0.5" stroke-dasharray="2,2"/>`;
+
+    // 各日のセル
+    for (let i = 0; i < days; i++) {
+      const d = new Date(today.getTime() - (days - 1 - i) * 86400000);
+      const dStr = d.toISOString().slice(0, 10);
+      const x = padX + i * dayW;
+      const isBloom = bloomStart && bloomEnd && d >= bloomStart && d <= bloomEnd;
+      // 背景バー
+      if (isBloom) {
+        html += `<rect x="${x}" y="${padY}" width="${dayW - 1}" height="${plotH}" fill="rgba(245,130,200,0.18)"/>`;
+      }
+      const rec = records.find(r => r.date === dStr);
+      if (rec) {
+        const y = padY + plotH - (rec.score / 100) * plotH;
+        const cx = x + dayW / 2;
+        const fill = isBloom ? '#ff9ad4' : 'rgba(232, 255, 0, 0.85)';
+        const glow = isBloom ? ' filter="drop-shadow(0 0 4px rgba(245,130,200,0.85))"' : '';
+        html += `<circle cx="${cx.toFixed(1)}" cy="${y.toFixed(1)}" r="3.5" fill="${fill}"${glow}/>`;
+      }
+    }
+    // 日付ラベル (5日おき)
+    for (let i = 0; i < days; i += 5) {
+      const d = new Date(today.getTime() - (days - 1 - i) * 86400000);
+      const x = padX + i * dayW + dayW / 2;
+      html += `<text x="${x.toFixed(1)}" y="${H - 2}" fill="rgba(255,255,255,0.5)" font-size="7" text-anchor="middle" font-family="Cinzel,serif">${d.getMonth()+1}/${d.getDate()}</text>`;
+    }
+    // y 軸ラベル
+    html += `<text x="3" y="${padY + 6}" fill="rgba(232,255,0,0.6)" font-size="7" font-family="Cinzel,serif">100</text>`;
+    html += `<text x="3" y="${midY + 3}" fill="rgba(255,255,255,0.5)" font-size="7" font-family="Cinzel,serif">50</text>`;
+    html += `<text x="3" y="${padY + plotH}" fill="rgba(255,255,255,0.5)" font-size="7" font-family="Cinzel,serif">0</text>`;
+    svg.innerHTML = html;
+  }
+
+  function renderHanasakariCycleEst() {
+    const el = document.getElementById('hanasakariCycleEst');
+    if (!el) return;
+    const data = loadHanasakariData();
+    if (!data.lastPeriod || !data.cycleLen) {
+      el.textContent = '※ 排卵期 を推定するには 最終生理日 を入力してください';
+      return;
+    }
+    const lp = new Date(data.lastPeriod);
+    const ov = new Date(lp.getTime() + (data.cycleLen - 14) * 86400000);
+    const bs = new Date(ov.getTime() - 2 * 86400000);
+    const be = new Date(ov.getTime() + 2 * 86400000);
+    const fmt = d => `${d.getMonth()+1}月${d.getDate()}日`;
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    let label;
+    if (today >= bs && today <= be) {
+      label = `🌸 <strong>あなたは今 ハナサカリ期間中</strong> ! (${fmt(bs)}〜${fmt(be)})`;
+    } else if (today < bs) {
+      const days = Math.ceil((bs - today) / 86400000);
+      label = `次のハナサカリ期: <strong>${fmt(bs)}〜${fmt(be)}</strong> (あと ${days} 日)`;
+    } else {
+      // 次の周期
+      const nextOv = new Date(ov.getTime() + data.cycleLen * 86400000);
+      const nbs = new Date(nextOv.getTime() - 2 * 86400000);
+      const nbe = new Date(nextOv.getTime() + 2 * 86400000);
+      label = `次のハナサカリ期: <strong>${fmt(nbs)}〜${fmt(nbe)}</strong>`;
+    }
+    el.innerHTML = label;
+  }
+
   // ===== マイページ (全タブ共通プロファイル) =====
   const MYPAGE_STORAGE_KEY = 'tsukiyoga.myprofile.v1';
   const MYPAGE_SAVED_ONCE_KEY = 'tsukiyoga.myprofile.savedOnce';
