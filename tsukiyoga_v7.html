@@ -821,28 +821,8 @@
     z-index: 30;
   }
 
-  /* 左 5/6 スワイプエリア (5タブ横スクロール、3 タブずつ見える) */
-  .tab-bar-main {
-    flex: 5;
-    display: flex;
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-  }
-  .tab-bar-main::-webkit-scrollbar { display: none; }
-  .tab-bar-main .tab-btn {
-    flex: 0 0 33.33%;          /* 一度に 3 タブ見える */
-    scroll-snap-align: start;
-  }
-  /* 右 1/6 マイ固定 */
-  .tab-btn-fixed {
-    flex: 0 0 16.6%;
-    border-left: 1px solid rgba(232, 255, 0, 0.18);
-  }
-
   .tab-btn {
+    flex: 1;
     background: none; border: none;
     color: rgba(180, 160, 220, 0.55);
     font-family: inherit;
@@ -851,10 +831,19 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 2px;
-    padding: 6px 2px;
+    gap: 1px;
+    padding: 6px 1px;
     position: relative;
     transition: color 0.3s;
+    min-width: 0;
+  }
+  .tab-btn .tab-label {
+    font-size: 0.62rem;  /* 6 タブで収まるよう小さく */
+    letter-spacing: 0.05em;
+  }
+  .tab-btn .tab-en {
+    font-size: 0.5rem;
+    letter-spacing: 0.05em;
   }
 
   .tab-btn.active {
@@ -1974,6 +1963,8 @@
     width: 100%; height: 100%;
     object-fit: cover;
     display: block;
+    /* ★ 鏡反転表示 (フロントカメラを鏡のように) */
+    transform: scaleX(-1);
   }
   .hanasakari-overlay {
     position: absolute;
@@ -8628,39 +8619,37 @@
   </div>
 </div>
 
-<!-- ★v7: タブバー (左 5/6 スワイプ + 右 1/6 マイ固定) -->
+<!-- ★v7: タブバー (6個均等並べ、ラベル短縮で1行収納) -->
 <div class="tab-bar">
-  <div class="tab-bar-main" id="tabBarMain">
-    <button class="tab-btn active" data-view="calendar">
-      <div class="tab-icon">✦</div>
-      <div class="tab-label">暦</div>
-      <div class="tab-en">calendar</div>
-    </button>
-    <button class="tab-btn" data-view="moonnav">
-      <div class="tab-icon">⊙</div>
-      <div class="tab-label">月 ナ ビ</div>
-      <div class="tab-en">navigate</div>
-    </button>
-    <button class="tab-btn" data-view="main">
-      <div class="tab-icon">◐</div>
-      <div class="tab-label">宙</div>
-      <div class="tab-en">SORA</div>
-    </button>
-    <button class="tab-btn" data-view="uranai">
-      <div class="tab-icon">☽</div>
-      <div class="tab-label">月 占 い</div>
-      <div class="tab-en">fortune</div>
-    </button>
-    <button class="tab-btn" data-view="hanasakari">
-      <div class="tab-icon">🌸</div>
-      <div class="tab-label">ハナサカリ</div>
-      <div class="tab-en">bloom</div>
-    </button>
-  </div>
-  <button class="tab-btn tab-btn-fixed" data-view="mypage">
+  <button class="tab-btn active" data-view="calendar">
+    <div class="tab-icon">✦</div>
+    <div class="tab-label">暦</div>
+    <div class="tab-en">cal</div>
+  </button>
+  <button class="tab-btn" data-view="moonnav">
+    <div class="tab-icon">⊙</div>
+    <div class="tab-label">月ナビ</div>
+    <div class="tab-en">nav</div>
+  </button>
+  <button class="tab-btn" data-view="main">
+    <div class="tab-icon">◐</div>
+    <div class="tab-label">宙</div>
+    <div class="tab-en">sora</div>
+  </button>
+  <button class="tab-btn" data-view="uranai">
+    <div class="tab-icon">☽</div>
+    <div class="tab-label">占い</div>
+    <div class="tab-en">oracle</div>
+  </button>
+  <button class="tab-btn" data-view="hanasakari">
+    <div class="tab-icon">📷</div>
+    <div class="tab-label">写真</div>
+    <div class="tab-en">photo</div>
+  </button>
+  <button class="tab-btn" data-view="mypage">
     <div class="tab-icon">✿</div>
-    <div class="tab-label">マ イ</div>
-    <div class="tab-en">profile</div>
+    <div class="tab-label">マイ</div>
+    <div class="tab-en">me</div>
   </button>
 </div>
 <script>
@@ -9707,10 +9696,6 @@ const COASTLINES = [
       const view = btn.dataset.view;
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      // active タブを横スクロールエリア内で中央寄せ
-      if (btn.parentElement && btn.parentElement.id === 'tabBarMain') {
-        try { btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' }); } catch(e) {}
-      }
 
       document.getElementById('moonnavView').classList.remove('active');
       document.getElementById('calendarView').classList.remove('active');
@@ -12485,36 +12470,77 @@ const COASTLINES = [
     }, 1200);
   }
 
+  // ★ 精密化された対称性スコア
+  // 顔認証 OSS (face-api.js / MediaPipe / dlib) の手法を参考に:
+  // 1. Procrustes 風の正規化 (鼻先原点 + 両目水平 回転補正)
+  // 2. 鏡像比較 (中心線で反転して 対応点 距離を 2D Euclidean で測定)
+  // 3. 顔幅で正規化 → 0-100 点
   function calcSymmetryScore(pts) {
-    // 顔中心線 = 鼻根 (27) + 鼻先 (30) + 顎 (8) の x 平均
-    const centerX = (pts[27].x + pts[30].x + pts[8].x) / 3;
-    // 左右ペア
+    // Step 1: 鼻先 (30) を原点に
+    const noseTip = pts[30];
+    const leftEye = pts[36];   // 左目尻
+    const rightEye = pts[45];  // 右目尻
+    // 両目を結ぶ線が水平になるように回転角を求める
+    const dx = rightEye.x - leftEye.x;
+    const dy = rightEye.y - leftEye.y;
+    const rotAngle = Math.atan2(dy, dx);  // 正なら時計回り傾き
+    const cos = Math.cos(-rotAngle);
+    const sin = Math.sin(-rotAngle);
+    // 全 68 点を 鼻先原点 + 水平回転で正規化
+    const norm = pts.map(p => {
+      const x = p.x - noseTip.x;
+      const y = p.y - noseTip.y;
+      return { x: x * cos - y * sin, y: x * sin + y * cos };
+    });
+    // Step 2: 左右ペア (顔輪郭 / 眉 / 目 / 鼻翼 / 口)
     const pairs = [
-      // 輪郭
+      // 輪郭 (顎)
       [0, 16], [1, 15], [2, 14], [3, 13], [4, 12], [5, 11], [6, 10], [7, 9],
       // 眉
       [17, 26], [18, 25], [19, 24], [20, 23], [21, 22],
-      // 目尻/目頭
+      // 目尻 / 目頭 / 上下まぶた
       [36, 45], [37, 44], [38, 43], [39, 42], [40, 47], [41, 46],
-      // 口
-      [48, 54], [49, 53], [50, 52], [59, 55], [58, 56], [60, 64], [61, 63], [67, 65],
+      // 鼻翼
+      [31, 35], [32, 34],
+      // 口 (外輪郭 + 内輪郭)
+      [48, 54], [49, 53], [50, 52], [59, 55], [58, 56],
+      [60, 64], [61, 63], [67, 65],
     ];
-    let totalDev = 0;
+    // Step 3: 鏡像比較
+    // 左の点 (norm[l]) を x 反転 → (-x, y) にして 右の対応点 (norm[r]) との距離を測定
+    let totalDist = 0;
     let count = 0;
+    let weightSum = 0;
+    // 重み: 顔の中心 (口・目) を重視、輪郭は軽め (照明影響受けやすい)
+    const weights = {};
+    const eyeMouthIdx = new Set([36,37,38,39,40,41,42,43,44,45,46,47,
+                                  48,49,50,51,52,53,54,55,56,57,58,59,
+                                  60,61,62,63,64,65,66,67]);
     for (const [l, r] of pairs) {
-      const dL = centerX - pts[l].x;       // 中心からの距離 (左、正)
-      const dR = pts[r].x - centerX;       // 中心からの距離 (右、正)
-      const yDiff = Math.abs(pts[l].y - pts[r].y);
-      // x の左右差 + y の高低差 を合算
-      totalDev += Math.abs(dL - dR) + yDiff * 0.5;
+      const lPt = norm[l];
+      const rPt = norm[r];
+      // 鏡像点
+      const lMirror = { x: -lPt.x, y: lPt.y };
+      // 2D ユークリッド距離 (鏡像 vs 右の点)
+      const dxx = lMirror.x - rPt.x;
+      const dyy = lMirror.y - rPt.y;
+      const dist = Math.sqrt(dxx * dxx + dyy * dyy);
+      // 重み: 中心特徴 (目/口) は 1.5、輪郭 (顎/眉) は 1.0
+      const w = (eyeMouthIdx.has(l) || eyeMouthIdx.has(r)) ? 1.5 : 1.0;
+      totalDist += dist * w;
+      weightSum += w;
       count++;
     }
-    const avgDev = totalDev / count;
-    // 顔幅で正規化
-    const faceWidth = Math.abs(pts[16].x - pts[0].x);
-    const normalized = avgDev / Math.max(1, faceWidth);
-    // 0 = 完全対称 → 100点 / 0.05 = 50点
-    const score = Math.max(0, Math.min(100, 100 - normalized * 2000));
+    const avgDist = totalDist / weightSum;
+    // 顔幅 (両目尻間) で正規化
+    const interOcular = Math.sqrt(
+      Math.pow(norm[45].x - norm[36].x, 2) +
+      Math.pow(norm[45].y - norm[36].y, 2)
+    );
+    const normalized = avgDist / Math.max(1, interOcular);
+    // 完全対称 (=0) → 100 点 / 大ズレ (=0.1) → 60 点くらい
+    // 体感調整: 0.02 程度の正規化値で 90点になるようスケール
+    const score = Math.max(0, Math.min(100, 100 - normalized * 500));
     return Math.round(score * 10) / 10;
   }
 
