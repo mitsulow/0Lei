@@ -821,8 +821,28 @@
     z-index: 30;
   }
 
+  /* 左 5/6 スワイプエリア (5タブ横スクロール、3 タブずつ見える) */
+  .tab-bar-main {
+    flex: 5;
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .tab-bar-main::-webkit-scrollbar { display: none; }
+  .tab-bar-main .tab-btn {
+    flex: 0 0 33.33%;          /* 一度に 3 タブ見える */
+    scroll-snap-align: start;
+  }
+  /* 右 1/6 マイ固定 */
+  .tab-btn-fixed {
+    flex: 0 0 16.6%;
+    border-left: 1px solid rgba(232, 255, 0, 0.18);
+  }
+
   .tab-btn {
-    flex: 1;
     background: none; border: none;
     color: rgba(180, 160, 220, 0.55);
     font-family: inherit;
@@ -8608,37 +8628,39 @@
   </div>
 </div>
 
-<!-- ★v7: タブバー（暦 → 月ナビ → 宙 → 月占い） -->
+<!-- ★v7: タブバー (左 5/6 スワイプ + 右 1/6 マイ固定) -->
 <div class="tab-bar">
-  <button class="tab-btn active" data-view="calendar">
-    <div class="tab-icon">✦</div>
-    <div class="tab-label">暦</div>
-    <div class="tab-en">calendar</div>
-  </button>
-  <button class="tab-btn" data-view="moonnav">
-    <div class="tab-icon">⊙</div>
-    <div class="tab-label">月 ナ ビ</div>
-    <div class="tab-en">navigate</div>
-  </button>
-  <button class="tab-btn" data-view="main">
-    <div class="tab-icon">◐</div>
-    <div class="tab-label">宙</div>
-    <div class="tab-en">SORA</div>
-  </button>
-  <button class="tab-btn" data-view="uranai">
-    <div class="tab-icon">☽</div>
-    <div class="tab-label">月 占 い</div>
-    <div class="tab-en">fortune</div>
-  </button>
-  <button class="tab-btn" data-view="mypage">
+  <div class="tab-bar-main" id="tabBarMain">
+    <button class="tab-btn active" data-view="calendar">
+      <div class="tab-icon">✦</div>
+      <div class="tab-label">暦</div>
+      <div class="tab-en">calendar</div>
+    </button>
+    <button class="tab-btn" data-view="moonnav">
+      <div class="tab-icon">⊙</div>
+      <div class="tab-label">月 ナ ビ</div>
+      <div class="tab-en">navigate</div>
+    </button>
+    <button class="tab-btn" data-view="main">
+      <div class="tab-icon">◐</div>
+      <div class="tab-label">宙</div>
+      <div class="tab-en">SORA</div>
+    </button>
+    <button class="tab-btn" data-view="uranai">
+      <div class="tab-icon">☽</div>
+      <div class="tab-label">月 占 い</div>
+      <div class="tab-en">fortune</div>
+    </button>
+    <button class="tab-btn" data-view="hanasakari">
+      <div class="tab-icon">🌸</div>
+      <div class="tab-label">ハナサカリ</div>
+      <div class="tab-en">bloom</div>
+    </button>
+  </div>
+  <button class="tab-btn tab-btn-fixed" data-view="mypage">
     <div class="tab-icon">✿</div>
     <div class="tab-label">マ イ</div>
     <div class="tab-en">profile</div>
-  </button>
-  <button class="tab-btn" data-view="hanasakari">
-    <div class="tab-icon">🌸</div>
-    <div class="tab-label">ハ ナ サ カ リ</div>
-    <div class="tab-en">bloom</div>
   </button>
 </div>
 <script>
@@ -9685,6 +9707,10 @@ const COASTLINES = [
       const view = btn.dataset.view;
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
+      // active タブを横スクロールエリア内で中央寄せ
+      if (btn.parentElement && btn.parentElement.id === 'tabBarMain') {
+        try { btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' }); } catch(e) {}
+      }
 
       document.getElementById('moonnavView').classList.remove('active');
       document.getElementById('calendarView').classList.remove('active');
@@ -13172,12 +13198,13 @@ const COASTLINES = [
     }, { passive: true });
     document.addEventListener('touchmove', (e) => {
       if (!pulling || fired) return;
-      // ★ モーダル類が開いている時はリロード/演出を完全に無効化
-      //   (memo-modal / 友だち詳細 / チーム選択 / 招待 / QR / 編集フォーム)
+      // ★ モーダル類 + ハナサカリ画面では reload / 演出を完全に無効化
+      //   (memo / 友だち詳細 / チーム / 招待 / QR / 編集 / ハナサカリ)
       if (document.querySelector(
         '.memo-modal.active, .uranai-detail-modal.active, ' +
         '.uranai-team-pick-modal.active, .uranai-invite-modal.active, ' +
-        '.uranai-qr-modal.active, .uranai-add-form.is-open'
+        '.uranai-qr-modal.active, .uranai-add-form.is-open, ' +
+        '.hanasakari-view.active, .wheel-detail-modal.active'
       )) {
         return;
       }
