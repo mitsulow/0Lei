@@ -3586,9 +3586,9 @@
   }
   .wheel-stage {
     position: relative;
-    width: 180px;
-    height: 180px;
-    margin: 8px auto 0;
+    width: 200px;
+    height: 200px;
+    margin: 12px auto 0;
     user-select: none;
     -webkit-user-select: none;
     touch-action: none;
@@ -3624,31 +3624,44 @@
   .wheel-rotor::before {
     content: '';
     position: absolute;
-    inset: 8px;
+    inset: 32px;
     border-radius: 50%;
     border: 1px dashed rgba(232, 255, 0, 0.18);
     pointer-events: none;
   }
+  /* 数字スロット (ガラケー風に隙間なく並ぶ 12 個) */
   .wheel-slot {
     position: absolute;
     top: 0;
     left: 50%;
-    width: 30px;
-    height: 30px;
-    margin-left: -15px;
-    /* slot 中央 y=15, stage 180 中央 y=90 → (15, 90) */
-    transform-origin: 15px 90px;
+    width: 44px;
+    height: 44px;
+    margin-left: -22px;
+    /* slot 中央 y=22, stage 200 中央 y=100 → (22, 100) */
+    transform-origin: 22px 100px;
     cursor: pointer;
   }
   .wheel-slot-inner {
     position: relative;
     width: 100%; height: 100%;
     border-radius: 50%;
-    background: linear-gradient(180deg, rgba(58, 26, 106, 0.85), rgba(26, 10, 58, 0.95));
-    border: 1.5px solid rgba(232, 255, 0, 0.35);
-    box-shadow: 0 0 10px rgba(140, 70, 200, 0.4);
+    background: radial-gradient(circle at 30% 30%, rgba(140, 90, 220, 0.45), rgba(26, 10, 58, 0.95));
+    border: 1.5px solid rgba(232, 255, 0, 0.45);
+    box-shadow: 0 0 8px rgba(140, 70, 200, 0.45), inset 0 0 0 1px rgba(0,0,0,0.3);
     overflow: hidden;
     transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .slot-num {
+    font-family: 'Cinzel', 'Shippori Mincho', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: rgba(232, 255, 0, 0.92);
+    letter-spacing: 0;
+    line-height: 1;
+    text-shadow: 0 0 6px rgba(232, 255, 0, 0.5);
   }
   .wheel-slot.is-active .wheel-slot-inner {
     border-color: #e8ff00;
@@ -3659,8 +3672,7 @@
     transform: scale(1.25);
   }
   .wheel-slot img {
-    width: 100%; height: 100%;
-    object-fit: contain;
+    display: none; /* 数字化したので画像非表示 */
   }
   /* 各スロット内のアニマルは回転を打ち消す (常に正立) */
   .wheel-slot .wheel-slot-counterrot {
@@ -3671,7 +3683,7 @@
   .wheel-center {
     position: absolute;
     top: 50%; left: 50%;
-    width: 70px; height: 70px;
+    width: 96px; height: 96px;
     transform: translate(-50%, -50%);
     z-index: 2;
     pointer-events: none;
@@ -4892,42 +4904,29 @@
     pointer-events: none;
   }
   .today-card-logo-moon {
-    font-size: 2.6rem;
-    color: #e8ff00;
-    text-shadow:
-      0 0 14px rgba(232, 255, 0, 0.7),
-      0 0 28px rgba(232, 255, 0, 0.4);
+    font-size: 1.8rem;
     line-height: 1;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
   }
   .today-card-logo-title {
     font-family: 'Reggae One', 'Shippori Mincho', serif;
-    font-size: 0.9rem;
+    font-size: 0.78rem;
     color: #fff;
     letter-spacing: 0.18em;
     text-shadow: 0 0 8px rgba(232, 255, 0, 0.5);
-    margin-bottom: 2px;
+    margin-bottom: 8px;
   }
-  .today-card-logo-sub {
-    font-family: 'Cinzel', serif;
-    font-size: 0.6rem;
-    color: rgba(232, 255, 0, 0.85);
-    letter-spacing: 0.35em;
-    margin-bottom: 12px;
-  }
-  .today-card-tap-hint {
-    font-family: 'Zen Kaku Gothic New', sans-serif;
-    font-size: 0.7rem;
-    color: rgba(232, 255, 0, 0.7);
-    letter-spacing: 0.15em;
-    padding: 3px 10px;
-    border-radius: 999px;
-    border: 1px solid rgba(232, 255, 0, 0.45);
-    animation: tapHintPulse 1.8s ease-in-out infinite;
-  }
-  @keyframes tapHintPulse {
-    0%, 100% { opacity: 0.55; transform: scale(0.95); }
-    50%      { opacity: 1; transform: scale(1.05); }
+  .today-card-label-front {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.82rem;
+    color: #e8ff00;
+    letter-spacing: 0.08em;
+    line-height: 1.4;
+    text-align: center;
+    text-shadow: 0 0 8px rgba(232, 255, 0, 0.55);
+    padding: 4px 6px;
+    border-top: 1px dashed rgba(232, 255, 0, 0.35);
+    border-bottom: 1px dashed rgba(232, 255, 0, 0.35);
   }
   /* 裏面: 相手のカード */
   .today-card-back {
@@ -4948,17 +4947,20 @@
     border-color: rgba(232, 255, 0, 0.6);
     box-shadow: 0 0 12px rgba(232, 255, 0, 0.2);
   }
-  .today-card-label {
+  /* 表面ラベル (front) のカテゴリ別色 */
+  .uranai-today-good .today-card-label-front { color: rgba(110, 230, 180, 0.95); text-shadow: 0 0 8px rgba(110, 230, 180, 0.55); border-color: rgba(110, 230, 180, 0.4); }
+  .uranai-today-caution .today-card-label-front { color: rgba(245, 130, 145, 0.95); text-shadow: 0 0 8px rgba(245, 130, 145, 0.5); border-color: rgba(245, 130, 145, 0.4); }
+  .uranai-today-insight .today-card-label-front { color: rgba(232, 255, 0, 0.95); }
+  /* 裏面の 友人名 (該当者がいれば) */
+  .today-card-friend {
     font-family: 'Shippori Mincho', serif;
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    margin-bottom: 8px;
-    line-height: 1.4;
-    text-align: center;
+    font-size: 0.78rem;
+    color: #e8ff00;
+    letter-spacing: 0.05em;
+    margin-top: 4px;
+    text-shadow: 0 0 6px rgba(232, 255, 0, 0.45);
+    min-height: 1em;
   }
-  .uranai-today-good .today-card-label { color: rgba(110, 230, 180, 0.95); }
-  .uranai-today-caution .today-card-label { color: rgba(245, 130, 145, 0.95); }
-  .uranai-today-insight .today-card-label { color: rgba(232, 255, 0, 0.95); }
   .today-card-img {
     width: 56px; height: 56px;
     object-fit: contain;
@@ -5756,7 +5758,37 @@
     opacity: 0.35;
     cursor: not-allowed;
   }
+  /* カード横の◀▶矢印 (スワイプ可能であることを示す) */
+  .uranai-share-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 56px;
+    background: rgba(26, 10, 58, 0.6);
+    border: 1px solid rgba(232, 255, 0, 0.55);
+    color: rgba(232, 255, 0, 0.95);
+    font-size: 1.2rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+    border-radius: 10px;
+    z-index: 5;
+    box-shadow: 0 0 14px rgba(232, 255, 0, 0.35);
+    animation: shareArrowPulse 1.6s ease-in-out infinite;
+  }
+  .uranai-share-arrow-left  { left: -8px; }
+  .uranai-share-arrow-right { right: -8px; }
+  .uranai-share-arrow:active { background: rgba(232, 255, 0, 0.25); }
+  @keyframes shareArrowPulse {
+    0%, 100% { opacity: 0.8; box-shadow: 0 0 10px rgba(232, 255, 0, 0.3); }
+    50%      { opacity: 1; box-shadow: 0 0 20px rgba(232, 255, 0, 0.6); }
+  }
+  .uranai-share-arrow-left  { animation-delay: 0s; }
+  .uranai-share-arrow-right { animation-delay: 0.4s; }
+
   .uranai-share-canvas-wrap {
+    position: relative;
     max-width: 340px;
     margin: 0 auto 14px;
   }
@@ -7908,16 +7940,14 @@
           <div class="uranai-today-card uranai-today-good" id="uranaiTodayGoodCard">
             <div class="today-card-flipper">
               <div class="today-card-face today-card-front">
-                <div class="today-card-logo-moon">☽</div>
+                <div class="today-card-logo-moon">🌙</div>
                 <div class="today-card-logo-title">ツキヨガ</div>
-                <div class="today-card-logo-sub">ORACLE</div>
-                <div class="today-card-tap-hint">タップ</div>
+                <div class="today-card-label-front">今日<br>会いたい人</div>
               </div>
               <div class="today-card-face today-card-back">
-                <div class="today-card-label">今日 会うべき</div>
                 <img class="today-card-img" id="uranaiTodayGoodImg" src="" alt="">
                 <div class="today-card-name tappable" id="uranaiTodayGoodName" data-which="good">—</div>
-                <div class="today-card-type" id="uranaiTodayGoodType">—</div>
+                <div class="today-card-friend" id="uranaiTodayGoodFriend"></div>
               </div>
             </div>
           </div>
@@ -7925,16 +7955,14 @@
           <div class="uranai-today-card uranai-today-caution" id="uranaiTodayCautionCard">
             <div class="today-card-flipper">
               <div class="today-card-face today-card-front">
-                <div class="today-card-logo-moon">☽</div>
+                <div class="today-card-logo-moon">🌙</div>
                 <div class="today-card-logo-title">ツキヨガ</div>
-                <div class="today-card-logo-sub">ORACLE</div>
-                <div class="today-card-tap-hint">タップ</div>
+                <div class="today-card-label-front">今日<br>仲が悪い人</div>
               </div>
               <div class="today-card-face today-card-back">
-                <div class="today-card-label">気をつけたい</div>
                 <img class="today-card-img" id="uranaiTodayCautionImg" src="" alt="">
                 <div class="today-card-name tappable" id="uranaiTodayCautionName" data-which="caution">—</div>
-                <div class="today-card-type" id="uranaiTodayCautionType">—</div>
+                <div class="today-card-friend" id="uranaiTodayCautionFriend"></div>
               </div>
             </div>
           </div>
@@ -7942,16 +7970,14 @@
           <div class="uranai-today-card uranai-today-insight" id="uranaiTodayInsightCard">
             <div class="today-card-flipper">
               <div class="today-card-face today-card-front">
-                <div class="today-card-logo-moon">☽</div>
+                <div class="today-card-logo-moon">🌙</div>
                 <div class="today-card-logo-title">ツキヨガ</div>
-                <div class="today-card-logo-sub">ORACLE</div>
-                <div class="today-card-tap-hint">タップ</div>
+                <div class="today-card-label-front">今日<br>刺激くれる人</div>
               </div>
               <div class="today-card-face today-card-back">
-                <div class="today-card-label">気付きを与える</div>
                 <img class="today-card-img" id="uranaiTodayInsightImg" src="" alt="">
                 <div class="today-card-name tappable" id="uranaiTodayInsightName" data-which="insight">—</div>
-                <div class="today-card-type" id="uranaiTodayInsightType">—</div>
+                <div class="today-card-friend" id="uranaiTodayInsightFriend"></div>
               </div>
             </div>
           </div>
@@ -7990,10 +8016,12 @@
           ト レ ー デ ィ ン グ カ ー ド を 保 存 し て<br>
           家 族・友 達 に シ ェ ア し よ う
         </div>
-        <!-- 人物選択タブ (動的に生成: あなた / 家族 1〜4 人) -->
-        <div class="uranai-share-tabs" id="uranaiShareTabs"></div>
+        <!-- 人物選択タブは非表示 (カード横の矢印で切替) -->
+        <div class="uranai-share-tabs" id="uranaiShareTabs" style="display:none"></div>
         <div class="uranai-share-canvas-wrap">
+          <button class="uranai-share-arrow uranai-share-arrow-left" id="uranaiShareArrowLeft" type="button" aria-label="前のカード">◀</button>
           <canvas id="uranaiShareCanvas" width="1080" height="1620"></canvas>
+          <button class="uranai-share-arrow uranai-share-arrow-right" id="uranaiShareArrowRight" type="button" aria-label="次のカード">▶</button>
         </div>
         <!-- 画像保存 + 画像シェア -->
         <button class="uranai-share-big-btn" id="uranaiShareDownload" type="button">
@@ -10487,8 +10515,10 @@ const COASTLINES = [
     const rotor = document.getElementById('wheelRotor');
     if (!stage || !rotor) return;
 
-    // 12 キャラのスロット生成 (半径 = 60px、stage 180 で隣接気味)
-    const WHEEL_RADIUS = 60;
+    // 12 番号のスロット生成 (ガラケー風、半径 = 72px、stage 200、slot 44px)
+    // 円周 2π × 72 ≒ 452px、slot 44 × 12 = 528 で ぴったりくっつく〜重なり気味
+    const WHEEL_RADIUS = 72;
+    const CIRCLED_NUMS = ['⓪','①','②','③','④','⑤','⑥','⑦','⑧','⑨','⑩','⑪'];
     let html = '';
     for (let i = 0; i < 12; i++) {
       const angle = i * 30;
@@ -10496,7 +10526,7 @@ const COASTLINES = [
         <div class="wheel-slot" data-idx="${i}" style="transform: rotate(${angle}deg) translateY(-${WHEEL_RADIUS}px);">
           <div class="wheel-slot-counterrot" style="transform: rotate(${-angle}deg);">
             <div class="wheel-slot-inner">
-              <img src="./character_icons/char_${String(i).padStart(2,'0')}.png" alt="">
+              <span class="slot-num">${CIRCLED_NUMS[i]}</span>
             </div>
           </div>
         </div>
@@ -11344,11 +11374,17 @@ const COASTLINES = [
     const fill = (slotId, person, prefix, kindKey) => {
       const img = document.getElementById(prefix + 'Img');
       const name = document.getElementById(prefix + 'Name');
-      const type = document.getElementById(prefix + 'Type');
+      const friend = document.getElementById(prefix + 'Friend');
       if (img) img.src = `./character_icons/char_${String(person.phaseIdx).padStart(2,'0')}.png`;
-      if (name) name.textContent = person.name || '—';
-      if (type) type.textContent = getDisplayName(person.phase);
-      // 詳細モーダル用に person を記憶
+      if (name) name.textContent = getDisplayName(person.phase); // ★ キャラ名を表示
+      // 友人検索: uranaiPeople 内に同 phaseIdx の人がいれば名前を表示
+      if (friend) {
+        const matched = uranaiPeople
+          .filter(p => p && p.phaseIdx === person.phaseIdx)
+          .map(p => p.name);
+        friend.textContent = matched.length > 0 ? `(あなたの ${matched.join('・')})` : '';
+      }
+      // モーダル用に person を記憶
       todayCardPersons[kindKey] = person;
     };
     fill('uranaiTodayGoodCard',    pickByAspect('good'),    'uranaiTodayGood',    'good');
@@ -11745,6 +11781,31 @@ const COASTLINES = [
       });
     });
     // 選択中の人物のカード描画
+    // ★ 矢印ボタン (◀ ▶) で前後カードに切替
+    const arrowL = document.getElementById('uranaiShareArrowLeft');
+    const arrowR = document.getElementById('uranaiShareArrowRight');
+    if (arrowL && !arrowL.dataset.bound) {
+      arrowL.dataset.bound = '1';
+      arrowL.addEventListener('click', () => {
+        const n = uranaiPeople.length;
+        if (n < 2) return;
+        currentShareTabIdx = (currentShareTabIdx - 1 + n) % n;
+        refreshShareCard();
+      });
+    }
+    if (arrowR && !arrowR.dataset.bound) {
+      arrowR.dataset.bound = '1';
+      arrowR.addEventListener('click', () => {
+        const n = uranaiPeople.length;
+        if (n < 2) return;
+        currentShareTabIdx = (currentShareTabIdx + 1) % n;
+        refreshShareCard();
+      });
+    }
+    // 矢印は人物が 2 人以上のときだけ表示
+    if (arrowL) arrowL.style.display = (uranaiPeople.length >= 2) ? '' : 'none';
+    if (arrowR) arrowR.style.display = (uranaiPeople.length >= 2) ? '' : 'none';
+
     if (uranaiPeople[currentShareTabIdx]) {
       drawShareCardSelf(uranaiPeople[currentShareTabIdx]);
     }
