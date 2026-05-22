@@ -3586,9 +3586,9 @@
   }
   .wheel-stage {
     position: relative;
-    width: 220px;
-    height: 220px;
-    margin: 0 auto;
+    width: 180px;
+    height: 180px;
+    margin: 8px auto 0;
     user-select: none;
     -webkit-user-select: none;
     touch-action: none;
@@ -3624,20 +3624,20 @@
   .wheel-rotor::before {
     content: '';
     position: absolute;
-    inset: 16px;
+    inset: 8px;
     border-radius: 50%;
-    border: 1px dashed rgba(232, 255, 0, 0.25);
+    border: 1px dashed rgba(232, 255, 0, 0.18);
     pointer-events: none;
   }
   .wheel-slot {
     position: absolute;
     top: 0;
     left: 50%;
-    width: 38px;
-    height: 38px;
-    margin-left: -19px;
-    /* slot 中央 y=19, stage 220 中央 y=110 → (19, 110) */
-    transform-origin: 19px 110px;
+    width: 30px;
+    height: 30px;
+    margin-left: -15px;
+    /* slot 中央 y=15, stage 180 中央 y=90 → (15, 90) */
+    transform-origin: 15px 90px;
     cursor: pointer;
   }
   .wheel-slot-inner {
@@ -3652,29 +3652,11 @@
   }
   .wheel-slot.is-active .wheel-slot-inner {
     border-color: #e8ff00;
-    border-width: 2.5px;
+    border-width: 2px;
     box-shadow:
-      0 0 18px rgba(232, 255, 0, 0.95),
-      0 0 36px rgba(232, 255, 0, 0.5),
-      inset 0 0 0 2px rgba(232, 255, 0, 0.45);
-    transform: scale(1.35);
-    animation: wheelActivePulse 1.0s ease-in-out infinite;
-  }
-  @keyframes wheelActivePulse {
-    0%, 100% {
-      box-shadow:
-        0 0 18px rgba(232, 255, 0, 0.9),
-        0 0 36px rgba(232, 255, 0, 0.45),
-        inset 0 0 0 2px rgba(232, 255, 0, 0.4);
-      transform: scale(1.32);
-    }
-    50% {
-      box-shadow:
-        0 0 26px rgba(232, 255, 0, 1),
-        0 0 50px rgba(232, 255, 0, 0.7),
-        inset 0 0 0 2px rgba(232, 255, 0, 0.55);
-      transform: scale(1.42);
-    }
+      0 0 14px rgba(232, 255, 0, 0.85),
+      0 0 28px rgba(232, 255, 0, 0.45);
+    transform: scale(1.25);
   }
   .wheel-slot img {
     width: 100%; height: 100%;
@@ -3685,14 +3667,27 @@
     width: 100%; height: 100%;
     transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
   }
-  /* 中心の月 + 選択中キャラ */
+  /* 中心の月 + 選択中キャラ + キャラ名 */
   .wheel-center {
     position: absolute;
     top: 50%; left: 50%;
-    width: 90px; height: 90px;
+    width: 70px; height: 70px;
     transform: translate(-50%, -50%);
     z-index: 2;
     pointer-events: none;
+  }
+  .wheel-center-name {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 6px;
+    font-family: 'Reggae One', 'Shippori Mincho', serif;
+    font-size: 1.0rem;
+    color: #fff;
+    letter-spacing: 0.15em;
+    text-shadow: 0 0 10px rgba(232, 255, 0, 0.6);
+    white-space: nowrap;
   }
   .wheel-center-moon {
     position: absolute;
@@ -3743,37 +3738,7 @@
     0%, 100% { opacity: 0.7; }
     50%      { opacity: 1; }
   }
-  /* 選択中スロット の上に大きな『ココをタップ』バナー */
-  .wheel-slot.is-active::after {
-    content: '👆 ココをタップ';
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    margin-bottom: 6px;
-    font-family: 'Zen Kaku Gothic New', sans-serif;
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    color: #1a0a3a;
-    background: linear-gradient(180deg, #e8ff00, #c8d800);
-    padding: 4px 10px 4px 8px;
-    border-radius: 999px;
-    border: 1.5px solid #e8ff00;
-    box-shadow: 0 0 14px rgba(232, 255, 0, 0.85), 0 0 28px rgba(232, 255, 0, 0.45);
-    pointer-events: none;
-    white-space: nowrap;
-    animation: tapBannerBob 0.9s ease-in-out infinite;
-    z-index: 3;
-  }
-  @keyframes tapBannerBob {
-    0%, 100% {
-      transform: translateX(-50%) translateY(0) scale(0.96);
-    }
-    50% {
-      transform: translateX(-50%) translateY(-3px) scale(1.04);
-    }
-  }
+  /* 「ココをタップ」バナーは廃止 (直感で押せばいい) */
 
   /* ★ 12 アニマル詳細モーダル (display 切替→ visibility/opacity 即時化) */
   .wheel-detail-modal {
@@ -4351,19 +4316,27 @@
     font-weight: 700;
     text-shadow: 0 0 10px rgba(232, 255, 0, 0.65);
   }
+  .celebs-item .celebs-occ {
+    color: rgba(180, 130, 255, 0.85);
+    font-size: 0.62rem;
+    font-family: 'Shippori Mincho', serif;
+    letter-spacing: 0.04em;
+    padding-right: 1px;
+  }
   .celebs-item .celebs-name { color: inherit; }
   .celebs-item .celebs-moon {
     color: rgba(232, 255, 0, 0.85);
-    font-size: 0.78rem;
+    font-size: 0.7rem;
     font-family: 'Cinzel', 'Shippori Mincho', serif;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.02em;
   }
   .celebs-item .celebs-birth {
     color: rgba(255, 255, 255, 0.5);
-    font-size: 0.74rem;
+    font-size: 0.66rem;
     font-family: 'Cinzel', sans-serif;
     letter-spacing: 0.02em;
   }
+  .celebs-item.is-current .celebs-occ { color: rgba(220, 180, 255, 1); }
   .celebs-item.is-current .celebs-moon { color: #e8ff00; }
   .celebs-item.is-current .celebs-birth { color: rgba(255, 255, 255, 0.85); }
   .celebs-mask-top, .celebs-mask-bottom {
@@ -7651,28 +7624,22 @@
 
       <!-- ★ 場所/時刻 / 空 / 陰陽バランス はマイページに移植済み -->
 
-      <!-- ★ 12 アニマル ホイール (月を中心に円形配置、指で回せる) -->
+      <!-- ★ ツキの 12 キャラ ホイール -->
       <div class="wheel-section">
         <div class="uranai-section-title-wrap">
           <span class="uranai-section-title-deco">✦</span>
-          <div class="uranai-section-title">1 2 ア ニ マ ル</div>
+          <div class="uranai-section-title">ツ キ の 1 2 キ ャ ラ</div>
           <span class="uranai-section-title-deco">✦</span>
         </div>
-        <div class="wheel-help">月を中心にクルクル回して、気になるアニマルを上に</div>
         <div class="wheel-stage" id="wheelStage">
-          <div class="wheel-pointer" aria-hidden="true">▼</div>
           <div class="wheel-rotor" id="wheelRotor">
-            <!-- 12 アニマルを動的に配置 (JS) -->
+            <!-- 12 キャラを動的に配置 (JS) -->
           </div>
           <div class="wheel-center">
             <img class="wheel-center-moon" src="./moon_nasa_round/moon_15.png?v=20260521round" alt="月">
             <img class="wheel-center-char" id="wheelCenterChar" src="" alt="">
+            <div class="wheel-center-name" id="wheelSelectedName">—</div>
           </div>
-        </div>
-        <div class="wheel-info">
-          <div class="wheel-info-name" id="wheelSelectedName">—</div>
-          <div class="wheel-info-sub" id="wheelSelectedSub">月相 — / 創る人</div>
-          <div class="wheel-info-hint">↑ 上の キャラを タップ で 開く</div>
         </div>
       </div>
 
@@ -7695,16 +7662,7 @@
               <!-- 動的生成 -->
             </div>
             <div class="wheel-occupation-source">
-              他のキャラと比べて このタイプに多い職業 (lift 値の +X%)<br>
-              Wikidata 有名人 <strong>126 万人</strong> ベース・哲学者など細分化済み
-            </div>
-          </div>
-
-          <!-- 1.5 歴史上の役職者 (アメリカ大統領 / 日本の総理 / 天皇) -->
-          <div class="wheel-positions-section" id="wheelPositionsSection">
-            <div class="wheel-positions-title" id="wheelPositionsTitle">歴 史 上 の 役 職 者</div>
-            <div class="wheel-positions-groups" id="wheelPositionsList">
-              <!-- 動的生成 -->
+              有名人 126 万人 データベース lift 値の +X%
             </div>
           </div>
 
@@ -10464,7 +10422,7 @@ const COASTLINES = [
     const rotor = document.getElementById('wheelRotor');
     if (!stage || !rotor) return;
 
-    // 12 アニマルのスロット生成 (半径 = 60px、stage 220x220 にぴったり)
+    // 12 キャラのスロット生成 (半径 = 60px、stage 180 で隣接気味)
     const WHEEL_RADIUS = 60;
     let html = '';
     for (let i = 0; i < 12; i++) {
@@ -10481,9 +10439,8 @@ const COASTLINES = [
     }
     rotor.innerHTML = html;
 
-    // 各スロットクリック:
-    //  - 既に選択中 (上にいる) なら → そのカードを即開く
-    //  - 他のキャラ → 上にスナップして選択中に
+    // ★ どのスロットをタップしても即詳細を開く
+    //   選択中状態は表示用 (上スナップ) として残すが、開くにはタップ一発
     rotor.querySelectorAll('.wheel-slot').forEach(slot => {
       slot.addEventListener('click', (e) => {
         if (rotor.dataset.justDragged === '1') {
@@ -10491,12 +10448,10 @@ const COASTLINES = [
           return;
         }
         const idx = parseInt(slot.dataset.idx);
-        if (idx === wheelSelectedIdx) {
-          // 上にいるキャラを再タップ → カードを開く
-          openWheelDetailModal(idx);
-        } else {
-          wheelSnapTo(idx);
-        }
+        // 一回スナップして中央キャラ更新 (見栄え)
+        wheelSnapTo(idx);
+        // すぐに詳細を開く
+        openWheelDetailModal(idx);
       });
     });
 
@@ -10611,15 +10566,12 @@ const COASTLINES = [
     // 中央キャラ
     const charImg = document.getElementById('wheelCenterChar');
     if (charImg) charImg.src = `./character_icons/char_${String(idx).padStart(2,'0')}.png`;
-    // 選択情報
+    // 真ん中の月の下にキャラ名だけ表示 (月相/守破離は撤去)
     const phase = (typeof PHASES_12 !== 'undefined') ? PHASES_12[idx] : null;
     if (phase) {
       const name = (typeof getDisplayName === 'function') ? getDisplayName(phase) : phase.ja;
-      const stagePerson = (typeof STAGE_PERSON !== 'undefined') ? (STAGE_PERSON[phase.stage] || phase.stage) : phase.stage;
       const nameEl = document.getElementById('wheelSelectedName');
-      const subEl = document.getElementById('wheelSelectedSub');
       if (nameEl) nameEl.textContent = name;
-      if (subEl) subEl.textContent = `${phase.moon}　／　${stagePerson}`;
     }
   }
   document.addEventListener('DOMContentLoaded', initWheel);
@@ -10653,9 +10605,31 @@ const COASTLINES = [
       renderWheelCdcStats(idx);
       renderWheelLifespan(idx);
       renderWheelOccupations(idx);
-      renderWheelPositions(idx);
+      injectPositionNoteIntoDesc(idx);  // 大統領・総理 を説明文末に追記
       renderCelebsRoulette(idx);
     });
+  }
+
+  // 役職者情報を説明文末尾に追記 (説明文を上書きしない)
+  async function injectPositionNoteIntoDesc(idx) {
+    const descEl = document.getElementById('wheelDetailDesc');
+    if (!descEl) return;
+    const baseDesc = (typeof PHASE_DESCRIPTIONS !== 'undefined') ? (PHASE_DESCRIPTIONS[idx] || '') : '';
+    descEl.textContent = baseDesc;
+    const data = await loadPositionsData();
+    if (!data || !data.types || !data.types[idx]) return;
+    const positions = data.types[idx].positions || {};
+    const order = ['us_president', 'pm_japan', 'emperor_japan'];
+    const labels = { us_president: 'アメリカ大統領', pm_japan: '日本の総理大臣', emperor_japan: '日本の天皇' };
+    const lines = [];
+    order.forEach(key => {
+      const ppl = positions[key] || [];
+      if (ppl.length === 0) return;
+      const names = ppl.map(p => p.name).join('、');
+      lines.push(`${labels[key]}: ${names}`);
+    });
+    if (lines.length === 0) return;
+    descEl.textContent = baseDesc + '\n\n— このタイプから出た歴史的役職者 —\n' + lines.join('\n');
   }
 
   // 歴史上の役職者 (アメリカ大統領 / 日本の総理 / 天皇)
@@ -10965,7 +10939,9 @@ const COASTLINES = [
     const cycle = people.concat(people, people);
     track.innerHTML = cycle.map((p, i) => {
       const ma = (p.moon_age != null) ? `月齢${Number(p.moon_age).toFixed(1)}` : '';
+      const occ = p.occupation || '';
       return `<div class="celebs-item" data-i="${i}">
+        ${occ ? `<span class="celebs-occ">${occ}</span>` : ''}
         <span class="celebs-name">${p.name}</span>
         ${ma ? `<span class="celebs-moon">${ma}</span>` : ''}
         <span class="celebs-birth">${p.birth || ''}</span>

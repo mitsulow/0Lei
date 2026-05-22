@@ -2470,6 +2470,14 @@
       "n_total": 585,
       "top_people": [
         {
+          "name": "さとうキビさん",
+          "occupation": "大奥",
+          "birth": "1958-05-03",
+          "moon_age": 14.5,
+          "sitelinks": 0,
+          "qid": "fict_kibi"
+        },
+        {
           "name": "黒澤明",
           "birth": "1910-03-23",
           "occupation": "著作家",
@@ -2961,6 +2969,14 @@
       "n_total": 613,
       "top_people": [
         {
+          "name": "さとうみつろう",
+          "occupation": "作家",
+          "birth": "1980-06-30",
+          "moon_age": 16.7,
+          "sitelinks": 0,
+          "qid": "fict_mitsulow"
+        },
+        {
           "name": "大坂なおみ",
           "birth": "1997-10-16",
           "occupation": "テニス選手",
@@ -3451,6 +3467,14 @@
       "stage": "守",
       "n_total": 589,
       "top_people": [
+        {
+          "name": "コクトウ君",
+          "occupation": "発明家",
+          "birth": "2014-01-20",
+          "moon_age": 18.4,
+          "sitelinks": 0,
+          "qid": "fict_kokutou"
+        },
         {
           "name": "三島由紀夫",
           "birth": "1925-01-14",
@@ -4434,6 +4458,22 @@
       "n_total": 606,
       "top_people": [
         {
+          "name": "ハニートースト",
+          "occupation": "妻",
+          "birth": "1984-06-22",
+          "moon_age": 22.9,
+          "sitelinks": 0,
+          "qid": "fict_honey"
+        },
+        {
+          "name": "ザラメちゃん",
+          "occupation": "アーティスト",
+          "birth": "2010-11-01",
+          "moon_age": 24.0,
+          "sitelinks": 0,
+          "qid": "fict_zarame"
+        },
+        {
           "name": "安倍晋三",
           "birth": "1954-09-21",
           "occupation": "政治家",
@@ -4924,6 +4964,14 @@
       "stage": "守",
       "n_total": 645,
       "top_people": [
+        {
+          "name": "ミリンちゃん",
+          "occupation": "アイドル",
+          "birth": "2018-04-12",
+          "moon_age": 25.7,
+          "sitelinks": 0,
+          "qid": "fict_mirin"
+        },
         {
           "name": "徳仁",
           "birth": "1960-02-23",

@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "generated_at": "2026-05-21T22:32:11",
+  "generated_at": "2026-05-22T09:03:11",
   "synodic_month_days": 29.530588853,
   "phase_count": 12,
   "phase_width_days": 2.4608823333333336,
@@ -185,14 +185,6 @@
       ],
       "top_occupations_distinctive": [
         {
-          "key": "inventor",
-          "label_ja": "発明家",
-          "count": 556,
-          "share": 0.004806777902654102,
-          "overall_share": 0.004640274536403665,
-          "lift": 1.036
-        },
-        {
           "key": "military_officer",
           "label_ja": "軍人",
           "count": 2911,
@@ -201,28 +193,12 @@
           "lift": 1.031
         },
         {
-          "key": "actress",
-          "label_ja": "女優",
-          "count": 919,
-          "share": 0.007945015993775395,
-          "overall_share": 0.007716306634629755,
-          "lift": 1.03
-        },
-        {
           "key": "doctor",
           "label_ja": "医師",
           "count": 2024,
           "share": 0.017498054811100543,
           "overall_share": 0.017129783980777854,
           "lift": 1.021
-        },
-        {
-          "key": "philosopher",
-          "label_ja": "哲学者",
-          "count": 1350,
-          "share": 0.011671133396732083,
-          "overall_share": 0.01148284722302059,
-          "lift": 1.016
         },
         {
           "key": "athlete",
@@ -513,30 +489,6 @@
       ],
       "top_occupations_distinctive": [
         {
-          "key": "actress",
-          "label_ja": "女優",
-          "count": 954,
-          "share": 0.00824482105972742,
-          "overall_share": 0.007716306634629755,
-          "lift": 1.068
-        },
-        {
-          "key": "inventor",
-          "label_ja": "発明家",
-          "count": 568,
-          "share": 0.004908866207468736,
-          "overall_share": 0.004640274536403665,
-          "lift": 1.058
-        },
-        {
-          "key": "astronaut",
-          "label_ja": "宇宙飛行士",
-          "count": 71,
-          "share": 0.000613608275933592,
-          "overall_share": 0.0005805732154558937,
-          "lift": 1.057
-        },
-        {
           "key": "entrepreneur",
           "label_ja": "起業家",
           "count": 6153,
@@ -561,20 +513,20 @@
           "lift": 1.018
         },
         {
-          "key": "dancer",
-          "label_ja": "ダンサー",
-          "count": 900,
-          "share": 0.007778133075214547,
-          "overall_share": 0.007671757699780417,
-          "lift": 1.014
-        },
-        {
           "key": "lawyer",
           "label_ja": "弁護士",
           "count": 1958,
           "share": 0.016921760623633424,
           "overall_share": 0.01670944322453813,
           "lift": 1.013
+        },
+        {
+          "key": "politician",
+          "label_ja": "政治家",
+          "count": 20750,
+          "share": 0.17932917923411315,
+          "overall_share": 0.17773659795592242,
+          "lift": 1.009
         }
       ],
       "top_regions": [
@@ -841,14 +793,6 @@
       ],
       "top_occupations_distinctive": [
         {
-          "key": "chef",
-          "label_ja": "料理人",
-          "count": 122,
-          "share": 0.001052459044677749,
-          "overall_share": 0.0009800765666854443,
-          "lift": 1.074
-        },
-        {
           "key": "doctor",
           "label_ja": "医師",
           "count": 2031,
@@ -865,27 +809,11 @@
           "lift": 1.018
         },
         {
-          "key": "actress",
-          "label_ja": "女優",
-          "count": 910,
-          "share": 0.007850309267678292,
-          "overall_share": 0.007716306634629755,
-          "lift": 1.017
-        },
-        {
           "key": "athlete",
           "label_ja": "アスリート",
           "count": 14611,
           "share": 0.1260449106703819,
           "overall_share": 0.12416506673717853,
-          "lift": 1.015
-        },
-        {
-          "key": "inventor",
-          "label_ja": "発明家",
-          "count": 546,
-          "share": 0.004710185560606975,
-          "overall_share": 0.004640274536403665,
           "lift": 1.015
         },
         {
@@ -1169,14 +1097,6 @@
       ],
       "top_occupations_distinctive": [
         {
-          "key": "astronaut",
-          "label_ja": "宇宙飛行士",
-          "count": 72,
-          "share": 0.0006172098685000085,
-          "overall_share": 0.0005805732154558937,
-          "lift": 1.063
-        },
-        {
           "key": "lawyer",
           "label_ja": "弁護士",
           "count": 2022,
@@ -1185,27 +1105,11 @@
           "lift": 1.037
         },
         {
-          "key": "comedian",
-          "label_ja": "コメディアン",
-          "count": 708,
-          "share": 0.006069230373583418,
-          "overall_share": 0.005866088775967718,
-          "lift": 1.035
-        },
-        {
           "key": "musician",
           "label_ja": "音楽家",
           "count": 10762,
           "share": 0.09225573062218184,
           "overall_share": 0.09052918386351357,
-          "lift": 1.019
-        },
-        {
-          "key": "philosopher",
-          "label_ja": "哲学者",
-          "count": 1365,
-          "share": 0.011701270423645996,
-          "overall_share": 0.01148284722302059,
           "lift": 1.019
         },
         {
@@ -1497,14 +1401,6 @@
       ],
       "top_occupations_distinctive": [
         {
-          "key": "astronaut",
-          "label_ja": "宇宙飛行士",
-          "count": 75,
-          "share": 0.0006456000206592007,
-          "overall_share": 0.0005805732154558937,
-          "lift": 1.112
-        },
-        {
           "key": "military_officer",
           "label_ja": "軍人",
           "count": 2903,
@@ -1537,28 +1433,12 @@
           "lift": 1.016
         },
         {
-          "key": "philosopher",
-          "label_ja": "哲学者",
-          "count": 1350,
-          "share": 0.011620800371865612,
-          "overall_share": 0.01148284722302059,
-          "lift": 1.012
-        },
-        {
-          "key": "dancer",
-          "label_ja": "ダンサー",
-          "count": 899,
-          "share": 0.007738592247634952,
-          "overall_share": 0.007671757699780417,
-          "lift": 1.009
-        },
-        {
-          "key": "comedian",
-          "label_ja": "コメディアン",
-          "count": 686,
-          "share": 0.005905088188962822,
-          "overall_share": 0.005866088775967718,
-          "lift": 1.007
+          "key": "athlete",
+          "label_ja": "アスリート",
+          "count": 14508,
+          "share": 0.12488486799631578,
+          "overall_share": 0.12416506673717853,
+          "lift": 1.006
         }
       ],
       "top_regions": [
@@ -1825,22 +1705,6 @@
       ],
       "top_occupations_distinctive": [
         {
-          "key": "astronaut",
-          "label_ja": "宇宙飛行士",
-          "count": 70,
-          "share": 0.0006019744762822056,
-          "overall_share": 0.0005805732154558937,
-          "lift": 1.037
-        },
-        {
-          "key": "comedian",
-          "label_ja": "コメディアン",
-          "count": 707,
-          "share": 0.006079942210450277,
-          "overall_share": 0.005866088775967718,
-          "lift": 1.036
-        },
-        {
           "key": "journalist",
           "label_ja": "ジャーナリスト",
           "count": 1533,
@@ -1879,14 +1743,6 @@
           "share": 0.10777923016064118,
           "overall_share": 0.10667242449674075,
           "lift": 1.01
-        },
-        {
-          "key": "entrepreneur",
-          "label_ja": "起業家",
-          "count": 6115,
-          "share": 0.05258677032093839,
-          "overall_share": 0.05213303174183461,
-          "lift": 1.009
         }
       ],
       "top_regions": [
@@ -2153,27 +2009,11 @@
       ],
       "top_occupations_distinctive": [
         {
-          "key": "philosopher",
-          "label_ja": "哲学者",
-          "count": 1360,
-          "share": 0.011703555815634573,
-          "overall_share": 0.01148284722302059,
-          "lift": 1.019
-        },
-        {
           "key": "lawyer",
           "label_ja": "弁護士",
           "count": 1973,
           "share": 0.016978761488416923,
           "overall_share": 0.01670944322453813,
-          "lift": 1.016
-        },
-        {
-          "key": "inventor",
-          "label_ja": "発明家",
-          "count": 548,
-          "share": 0.00471584454924099,
-          "overall_share": 0.004640274536403665,
           "lift": 1.016
         },
         {
@@ -2191,14 +2031,6 @@
           "share": 0.08329317407318165,
           "overall_share": 0.08214248761252199,
           "lift": 1.014
-        },
-        {
-          "key": "dancer",
-          "label_ja": "ダンサー",
-          "count": 903,
-          "share": 0.007770816839351486,
-          "overall_share": 0.007671757699780417,
-          "lift": 1.013
         },
         {
           "key": "musician",
@@ -2480,30 +2312,6 @@
         }
       ],
       "top_occupations_distinctive": [
-        {
-          "key": "comedian",
-          "label_ja": "コメディアン",
-          "count": 712,
-          "share": 0.0061608216736322025,
-          "overall_share": 0.005866088775967718,
-          "lift": 1.05
-        },
-        {
-          "key": "inventor",
-          "label_ja": "発明家",
-          "count": 560,
-          "share": 0.004845590080384878,
-          "overall_share": 0.004640274536403665,
-          "lift": 1.044
-        },
-        {
-          "key": "philosopher",
-          "label_ja": "哲学者",
-          "count": 1382,
-          "share": 0.011958224091235538,
-          "overall_share": 0.01148284722302059,
-          "lift": 1.041
-        },
         {
           "key": "engineer",
           "label_ja": "技術者",
@@ -2809,14 +2617,6 @@
       ],
       "top_occupations_distinctive": [
         {
-          "key": "dancer",
-          "label_ja": "ダンサー",
-          "count": 919,
-          "share": 0.007971617917490719,
-          "overall_share": 0.007671757699780417,
-          "lift": 1.039
-        },
-        {
           "key": "religious_figure",
           "label_ja": "宗教家",
           "count": 1847,
@@ -2831,14 +2631,6 @@
           "share": 0.04636376253426321,
           "overall_share": 0.045524700228780336,
           "lift": 1.018
-        },
-        {
-          "key": "journalist",
-          "label_ja": "ジャーナリスト",
-          "count": 1491,
-          "share": 0.01293327781825752,
-          "overall_share": 0.012734528586045549,
-          "lift": 1.016
         },
         {
           "key": "actor",
@@ -2863,14 +2655,6 @@
           "share": 0.17872384719475382,
           "overall_share": 0.17773659795592242,
           "lift": 1.006
-        },
-        {
-          "key": "scientist",
-          "label_ja": "科学者",
-          "count": 8412,
-          "share": 0.07296762777141667,
-          "overall_share": 0.0727110469861927,
-          "lift": 1.004
         }
       ],
       "top_regions": [
@@ -3137,43 +2921,11 @@
       ],
       "top_occupations_distinctive": [
         {
-          "key": "astronaut",
-          "label_ja": "宇宙飛行士",
-          "count": 74,
-          "share": 0.000634975115840055,
-          "overall_share": 0.0005805732154558937,
-          "lift": 1.094
-        },
-        {
-          "key": "chef",
-          "label_ja": "料理人",
-          "count": 122,
-          "share": 0.0010468508666552257,
-          "overall_share": 0.0009800765666854443,
-          "lift": 1.068
-        },
-        {
-          "key": "inventor",
-          "label_ja": "発明家",
-          "count": 563,
-          "share": 0.004830959327269607,
-          "overall_share": 0.004640274536403665,
-          "lift": 1.041
-        },
-        {
           "key": "lawyer",
           "label_ja": "弁護士",
           "count": 1998,
           "share": 0.017144328127681484,
           "overall_share": 0.01670944322453813,
-          "lift": 1.026
-        },
-        {
-          "key": "actress",
-          "label_ja": "女優",
-          "count": 923,
-          "share": 0.007920027458383388,
-          "overall_share": 0.007716306634629755,
           "lift": 1.026
         },
         {
@@ -3199,6 +2951,14 @@
           "share": 0.015608374806933242,
           "overall_share": 0.015485066047388571,
           "lift": 1.008
+        },
+        {
+          "key": "musician",
+          "label_ja": "音楽家",
+          "count": 10567,
+          "share": 0.09067273039299811,
+          "overall_share": 0.09052918386351357,
+          "lift": 1.002
         }
       ],
       "top_regions": [
@@ -3465,36 +3225,12 @@
       ],
       "top_occupations_distinctive": [
         {
-          "key": "chef",
-          "label_ja": "料理人",
-          "count": 121,
-          "share": 0.0010426630130375963,
-          "overall_share": 0.0009800765666854443,
-          "lift": 1.064
-        },
-        {
-          "key": "astronaut",
-          "label_ja": "宇宙飛行士",
-          "count": 71,
-          "share": 0.0006118105283113167,
-          "overall_share": 0.0005805732154558937,
-          "lift": 1.054
-        },
-        {
           "key": "journalist",
           "label_ja": "ジャーナリスト",
           "count": 1543,
           "share": 0.013296107678652982,
           "overall_share": 0.012734528586045549,
           "lift": 1.044
-        },
-        {
-          "key": "philosopher",
-          "label_ja": "哲学者",
-          "count": 1377,
-          "share": 0.011865677429361735,
-          "overall_share": 0.01148284722302059,
-          "lift": 1.033
         },
         {
           "key": "director",
@@ -3513,20 +3249,20 @@
           "lift": 1.017
         },
         {
-          "key": "actress",
-          "label_ja": "女優",
-          "count": 911,
-          "share": 0.007850132271712811,
-          "overall_share": 0.007716306634629755,
-          "lift": 1.017
-        },
-        {
           "key": "engineer",
           "label_ja": "技術者",
           "count": 2771,
           "share": 0.023877844703530406,
           "overall_share": 0.023648299092926203,
           "lift": 1.01
+        },
+        {
+          "key": "musician",
+          "label_ja": "音楽家",
+          "count": 10555,
+          "share": 0.09095295952571758,
+          "overall_share": 0.09052918386351357,
+          "lift": 1.005
         }
       ],
       "top_regions": [
@@ -3793,22 +3529,6 @@
       ],
       "top_occupations_distinctive": [
         {
-          "key": "chef",
-          "label_ja": "料理人",
-          "count": 139,
-          "share": 0.0012016425329587205,
-          "overall_share": 0.0009800765666854443,
-          "lift": 1.226
-        },
-        {
-          "key": "dancer",
-          "label_ja": "ダンサー",
-          "count": 926,
-          "share": 0.008005186946185433,
-          "overall_share": 0.007671757699780417,
-          "lift": 1.043
-        },
-        {
           "key": "poet",
           "label_ja": "詩人",
           "count": 1726,
@@ -3833,28 +3553,12 @@
           "lift": 1.016
         },
         {
-          "key": "philosopher",
-          "label_ja": "哲学者",
-          "count": 1348,
-          "share": 0.011653339096606872,
-          "overall_share": 0.01148284722302059,
-          "lift": 1.015
-        },
-        {
           "key": "athlete",
           "label_ja": "アスリート",
           "count": 14427,
           "share": 0.12472012102874433,
           "overall_share": 0.12416506673717853,
           "lift": 1.004
-        },
-        {
-          "key": "actress",
-          "label_ja": "女優",
-          "count": 895,
-          "share": 0.0077371947266047115,
-          "overall_share": 0.007716306634629755,
-          "lift": 1.003
         }
       ],
       "top_regions": [
