@@ -1,39 +1,39 @@
 {
-  "timestamp": "2026-05-22T18:02:46.968047+00:00",
+  "timestamp": "2026-05-22T20:06:36.789500+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.83,
-      "confidence": 85
+      "hz": 7.88,
+      "confidence": 88
     },
     "F2": {
-      "hz": 14.4,
+      "hz": 14.5,
       "confidence": 80
     },
     "F3": {
-      "hz": 19.84,
-      "confidence": 85
+      "hz": 19.92,
+      "confidence": 75
     },
     "F4": {
       "hz": 24.62,
-      "confidence": 75
+      "confidence": 78
     },
     "F5": {
-      "hz": null,
+      "hz": 0,
       "confidence": 0
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "22日後半のデータ。F1は約7.83Hz付近で安定、F2は終端で上昇傾向（約14.4Hz）。F3は19.8Hz付近で平坦、F4(緑)は24.6Hz付近に低下。F5は本グラフに表示なし。21日のスペクトログラムには強い干渉/ノイズが見られる。",
+  "notes": "5/21は強い擾乱と欠損が見られるが、5/22以降は安定。右端ではF1が7.88Hz付近で明瞭、F4は24.62付近に下降傾向。F5の表示はなし。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 3.03,
-    "tomsk_hour": 23.63,
+    "japan_hour": 5.1,
+    "tomsk_hour": 1.7,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
