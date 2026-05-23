@@ -1,25 +1,25 @@
 {
-  "timestamp": "2026-05-23T16:59:15.231580+00:00",
+  "timestamp": "2026-05-23T18:02:43.090714+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.7,
-      "confidence": 85
-    },
-    "F2": {
-      "hz": 13.8,
+      "hz": 7.88,
       "confidence": 80
     },
-    "F3": {
-      "hz": 19.92,
+    "F2": {
+      "hz": 14.3,
       "confidence": 75
     },
-    "F4": {
-      "hz": 24.62,
+    "F3": {
+      "hz": 19.8,
       "confidence": 70
+    },
+    "F4": {
+      "hz": 25.5,
+      "confidence": 65
     },
     "F5": {
       "hz": null,
@@ -28,12 +28,12 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端で各モードとも安定して読み取り可能。F1は7.7Hz付近で平均的、F2は13.8Hz、F3は約19.9Hz、F4は約24.6Hz。F5は折れ線グラフに表示なし。スペクトログラムでは22-23日にかけて全体的に活動度が低めで、ノイズ汚染領域（21日と23日終端付近）を除けば共振帯は明瞭。",
+  "notes": "23日後半に大きな変動が見られ、F1は急上昇後に7.88付近へ回復。スペクトログラムでは23日15時以降にデータ欠損や強い擾乱が見られる。F5は表示範囲外。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 1.98,
-    "tomsk_hour": 22.58,
+    "japan_hour": 3.03,
+    "tomsk_hour": 23.63,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
