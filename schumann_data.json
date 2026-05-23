@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-05-23T05:02:56.239499+00:00",
+  "timestamp": "2026-05-23T07:41:41.870095+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.88,
+      "hz": 7.85,
       "confidence": 85
     },
     "F2": {
@@ -14,26 +14,26 @@
       "confidence": 80
     },
     "F3": {
-      "hz": 19.92,
-      "confidence": 80
-    },
-    "F4": {
-      "hz": 25.08,
+      "hz": 19.8,
       "confidence": 75
     },
+    "F4": {
+      "hz": 25.2,
+      "confidence": 70
+    },
     "F5": {
-      "hz": null,
-      "confidence": 0
+      "hz": 33.0,
+      "confidence": 30
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "21日は強い擾乱（スペクトログラム上半分が飽和）が見られ、22日以降は静穏化。右端ではF1が約7.88Hzで安定、F2は13.4Hz付近にやや低め、F3は19.9Hz、F4は25Hz付近。F5の線は確認できず。",
+  "notes": "右端付近でF1は約7.85Hz付近で安定。F2は13.4Hz付近に低下傾向。F3(赤)は約19.8Hz、F4(緑)は25.2Hz付近。5/21は強い擾乱・データ欠損あり、5/22以降は比較的安定。F5は折れ線に明示されず信頼度低。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 14.03,
-    "tomsk_hour": 10.63,
+    "japan_hour": 16.68,
+    "tomsk_hour": 13.28,
     "is_day_japan": true,
     "is_day_tomsk": true
   }
