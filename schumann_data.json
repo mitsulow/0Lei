@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-05-24T12:46:08.045797+00:00",
+  "timestamp": "2026-05-24T14:21:24.070197+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -7,14 +7,14 @@
   "modes": {
     "F1": {
       "hz": 7.76,
-      "confidence": 80
+      "confidence": 85
     },
     "F2": {
-      "hz": 13.4,
-      "confidence": 75
+      "hz": 14.2,
+      "confidence": 80
     },
     "F3": {
-      "hz": 19.54,
+      "hz": 19.92,
       "confidence": 80
     },
     "F4": {
@@ -26,14 +26,14 @@
       "confidence": 0
     }
   },
-  "amplitude_level": "high",
+  "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "23日後半から24日にかけてスペクトログラムに強い擾乱と白飛び領域があり、活動度が高い。F1周波数は通常値（7.83Hz）より低めに推移。F5は表示されていない。",
+  "notes": "24.05後半でF1～F4とも変動が大きい。スペクトログラムでは23日15時以降にデータ品質が低下し白抜け領域が多数。F5の表示はグラフ上に存在せず読み取り不可。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 21.77,
-    "tomsk_hour": 18.37,
+    "japan_hour": 23.35,
+    "tomsk_hour": 19.95,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
