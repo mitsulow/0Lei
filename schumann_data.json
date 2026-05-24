@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-05-24T14:21:24.070197+00:00",
+  "timestamp": "2026-05-24T15:41:56.106885+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -28,12 +28,12 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "24.05後半でF1～F4とも変動が大きい。スペクトログラムでは23日15時以降にデータ品質が低下し白抜け領域が多数。F5の表示はグラフ上に存在せず読み取り不可。",
+  "notes": "右端でF1は約7.76Hz付近に回復、F2は14.2Hz付近で安定。F3は19.9Hz付近、F4は26.0Hz付近。F5はグラフに表示なし。スペクトログラムでは24日後半に強い擾乱と白飛び（データ欠損または高強度）が見られる。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 23.35,
-    "tomsk_hour": 19.95,
+    "japan_hour": 0.68,
+    "tomsk_hour": 21.28,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
