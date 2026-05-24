@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-05-24T15:41:56.106885+00:00",
+  "timestamp": "2026-05-24T16:42:10.665036+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -10,30 +10,30 @@
       "confidence": 85
     },
     "F2": {
-      "hz": 14.2,
+      "hz": 13.4,
       "confidence": 80
     },
     "F3": {
-      "hz": 19.92,
+      "hz": 19.78,
       "confidence": 80
     },
     "F4": {
-      "hz": 26.02,
+      "hz": 25.6,
       "confidence": 75
     },
     "F5": {
-      "hz": null,
-      "confidence": 0
+      "hz": 33.0,
+      "confidence": 30
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端でF1は約7.76Hz付近に回復、F2は14.2Hz付近で安定。F3は19.9Hz付近、F4は26.0Hz付近。F5はグラフに表示なし。スペクトログラムでは24日後半に強い擾乱と白飛び（データ欠損または高強度）が見られる。",
+  "notes": "右端でF1は7.76Hz付近で安定。F2は変動が大きく13Hz台に低下傾向。F3は19.78Hz付近、F4は25.6Hz付近で推移。スペクトログラムでは22-23日は静穏、23日後半以降にノイズ(白色領域)が多く、観測品質低下。F5のラインは画像に明示されず信頼度低。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 0.68,
-    "tomsk_hour": 21.28,
+    "japan_hour": 1.7,
+    "tomsk_hour": 22.3,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
