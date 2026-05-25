@@ -1,25 +1,25 @@
 {
-  "timestamp": "2026-05-25T12:21:20.760258+00:00",
+  "timestamp": "2026-05-25T15:34:20.966374+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.75,
-      "confidence": 80
+      "hz": 7.84,
+      "confidence": 85
     },
     "F2": {
-      "hz": 13.5,
-      "confidence": 75
-    },
-    "F3": {
-      "hz": 19.85,
+      "hz": 13.86,
       "confidence": 80
     },
+    "F3": {
+      "hz": 20.24,
+      "confidence": 85
+    },
     "F4": {
-      "hz": 25.6,
-      "confidence": 70
+      "hz": 25.44,
+      "confidence": 75
     },
     "F5": {
       "hz": null,
@@ -28,13 +28,13 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端でF1は約7.75Hz付近で変動大。F2はやや低めの13.5Hz付近に下降。F3は19.8Hz前後で安定。F4は25.6Hz付近。F5は本グラフに表示なし。スペクトログラムでは23-24日に大きなデータ欠損（白帯）あり、25日以降は比較的静穏。",
+  "notes": "25.05後半は変動が大きく、F1は7.8〜8.0Hz間で揺れる。スペクトログラムでは8Hz帯と14Hz帯が明瞭、20Hz帯も確認可能。F5は本グラフに表示なし。23-24日は大きなデータ欠損あり。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 21.35,
-    "tomsk_hour": 17.95,
+    "japan_hour": 0.57,
+    "tomsk_hour": 21.17,
     "is_day_japan": false,
-    "is_day_tomsk": true
+    "is_day_tomsk": false
   }
 }
