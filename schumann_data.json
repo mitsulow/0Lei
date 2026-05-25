@@ -1,25 +1,25 @@
 {
-  "timestamp": "2026-05-25T00:13:09.255738+00:00",
+  "timestamp": "2026-05-25T04:52:10.879569+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.92,
-      "confidence": 88
+      "hz": 8.1,
+      "confidence": 80
     },
     "F2": {
-      "hz": 14.2,
-      "confidence": 80
+      "hz": 13.4,
+      "confidence": 75
     },
     "F3": {
       "hz": 19.85,
-      "confidence": 82
+      "confidence": 80
     },
     "F4": {
-      "hz": 25.6,
-      "confidence": 78
+      "hz": 25.4,
+      "confidence": 70
     },
     "F5": {
       "hz": null,
@@ -28,13 +28,13 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "23-24日にかけて大きな擾乱があり周波数が急変動。右端では値が安定回復傾向。F5は本グラフに表示なし。スペクトログラムでは16-13時頃に強い白色帯（広帯域擾乱）が見られる。",
+  "notes": "F1は右端で急上昇し約8.1Hzに到達。F2は下降傾向で13.4Hz付近。F3は19.8Hz付近で安定。F4は25.4Hz付近。F5の線は本グラフに表示されていない。スペクトログラムでは24日に強い擾乱（白色飽和域）が見られ、25日には落ち着いている。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 9.22,
-    "tomsk_hour": 5.82,
+    "japan_hour": 13.87,
+    "tomsk_hour": 10.47,
     "is_day_japan": true,
-    "is_day_tomsk": false
+    "is_day_tomsk": true
   }
 }
