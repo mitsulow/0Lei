@@ -1,39 +1,39 @@
 {
-  "timestamp": "2026-05-26T22:10:36.595559+00:00",
+  "timestamp": "2026-05-26T23:32:13.025169+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.86,
-      "confidence": 80
+      "hz": 7.95,
+      "confidence": 85
     },
     "F2": {
-      "hz": 13.94,
-      "confidence": 75
+      "hz": 14.1,
+      "confidence": 80
     },
     "F3": {
-      "hz": 20.4,
-      "confidence": 70
+      "hz": 19.8,
+      "confidence": 75
     },
     "F4": {
-      "hz": 25.3,
-      "confidence": 65
+      "hz": 25.2,
+      "confidence": 75
     },
     "F5": {
-      "hz": 0,
-      "confidence": 0
+      "hz": 33.5,
+      "confidence": 30
     }
   },
-  "amplitude_level": "high",
+  "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "27日早朝にスペクトログラム上で強い広帯域シグナル（白色域）が見られ活動度は高い。折れ線右端ではF1約7.86Hz、F2約13.9Hz、F3約20.4Hz、F4約25.3Hz。F5は表示なし。",
+  "notes": "26日深夜から27日未明にかけて強い擾乱（スペクトログラムで広帯域の高強度）が見られた後、データ欠損。右端付近ではF1が約7.95Hz付近に回復、F2は14.1Hz付近、F3は低下傾向で19.8Hz付近、F4は25.2Hz付近。F5は折れ線では確認困難。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 7.17,
-    "tomsk_hour": 3.77,
+    "japan_hour": 8.53,
+    "tomsk_hour": 5.13,
     "is_day_japan": true,
     "is_day_tomsk": false
   }
