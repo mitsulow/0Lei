@@ -1,25 +1,25 @@
 {
-  "timestamp": "2026-05-26T05:50:02.314724+00:00",
+  "timestamp": "2026-05-26T09:39:49.647309+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.86,
-      "confidence": 88
+      "hz": 7.75,
+      "confidence": 85
     },
     "F2": {
-      "hz": 13.44,
+      "hz": 13.6,
       "confidence": 80
     },
     "F3": {
-      "hz": 19.9,
-      "confidence": 85
+      "hz": 19.8,
+      "confidence": 75
     },
     "F4": {
-      "hz": 25.7,
-      "confidence": 75
+      "hz": 25.6,
+      "confidence": 70
     },
     "F5": {
       "hz": null,
@@ -28,13 +28,13 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端時点でF1は約7.86Hzで安定、F2は13.4Hz付近にやや低下傾向。F3は19.9Hz付近で安定、F4は25.7Hz付近。F5の線は確認できず。24日午前にデータ欠損領域あり。スペクトログラムでは8Hz、14Hz、20Hz帯が明瞭。",
+  "notes": "26.05の右端付近の値を読み取り。F1は約7.75Hzで安定、F2は約13.6Hzへ低下傾向、F3は約19.8Hz、F4は約25.6Hz。F5は折れ線グラフに表示なし。24.05前半に大きなデータ欠損あり。スペクトログラムでは8Hz・14Hz帯に明瞭な共振バンドが見える。",
   "polarization": {
-    "state": "right",
-    "state_jp": "右回転（昼）",
-    "japan_hour": 14.83,
-    "tomsk_hour": 11.43,
-    "is_day_japan": true,
+    "state": "left",
+    "state_jp": "左回転（夜）",
+    "japan_hour": 18.65,
+    "tomsk_hour": 15.25,
+    "is_day_japan": false,
     "is_day_tomsk": true
   }
 }
