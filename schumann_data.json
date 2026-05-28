@@ -1,40 +1,40 @@
 {
-  "timestamp": "2026-05-28T06:39:48.766702+00:00",
+  "timestamp": "2026-05-28T10:41:17.337479+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.9,
-      "confidence": 85
-    },
-    "F2": {
-      "hz": 14.55,
+      "hz": 7.85,
       "confidence": 80
     },
-    "F3": {
-      "hz": 20.1,
+    "F2": {
+      "hz": 13.8,
       "confidence": 75
+    },
+    "F3": {
+      "hz": 19.5,
+      "confidence": 70
     },
     "F4": {
-      "hz": 26.0,
-      "confidence": 75
+      "hz": 25.3,
+      "confidence": 65
     },
     "F5": {
-      "hz": 33.0,
+      "hz": 33.8,
       "confidence": 30
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "26日夜から27日未明にかけて2-8Hz帯に強い擾乱（白飛び領域）あり。28日早朝にも再度4Hz付近に強い活動。F1は7.8-7.95Hzで安定推移、F2はやや変動大。F5は折れ線では識別困難。",
+  "notes": "右端付近で各モードに大きな変動が見られ、特にF2が13付近まで低下後やや回復。28日早朝にスペクトログラム上で広帯域の擾乱が確認される。F5は折れ線では明示されておらず推定値。",
   "polarization": {
-    "state": "right",
-    "state_jp": "右回転（昼）",
-    "japan_hour": 15.65,
-    "tomsk_hour": 12.25,
-    "is_day_japan": true,
+    "state": "left",
+    "state_jp": "左回転（夜）",
+    "japan_hour": 19.68,
+    "tomsk_hour": 16.28,
+    "is_day_japan": false,
     "is_day_tomsk": true
   }
 }
