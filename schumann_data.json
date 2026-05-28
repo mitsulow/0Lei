@@ -1,40 +1,40 @@
 {
-  "timestamp": "2026-05-28T20:09:36.479488+00:00",
+  "timestamp": "2026-05-28T22:05:38.969226+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.8,
+      "hz": 7.61,
       "confidence": 80
     },
     "F2": {
-      "hz": 14.3,
+      "hz": 14.4,
       "confidence": 75
     },
     "F3": {
-      "hz": 19.9,
-      "confidence": 80
+      "hz": 19.3,
+      "confidence": 70
     },
     "F4": {
-      "hz": 24.6,
-      "confidence": 75
+      "hz": 25.5,
+      "confidence": 65
     },
     "F5": {
-      "hz": 0,
+      "hz": null,
       "confidence": 0
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "F1は7.8Hz付近で安定、F2は14.3Hz付近、F3は約19.9Hz、F4は24.6Hz付近に下降傾向。F5データは表示なし。スペクトログラムでは28日深夜から29日未明にかけて広帯域の強い擾乱（白色帯）が見られ、観測ノイズまたは局所擾乱の可能性。",
+  "notes": "29日早朝でデータ途切れ。右端付近はF1が約7.6Hz、F2が約14.4Hz、F3が19Hz台前半、F4が25Hz台と全体的に基準値より低め。F5はグラフに表示なし。スペクトログラム上では0-4時にかけて広帯域ノイズが目立つ。",
   "polarization": {
-    "state": "left",
-    "state_jp": "左回転（夜）",
-    "japan_hour": 5.15,
-    "tomsk_hour": 1.75,
-    "is_day_japan": false,
+    "state": "right",
+    "state_jp": "右回転（昼）",
+    "japan_hour": 7.08,
+    "tomsk_hour": 3.68,
+    "is_day_japan": true,
     "is_day_tomsk": false
   }
 }
