@@ -1,40 +1,40 @@
 {
-  "timestamp": "2026-05-29T05:56:50.552666+00:00",
+  "timestamp": "2026-05-29T09:49:55.451662+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.77,
-      "confidence": 85
+      "hz": 7.7,
+      "confidence": 80
     },
     "F2": {
-      "hz": 14.3,
-      "confidence": 80
+      "hz": 13.2,
+      "confidence": 75
     },
     "F3": {
-      "hz": 19.4,
-      "confidence": 80
+      "hz": 19.7,
+      "confidence": 75
     },
     "F4": {
-      "hz": 25.6,
+      "hz": 24.6,
       "confidence": 70
     },
     "F5": {
-      "hz": 33.8,
-      "confidence": 30
+      "hz": null,
+      "confidence": 0
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "29日後半に欠損領域あり。直前の有効値を採用。F1は7.7-7.9Hz帯で変動、スペクトログラムでは0-4Hz帯と8Hz付近に強い信号、データ欠損による白帯も顕著。",
+  "notes": "29.05後半でF1周波数が低下傾向。F2-F4も全体的に低めにシフト。スペクトログラムでは15-19時、深夜帯にデータ欠損や強い擾乱が見られる。F5は本グラフには表示されていない。",
   "polarization": {
-    "state": "right",
-    "state_jp": "右回転（昼）",
-    "japan_hour": 14.93,
-    "tomsk_hour": 11.53,
-    "is_day_japan": true,
+    "state": "left",
+    "state_jp": "左回転（夜）",
+    "japan_hour": 18.82,
+    "tomsk_hour": 15.42,
+    "is_day_japan": false,
     "is_day_tomsk": true
   }
 }
