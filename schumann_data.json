@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-05-30T14:03:14.866327+00:00",
+  "timestamp": "2026-05-30T15:34:45.262870+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -10,30 +10,30 @@
       "confidence": 85
     },
     "F2": {
-      "hz": 14.7,
+      "hz": 14.6,
       "confidence": 80
     },
     "F3": {
-      "hz": 20.5,
+      "hz": 20.4,
       "confidence": 80
     },
     "F4": {
       "hz": 25.4,
-      "confidence": 70
+      "confidence": 75
     },
     "F5": {
-      "hz": null,
-      "confidence": 0
+      "hz": 33.0,
+      "confidence": 30
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端ではF1は約7.8Hz付近で安定、F2は上昇傾向で14.7Hz付近。F3(赤)は20.5Hz付近に上昇、F4(緑)は25.4Hz付近。F5は折れ線グラフに表示なし。スペクトログラムでは28-30日に強い活動帯（白色領域）が複数確認できる。",
+  "notes": "右端でF1は約7.8Hz付近で安定。F2はやや上昇傾向で14.5Hz付近。F3は20.4Hz付近で変動小さい。F4(緑)は25Hz台で上昇中。スペクトログラムでは29-30日にかけて広帯域の強い擾乱（白色領域）が多く、データ欠損も散見される。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 23.05,
-    "tomsk_hour": 19.65,
+    "japan_hour": 0.57,
+    "tomsk_hour": 21.17,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
