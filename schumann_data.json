@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-05-31T21:39:34.231190+00:00",
+  "timestamp": "2026-05-31T22:39:12.554982+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -10,11 +10,11 @@
       "confidence": 88
     },
     "F2": {
-      "hz": 14.3,
+      "hz": 14.4,
       "confidence": 82
     },
     "F3": {
-      "hz": 20.2,
+      "hz": 19.8,
       "confidence": 80
     },
     "F4": {
@@ -22,18 +22,18 @@
       "confidence": 75
     },
     "F5": {
-      "hz": 0,
-      "confidence": 0
+      "hz": 33.0,
+      "confidence": 30
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "30.05の12-15時頃に強い広帯域擾乱（スペクトログラムで顕著な白色領域）が見られる。右端では各モードとも比較的安定。F5は本データに含まれず読み取り不可。",
+  "notes": "30日12-15時頃に強い広帯域擾乱あり。F5は折れ線では確認困難。全体的に安定した共振バンド構造。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 6.65,
-    "tomsk_hour": 3.25,
+    "japan_hour": 7.65,
+    "tomsk_hour": 4.25,
     "is_day_japan": true,
     "is_day_tomsk": false
   }
