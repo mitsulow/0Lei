@@ -1,39 +1,39 @@
 {
-  "timestamp": "2026-05-31T16:59:39.015354+00:00",
+  "timestamp": "2026-05-31T18:06:31.357632+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.85,
+      "hz": 7.78,
       "confidence": 85
     },
     "F2": {
-      "hz": 14.2,
+      "hz": 13.9,
       "confidence": 80
     },
     "F3": {
-      "hz": 19.7,
+      "hz": 20.2,
       "confidence": 80
     },
     "F4": {
-      "hz": 25.7,
+      "hz": 26.06,
       "confidence": 75
     },
     "F5": {
-      "hz": null,
-      "confidence": 0
+      "hz": 33.0,
+      "confidence": 30
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "31.05後半は比較的安定。29-30日に多数のデータ欠損あり。F5は折れ線グラフに表示なし。スペクトログラムでは8Hz帯が明瞭。",
+  "notes": "5月30日13時頃に強い擾乱（広帯域のノイズ）が見られる。右端付近では各モードとも比較的安定。F5は折れ線グラフに表示されておらず推定値。F1は7.78Hz付近で安定推移。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 1.98,
-    "tomsk_hour": 22.58,
+    "japan_hour": 3.1,
+    "tomsk_hour": 23.7,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
