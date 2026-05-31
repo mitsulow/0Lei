@@ -1,39 +1,39 @@
 {
-  "timestamp": "2026-05-31T12:46:55.973251+00:00",
+  "timestamp": "2026-05-31T14:26:25.711486+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.85,
-      "confidence": 85
+      "hz": 7.8,
+      "confidence": 88
     },
     "F2": {
-      "hz": 13.8,
-      "confidence": 80
+      "hz": 14.3,
+      "confidence": 85
     },
     "F3": {
-      "hz": 19.8,
-      "confidence": 75
+      "hz": 19.9,
+      "confidence": 80
     },
     "F4": {
-      "hz": 25.5,
-      "confidence": 70
+      "hz": 25.8,
+      "confidence": 75
     },
     "F5": {
-      "hz": 33.0,
-      "confidence": 30
+      "hz": 0.0,
+      "confidence": 0
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "31.05後半は線が比較的安定。F1は7.8〜7.9Hz付近で推移、F4は終盤やや低下傾向。F5は折れ線に明示されず信頼度低。スペクトログラムでは8Hz帯が明瞭。",
+  "notes": "F1は7.8Hz付近で安定。F2はやや高め14.3Hz付近。29日に大きなデータ欠損あり。スペクトログラムでは8Hz帯が明瞭、高次モードはノイズに埋もれ気味。F5は本グラフに表示されず読み取り不可。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 21.77,
-    "tomsk_hour": 18.37,
+    "japan_hour": 23.43,
+    "tomsk_hour": 20.03,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
