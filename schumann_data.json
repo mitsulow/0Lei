@@ -1,40 +1,40 @@
 {
-  "timestamp": "2026-06-01T18:50:04.149288+00:00",
+  "timestamp": "2026-06-01T21:57:39.384236+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.85,
-      "confidence": 80
+      "hz": 7.84,
+      "confidence": 88
     },
     "F2": {
-      "hz": 14.4,
-      "confidence": 75
+      "hz": 13.9,
+      "confidence": 80
     },
     "F3": {
-      "hz": 20.1,
-      "confidence": 70
+      "hz": 19.8,
+      "confidence": 82
     },
     "F4": {
-      "hz": 26.4,
-      "confidence": 65
+      "hz": 25.5,
+      "confidence": 78
     },
     "F5": {
-      "hz": 33.5,
-      "confidence": 30
+      "hz": null,
+      "confidence": 0
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端付近でF2が上昇傾向。20時頃に全モードで急激な落ち込み（データ擾乱）が見られる。スペクトログラムでは8Hz帯と14Hz帯が明瞭。F5は折れ線では確認困難。",
+  "notes": "右端付近は全モードでやや低めに推移。F1は7.84Hz前後で安定、F2は13.9Hz付近に低下傾向。1.06前半に大きなスパイク（特にF3, F4で顕著な落ち込み）あり。F5は表示範囲外で読み取り不可。スペクトログラムでは8Hz帯と14Hz帯が明瞭。",
   "polarization": {
-    "state": "left",
-    "state_jp": "左回転（夜）",
-    "japan_hour": 3.83,
-    "tomsk_hour": 0.43,
-    "is_day_japan": false,
+    "state": "right",
+    "state_jp": "右回転（昼）",
+    "japan_hour": 6.95,
+    "tomsk_hour": 3.55,
+    "is_day_japan": true,
     "is_day_tomsk": false
   }
 }
