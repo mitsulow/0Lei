@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-06-02T18:53:10.040054+00:00",
+  "timestamp": "2026-06-02T21:43:53.887891+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -10,16 +10,16 @@
       "confidence": 88
     },
     "F2": {
-      "hz": 13.28,
+      "hz": 14.2,
       "confidence": 80
     },
     "F3": {
-      "hz": 19.8,
+      "hz": 20.4,
       "confidence": 82
     },
     "F4": {
       "hz": 25.6,
-      "confidence": 75
+      "confidence": 70
     },
     "F5": {
       "hz": 0.0,
@@ -28,13 +28,13 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "2026年6月2日後半のデータ。F1は約7.87Hz付近で安定。F2は下降傾向で13.28Hz付近。F3は19.80Hz付近、F4は25.60Hz付近。20時頃に大きなスパイク（データ欠損または擾乱）あり。スペクトログラムでは8Hz帯と14Hz帯が明瞭。F5はグラフに表示されていない。",
+  "notes": "右端でF2が急上昇傾向。20時頃に全モードで強いスパイク（データ異常）あり。F5はグラフに表示なし。スペクトログラムでは8Hz、14Hz、20Hz帯が明瞭。",
   "polarization": {
-    "state": "left",
-    "state_jp": "左回転（夜）",
-    "japan_hour": 3.88,
-    "tomsk_hour": 0.48,
-    "is_day_japan": false,
+    "state": "right",
+    "state_jp": "右回転（昼）",
+    "japan_hour": 6.72,
+    "tomsk_hour": 3.32,
+    "is_day_japan": true,
     "is_day_tomsk": false
   }
 }
