@@ -1,40 +1,40 @@
 {
-  "timestamp": "2026-06-01T23:26:51.036196+00:00",
+  "timestamp": "2026-06-02T01:57:35.976327+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.85,
+      "hz": 7.95,
       "confidence": 85
     },
     "F2": {
-      "hz": 14.1,
-      "confidence": 75
+      "hz": 14.3,
+      "confidence": 80
     },
     "F3": {
-      "hz": 19.8,
+      "hz": 19.7,
       "confidence": 80
     },
     "F4": {
-      "hz": 25.7,
+      "hz": 26.2,
       "confidence": 75
     },
     "F5": {
-      "hz": 33.0,
-      "confidence": 30
+      "hz": null,
+      "confidence": 0
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "F1は約7.85Hz付近で安定。1.06.2026の20時頃に全モードで顕著なスパイク（擾乱）が見られる。スペクトログラムでも8Hz帯が最も強く、第2・第3モードも明瞭。F5の表示は本グラフでは確認困難。",
+  "notes": "右端（2.06.2026の朝方）まで有効データあり。F1は約7.95Hz付近で安定、F2は終盤やや上昇傾向。F3は19.7Hz付近、F4は26.2Hz付近。F5の線はグラフ上に表示されていないため読み取り不可。スペクトログラムでは8Hz、14Hz、20Hz帯に明瞭なバンド、20時頃に強い垂直ノイズ（広帯域インパルス）あり。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 8.43,
-    "tomsk_hour": 5.03,
+    "japan_hour": 10.95,
+    "tomsk_hour": 7.55,
     "is_day_japan": true,
-    "is_day_tomsk": false
+    "is_day_tomsk": true
   }
 }
