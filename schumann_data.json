@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-06-02T11:07:56.003990+00:00",
+  "timestamp": "2026-06-02T15:09:00.460318+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.85,
+      "hz": 7.87,
       "confidence": 88
     },
     "F2": {
@@ -14,12 +14,12 @@
       "confidence": 82
     },
     "F3": {
-      "hz": 19.7,
+      "hz": 19.9,
       "confidence": 80
     },
     "F4": {
       "hz": 25.72,
-      "confidence": 78
+      "confidence": 75
     },
     "F5": {
       "hz": 33.0,
@@ -28,13 +28,13 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端の最新値を読み取り。F1は約7.85Hz付近で安定、F2は14Hz付近、F3は赤線で19.7Hz付近、F4緑線は25.7Hz付近。F5は折れ線グラフ上に明確な線が見えないため信頼度低。スペクトログラム上では8Hz、14Hz、20Hz帯が明瞭、6/1の20時頃に強い広帯域スパイク（干渉と思われる）あり。",
+  "notes": "右端ではF1が約7.87Hz付近で安定。F2-F4も明瞭に推移。スペクトログラムでは8Hz帯が最も強く、6月2日後半に活動がやや活発化。F5は折れ線グラフに表示されておらず信頼度低。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 20.12,
-    "tomsk_hour": 16.72,
+    "japan_hour": 0.15,
+    "tomsk_hour": 20.75,
     "is_day_japan": false,
-    "is_day_tomsk": true
+    "is_day_tomsk": false
   }
 }
