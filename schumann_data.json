@@ -1,40 +1,40 @@
 {
-  "timestamp": "2026-06-03T12:07:32.626304+00:00",
+  "timestamp": "2026-06-03T17:15:24.886526+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.95,
+      "hz": 7.85,
       "confidence": 88
     },
     "F2": {
-      "hz": 14.5,
+      "hz": 14.1,
       "confidence": 85
     },
     "F3": {
-      "hz": 20.1,
-      "confidence": 82
+      "hz": 19.9,
+      "confidence": 80
     },
     "F4": {
-      "hz": 25.6,
+      "hz": 25.5,
       "confidence": 75
     },
     "F5": {
       "hz": 33.0,
-      "confidence": 40
+      "confidence": 30
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "3日間を通じて全モードとも比較的安定。F1は7.9Hz付近、F2は14.5Hz付近で推移。2日午前に一時的な周波数低下スパイクあり。F5は折れ線では確認できずスペクトログラムから推定。",
+  "notes": "3日間を通じて各モードは概ね安定。2026/06/02の20時頃に大きなスパイク状の擾乱が見られる。スペクトログラムでは8Hz付近と14Hz付近の帯が明瞭で、6/3後半に強度上昇。F5は折れ線に表示なく信頼度低。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 21.12,
-    "tomsk_hour": 17.72,
+    "japan_hour": 2.25,
+    "tomsk_hour": 22.85,
     "is_day_japan": false,
-    "is_day_tomsk": true
+    "is_day_tomsk": false
   }
 }
