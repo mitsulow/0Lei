@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-06-03T17:15:24.886526+00:00",
+  "timestamp": "2026-06-03T20:33:45.535705+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -10,30 +10,30 @@
       "confidence": 88
     },
     "F2": {
-      "hz": 14.1,
-      "confidence": 85
+      "hz": 14.3,
+      "confidence": 82
     },
     "F3": {
-      "hz": 19.9,
+      "hz": 20.4,
       "confidence": 80
     },
     "F4": {
-      "hz": 25.5,
-      "confidence": 75
+      "hz": 25.8,
+      "confidence": 70
     },
     "F5": {
-      "hz": 33.0,
-      "confidence": 30
+      "hz": null,
+      "confidence": 0
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "3日間を通じて各モードは概ね安定。2026/06/02の20時頃に大きなスパイク状の擾乱が見られる。スペクトログラムでは8Hz付近と14Hz付近の帯が明瞭で、6/3後半に強度上昇。F5は折れ線に表示なく信頼度低。",
+  "notes": "F1は7.85Hz付近で安定。F2は14.3Hz付近、F3は20.4Hz付近で変動。F4は25.8Hz付近。スペクトログラムでは8Hz・14Hz・20Hz帯に明瞭な共振バンドが確認できる。F5の線は本グラフに表示なし。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 2.25,
-    "tomsk_hour": 22.85,
+    "japan_hour": 5.55,
+    "tomsk_hour": 2.15,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
