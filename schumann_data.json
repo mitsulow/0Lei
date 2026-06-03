@@ -1,39 +1,39 @@
 {
-  "timestamp": "2026-06-03T02:04:59.155071+00:00",
+  "timestamp": "2026-06-03T07:06:31.751889+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.87,
-      "confidence": 88
+      "hz": 7.9,
+      "confidence": 85
     },
     "F2": {
-      "hz": 14.5,
+      "hz": 14.0,
       "confidence": 80
     },
     "F3": {
-      "hz": 20.1,
-      "confidence": 75
+      "hz": 19.9,
+      "confidence": 85
     },
     "F4": {
-      "hz": 26.4,
-      "confidence": 70
+      "hz": 25.9,
+      "confidence": 75
     },
     "F5": {
-      "hz": null,
-      "confidence": 0
+      "hz": 33.0,
+      "confidence": 40
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端でF2が上昇傾向（約14.5Hz）、F3も上昇。F1は安定。2.06の20時頃に強いノイズ（垂直線）が見られる。F5は表示範囲外で読み取り不可。",
+  "notes": "F1付近で安定した共振が継続。2日19時頃に強い擾乱が見られたが、最新時刻では落ち着いている。F5は折れ線グラフに表示されておらず推定値。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 11.07,
-    "tomsk_hour": 7.67,
+    "japan_hour": 16.1,
+    "tomsk_hour": 12.7,
     "is_day_japan": true,
     "is_day_tomsk": true
   }
