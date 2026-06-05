@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-06-05T11:47:47.327673+00:00",
+  "timestamp": "2026-06-05T14:31:37.718447+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -7,19 +7,19 @@
   "modes": {
     "F1": {
       "hz": 7.85,
-      "confidence": 80
+      "confidence": 88
     },
     "F2": {
-      "hz": 14.4,
-      "confidence": 75
+      "hz": 14.2,
+      "confidence": 80
     },
     "F3": {
-      "hz": 20.2,
-      "confidence": 70
+      "hz": 20.1,
+      "confidence": 75
     },
     "F4": {
-      "hz": 25.4,
-      "confidence": 65
+      "hz": 25.9,
+      "confidence": 70
     },
     "F5": {
       "hz": 0,
@@ -28,13 +28,13 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "5.06.2026の15時頃にデータ欠損あり。直前の有効値を読取。F1は約7.85Hzで安定、F2は14.4Hz付近で低下傾向。F5の線は確認できず。スペクトログラムでは8Hz帯と14Hz帯が明瞭。",
+  "notes": "5.06.2026の右端付近でデータ欠損あり。F1は約7.85Hz付近で安定、F2は14.2Hz付近、F3は赤線で20.1Hz付近、F4緑線は25.9Hz付近。スペクトログラムでは8Hzと14Hz帯に明瞭なバンドが見える。F5は本グラフに表示なし。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 20.78,
-    "tomsk_hour": 17.38,
+    "japan_hour": 23.52,
+    "tomsk_hour": 20.12,
     "is_day_japan": false,
-    "is_day_tomsk": true
+    "is_day_tomsk": false
   }
 }
