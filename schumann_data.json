@@ -1,40 +1,40 @@
 {
-  "timestamp": "2026-06-05T08:39:15.491587+00:00",
+  "timestamp": "2026-06-05T11:47:47.327673+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.9,
-      "confidence": 85
+      "hz": 7.85,
+      "confidence": 80
     },
     "F2": {
-      "hz": 14.2,
-      "confidence": 80
-    },
-    "F3": {
-      "hz": 20.0,
-      "confidence": 80
-    },
-    "F4": {
-      "hz": 25.55,
+      "hz": 14.4,
       "confidence": 75
     },
+    "F3": {
+      "hz": 20.2,
+      "confidence": 70
+    },
+    "F4": {
+      "hz": 25.4,
+      "confidence": 65
+    },
     "F5": {
-      "hz": null,
+      "hz": 0,
       "confidence": 0
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "4日後半から5日にかけてデータ欠損あり。右端の有効値を採用。F1は約7.9Hzで安定、F3は20Hz付近、F4は25.5Hz付近まで低下傾向。スペクトログラムでは5日12時頃に短時間の強い信号が見られる。",
+  "notes": "5.06.2026の15時頃にデータ欠損あり。直前の有効値を読取。F1は約7.85Hzで安定、F2は14.4Hz付近で低下傾向。F5の線は確認できず。スペクトログラムでは8Hz帯と14Hz帯が明瞭。",
   "polarization": {
-    "state": "right",
-    "state_jp": "右回転（昼）",
-    "japan_hour": 17.65,
-    "tomsk_hour": 14.25,
-    "is_day_japan": true,
+    "state": "left",
+    "state_jp": "左回転（夜）",
+    "japan_hour": 20.78,
+    "tomsk_hour": 17.38,
+    "is_day_japan": false,
     "is_day_tomsk": true
   }
 }
