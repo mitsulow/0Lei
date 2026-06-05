@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-06-04T23:10:39.070625+00:00",
+  "timestamp": "2026-06-05T00:19:33.341931+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -7,33 +7,33 @@
   "modes": {
     "F1": {
       "hz": 7.88,
-      "confidence": 85
+      "confidence": 88
     },
     "F2": {
       "hz": 14.18,
-      "confidence": 80
+      "confidence": 82
     },
     "F3": {
-      "hz": 20.36,
+      "hz": 20.3,
       "confidence": 80
     },
     "F4": {
-      "hz": 25.8,
+      "hz": 25.75,
       "confidence": 70
     },
     "F5": {
-      "hz": 33.0,
+      "hz": 33.5,
       "confidence": 30
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端でF1は約7.88Hz付近で安定。F2はやや上昇傾向で14.2Hz付近。F3は20.3Hz付近で変動大きめ。F4は25.8Hz付近に上昇。F5はグラフ上に明示されず推定値。スペクトログラムでは8Hz、14Hz、20Hz帯に明瞭なバンドが確認できる。",
+  "notes": "F1〜F4は概ね安定。F5は折れ線に明示されず推定。スペクトログラムでは8Hz・14Hz帯が明瞭、20Hz帯もやや強い。3日夜〜4日にかけて活動度がやや増加傾向。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 8.17,
-    "tomsk_hour": 4.77,
+    "japan_hour": 9.32,
+    "tomsk_hour": 5.92,
     "is_day_japan": true,
     "is_day_tomsk": false
   }
