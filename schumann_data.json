@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-06-06T05:39:31.568228+00:00",
+  "timestamp": "2026-06-06T08:10:30.085767+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sosrff.tsu.ru/new/shm.jpg",
@@ -14,11 +14,11 @@
       "confidence": 80
     },
     "F3": {
-      "hz": 20.3,
+      "hz": 19.85,
       "confidence": 75
     },
     "F4": {
-      "hz": 25.9,
+      "hz": 25.75,
       "confidence": 70
     },
     "F5": {
@@ -28,12 +28,12 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "5.06.2026の右端付近のデータを読み取り。F1は約7.85Hzで安定、F2は14.2Hz付近、F3は20.3Hz付近、F4は25.9Hz付近で上昇傾向。F5はグラフに表示されていない。全体的に中程度の活動度。",
+  "notes": "5.06.2026の右端付近のデータを読み取り。F1は約7.85Hz付近で安定、F2は14.2Hz付近、F3(赤)は19.85Hz付近、F4(緑)は上昇傾向で25.75Hz付近。F5の線は本グラフに表示されていない。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 14.65,
-    "tomsk_hour": 11.25,
+    "japan_hour": 17.17,
+    "tomsk_hour": 13.77,
     "is_day_japan": true,
     "is_day_tomsk": true
   }
