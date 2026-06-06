@@ -1,25 +1,25 @@
 {
-  "timestamp": "2026-06-06T22:34:38.193260+00:00",
+  "timestamp": "2026-06-06T23:42:18.645358+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.95,
-      "confidence": 80
+      "hz": 7.9,
+      "confidence": 85
     },
     "F2": {
-      "hz": 14.4,
+      "hz": 14.5,
       "confidence": 80
     },
     "F3": {
-      "hz": 20.1,
+      "hz": 19.7,
       "confidence": 75
     },
     "F4": {
-      "hz": 25.4,
-      "confidence": 70
+      "hz": 25.5,
+      "confidence": 75
     },
     "F5": {
       "hz": 33.8,
@@ -28,12 +28,12 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端でF1は約7.95Hz付近で変動大、F2は14.4Hz付近に上昇傾向、F3は20.1Hz付近で低下気味、F4は25.4Hz付近で安定。F5はグラフに明示されておらず信頼度低。スペクトログラムでは6/6後半にデータ欠損あり、第1・第2モードが明瞭。",
+  "notes": "F1は7.90Hz付近で安定。F2はやや高め(14.5Hz)に推移。スペクトログラムでは8Hz及び14Hz付近に明瞭な共振帯が確認できる。データ欠損区間あり。F5は折れ線グラフに表示なし。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 7.57,
-    "tomsk_hour": 4.17,
+    "japan_hour": 8.7,
+    "tomsk_hour": 5.3,
     "is_day_japan": true,
     "is_day_tomsk": false
   }
