@@ -1,40 +1,40 @@
 {
-  "timestamp": "2026-06-07T11:27:10.394646+00:00",
+  "timestamp": "2026-06-07T13:00:47.746377+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.86,
+      "hz": 7.85,
       "confidence": 85
     },
     "F2": {
-      "hz": 14.36,
-      "confidence": 80
+      "hz": 14.3,
+      "confidence": 85
     },
     "F3": {
-      "hz": 20.3,
+      "hz": 20.1,
       "confidence": 80
     },
     "F4": {
-      "hz": 25.34,
-      "confidence": 70
+      "hz": 25.4,
+      "confidence": 75
     },
     "F5": {
-      "hz": 0,
-      "confidence": 0
+      "hz": 33.5,
+      "confidence": 30
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端でF1は約7.86Hz付近で安定、F2は14.36Hz付近、F3は赤線で20.3Hz付近、F4緑線は25.3Hz付近に低下傾向。F5はグラフに表示なし。スペクトログラムでは8Hz帯と14Hz帯に強い共振バンドが確認できる。",
+  "notes": "右端ではF1は約7.85Hz付近で安定。F2はやや低下傾向で14.3Hz付近。F3は20.1Hz付近で変動が見られる。F4は25.4Hz付近まで低下。F5の線は画像上で明確に判別できず信頼度低。スペクトログラムでは8Hz、14Hz帯に明瞭なバンドが見られ、共振活動は中程度。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 20.45,
-    "tomsk_hour": 17.05,
+    "japan_hour": 22.0,
+    "tomsk_hour": 18.6,
     "is_day_japan": false,
-    "is_day_tomsk": true
+    "is_day_tomsk": false
   }
 }
