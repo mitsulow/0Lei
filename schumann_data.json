@@ -1,39 +1,39 @@
 {
-  "timestamp": "2026-06-07T16:21:21.650976+00:00",
+  "timestamp": "2026-06-07T17:45:25.423695+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.88,
+      "hz": 7.94,
       "confidence": 85
     },
     "F2": {
-      "hz": 14.2,
+      "hz": 14.36,
       "confidence": 80
     },
     "F3": {
-      "hz": 20.2,
+      "hz": 20.34,
       "confidence": 80
     },
     "F4": {
-      "hz": 25.7,
+      "hz": 25.66,
       "confidence": 70
     },
     "F5": {
-      "hz": 33.0,
-      "confidence": 30
+      "hz": null,
+      "confidence": 0
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端ではF1が約7.88Hz付近で安定。F2は14.2Hz前後、F3はやや高めの20.2Hz付近。F4は25.7Hz付近で変動大きい。スペクトログラム上では8Hz帯と14Hz帯が明瞭で、20Hz帯も中程度の強度。F5は折れ線に表示されず信頼度低。",
+  "notes": "右端でF1は約7.94Hz付近で安定。F2は14.3Hz台、F3は20.3Hz付近、F4(緑)は25.6Hz付近で変動。F5の表示は見られない。7日早朝に大きな周波数低下イベントあり、その後回復傾向。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 1.35,
-    "tomsk_hour": 21.95,
+    "japan_hour": 2.75,
+    "tomsk_hour": 23.35,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
