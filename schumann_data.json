@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-06-07T17:45:25.423695+00:00",
+  "timestamp": "2026-06-07T19:09:55.837173+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -14,7 +14,7 @@
       "confidence": 80
     },
     "F3": {
-      "hz": 20.34,
+      "hz": 20.5,
       "confidence": 80
     },
     "F4": {
@@ -28,12 +28,12 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端でF1は約7.94Hz付近で安定。F2は14.3Hz台、F3は20.3Hz付近、F4(緑)は25.6Hz付近で変動。F5の表示は見られない。7日早朝に大きな周波数低下イベントあり、その後回復傾向。",
+  "notes": "7.06に大きな周波数変動あり。F1は7.94Hz付近で安定、F2は14.36Hz付近、F3は20.5Hz付近で推移。F5は折れ線に表示なし。スペクトログラムでは8Hzと14Hz帯が明瞭。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 2.75,
-    "tomsk_hour": 23.35,
+    "japan_hour": 4.15,
+    "tomsk_hour": 0.75,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
