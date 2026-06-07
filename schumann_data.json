@@ -1,40 +1,40 @@
 {
-  "timestamp": "2026-06-07T20:36:31.616504+00:00",
+  "timestamp": "2026-06-07T21:49:03.258749+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 8.0,
+      "hz": 7.95,
       "confidence": 85
     },
     "F2": {
-      "hz": 14.36,
+      "hz": 14.3,
       "confidence": 80
     },
     "F3": {
-      "hz": 20.3,
-      "confidence": 80
+      "hz": 19.9,
+      "confidence": 75
     },
     "F4": {
       "hz": 25.5,
-      "confidence": 75
+      "confidence": 70
     },
     "F5": {
-      "hz": 0,
+      "hz": null,
       "confidence": 0
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端付近でF1は約8.0Hz付近で安定。F2は14.3〜14.4Hz付近。F3は赤線で20.3Hz付近。F4(緑)は25.5Hz付近で変動。F5の線は本グラフでは確認できず。スペクトログラム上では8Hz・14Hz帯が明瞭で全体活動度は中程度。",
+  "notes": "右端ではF1は約7.95Hz付近で安定。F2は14.3Hz付近、F3は19.9Hz付近でやや低め、F4は25.5Hz付近。F5の線は本グラフには表示されていない。スペクトログラムでは8Hz帯と14Hz帯が明瞭で全体的に中程度の活動度。",
   "polarization": {
-    "state": "left",
-    "state_jp": "左回転（夜）",
-    "japan_hour": 5.6,
-    "tomsk_hour": 2.2,
-    "is_day_japan": false,
+    "state": "right",
+    "state_jp": "右回転（昼）",
+    "japan_hour": 6.82,
+    "tomsk_hour": 3.42,
+    "is_day_japan": true,
     "is_day_tomsk": false
   }
 }
