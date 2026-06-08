@@ -1,40 +1,40 @@
 {
-  "timestamp": "2026-06-08T09:26:17.318566+00:00",
+  "timestamp": "2026-06-08T13:49:34.612858+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.88,
+      "hz": 7.91,
       "confidence": 85
     },
     "F2": {
-      "hz": 13.6,
+      "hz": 13.92,
       "confidence": 80
     },
     "F3": {
-      "hz": 19.5,
+      "hz": 20.1,
       "confidence": 75
     },
     "F4": {
-      "hz": 25.8,
+      "hz": 25.7,
       "confidence": 70
     },
     "F5": {
-      "hz": null,
-      "confidence": 0
+      "hz": 33.5,
+      "confidence": 30
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端でF2〜F4が低下傾向。スペクトログラムでは終端付近に強い広帯域ノイズ（赤白）が見られ、観測終了直前の干渉と推測される。F5は表示範囲外で読み取り不可。",
+  "notes": "8.06後半に強い広帯域ノイズ（白色領域）が出現。F1は7.9Hz付近で安定、F2は低下傾向。F5は表示範囲外のため推定値。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 18.43,
-    "tomsk_hour": 15.03,
+    "japan_hour": 22.82,
+    "tomsk_hour": 19.42,
     "is_day_japan": false,
-    "is_day_tomsk": true
+    "is_day_tomsk": false
   }
 }
