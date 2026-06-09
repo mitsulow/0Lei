@@ -1,40 +1,40 @@
 {
-  "timestamp": "2026-06-08T23:59:19.871292+00:00",
+  "timestamp": "2026-06-09T03:55:33.839087+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.86,
+      "hz": 7.9,
       "confidence": 85
     },
     "F2": {
-      "hz": 14.36,
+      "hz": 14.4,
       "confidence": 80
     },
     "F3": {
-      "hz": 19.56,
+      "hz": 19.8,
       "confidence": 75
     },
     "F4": {
-      "hz": 25.42,
-      "confidence": 70
+      "hz": 25.7,
+      "confidence": 75
     },
     "F5": {
-      "hz": 0,
-      "confidence": 0
+      "hz": 33.8,
+      "confidence": 30
     }
   },
   "amplitude_level": "high",
   "strongest_mode": "F1",
-  "notes": "8.06の15-20時頃にスペクトログラムで強い広帯域擾乱が見られ、その後も活動的。F1は7.86Hz付近で上昇傾向、F3は通常より低め(19.5Hz付近)に推移。F5は表示範囲外で読み取り不可。",
+  "notes": "8.06夕方から9.06早朝にかけてスペクトログラムに強い広帯域ノイズ（白色化領域）が見られ、地磁気擾乱または局所干渉の可能性。右端付近では各モードとも変動が大きく、F3・F4の値はやや不安定。F5は折れ線では識別困難。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 8.98,
-    "tomsk_hour": 5.58,
+    "japan_hour": 12.92,
+    "tomsk_hour": 9.52,
     "is_day_japan": true,
-    "is_day_tomsk": false
+    "is_day_tomsk": true
   }
 }
