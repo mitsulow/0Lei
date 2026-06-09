@@ -1,24 +1,24 @@
 {
-  "timestamp": "2026-06-09T10:47:21.673325+00:00",
+  "timestamp": "2026-06-09T13:39:55.569137+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.9,
-      "confidence": 85
+      "hz": 7.86,
+      "confidence": 88
     },
     "F2": {
-      "hz": 14.1,
+      "hz": 14.3,
       "confidence": 80
     },
     "F3": {
-      "hz": 19.8,
-      "confidence": 80
+      "hz": 19.9,
+      "confidence": 78
     },
     "F4": {
-      "hz": 25.9,
+      "hz": 25.7,
       "confidence": 75
     },
     "F5": {
@@ -28,13 +28,13 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "8.06後半に強いブロードバンド擾乱が発生、スペクトログラム上で広帯域の高強度領域が見られる。右端の値は擾乱後の比較的安定した状態。F5は表示範囲外で読み取り不可。",
+  "notes": "8.06の夕方から9.06早朝にかけてスペクトログラムに強い広帯域擾乱（白飛び）あり。右端時刻ではF1〜F4の各モードは安定して読み取れるが、F5は折れ線に表示なし。F3赤線は変動大きめ。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 19.78,
-    "tomsk_hour": 16.38,
+    "japan_hour": 22.65,
+    "tomsk_hour": 19.25,
     "is_day_japan": false,
-    "is_day_tomsk": true
+    "is_day_tomsk": false
   }
 }
