@@ -13838,8 +13838,6 @@ const COASTLINES = [
     compassLastRaw: null,    // ★v6: 前回の生の方位値（差分計算用）
     permitted: false, animId: null,
     hasOrientation: false, eventCount: 0,
-    hasAbsoluteSource: false,  // ★v7.1: 絶対方位イベント受信済みフラグ（相対との二重ストリーム排除）
-    moonLockOn: false,         // ★v7.1: 「月見つけた」ヒステリシス状態
     stars: [], screenOrient: 0
   };
 
@@ -14056,20 +14054,6 @@ const COASTLINES = [
   }
 
   function handleNavOrientation(e) {
-    // ★v7.1: deviceorientation(相対) と deviceorientationabsolute(絶対) の二重ストリーム対策。
-    // Android Chrome は両方が同時に発火し、相対 alpha は基準がページ読込時の向きなので
-    // 絶対方位とズレる。両方を同じ LPF に流すと方位が2つの値の間で行ったり来たりして
-    // 「北でかくかく」「月見つけたでかくかく」の原因になる。
-    // 絶対方位ソース（absolute=true / deviceorientationabsolute / webkitCompassHeading）を
-    // 一度でも受信したら、以後は相対イベントを完全に無視する。
-    // 注: alpha が null の absolute イベント（磁気センサー無し端末）は絶対ソース扱いしない
-    const isAbsoluteSource =
-      (typeof e.webkitCompassHeading === 'number') ||
-      ((e.type === 'deviceorientationabsolute' || e.absolute === true) &&
-       typeof e.alpha === 'number');
-    if (isAbsoluteSource) navState.hasAbsoluteSource = true;
-    if (navState.hasAbsoluteSource && !isAbsoluteSource) return;
-
     navState.hasOrientation = true;
     navState.eventCount++;
     const alpha = e.alpha || 0;
@@ -14563,15 +14547,7 @@ const COASTLINES = [
       const distFromCenter = Math.sqrt(
         Math.pow((mp.x - cx) / cx, 2) + Math.pow((mp.y - cy) / cy, 2)
       );
-      // ★v7.1: ヒステリシス。単一しきい値(0.2)だと境界上でセンサーの揺れにより
-      // 「見つけた⇄そこに月」が毎フレーム切り替わってかくかくする。
-      // 入り(0.18)と外れ(0.30)を分けて、一度ロックしたら多少ズレても維持する。
-      if (navState.moonLockOn) {
-        if (distFromCenter > 0.30) navState.moonLockOn = false;
-      } else {
-        if (distFromCenter < 0.18) navState.moonLockOn = true;
-      }
-      if (navState.moonLockOn) {
+      if (distFromCenter < 0.2) {
         headline.classList.add('locked');
         headline.textContent = '月 · 見 つ け た';
         sub.textContent = 'そ の ま ま 月 を 感 じ て';
@@ -14581,7 +14557,6 @@ const COASTLINES = [
         sub.textContent = 'も う 少 し 中 央 へ';
       }
     } else {
-      navState.moonLockOn = false;
       headline.classList.remove('locked');
       const bodyWords = moonBodyWords(moonAz, moonAlt);
       headline.textContent = bodyWords.main;
