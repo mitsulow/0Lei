@@ -13840,6 +13840,9 @@ const COASTLINES = [
     hasOrientation: false, eventCount: 0,
     hasAbsoluteSource: false,  // ★v7.1: 絶対方位イベント受信済みフラグ（相対との二重ストリーム排除）
     moonLockOn: false,         // ★v7.1: 「月見つけた」ヒステリシス状態
+    headingBuf: [],            // ★v7.2: 方位の3サンプルメディアン用バッファ（単発スパイク除去）
+    arrowAzDiff: null,         // ★v7.2: ガイド矢印の連続化方位差（±180°境界の左右迷い防止）
+    arrowAltDiff: 0,           // ★v7.2: ガイド矢印の高度差（平滑化用）
     stars: [], screenOrient: 0
   };
 
@@ -13876,6 +13879,22 @@ const COASTLINES = [
     return d;
   }
 
+  // ★v7.2: 角度の3サンプルメディアン
+  // 磁気センサーは1フレームだけ大きく外れた値を吐くことがあり（金属接近・再校正など）、
+  // それが snap 追従で画面ごと「ぐるん」と回る根本原因。
+  // メディアンなら単発スパイクは完全に消え、本物の回転は1フレーム遅れで素通りする。
+  function angularMedian3(buf) {
+    if (buf.length < 3) return buf[buf.length - 1];
+    let best = buf[0], bestCost = Infinity;
+    for (const v of buf) {
+      const cost = Math.abs(shortAngle(buf[0], v)) +
+                   Math.abs(shortAngle(buf[1], v)) +
+                   Math.abs(shortAngle(buf[2], v));
+      if (cost < bestCost) { bestCost = cost; best = v; }
+    }
+    return best;
+  }
+
   function norm360(a) { return ((a % 360) + 360) % 360; }
 
   function getBodyOrientation(hour) {
@@ -13888,6 +13907,29 @@ const COASTLINES = [
     }
   }
 
+  // ★v7.2: 次の月の出時刻（5分刻みで26時間先まで高度スキャン、1分キャッシュ）
+  // このSunCalcビルドにはgetMoonTimesが無いため自前計算。renderループから毎フレーム
+  // 呼ばれるのでキャッシュ必須
+  let moonRiseCache = { minute: -1, text: '' };
+  function nextMoonRiseText() {
+    const nowMin = Math.floor(Date.now() / 60000);
+    if (moonRiseCache.minute === nowMin) return moonRiseCache.text;
+    let text = '';
+    const start = new Date();
+    let prevAlt = SunCalc.getMoonPosition(start, NAHA.lat, NAHA.lon).altitude;
+    for (let m = 5; m <= 26 * 60; m += 5) {
+      const t = new Date(start.getTime() + m * 60000);
+      const alt = SunCalc.getMoonPosition(t, NAHA.lat, NAHA.lon).altitude;
+      if (prevAlt < 0 && alt >= 0) {
+        text = `${t.getHours()}:${String(t.getMinutes()).padStart(2, '0')} ご ろ 月 の 出`;
+        break;
+      }
+      prevAlt = alt;
+    }
+    moonRiseCache = { minute: nowMin, text };
+    return text;
+  }
+
   function moonBodyWords(moonAz, moonAlt) {
     const hour = new Date().getHours();
     const body = getBodyOrientation(hour);
@@ -13896,9 +13938,11 @@ const COASTLINES = [
     const altDeg = moonAlt;
 
     if (altDeg < -5) {
+      // ★v7.2: 「深さ◯°」より「次にいつ昇るか」の方がユーザーに有用
+      const rise = nextMoonRiseText();
       return {
         main: '月 は 足 元',
-        sub: `地 球 の 裏 側 · 深 さ ${Math.abs(altDeg).toFixed(0)}°`
+        sub: rise ? `地 球 の 裏 側 · ${rise}` : `地 球 の 裏 側 · 深 さ ${Math.abs(altDeg).toFixed(0)}°`
       };
     }
 
@@ -13965,6 +14009,9 @@ const COASTLINES = [
     else if (absDiff < 6)  alpha = opts.slow || 0.28;
     else if (absDiff < 20) alpha = opts.fast || 0.55;
     else                    alpha = opts.snap || 1.0;
+    // ★v7.2: gain（天頂減衰など）。スマホを真上に向けると方位が数学的に不定になり
+    // コンパス値が大きく振れるため、追従そのものを弱めて画面の「ぐるん」を抑える
+    if (typeof opts.gain === 'number') alpha = Math.min(1, alpha * opts.gain);
     return norm360(current + diff * alpha);
   }
   function adaptiveLpfLinear(current, target, opts) {
@@ -14103,35 +14150,32 @@ const COASTLINES = [
     let roll = 0;
 
     if (heading !== null) {
+      // ★v7.2: ① 3サンプル角度メディアンで単発スパイク（「ぐるん」の根本原因）を除去
+      navState.headingBuf.push(heading);
+      if (navState.headingBuf.length > 3) navState.headingBuf.shift();
+      const medHeading = angularMedian3(navState.headingBuf);
+
+      // ★v7.2: ② 天頂/真下付近では方位が不定になるため追従を減衰（cos(pitch)、下限0.15）
+      const zenithGain = Math.max(0.15, Math.cos(pitch * Math.PI / 180));
+
       // ★v6: 適応LPF（震え対策）。動きの大きさで平滑化を可変
-      navState.heading = adaptiveLpfAngle(navState.heading, heading);
+      navState.heading = adaptiveLpfAngle(navState.heading, medHeading, { gain: zenithGain });
       navState.pitch = adaptiveLpfLinear(navState.pitch, pitch);
       navState.roll = adaptiveLpfLinear(navState.roll, roll);
-    }
 
-    // ★v6: コンパス画面用の生の方位（加工なし）
-    handleRawCompass(e);
+      // ★v7.2: コンパス画面もメディアン済みの同じ値から供給（パイプライン一本化）
+      handleRawCompass(medHeading);
+    }
   }
 
-  // ★v6: コンパス画面専用の方位取得（MDN/オープンソースの王道パターン）
-  // - iOS: webkitCompassHeading をそのまま使う（既に傾き補正＆磁北基準でチューニング済み）
-  // - Android: 360 - alpha で方位に変換（alphaは反時計回りなので）
-  // - 平滑化はCSS transitionで行い、JSでは生の値をそのまま渡す
-  // - 偏角補正もしない（磁北で十分、他の市販コンパスアプリと同じ挙動）
-  function handleRawCompass(e) {
-    let raw = null;
-    if (typeof e.webkitCompassHeading === 'number') {
-      raw = e.webkitCompassHeading;
-    } else if (typeof e.alpha === 'number') {
-      raw = (360 - e.alpha) % 360;
-    }
-    if (raw !== null) {
-      // ★v6: 適応LPF（コンパス画面の震え対策）
-      if (navState.compassRaw === null) {
-        navState.compassRaw = raw;
-      } else {
-        navState.compassRaw = adaptiveLpfAngle(navState.compassRaw, raw);
-      }
+  // ★v6: コンパス画面専用の方位平滑化
+  // ★v7.2: 引数をイベントからメディアン済み方位値に変更（handleNavOrientationと供給源を統一）
+  function handleRawCompass(raw) {
+    // ★v6: 適応LPF（コンパス画面の震え対策）
+    if (navState.compassRaw === null) {
+      navState.compassRaw = raw;
+    } else {
+      navState.compassRaw = adaptiveLpfAngle(navState.compassRaw, raw);
     }
   }
 
@@ -14525,7 +14569,21 @@ const COASTLINES = [
     const cy = h / 2;
 
     if (!moonOnScreen) {
-      const vec = { x: azDiff, y: -altDiff };
+      // ★v7.2: 矢印方位の連続化＋平滑化
+      // 月が真後ろ（±180°境界）にあると、わずかなセンサー揺れで azDiff の符号が
+      // +180⇄-180 と反転し、矢印が画面の右端⇄左端へ「ぐるん」と飛んでいた。
+      // 前回値からの最短差分で連続的に追従させ、境界をまたいでも矢印が飛ばないようにする。
+      if (navState.arrowAzDiff === null) {
+        navState.arrowAzDiff = azDiff;
+        navState.arrowAltDiff = altDiff;
+      } else {
+        navState.arrowAzDiff += shortAngle(azDiff, navState.arrowAzDiff) * 0.25;
+        navState.arrowAltDiff += (altDiff - navState.arrowAltDiff) * 0.25;
+      }
+      const azD = navState.arrowAzDiff;
+      const altD = navState.arrowAltDiff;
+
+      const vec = { x: azD, y: -altD };
       const len = Math.sqrt(vec.x * vec.x + vec.y * vec.y);
       if (len > 0) { vec.x /= len; vec.y /= len; }
       const marginX = 60;
@@ -14553,7 +14611,47 @@ const COASTLINES = [
       navCtx.lineCap = 'round';
       navCtx.stroke();
       navCtx.restore();
+
+      // ★v7.2: ターンヒント（どっちへ何度回ればいいか）。プロのARアプリの定番UI
+      let hint = null;
+      const azAbs = Math.min(180, Math.abs(Math.round(azD)));
+      if (Math.abs(azD) >= 20) {
+        hint = (azD > 0 ? '右 へ ' : '左 へ ') + azAbs + '°';
+      } else if (altD >= 15) {
+        hint = '上 へ ' + Math.round(altD) + '°';
+      } else if (altD <= -15) {
+        hint = '下 へ ' + Math.round(-altD) + '°';
+      }
+      if (hint) {
+        const tx = sx2 - vec.x * 52;
+        const ty = sy2 - vec.y * 52;
+        navCtx.font = '12px "Shippori Mincho", serif';
+        navCtx.textAlign = 'center';
+        navCtx.textBaseline = 'middle';
+        navCtx.fillStyle = 'rgba(180, 215, 245, 0.85)';
+        navCtx.fillText(hint, tx, ty);
+      }
+    } else {
+      // 画面内に月が来たら矢印の連続化状態をリセット（次回は今の位置から再開）
+      navState.arrowAzDiff = null;
     }
+
+    // ★v7.2: 中央レティクル（照準）— 「どこに月を持ってくればいいか」を常に可視化
+    // ロック領域（distFromCenter < 0.18 の楕円）をそのまま描く。ロック中はゴールドで脈動
+    navCtx.save();
+    navCtx.beginPath();
+    navCtx.ellipse(cx, cy, cx * 0.18, cy * 0.18, 0, 0, Math.PI * 2);
+    if (navState.moonLockOn) {
+      const pulse = 0.55 + 0.30 * Math.sin(Date.now() / 280);
+      navCtx.strokeStyle = `rgba(201, 169, 97, ${pulse.toFixed(3)})`;
+      navCtx.lineWidth = 2;
+    } else {
+      navCtx.strokeStyle = 'rgba(110, 196, 245, 0.22)';
+      navCtx.lineWidth = 1;
+      navCtx.setLineDash([4, 7]);
+    }
+    navCtx.stroke();
+    navCtx.restore();
 
     const headline = document.getElementById('navHeadline');
     const sub = document.getElementById('navSub');
@@ -14569,7 +14667,11 @@ const COASTLINES = [
       if (navState.moonLockOn) {
         if (distFromCenter > 0.30) navState.moonLockOn = false;
       } else {
-        if (distFromCenter < 0.18) navState.moonLockOn = true;
+        if (distFromCenter < 0.18) {
+          navState.moonLockOn = true;
+          // ★v7.2: ロック時に軽いバイブで「見つけた！」を体感させる（対応端末のみ）
+          if (navigator.vibrate) { try { navigator.vibrate([25, 40, 50]); } catch (err) {} }
+        }
       }
       if (navState.moonLockOn) {
         headline.classList.add('locked');
