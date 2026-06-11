@@ -1,25 +1,25 @@
 {
-  "timestamp": "2026-06-11T06:51:13.688825+00:00",
+  "timestamp": "2026-06-11T11:18:51.111908+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.85,
+      "hz": 7.88,
       "confidence": 85
     },
     "F2": {
-      "hz": 14.45,
-      "confidence": 70
-    },
-    "F3": {
-      "hz": 20.1,
+      "hz": 14.42,
       "confidence": 80
     },
-    "F4": {
-      "hz": 25.9,
+    "F3": {
+      "hz": 20.3,
       "confidence": 75
+    },
+    "F4": {
+      "hz": 25.8,
+      "confidence": 70
     },
     "F5": {
       "hz": 33.0,
@@ -28,13 +28,13 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端でF2が急落する変動が見られる。F1は7.8〜7.9Hz付近で安定。F5は折れ線では読み取れずスペクトログラムから推定。スペクトログラムでは6時頃と日中に強い活動が確認できる。",
+  "notes": "右端でF1は約7.88Hz付近で安定。F2は14.4Hz付近に上昇、F3は20.3Hz付近、F4は25.8Hz付近で変動大。スペクトログラムでは11日後半に強い広帯域擾乱（局所雷ノイズ）が見られる。F5は折れ線に表示なし、信頼度低。",
   "polarization": {
-    "state": "right",
-    "state_jp": "右回転（昼）",
-    "japan_hour": 15.85,
-    "tomsk_hour": 12.45,
-    "is_day_japan": true,
+    "state": "left",
+    "state_jp": "左回転（夜）",
+    "japan_hour": 20.3,
+    "tomsk_hour": 16.9,
+    "is_day_japan": false,
     "is_day_tomsk": true
   }
 }
