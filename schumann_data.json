@@ -1,39 +1,39 @@
 {
-  "timestamp": "2026-06-11T18:27:36.484340+00:00",
+  "timestamp": "2026-06-11T20:42:44.449481+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.91,
+      "hz": 8.0,
       "confidence": 80
     },
     "F2": {
-      "hz": 13.1,
-      "confidence": 75
+      "hz": 14.2,
+      "confidence": 80
     },
     "F3": {
-      "hz": 20.2,
-      "confidence": 70
+      "hz": 20.4,
+      "confidence": 75
     },
     "F4": {
-      "hz": 25.2,
-      "confidence": 70
+      "hz": 25.6,
+      "confidence": 75
     },
     "F5": {
-      "hz": null,
-      "confidence": 0
+      "hz": 33.8,
+      "confidence": 30
     }
   },
   "amplitude_level": "high",
   "strongest_mode": "F1",
-  "notes": "11日14-16時頃にスペクトログラムで強い広帯域バーストが観測され、F2が13Hz付近まで低下。全体的に変動が大きく活動度は高め。F5はグラフに表示なし。",
+  "notes": "11日後半から12日初頭にかけて強い擾乱が見られ、スペクトログラムでは15時頃と0-3時頃に広帯域の強い信号。右端でF1とF2が急上昇、F3・F4は下降傾向。F5は折れ線グラフに表示なし。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 3.45,
-    "tomsk_hour": 0.05,
+    "japan_hour": 5.7,
+    "tomsk_hour": 2.3,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
