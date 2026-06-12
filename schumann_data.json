@@ -1,40 +1,40 @@
 {
-  "timestamp": "2026-06-12T00:03:47.741280+00:00",
+  "timestamp": "2026-06-12T05:00:19.077171+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.85,
+      "hz": 7.91,
       "confidence": 85
     },
     "F2": {
-      "hz": 13.85,
+      "hz": 14.5,
       "confidence": 80
     },
     "F3": {
-      "hz": 19.8,
-      "confidence": 80
-    },
-    "F4": {
-      "hz": 25.5,
+      "hz": 19.4,
       "confidence": 75
     },
+    "F4": {
+      "hz": 23.7,
+      "confidence": 70
+    },
     "F5": {
-      "hz": 0,
+      "hz": null,
       "confidence": 0
     }
   },
   "amplitude_level": "high",
   "strongest_mode": "F1",
-  "notes": "11日後半から12日早朝にかけてスペクトログラム上で強い広帯域活動が見られる。F1周波数は7.7-7.9Hz付近で変動、F3は一時的に低下傾向。F5は表示範囲外で読取不可。",
+  "notes": "12日早朝にスペクトログラムで強い広帯域シグナルが見られ活動度が高い。右端でF4が急落、F3も下降傾向。F5データは表示なし。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 9.05,
-    "tomsk_hour": 5.65,
+    "japan_hour": 14.0,
+    "tomsk_hour": 10.6,
     "is_day_japan": true,
-    "is_day_tomsk": false
+    "is_day_tomsk": true
   }
 }
