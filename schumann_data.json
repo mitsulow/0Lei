@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-06-11T22:29:08.596479+00:00",
+  "timestamp": "2026-06-12T00:03:47.741280+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -7,33 +7,33 @@
   "modes": {
     "F1": {
       "hz": 7.85,
-      "confidence": 80
+      "confidence": 85
     },
     "F2": {
-      "hz": 13.8,
-      "confidence": 75
+      "hz": 13.85,
+      "confidence": 80
     },
     "F3": {
-      "hz": 20.3,
+      "hz": 19.8,
       "confidence": 80
     },
     "F4": {
-      "hz": 25.7,
-      "confidence": 70
+      "hz": 25.5,
+      "confidence": 75
     },
     "F5": {
-      "hz": 33.8,
-      "confidence": 30
+      "hz": 0,
+      "confidence": 0
     }
   },
   "amplitude_level": "high",
   "strongest_mode": "F1",
-  "notes": "11日14-16時UTC頃と12日2-4時UTC頃にスペクトログラムで強い広帯域シグナルが見られ、活動度が高い。右端では各モードの周波数がやや低下傾向。F5は折れ線では確認困難。",
+  "notes": "11日後半から12日早朝にかけてスペクトログラム上で強い広帯域活動が見られる。F1周波数は7.7-7.9Hz付近で変動、F3は一時的に低下傾向。F5は表示範囲外で読取不可。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 7.48,
-    "tomsk_hour": 4.08,
+    "japan_hour": 9.05,
+    "tomsk_hour": 5.65,
     "is_day_japan": true,
     "is_day_tomsk": false
   }
