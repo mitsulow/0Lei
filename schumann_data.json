@@ -1,39 +1,39 @@
 {
-  "timestamp": "2026-06-13T22:17:29.173572+00:00",
+  "timestamp": "2026-06-13T23:37:53.469600+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.85,
-      "confidence": 85
+      "hz": 7.92,
+      "confidence": 88
     },
     "F2": {
-      "hz": 14.25,
-      "confidence": 80
+      "hz": 14.2,
+      "confidence": 85
     },
     "F3": {
-      "hz": 20.15,
-      "confidence": 80
+      "hz": 20.1,
+      "confidence": 82
     },
     "F4": {
-      "hz": 25.9,
-      "confidence": 75
+      "hz": 25.95,
+      "confidence": 78
     },
     "F5": {
-      "hz": 33.5,
-      "confidence": 30
+      "hz": 0,
+      "confidence": 0
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "F1は右端で約7.85Hz付近で安定。F2は14.2Hz前後、F3は20.1Hz付近、F4は緑線で25.9Hz付近。F5は折れ線では確認困難。スペクトログラムでは8Hz帯に強い活動、14日早朝にデータ欠損あり。",
+  "notes": "F1は右端で上昇傾向、約7.9Hz付近で安定。F2〜F4は概ね典型値付近で推移。スペクトログラムでは22時頃と早朝に強い広帯域シグナルが見られ、その後落ち着いた状態。F5の線は本グラフに表示なし。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 7.28,
-    "tomsk_hour": 3.88,
+    "japan_hour": 8.62,
+    "tomsk_hour": 5.22,
     "is_day_japan": true,
     "is_day_tomsk": false
   }
