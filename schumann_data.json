@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-06-13T21:05:35.489691+00:00",
+  "timestamp": "2026-06-13T22:17:29.173572+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -7,33 +7,33 @@
   "modes": {
     "F1": {
       "hz": 7.85,
-      "confidence": 88
+      "confidence": 85
     },
     "F2": {
-      "hz": 14.45,
+      "hz": 14.25,
       "confidence": 80
     },
     "F3": {
-      "hz": 20.2,
-      "confidence": 78
+      "hz": 20.15,
+      "confidence": 80
     },
     "F4": {
-      "hz": 25.8,
-      "confidence": 70
+      "hz": 25.9,
+      "confidence": 75
     },
     "F5": {
-      "hz": null,
-      "confidence": 0
+      "hz": 33.5,
+      "confidence": 30
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端14日04時頃の値。F1は7.85Hz付近で安定、F2はやや上昇傾向。スペクトログラムでは8Hz帯と14Hz帯に明瞭な強度、12日夜と13日夜に強い活動。F5は線が表示されておらず読み取り不能。",
+  "notes": "F1は右端で約7.85Hz付近で安定。F2は14.2Hz前後、F3は20.1Hz付近、F4は緑線で25.9Hz付近。F5は折れ線では確認困難。スペクトログラムでは8Hz帯に強い活動、14日早朝にデータ欠損あり。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 6.08,
-    "tomsk_hour": 2.68,
+    "japan_hour": 7.28,
+    "tomsk_hour": 3.88,
     "is_day_japan": true,
     "is_day_tomsk": false
   }
