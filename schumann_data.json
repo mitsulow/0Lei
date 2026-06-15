@@ -1,40 +1,40 @@
 {
-  "timestamp": "2026-06-15T06:59:22.261340+00:00",
+  "timestamp": "2026-06-15T13:19:54.903276+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.8,
+      "hz": 7.75,
       "confidence": 85
     },
     "F2": {
-      "hz": 13.9,
+      "hz": 14.05,
       "confidence": 80
     },
     "F3": {
-      "hz": 19.9,
+      "hz": 20.1,
       "confidence": 80
     },
     "F4": {
-      "hz": 26.3,
-      "confidence": 80
+      "hz": 26.0,
+      "confidence": 75
     },
     "F5": {
-      "hz": 33.5,
+      "hz": 33.0,
       "confidence": 30
     }
   },
-  "amplitude_level": "high",
+  "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "14日11時～22時頃にスペクトログラム上で強い広帯域擾乱（白飛び）が発生し、折れ線も大きく変動。15日に入り各モードはほぼ通常値に回復。F5は折れ線に明示されず推定値。",
+  "notes": "14日午前から夕方にかけてスペクトログラムに大きな擾乱（広帯域の白色化）が見られ、データ欠損も発生。15日に入り回復傾向。右端では各モードほぼ標準的な周波数に戻っている。F5は折れ線グラフに明示されず信頼度低。",
   "polarization": {
-    "state": "right",
-    "state_jp": "右回転（昼）",
-    "japan_hour": 15.98,
-    "tomsk_hour": 12.58,
-    "is_day_japan": true,
-    "is_day_tomsk": true
+    "state": "left",
+    "state_jp": "左回転（夜）",
+    "japan_hour": 22.32,
+    "tomsk_hour": 18.92,
+    "is_day_japan": false,
+    "is_day_tomsk": false
   }
 }
