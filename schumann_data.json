@@ -1,40 +1,40 @@
 {
-  "timestamp": "2026-06-15T18:06:33.185659+00:00",
+  "timestamp": "2026-06-15T21:19:33.959589+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.82,
-      "confidence": 85
+      "hz": 7.85,
+      "confidence": 88
     },
     "F2": {
-      "hz": 14.3,
-      "confidence": 80
+      "hz": 14.1,
+      "confidence": 85
     },
     "F3": {
-      "hz": 20.3,
+      "hz": 20.4,
       "confidence": 80
     },
     "F4": {
-      "hz": 26.1,
+      "hz": 26.0,
       "confidence": 75
     },
     "F5": {
-      "hz": 0,
-      "confidence": 0
+      "hz": 33.0,
+      "confidence": 30
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "15日後半に各モードで顕著な変動あり。F5は折れ線グラフに表示なし。スペクトログラムでは11-20時に強いホワイトアウト（地磁気擾乱または機器飽和の可能性）が見られる。",
+  "notes": "6月14日12-20時および15日14-17時に強い擾乱（スペクトログラムで広帯域の白色領域）。右端（16日早朝）は比較的安定。F5は折れ線で表示されておらず推定値。",
   "polarization": {
-    "state": "left",
-    "state_jp": "左回転（夜）",
-    "japan_hour": 3.1,
-    "tomsk_hour": 23.7,
-    "is_day_japan": false,
+    "state": "right",
+    "state_jp": "右回転（昼）",
+    "japan_hour": 6.32,
+    "tomsk_hour": 2.92,
+    "is_day_japan": true,
     "is_day_tomsk": false
   }
 }
