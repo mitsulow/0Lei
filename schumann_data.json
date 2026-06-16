@@ -1,40 +1,5 @@
 {
-  "timestamp": "2026-06-16T12:25:00.878282+00:00",
-  "status": "ok",
-  "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
-  "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
-  "model": "claude-opus-4-7",
-  "modes": {
-    "F1": {
-      "hz": 7.83,
-      "confidence": 85
-    },
-    "F2": {
-      "hz": 14.4,
-      "confidence": 80
-    },
-    "F3": {
-      "hz": 20.3,
-      "confidence": 80
-    },
-    "F4": {
-      "hz": 26.2,
-      "confidence": 75
-    },
-    "F5": {
-      "hz": 0,
-      "confidence": 0
-    }
-  },
-  "amplitude_level": "medium",
-  "strongest_mode": "F1",
-  "notes": "F1〜F4は明瞭に読み取り可能。F5は折れ線グラフに表示されていない。スペクトログラム上では6/14に強いノイズ/データ欠損領域が見られるが、6/16時点では通常範囲内で安定している。",
-  "polarization": {
-    "state": "left",
-    "state_jp": "左回転（夜）",
-    "japan_hour": 21.42,
-    "tomsk_hour": 18.02,
-    "is_day_japan": false,
-    "is_day_tomsk": false
-  }
+  "timestamp": "2026-06-16T17:28:49.846590+00:00",
+  "status": "error",
+  "error": "Claude API failed: Error code: 500 - {'type': 'error', 'error': {'type': 'api_error', 'message': 'Internal server error'}, 'request_id': 'req_011Cc7LKCdgh4nLkqcVB8AAz'}"
 }
