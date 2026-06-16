@@ -1,25 +1,25 @@
 {
-  "timestamp": "2026-06-16T20:24:05.088744+00:00",
+  "timestamp": "2026-06-16T22:27:54.118711+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.83,
+      "hz": 7.9,
       "confidence": 88
     },
     "F2": {
-      "hz": 14.2,
-      "confidence": 80
+      "hz": 14.3,
+      "confidence": 85
     },
     "F3": {
-      "hz": 20.4,
-      "confidence": 78
+      "hz": 20.3,
+      "confidence": 80
     },
     "F4": {
-      "hz": 26.0,
-      "confidence": 70
+      "hz": 25.3,
+      "confidence": 75
     },
     "F5": {
       "hz": 0,
@@ -28,13 +28,13 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "15日14-17時付近にスペクトログラム上で強い広帯域シグナル（電波擾乱または局所ノイズ）が見られ、同時間帯のF1-F4で周波数の急降下を確認。右端は概ね安定。F5の線は本グラフでは確認できず。",
+  "notes": "右端ではF1が約7.90Hz付近で安定。15日14-17時頃に大きな周波数低下イベント（特にF3,F4で顕著なディップ）が見られる。スペクトログラムでも同時間帯に強い擾乱を確認。F5は本グラフに表示なし。",
   "polarization": {
-    "state": "left",
-    "state_jp": "左回転（夜）",
-    "japan_hour": 5.4,
-    "tomsk_hour": 2.0,
-    "is_day_japan": false,
+    "state": "right",
+    "state_jp": "右回転（昼）",
+    "japan_hour": 7.45,
+    "tomsk_hour": 4.05,
+    "is_day_japan": true,
     "is_day_tomsk": false
   }
 }
