@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-06-17T08:39:44.164001+00:00",
+  "timestamp": "2026-06-17T12:39:22.960423+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.88,
+      "hz": 7.85,
       "confidence": 85
     },
     "F2": {
@@ -14,27 +14,27 @@
       "confidence": 80
     },
     "F3": {
-      "hz": 20.4,
-      "confidence": 75
+      "hz": 20.1,
+      "confidence": 80
     },
     "F4": {
-      "hz": 26.2,
+      "hz": 25.6,
       "confidence": 70
     },
     "F5": {
-      "hz": 33.8,
-      "confidence": 30
+      "hz": null,
+      "confidence": 0
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端の値は概ね安定。15日午後に強い擾乱(白色帯)が見られたが、その後は穏やか。F5は折れ線では確認できずスペクトログラムから推定。",
+  "notes": "15日14-16時頃に大きな擾乱（F1-F4全モードで急低下）が見られる。右端では各モードとも比較的安定した値に戻っている。F5は表示されていない。スペクトログラムでは15日昼に強いブロードバンド信号、17日後半は全体的に活動度が低下傾向。",
   "polarization": {
-    "state": "right",
-    "state_jp": "右回転（昼）",
-    "japan_hour": 17.65,
-    "tomsk_hour": 14.25,
-    "is_day_japan": true,
-    "is_day_tomsk": true
+    "state": "left",
+    "state_jp": "左回転（夜）",
+    "japan_hour": 21.65,
+    "tomsk_hour": 18.25,
+    "is_day_japan": false,
+    "is_day_tomsk": false
   }
 }
