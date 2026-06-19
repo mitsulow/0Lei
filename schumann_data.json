@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-06-19T22:37:07.258379+00:00",
+  "timestamp": "2026-06-19T23:46:12.186089+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -7,19 +7,19 @@
   "modes": {
     "F1": {
       "hz": 7.85,
-      "confidence": 85
+      "confidence": 88
     },
     "F2": {
-      "hz": 13.3,
+      "hz": 13.2,
       "confidence": 80
     },
     "F3": {
-      "hz": 20.2,
-      "confidence": 80
+      "hz": 19.85,
+      "confidence": 78
     },
     "F4": {
       "hz": 25.7,
-      "confidence": 75
+      "confidence": 70
     },
     "F5": {
       "hz": 33.0,
@@ -28,12 +28,12 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "18日12-14時頃に強い擾乱とF3の落ち込みが見られる。右端ではF1が約7.85Hz付近で安定。F5の線は判別困難でスペクトログラム上も30Hz以上は弱い。19日後半にデータ欠損あり。",
+  "notes": "18日12-14時頃と19日14-16時頃に強い活動ピーク。スペクトログラムでは8Hz帯と14Hz帯が明瞭。右端ではF2がやや低下傾向、F1は安定。F5は折れ線では識別困難のため信頼度低。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 7.62,
-    "tomsk_hour": 4.22,
+    "japan_hour": 8.77,
+    "tomsk_hour": 5.37,
     "is_day_japan": true,
     "is_day_tomsk": false
   }
