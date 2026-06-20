@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-06-20T18:52:39.908746+00:00",
+  "timestamp": "2026-06-20T20:12:16.819652+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -10,30 +10,30 @@
       "confidence": 85
     },
     "F2": {
-      "hz": 13.5,
-      "confidence": 70
-    },
-    "F3": {
-      "hz": 20.1,
+      "hz": 14.2,
       "confidence": 80
     },
+    "F3": {
+      "hz": 20.4,
+      "confidence": 75
+    },
     "F4": {
-      "hz": 25.9,
+      "hz": 25.7,
       "confidence": 70
     },
     "F5": {
-      "hz": 33.5,
-      "confidence": 30
+      "hz": null,
+      "confidence": 0
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "20日昼から夜にかけて活動度が上昇し、F1は7.8Hz付近で安定。F2は13-14Hz間で変動が大きい。スペクトログラムでは8Hz、14Hz帯に明瞭な共振バンドが見られ、特に19日午後にピーク。F5は線が不明瞭で信頼度低。",
+  "notes": "F1は約7.85Hz付近で安定。F2は14Hz台でやや変動大。スペクトログラムでは8Hz帯と14Hz帯に明瞭な強度集中が見られ、特に19日午後に強い活動。F5データは画像範囲外で読み取り不可。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 3.87,
-    "tomsk_hour": 0.47,
+    "japan_hour": 5.2,
+    "tomsk_hour": 1.8,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
