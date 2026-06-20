@@ -1,39 +1,39 @@
 {
-  "timestamp": "2026-06-20T15:45:25.803398+00:00",
+  "timestamp": "2026-06-20T17:18:11.032947+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.75,
-      "confidence": 85
+      "hz": 7.85,
+      "confidence": 88
     },
     "F2": {
-      "hz": 14.2,
-      "confidence": 80
+      "hz": 13.78,
+      "confidence": 82
     },
     "F3": {
-      "hz": 20.3,
-      "confidence": 80
+      "hz": 13.42,
+      "confidence": 70
     },
     "F4": {
-      "hz": 25.85,
-      "confidence": 75
+      "hz": 25.88,
+      "confidence": 80
     },
     "F5": {
-      "hz": 33.5,
-      "confidence": 40
+      "hz": 0.0,
+      "confidence": 0
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "6月18日と19日の昼頃に強い活動が見られる。右端では全体的に落ち着いた状態。F5は折れ線グラフに表示されておらず推定値。スペクトログラムでは8Hz付近の第1モードが最も明瞭。",
+  "notes": "右端でF1は約7.85Hz付近で安定。F2(黄)は13.7-13.8Hz、F3(赤)は13.4Hz付近まで低下傾向。F4(緑)は25.9Hz付近。F5はグラフに表示なし。スペクトログラムでは18日12-14時と19日15時頃に強い活動、最新時刻は中程度の活動レベル。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 0.75,
-    "tomsk_hour": 21.35,
+    "japan_hour": 2.3,
+    "tomsk_hour": 22.9,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
