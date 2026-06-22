@@ -1,40 +1,40 @@
 {
-  "timestamp": "2026-06-22T00:21:01.667208+00:00",
+  "timestamp": "2026-06-22T05:39:05.459522+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.95,
-      "confidence": 88
+      "hz": 7.85,
+      "confidence": 85
     },
     "F2": {
       "hz": 14.1,
-      "confidence": 85
+      "confidence": 80
     },
     "F3": {
-      "hz": 19.92,
-      "confidence": 82
+      "hz": 20.1,
+      "confidence": 75
     },
     "F4": {
-      "hz": 26.0,
-      "confidence": 78
+      "hz": 25.7,
+      "confidence": 75
     },
     "F5": {
-      "hz": null,
-      "confidence": 0
+      "hz": 33.0,
+      "confidence": 30
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端時刻でF1は約7.95Hz付近で安定。F2は14.1Hz付近、F3は赤線で約19.9Hz、F4(緑)は26Hz前後。F5の線は本グラフに表示されておらず読取不可。スペクトログラムでは8Hz、14Hz、20Hz帯が明瞭で、全体活動度は中程度。",
+  "notes": "F1は7.85Hz付近で安定。F2は14Hz付近、F3は20Hz付近で推移。スペクトログラムでは8Hz、14Hz、20Hz帯に明瞭な共振バンドが確認できる。F5は折れ線で確認できず推定値。20日午前中に強い擾乱、21日2-3時頃にも活動増加が見られる。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 9.35,
-    "tomsk_hour": 5.95,
+    "japan_hour": 14.65,
+    "tomsk_hour": 11.25,
     "is_day_japan": true,
-    "is_day_tomsk": false
+    "is_day_tomsk": true
   }
 }
