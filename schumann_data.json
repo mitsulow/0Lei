@@ -1,40 +1,40 @@
 {
-  "timestamp": "2026-06-22T19:44:45.133831+00:00",
+  "timestamp": "2026-06-22T21:49:45.138393+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.92,
-      "confidence": 85
+      "hz": 7.85,
+      "confidence": 88
     },
     "F2": {
-      "hz": 13.92,
-      "confidence": 80
+      "hz": 14.3,
+      "confidence": 85
     },
     "F3": {
-      "hz": 20.1,
+      "hz": 20.3,
       "confidence": 80
     },
     "F4": {
-      "hz": 26.4,
-      "confidence": 75
+      "hz": 25.1,
+      "confidence": 70
     },
     "F5": {
-      "hz": null,
-      "confidence": 0
+      "hz": 33.0,
+      "confidence": 30
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端（23.06.2026早朝）のデータ。F1は約7.92Hzでやや上昇傾向、F2は13.92Hz付近で低下気味、F3は20.10Hz付近、F4は26.40Hz付近で変動大。スペクトログラムでは8Hz帯と14Hz帯が明瞭、20Hz帯もやや活発。F5は折れ線グラフに表示なし。",
+  "notes": "F1は7.85Hz付近で安定。F4は終端で急降下が見られる。F5は折れ線グラフに明確な線が無く読み取り困難。スペクトログラムでは8Hz帯と14Hz帯が強く、23日早朝に広帯域の強い活動が見られる。",
   "polarization": {
-    "state": "left",
-    "state_jp": "左回転（夜）",
-    "japan_hour": 4.73,
-    "tomsk_hour": 1.33,
-    "is_day_japan": false,
+    "state": "right",
+    "state_jp": "右回転（昼）",
+    "japan_hour": 6.82,
+    "tomsk_hour": 3.42,
+    "is_day_japan": true,
     "is_day_tomsk": false
   }
 }
