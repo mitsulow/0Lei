@@ -1,39 +1,39 @@
 {
-  "timestamp": "2026-06-22T16:08:33.518386+00:00",
+  "timestamp": "2026-06-22T19:44:45.133831+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.88,
+      "hz": 7.92,
       "confidence": 85
     },
     "F2": {
-      "hz": 14.1,
+      "hz": 13.92,
       "confidence": 80
     },
     "F3": {
-      "hz": 20.3,
+      "hz": 20.1,
       "confidence": 80
     },
     "F4": {
-      "hz": 26.2,
+      "hz": 26.4,
       "confidence": 75
     },
     "F5": {
-      "hz": 33.8,
-      "confidence": 40
+      "hz": null,
+      "confidence": 0
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "F1〜F4は明瞭に観測可能。スペクトログラムでは8Hz、14Hz、20Hz帯に強い共振が見られる。21日深夜から22日にかけてF3が一時的に上昇傾向。F5は折れ線では表示されておらず推定値。",
+  "notes": "右端（23.06.2026早朝）のデータ。F1は約7.92Hzでやや上昇傾向、F2は13.92Hz付近で低下気味、F3は20.10Hz付近、F4は26.40Hz付近で変動大。スペクトログラムでは8Hz帯と14Hz帯が明瞭、20Hz帯もやや活発。F5は折れ線グラフに表示なし。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 1.13,
-    "tomsk_hour": 21.73,
+    "japan_hour": 4.73,
+    "tomsk_hour": 1.33,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
