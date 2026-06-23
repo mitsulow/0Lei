@@ -1,5 +1,40 @@
 {
-  "timestamp": "2026-06-23T14:32:55.901408+00:00",
-  "status": "error",
-  "error": "Claude API failed: Error code: 500 - {'type': 'error', 'error': {'type': 'api_error', 'message': 'Internal server error'}, 'request_id': 'req_011CcLMZbsEwQ5UbdnX9eTct'}"
+  "timestamp": "2026-06-23T17:03:09.261084+00:00",
+  "status": "ok",
+  "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
+  "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
+  "model": "claude-opus-4-7",
+  "modes": {
+    "F1": {
+      "hz": 7.88,
+      "confidence": 88
+    },
+    "F2": {
+      "hz": 14.34,
+      "confidence": 85
+    },
+    "F3": {
+      "hz": 20.3,
+      "confidence": 80
+    },
+    "F4": {
+      "hz": 26.02,
+      "confidence": 78
+    },
+    "F5": {
+      "hz": 33.8,
+      "confidence": 30
+    }
+  },
+  "amplitude_level": "medium",
+  "strongest_mode": "F1",
+  "notes": "6/23の3-7時頃に強い活動とノイズが見られ、F2に大きな落ち込みあり。右端では各モードとも安定。F5は折れ線に表示なし。",
+  "polarization": {
+    "state": "left",
+    "state_jp": "左回転（夜）",
+    "japan_hour": 2.05,
+    "tomsk_hour": 22.65,
+    "is_day_japan": false,
+    "is_day_tomsk": false
+  }
 }
