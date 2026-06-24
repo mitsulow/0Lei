@@ -1,20 +1,20 @@
 {
-  "timestamp": "2026-06-24T13:52:48.651892+00:00",
+  "timestamp": "2026-06-24T16:11:18.976021+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.86,
+      "hz": 7.88,
       "confidence": 85
     },
     "F2": {
-      "hz": 14.4,
+      "hz": 14.3,
       "confidence": 80
     },
     "F3": {
-      "hz": 20.1,
+      "hz": 19.7,
       "confidence": 80
     },
     "F4": {
@@ -28,12 +28,12 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "23日早朝にF1〜F3で大きな変動と落ち込みが見られる。F4は右端付近で低下傾向。F5はグラフに表示なし。スペクトログラムでは8Hz、14Hz、20Hz付近に明瞭な帯が確認できる。",
+  "notes": "23日早朝にスペクトログラムで強い広帯域シグナルあり。右端ではF3、F4が低下傾向。F5は折れ線に表示なし。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 22.87,
-    "tomsk_hour": 19.47,
+    "japan_hour": 1.18,
+    "tomsk_hour": 21.78,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
