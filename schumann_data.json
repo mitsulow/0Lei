@@ -1,40 +1,40 @@
 {
-  "timestamp": "2026-06-23T23:39:44.095158+00:00",
+  "timestamp": "2026-06-24T01:30:10.443051+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.91,
-      "confidence": 88
+      "hz": 8.05,
+      "confidence": 85
     },
     "F2": {
-      "hz": 13.68,
+      "hz": 13.9,
       "confidence": 80
     },
     "F3": {
-      "hz": 20.18,
-      "confidence": 82
+      "hz": 20.3,
+      "confidence": 80
     },
     "F4": {
-      "hz": 26.0,
-      "confidence": 75
+      "hz": 26.2,
+      "confidence": 70
     },
     "F5": {
-      "hz": 33.5,
-      "confidence": 40
+      "hz": 0,
+      "confidence": 0
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "23.06深夜から早朝にかけてF1で大きな変動と一時的な低下が観測され、スペクトログラムでも2-8時UTCに強い広帯域擾乱が見られる。右端ではF1はほぼ標準値に回復、F2はやや低めに推移。F5は折れ線グラフ上に明示されておらず推定値で信頼度低。",
+  "notes": "23日昼頃に顕著な周波数変動（F1が8.11Hz付近まで上昇、F2が急落）が見られ、その後安定。右端ではF1がやや上昇傾向。F5は本グラフに表示なし。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 8.65,
-    "tomsk_hour": 5.25,
+    "japan_hour": 10.5,
+    "tomsk_hour": 7.1,
     "is_day_japan": true,
-    "is_day_tomsk": false
+    "is_day_tomsk": true
   }
 }
