@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-06-24T22:52:15.173741+00:00",
+  "timestamp": "2026-06-25T00:01:42.450490+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -10,16 +10,16 @@
       "confidence": 85
     },
     "F2": {
-      "hz": 14.3,
+      "hz": 14.2,
       "confidence": 80
     },
     "F3": {
-      "hz": 20.1,
-      "confidence": 80
+      "hz": 19.6,
+      "confidence": 75
     },
     "F4": {
-      "hz": 25.3,
-      "confidence": 75
+      "hz": 25.2,
+      "confidence": 70
     },
     "F5": {
       "hz": 33.0,
@@ -28,12 +28,12 @@
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "23日早朝に強い擾乱が見られ、各モード周波数が一時的に変動。右端ではF1が約7.9Hz付近で安定、F4は低下傾向。F5はグラフ上に明示されず推定値。",
+  "notes": "23日未明〜午前にかけて強い擾乱が見られ、F3・F4は右端で低下傾向。F5は折れ線グラフに表示なくスペクトログラムから推定。全体的にSR帯は活発で第2倍音まで明瞭。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 7.87,
-    "tomsk_hour": 4.47,
+    "japan_hour": 9.02,
+    "tomsk_hour": 5.62,
     "is_day_japan": true,
     "is_day_tomsk": false
   }
