@@ -1,39 +1,39 @@
 {
-  "timestamp": "2026-06-28T17:09:47.759274+00:00",
+  "timestamp": "2026-06-28T18:16:48.878262+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.85,
+      "hz": 7.76,
       "confidence": 85
     },
     "F2": {
-      "hz": 14.2,
-      "confidence": 85
-    },
-    "F3": {
-      "hz": 20.4,
+      "hz": 14.3,
       "confidence": 80
     },
+    "F3": {
+      "hz": 20.6,
+      "confidence": 85
+    },
     "F4": {
-      "hz": 26.0,
-      "confidence": 75
+      "hz": 26.2,
+      "confidence": 70
     },
     "F5": {
-      "hz": 33.0,
-      "confidence": 30
+      "hz": null,
+      "confidence": 0
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端時点で各モード安定。F1は約7.85Hz付近で変動、F2〜F4も標準範囲内。スペクトログラムでは26-27日に強い白飛び（データ欠損または強信号）が見られるが、28日後半は通常状態に復帰。F5はグラフ上に明示されておらず信頼度低。",
+  "notes": "右端はデータ欠損域。27日14-17時と22時頃にスペクトログラムで強い広帯域擾乱（落雷または局所ノイズ）が見られる。F1は7.7Hz付近でやや低め、F3は上昇傾向。F5の線は本グラフでは描画されていない。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 2.15,
-    "tomsk_hour": 22.75,
+    "japan_hour": 3.27,
+    "tomsk_hour": 23.87,
     "is_day_japan": false,
     "is_day_tomsk": false
   }
