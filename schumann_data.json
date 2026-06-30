@@ -1,40 +1,40 @@
 {
-  "timestamp": "2026-06-29T23:14:57.359120+00:00",
+  "timestamp": "2026-06-30T01:25:40.793288+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.95,
-      "confidence": 85
+      "hz": 7.67,
+      "confidence": 80
     },
     "F2": {
-      "hz": 13.4,
-      "confidence": 80
+      "hz": 14.1,
+      "confidence": 75
     },
     "F3": {
       "hz": 20.3,
-      "confidence": 75
+      "confidence": 80
     },
     "F4": {
-      "hz": 24.5,
-      "confidence": 70
+      "hz": 26.2,
+      "confidence": 75
     },
     "F5": {
-      "hz": 33.8,
-      "confidence": 20
+      "hz": null,
+      "confidence": 0
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端付近でF2とF4が低下傾向。29日夕方に強い活動、スペクトログラムでは8Hz・14Hz帯に顕著な励起。F5は折れ線グラフに表示されず信頼度低い。",
+  "notes": "右端付近でF1がやや低下傾向。F5の線は確認できず。30日早朝にスペクトログラムで強い広帯域擾乱（落雷または機器ノイズ）が見られる。データは8時頃で途切れている。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 8.23,
-    "tomsk_hour": 4.83,
+    "japan_hour": 10.42,
+    "tomsk_hour": 7.02,
     "is_day_japan": true,
-    "is_day_tomsk": false
+    "is_day_tomsk": true
   }
 }
