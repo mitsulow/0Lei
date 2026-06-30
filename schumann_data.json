@@ -1,39 +1,39 @@
 {
-  "timestamp": "2026-06-30T05:39:47.133262+00:00",
+  "timestamp": "2026-06-30T08:44:58.883866+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.85,
+      "hz": 7.88,
       "confidence": 85
     },
     "F2": {
-      "hz": 13.8,
+      "hz": 14.4,
       "confidence": 80
     },
     "F3": {
-      "hz": 20.2,
+      "hz": 20.4,
       "confidence": 80
     },
     "F4": {
-      "hz": 26.2,
+      "hz": 26.3,
       "confidence": 75
     },
     "F5": {
-      "hz": 33.0,
-      "confidence": 30
+      "hz": 0,
+      "confidence": 0
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "30日06時頃に強い広帯域シグナル（白色帯）あり、観測ノイズの可能性。F5は折れ線では確認困難。全体的に8Hz帯と16Hz帯が活発。",
+  "notes": "30日早朝に強い広帯域擾乱（白色帯）が見られ、その後周波数は安定。F5は表示範囲外で読み取り不可。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 14.65,
-    "tomsk_hour": 11.25,
+    "japan_hour": 17.73,
+    "tomsk_hour": 14.33,
     "is_day_japan": true,
     "is_day_tomsk": true
   }
