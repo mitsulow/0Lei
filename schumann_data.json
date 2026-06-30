@@ -1,40 +1,40 @@
 {
-  "timestamp": "2026-06-30T11:33:43.657206+00:00",
+  "timestamp": "2026-06-30T13:29:05.118198+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.9,
+      "hz": 8.05,
       "confidence": 85
     },
     "F2": {
-      "hz": 14.0,
+      "hz": 14.45,
       "confidence": 80
     },
     "F3": {
-      "hz": 20.3,
+      "hz": 20.4,
       "confidence": 80
     },
     "F4": {
-      "hz": 25.8,
+      "hz": 26.3,
       "confidence": 75
     },
     "F5": {
-      "hz": 33.5,
+      "hz": 33.8,
       "confidence": 30
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "30日6時頃にスペクトログラム全帯域で強い擾乱（おそらくノイズまたは局所雷活動）が見られる。右端ではF1〜F4の各モードは概ね安定した周波数を維持。F5の線は画像に明示されておらず信頼度低。",
+  "notes": "右端でF1が8.0Hz超に上昇傾向。30日6時頃に強い広帯域ノイズあり。F5は折れ線に表示なく推定値。スペクトログラムでは8Hz帯と16Hz帯が継続的に明瞭。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 20.55,
-    "tomsk_hour": 17.15,
+    "japan_hour": 22.48,
+    "tomsk_hour": 19.08,
     "is_day_japan": false,
-    "is_day_tomsk": true
+    "is_day_tomsk": false
   }
 }
