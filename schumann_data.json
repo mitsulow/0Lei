@@ -1,20 +1,20 @@
 {
-  "timestamp": "2026-06-30T01:25:40.793288+00:00",
+  "timestamp": "2026-06-30T05:39:47.133262+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "claude-opus-4-7",
   "modes": {
     "F1": {
-      "hz": 7.67,
-      "confidence": 80
+      "hz": 7.85,
+      "confidence": 85
     },
     "F2": {
-      "hz": 14.1,
-      "confidence": 75
+      "hz": 13.8,
+      "confidence": 80
     },
     "F3": {
-      "hz": 20.3,
+      "hz": 20.2,
       "confidence": 80
     },
     "F4": {
@@ -22,18 +22,18 @@
       "confidence": 75
     },
     "F5": {
-      "hz": null,
-      "confidence": 0
+      "hz": 33.0,
+      "confidence": 30
     }
   },
   "amplitude_level": "medium",
   "strongest_mode": "F1",
-  "notes": "右端付近でF1がやや低下傾向。F5の線は確認できず。30日早朝にスペクトログラムで強い広帯域擾乱（落雷または機器ノイズ）が見られる。データは8時頃で途切れている。",
+  "notes": "30日06時頃に強い広帯域シグナル（白色帯）あり、観測ノイズの可能性。F5は折れ線では確認困難。全体的に8Hz帯と16Hz帯が活発。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 10.42,
-    "tomsk_hour": 7.02,
+    "japan_hour": 14.65,
+    "tomsk_hour": 11.25,
     "is_day_japan": true,
     "is_day_tomsk": true
   }
