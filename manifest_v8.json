@@ -1,0 +1,34 @@
+{
+  "id": "/0Lei/tsukiyoga_v8",
+  "name": "ツキヨガ手帳 v8",
+  "short_name": "ツキヨガ手帳",
+  "description": "太陽と月の暦を、手帳として毎日そばに。",
+  "start_url": "./tsukiyoga_v8.html?pwa=1",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#030818",
+  "theme_color": "#030818",
+  "lang": "ja",
+  "categories": ["lifestyle", "health", "productivity"],
+  "icons": [
+    {
+      "src": "./icons_v7/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons_v7/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons_v7/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
