@@ -1,24 +1,24 @@
 {
-  "timestamp": "2026-07-01T22:00:56.386924+00:00",
+  "timestamp": "2026-07-01T23:40:50.950519+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6",
   "modes": {
     "F1": {
-      "hz": 7.86,
+      "hz": 7.95,
       "confidence": 95
     },
     "F2": {
-      "hz": 14.45,
-      "confidence": 75
+      "hz": 14.18,
+      "confidence": 85
     },
     "F3": {
-      "hz": 20.6,
-      "confidence": 35
+      "hz": 20.1,
+      "confidence": 95
     },
     "F4": {
-      "hz": 25.56,
+      "hz": 25.66,
       "confidence": 95
     },
     "F5": {
@@ -27,20 +27,20 @@
     }
   },
   "amplitude_level": "unknown",
-  "strongest_mode": "F1",
-  "notes": "F1は7.86Hzで基準値7.83Hz付近と安定。F2・F3は2時間以上更新なし。ピクセル解析による決定論的読み取り。",
+  "strongest_mode": "F2",
+  "notes": "F1は7.95Hzで基準よりやや高め (+0.12Hz)。ピクセル解析による決定論的読み取り。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 7.0,
-    "tomsk_hour": 3.6,
+    "japan_hour": 8.67,
+    "tomsk_hour": 5.27,
     "is_day_japan": true,
     "is_day_tomsk": false
   },
   "data_age_min": {
-    "F1": 16,
-    "F2": 121,
-    "F3": 246,
-    "F4": 21
+    "F1": 26,
+    "F2": 116,
+    "F3": 41,
+    "F4": 31
   }
 }
