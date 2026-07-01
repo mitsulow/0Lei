@@ -8860,6 +8860,46 @@
   .techo-tide-hi { color: #1565C0; font-weight: 700; font-variant-numeric: tabular-nums; }
   .techo-tide-lo { color: #C62828; font-weight: 700; font-variant-numeric: tabular-nums; }
   .techo-tide-lv { color: #999; font-size: 11px; }
+  /* 地球カード (シューマン共振) */
+  .techo-earth-card {
+    background: linear-gradient(160deg, #0E1A16, #16281F);
+    border-radius: 13px;
+    padding: 11px 13px;
+    margin-bottom: 9px;
+    border: 1px solid #2A4438;
+  }
+  .techo-earth-title {
+    font-size: 10px;
+    color: #7CB89A;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+  }
+  .techo-earth-main {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+  .techo-earth-f1 {
+    font-size: 24px;
+    font-weight: 800;
+    color: #9FE8C4;
+    font-variant-numeric: tabular-nums;
+  }
+  .techo-earth-unit { font-size: 11px; color: #6A9A82; }
+  .techo-earth-sub {
+    font-size: 10.5px;
+    color: #5A8A72;
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+  .techo-earth-modes {
+    display: flex;
+    gap: 12px;
+    margin-top: 5px;
+    font-size: 11px;
+    color: #7CB89A;
+    font-variant-numeric: tabular-nums;
+  }
   /* メモ・スケジュール */
   .techo-plan { padding: 4px 14px 0; background: #FBFAF7; }
   .techo-plan-label {
@@ -17572,6 +17612,45 @@ setTimeout(() => {
     }
   }
 
+  // ---- 地球カード (シューマン共振・今日のみ) ----
+  let techoSchumannCache = null;
+  let techoSchumannAt = 0;
+  async function techoRenderEarth(isToday) {
+    const old = document.getElementById('techoEarthCard');
+    if (old) old.remove();
+    if (!isToday) return;
+    const dateAtCall = techoDate;
+    const panel = document.getElementById('techoPanel');
+    if (!panel) return;
+    try {
+      if (!techoSchumannCache || Date.now() - techoSchumannAt > 5 * 60 * 1000) {
+        const r = await fetch('./schumann_data.json', { cache: 'no-store' });
+        if (!r.ok) return;
+        techoSchumannCache = await r.json();
+        techoSchumannAt = Date.now();
+      }
+    } catch (e) { return; }
+    const d = techoSchumannCache;
+    const f1 = d && d.modes && d.modes.F1 && d.modes.F1.hz;
+    if (typeof f1 !== 'number') return;
+    if (techoDate !== dateAtCall) return; // fetch中に日付が変わった
+    if (document.getElementById('techoEarthCard')) return;
+    const fmt = function (k) {
+      const m = d.modes[k];
+      return k + ' ' + (m && typeof m.hz === 'number' ? m.hz.toFixed(2) : '—');
+    };
+    const card = document.createElement('div');
+    card.className = 'techo-earth-card';
+    card.id = 'techoEarthCard';
+    card.innerHTML =
+      '<div class="techo-earth-title">🌍 地球のハミング — シューマン共振 (トムスク観測)</div>' +
+      '<div class="techo-earth-main"><span class="techo-earth-f1">' + f1.toFixed(2) + '</span>' +
+      '<span class="techo-earth-unit">Hz (基準 7.83)</span></div>' +
+      '<div class="techo-earth-modes">' + fmt('F2') + '　' + fmt('F3') + '　' + fmt('F4') + '</div>' +
+      (d.notes ? '<div class="techo-earth-sub">' + techoEsc(d.notes) + '</div>' : '');
+    panel.appendChild(card);
+  }
+
   // ---- 地球冒険カウンター (誕生日からの積算日数) ----
   const TECHO_ADV_MSGS = [
     'きょうも、よい冒険を。',
@@ -17623,6 +17702,7 @@ setTimeout(() => {
     document.getElementById('techoModeMoon').classList.toggle('on', techoMode === 'moon');
     if (techoMode === 'sun') { techoMoonSeq++; techoRenderSun(); }
     else techoRenderMoon();
+    techoRenderEarth(techoDate === todayDk);
     techoRenderPlanner();
   }
 
