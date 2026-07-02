@@ -1,24 +1,24 @@
 {
-  "timestamp": "2026-07-01T23:40:50.950519+00:00",
+  "timestamp": "2026-07-02T00:49:29.115386+00:00",
   "status": "ok",
-  "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
-  "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
-  "model": "pixel-extraction-v6",
+  "source_line": "https://sosrff.tsu.ru/new/srf.jpg",
+  "source_spectro": "https://sosrff.tsu.ru/new/shm.jpg",
+  "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 7.95,
+      "hz": 7.56,
       "confidence": 95
     },
     "F2": {
-      "hz": 14.18,
-      "confidence": 85
-    },
-    "F3": {
-      "hz": 20.1,
+      "hz": 13.52,
       "confidence": 95
     },
+    "F3": {
+      "hz": 18.9,
+      "confidence": 45
+    },
     "F4": {
-      "hz": 25.66,
+      "hz": 24.27,
       "confidence": 95
     },
     "F5": {
@@ -27,20 +27,20 @@
     }
   },
   "amplitude_level": "unknown",
-  "strongest_mode": "F2",
-  "notes": "F1は7.95Hzで基準よりやや高め (+0.12Hz)。ピクセル解析による決定論的読み取り。",
+  "strongest_mode": "F1",
+  "notes": "F1は7.56Hzで基準よりやや低め (-0.27Hz)。F3は2時間以上更新なし。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 8.67,
-    "tomsk_hour": 5.27,
+    "japan_hour": 9.82,
+    "tomsk_hour": 7.82,
     "is_day_japan": true,
-    "is_day_tomsk": false
+    "is_day_tomsk": true
   },
   "data_age_min": {
-    "F1": 26,
-    "F2": 116,
-    "F3": 41,
-    "F4": 31
+    "F1": 0,
+    "F2": 0,
+    "F3": 220,
+    "F4": 0
   }
 }

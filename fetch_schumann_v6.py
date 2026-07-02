@@ -46,13 +46,137 @@ PLOT_X0, PLOT_X1 = 71, 935
 PLOT_Y0, PLOT_Y1 = 30, 310
 DAY_PX = 288  # 24時間
 
-# 縦軸キャリブレーション: (基準y, 基準Hz, 100pxあたりHz)
+# 縦軸キャリブレーション (静的フォールバック用): (基準y, 基準Hz, 100pxあたりHz)
+# ★注意: 軸レンジは観測データに応じて自動スケーリングされる (2026-07-02 に実測確認)。
+#   通常は下の OCR (ocr_axis_calibration) が毎回動的に導出し、これは OCR 失敗時の保険。
 CALIB = {
     "F1": (30, 8.15, 0.69),
     "F2": (90, 14.50, 1.60),
     "F3": (150, 20.80, 2.20),
     "F4": (210, 26.70, 2.50),
 }
+
+# 軸ラベル OCR: 目盛り数字 (固定ビットマップフォント) をテンプレート照合で読む
+# digit_templates.json = 実画像から抽出した 0-9 の字形 (9x6 二値ビットマップ、複数バリアント)
+TEMPLATE_FILE = Path(__file__).with_name("digit_templates.json")
+LABEL_X = {"F1": (25, 69), "F3": (25, 69), "F2": (941, 992), "F4": (941, 992)}
+
+
+def load_templates():
+    try:
+        data = json.loads(TEMPLATE_FILE.read_text())
+        return {ch: [np.array([[int(c) for c in row] for row in t], np.uint8)
+                     for t in ts] for ch, ts in data.items()}
+    except Exception as e:
+        print(f"! digit templates unavailable: {e}")
+        return None
+
+
+def label_masks(arr):
+    """軸ラベル読み取り用の緩い色マスク (JPEG 劣化に耐性)"""
+    r = arr[:, :, 0].astype(int)
+    g = arr[:, :, 1].astype(int)
+    b = arr[:, :, 2].astype(int)
+    return {
+        "F1": (np.minimum(np.minimum(r, g), b) > 110),
+        "F2": (r > 140) & (g > 140) & ((g - b) > 50),
+        "F3": (r > 110) & ((r - g) > 60) & ((r - b) > 60),
+        "F4": (g > 110) & ((g - r) > 60) & ((g - b) > 60),
+    }
+
+
+def _label_rows(mask, x0, x1):
+    sub = mask[:, x0:x1]
+    rows = np.where(sub.sum(axis=1) >= 2)[0]
+    out = []
+    if len(rows):
+        s = rows[0]; p = rows[0]
+        for y in rows[1:]:
+            if y - p > 2:
+                out.append((s, p)); s = y
+            p = y
+        out.append((s, p))
+    return [(s, e) for s, e in out if 5 <= e - s <= 11 and 24 <= s <= 316]
+
+
+def _cell_canon(mask, y0, y1, cx):
+    cell = mask[y0:y1 + 1, cx:cx + 5]
+    ys, xs = np.where(cell)
+    if len(ys) == 0:
+        return None
+    gl = cell[ys.min():ys.max() + 1, xs.min():xs.max() + 1]
+    c = np.zeros((9, 6), np.uint8)
+    c[:min(9, gl.shape[0]), :min(6, gl.shape[1])] = gl[:9, :6]
+    return c
+
+
+def _read_label(mask, y0, y1, x0, x1, templates):
+    """1行のラベルを読む。数字は右端揃え 6px ピッチなので
+    右端から固定オフセットでセルを切る (小数点の検出は不要)。"""
+    sub = mask[y0:y1 + 1, x0:x1]
+    cols = np.where(sub.sum(axis=0) > 0)[0]
+    if len(cols) == 0:
+        return None
+    xe = x0 + int(cols.max())
+    digs = []
+    for cx in [xe - 25, xe - 19, xe - 10, xe - 4]:
+        c = _cell_canon(mask, y0, y1, cx)
+        if c is None:
+            digs.append(None)
+            continue
+        best, bd = None, 99
+        for ch, ts in templates.items():
+            for t in ts:
+                d = int((c != t).sum())
+                if d < bd:
+                    bd, best = d, ch
+        digs.append(best if bd <= 6 else "?")
+    ds = [d for d in digs if d]
+    if "?" in ds:
+        return None
+    if len(ds) == 4:
+        return float(ds[0] + ds[1] + "." + ds[2] + ds[3])
+    if len(ds) == 3:
+        return float(ds[0] + "." + ds[1] + ds[2])
+    return None
+
+
+def ocr_axis_calibration(arr, templates):
+    """目盛りラベルを OCR し、軸ごとに線形フィット (外れ値除去つき) で
+    キャリブレーションを導出する。返り値: {mode: (y0, v0, span100) or None}"""
+    if templates is None:
+        return {}
+    lm = label_masks(arr)
+    result = {}
+    for key, (x0, x1) in LABEL_X.items():
+        pts = []
+        for ys, ye in _label_rows(lm[key], x0, x1):
+            val = _read_label(lm[key], ys, ye, x0, x1, templates)
+            if val is None:
+                continue
+            center = (ys + ye) / 2 - 3          # ラベル中心はグリッド線の約3px下
+            grid_y = round((center - PLOT_Y0) / 20) * 20 + PLOT_Y0
+            if abs(center - grid_y) > 4:
+                continue
+            pts.append((float(grid_y), val))
+        # 線形フィット + 外れ値除去 (ロゴ被り等の誤読はステップが合わず residual が大きい)
+        calib = None
+        pts_work = list(pts)
+        while len(pts_work) >= 4:
+            ys_a = np.array([p[0] for p in pts_work])
+            vs_a = np.array([p[1] for p in pts_work])
+            A = np.vstack([ys_a, np.ones(len(ys_a))]).T
+            (slope, intercept), res = np.linalg.lstsq(A, vs_a, rcond=None)[0], None
+            resid = np.abs(vs_a - (slope * ys_a + intercept))
+            if resid.max() <= 0.03:
+                if slope < 0:  # 上が大きい値のはず
+                    calib = (PLOT_Y0, slope * PLOT_Y0 + intercept, -slope * 100)
+                break
+            pts_work.pop(int(resid.argmax()))
+        result[key] = calib
+        pretty = f"y{PLOT_Y0}={calib[1]:.3f}Hz, {calib[2]:.3f}Hz/100px" if calib else "FAILED"
+        print(f"  OCR calib {key}: {len(pts)} labels -> {pretty}")
+    return result
 # 物理的にありえる帯域 (外れたら誤読としてリジェクト)
 SANE_BAND = {
     "F1": (6.8, 9.2),
@@ -117,13 +241,17 @@ def verify_layout(arr):
     return problems
 
 
-def extract_modes(arr):
+def extract_modes(arr, ocr_calib=None):
     """右端 (最新) の各モード周波数をピクセルから読み取る"""
     masks = color_masks(arr)
     now_utc = datetime.datetime.now(datetime.timezone.utc)
     results = {}
     latest_x = None
     for key, mask in masks.items():
+        cal = (ocr_calib or {}).get(key)
+        used_ocr = cal is not None
+        if cal is None:
+            cal = CALIB[key]
         m = mask.copy()
         # プロット領域内だけ見る
         m[:PLOT_Y0 + 1, :] = False
@@ -146,7 +274,7 @@ def extract_modes(arr):
             if len(yy):
                 ys.append(float(np.median(yy)))
         y = float(np.median(ys))
-        y0, v0, span = CALIB[key]
+        y0, v0, span = cal
         hz = v0 - (y - y0) * span / 100.0
         lo, hi = SANE_BAND[key]
         if not (lo <= hz <= hi):
@@ -165,14 +293,16 @@ def extract_modes(arr):
         ) - datetime.timedelta(days=days_back)
         data_time = day_start_tomsk + datetime.timedelta(hours=hour) - tomsk_offset
         stale_min = max(0.0, (now_utc - data_time).total_seconds() / 60)
-        # 信頼度: ピクセル読み取りは決定論的に高いが、古いデータは減点
-        conf = 95
+        # 信頼度: OCR で軸を検証できた場合は高い。静的フォールバック時は
+        # 軸が変わっている可能性があるので上限 60。古いデータはさらに減点。
+        conf = 95 if used_ocr else 60
         if stale_min > 60:
-            conf = max(30, 95 - int((stale_min - 60) / 30) * 10)
+            conf = max(30, conf - int((stale_min - 60) / 30) * 10)
         results[key] = {
             "hz": round(hz, 2),
             "confidence": conf,
             "data_age_min": round(stale_min),
+            "calibration": "ocr" if used_ocr else "static-fallback",
         }
         if latest_x is None or xr > latest_x:
             latest_x = xr
@@ -197,7 +327,11 @@ def build_notes(modes):
              if (modes.get(k, {}).get("data_age_min") or 0) > 120]
     if stale:
         parts.append(f"{'・'.join(stale)}は2時間以上更新なし")
-    parts.append("ピクセル解析による決定論的読み取り")
+    fallback = [k for k in ("F1", "F2", "F3", "F4")
+                if modes.get(k, {}).get("calibration") == "static-fallback"]
+    if fallback:
+        parts.append(f"{'・'.join(fallback)}は軸OCR失敗のため参考値")
+    parts.append("軸目盛りOCR検証つきピクセル解析")
     return "。".join(parts) + "。"
 
 
@@ -264,7 +398,9 @@ def main():
         })
         return
 
-    modes = extract_modes(arr)
+    templates = load_templates()
+    ocr_calib = ocr_axis_calibration(arr, templates)
+    modes = extract_modes(arr, ocr_calib)
     for k, v in modes.items():
         print(f"  {k}: {v}")
 
@@ -288,7 +424,7 @@ def main():
         "status": "ok",
         "source_line": line_url,
         "source_spectro": spectro_url,
-        "model": "pixel-extraction-v6",
+        "model": "pixel-extraction-v6.1-ocr",
         "modes": modes_out,
         "amplitude_level": "unknown",
         "strongest_mode": strongest,
