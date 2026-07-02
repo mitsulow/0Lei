@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-07-02T10:49:43.119789+00:00",
+  "timestamp": "2026-07-02T10:50:18.914002+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -44,8 +44,8 @@
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 19.82,
-    "tomsk_hour": 17.82,
+    "japan_hour": 19.83,
+    "tomsk_hour": 17.83,
     "is_day_japan": false,
     "is_day_tomsk": true
   },
