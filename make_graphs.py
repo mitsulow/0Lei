@@ -199,14 +199,15 @@ def render_graphs(store, now_jst, outdir):
     total_h = 72.0
 
     S = 2
-    GW, GH = 1000 * S, 232 * S
-    PADL, PADR, PADT, PADB = 66 * S, 20 * S, 36 * S, 32 * S
+    GW, GH = 1000 * S, 206 * S
+    PADL, PADR, PADT, PADB = 66 * S, 20 * S, 12 * S, 32 * S  # 見出しは HTML 側へ (プロット最大化)
     BG = (34, 36, 44)             # 黒寄り (ネオンが締まる)
     TXT = (255, 255, 255)
     TICK = (255, 255, 255)        # 目盛り文字は完全な白
     DIM = (168, 172, 184)
     fM, fS_, fT, fB, fP = _fonts(S)
     DIV = 6
+    stats = {}
 
     for key, name, theory, col in MODES:
         data = []
@@ -296,28 +297,13 @@ def render_graphs(store, now_jst, outdir):
             tail = vals[-5:]
             cur = sorted(tail)[len(tail) // 2]
 
-        # ヘッダー: 名前 / [- - - 3日間平均] [基準値] [現在値ピル] を右から詰めて配置
-        d.text((PADL, 8 * S), name, fill=TXT, font=fB)
-        legend_y = 16 * S
-        right = px1
-        if cur is not None:
-            label = f"{cur:.2f} Hz"
-            tw = d.textlength(label, font=fP)
-            d.rounded_rectangle([right - tw - 16 * S, 6 * S, right, 26 * S], 10 * S, fill=col)
-            d.text((right - 8 * S, 16 * S), label, fill=(20, 22, 30), font=fP, anchor="rm")
-            right -= tw + 16 * S + 16 * S
-        base_label = f"基準値 {theory} Hz"
-        d.text((right, legend_y), base_label, fill=DIM, font=fM, anchor="rm")
-        right -= d.textlength(base_label, font=fM) + 20 * S
-        avg_label = f"3日間平均 {avg:.2f} Hz"
-        d.text((right, legend_y), avg_label, fill=(255, 225, 130), font=fM, anchor="rm")
-        right -= d.textlength(avg_label, font=fM) + 6 * S
-        for xx in range(int(right - 22 * S), int(right - 2 * S), 8 * S):
-            d.line([(xx, legend_y), (xx + 4 * S, legend_y)], fill=(255, 225, 130), width=S)
-
+        # 見出し・数値は HTML 側で表示するため、画像はプロットのみ
         img = _rounded(base.convert("RGB").resize((GW // S, GH // S), Image.LANCZOS), 14)
         img.save(outdir / f"graph_{key.lower()}.png")  # 角丸は透過 (どんな背景にも馴染む)
+        stats[key] = {"cur": cur, "avg": round(avg, 2), "theory": theory}
         print(f"+ graph_{key.lower()}.png  現在:{cur}  3日平均:{round(avg,2)}")
+
+    return stats
 
 
 def main():
@@ -335,7 +321,10 @@ def main():
     SERIES_FILE.write_text(json.dumps(store, ensure_ascii=False), encoding="utf-8")
     n = {k: len(v) for k, v in store["modes"].items()}
     print(f"+ series 蓄積: {n}")
-    render_graphs(store, now_utc.astimezone(JST), Path(__file__).parent)
+    stats = render_graphs(store, now_utc.astimezone(JST), Path(__file__).parent)
+    Path(__file__).with_name("graph_stats.json").write_text(
+        json.dumps({"updated": now_utc.isoformat(), "modes": stats}, ensure_ascii=False),
+        encoding="utf-8")
 
 
 if __name__ == "__main__":
