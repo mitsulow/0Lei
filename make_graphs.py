@@ -14,6 +14,7 @@ graph_f1.png 〜 graph_f4.png を描画する。
 - Y軸は本家方式: 実測レンジ6等分の端数ラベル (精密感 + 縦幅フル活用)
 - 平均の数値はヘッダーの凡例へ (グラフと重ならない)
 """
+import io
 import json
 import math
 import datetime
@@ -117,15 +118,20 @@ def extract_series(arr, calib):
 # ============ アーカイブ (自前の連続データ) ============
 
 def load_store():
+    store = None
     if SERIES_FILE.exists():
         try:
-            return json.loads(SERIES_FILE.read_text(encoding="utf-8"))
+            store = json.loads(SERIES_FILE.read_text(encoding="utf-8"))
         except json.JSONDecodeError:
-            pass
-    return {"step_min": 5, "modes": {k: {} for k, _, _, _ in MODES}}
+            store = None
+    if store is not None:
+        for sec in ("modes", "amp", "q"):
+            store.setdefault(sec, {})
+        return store
+    return {"step_min": 5, "modes": {}, "amp": {}, "q": {}}
 
 
-def merge_series(store, series, now_utc):
+def merge_series(store, series, now_utc, section="modes"):
     """画像のカラム位置→時刻に変換してアーカイブへマージ (5分グリッド)"""
     # 画像の時刻軸オフセットを鮮度から自動判定 (data_age_min と同じロジック)
     X0, X1 = f6.PLOT_X0, f6.PLOT_X1
@@ -146,7 +152,7 @@ def merge_series(store, series, now_utc):
     local_now = now_utc.astimezone(tz)
     day1 = local_now.replace(hour=0, minute=0, second=0, microsecond=0) - datetime.timedelta(days=2)
     for key in series:
-        dst = store["modes"].setdefault(key, {})
+        dst = store[section].setdefault(key, {})
         for i, v in enumerate(series[key]):
             if v is None:
                 continue
@@ -158,8 +164,8 @@ def merge_series(store, series, now_utc):
             dst[stamp] = v
     # 保持期間で剪定
     cutoff = (now_utc.astimezone(JST) - datetime.timedelta(days=RETAIN_DAYS)).strftime("%Y-%m-%dT%H:%M")
-    for key in store["modes"]:
-        store["modes"][key] = {t: v for t, v in sorted(store["modes"][key].items()) if t >= cutoff}
+    for key in store[section]:
+        store[section][key] = {t: v for t, v in sorted(store[section][key].items()) if t >= cutoff}
     return store
 
 
@@ -192,7 +198,7 @@ def _fonts(S):
             return (f, f, f, f, f)
 
 
-def render_graphs(store, now_jst, outdir):
+def render_graphs(store, now_jst, outdir, section="modes", prefix="graph_f", unit="Hz", with_theory=True):
     # ローリング3日窓: 一昨日 00:00 〜 今日 24:00 (JST)
     start = now_jst.replace(hour=0, minute=0, second=0, microsecond=0) - datetime.timedelta(days=2)
     end = start + datetime.timedelta(days=3)
@@ -211,7 +217,7 @@ def render_graphs(store, now_jst, outdir):
 
     for key, name, theory, col in MODES:
         data = []
-        for stamp, v in sorted(store["modes"].get(key, {}).items()):
+        for stamp, v in sorted(store[section].get(key, {}).items()):
             t = datetime.datetime.strptime(stamp, "%Y-%m-%dT%H:%M").replace(tzinfo=JST)
             if start <= t < end:
                 data.append((t, v))
@@ -301,9 +307,9 @@ def render_graphs(store, now_jst, outdir):
         # 見出し・数値は HTML 側で表示するため、画像はプロットのみ。
         # 2倍解像度のまま保存 (スマホで拡大しても補助目盛りまで読める)
         img = _rounded(base.convert("RGB"), 28)
-        img.save(outdir / f"graph_{key.lower()}.png")
+        img.save(outdir / (prefix + key[-1] + ".png"))
         stats[key] = {"cur": cur, "avg": round(avg, 2), "theory": theory}
-        print(f"+ graph_{key.lower()}.png  現在:{cur}  3日平均:{round(avg,2)}")
+        print(f"+ {prefix}{key[-1]}.png  現在:{cur}  3日平均:{round(avg,2)} {unit}")
 
     return stats
 
@@ -317,13 +323,42 @@ def main():
     if f6.verify_layout(arr):
         print("! レイアウト検証に失敗 — グラフ生成をスキップ (前回画像を維持)")
         return
-    calib = f6.ocr_axis_calibration(arr, f6.load_templates())
+    templates = f6.load_templates()
+    store = load_store()
+
+    # 周波数 (srf)
+    calib = f6.ocr_axis_calibration(arr, templates)
     series = extract_series(arr, calib)
-    store = merge_series(load_store(), series, now_utc)
+    store = merge_series(store, series, now_utc, section="modes")
+
+    # 振幅 (sra) と Q値 (srq): 同じエンジンで全時系列を抽出して蓄積
+    for urls, section, fname in [(f6.URLS_AMP, "amp", "latest_amp.jpg"),
+                                 (f6.URLS_Q, "q", "latest_q.jpg")]:
+        try:
+            raw, _ = f6.fetch_image(urls)
+            if raw is None:
+                print(f"! {section}: fetch failed")
+                continue
+            Path(__file__).with_name(fname).write_bytes(raw)
+            aux = np.array(Image.open(io.BytesIO(raw)).convert("RGB"))
+            if f6.verify_layout(aux):
+                print(f"! {section}: layout check failed")
+                continue
+            aux_calib = f6.ocr_axis_calibration(aux, templates)
+            aux_series = extract_series(aux, aux_calib)
+            store = merge_series(store, aux_series, now_utc, section=section)
+        except Exception as e:
+            print(f"! {section} failed: {e}")
+
     SERIES_FILE.write_text(json.dumps(store, ensure_ascii=False), encoding="utf-8")
     n = {k: len(v) for k, v in store["modes"].items()}
     print(f"+ series 蓄積: {n}")
-    stats = render_graphs(store, now_utc.astimezone(JST), Path(__file__).parent)
+
+    now_jst = now_utc.astimezone(JST)
+    outdir = Path(__file__).parent
+    stats = render_graphs(store, now_jst, outdir)  # 周波数 graph_f1..4
+    render_graphs(store, now_jst, outdir, section="amp", prefix="graph_a", unit="pT", with_theory=False)
+    render_graphs(store, now_jst, outdir, section="q", prefix="graph_q", unit="Q", with_theory=False)
     Path(__file__).with_name("graph_stats.json").write_text(
         json.dumps({"updated": now_utc.isoformat(), "modes": stats}, ensure_ascii=False),
         encoding="utf-8")
