@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-07-02T01:35:40.239577+00:00",
+  "timestamp": "2026-07-02T04:22:35.435888+00:00",
   "status": "ok",
   "source_line": "https://sosrff.tsu.ru/new/srf.jpg",
   "source_spectro": "https://sosrff.tsu.ru/new/shm.jpg",
@@ -12,12 +12,12 @@
     },
     "F2": {
       "hz": 13.52,
-      "confidence": 95,
+      "confidence": 55,
       "calibration": "ocr"
     },
     "F3": {
       "hz": 18.9,
-      "confidence": 35,
+      "confidence": 30,
       "calibration": "ocr"
     },
     "F4": {
@@ -32,19 +32,19 @@
   },
   "amplitude_level": "unknown",
   "strongest_mode": "F1",
-  "notes": "F1は7.56Hzで基準よりやや低め (-0.27Hz)。F3は2時間以上更新なし。軸目盛りOCR検証つきピクセル解析。",
+  "notes": "F1は7.56Hzで基準よりやや低め (-0.27Hz)。F2・F3は2時間以上更新なし。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 10.58,
-    "tomsk_hour": 8.58,
+    "japan_hour": 13.37,
+    "tomsk_hour": 11.37,
     "is_day_japan": true,
     "is_day_tomsk": true
   },
   "data_age_min": {
-    "F1": 0,
-    "F2": 0,
-    "F3": 266,
-    "F4": 0
+    "F1": 88,
+    "F2": 188,
+    "F3": 493,
+    "F4": 83
   }
 }
