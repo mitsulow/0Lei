@@ -297,9 +297,10 @@ def render_graphs(store, now_jst, outdir):
             tail = vals[-5:]
             cur = sorted(tail)[len(tail) // 2]
 
-        # 見出し・数値は HTML 側で表示するため、画像はプロットのみ
-        img = _rounded(base.convert("RGB").resize((GW // S, GH // S), Image.LANCZOS), 14)
-        img.save(outdir / f"graph_{key.lower()}.png")  # 角丸は透過 (どんな背景にも馴染む)
+        # 見出し・数値は HTML 側で表示するため、画像はプロットのみ。
+        # 2倍解像度のまま保存 (スマホで拡大しても補助目盛りまで読める)
+        img = _rounded(base.convert("RGB"), 28)
+        img.save(outdir / f"graph_{key.lower()}.png")
         stats[key] = {"cur": cur, "avg": round(avg, 2), "theory": theory}
         print(f"+ graph_{key.lower()}.png  現在:{cur}  3日平均:{round(avg,2)}")
 
