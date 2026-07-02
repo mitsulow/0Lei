@@ -201,7 +201,10 @@ def render_graphs(store, now_jst, outdir):
     S = 2
     GW, GH = 1000 * S, 232 * S
     PADL, PADR, PADT, PADB = 66 * S, 20 * S, 36 * S, 32 * S
-    BG = (84, 88, 98); TXT = (232, 235, 242); DIM = (178, 182, 192)
+    BG = (34, 36, 44)             # 黒寄り (ネオンが締まる)
+    TXT = (255, 255, 255)
+    TICK = (255, 255, 255)        # 目盛り文字は完全な白
+    DIM = (168, 172, 184)
     fM, fS_, fT, fB, fP = _fonts(S)
     DIV = 6
 
@@ -237,28 +240,28 @@ def render_graphs(store, now_jst, outdir):
             xx = X(t)
             if t.hour % 6 == 0:
                 d.line([(xx, py0), (xx, py1)],
-                       fill=(104, 108, 118) if t.hour == 0 else (96, 100, 110),
+                       fill=(78, 82, 94) if t.hour == 0 else (62, 66, 78),
                        width=S if t.hour == 0 else 1)
             else:
-                d.line([(xx, py1 - 3 * S), (xx, py1)], fill=(130, 134, 144), width=1)
+                d.line([(xx, py1 - 3 * S), (xx, py1)], fill=(120, 124, 136), width=1)
             if t.hour % 3 == 0 and hh < 72:
-                d.text((xx, py1 + 7 * S), f"{t.hour}", fill=DIM, font=fT, anchor="ma")
+                d.text((xx, py1 + 7 * S), f"{t.hour}", fill=TICK, font=fT, anchor="ma")
             if t.hour == 0 and hh < 72:
                 d.text((xx, py1 + 18 * S),
                        f"{t.month}/{t.day}({'月火水木金土日'[t.weekday()]})",
                        fill=TXT, font=fS_, anchor="ma")
-        d.line([(px0, py1), (px1, py1)], fill=(140, 144, 154), width=1)
+        d.line([(px0, py1), (px1, py1)], fill=(150, 154, 166), width=1)
 
         # Y軸: 本家方式 = 実測レンジ6等分の端数ラベル + 半刻み補助線 (全幅)
         for k in range(DIV * 2 + 1):
             vv = lo + (hi - lo) * k / (DIV * 2)
             yy = Y(vv)
             if k % 2 == 0:
-                d.line([(px0, yy), (px1, yy)], fill=(100, 104, 114))
-                d.text((px0 - 6 * S, yy), f"{vv:.2f}", fill=DIM, font=fT, anchor="rm")
+                d.line([(px0, yy), (px1, yy)], fill=(66, 70, 82))
+                d.text((px0 - 6 * S, yy), f"{vv:.2f}", fill=TICK, font=fT, anchor="rm")
             else:
-                d.line([(px0, yy), (px1, yy)], fill=(90, 94, 104))
-        d.line([(px0, py0), (px0, py1)], fill=(140, 144, 154), width=1)
+                d.line([(px0, yy), (px1, yy)], fill=(50, 53, 64))
+        d.line([(px0, py0), (px0, py1)], fill=(150, 154, 166), width=1)
 
         # 3日間平均の破線 (文字なし — 数値はヘッダーの凡例へ)
         yy = Y(avg)
