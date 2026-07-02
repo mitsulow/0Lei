@@ -200,7 +200,7 @@ def render_graphs(store, now_jst, outdir):
 
     S = 2
     GW, GH = 1000 * S, 206 * S
-    PADL, PADR, PADT, PADB = 66 * S, 20 * S, 12 * S, 32 * S  # 見出しは HTML 側へ (プロット最大化)
+    PADL, PADR, PADT, PADB = 6 * S, 62 * S, 12 * S, 32 * S  # 右目盛り (最新値=右端の真横で読める)
     BG = (34, 36, 44)             # 黒寄り (ネオンが締まる)
     TXT = (255, 255, 255)
     TICK = (255, 255, 255)        # 目盛り文字は完全な白
@@ -246,8 +246,9 @@ def render_graphs(store, now_jst, outdir):
             else:
                 d.line([(xx, py1 - 3 * S), (xx, py1)], fill=(120, 124, 136), width=1)
             if t.hour % 3 == 0 and hh < 72:
-                d.text((xx, py1 + 7 * S), f"{t.hour}", fill=TICK, font=fT, anchor="ma")
-            if t.hour == 0 and hh < 72:
+                anc = "la" if xx < px0 + 8 * S else "ma"
+                d.text((xx, py1 + 7 * S), f"{t.hour}", fill=TICK, font=fT, anchor=anc)
+            if t.hour == 12 and hh < 72:
                 d.text((xx, py1 + 18 * S),
                        f"{t.month}/{t.day}({'月火水木金土日'[t.weekday()]})",
                        fill=TXT, font=fS_, anchor="ma")
@@ -259,10 +260,10 @@ def render_graphs(store, now_jst, outdir):
             yy = Y(vv)
             if k % 2 == 0:
                 d.line([(px0, yy), (px1, yy)], fill=(66, 70, 82))
-                d.text((px0 - 6 * S, yy), f"{vv:.2f}", fill=TICK, font=fT, anchor="rm")
+                d.text((px1 + 6 * S, yy), f"{vv:.2f}", fill=TICK, font=fT, anchor="lm")
             else:
                 d.line([(px0, yy), (px1, yy)], fill=(50, 53, 64))
-        d.line([(px0, py0), (px0, py1)], fill=(150, 154, 166), width=1)
+        d.line([(px1, py0), (px1, py1)], fill=(150, 154, 166), width=1)
 
         # 3日間平均の破線 (文字なし — 数値はヘッダーの凡例へ)
         yy = Y(avg)
