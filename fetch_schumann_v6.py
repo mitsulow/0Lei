@@ -25,13 +25,14 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 
+# sosrff.tsu.ru が大学の直接配信 (最新)、sos70.ru はミラー (キャッシュが20分ほど古いことがある)
 URLS_LINE = [
-    "https://sos70.ru/provider.php?file=srf.jpg",
     "https://sosrff.tsu.ru/new/srf.jpg",
+    "https://sos70.ru/provider.php?file=srf.jpg",
 ]
 URLS_SPECTRO = [
-    "https://sos70.ru/provider.php?file=shm.jpg",
     "https://sosrff.tsu.ru/new/shm.jpg",
+    "https://sos70.ru/provider.php?file=shm.jpg",
 ]
 
 OUTPUT_DATA = "schumann_data.json"
@@ -201,7 +202,8 @@ def build_notes(modes):
 
 
 def calculate_polarization(utc_now):
-    tomsk_local_hour = (utc_now.hour + utc_now.minute / 60 + 5.6) % 24
+    # トムスクの時計時刻は UTC+7 (v5 は +5.6 の太陽時を使っていて表示が約1.4h ズレていた)
+    tomsk_local_hour = (utc_now.hour + utc_now.minute / 60 + 7) % 24
     is_day_tomsk = 6 <= tomsk_local_hour <= 18
     japan_hour = (utc_now.hour + utc_now.minute / 60 + 9) % 24
     is_day_japan = 6 <= japan_hour <= 18
