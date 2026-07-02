@@ -241,6 +241,25 @@ def verify_layout(arr):
     return problems
 
 
+def data_age_min(day, hour, now_utc):
+    """右端データの鮮度 (分) を返す。
+    ★グラフの時刻軸は UTC+8 (2026-07-02 実測校正)。トムスクの現行標準時 (+7) だと
+    データが1時間「未来」になる。観測サーバーが旧恒久サマータイム時代 (〜2014,
+    トムスク=UTC+8) の設定のままと推定。将来また変わっても救済できるよう、
+    +8 で未来になってしまう場合は +7, +9 を順に試して妥当な方を採用する。"""
+    for off in (8, 7, 9):
+        tz = datetime.timedelta(hours=off)
+        local_now = now_utc + tz
+        day_start = local_now.replace(
+            hour=0, minute=0, second=0, microsecond=0
+        ) - datetime.timedelta(days=2 - day)
+        data_time = day_start + datetime.timedelta(hours=hour) - tz
+        age = (now_utc - data_time).total_seconds() / 60
+        if age >= -10:  # 抽出の滲みで数分の負は許容
+            return max(0.0, age), off
+    return 0.0, 8
+
+
 def extract_modes(arr, ocr_calib=None):
     """右端 (最新) の各モード周波数をピクセルから読み取る"""
     masks = color_masks(arr)
@@ -282,17 +301,9 @@ def extract_modes(arr, ocr_calib=None):
                             "reason": f"out of band ({hz:.2f})"}
             continue
         # データの時刻 (右端x → 3日ウィンドウ内の時刻)
-        # グラフの時刻軸はトムスク地方時 (UTC+7)、最終日 = トムスクの今日
         day = 0 if xr < PLOT_X0 + DAY_PX else (1 if xr < PLOT_X0 + 2 * DAY_PX else 2)
         hour = (xr - (PLOT_X0 + day * DAY_PX)) / DAY_PX * 24
-        days_back = 2 - day
-        tomsk_offset = datetime.timedelta(hours=7)
-        now_tomsk = now_utc + tomsk_offset
-        day_start_tomsk = now_tomsk.replace(
-            hour=0, minute=0, second=0, microsecond=0
-        ) - datetime.timedelta(days=days_back)
-        data_time = day_start_tomsk + datetime.timedelta(hours=hour) - tomsk_offset
-        stale_min = max(0.0, (now_utc - data_time).total_seconds() / 60)
+        stale_min, axis_off = data_age_min(day, hour, now_utc)
         # 信頼度: OCR で軸を検証できた場合は高い。静的フォールバック時は
         # 軸が変わっている可能性があるので上限 60。古いデータはさらに減点。
         conf = 95 if used_ocr else 60
