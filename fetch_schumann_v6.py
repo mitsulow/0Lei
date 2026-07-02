@@ -25,14 +25,16 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 
-# sosrff.tsu.ru が大学の直接配信 (最新)、sos70.ru はミラー (キャッシュが20分ほど古いことがある)
+# ★sos70.ru を主とする (2026-07-02: sosrff.tsu.ru 直配信はサーバー時計が
+#   2025年8月に飛んで過去データを再生する障害中。ミラーの sos70 は正常)。
+#   sos70 はキャッシュが20分ほど古いことがあるが、正しさ優先。
 URLS_LINE = [
-    "https://sosrff.tsu.ru/new/srf.jpg",
     "https://sos70.ru/provider.php?file=srf.jpg",
+    "https://sosrff.tsu.ru/new/srf.jpg",
 ]
 URLS_SPECTRO = [
-    "https://sosrff.tsu.ru/new/shm.jpg",
     "https://sos70.ru/provider.php?file=shm.jpg",
+    "https://sosrff.tsu.ru/new/shm.jpg",
 ]
 
 OUTPUT_DATA = "schumann_data.json"
@@ -243,11 +245,10 @@ def verify_layout(arr):
 
 def data_age_min(day, hour, now_utc):
     """右端データの鮮度 (分) を返す。
-    ★グラフの時刻軸は UTC+8 (2026-07-02 実測校正)。トムスクの現行標準時 (+7) だと
-    データが1時間「未来」になる。観測サーバーが旧恒久サマータイム時代 (〜2014,
-    トムスク=UTC+8) の設定のままと推定。将来また変わっても救済できるよう、
-    +8 で未来になってしまう場合は +7, +9 を順に試して妥当な方を採用する。"""
-    for off in (8, 7, 9):
+    グラフの時刻軸はトムスク標準時 (UTC+7)。ただしサーバー時計の故障で
+    ずれることがある (2026-07-02 に sosrff 側で +1h と日付10ヶ月ズレを実測)。
+    +7 で未来になってしまう場合は +8, +9 を順に試して妥当な方を採用する。"""
+    for off in (7, 8, 9):
         tz = datetime.timedelta(hours=off)
         local_now = now_utc + tz
         day_start = local_now.replace(
