@@ -2,8 +2,9 @@ name: Schumann Resonance v6 (Pixel Extraction)
 
 on:
   schedule:
-    # 15分ごと
-    - cron: "*/15 * * * *"
+    # 15分ごと。0/15/30/45分ちょうどは GitHub の cron が混雑して
+    # 数時間スキップされることがあるため、空いている分にずらす
+    - cron: "3,18,33,48 * * * *"
   workflow_dispatch: # 手動実行も可能
 
 permissions:
