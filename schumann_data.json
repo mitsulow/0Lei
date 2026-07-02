@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-07-02T00:51:00.322038+00:00",
+  "timestamp": "2026-07-02T01:35:40.239577+00:00",
   "status": "ok",
   "source_line": "https://sosrff.tsu.ru/new/srf.jpg",
   "source_spectro": "https://sosrff.tsu.ru/new/shm.jpg",
@@ -7,19 +7,23 @@
   "modes": {
     "F1": {
       "hz": 7.56,
-      "confidence": 95
+      "confidence": 95,
+      "calibration": "ocr"
     },
     "F2": {
       "hz": 13.52,
-      "confidence": 95
+      "confidence": 95,
+      "calibration": "ocr"
     },
     "F3": {
       "hz": 18.9,
-      "confidence": 45
+      "confidence": 35,
+      "calibration": "ocr"
     },
     "F4": {
       "hz": 24.27,
-      "confidence": 95
+      "confidence": 95,
+      "calibration": "ocr"
     },
     "F5": {
       "hz": null,
@@ -32,15 +36,15 @@
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 9.85,
-    "tomsk_hour": 7.85,
+    "japan_hour": 10.58,
+    "tomsk_hour": 8.58,
     "is_day_japan": true,
     "is_day_tomsk": true
   },
   "data_age_min": {
     "F1": 0,
     "F2": 0,
-    "F3": 221,
+    "F3": 266,
     "F4": 0
   }
 }
