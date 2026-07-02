@@ -412,7 +412,8 @@ def main():
     polarization = calculate_polarization(utc_now)
 
     # F5 は元グラフに存在しないので常に null (v5 では幻覚読みしていた)
-    modes_out = {k: {"hz": v.get("hz"), "confidence": v.get("confidence", 0)}
+    modes_out = {k: {"hz": v.get("hz"), "confidence": v.get("confidence", 0),
+                     "calibration": v.get("calibration")}
                  for k, v in modes.items()}
     modes_out["F5"] = {"hz": None, "confidence": 0}
 
