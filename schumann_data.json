@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-07-02T00:49:29.115386+00:00",
+  "timestamp": "2026-07-02T00:51:00.322038+00:00",
   "status": "ok",
   "source_line": "https://sosrff.tsu.ru/new/srf.jpg",
   "source_spectro": "https://sosrff.tsu.ru/new/shm.jpg",
@@ -32,15 +32,15 @@
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 9.82,
-    "tomsk_hour": 7.82,
+    "japan_hour": 9.85,
+    "tomsk_hour": 7.85,
     "is_day_japan": true,
     "is_day_tomsk": true
   },
   "data_age_min": {
     "F1": 0,
     "F2": 0,
-    "F3": 220,
+    "F3": 221,
     "F4": 0
   }
 }
