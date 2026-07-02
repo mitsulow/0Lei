@@ -17,6 +17,7 @@ v5 までの Claude Vision 読み取りを置換:
       F3: 20.80@y150→ 18.60@y250 (2.20Hz/100px)
       F4: 26.70@y210→ 24.20@y310 (2.50Hz/100px)
 """
+import io
 import json
 import datetime
 import urllib.request
@@ -35,6 +36,14 @@ URLS_LINE = [
 URLS_SPECTRO = [
     "https://sos70.ru/provider.php?file=shm.jpg",
     "https://sosrff.tsu.ru/new/shm.jpg",
+]
+URLS_AMP = [
+    "https://sos70.ru/provider.php?file=sra.jpg",
+    "https://sosrff.tsu.ru/new/sra.jpg",
+]
+URLS_Q = [
+    "https://sos70.ru/provider.php?file=srq.jpg",
+    "https://sosrff.tsu.ru/new/srq.jpg",
 ]
 
 OUTPUT_DATA = "schumann_data.json"
@@ -265,8 +274,9 @@ def data_age_min(day, hour, now_utc):
     return 0.0, 8
 
 
-def extract_modes(arr, ocr_calib=None):
-    """右端 (最新) の各モード周波数をピクセルから読み取る"""
+def extract_modes(arr, ocr_calib=None, sane_check=True):
+    """右端 (最新) の各モードの値をピクセルから読み取る
+    sane_check=False で周波数帯域チェックを外す (振幅・Q値グラフ用)"""
     masks = color_masks(arr)
     now_utc = datetime.datetime.now(datetime.timezone.utc)
     results = {}
@@ -300,10 +310,15 @@ def extract_modes(arr, ocr_calib=None):
         y = float(np.median(ys))
         y0, v0, span = cal
         hz = v0 - (y - y0) * span / 100.0
-        lo, hi = SANE_BAND[key]
-        if not (lo <= hz <= hi):
+        if sane_check:
+            lo, hi = SANE_BAND[key]
+            if not (lo <= hz <= hi):
+                results[key] = {"hz": None, "confidence": 0,
+                                "reason": f"out of band ({hz:.2f})"}
+                continue
+        elif hz < 0 or hz > 500:
             results[key] = {"hz": None, "confidence": 0,
-                            "reason": f"out of band ({hz:.2f})"}
+                            "reason": f"implausible ({hz:.2f})"}
             continue
         # データの時刻 (右端x → 3日ウィンドウ内の時刻)
         day = 0 if xr < PLOT_X0 + DAY_PX else (1 if xr < PLOT_X0 + 2 * DAY_PX else 2)
@@ -425,11 +440,34 @@ def main():
         print("! No modes extracted — keeping previous data")
         return
 
+    # 振幅 (sra) と Q値 (srq) も同じエンジンで読む (ラベル形式・色・レイアウトが同一)
+    def read_aux(urls, label):
+        try:
+            raw, _ = fetch_image(urls)
+            if raw is None:
+                return {}
+            aux = np.array(Image.open(io.BytesIO(raw)).convert("RGB"))
+            if verify_layout(aux):
+                print(f"! {label}: layout check failed")
+                return {}
+            aux_calib = ocr_axis_calibration(aux, templates)
+            vals = extract_modes(aux, aux_calib, sane_check=False)
+            print(f"  {label}: " + ", ".join(
+                f"{k}={v.get('hz')}" for k, v in vals.items()))
+            return {k: v.get("hz") for k, v in vals.items()}
+        except Exception as e:
+            print(f"! {label} failed: {e}")
+            return {}
+
+    amp_vals = read_aux(URLS_AMP, "amplitude(pT)")
+    q_vals = read_aux(URLS_Q, "quality(Q)")
+
     polarization = calculate_polarization(utc_now)
 
     # F5 は元グラフに存在しないので常に null (v5 では幻覚読みしていた)
     modes_out = {k: {"hz": v.get("hz"), "confidence": v.get("confidence", 0),
-                     "calibration": v.get("calibration")}
+                     "calibration": v.get("calibration"),
+                     "amp": amp_vals.get(k), "q": q_vals.get(k)}
                  for k, v in modes.items()}
     modes_out["F5"] = {"hz": None, "confidence": 0}
 
