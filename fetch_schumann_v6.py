@@ -212,8 +212,12 @@ def color_masks(arr):
     r = arr[:, :, 0].astype(int)
     g = arr[:, :, 1].astype(int)
     b = arr[:, :, 2].astype(int)
+    mx = np.maximum(np.maximum(r, g), b)
+    mn = np.minimum(np.minimum(r, g), b)
     return {
-        "F1": (r > 190) & (g > 190) & (b > 190),          # 白
+        # 白 = 明るい かつ 彩度が低い。彩度条件がないと JPEG で白化した
+        # 黄線の芯が混入し、F1 が F2 側に引っ張られる (2026-07-02 実測)
+        "F1": (mn > 190) & ((mx - mn) < 50),
         "F2": (r > 190) & (g > 190) & (b < 120),           # 黄
         "F3": (r > 170) & (g < 110) & (b < 110),           # 赤
         "F4": (g > 170) & (r < 120) & (b < 120),           # 緑
