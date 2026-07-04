@@ -1,37 +1,37 @@
 {
-  "timestamp": "2026-07-04T03:56:12.048163+00:00",
+  "timestamp": "2026-07-04T06:14:18.224753+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 7.55,
+      "hz": 7.9,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 35.58,
-      "q": 6.98
+      "amp": 4.3,
+      "q": 5.14
     },
     "F2": {
-      "hz": 13.83,
+      "hz": 14.22,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 13.4,
-      "q": 6.04
+      "amp": 14.59,
+      "q": 6.2
     },
     "F3": {
-      "hz": 19.05,
+      "hz": 20.18,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 8.93,
-      "q": 9.29
+      "amp": 10.52,
+      "q": 7.55
     },
     "F4": {
-      "hz": 24.55,
+      "hz": 25.64,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 6.31,
-      "q": 8.57
+      "amp": 2.36,
+      "q": 5.52
     },
     "F5": {
       "hz": null,
@@ -39,20 +39,20 @@
     }
   },
   "amplitude_level": "unknown",
-  "strongest_mode": "F2",
-  "notes": "F1は7.55Hzで基準よりやや低め (-0.28Hz)。軸目盛りOCR検証つきピクセル解析。",
+  "strongest_mode": "F1",
+  "notes": "F1は7.90Hzで基準よりやや高め (+0.07Hz)。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 12.93,
-    "tomsk_hour": 10.93,
+    "japan_hour": 15.23,
+    "tomsk_hour": 13.23,
     "is_day_japan": true,
     "is_day_tomsk": true
   },
   "data_age_min": {
-    "F1": 26,
-    "F2": 46,
-    "F3": 46,
-    "F4": 26
+    "F1": 34,
+    "F2": 84,
+    "F3": 64,
+    "F4": 34
   }
 }
