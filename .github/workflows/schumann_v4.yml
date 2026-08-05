@@ -48,7 +48,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           # 画像はコミットしない (数値JSONだけ運ぶ。画像は抽出の材料で、抽出後は不要 2026-08-05)
-          git add schumann_data.json schumann_history.json schumann_series.json graph_stats.json || true
+          git add schumann_data.json schumann_history.json schumann_series.json schumann_series_3d.json graph_stats.json || true
           git add last_srf_sha256.txt || true
           git add history || true
           git diff --staged --quiet || git commit -m "Update Schumann data $(date -u +'%Y-%m-%d %H:%M UTC')"

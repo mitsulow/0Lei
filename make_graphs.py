@@ -356,6 +356,19 @@ def main():
             print(f"! {section} failed: {e}")
 
     SERIES_FILE.write_text(json.dumps(store, ensure_ascii=False), encoding="utf-8")
+
+    # スリム版 (直近3日ぶんだけ・約1/3): ページの観測グラフはこちらを読む。
+    # 630KBのフル版を毎回配らないための転送量対策 (2026-08-05)
+    now_jst = now_utc.astimezone(JST)
+    cut3 = (now_jst - datetime.timedelta(days=3)).strftime("%Y-%m-%dT%H:%M")
+    slim = {"step_min": store.get("step_min", 5)}
+    for sec in ("modes", "amp", "q"):
+        slim[sec] = {}
+        for k, ser in (store.get(sec) or {}).items():
+            slim[sec][k] = {t: v for t, v in ser.items() if t >= cut3}
+    Path(__file__).with_name("schumann_series_3d.json").write_text(
+        json.dumps(slim, ensure_ascii=False), encoding="utf-8")
+    print(f"+ schumann_series_3d.json (slim)")
     n = {k: len(v) for k, v in store["modes"].items()}
     print(f"+ series 蓄積: {n}")
 
