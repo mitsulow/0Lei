@@ -274,6 +274,33 @@ def rebuild_daily(mk):
     save_json(HISTORY_DIR / f"{mk}.daily.json", out)
 
 
+def recover_from_archive(utc_now, ocr_calib_templates):
+    """保険: schumann-frequency.com の線グラフアーカイブから直近数日を回収し、
+    ライブ観測(sos70)が落ちていた時間帯の5分点を穴埋めする。
+    宝の山(history/{月}.json)と同じ器・同じ merge_series_history に流すので、
+    取りこぼしても翌日には自動で埋まる。過去方向にも未来方向にも効く保険。"""
+    import urllib.request
+    base = "https://cdn.schumann-frequency.com/assets/archiv/{y}/{m:02d}/schumann-frequencies-{d:02d}-{m:02d}-{y}.jpg"
+    ua = {"User-Agent": "Mozilla/5.0 (0Lei recover)"}
+    total = 0
+    # 「今日」と「昨日」の画像を取れば、直近3〜4日ぶんの完全日をカバーできる
+    for back in (0, 1):
+        d = (utc_now + datetime.timedelta(hours=9)).date() - datetime.timedelta(days=back)
+        try:
+            req = urllib.request.Request(base.format(y=d.year, m=d.month, d=d.day), headers=ua)
+            raw = urllib.request.urlopen(req, timeout=25).read()
+            a = np.array(Image.open(io.BytesIO(raw)).convert("RGB"))
+            if verify_layout(a):
+                continue
+            cal = ocr_axis_calibration(a, ocr_calib_templates)
+            ser = extract_series(a, cal)
+            img_utc = datetime.datetime(d.year, d.month, d.day, tzinfo=datetime.timezone.utc)
+            total += merge_series_history(ser, img_utc)
+        except Exception:
+            continue
+    return total
+
+
 def update_solar_daily():
     """GFZポツダムの日別Ap指数 (CC BY 4.0) の直近14日を取得してマージ。
     初回バックフィルは build_legacy_and_solar.py で実施済み"""
@@ -906,6 +933,15 @@ def main():
               f"({', '.join(k + '=' + str(len(v)) for k, v in series.items())})")
     except Exception as e:
         print(f"! Full-width backfill failed: {e}")
+
+    # 項目3.6: 保険 — schumann-frequency.com アーカイブから直近数日を回収し、
+    # ライブが落ちていた穴を自動で埋める(宝の山と同じ器へ)
+    try:
+        rec = recover_from_archive(utc_now, templates)
+        if rec:
+            print(f"+ Archive recovery: {rec} new samples (self-healing)")
+    except Exception as e:
+        print(f"! archive recovery failed: {e}")
 
     # 日次集計はJST区切りで毎回作り直す (当月ぶんもダッシュボードから読める)
     try:
