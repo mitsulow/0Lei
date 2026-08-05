@@ -347,12 +347,26 @@ def rebuild_daily_summary():
             if isinstance(f1, dict) and f1.get("mean") is not None:
                 d = e["date"]
                 n = f1.get("count", 0) or 1
-                sm, cn = acc.get(d, (0.0, 0))
-                acc[d] = (sm + f1["mean"] * n, cn + n)
-    # 日平均が妥当域(7.2〜8.12Hz)を外れる日は軸誤読の疑い → グラフから除外
-    days = {d: {"d": d, "f1": round(sm / cn, 4), "n": cn}
-            for d, (sm, cn) in acc.items()
-            if 7.2 <= sm / cn <= 8.12}
+                sm, cn, lo, hi = acc.get(d, (0.0, 0, None, None))
+                emn, emx = f1.get("min"), f1.get("max")
+                if emn is not None:
+                    lo = emn if lo is None else min(lo, emn)
+                if emx is not None:
+                    hi = emx if hi is None else max(hi, emx)
+                acc[d] = (sm + f1["mean"] * n, cn + n, lo, hi)
+    # 日平均が妥当域(7.2〜8.12Hz)を外れる日は軸誤読の疑い → グラフから除外。
+    # lo/hi はその日の5分値がどこまで跳ねたか(瞬間の最小/最大)を保持する。
+    days = {}
+    for d, (sm, cn, lo, hi) in acc.items():
+        mean = sm / cn
+        if not (7.2 <= mean <= 8.12):
+            continue
+        rec = {"d": d, "f1": round(mean, 4), "n": cn}
+        if lo is not None and 6.5 <= lo <= 9.5:
+            rec["lo"] = round(lo, 4)
+        if hi is not None and 6.5 <= hi <= 9.5:
+            rec["hi"] = round(hi, 4)
+        days[d] = rec
     # 【真A案・2026-08-06】レガシー日平均(schumann-resonance.earth由来CSV)はマージしない。
     # あれは1日1点の平均値で、中央に寄って本物の日々変動が潰れる(σ0.08 vs 5分読取りσ0.13)。
     # 出典は history/legacy_daily.json に温存するが、宝の山と日別グラフには線グラフ5分読取り
