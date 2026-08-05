@@ -28,6 +28,7 @@ CDX = ("http://web.archive.org/cdx/search/cdx?url={u}"
 SOURCES = [
     "sos70.ru/provider.php%3Ffile%3Dsrf.jpg",
     "sosrff.tsu.ru/new/srf.jpg",
+    "www.sosrff.tsu.ru/new/srf.jpg",   # www系統: 2011-2013の古いキャプチャがここに(2012=44枚)
 ]
 UA = {"User-Agent": "0Lei-schumann-backfill (personal research; contact mitsulow@gmail.com)"}
 
