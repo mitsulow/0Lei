@@ -349,15 +349,14 @@ def rebuild_daily_summary():
                 n = f1.get("count", 0) or 1
                 sm, cn = acc.get(d, (0.0, 0))
                 acc[d] = (sm + f1["mean"] * n, cn + n)
+    # 日平均が妥当域(7.2〜8.12Hz)を外れる日は軸誤読の疑い → グラフから除外
     days = {d: {"d": d, "f1": round(sm / cn, 4), "n": cn}
-            for d, (sm, cn) in acc.items()}
-    # 2021-2023の遺産データ (schumann-resonance.earth由来のCSV変換) をマージ。
-    # 同じ日付が両方にあるときは観測点数が多い方を採用する
-    legacy = load_json(HISTORY_DIR / "legacy_daily.json") or {}
-    for e in legacy.get("days", []):
-        d = e.get("d")
-        if d and (d not in days or (e.get("n") or 0) > (days[d].get("n") or 0)):
-            days[d] = {"d": d, "f1": e["f1"], "n": e.get("n", 0)}
+            for d, (sm, cn) in acc.items()
+            if 7.2 <= sm / cn <= 8.12}
+    # 【真A案・2026-08-06】レガシー日平均(schumann-resonance.earth由来CSV)はマージしない。
+    # あれは1日1点の平均値で、中央に寄って本物の日々変動が潰れる(σ0.08 vs 5分読取りσ0.13)。
+    # 出典は history/legacy_daily.json に温存するが、宝の山と日別グラフには線グラフ5分読取り
+    # (line/cross)だけを使い、全期間で質を揃える。
     out = [days[d] for d in sorted(days)]
     save_json(HISTORY_DIR / "daily_summary.json",
               {"schema_version": "1.0", "days": out})
