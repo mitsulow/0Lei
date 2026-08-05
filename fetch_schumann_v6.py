@@ -165,10 +165,22 @@ def extract_series(arr, ocr_calib=None):
         m[:, PLOT_X1:] = False
         if key == "F1":
             m[:105, 895:] = False  # 右上の SOS70 ロゴ (白) を除外
-        colcount = m.sum(axis=0)
-        valid = np.where((colcount > 0) & (colcount < 30))[0]
+            # 中央の白い透かし "Copyright@ http://sosrff.tsu.ru"(行~164-190,列~310-700)を除外。
+            # これがF1(白)マスクに混入し、中日のF1が median で低く歪んでいた(2026-08-05根治)
+            m[162:192, 305:705] = False
         y0, v0, span = cal
         lo, hi = SANE_BAND[key]
+        # 各モードを「妥当Hz範囲に対応する行帯」だけに限定する。
+        # これで中央の白い透かし "Copyright@..." や他モードの線が混入せず、
+        # 列内 median が本物の線だけで決まる (2026-08-05: F1が透かしで低く出るバグの根治)
+        r_a = y0 + (v0 - hi) * 100.0 / span
+        r_b = y0 + (v0 - lo) * 100.0 / span
+        r_top = max(PLOT_Y0 + 1, int(min(r_a, r_b)) - 3)
+        r_bot = min(PLOT_Y1 - 1, int(max(r_a, r_b)) + 3)
+        m[:r_top, :] = False
+        m[r_bot + 1:, :] = False
+        colcount = m.sum(axis=0)
+        valid = np.where((colcount > 0) & (colcount < 30))[0]
         pts = []
         for x in valid:
             yy = np.where(m[:, x])[0]
@@ -657,6 +669,9 @@ def extract_modes(arr, ocr_calib=None, sane_check=True):
         m[:, PLOT_X1:] = False
         if key == "F1":
             m[:105, 895:] = False  # 右上の SOS70 ロゴ (白) を除外
+            # 中央の白い透かし "Copyright@ http://sosrff.tsu.ru"(行~164-190,列~310-700)を除外。
+            # これがF1(白)マスクに混入し、中日のF1が median で低く歪んでいた(2026-08-05根治)
+            m[162:192, 305:705] = False
         colcount = m.sum(axis=0)
         # 1列に30px以上は縦線/ノイズ (日区切り線など) なので除外
         valid = np.where((colcount > 0) & (colcount < 30))[0]
