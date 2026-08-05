@@ -1,0 +1,449 @@
+{
+  "version": "1.0",
+  "source": "CDC US Births 2000-2014 daily count",
+  "n_total_births": 62187024,
+  "n_total_days": 5479,
+  "overall_avg_per_day": 11350.1,
+  "expected_share_pct_12": 8.3333,
+  "expected_share_pct_30": 3.3333,
+  "synodic_month_days": 29.530588853,
+  "n_bins_30": 30,
+  "bin_width_days": 0.9844,
+  "note": "米国 2000-2014 年の日次出生数 (CDC 公開) を、生まれた日の月相に応じて12 タイプ + 30 月齢 bin に分けた集計。出生時刻不明 (= UT 18:00 で計算) のため日付境界では誤差あり。8.333% (1/12) / 3.333% (1/30) から大きく外れていれば月相と出生数に相関。",
+  "types": [
+    {
+      "index": 0,
+      "name_ja": "黒ウサギ",
+      "moon_phase": "新月",
+      "n_births": 4974731,
+      "n_days": 440,
+      "avg_per_day": 11306.2,
+      "share_pct": 7.9996,
+      "diff_from_equal_pct": -0.3337,
+      "diff_from_equal_n": -207521
+    },
+    {
+      "index": 1,
+      "name_ja": "黒ガメ",
+      "moon_phase": "三日月",
+      "n_births": 5290743,
+      "n_days": 466,
+      "avg_per_day": 11353.5,
+      "share_pct": 8.5078,
+      "diff_from_equal_pct": 0.1745,
+      "diff_from_equal_n": 108491
+    },
+    {
+      "index": 2,
+      "name_ja": "黒ワニ",
+      "moon_phase": "五日月",
+      "n_births": 5235158,
+      "n_days": 462,
+      "avg_per_day": 11331.5,
+      "share_pct": 8.4184,
+      "diff_from_equal_pct": 0.0851,
+      "diff_from_equal_n": 52906
+    },
+    {
+      "index": 3,
+      "name_ja": "赤ウサギ",
+      "moon_phase": "上弦",
+      "n_births": 5219876,
+      "n_days": 460,
+      "avg_per_day": 11347.6,
+      "share_pct": 8.3938,
+      "diff_from_equal_pct": 0.0605,
+      "diff_from_equal_n": 37624
+    },
+    {
+      "index": 4,
+      "name_ja": "赤ガメ",
+      "moon_phase": "十日夜",
+      "n_births": 5129034,
+      "n_days": 451,
+      "avg_per_day": 11372.6,
+      "share_pct": 8.2478,
+      "diff_from_equal_pct": -0.0856,
+      "diff_from_equal_n": -53218
+    },
+    {
+      "index": 5,
+      "name_ja": "赤ワニ",
+      "moon_phase": "十三夜",
+      "n_births": 5200798,
+      "n_days": 457,
+      "avg_per_day": 11380.3,
+      "share_pct": 8.3632,
+      "diff_from_equal_pct": 0.0298,
+      "diff_from_equal_n": 18546
+    },
+    {
+      "index": 6,
+      "name_ja": "白ウサギ",
+      "moon_phase": "満月",
+      "n_births": 5018654,
+      "n_days": 442,
+      "avg_per_day": 11354.4,
+      "share_pct": 8.0703,
+      "diff_from_equal_pct": -0.2631,
+      "diff_from_equal_n": -163598
+    },
+    {
+      "index": 7,
+      "name_ja": "白ガメ",
+      "moon_phase": "十六夜",
+      "n_births": 5161032,
+      "n_days": 456,
+      "avg_per_day": 11318.1,
+      "share_pct": 8.2992,
+      "diff_from_equal_pct": -0.0341,
+      "diff_from_equal_n": -21220
+    },
+    {
+      "index": 8,
+      "name_ja": "白ワニ",
+      "moon_phase": "寝待月",
+      "n_births": 5288140,
+      "n_days": 463,
+      "avg_per_day": 11421.5,
+      "share_pct": 8.5036,
+      "diff_from_equal_pct": 0.1703,
+      "diff_from_equal_n": 105888
+    },
+    {
+      "index": 9,
+      "name_ja": "青ウサギ",
+      "moon_phase": "下弦",
+      "n_births": 5265800,
+      "n_days": 467,
+      "avg_per_day": 11275.8,
+      "share_pct": 8.4677,
+      "diff_from_equal_pct": 0.1343,
+      "diff_from_equal_n": 83548
+    },
+    {
+      "index": 10,
+      "name_ja": "青ガメ",
+      "moon_phase": "二十五夜",
+      "n_births": 5206993,
+      "n_days": 457,
+      "avg_per_day": 11393.9,
+      "share_pct": 8.3731,
+      "diff_from_equal_pct": 0.0398,
+      "diff_from_equal_n": 24741
+    },
+    {
+      "index": 11,
+      "name_ja": "青ワニ",
+      "moon_phase": "有明月",
+      "n_births": 5196065,
+      "n_days": 458,
+      "avg_per_day": 11345.1,
+      "share_pct": 8.3555,
+      "diff_from_equal_pct": 0.0222,
+      "diff_from_equal_n": 13813
+    }
+  ],
+  "bins_30": [
+    {
+      "bin": 0,
+      "moon_age_from": 0.0,
+      "moon_age_to": 0.984,
+      "n_births": 1935452,
+      "n_days": 171,
+      "avg_per_day": 11318.4,
+      "share_pct": 3.1123,
+      "diff_from_equal_pct": -0.221
+    },
+    {
+      "bin": 1,
+      "moon_age_from": 0.984,
+      "moon_age_to": 1.969,
+      "n_births": 2063034,
+      "n_days": 183,
+      "avg_per_day": 11273.4,
+      "share_pct": 3.3175,
+      "diff_from_equal_pct": -0.0159
+    },
+    {
+      "bin": 2,
+      "moon_age_from": 1.969,
+      "moon_age_to": 2.953,
+      "n_births": 2076450,
+      "n_days": 184,
+      "avg_per_day": 11285.1,
+      "share_pct": 3.339,
+      "diff_from_equal_pct": 0.0057
+    },
+    {
+      "bin": 3,
+      "moon_age_from": 2.953,
+      "moon_age_to": 3.937,
+      "n_births": 2087085,
+      "n_days": 183,
+      "avg_per_day": 11404.8,
+      "share_pct": 3.3561,
+      "diff_from_equal_pct": 0.0228
+    },
+    {
+      "bin": 4,
+      "moon_age_from": 3.937,
+      "moon_age_to": 4.922,
+      "n_births": 2103453,
+      "n_days": 185,
+      "avg_per_day": 11370.0,
+      "share_pct": 3.3825,
+      "diff_from_equal_pct": 0.0491
+    },
+    {
+      "bin": 5,
+      "moon_age_from": 4.922,
+      "moon_age_to": 5.906,
+      "n_births": 2050878,
+      "n_days": 180,
+      "avg_per_day": 11393.8,
+      "share_pct": 3.2979,
+      "diff_from_equal_pct": -0.0354
+    },
+    {
+      "bin": 6,
+      "moon_age_from": 5.906,
+      "moon_age_to": 6.89,
+      "n_births": 2085197,
+      "n_days": 185,
+      "avg_per_day": 11271.3,
+      "share_pct": 3.3531,
+      "diff_from_equal_pct": 0.0198
+    },
+    {
+      "bin": 7,
+      "moon_age_from": 6.89,
+      "moon_age_to": 7.875,
+      "n_births": 2123908,
+      "n_days": 187,
+      "avg_per_day": 11357.8,
+      "share_pct": 3.4154,
+      "diff_from_equal_pct": 0.082
+    },
+    {
+      "bin": 8,
+      "moon_age_from": 7.875,
+      "moon_age_to": 8.859,
+      "n_births": 2152676,
+      "n_days": 190,
+      "avg_per_day": 11329.9,
+      "share_pct": 3.4616,
+      "diff_from_equal_pct": 0.1283
+    },
+    {
+      "bin": 9,
+      "moon_age_from": 8.859,
+      "moon_age_to": 9.844,
+      "n_births": 2042375,
+      "n_days": 180,
+      "avg_per_day": 11346.5,
+      "share_pct": 3.2842,
+      "diff_from_equal_pct": -0.0491
+    },
+    {
+      "bin": 10,
+      "moon_age_from": 9.844,
+      "moon_age_to": 10.828,
+      "n_births": 2066317,
+      "n_days": 182,
+      "avg_per_day": 11353.4,
+      "share_pct": 3.3227,
+      "diff_from_equal_pct": -0.0106
+    },
+    {
+      "bin": 11,
+      "moon_age_from": 10.828,
+      "moon_age_to": 11.812,
+      "n_births": 2093876,
+      "n_days": 184,
+      "avg_per_day": 11379.8,
+      "share_pct": 3.3671,
+      "diff_from_equal_pct": 0.0337
+    },
+    {
+      "bin": 12,
+      "moon_age_from": 11.812,
+      "moon_age_to": 12.797,
+      "n_births": 2008031,
+      "n_days": 177,
+      "avg_per_day": 11344.8,
+      "share_pct": 3.229,
+      "diff_from_equal_pct": -0.1043
+    },
+    {
+      "bin": 13,
+      "moon_age_from": 12.797,
+      "moon_age_to": 13.781,
+      "n_births": 2068543,
+      "n_days": 181,
+      "avg_per_day": 11428.4,
+      "share_pct": 3.3263,
+      "diff_from_equal_pct": -0.007
+    },
+    {
+      "bin": 14,
+      "moon_age_from": 13.781,
+      "moon_age_to": 14.765,
+      "n_births": 2093065,
+      "n_days": 184,
+      "avg_per_day": 11375.4,
+      "share_pct": 3.3658,
+      "diff_from_equal_pct": 0.0324
+    },
+    {
+      "bin": 15,
+      "moon_age_from": 14.765,
+      "moon_age_to": 15.75,
+      "n_births": 1947763,
+      "n_days": 171,
+      "avg_per_day": 11390.4,
+      "share_pct": 3.1321,
+      "diff_from_equal_pct": -0.2012
+    },
+    {
+      "bin": 16,
+      "moon_age_from": 15.75,
+      "moon_age_to": 16.734,
+      "n_births": 2140490,
+      "n_days": 189,
+      "avg_per_day": 11325.3,
+      "share_pct": 3.442,
+      "diff_from_equal_pct": 0.1087
+    },
+    {
+      "bin": 17,
+      "moon_age_from": 16.734,
+      "moon_age_to": 17.718,
+      "n_births": 1974833,
+      "n_days": 174,
+      "avg_per_day": 11349.6,
+      "share_pct": 3.1756,
+      "diff_from_equal_pct": -0.1577
+    },
+    {
+      "bin": 18,
+      "moon_age_from": 17.718,
+      "moon_age_to": 18.703,
+      "n_births": 2054844,
+      "n_days": 183,
+      "avg_per_day": 11228.7,
+      "share_pct": 3.3043,
+      "diff_from_equal_pct": -0.029
+    },
+    {
+      "bin": 19,
+      "moon_age_from": 18.703,
+      "moon_age_to": 19.687,
+      "n_births": 2061756,
+      "n_days": 181,
+      "avg_per_day": 11390.9,
+      "share_pct": 3.3154,
+      "diff_from_equal_pct": -0.0179
+    },
+    {
+      "bin": 20,
+      "moon_age_from": 19.687,
+      "moon_age_to": 20.671,
+      "n_births": 2084218,
+      "n_days": 182,
+      "avg_per_day": 11451.7,
+      "share_pct": 3.3515,
+      "diff_from_equal_pct": 0.0182
+    },
+    {
+      "bin": 21,
+      "moon_age_from": 20.671,
+      "moon_age_to": 21.656,
+      "n_births": 2090012,
+      "n_days": 184,
+      "avg_per_day": 11358.8,
+      "share_pct": 3.3608,
+      "diff_from_equal_pct": 0.0275
+    },
+    {
+      "bin": 22,
+      "moon_age_from": 21.656,
+      "moon_age_to": 22.64,
+      "n_births": 2121247,
+      "n_days": 188,
+      "avg_per_day": 11283.2,
+      "share_pct": 3.4111,
+      "diff_from_equal_pct": 0.0777
+    },
+    {
+      "bin": 23,
+      "moon_age_from": 22.64,
+      "moon_age_to": 23.624,
+      "n_births": 2064722,
+      "n_days": 183,
+      "avg_per_day": 11282.6,
+      "share_pct": 3.3202,
+      "diff_from_equal_pct": -0.0132
+    },
+    {
+      "bin": 24,
+      "moon_age_from": 23.624,
+      "moon_age_to": 24.609,
+      "n_births": 2193741,
+      "n_days": 193,
+      "avg_per_day": 11366.5,
+      "share_pct": 3.5277,
+      "diff_from_equal_pct": 0.1943
+    },
+    {
+      "bin": 25,
+      "moon_age_from": 24.609,
+      "moon_age_to": 25.593,
+      "n_births": 2097331,
+      "n_days": 184,
+      "avg_per_day": 11398.5,
+      "share_pct": 3.3726,
+      "diff_from_equal_pct": 0.0393
+    },
+    {
+      "bin": 26,
+      "moon_age_from": 25.593,
+      "moon_age_to": 26.578,
+      "n_births": 2105098,
+      "n_days": 185,
+      "avg_per_day": 11378.9,
+      "share_pct": 3.3851,
+      "diff_from_equal_pct": 0.0518
+    },
+    {
+      "bin": 27,
+      "moon_age_from": 26.578,
+      "moon_age_to": 27.562,
+      "n_births": 2011027,
+      "n_days": 178,
+      "avg_per_day": 11297.9,
+      "share_pct": 3.2338,
+      "diff_from_equal_pct": -0.0995
+    },
+    {
+      "bin": 28,
+      "moon_age_from": 27.562,
+      "moon_age_to": 28.546,
+      "n_births": 2031835,
+      "n_days": 179,
+      "avg_per_day": 11351.0,
+      "share_pct": 3.2673,
+      "diff_from_equal_pct": -0.066
+    },
+    {
+      "bin": 29,
+      "moon_age_from": 28.546,
+      "moon_age_to": 29.531,
+      "n_births": 2157767,
+      "n_days": 189,
+      "avg_per_day": 11416.8,
+      "share_pct": 3.4698,
+      "diff_from_equal_pct": 0.1365
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+name: Schumann Resonance v6 (Pixel Extraction)
+
+on:
+  schedule:
+    # フェイルセーフ: 1時間ごと。主トリガーは外部 (cron-job.org) からの
+    # repository_dispatch で15分きっかりに叩く。手順は docs/trigger-setup.md 参照
+    - cron: "3 * * * *"
+  workflow_dispatch: # 手動実行も可能
+  repository_dispatch:
+    types: [schumann-update]
+
+permissions:
+  contents: write
+
+# 多重起動対策: 同時に走らせない (実行中に次が来たら待機は1件だけ、それ以上は破棄)
+concurrency:
+  group: schumann-fetch
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install pillow numpy
+          sudo apt-get update -qq && sudo apt-get install -y -qq fonts-noto-cjk
+
+      - name: Fetch and analyze (deterministic pixel extraction)
+        id: fetch
+        run: python fetch_schumann_v6.py
+
+      - name: Generate self-made graphs (rolling 3-day window)
+        # srf.jpg が前回と同一 (SHA-256 一致) ならグラフ再生成もスキップ
+        if: steps.fetch.outputs.changed != 'false'
+        run: python make_graphs.py
+
+      - name: Commit results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # 画像はコミットしない (数値JSONだけ運ぶ。画像は抽出の材料で、抽出後は不要 2026-08-05)
+          git add schumann_data.json schumann_history.json schumann_series.json graph_stats.json || true
+          git add last_srf_sha256.txt || true
+          git add history || true
+          git diff --staged --quiet || git commit -m "Update Schumann data $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git push

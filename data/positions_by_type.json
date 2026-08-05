@@ -1,0 +1,745 @@
+{
+  "version": "1.0",
+  "source": "Wikidata SPARQL (P39 = position held, day-precision birth)",
+  "positions": {
+    "us_president": {
+      "label_ja": "アメリカ大統領",
+      "qid": "Q11696",
+      "n": 13,
+      "people": [
+        {
+          "name": "リンドン・ジョンソン",
+          "birth": "1908-08-27",
+          "moon_age": 0.485,
+          "phase_idx": 0,
+          "qid": "Q9640",
+          "sitelinks": 175
+        },
+        {
+          "name": "ロナルド・レーガン",
+          "birth": "1911-02-06",
+          "moon_age": 7.229,
+          "phase_idx": 2,
+          "qid": "Q9960",
+          "sitelinks": 304
+        },
+        {
+          "name": "リチャード・ニクソン",
+          "birth": "1913-01-09",
+          "moon_age": 1.867,
+          "phase_idx": 0,
+          "qid": "Q9588",
+          "sitelinks": 189
+        },
+        {
+          "name": "ジェラルド・R・フォード",
+          "birth": "1913-07-14",
+          "moon_age": 11.109,
+          "phase_idx": 4,
+          "qid": "Q9582",
+          "sitelinks": 174
+        },
+        {
+          "name": "ジョン・F・ケネディ",
+          "birth": "1917-05-29",
+          "moon_age": 7.849,
+          "phase_idx": 3,
+          "qid": "Q9696",
+          "sitelinks": 250
+        },
+        {
+          "name": "ジョージ・H・W・ブッシュ",
+          "birth": "1924-06-12",
+          "moon_age": 9.393,
+          "phase_idx": 3,
+          "qid": "Q23505",
+          "sitelinks": 194
+        },
+        {
+          "name": "ジミー・カーター",
+          "birth": "1924-10-01",
+          "moon_age": 2.885,
+          "phase_idx": 1,
+          "qid": "Q23685",
+          "sitelinks": 198
+        },
+        {
+          "name": "ジョー・バイデン",
+          "birth": "1942-11-20",
+          "moon_age": 12.566,
+          "phase_idx": 5,
+          "qid": "Q6279",
+          "sitelinks": 278
+        },
+        {
+          "name": "ドナルド・トランプ",
+          "birth": "1946-06-14",
+          "moon_age": 14.516,
+          "phase_idx": 5,
+          "qid": "Q22686",
+          "sitelinks": 328
+        },
+        {
+          "name": "ジョージ・W・ブッシュ",
+          "birth": "1946-07-06",
+          "moon_age": 7.645,
+          "phase_idx": 3,
+          "qid": "Q207",
+          "sitelinks": 279
+        },
+        {
+          "name": "ビル・クリントン",
+          "birth": "1946-08-19",
+          "moon_age": 21.553,
+          "phase_idx": 8,
+          "qid": "Q1124",
+          "sitelinks": 220
+        },
+        {
+          "name": "Ed Kealty",
+          "birth": "1948-10-27",
+          "moon_age": 24.239,
+          "phase_idx": 9,
+          "qid": "Q5335019",
+          "sitelinks": 1
+        },
+        {
+          "name": "バラク・オバマ",
+          "birth": "1961-08-04",
+          "moon_age": 23.151,
+          "phase_idx": 9,
+          "qid": "Q76",
+          "sitelinks": 340
+        }
+      ]
+    },
+    "pm_japan": {
+      "label_ja": "日本の内閣総理大臣",
+      "qid": "Q274948",
+      "n": 29,
+      "people": [
+        {
+          "name": "池田勇人",
+          "birth": "1899-12-03",
+          "moon_age": 0.489,
+          "phase_idx": 0,
+          "qid": "Q299142",
+          "sitelinks": 49
+        },
+        {
+          "name": "佐藤栄作",
+          "birth": "1901-03-27",
+          "moon_age": 7.693,
+          "phase_idx": 3,
+          "qid": "Q179871",
+          "sitelinks": 82
+        },
+        {
+          "name": "福田赳夫",
+          "birth": "1905-01-14",
+          "moon_age": 7.976,
+          "phase_idx": 3,
+          "qid": "Q315584",
+          "sitelinks": 48
+        },
+        {
+          "name": "三木武夫",
+          "birth": "1907-03-17",
+          "moon_age": 3.236,
+          "phase_idx": 1,
+          "qid": "Q317675",
+          "sitelinks": 43
+        },
+        {
+          "name": "大平正芳",
+          "birth": "1910-03-12",
+          "moon_age": 1.137,
+          "phase_idx": 0,
+          "qid": "Q315568",
+          "sitelinks": 45
+        },
+        {
+          "name": "鈴木善幸",
+          "birth": "1911-01-11",
+          "moon_age": 10.886,
+          "phase_idx": 4,
+          "qid": "Q315551",
+          "sitelinks": 46
+        },
+        {
+          "name": "伊東正義",
+          "birth": "1913-12-15",
+          "moon_age": 16.675,
+          "phase_idx": 6,
+          "qid": "Q744989",
+          "sitelinks": 26
+        },
+        {
+          "name": "田中角栄",
+          "birth": "1918-05-04",
+          "moon_age": 22.748,
+          "phase_idx": 9,
+          "qid": "Q297644",
+          "sitelinks": 53
+        },
+        {
+          "name": "中曽根康弘",
+          "birth": "1918-05-27",
+          "moon_age": 16.277,
+          "phase_idx": 6,
+          "qid": "Q250828",
+          "sitelinks": 71
+        },
+        {
+          "name": "宮澤喜一",
+          "birth": "1919-10-08",
+          "moon_age": 13.568,
+          "phase_idx": 5,
+          "qid": "Q315565",
+          "sitelinks": 53
+        },
+        {
+          "name": "宇野宗佑",
+          "birth": "1922-08-27",
+          "moon_age": 5.276,
+          "phase_idx": 2,
+          "qid": "Q315591",
+          "sitelinks": 45
+        },
+        {
+          "name": "竹下登",
+          "birth": "1924-02-26",
+          "moon_age": 21.007,
+          "phase_idx": 8,
+          "qid": "Q315561",
+          "sitelinks": 49
+        },
+        {
+          "name": "村山富市",
+          "birth": "1924-03-03",
+          "moon_age": 27.366,
+          "phase_idx": 11,
+          "qid": "Q310126",
+          "sitelinks": 58
+        },
+        {
+          "name": "海部俊樹",
+          "birth": "1931-01-02",
+          "moon_age": 12.531,
+          "phase_idx": 5,
+          "qid": "Q315579",
+          "sitelinks": 52
+        },
+        {
+          "name": "羽田孜",
+          "birth": "1935-08-24",
+          "moon_age": 25.415,
+          "phase_idx": 10,
+          "qid": "Q315720",
+          "sitelinks": 53
+        },
+        {
+          "name": "福田康夫",
+          "birth": "1936-07-16",
+          "moon_age": 27.327,
+          "phase_idx": 11,
+          "qid": "Q101137",
+          "sitelinks": 78
+        },
+        {
+          "name": "小渕恵三",
+          "birth": "1937-06-25",
+          "moon_age": 16.184,
+          "phase_idx": 6,
+          "qid": "Q313339",
+          "sitelinks": 50
+        },
+        {
+          "name": "森喜朗",
+          "birth": "1937-07-14",
+          "moon_age": 6.549,
+          "phase_idx": 2,
+          "qid": "Q233499",
+          "sitelinks": 58
+        },
+        {
+          "name": "橋本龍太郎",
+          "birth": "1937-07-29",
+          "moon_age": 20.782,
+          "phase_idx": 8,
+          "qid": "Q309374",
+          "sitelinks": 51
+        },
+        {
+          "name": "細川護熙",
+          "birth": "1938-01-14",
+          "moon_age": 12.753,
+          "phase_idx": 5,
+          "qid": "Q315555",
+          "sitelinks": 48
+        },
+        {
+          "name": "麻生太郎",
+          "birth": "1940-09-20",
+          "moon_age": 18.221,
+          "phase_idx": 7,
+          "qid": "Q132596",
+          "sitelinks": 87
+        },
+        {
+          "name": "小泉純一郎",
+          "birth": "1942-01-08",
+          "moon_age": 20.35,
+          "phase_idx": 8,
+          "qid": "Q130852",
+          "sitelinks": 87
+        },
+        {
+          "name": "菅直人",
+          "birth": "1946-10-10",
+          "moon_age": 14.37,
+          "phase_idx": 5,
+          "qid": "Q47846",
+          "sitelinks": 94
+        },
+        {
+          "name": "鳩山由紀夫",
+          "birth": "1947-02-11",
+          "moon_age": 20.844,
+          "phase_idx": 8,
+          "qid": "Q131077",
+          "sitelinks": 83
+        },
+        {
+          "name": "菅義偉",
+          "birth": "1948-12-06",
+          "moon_age": 5.524,
+          "phase_idx": 2,
+          "qid": "Q122465",
+          "sitelinks": 109
+        },
+        {
+          "name": "安倍晋三",
+          "birth": "1954-09-21",
+          "moon_age": 24.234,
+          "phase_idx": 9,
+          "qid": "Q132345",
+          "sitelinks": 163
+        },
+        {
+          "name": "石破茂",
+          "birth": "1957-02-04",
+          "moon_age": 4.122,
+          "phase_idx": 1,
+          "qid": "Q1335527",
+          "sitelinks": 67
+        },
+        {
+          "name": "野田佳彦",
+          "birth": "1957-05-20",
+          "moon_age": 21.061,
+          "phase_idx": 8,
+          "qid": "Q57647",
+          "sitelinks": 79
+        },
+        {
+          "name": "高市早苗",
+          "birth": "1961-03-07",
+          "moon_age": 19.457,
+          "phase_idx": 7,
+          "qid": "Q1705028",
+          "sitelinks": 91
+        }
+      ]
+    },
+    "emperor_japan": {
+      "label_ja": "日本の天皇",
+      "qid": "Q39722",
+      "n": 3,
+      "people": [
+        {
+          "name": "昭和天皇",
+          "birth": "1901-04-29",
+          "moon_age": 10.961,
+          "phase_idx": 4,
+          "qid": "Q39059",
+          "sitelinks": 156
+        },
+        {
+          "name": "明仁",
+          "birth": "1933-12-23",
+          "moon_age": 7.045,
+          "phase_idx": 2,
+          "qid": "Q57813",
+          "sitelinks": 129
+        },
+        {
+          "name": "徳仁",
+          "birth": "1960-02-23",
+          "moon_age": 25.984,
+          "phase_idx": 10,
+          "qid": "Q43274",
+          "sitelinks": 189
+        }
+      ]
+    }
+  },
+  "types": [
+    {
+      "index": 0,
+      "name_ja": "黒ウサギ",
+      "positions": {
+        "us_president": [
+          {
+            "name": "リンドン・ジョンソン",
+            "birth": "1908-08-27",
+            "moon_age": 0.485
+          },
+          {
+            "name": "リチャード・ニクソン",
+            "birth": "1913-01-09",
+            "moon_age": 1.867
+          }
+        ],
+        "pm_japan": [
+          {
+            "name": "池田勇人",
+            "birth": "1899-12-03",
+            "moon_age": 0.489
+          },
+          {
+            "name": "大平正芳",
+            "birth": "1910-03-12",
+            "moon_age": 1.137
+          }
+        ],
+        "emperor_japan": []
+      }
+    },
+    {
+      "index": 1,
+      "name_ja": "黒ガメ",
+      "positions": {
+        "us_president": [
+          {
+            "name": "ジミー・カーター",
+            "birth": "1924-10-01",
+            "moon_age": 2.885
+          }
+        ],
+        "pm_japan": [
+          {
+            "name": "三木武夫",
+            "birth": "1907-03-17",
+            "moon_age": 3.236
+          },
+          {
+            "name": "石破茂",
+            "birth": "1957-02-04",
+            "moon_age": 4.122
+          }
+        ],
+        "emperor_japan": []
+      }
+    },
+    {
+      "index": 2,
+      "name_ja": "黒ワニ",
+      "positions": {
+        "us_president": [
+          {
+            "name": "ロナルド・レーガン",
+            "birth": "1911-02-06",
+            "moon_age": 7.229
+          }
+        ],
+        "pm_japan": [
+          {
+            "name": "宇野宗佑",
+            "birth": "1922-08-27",
+            "moon_age": 5.276
+          },
+          {
+            "name": "森喜朗",
+            "birth": "1937-07-14",
+            "moon_age": 6.549
+          },
+          {
+            "name": "菅義偉",
+            "birth": "1948-12-06",
+            "moon_age": 5.524
+          }
+        ],
+        "emperor_japan": [
+          {
+            "name": "明仁",
+            "birth": "1933-12-23",
+            "moon_age": 7.045
+          }
+        ]
+      }
+    },
+    {
+      "index": 3,
+      "name_ja": "赤ウサギ",
+      "positions": {
+        "us_president": [
+          {
+            "name": "ジョン・F・ケネディ",
+            "birth": "1917-05-29",
+            "moon_age": 7.849
+          },
+          {
+            "name": "ジョージ・H・W・ブッシュ",
+            "birth": "1924-06-12",
+            "moon_age": 9.393
+          },
+          {
+            "name": "ジョージ・W・ブッシュ",
+            "birth": "1946-07-06",
+            "moon_age": 7.645
+          }
+        ],
+        "pm_japan": [
+          {
+            "name": "佐藤栄作",
+            "birth": "1901-03-27",
+            "moon_age": 7.693
+          },
+          {
+            "name": "福田赳夫",
+            "birth": "1905-01-14",
+            "moon_age": 7.976
+          }
+        ],
+        "emperor_japan": []
+      }
+    },
+    {
+      "index": 4,
+      "name_ja": "赤ガメ",
+      "positions": {
+        "us_president": [
+          {
+            "name": "ジェラルド・R・フォード",
+            "birth": "1913-07-14",
+            "moon_age": 11.109
+          }
+        ],
+        "pm_japan": [
+          {
+            "name": "鈴木善幸",
+            "birth": "1911-01-11",
+            "moon_age": 10.886
+          }
+        ],
+        "emperor_japan": [
+          {
+            "name": "昭和天皇",
+            "birth": "1901-04-29",
+            "moon_age": 10.961
+          }
+        ]
+      }
+    },
+    {
+      "index": 5,
+      "name_ja": "赤ワニ",
+      "positions": {
+        "us_president": [
+          {
+            "name": "ジョー・バイデン",
+            "birth": "1942-11-20",
+            "moon_age": 12.566
+          },
+          {
+            "name": "ドナルド・トランプ",
+            "birth": "1946-06-14",
+            "moon_age": 14.516
+          }
+        ],
+        "pm_japan": [
+          {
+            "name": "宮澤喜一",
+            "birth": "1919-10-08",
+            "moon_age": 13.568
+          },
+          {
+            "name": "海部俊樹",
+            "birth": "1931-01-02",
+            "moon_age": 12.531
+          },
+          {
+            "name": "細川護熙",
+            "birth": "1938-01-14",
+            "moon_age": 12.753
+          },
+          {
+            "name": "菅直人",
+            "birth": "1946-10-10",
+            "moon_age": 14.37
+          }
+        ],
+        "emperor_japan": []
+      }
+    },
+    {
+      "index": 6,
+      "name_ja": "白ウサギ",
+      "positions": {
+        "us_president": [],
+        "pm_japan": [
+          {
+            "name": "伊東正義",
+            "birth": "1913-12-15",
+            "moon_age": 16.675
+          },
+          {
+            "name": "中曽根康弘",
+            "birth": "1918-05-27",
+            "moon_age": 16.277
+          },
+          {
+            "name": "小渕恵三",
+            "birth": "1937-06-25",
+            "moon_age": 16.184
+          }
+        ],
+        "emperor_japan": []
+      }
+    },
+    {
+      "index": 7,
+      "name_ja": "白ガメ",
+      "positions": {
+        "us_president": [],
+        "pm_japan": [
+          {
+            "name": "麻生太郎",
+            "birth": "1940-09-20",
+            "moon_age": 18.221
+          },
+          {
+            "name": "高市早苗",
+            "birth": "1961-03-07",
+            "moon_age": 19.457
+          }
+        ],
+        "emperor_japan": []
+      }
+    },
+    {
+      "index": 8,
+      "name_ja": "白ワニ",
+      "positions": {
+        "us_president": [
+          {
+            "name": "ビル・クリントン",
+            "birth": "1946-08-19",
+            "moon_age": 21.553
+          }
+        ],
+        "pm_japan": [
+          {
+            "name": "竹下登",
+            "birth": "1924-02-26",
+            "moon_age": 21.007
+          },
+          {
+            "name": "橋本龍太郎",
+            "birth": "1937-07-29",
+            "moon_age": 20.782
+          },
+          {
+            "name": "小泉純一郎",
+            "birth": "1942-01-08",
+            "moon_age": 20.35
+          },
+          {
+            "name": "鳩山由紀夫",
+            "birth": "1947-02-11",
+            "moon_age": 20.844
+          },
+          {
+            "name": "野田佳彦",
+            "birth": "1957-05-20",
+            "moon_age": 21.061
+          }
+        ],
+        "emperor_japan": []
+      }
+    },
+    {
+      "index": 9,
+      "name_ja": "青ウサギ",
+      "positions": {
+        "us_president": [
+          {
+            "name": "Ed Kealty",
+            "birth": "1948-10-27",
+            "moon_age": 24.239
+          },
+          {
+            "name": "バラク・オバマ",
+            "birth": "1961-08-04",
+            "moon_age": 23.151
+          }
+        ],
+        "pm_japan": [
+          {
+            "name": "田中角栄",
+            "birth": "1918-05-04",
+            "moon_age": 22.748
+          },
+          {
+            "name": "安倍晋三",
+            "birth": "1954-09-21",
+            "moon_age": 24.234
+          }
+        ],
+        "emperor_japan": []
+      }
+    },
+    {
+      "index": 10,
+      "name_ja": "青ガメ",
+      "positions": {
+        "us_president": [],
+        "pm_japan": [
+          {
+            "name": "羽田孜",
+            "birth": "1935-08-24",
+            "moon_age": 25.415
+          }
+        ],
+        "emperor_japan": [
+          {
+            "name": "徳仁",
+            "birth": "1960-02-23",
+            "moon_age": 25.984
+          }
+        ]
+      }
+    },
+    {
+      "index": 11,
+      "name_ja": "青ワニ",
+      "positions": {
+        "us_president": [],
+        "pm_japan": [
+          {
+            "name": "村山富市",
+            "birth": "1924-03-03",
+            "moon_age": 27.366
+          },
+          {
+            "name": "福田康夫",
+            "birth": "1936-07-16",
+            "moon_age": 27.327
+          }
+        ],
+        "emperor_japan": []
+      }
+    }
+  ]
+}

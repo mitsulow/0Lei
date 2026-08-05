@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0",
+  "target_hz": 8.0219032748,
+  "baseline_hz": 7.83,
+  "months": [
+    {
+      "month": "2026-07",
+      "F1_mean": 7.6688,
+      "count": 17
+    },
+    {
+      "month": "2026-08",
+      "F1_mean": 7.876,
+      "count": 5
+    }
+  ]
+}
