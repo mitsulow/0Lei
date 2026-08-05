@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-08-05T08:45:56.575388+00:00",
+  "timestamp": "2026-08-05T09:01:04.380468+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -42,11 +42,11 @@
   "strongest_mode": "F1",
   "notes": "F1は7.73Hzで基準よりやや低め (-0.10Hz)。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
-    "state": "right",
-    "state_jp": "右回転（昼）",
-    "japan_hour": 17.75,
-    "tomsk_hour": 15.75,
-    "is_day_japan": true,
+    "state": "left",
+    "state_jp": "左回転（夜）",
+    "japan_hour": 18.02,
+    "tomsk_hour": 16.02,
+    "is_day_japan": false,
     "is_day_tomsk": true
   },
   "data_age_min": {
@@ -59,7 +59,7 @@
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
   "distance_to_target_hz": -0.2919,
-  "updated_jst": "2026-08-05 17:45 JST",
+  "updated_jst": "2026-08-05 18:01 JST",
   "events": [],
   "condition": "active",
   "condition_metrics": {
