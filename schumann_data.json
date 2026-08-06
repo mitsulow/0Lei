@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-08-06T16:19:29.282342+00:00",
+  "timestamp": "2026-08-06T16:48:32.091083+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -7,31 +7,31 @@
   "modes": {
     "F1": {
       "hz": 7.77,
-      "confidence": 65,
+      "confidence": 55,
       "calibration": "ocr",
-      "amp": 13.55,
-      "q": 5.29
+      "amp": 11.1,
+      "q": 4.94
     },
     "F2": {
       "hz": 13.82,
-      "confidence": 95,
+      "confidence": 85,
       "calibration": "ocr",
       "amp": 13.26,
-      "q": 5.49
+      "q": 5.25
     },
     "F3": {
-      "hz": 19.98,
-      "confidence": 75,
+      "hz": 19.87,
+      "confidence": 85,
       "calibration": "ocr",
       "amp": 21.27,
       "q": 6.8
     },
     "F4": {
-      "hz": 24.97,
+      "hz": 24.99,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 5.2,
-      "q": 7.42
+      "amp": 3.4,
+      "q": 6.34
     },
     "F5": {
       "hz": null,
@@ -40,30 +40,30 @@
   },
   "amplitude_level": "unknown",
   "strongest_mode": "F1",
-  "notes": "F1は7.77Hzで基準よりやや低め (-0.06Hz)。F1・F3は2時間以上更新なし。軸目盛りOCR検証つきピクセル解析。",
+  "notes": "F1は7.77Hzで基準よりやや低め (-0.06Hz)。F1は2時間以上更新なし。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 1.32,
-    "tomsk_hour": 23.32,
+    "japan_hour": 1.8,
+    "tomsk_hour": 23.8,
     "is_day_japan": false,
     "is_day_tomsk": false
   },
   "data_age_min": {
-    "F1": 165,
-    "F2": 75,
-    "F3": 150,
-    "F4": 20
+    "F1": 194,
+    "F2": 104,
+    "F3": 99,
+    "F4": 24
   },
   "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
   "distance_to_target_hz": -0.2519,
-  "updated_jst": "2026-08-07 01:19 JST",
+  "updated_jst": "2026-08-07 01:48 JST",
   "events": [],
   "condition": "storm",
   "condition_metrics": {
-    "bright_frac": 0.3146,
+    "bright_frac": 0.3083,
     "max_run_px": 134,
     "window_cols": 480
   }
