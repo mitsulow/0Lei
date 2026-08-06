@@ -12,14 +12,17 @@ on:
 permissions:
   contents: write
 
-# 多重起動対策: 同時に走らせない (実行中に次が来たら待機は1件だけ、それ以上は破棄)
+# 多重起動対策: ランナー確保が滞って古いrunが待機中でも、次の15分トリガーが
+# それをキャンセルして最新だけ生かす（滞留runの「失敗メール」連発を防ぐ）。
+# 15分ごとの自己修復パイプラインなので、途中キャンセルされても次回が穴を埋める。
 concurrency:
   group: schumann-fetch
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   fetch:
     runs-on: ubuntu-latest
+    timeout-minutes: 12
     steps:
       - name: Checkout
         uses: actions/checkout@v4
