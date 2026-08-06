@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>OneSea 三層構造 総点検リスト</title>
+<style>
+  :root{
+    --bg:#0b1420; --card:#122132; --line:rgba(255,255,255,.08);
+    --gold:#e8d5a0; --sui:#2CB7DE; --mint:#7cf9d4; --rose:#ff8a80;
+    --txt:#d8e4ec; --sub:#8ba4b8;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--txt);
+    font-family:"Hiragino Sans","Noto Sans JP",sans-serif;
+    line-height:1.75;padding:18px 14px 70px;max-width:640px;margin:0 auto;
+    -webkit-text-size-adjust:100%}
+  h1{font-size:19px;color:var(--gold);letter-spacing:2px;margin:6px 0 2px}
+  .date{font-size:11px;color:var(--sub);margin-bottom:18px}
+  h2{font-size:15px;margin:26px 0 10px;padding-left:10px;
+    border-left:4px solid var(--sui);letter-spacing:1px}
+  h2.hot{border-color:var(--rose);color:var(--rose)}
+  h2.done{border-color:var(--mint);color:var(--mint)}
+  h2.q{border-color:var(--gold);color:var(--gold)}
+  .card{background:var(--card);border:1px solid var(--line);
+    border-radius:14px;padding:13px 14px;margin-bottom:10px}
+  .card .no{display:inline-block;min-width:26px;height:26px;line-height:26px;
+    text-align:center;border-radius:8px;background:var(--sui);color:#06121c;
+    font-weight:800;font-size:13px;margin-right:8px}
+  .card.hot .no{background:var(--rose)}
+  .card.done{border-color:rgba(124,249,212,.35)}
+  .card.done .no{background:var(--mint)}
+  .card b.t{font-size:14px;color:#fff}
+  .card p{font-size:12.5px;color:var(--sub);margin-top:5px}
+  .card p b{color:var(--gold);font-weight:700}
+  .tag{display:inline-block;font-size:10px;font-weight:700;border-radius:99px;
+    padding:1px 9px;margin-left:6px;vertical-align:2px}
+  .tag.rec{background:rgba(44,183,222,.18);color:var(--sui)}
+  .tag.del{background:rgba(255,138,128,.15);color:var(--rose)}
+  .tag.dsg{background:rgba(232,213,160,.15);color:var(--gold)}
+  .tag.ok{background:rgba(124,249,212,.18);color:var(--mint)}
+  ul.q{list-style:none}
+  ul.q li{background:var(--card);border:1px solid rgba(232,213,160,.25);
+    border-radius:14px;padding:12px 14px;margin-bottom:10px;font-size:13px}
+  ul.q li b{color:var(--gold)}
+  ul.q li small{display:block;color:var(--sub);font-size:11.5px;margin-top:3px}
+  .foot{margin-top:30px;text-align:center;font-size:11px;color:var(--sub)}
+  .foot b{color:var(--mint)}
+</style>
+</head>
+<body>
+
+<h1>🌊 OneSea 三層構造 総点検</h1>
+<div class="date">2026-08-06 フェーブル5調べ ・ ①通りすがり / ②無料OneSea会員 / ③わらわ〜会員</div>
+
+<h2 class="done">✅ 実装済み（今日の自動実行分）</h2>
+<div class="card done"><span class="no">済</span><b class="t">シューマン「データ一覧」強化</b>
+<p>宝の山サマリー帯（観測日数・全期間平均・7.83超え率・<b>8.02Hz到達日数</b>・歴代最高年）＋末尾にMMM誘導カード「⚡この音を、自分の耳で → 15秒無料」＋全期間グラフにMMM始動マーカー＋古い決め打ち文言の修正。本番反映済み。</p></div>
+
+<h2 class="hot">🚨 最重要（土台）</h2>
+<div class="card hot"><span class="no">①</span><b class="t">会員フラグがDBに無い＝コードは2層のみ</b>
+<p>今は<b>ログインした瞬間に全員わらわ〜扱い</b>（シューマン音フルも瞑想も解禁）。②と③を分ける profiles の会員期限（warawa_until 等）と、ゲートの張り替えが必要。<b>Stripe接続の前に必須</b>。</p></div>
+
+<h2 class="q">❓ あいまい定義（みつろうの判断待ち）</h2>
+<ul class="q">
+<li><b>Q1. ②の名前</b> — PriceBannerは有料側を「OneSea会員(39,600円)」と表記。新定義（OneSea会員=無料）と衝突。<small>「無料OneSea会員／わらわ〜会員」に統一？</small></li>
+<li><b>Q2. わらわ〜の入り方</b> — /join は「近日ご案内」のまま。<small>Stripe？振込＋手動フラグ？</small></li>
+<li><b>Q3. @Warawer番号</b> — 無料会員にも採番する？<small>CotoZute表示名の土台。</small></li>
+<li><b>Q4. ツキヨガの線引き</b> — v7は今誰でも全部見られる。<small>どこからが③専用（Zoomだけ？統計も？）</small></li>
+</ul>
+
+<h2>👀 ① 通りすがり層 — 「入りたい」と思わせる</h2>
+<div class="card"><span class="no">②</span><b class="t">ゲスト入口ボタンが弱い</b><span class="tag dsg">デザイン</span>
+<p>「ログインせずに無料で使ってみる」が小さな枠線ボタン。通りすがりの入口なのでGoogleボタンと同格の大きさへ。</p></div>
+<div class="card"><span class="no">③</span><b class="t">満月会過去動画をトップに</b><span class="tag rec">追加</span>
+<p>一番の「盛り上がり証拠」が /sekai の折りたたみの奥。MMMかトップに「📺最新の満月会」カードを1枚。</p></div>
+<div class="card"><span class="no">④</span><b class="t">米部の実績数字を入口へ</b><span class="tag rec">追加</span>
+<p>「2025年 田んぼ75枚」はゲストに刺さる。トップかセカイムラ入口に数字を出す。</p></div>
+<div class="card"><span class="no">⑤</span><b class="t">CotoZuteゲスト動線の総確認</b>
+<p>いいね/コメント押下→UpgradeDialogに確実につながるか。「ネガが無いフィード」を守る通報/非表示の運用も。</p></div>
+
+<h2>🆓 ② 無料OneSea会員層</h2>
+<div class="card"><span class="no">⑥</span><b class="t">誕生時刻の使い道を増やす</b><span class="tag rec">追加</span>
+<p>今は地球冒険日数だけ。ツキヨガ12タイプの「今日のあなたと月」ミニ占いを手帳に1行→<b>毎日開く理由</b>になる。</p></div>
+<div class="card"><span class="no">⑦</span><b class="t">シューマン値の特典の線引き</b>
+<p>「②の特典」のはずが今はゲストにも全公開。ゲスト=現在値のみ／②=宝の山全部、等の区切りも選択肢。</p></div>
+<div class="card"><span class="no">⑧</span><b class="t">手帳書き込み→ログイン誘導の確認</b>
+<p>ゲストで書けてしまうなら「書く→登録」が②への一番自然な入口。</p></div>
+
+<h2>🌊 ③ わらわ〜会員層</h2>
+<div class="card"><span class="no">⑨</span><b class="t">/join の特典リストと定義のズレ</b>
+<p>きみの定義: MMMフル/シューマン音/新月会満月会/楽座出品/ツキヨガZoom。現ページはTALK・CotoZute投稿も特典扱い。<b>TALKとCotoZute投稿は②に開放するのか</b>を決めて書き直し。</p></div>
+<div class="card"><span class="no">⑩</span><b class="t">新月会満月会 Zoom URLのゲート点検</b>
+<p>sekai_settings の zoom_url が誰に見えるか確認して③専用に。</p></div>
+
+<h2>🎨 デザイン（正直に）</h2>
+<div class="card"><span class="no">⑪</span><b class="t">/join が質素すぎる</b><span class="tag dsg">デザイン</span>
+<p>18万円分→39,600円のアンカーが無い。満月会サムネ・海の中身を見せる。<b>一番大事な販売ページが一番地味</b>は逆。</p></div>
+<div class="card"><span class="no">⑫</span><b class="t">PriceBannerの「準備中」で終わるUX</b><span class="tag dsg">デザイン</span>
+<p>期待させて落とす形。/join へ接続する。</p></div>
+<div class="card"><span class="no">⑬</span><b class="t">黒の色が2種類ある</b><span class="tag dsg">デザイン</span>
+<p>手帳題字 #0e1116 とページ下部 #0a1420。どちらかに統一すると締まる。</p></div>
+
+<h2>🗑 削除候補</h2>
+<div class="card"><span class="no">⑭</span><b class="t">MeishiModal</b><span class="tag del">削除?</span>
+<p>参照されていなければ削除（要確認）。</p></div>
+<div class="card"><span class="no">⑮</span><b class="t">入口画面の説明過多</b><span class="tag del">削減</span>
+<p>「360の節分かれつ刻…」はゲストには早い。入口は「無料の手帳アプリ」だけで良い。</p></div>
+
+<div class="foot">おすすめの次の一手は <b>①会員フラグ導入</b>（全ゲートの土台）<br>
+番号をフェーブルに言えば1つずつ実行します 🖋</div>
+
+</body>
+</html>
