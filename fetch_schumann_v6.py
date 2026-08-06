@@ -378,33 +378,17 @@ def rebuild_daily_summary():
 
 
 def compress_previous_month(current_mk):
-    """月が変わったら前月ファイルを日次集計 (min/max/mean/count) に圧縮した
-    .daily.json も生成する。生データは残す (リポジトリ肥大が問題になるまで削除しない)"""
+    """月が変わったら前月の .daily.json を用意する。区切りは rebuild_daily と同じ
+    JST に統一 (以前はここだけUTC区切りで作っていて、次周期のrebuildで直るまで
+    一瞬だけ日付境界が食い違っていた)。生データは残す。"""
     y, m = int(current_mk[:4]), int(current_mk[5:7])
     prev_mk = f"{y - 1}-12" if m == 1 else f"{y}-{m - 1:02d}"
     src = HISTORY_DIR / f"{prev_mk}.json"
     dst = HISTORY_DIR / f"{prev_mk}.daily.json"
     if not src.exists() or dst.exists():
         return
-    records = load_json(src) or []
-    days = {}
-    for r in records:
-        d = str(r.get("t", ""))[:10]
-        if len(d) != 10:
-            continue
-        for k in ("F1", "F2", "F3", "F4"):
-            v = r.get(k)
-            if v is not None:
-                days.setdefault(d, {}).setdefault(k, []).append(v)
-    out = []
-    for d in sorted(days):
-        entry = {"date": d}
-        for k, vs in sorted(days[d].items()):
-            entry[k] = {"min": min(vs), "max": max(vs),
-                        "mean": round(sum(vs) / len(vs), 4), "count": len(vs)}
-        out.append(entry)
-    save_json(dst, out)
-    print(f"+ Compressed {src} -> {dst} ({len(out)} days)")
+    rebuild_daily(prev_mk)
+    print(f"+ Compressed {src} -> {dst}")
 
 
 def update_monthly_summary():
