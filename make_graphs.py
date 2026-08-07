@@ -218,25 +218,32 @@ def render_graphs(store, now_jst, outdir, section="modes", prefix="graph_f", uni
     DIV = 6
     stats = {}
 
+    # ★今週平均の窓: 今日までの7日 (end-7日 〜 end)。グラフ描画窓(3日)とは独立
+    week_start = end - datetime.timedelta(days=7)
+
     for key, name, theory, col in MODES:
         data = []
+        week_vals = []
         for stamp, v in sorted(store[section].get(key, {}).items()):
             t = datetime.datetime.strptime(stamp, "%Y-%m-%dT%H:%M").replace(tzinfo=JST)
             if start <= t < end:
                 data.append((t, v))
+            if week_start <= t < end:
+                week_vals.append(v)
         base = Image.new("RGB", (GW, GH), BG)
         d = ImageDraw.Draw(base)
         px0, px1, py0, py1 = PADL, GW - PADR, PADT, GH - PADB
 
         vals = [v for _, v in data]
         if vals:
-            avg = sum(vals) / len(vals)
             rng = max(max(vals) - min(vals), 0.05)
             lo = min(vals) - rng * 0.03
             hi = max(vals) + rng * 0.03
         else:
-            avg = theory
             lo, hi = theory - 0.5, theory + 0.5
+        # ★avg は「今週(今日までの7日)平均」。破線と graph_stats の avg に使う
+        avg = (sum(week_vals) / len(week_vals)) if week_vals else (
+            sum(vals) / len(vals) if vals else theory)
 
         def X(t):
             return px0 + (px1 - px0) * ((t - start).total_seconds() / 3600) / total_h
@@ -274,8 +281,9 @@ def render_graphs(store, now_jst, outdir, section="modes", prefix="graph_f", uni
                 d.line([(px0, yy), (px1, yy)], fill=(50, 53, 64))
         d.line([(px1, py0), (px1, py1)], fill=(150, 154, 166), width=1)
 
-        # 3日間平均の破線 (文字なし — 数値はヘッダーの凡例へ)
-        yy = Y(avg)
+        # 今週平均(今日までの7日)の破線 (文字なし — 数値はヘッダーの凡例へ)
+        # 週平均が3日窓のY範囲外に出た時は枠内に寄せて表示
+        yy = min(max(Y(avg), py0), py1)
         for xx in range(int(px0), int(px1), 12 * S):
             d.line([(xx, yy), (xx + 6 * S, yy)], fill=(255, 225, 130), width=S)
 
@@ -314,7 +322,7 @@ def render_graphs(store, now_jst, outdir, section="modes", prefix="graph_f", uni
             img = _rounded(base.convert("RGB"), 28)
             img.save(outdir / (prefix + key[-1] + ".png"))
         stats[key] = {"cur": cur, "avg": round(avg, 2), "theory": theory}
-        print(f"+ {prefix}{key[-1]}  現在:{cur}  3日平均:{round(avg,2)} {unit}")
+        print(f"+ {prefix}{key[-1]}  現在:{cur}  今週平均:{round(avg,2)} {unit}")
 
     return stats
 
