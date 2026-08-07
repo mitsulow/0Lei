@@ -1,19 +1,19 @@
 {
-  "timestamp": "2026-08-07T08:57:42.673645+00:00",
+  "timestamp": "2026-08-07T09:01:07.152988+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 8.01,
+      "hz": 8.04,
       "confidence": 95,
       "calibration": "ocr",
       "amp": 4.1,
       "q": 5.19
     },
     "F2": {
-      "hz": 14.24,
+      "hz": 13.98,
       "confidence": 95,
       "calibration": "ocr",
       "amp": 32.78,
@@ -21,17 +21,17 @@
     },
     "F3": {
       "hz": 20.23,
-      "confidence": 95,
+      "confidence": 85,
       "calibration": "ocr",
       "amp": 12.81,
       "q": 6.82
     },
     "F4": {
-      "hz": 26.25,
+      "hz": 26.15,
       "confidence": 95,
       "calibration": "ocr",
       "amp": 2.6,
-      "q": 6.02
+      "q": 6.19
     },
     "F5": {
       "hz": null,
@@ -40,26 +40,26 @@
   },
   "amplitude_level": "unknown",
   "strongest_mode": "F3",
-  "notes": "F1は8.01Hzで基準よりやや高め (+0.18Hz)。軸目盛りOCR検証つきピクセル解析。",
+  "notes": "F1は8.04Hzで基準よりやや高め (+0.21Hz)。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
-    "state": "right",
-    "state_jp": "右回転（昼）",
-    "japan_hour": 17.95,
-    "tomsk_hour": 15.95,
-    "is_day_japan": true,
+    "state": "left",
+    "state_jp": "左回転（夜）",
+    "japan_hour": 18.02,
+    "tomsk_hour": 16.02,
+    "is_day_japan": false,
     "is_day_tomsk": true
   },
   "data_age_min": {
-    "F1": 16,
-    "F2": 41,
-    "F3": 86,
-    "F4": 16
+    "F1": 21,
+    "F2": 26,
+    "F3": 101,
+    "F4": 21
   },
-  "source_unchanged": true,
+  "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": -0.0119,
-  "updated_jst": "2026-08-07 17:57 JST",
+  "distance_to_target_hz": 0.0181,
+  "updated_jst": "2026-08-07 18:01 JST",
   "events": [
     {
       "type": "f1_above_8.0",
@@ -76,8 +76,8 @@
   ],
   "condition": "storm",
   "condition_metrics": {
-    "bright_frac": 0.1458,
-    "max_run_px": 56,
+    "bright_frac": 0.1375,
+    "max_run_px": 52,
     "window_cols": 480
   }
 }
