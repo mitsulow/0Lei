@@ -1,37 +1,37 @@
 {
-  "timestamp": "2026-08-07T10:01:12.317561+00:00",
+  "timestamp": "2026-08-07T10:15:50.062346+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 7.44,
+      "hz": 7.48,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 44.35,
-      "q": 5.63
+      "amp": 32.1,
+      "q": 6.12
     },
     "F2": {
-      "hz": 13.29,
+      "hz": 13.34,
       "confidence": 95,
       "calibration": "ocr",
       "amp": 17.53,
-      "q": 6.35
+      "q": 6.87
     },
     "F3": {
       "hz": 20.53,
       "confidence": 95,
       "calibration": "ocr",
       "amp": 12.81,
-      "q": 6.82
+      "q": 6.22
     },
     "F4": {
-      "hz": 24.42,
+      "hz": 24.5,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 11.6,
-      "q": 6.78
+      "amp": 8.4,
+      "q": 7.04
     },
     "F5": {
       "hz": null,
@@ -40,26 +40,26 @@
   },
   "amplitude_level": "unknown",
   "strongest_mode": "F3",
-  "notes": "F1は7.44Hzで基準よりやや低め (-0.39Hz)。軸目盛りOCR検証つきピクセル解析。",
+  "notes": "F1は7.48Hzで基準よりやや低め (-0.35Hz)。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 19.02,
-    "tomsk_hour": 17.02,
+    "japan_hour": 19.25,
+    "tomsk_hour": 17.25,
     "is_day_japan": false,
     "is_day_tomsk": true
   },
   "data_age_min": {
-    "F1": 20,
-    "F2": 25,
-    "F3": 45,
-    "F4": 20
+    "F1": 16,
+    "F2": 21,
+    "F3": 61,
+    "F4": 16
   },
-  "source_unchanged": true,
+  "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": -0.5819,
-  "updated_jst": "2026-08-07 19:01 JST",
+  "distance_to_target_hz": -0.5419,
+  "updated_jst": "2026-08-07 19:15 JST",
   "events": [
     {
       "type": "f1_above_8.0",
@@ -76,8 +76,8 @@
   ],
   "condition": "active",
   "condition_metrics": {
-    "bright_frac": 0.1104,
-    "max_run_px": 32,
+    "bright_frac": 0.0979,
+    "max_run_px": 26,
     "window_cols": 480
   }
 }
