@@ -221,25 +221,25 @@
       "min": 7.86,
       "max": 7.86,
       "mean": 7.86,
-      "count": 3
+      "count": 4
     },
     "F2": {
       "min": 14.26,
       "max": 14.26,
       "mean": 14.26,
-      "count": 3
+      "count": 4
     },
     "F3": {
       "min": 19.94,
       "max": 20.0,
-      "mean": 19.98,
-      "count": 3
+      "mean": 19.985,
+      "count": 4
     },
     "F4": {
       "min": 25.79,
       "max": 26.02,
-      "mean": 25.89,
-      "count": 4
+      "mean": 25.9314,
+      "count": 7
     }
   }
 ]
