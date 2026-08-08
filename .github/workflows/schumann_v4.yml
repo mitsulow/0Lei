@@ -34,7 +34,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install pillow numpy
+          pip install pillow numpy websockets
           sudo apt-get update -qq && sudo apt-get install -y -qq fonts-noto-cjk
 
       - name: Fetch and analyze (deterministic pixel extraction)
@@ -45,6 +45,9 @@ jobs:
         # srf.jpg が前回と同一 (SHA-256 一致) ならグラフ再生成もスキップ
         if: steps.fetch.outputs.changed != 'false'
         run: python make_graphs.py
+
+      - name: Count world lightning (60s sample, non-fatal)
+        run: python count_lightning.py || true
 
       - name: Commit results
         run: |
