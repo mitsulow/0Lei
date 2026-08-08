@@ -58,4 +58,5 @@ jobs:
           git add last_srf_sha256.txt || true
           git add history || true
           git diff --staged --quiet || git commit -m "Update Schumann data $(date -u +'%Y-%m-%d %H:%M UTC')"
-          git push
+          # 手動push等との衝突に耐える: リベースして再pushを2回まで
+          git push || { git pull --rebase origin main && git push; } || { sleep 5 && git pull --rebase origin main && git push; }
