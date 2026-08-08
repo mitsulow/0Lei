@@ -1,37 +1,37 @@
 {
-  "timestamp": "2026-08-08T17:28:34.134146+00:00",
+  "timestamp": "2026-08-08T17:30:54.650420+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 7.51,
+      "hz": 7.6,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 3.4,
-      "q": 5.58
+      "amp": 2.94,
+      "q": 5.38
     },
     "F2": {
-      "hz": 13.96,
+      "hz": 14.08,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 4.28,
-      "q": 5.43
+      "amp": 2.7,
+      "q": 5.62
     },
     "F3": {
-      "hz": 20.03,
-      "confidence": 95,
+      "hz": 20.02,
+      "confidence": 35,
       "calibration": "ocr",
-      "amp": 5.29,
-      "q": 5.81
+      "amp": 5.83,
+      "q": 6.15
     },
     "F4": {
-      "hz": 26.02,
+      "hz": 26.04,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 1.8,
-      "q": 5.68
+      "amp": 1.51,
+      "q": 5.51
     },
     "F5": {
       "hz": null,
@@ -40,26 +40,26 @@
   },
   "amplitude_level": "unknown",
   "strongest_mode": "F2",
-  "notes": "F1は7.51Hzで基準よりやや低め (-0.32Hz)。軸目盛りOCR検証つきピクセル解析。",
+  "notes": "F1は7.60Hzで基準よりやや低め (-0.23Hz)。F3は2時間以上更新なし。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 2.47,
-    "tomsk_hour": 0.47,
+    "japan_hour": 2.5,
+    "tomsk_hour": 0.5,
     "is_day_japan": false,
     "is_day_tomsk": false
   },
   "data_age_min": {
-    "F1": 0,
-    "F2": 0,
-    "F3": 0,
-    "F4": 0
+    "F1": 16,
+    "F2": 31,
+    "F3": 256,
+    "F4": 21
   },
-  "source_unchanged": true,
+  "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": -0.5119,
-  "updated_jst": "2026-08-09 02:28 JST",
+  "distance_to_target_hz": -0.4219,
+  "updated_jst": "2026-08-09 02:30 JST",
   "events": [
     {
       "type": "f1_above_8.0",
