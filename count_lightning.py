@@ -10,7 +10,7 @@ import os
 from datetime import datetime, timezone
 
 HIST = os.path.join("history", "lightning.json")
-KEEP = 24 * 400  # 毎時1点 × 400日ぶん
+KEEP = 4 * 24 * 400  # 15分ごと1点 × 400日ぶん(外部cron-job.orgの15分キックに同乗)
 
 
 async def count(seconds: int = 60) -> int:
