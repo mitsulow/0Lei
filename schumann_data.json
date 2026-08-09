@@ -1,19 +1,19 @@
 {
-  "timestamp": "2026-08-09T22:15:47.732875+00:00",
+  "timestamp": "2026-08-09T22:31:02.225173+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 7.79,
+      "hz": 7.83,
       "confidence": 95,
       "calibration": "ocr",
       "amp": 3.48,
       "q": 5.12
     },
     "F2": {
-      "hz": 14.21,
+      "hz": 14.0,
       "confidence": 95,
       "calibration": "ocr",
       "amp": 4.59,
@@ -21,17 +21,17 @@
     },
     "F3": {
       "hz": 20.39,
-      "confidence": 85,
+      "confidence": 75,
       "calibration": "ocr",
       "amp": 12.76,
       "q": 5.81
     },
     "F4": {
-      "hz": 25.59,
+      "hz": 25.62,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 1.9,
-      "q": 6.59
+      "amp": 2.07,
+      "q": 6.69
     },
     "F5": {
       "hz": null,
@@ -40,26 +40,26 @@
   },
   "amplitude_level": "unknown",
   "strongest_mode": "F1",
-  "notes": "F1は7.79Hzで基準値7.83Hz付近と安定。軸目盛りOCR検証つきピクセル解析。",
+  "notes": "F1は7.83Hzで基準値7.83Hz付近と安定。F3は2時間以上更新なし。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 7.25,
-    "tomsk_hour": 5.25,
+    "japan_hour": 7.52,
+    "tomsk_hour": 5.52,
     "is_day_japan": true,
     "is_day_tomsk": false
   },
   "data_age_min": {
     "F1": 16,
-    "F2": 31,
-    "F3": 116,
-    "F4": 16
+    "F2": 26,
+    "F3": 131,
+    "F4": 21
   },
   "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": -0.2319,
-  "updated_jst": "2026-08-10 07:15 JST",
+  "distance_to_target_hz": -0.1919,
+  "updated_jst": "2026-08-10 07:31 JST",
   "events": [
     {
       "type": "f1_above_8.0",
@@ -84,8 +84,8 @@
   ],
   "condition": "active",
   "condition_metrics": {
-    "bright_frac": 0.0688,
-    "max_run_px": 23,
+    "bright_frac": 0.0646,
+    "max_run_px": 21,
     "window_cols": 480
   }
 }
