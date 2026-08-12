@@ -59,4 +59,5 @@ jobs:
           git add history || true
           git diff --staged --quiet || git commit -m "Update Schumann data $(date -u +'%Y-%m-%d %H:%M UTC')"
           # 手動push等との衝突に耐える: リベースして再pushを2回まで
-          git push || { git pull --rebase origin main && git push; } || { sleep 5 && git pull --rebase origin main && git push; }
+          # --autostash: 生成物の未ステージ変更が残っていてもrebaseが通る(無いと"unstaged changes"で失敗しメールが飛ぶ)
+          git push || { git pull --rebase --autostash origin main && git push; } || { sleep 5 && git pull --rebase --autostash origin main && git push; }
