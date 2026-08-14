@@ -1,19 +1,19 @@
 {
-  "timestamp": "2026-08-14T20:45:47.123997+00:00",
+  "timestamp": "2026-08-14T21:00:55.996461+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 7.73,
+      "hz": 7.76,
       "confidence": 95,
       "calibration": "ocr",
       "amp": 6.3,
-      "q": 4.89
+      "q": 4.98
     },
     "F2": {
-      "hz": 13.95,
+      "hz": 13.9,
       "confidence": 95,
       "calibration": "ocr",
       "amp": 3.42,
@@ -27,10 +27,10 @@
       "q": 6.39
     },
     "F4": {
-      "hz": 25.91,
+      "hz": 25.71,
       "confidence": 60,
       "calibration": "static-fallback",
-      "amp": 2.38,
+      "amp": 2.47,
       "q": 5.39
     },
     "F5": {
@@ -39,27 +39,27 @@
     }
   },
   "amplitude_level": "unknown",
-  "strongest_mode": "F3",
-  "notes": "F1は7.73Hzで基準よりやや低め (-0.10Hz)。F4は軸OCR失敗のため参考値。軸目盛りOCR検証つきピクセル解析。",
+  "strongest_mode": "F1",
+  "notes": "F1は7.76Hzで基準よりやや低め (-0.07Hz)。F4は軸OCR失敗のため参考値。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
-    "state": "left",
-    "state_jp": "左回転（夜）",
-    "japan_hour": 5.75,
-    "tomsk_hour": 3.75,
-    "is_day_japan": false,
+    "state": "right",
+    "state_jp": "右回転（昼）",
+    "japan_hour": 6.0,
+    "tomsk_hour": 4.0,
+    "is_day_japan": true,
     "is_day_tomsk": false
   },
   "data_age_min": {
-    "F1": 21,
-    "F2": 66,
-    "F3": 91,
+    "F1": 16,
+    "F2": 31,
+    "F3": 106,
     "F4": 16
   },
   "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": -0.2919,
-  "updated_jst": "2026-08-15 05:45 JST",
+  "distance_to_target_hz": -0.2619,
+  "updated_jst": "2026-08-15 06:00 JST",
   "events": [
     {
       "type": "f1_above_8.0",
@@ -128,7 +128,7 @@
   ],
   "condition": "active",
   "condition_metrics": {
-    "bright_frac": 0.0792,
+    "bright_frac": 0.0771,
     "max_run_px": 36,
     "window_cols": 480
   }
