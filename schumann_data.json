@@ -1,23 +1,23 @@
 {
-  "timestamp": "2026-08-14T09:15:45.078340+00:00",
+  "timestamp": "2026-08-14T09:31:00.348241+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 7.72,
+      "hz": 7.39,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 20.71,
-      "q": 6.47
+      "amp": 40.92,
+      "q": 6.82
     },
     "F2": {
       "hz": 13.38,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 27.31,
-      "q": 14.9
+      "amp": 30.06,
+      "q": 14.79
     },
     "F3": {
       "hz": 19.99,
@@ -27,11 +27,11 @@
       "q": 6.67
     },
     "F4": {
-      "hz": 25.16,
+      "hz": 24.49,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 4.96,
-      "q": 7.17
+      "amp": 6.4,
+      "q": 7.74
     },
     "F5": {
       "hz": null,
@@ -39,27 +39,27 @@
     }
   },
   "amplitude_level": "unknown",
-  "strongest_mode": "F1",
-  "notes": "F1は7.72Hzで基準よりやや低め (-0.11Hz)。軸目盛りOCR検証つきピクセル解析。",
+  "strongest_mode": "F3",
+  "notes": "F1は7.39Hzで基準よりやや低め (-0.44Hz)。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 18.25,
-    "tomsk_hour": 16.25,
+    "japan_hour": 18.52,
+    "tomsk_hour": 16.52,
     "is_day_japan": false,
     "is_day_tomsk": true
   },
   "data_age_min": {
-    "F1": 16,
-    "F2": 21,
-    "F3": 66,
-    "F4": 16
+    "F1": 21,
+    "F2": 36,
+    "F3": 81,
+    "F4": 21
   },
   "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": -0.3019,
-  "updated_jst": "2026-08-14 18:15 JST",
+  "distance_to_target_hz": -0.6319,
+  "updated_jst": "2026-08-14 18:31 JST",
   "events": [
     {
       "type": "f1_above_8.0",
@@ -128,8 +128,8 @@
   ],
   "condition": "calm",
   "condition_metrics": {
-    "bright_frac": 0.0167,
-    "max_run_px": 6,
+    "bright_frac": 0.0271,
+    "max_run_px": 11,
     "window_cols": 480
   }
 }
