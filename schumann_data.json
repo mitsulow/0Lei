@@ -1,37 +1,37 @@
 {
-  "timestamp": "2026-08-16T17:17:47.323520+00:00",
+  "timestamp": "2026-08-16T17:30:49.552090+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 7.46,
+      "hz": 7.73,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 4.64,
-      "q": 5.21
+      "amp": 4.2,
+      "q": 5.34
     },
     "F2": {
-      "hz": 13.33,
-      "confidence": 95,
+      "hz": 13.35,
+      "confidence": 85,
       "calibration": "ocr",
-      "amp": 4.13,
-      "q": 8.4
+      "amp": 4.72,
+      "q": 21.6
     },
     "F3": {
-      "hz": 20.1,
-      "confidence": 95,
+      "hz": 19.88,
+      "confidence": 30,
       "calibration": "ocr",
-      "amp": 7.72,
-      "q": 5.76
+      "amp": 7.7,
+      "q": 5.66
     },
     "F4": {
-      "hz": 24.94,
+      "hz": 24.79,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 1.42,
-      "q": 5.84
+      "amp": 1.28,
+      "q": 5.96
     },
     "F5": {
       "hz": null,
@@ -39,27 +39,27 @@
     }
   },
   "amplitude_level": "unknown",
-  "strongest_mode": "F3",
-  "notes": "F1は7.46Hzで基準よりやや低め (-0.37Hz)。軸目盛りOCR検証つきピクセル解析。",
+  "strongest_mode": "F1",
+  "notes": "F1は7.73Hzで基準よりやや低め (-0.10Hz)。F3は2時間以上更新なし。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 2.28,
-    "tomsk_hour": 0.28,
+    "japan_hour": 2.5,
+    "tomsk_hour": 0.5,
     "is_day_japan": false,
     "is_day_tomsk": false
   },
   "data_age_min": {
-    "F1": 0,
-    "F2": 0,
-    "F3": 0,
-    "F4": 0
+    "F1": 16,
+    "F2": 106,
+    "F3": 401,
+    "F4": 16
   },
-  "source_unchanged": true,
+  "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": -0.5619,
-  "updated_jst": "2026-08-17 02:17 JST",
+  "distance_to_target_hz": -0.2919,
+  "updated_jst": "2026-08-17 02:30 JST",
   "events": [
     {
       "type": "f1_above_8.0",
