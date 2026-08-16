@@ -1,23 +1,23 @@
 {
-  "timestamp": "2026-08-16T03:15:41.880481+00:00",
+  "timestamp": "2026-08-16T03:30:46.733577+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 7.89,
+      "hz": 7.78,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 4.2,
-      "q": 5.16
+      "amp": 6.62,
+      "q": 5.62
     },
     "F2": {
-      "hz": 13.05,
+      "hz": 13.46,
       "confidence": 95,
       "calibration": "ocr",
       "amp": 2.71,
-      "q": 16.68
+      "q": 14.44
     },
     "F3": {
       "hz": 20.15,
@@ -27,11 +27,11 @@
       "q": 6.22
     },
     "F4": {
-      "hz": 25.91,
+      "hz": 25.95,
       "confidence": 60,
       "calibration": "static-fallback",
-      "amp": 1.56,
-      "q": 6.68
+      "amp": 1.63,
+      "q": 7.16
     },
     "F5": {
       "hz": null,
@@ -40,26 +40,26 @@
   },
   "amplitude_level": "unknown",
   "strongest_mode": "F1",
-  "notes": "F1は7.89Hzで基準よりやや高め (+0.06Hz)。F4は軸OCR失敗のため参考値。軸目盛りOCR検証つきピクセル解析。",
+  "notes": "F1は7.78Hzで基準値7.83Hz付近と安定。F4は軸OCR失敗のため参考値。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 12.25,
-    "tomsk_hour": 10.25,
+    "japan_hour": 12.5,
+    "tomsk_hour": 10.5,
     "is_day_japan": true,
     "is_day_tomsk": true
   },
   "data_age_min": {
     "F1": 16,
-    "F2": 21,
-    "F3": 31,
+    "F2": 26,
+    "F3": 46,
     "F4": 16
   },
   "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": -0.1319,
-  "updated_jst": "2026-08-16 12:15 JST",
+  "distance_to_target_hz": -0.2419,
+  "updated_jst": "2026-08-16 12:30 JST",
   "events": [
     {
       "type": "f1_above_8.0",
@@ -136,7 +136,7 @@
   ],
   "condition": "calm",
   "condition_metrics": {
-    "bright_frac": 0.0292,
+    "bright_frac": 0.0312,
     "max_run_px": 3,
     "window_cols": 480
   }
