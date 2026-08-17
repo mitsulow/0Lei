@@ -1,37 +1,37 @@
 {
-  "timestamp": "2026-08-17T10:31:04.756623+00:00",
+  "timestamp": "2026-08-17T10:45:36.176863+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 7.91,
+      "hz": 7.83,
       "confidence": 95,
       "calibration": "ocr",
       "amp": 5.52,
-      "q": 5.43
+      "q": 5.31
     },
     "F2": {
-      "hz": 13.96,
+      "hz": 13.99,
       "confidence": 95,
       "calibration": "ocr",
       "amp": 4.63,
       "q": 5.81
     },
     "F3": {
-      "hz": 19.8,
+      "hz": 20.13,
       "confidence": 95,
       "calibration": "ocr",
       "amp": 3.15,
       "q": 8.12
     },
     "F4": {
-      "hz": 25.32,
+      "hz": 25.5,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 3.52,
-      "q": 6.68
+      "amp": 2.53,
+      "q": 6.38
     },
     "F5": {
       "hz": null,
@@ -40,26 +40,26 @@
   },
   "amplitude_level": "unknown",
   "strongest_mode": "F1",
-  "notes": "F1は7.91Hzで基準よりやや高め (+0.08Hz)。軸目盛りOCR検証つきピクセル解析。",
+  "notes": "F1は7.83Hzで基準値7.83Hz付近と安定。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 19.52,
-    "tomsk_hour": 17.52,
+    "japan_hour": 19.75,
+    "tomsk_hour": 17.75,
     "is_day_japan": false,
     "is_day_tomsk": true
   },
   "data_age_min": {
-    "F1": 21,
+    "F1": 16,
     "F2": 31,
-    "F3": 41,
+    "F3": 61,
     "F4": 16
   },
   "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": -0.1119,
-  "updated_jst": "2026-08-17 19:31 JST",
+  "distance_to_target_hz": -0.1919,
+  "updated_jst": "2026-08-17 19:45 JST",
   "events": [
     {
       "type": "f1_above_8.0",
@@ -144,7 +144,7 @@
   ],
   "condition": "calm",
   "condition_metrics": {
-    "bright_frac": 0.0187,
+    "bright_frac": 0.0167,
     "max_run_px": 4,
     "window_cols": 480
   }
