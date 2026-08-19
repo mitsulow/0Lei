@@ -1,37 +1,37 @@
 {
-  "timestamp": "2026-08-19T06:18:32.504114+00:00",
+  "timestamp": "2026-08-19T06:32:12.151079+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 7.94,
+      "hz": 7.8,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 12.56,
-      "q": 5.23
+      "amp": 16.4,
+      "q": 5.24
     },
     "F2": {
-      "hz": 14.02,
+      "hz": 13.42,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 6.87,
+      "amp": 6.75,
       "q": 6.52
     },
     "F3": {
-      "hz": 19.65,
+      "hz": 19.64,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 5.08,
+      "amp": 4.74,
       "q": 10.95
     },
     "F4": {
-      "hz": 24.82,
+      "hz": 24.79,
       "confidence": 60,
       "calibration": "static-fallback",
-      "amp": 4.32,
-      "q": 8.2
+      "amp": 3.64,
+      "q": 7.37
     },
     "F5": {
       "hz": null,
@@ -39,27 +39,27 @@
     }
   },
   "amplitude_level": "unknown",
-  "strongest_mode": "F2",
-  "notes": "F1は7.94Hzで基準よりやや高め (+0.11Hz)。F4は軸OCR失敗のため参考値。軸目盛りOCR検証つきピクセル解析。",
+  "strongest_mode": "F1",
+  "notes": "F1は7.80Hzで基準値7.83Hz付近と安定。F4は軸OCR失敗のため参考値。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 15.3,
-    "tomsk_hour": 13.3,
+    "japan_hour": 15.53,
+    "tomsk_hour": 13.53,
     "is_day_japan": true,
     "is_day_tomsk": true
   },
   "data_age_min": {
-    "F1": 19,
-    "F2": 34,
-    "F3": 29,
-    "F4": 19
+    "F1": 22,
+    "F2": 27,
+    "F3": 42,
+    "F4": 22
   },
   "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": -0.0819,
-  "updated_jst": "2026-08-19 15:18 JST",
+  "distance_to_target_hz": -0.2219,
+  "updated_jst": "2026-08-19 15:32 JST",
   "events": [
     {
       "type": "f1_above_8.0",
@@ -160,7 +160,7 @@
   ],
   "condition": "storm",
   "condition_metrics": {
-    "bright_frac": 0.2542,
+    "bright_frac": 0.2583,
     "max_run_px": 50,
     "window_cols": 480
   }
