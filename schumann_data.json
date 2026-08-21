@@ -1,23 +1,23 @@
 {
-  "timestamp": "2026-08-21T10:28:20.661145+00:00",
+  "timestamp": "2026-08-21T10:30:48.230277+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 7.47,
+      "hz": 7.44,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 66.12,
-      "q": 11.35
+      "amp": 62.37,
+      "q": 14.8
     },
     "F2": {
       "hz": 12.81,
       "confidence": 95,
       "calibration": "ocr",
       "amp": 60.21,
-      "q": 7.54
+      "q": 13.18
     },
     "F3": {
       "hz": 19.25,
@@ -27,11 +27,11 @@
       "q": 10.39
     },
     "F4": {
-      "hz": 24.35,
+      "hz": 24.25,
       "confidence": 95,
       "calibration": "ocr",
       "amp": 15.0,
-      "q": 10.38
+      "q": 10.85
     },
     "F5": {
       "hz": null,
@@ -40,26 +40,26 @@
   },
   "amplitude_level": "unknown",
   "strongest_mode": "F1",
-  "notes": "F1は7.47Hzで基準よりやや低め (-0.36Hz)。軸目盛りOCR検証つきピクセル解析。",
+  "notes": "F1は7.44Hzで基準よりやや低め (-0.39Hz)。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 19.47,
-    "tomsk_hour": 17.47,
+    "japan_hour": 19.5,
+    "tomsk_hour": 17.5,
     "is_day_japan": false,
     "is_day_tomsk": true
   },
   "data_age_min": {
     "F1": 16,
-    "F2": 26,
-    "F3": 46,
+    "F2": 41,
+    "F3": 61,
     "F4": 16
   },
-  "source_unchanged": true,
+  "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": -0.5519,
-  "updated_jst": "2026-08-21 19:28 JST",
+  "distance_to_target_hz": -0.5819,
+  "updated_jst": "2026-08-21 19:30 JST",
   "events": [
     {
       "type": "f1_above_8.0",
@@ -168,8 +168,8 @@
   ],
   "condition": "active",
   "condition_metrics": {
-    "bright_frac": 0.0479,
-    "max_run_px": 22,
+    "bright_frac": 0.0583,
+    "max_run_px": 27,
     "window_cols": 480
   }
 }
