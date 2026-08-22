@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-08-22T21:15:48.530497+00:00",
+  "timestamp": "2026-08-22T21:19:57.541761+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -44,8 +44,8 @@
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 6.25,
-    "tomsk_hour": 4.25,
+    "japan_hour": 6.32,
+    "tomsk_hour": 4.32,
     "is_day_japan": true,
     "is_day_tomsk": false
   },
@@ -55,11 +55,11 @@
     "F3": 36,
     "F4": 21
   },
-  "source_unchanged": false,
+  "source_unchanged": true,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
   "distance_to_target_hz": -0.2319,
-  "updated_jst": "2026-08-23 06:15 JST",
+  "updated_jst": "2026-08-23 06:19 JST",
   "events": [
     {
       "type": "f1_above_8.0",
