@@ -1,37 +1,37 @@
 {
-  "timestamp": "2026-08-25T10:45:46.897303+00:00",
+  "timestamp": "2026-08-25T11:00:59.485925+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 7.72,
+      "hz": 7.57,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 15.62,
-      "q": 5.52
+      "amp": 20.62,
+      "q": 5.93
     },
     "F2": {
-      "hz": 14.13,
+      "hz": 13.28,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 5.32,
-      "q": 8.15
+      "amp": 9.24,
+      "q": 7.73
     },
     "F3": {
-      "hz": 20.1,
-      "confidence": 75,
-      "calibration": "ocr",
-      "amp": 2.24,
-      "q": 5.29
-    },
-    "F4": {
-      "hz": 25.27,
+      "hz": 19.06,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 2.48,
-      "q": 7.72
+      "amp": 5.56,
+      "q": 7.25
+    },
+    "F4": {
+      "hz": 24.72,
+      "confidence": 95,
+      "calibration": "ocr",
+      "amp": 3.25,
+      "q": 7.52
     },
     "F5": {
       "hz": null,
@@ -39,27 +39,27 @@
     }
   },
   "amplitude_level": "unknown",
-  "strongest_mode": "F2",
-  "notes": "F1は7.72Hzで基準よりやや低め (-0.11Hz)。F3は2時間以上更新なし。軸目盛りOCR検証つきピクセル解析。",
+  "strongest_mode": "F1",
+  "notes": "F1は7.57Hzで基準よりやや低め (-0.26Hz)。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 19.75,
-    "tomsk_hour": 17.75,
+    "japan_hour": 20.0,
+    "tomsk_hour": 18.0,
     "is_day_japan": false,
     "is_day_tomsk": true
   },
   "data_age_min": {
     "F1": 16,
-    "F2": 41,
-    "F3": 141,
+    "F2": 26,
+    "F3": 26,
     "F4": 16
   },
   "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": -0.3019,
-  "updated_jst": "2026-08-25 19:45 JST",
+  "distance_to_target_hz": -0.4519,
+  "updated_jst": "2026-08-25 20:00 JST",
   "events": [
     {
       "type": "f1_above_8.0",
@@ -212,7 +212,7 @@
   ],
   "condition": "calm",
   "condition_metrics": {
-    "bright_frac": 0.0167,
+    "bright_frac": 0.0187,
     "max_run_px": 2,
     "window_cols": 480
   }
