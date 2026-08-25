@@ -1,23 +1,23 @@
 {
-  "timestamp": "2026-08-25T08:15:45.881699+00:00",
+  "timestamp": "2026-08-25T08:30:51.888030+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 7.97,
+      "hz": 8.05,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 3.75,
-      "q": 5.96
+      "amp": 3.5,
+      "q": 5.32
     },
     "F2": {
-      "hz": 13.6,
+      "hz": 13.63,
       "confidence": 95,
       "calibration": "ocr",
       "amp": 3.05,
-      "q": 9.52
+      "q": 8.46
     },
     "F3": {
       "hz": 19.99,
@@ -27,11 +27,11 @@
       "q": 5.73
     },
     "F4": {
-      "hz": 25.69,
+      "hz": 25.79,
       "confidence": 95,
       "calibration": "ocr",
       "amp": 1.86,
-      "q": 5.5
+      "q": 5.75
     },
     "F5": {
       "hz": null,
@@ -40,26 +40,26 @@
   },
   "amplitude_level": "unknown",
   "strongest_mode": "F1",
-  "notes": "F1は7.97Hzで基準よりやや高め (+0.14Hz)。軸目盛りOCR検証つきピクセル解析。",
+  "notes": "F1は8.05Hzで基準よりやや高め (+0.22Hz)。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 17.25,
-    "tomsk_hour": 15.25,
+    "japan_hour": 17.5,
+    "tomsk_hour": 15.5,
     "is_day_japan": true,
     "is_day_tomsk": true
   },
   "data_age_min": {
     "F1": 16,
-    "F2": 36,
-    "F3": 41,
+    "F2": 46,
+    "F3": 71,
     "F4": 16
   },
-  "source_unchanged": true,
+  "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": -0.0519,
-  "updated_jst": "2026-08-25 17:15 JST",
+  "distance_to_target_hz": 0.0281,
+  "updated_jst": "2026-08-25 17:30 JST",
   "events": [
     {
       "type": "f1_above_8.0",
@@ -196,12 +196,16 @@
     {
       "type": "f1_above_8.0",
       "at": "2026-08-25T07:15:47.215790+00:00"
+    },
+    {
+      "type": "f1_above_8.0",
+      "at": "2026-08-25T08:30:51.888030+00:00"
     }
   ],
   "condition": "calm",
   "condition_metrics": {
-    "bright_frac": 0.0104,
-    "max_run_px": 1,
+    "bright_frac": 0.0146,
+    "max_run_px": 2,
     "window_cols": 480
   }
 }
