@@ -1,15 +1,15 @@
 {
-  "timestamp": "2026-08-27T00:45:39.933128+00:00",
+  "timestamp": "2026-08-27T01:01:06.262273+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 7.97,
+      "hz": 8.02,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 8.93,
+      "amp": 7.88,
       "q": 5.57
     },
     "F2": {
@@ -20,18 +20,18 @@
       "q": 5.84
     },
     "F3": {
-      "hz": 19.78,
-      "confidence": 65,
+      "hz": 20.03,
+      "confidence": 95,
       "calibration": "ocr",
       "amp": 12.6,
       "q": 6.63
     },
     "F4": {
-      "hz": 25.54,
+      "hz": 25.19,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 4.6,
-      "q": 6.14
+      "amp": 4.42,
+      "q": 6.27
     },
     "F5": {
       "hz": null,
@@ -40,26 +40,26 @@
   },
   "amplitude_level": "unknown",
   "strongest_mode": "F2",
-  "notes": "F1は7.97Hzで基準よりやや高め (+0.14Hz)。F3は2時間以上更新なし。軸目盛りOCR検証つきピクセル解析。",
+  "notes": "F1は8.02Hzで基準よりやや高め (+0.19Hz)。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 9.75,
-    "tomsk_hour": 7.75,
+    "japan_hour": 10.02,
+    "tomsk_hour": 8.02,
     "is_day_japan": true,
     "is_day_tomsk": true
   },
   "data_age_min": {
-    "F1": 16,
-    "F2": 36,
-    "F3": 156,
-    "F4": 16
+    "F1": 21,
+    "F2": 51,
+    "F3": 26,
+    "F4": 21
   },
   "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": -0.0519,
-  "updated_jst": "2026-08-27 09:45 JST",
+  "distance_to_target_hz": -0.0019,
+  "updated_jst": "2026-08-27 10:01 JST",
   "events": [
     {
       "type": "f1_above_8.0",
@@ -216,6 +216,10 @@
     {
       "type": "f1_above_8.0",
       "at": "2026-08-26T23:15:54.304390+00:00"
+    },
+    {
+      "type": "f1_above_8.0",
+      "at": "2026-08-27T01:01:06.262273+00:00"
     }
   ],
   "condition": "calm",
