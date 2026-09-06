@@ -1,37 +1,37 @@
 {
-  "timestamp": "2026-09-06T00:15:37.201380+00:00",
+  "timestamp": "2026-09-06T00:30:48.379786+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 7.49,
+      "hz": 7.54,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 36.65,
-      "q": 9.92
+      "amp": 32.14,
+      "q": 5.56
     },
     "F2": {
-      "hz": 14.18,
-      "confidence": 85,
+      "hz": 12.93,
+      "confidence": 95,
       "calibration": "ocr",
-      "amp": 5.36,
+      "amp": 23.84,
       "q": 6.59
     },
     "F3": {
       "hz": 20.1,
-      "confidence": 85,
+      "confidence": 75,
       "calibration": "ocr",
-      "amp": 4.01,
+      "amp": 13.95,
       "q": 11.06
     },
     "F4": {
-      "hz": 24.45,
+      "hz": 24.44,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 8.84,
-      "q": 7.85
+      "amp": 7.72,
+      "q": 7.92
     },
     "F5": {
       "hz": null,
@@ -39,27 +39,27 @@
     }
   },
   "amplitude_level": "unknown",
-  "strongest_mode": "F2",
-  "notes": "F1は7.49Hzで基準よりやや低め (-0.34Hz)。軸目盛りOCR検証つきピクセル解析。",
+  "strongest_mode": "F3",
+  "notes": "F1は7.54Hzで基準よりやや低め (-0.29Hz)。F3は2時間以上更新なし。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 9.25,
-    "tomsk_hour": 7.25,
+    "japan_hour": 9.5,
+    "tomsk_hour": 7.5,
     "is_day_japan": true,
     "is_day_tomsk": true
   },
   "data_age_min": {
     "F1": 16,
-    "F2": 116,
-    "F3": 106,
+    "F2": 31,
+    "F3": 121,
     "F4": 21
   },
   "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": -0.5319,
-  "updated_jst": "2026-09-06 09:15 JST",
+  "distance_to_target_hz": -0.4819,
+  "updated_jst": "2026-09-06 09:30 JST",
   "events": [
     {
       "type": "f1_above_8.0",
@@ -300,8 +300,8 @@
   ],
   "condition": "calm",
   "condition_metrics": {
-    "bright_frac": 0.025,
-    "max_run_px": 7,
+    "bright_frac": 0.0271,
+    "max_run_px": 8,
     "window_cols": 480
   }
 }
