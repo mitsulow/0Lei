@@ -1,19 +1,19 @@
 {
-  "timestamp": "2026-09-09T03:30:52.750562+00:00",
+  "timestamp": "2026-09-09T03:45:40.202730+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 7.94,
+      "hz": 8.06,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 4.2,
+      "amp": 3.98,
       "q": 5.09
     },
     "F2": {
-      "hz": 14.11,
+      "hz": 14.41,
       "confidence": 95,
       "calibration": "ocr",
       "amp": 3.15,
@@ -24,14 +24,14 @@
       "confidence": 75,
       "calibration": "ocr",
       "amp": 4.44,
-      "q": 5.46
+      "q": 5.42
     },
     "F4": {
-      "hz": 26.01,
+      "hz": 25.74,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 2.19,
-      "q": 6.33
+      "amp": 2.29,
+      "q": 6.86
     },
     "F5": {
       "hz": null,
@@ -39,27 +39,27 @@
     }
   },
   "amplitude_level": "unknown",
-  "strongest_mode": "F2",
-  "notes": "F1は7.94Hzで基準よりやや高め (+0.11Hz)。F3は2時間以上更新なし。軸目盛りOCR検証つきピクセル解析。",
+  "strongest_mode": "F1",
+  "notes": "F1は8.06Hzで基準よりやや高め (+0.23Hz)。F3は2時間以上更新なし。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 12.5,
-    "tomsk_hour": 10.5,
+    "japan_hour": 12.75,
+    "tomsk_hour": 10.75,
     "is_day_japan": true,
     "is_day_tomsk": true
   },
   "data_age_min": {
     "F1": 16,
-    "F2": 36,
-    "F3": 131,
-    "F4": 16
+    "F2": 21,
+    "F3": 146,
+    "F4": 21
   },
   "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": -0.0819,
-  "updated_jst": "2026-09-09 12:30 JST",
+  "distance_to_target_hz": 0.0381,
+  "updated_jst": "2026-09-09 12:45 JST",
   "events": [
     {
       "type": "f1_above_8.0",
@@ -332,6 +332,10 @@
     {
       "type": "f1_above_8.0",
       "at": "2026-09-09T03:00:54.254331+00:00"
+    },
+    {
+      "type": "f1_above_8.0",
+      "at": "2026-09-09T03:45:40.202730+00:00"
     }
   ],
   "condition": "calm",
