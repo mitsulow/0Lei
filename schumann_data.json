@@ -1,19 +1,19 @@
 {
-  "timestamp": "2026-09-16T22:15:49.640499+00:00",
+  "timestamp": "2026-09-16T22:30:56.229094+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 7.41,
+      "hz": 7.42,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 14.0,
-      "q": 8.67
+      "amp": 16.48,
+      "q": 11.05
     },
     "F2": {
-      "hz": 14.02,
+      "hz": 13.28,
       "confidence": 95,
       "calibration": "ocr",
       "amp": 3.9,
@@ -24,14 +24,14 @@
       "confidence": 95,
       "calibration": "ocr",
       "amp": 4.12,
-      "q": 7.78
+      "q": 6.6
     },
     "F4": {
-      "hz": 25.64,
+      "hz": 25.42,
       "confidence": 95,
       "calibration": "ocr",
       "amp": 3.16,
-      "q": 6.59
+      "q": 6.76
     },
     "F5": {
       "hz": null,
@@ -39,27 +39,27 @@
     }
   },
   "amplitude_level": "unknown",
-  "strongest_mode": "F2",
-  "notes": "F1は7.41Hzで基準よりやや低め (-0.42Hz)。軸目盛りOCR検証つきピクセル解析。",
+  "strongest_mode": "F3",
+  "notes": "F1は7.42Hzで基準よりやや低め (-0.41Hz)。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 7.25,
-    "tomsk_hour": 5.25,
+    "japan_hour": 7.5,
+    "tomsk_hour": 5.5,
     "is_day_japan": true,
     "is_day_tomsk": false
   },
   "data_age_min": {
-    "F1": 21,
-    "F2": 46,
-    "F3": 56,
-    "F4": 16
+    "F1": 16,
+    "F2": 31,
+    "F3": 71,
+    "F4": 21
   },
   "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": -0.6119,
-  "updated_jst": "2026-09-17 07:15 JST",
+  "distance_to_target_hz": -0.6019,
+  "updated_jst": "2026-09-17 07:30 JST",
   "events": [
     {
       "type": "f1_above_8.0",
@@ -394,9 +394,9 @@
       "at": "2026-09-14T22:00:58.048189+00:00"
     }
   ],
-  "condition": "calm",
+  "condition": "active",
   "condition_metrics": {
-    "bright_frac": 0.0479,
+    "bright_frac": 0.05,
     "max_run_px": 8,
     "window_cols": 480
   }
