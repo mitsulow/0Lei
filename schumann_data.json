@@ -1,26 +1,26 @@
 {
-  "timestamp": "2026-09-19T09:01:00.156317+00:00",
+  "timestamp": "2026-09-19T09:15:50.040030+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 7.42,
+      "hz": 7.65,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 15.42,
-      "q": 7.46
+      "amp": 13.7,
+      "q": 5.68
     },
     "F2": {
       "hz": 14.09,
       "confidence": 85,
       "calibration": "ocr",
-      "amp": 12.71,
+      "amp": 13.34,
       "q": 7.4
     },
     "F3": {
-      "hz": 19.49,
+      "hz": 19.47,
       "confidence": 95,
       "calibration": "ocr",
       "amp": 7.18,
@@ -30,8 +30,8 @@
       "hz": 24.81,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 4.9,
-      "q": 6.87
+      "amp": 10.15,
+      "q": 8.07
     },
     "F5": {
       "hz": null,
@@ -40,26 +40,26 @@
   },
   "amplitude_level": "unknown",
   "strongest_mode": "F2",
-  "notes": "F1は7.42Hzで基準よりやや低め (-0.41Hz)。軸目盛りOCR検証つきピクセル解析。",
+  "notes": "F1は7.65Hzで基準よりやや低め (-0.18Hz)。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 18.02,
-    "tomsk_hour": 16.02,
+    "japan_hour": 18.25,
+    "tomsk_hour": 16.25,
     "is_day_japan": false,
     "is_day_tomsk": true
   },
   "data_age_min": {
     "F1": 16,
-    "F2": 91,
-    "F3": 31,
+    "F2": 106,
+    "F3": 76,
     "F4": 21
   },
   "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": -0.6019,
-  "updated_jst": "2026-09-19 18:01 JST",
+  "distance_to_target_hz": -0.3719,
+  "updated_jst": "2026-09-19 18:15 JST",
   "events": [
     {
       "type": "f1_above_8.0",
@@ -412,7 +412,7 @@
   ],
   "condition": "active",
   "condition_metrics": {
-    "bright_frac": 0.1313,
+    "bright_frac": 0.1333,
     "max_run_px": 10,
     "window_cols": 480
   }
