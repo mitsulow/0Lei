@@ -1,37 +1,37 @@
 {
-  "timestamp": "2026-09-25T08:45:48.702674+00:00",
+  "timestamp": "2026-09-25T09:01:02.536079+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 8.1,
+      "hz": 8.08,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 4.52,
-      "q": 5.1
+      "amp": 4.73,
+      "q": 5.09
     },
     "F2": {
-      "hz": 14.01,
+      "hz": 13.7,
       "confidence": 95,
       "calibration": "ocr",
       "amp": 5.09,
-      "q": 7.42
+      "q": 5.15
     },
     "F3": {
-      "hz": 19.23,
+      "hz": 19.66,
       "confidence": 95,
       "calibration": "ocr",
       "amp": 4.58,
       "q": 6.52
     },
     "F4": {
-      "hz": 25.82,
+      "hz": 25.51,
       "confidence": 60,
       "calibration": "static-fallback",
-      "amp": 2.39,
-      "q": 5.43
+      "amp": 2.71,
+      "q": 5.96
     },
     "F5": {
       "hz": null,
@@ -39,27 +39,27 @@
     }
   },
   "amplitude_level": "unknown",
-  "strongest_mode": "F2",
-  "notes": "F1は8.10Hzで基準よりやや高め (+0.27Hz)。F4は軸OCR失敗のため参考値。軸目盛りOCR検証つきピクセル解析。",
+  "strongest_mode": "F1",
+  "notes": "F1は8.08Hzで基準よりやや高め (+0.25Hz)。F4は軸OCR失敗のため参考値。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
-    "state": "right",
-    "state_jp": "右回転（昼）",
-    "japan_hour": 17.75,
-    "tomsk_hour": 15.75,
-    "is_day_japan": true,
+    "state": "left",
+    "state_jp": "左回転（夜）",
+    "japan_hour": 18.02,
+    "tomsk_hour": 16.02,
+    "is_day_japan": false,
     "is_day_tomsk": true
   },
   "data_age_min": {
-    "F1": 16,
-    "F2": 56,
-    "F3": 76,
-    "F4": 16
+    "F1": 21,
+    "F2": 26,
+    "F3": 31,
+    "F4": 21
   },
   "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": 0.0781,
-  "updated_jst": "2026-09-25 17:45 JST",
+  "distance_to_target_hz": 0.0581,
+  "updated_jst": "2026-09-25 18:01 JST",
   "events": [
     {
       "type": "f1_above_8.0",
