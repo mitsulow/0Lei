@@ -1,37 +1,37 @@
 {
-  "timestamp": "2026-09-28T05:01:06.939333+00:00",
+  "timestamp": "2026-09-28T05:15:43.642426+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 7.27,
+      "hz": 7.74,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 5.28,
-      "q": 9.85
+      "amp": 4.52,
+      "q": 5.19
     },
     "F2": {
-      "hz": 14.21,
+      "hz": 13.74,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 3.23,
-      "q": 6.86
+      "amp": 3.8,
+      "q": 6.45
     },
     "F3": {
-      "hz": 20.18,
+      "hz": 19.88,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 3.51,
-      "q": 5.42
+      "amp": 4.58,
+      "q": 7.37
     },
     "F4": {
-      "hz": 25.56,
-      "confidence": 95,
-      "calibration": "ocr",
-      "amp": 5.2,
-      "q": 7.29
+      "hz": 25.93,
+      "confidence": 60,
+      "calibration": "static-fallback",
+      "amp": 1.94,
+      "q": 7.17
     },
     "F5": {
       "hz": null,
@@ -39,27 +39,27 @@
     }
   },
   "amplitude_level": "unknown",
-  "strongest_mode": "F2",
-  "notes": "F1は7.27Hzで基準よりやや低め (-0.56Hz)。軸目盛りOCR検証つきピクセル解析。",
+  "strongest_mode": "F1",
+  "notes": "F1は7.74Hzで基準よりやや低め (-0.09Hz)。F4は軸OCR失敗のため参考値。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 14.02,
-    "tomsk_hour": 12.02,
+    "japan_hour": 14.25,
+    "tomsk_hour": 12.25,
     "is_day_japan": true,
     "is_day_tomsk": true
   },
   "data_age_min": {
-    "F1": 16,
-    "F2": 46,
-    "F3": 86,
-    "F4": 21
+    "F1": 0,
+    "F2": 0,
+    "F3": 0,
+    "F4": 0
   },
   "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": -0.7519,
-  "updated_jst": "2026-09-28 14:01 JST",
+  "distance_to_target_hz": -0.2819,
+  "updated_jst": "2026-09-28 14:15 JST",
   "events": [
     {
       "type": "f1_above_8.0",
@@ -432,8 +432,8 @@
   ],
   "condition": "calm",
   "condition_metrics": {
-    "bright_frac": 0.0042,
-    "max_run_px": 1,
+    "bright_frac": 0.0,
+    "max_run_px": 0,
     "window_cols": 480
   }
 }
