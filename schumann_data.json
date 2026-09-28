@@ -1,37 +1,37 @@
 {
-  "timestamp": "2026-09-28T01:30:52.299920+00:00",
+  "timestamp": "2026-09-28T01:45:38.642694+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 7.82,
+      "hz": 7.72,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 5.15,
-      "q": 5.11
+      "amp": 4.37,
+      "q": 5.0
     },
     "F2": {
-      "hz": 13.85,
+      "hz": 14.13,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 3.66,
-      "q": 5.5
+      "amp": 2.91,
+      "q": 5.76
     },
     "F3": {
-      "hz": 19.79,
-      "confidence": 30,
+      "hz": 20.01,
+      "confidence": 95,
       "calibration": "ocr",
-      "amp": 4.58,
-      "q": 6.52
+      "amp": 2.82,
+      "q": 5.79
     },
     "F4": {
-      "hz": 26.04,
-      "confidence": 60,
-      "calibration": "static-fallback",
-      "amp": 2.22,
-      "q": 6.95
+      "hz": 25.24,
+      "confidence": 95,
+      "calibration": "ocr",
+      "amp": 1.96,
+      "q": 6.12
     },
     "F5": {
       "hz": null,
@@ -39,27 +39,27 @@
     }
   },
   "amplitude_level": "unknown",
-  "strongest_mode": "F1",
-  "notes": "F1は7.82Hzで基準値7.83Hz付近と安定。F3は2時間以上更新なし。F4は軸OCR失敗のため参考値。軸目盛りOCR検証つきピクセル解析。",
+  "strongest_mode": "F2",
+  "notes": "F1は7.72Hzで基準よりやや低め (-0.11Hz)。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 10.5,
-    "tomsk_hour": 8.5,
+    "japan_hour": 10.75,
+    "tomsk_hour": 8.75,
     "is_day_japan": true,
     "is_day_tomsk": true
   },
   "data_age_min": {
-    "F1": 21,
+    "F1": 16,
     "F2": 31,
-    "F3": 311,
-    "F4": 26
+    "F3": 31,
+    "F4": 16
   },
-  "source_unchanged": true,
+  "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": -0.2019,
-  "updated_jst": "2026-09-28 10:30 JST",
+  "distance_to_target_hz": -0.3019,
+  "updated_jst": "2026-09-28 10:45 JST",
   "events": [
     {
       "type": "f1_above_8.0",
@@ -432,8 +432,8 @@
   ],
   "condition": "calm",
   "condition_metrics": {
-    "bright_frac": 0.0,
-    "max_run_px": 0,
+    "bright_frac": 0.0021,
+    "max_run_px": 1,
     "window_cols": 480
   }
 }
