@@ -1,37 +1,37 @@
 {
-  "timestamp": "2026-10-02T07:45:43.460548+00:00",
+  "timestamp": "2026-10-02T08:01:02.398798+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 7.74,
+      "hz": 7.73,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 3.32,
-      "q": 5.13
+      "amp": 3.56,
+      "q": 5.17
     },
     "F2": {
-      "hz": 13.75,
+      "hz": 14.13,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 2.91,
-      "q": 6.7
+      "amp": 2.96,
+      "q": 9.55
     },
     "F3": {
-      "hz": 19.8,
-      "confidence": 30,
+      "hz": 19.66,
+      "confidence": 55,
       "calibration": "ocr",
       "amp": 3.47,
       "q": 19.88
     },
     "F4": {
-      "hz": 25.71,
+      "hz": 25.68,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 1.91,
-      "q": 6.22
+      "amp": 1.98,
+      "q": 6.03
     },
     "F5": {
       "hz": null,
@@ -39,27 +39,27 @@
     }
   },
   "amplitude_level": "unknown",
-  "strongest_mode": "F1",
-  "notes": "F1は7.74Hzで基準よりやや低め (-0.09Hz)。F3は2時間以上更新なし。軸目盛りOCR検証つきピクセル解析。",
+  "strongest_mode": "F2",
+  "notes": "F1は7.73Hzで基準よりやや低め (-0.10Hz)。F3は2時間以上更新なし。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 16.75,
-    "tomsk_hour": 14.75,
+    "japan_hour": 17.02,
+    "tomsk_hour": 15.02,
     "is_day_japan": true,
     "is_day_tomsk": true
   },
   "data_age_min": {
-    "F1": 16,
-    "F2": 31,
-    "F3": 471,
-    "F4": 26
+    "F1": 21,
+    "F2": 26,
+    "F3": 206,
+    "F4": 21
   },
   "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": -0.2819,
-  "updated_jst": "2026-10-02 16:45 JST",
+  "distance_to_target_hz": -0.2919,
+  "updated_jst": "2026-10-02 17:01 JST",
   "events": [
     {
       "type": "f1_above_8.0",
