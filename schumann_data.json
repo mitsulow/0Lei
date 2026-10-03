@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-10-03T06:02:39.342285+00:00",
+  "timestamp": "2026-10-03T06:15:44.472201+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 7.9,
+      "hz": 7.87,
       "confidence": 95,
       "calibration": "ocr",
       "amp": 2.87,
@@ -40,26 +40,26 @@
   },
   "amplitude_level": "unknown",
   "strongest_mode": "F1",
-  "notes": "F1は7.90Hzで基準よりやや高め (+0.07Hz)。軸目盛りOCR検証つきピクセル解析。",
+  "notes": "F1は7.87Hzで基準値7.83Hz付近と安定。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 15.03,
-    "tomsk_hour": 13.03,
+    "japan_hour": 15.25,
+    "tomsk_hour": 13.25,
     "is_day_japan": true,
     "is_day_tomsk": true
   },
   "data_age_min": {
-    "F1": 18,
-    "F2": 33,
-    "F3": 103,
-    "F4": 23
+    "F1": 21,
+    "F2": 46,
+    "F3": 116,
+    "F4": 26
   },
   "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": -0.1219,
-  "updated_jst": "2026-10-03 15:02 JST",
+  "distance_to_target_hz": -0.1519,
+  "updated_jst": "2026-10-03 15:15 JST",
   "events": [
     {
       "type": "f1_above_8.0",
