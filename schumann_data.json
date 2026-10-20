@@ -1,37 +1,37 @@
 {
-  "timestamp": "2026-10-20T13:31:02.973199+00:00",
+  "timestamp": "2026-10-20T13:45:43.634217+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 7.8,
+      "hz": 7.52,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 5.19,
+      "amp": 14.86,
       "q": 5.53
     },
     "F2": {
       "hz": 13.24,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 5.67,
-      "q": 14.88
+      "amp": 13.51,
+      "q": 9.68
     },
     "F3": {
       "hz": 19.63,
       "confidence": 95,
       "calibration": "ocr",
       "amp": 8.95,
-      "q": 5.66
+      "q": 6.4
     },
     "F4": {
-      "hz": 25.96,
+      "hz": 25.26,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 2.5,
-      "q": 6.2
+      "amp": 3.85,
+      "q": 6.14
     },
     "F5": {
       "hz": null,
@@ -40,26 +40,26 @@
   },
   "amplitude_level": "unknown",
   "strongest_mode": "F1",
-  "notes": "F1は7.80Hzで基準値7.83Hz付近と安定。軸目盛りOCR検証つきピクセル解析。",
+  "notes": "F1は7.52Hzで基準よりやや低め (-0.31Hz)。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 22.52,
-    "tomsk_hour": 20.52,
+    "japan_hour": 22.75,
+    "tomsk_hour": 20.75,
     "is_day_japan": false,
     "is_day_tomsk": false
   },
   "data_age_min": {
     "F1": 16,
-    "F2": 21,
+    "F2": 36,
     "F3": 31,
     "F4": 16
   },
   "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": -0.2219,
-  "updated_jst": "2026-10-20 22:31 JST",
+  "distance_to_target_hz": -0.5019,
+  "updated_jst": "2026-10-20 22:45 JST",
   "events": [
     {
       "type": "f1_above_8.0",
@@ -464,7 +464,7 @@
   ],
   "condition": "active",
   "condition_metrics": {
-    "bright_frac": 0.0646,
+    "bright_frac": 0.0688,
     "max_run_px": 17,
     "window_cols": 480
   }
