@@ -1,37 +1,37 @@
 {
-  "timestamp": "2026-10-20T05:00:58.263266+00:00",
+  "timestamp": "2026-10-20T05:15:41.335467+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 7.33,
+      "hz": 7.28,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 18.1,
-      "q": 12.58
+      "amp": 23.02,
+      "q": 14.96
     },
     "F2": {
       "hz": 13.64,
-      "confidence": 85,
+      "confidence": 75,
       "calibration": "ocr",
-      "amp": 16.79,
+      "amp": 29.37,
       "q": 8.12
     },
     "F3": {
-      "hz": 19.16,
-      "confidence": 35,
-      "calibration": "ocr",
-      "amp": 6.51,
-      "q": 7.8
-    },
-    "F4": {
-      "hz": 25.06,
+      "hz": 19.56,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 4.82,
-      "q": 6.74
+      "amp": 8.69,
+      "q": 7.89
+    },
+    "F4": {
+      "hz": 25.27,
+      "confidence": 95,
+      "calibration": "ocr",
+      "amp": 6.12,
+      "q": 7.44
     },
     "F5": {
       "hz": null,
@@ -40,26 +40,26 @@
   },
   "amplitude_level": "unknown",
   "strongest_mode": "F2",
-  "notes": "F1は7.33Hzで基準よりやや低め (-0.50Hz)。F3は2時間以上更新なし。軸目盛りOCR検証つきピクセル解析。",
+  "notes": "F1は7.28Hzで基準よりやや低め (-0.55Hz)。F2は2時間以上更新なし。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 14.0,
-    "tomsk_hour": 12.0,
+    "japan_hour": 14.25,
+    "tomsk_hour": 12.25,
     "is_day_japan": true,
     "is_day_tomsk": true
   },
   "data_age_min": {
     "F1": 16,
-    "F2": 116,
-    "F3": 246,
-    "F4": 26
+    "F2": 131,
+    "F3": 31,
+    "F4": 16
   },
   "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": -0.6919,
-  "updated_jst": "2026-10-20 14:00 JST",
+  "distance_to_target_hz": -0.7419,
+  "updated_jst": "2026-10-20 14:15 JST",
   "events": [
     {
       "type": "f1_above_8.0",
