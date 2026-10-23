@@ -1,37 +1,37 @@
 {
-  "timestamp": "2026-10-23T10:45:48.749394+00:00",
+  "timestamp": "2026-10-23T11:01:06.902021+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 7.45,
+      "hz": 7.33,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 5.7,
-      "q": 8.58
+      "amp": 5.4,
+      "q": 12.03
     },
     "F2": {
-      "hz": 13.52,
+      "hz": 13.65,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 11.27,
-      "q": 9.62
+      "amp": 5.82,
+      "q": 7.6
     },
     "F3": {
-      "hz": 19.55,
-      "confidence": 85,
-      "calibration": "ocr",
-      "amp": 6.22,
-      "q": 6.54
-    },
-    "F4": {
-      "hz": 25.96,
+      "hz": 19.33,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 2.51,
-      "q": 8.05
+      "amp": 6.22,
+      "q": 7.75
+    },
+    "F4": {
+      "hz": 25.67,
+      "confidence": 95,
+      "calibration": "ocr",
+      "amp": 2.44,
+      "q": 6.4
     },
     "F5": {
       "hz": null,
@@ -39,27 +39,27 @@
     }
   },
   "amplitude_level": "unknown",
-  "strongest_mode": "F1",
-  "notes": "F1は7.45Hzで基準よりやや低め (-0.38Hz)。軸目盛りOCR検証つきピクセル解析。",
+  "strongest_mode": "F2",
+  "notes": "F1は7.33Hzで基準よりやや低め (-0.50Hz)。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 19.75,
-    "tomsk_hour": 17.75,
+    "japan_hour": 20.02,
+    "tomsk_hour": 18.02,
     "is_day_japan": false,
-    "is_day_tomsk": true
+    "is_day_tomsk": false
   },
   "data_age_min": {
     "F1": 16,
-    "F2": 31,
-    "F3": 106,
-    "F4": 16
+    "F2": 21,
+    "F3": 81,
+    "F4": 21
   },
   "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": -0.5719,
-  "updated_jst": "2026-10-23 19:45 JST",
+  "distance_to_target_hz": -0.6919,
+  "updated_jst": "2026-10-23 20:01 JST",
   "events": [
     {
       "type": "f1_above_8.0",
