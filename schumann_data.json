@@ -1,22 +1,22 @@
 {
-  "timestamp": "2026-10-25T07:31:02.466515+00:00",
+  "timestamp": "2026-10-25T07:45:39.270401+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 7.75,
+      "hz": 7.82,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 5.29,
-      "q": 6.33
+      "amp": 4.59,
+      "q": 5.35
     },
     "F2": {
-      "hz": 13.91,
+      "hz": 13.92,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 4.34,
+      "amp": 4.9,
       "q": 6.03
     },
     "F3": {
@@ -27,11 +27,11 @@
       "q": 6.93
     },
     "F4": {
-      "hz": 25.6,
+      "hz": 25.55,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 2.5,
-      "q": 8.25
+      "amp": 2.62,
+      "q": 7.62
     },
     "F5": {
       "hz": null,
@@ -40,26 +40,26 @@
   },
   "amplitude_level": "unknown",
   "strongest_mode": "F1",
-  "notes": "F1は7.75Hzで基準よりやや低め (-0.08Hz)。F3は2時間以上更新なし。軸目盛りOCR検証つきピクセル解析。",
+  "notes": "F1は7.82Hzで基準値7.83Hz付近と安定。F3は2時間以上更新なし。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 16.52,
-    "tomsk_hour": 14.52,
+    "japan_hour": 16.75,
+    "tomsk_hour": 14.75,
     "is_day_japan": true,
     "is_day_tomsk": true
   },
   "data_age_min": {
     "F1": 16,
-    "F2": 26,
-    "F3": 346,
+    "F2": 41,
+    "F3": 361,
     "F4": 21
   },
   "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": -0.2719,
-  "updated_jst": "2026-10-25 16:31 JST",
+  "distance_to_target_hz": -0.2019,
+  "updated_jst": "2026-10-25 16:45 JST",
   "events": [
     {
       "type": "f1_above_8.0",
