@@ -1,37 +1,37 @@
 {
-  "timestamp": "2026-10-27T14:07:42.066990+00:00",
+  "timestamp": "2026-10-27T14:45:47.703369+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 7.6,
+      "hz": 7.58,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 5.57,
-      "q": 5.05
+      "amp": 6.88,
+      "q": 6.48
     },
     "F2": {
-      "hz": 13.52,
+      "hz": 13.63,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 9.08,
-      "q": 9.56
+      "amp": 21.11,
+      "q": 8.96
     },
     "F3": {
-      "hz": 19.75,
-      "confidence": 55,
-      "calibration": "ocr",
-      "amp": 3.85,
-      "q": 5.98
-    },
-    "F4": {
-      "hz": 26.06,
+      "hz": 19.49,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 3.36,
-      "q": 6.6
+      "amp": 9.77,
+      "q": 9.39
+    },
+    "F4": {
+      "hz": 25.46,
+      "confidence": 95,
+      "calibration": "ocr",
+      "amp": 4.24,
+      "q": 6.99
     },
     "F5": {
       "hz": null,
@@ -40,26 +40,26 @@
   },
   "amplitude_level": "unknown",
   "strongest_mode": "F1",
-  "notes": "F1は7.60Hzで基準よりやや低め (-0.23Hz)。F3は2時間以上更新なし。軸目盛りOCR検証つきピクセル解析。",
+  "notes": "F1は7.58Hzで基準よりやや低め (-0.25Hz)。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 23.12,
-    "tomsk_hour": 21.12,
+    "japan_hour": 23.75,
+    "tomsk_hour": 21.75,
     "is_day_japan": false,
     "is_day_tomsk": false
   },
   "data_age_min": {
-    "F1": 23,
-    "F2": 48,
-    "F3": 198,
-    "F4": 28
+    "F1": 71,
+    "F2": 41,
+    "F3": 46,
+    "F4": 21
   },
   "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": -0.4219,
-  "updated_jst": "2026-10-27 23:07 JST",
+  "distance_to_target_hz": -0.4419,
+  "updated_jst": "2026-10-27 23:45 JST",
   "events": [
     {
       "type": "f1_above_8.0",
@@ -464,8 +464,8 @@
   ],
   "condition": "calm",
   "condition_metrics": {
-    "bright_frac": 0.0063,
-    "max_run_px": 1,
+    "bright_frac": 0.0104,
+    "max_run_px": 2,
     "window_cols": 480
   }
 }
