@@ -1,23 +1,23 @@
 {
-  "timestamp": "2026-11-13T17:31:15.897377+00:00",
+  "timestamp": "2026-11-13T17:46:21.593598+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 7.99,
+      "hz": 8.04,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 4.38,
-      "q": 5.07
+      "amp": 4.51,
+      "q": 5.18
     },
     "F2": {
       "hz": 14.18,
       "confidence": 95,
       "calibration": "ocr",
       "amp": 2.86,
-      "q": 5.99
+      "q": 5.77
     },
     "F3": {
       "hz": 19.66,
@@ -30,7 +30,7 @@
       "hz": 26.59,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 1.77,
+      "amp": 1.79,
       "q": 5.97
     },
     "F5": {
@@ -40,31 +40,27 @@
   },
   "amplitude_level": "unknown",
   "strongest_mode": "F2",
-  "notes": "F1は7.99Hzで基準よりやや高め (+0.16Hz)。F3は2時間以上更新なし。軸目盛りOCR検証つきピクセル解析。",
+  "notes": "F1は8.04Hzで基準よりやや高め (+0.21Hz)。F3は2時間以上更新なし。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 2.52,
-    "tomsk_hour": 0.52,
+    "japan_hour": 2.77,
+    "tomsk_hour": 0.77,
     "is_day_japan": false,
     "is_day_tomsk": false
   },
   "data_age_min": {
     "F1": 16,
-    "F2": 26,
-    "F3": 621,
-    "F4": 21
+    "F2": 41,
+    "F3": 636,
+    "F4": 26
   },
   "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": -0.0319,
-  "updated_jst": "2026-11-14 02:31 JST",
+  "distance_to_target_hz": 0.0181,
+  "updated_jst": "2026-11-14 02:46 JST",
   "events": [
-    {
-      "type": "f1_above_8.0",
-      "at": "2026-09-14T20:15:41.500729+00:00"
-    },
     {
       "type": "f1_above_8.0",
       "at": "2026-09-14T22:00:58.048189+00:00"
@@ -460,6 +456,10 @@
     {
       "type": "f1_above_8.0",
       "at": "2026-11-13T02:15:44.234739+00:00"
+    },
+    {
+      "type": "f1_above_8.0",
+      "at": "2026-11-13T17:46:21.593598+00:00"
     }
   ],
   "condition": "calm",
