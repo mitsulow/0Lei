@@ -1,37 +1,37 @@
 {
-  "timestamp": "2026-11-13T21:31:28.360565+00:00",
+  "timestamp": "2026-11-13T21:46:07.084604+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 7.98,
+      "hz": 8.04,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 4.83,
+      "amp": 4.77,
       "q": 5.26
     },
     "F2": {
       "hz": 14.22,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 2.86,
-      "q": 6.21
+      "amp": 2.6,
+      "q": 5.55
     },
     "F3": {
       "hz": 20.25,
-      "confidence": 65,
+      "confidence": 95,
       "calibration": "ocr",
       "amp": 2.02,
       "q": 6.44
     },
     "F4": {
-      "hz": 26.0,
+      "hz": 25.86,
       "confidence": 95,
       "calibration": "ocr",
       "amp": 1.79,
-      "q": 6.06
+      "q": 6.3
     },
     "F5": {
       "hz": null,
@@ -40,31 +40,27 @@
   },
   "amplitude_level": "unknown",
   "strongest_mode": "F3",
-  "notes": "F1は7.98Hzで基準よりやや高め (+0.15Hz)。F3は2時間以上更新なし。軸目盛りOCR検証つきピクセル解析。",
+  "notes": "F1は8.04Hzで基準よりやや高め (+0.21Hz)。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 6.52,
-    "tomsk_hour": 4.52,
+    "japan_hour": 6.77,
+    "tomsk_hour": 4.77,
     "is_day_japan": true,
     "is_day_tomsk": false
   },
   "data_age_min": {
-    "F1": 17,
-    "F2": 27,
-    "F3": 162,
-    "F4": 17
+    "F1": 16,
+    "F2": 41,
+    "F3": 31,
+    "F4": 26
   },
   "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": -0.0419,
-  "updated_jst": "2026-11-14 06:31 JST",
+  "distance_to_target_hz": 0.0181,
+  "updated_jst": "2026-11-14 06:46 JST",
   "events": [
-    {
-      "type": "f1_above_8.0",
-      "at": "2026-09-14T22:00:58.048189+00:00"
-    },
     {
       "type": "f1_above_8.0",
       "at": "2026-09-17T22:45:40.933529+00:00"
@@ -460,6 +456,10 @@
     {
       "type": "f1_above_8.0",
       "at": "2026-11-13T17:46:21.593598+00:00"
+    },
+    {
+      "type": "f1_above_8.0",
+      "at": "2026-11-13T21:46:07.084604+00:00"
     }
   ],
   "condition": "calm",
