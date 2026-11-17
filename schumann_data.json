@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-11-17T17:31:01.659207+00:00",
+  "timestamp": "2026-11-17T17:46:11.170639+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 7.99,
+      "hz": 8.03,
       "confidence": 95,
       "calibration": "ocr",
       "amp": 3.71,
@@ -21,7 +21,7 @@
     },
     "F3": {
       "hz": 20.15,
-      "confidence": 95,
+      "confidence": 85,
       "calibration": "ocr",
       "amp": 2.98,
       "q": 7.69
@@ -30,7 +30,7 @@
       "hz": 25.66,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 1.65,
+      "amp": 1.69,
       "q": 5.9
     },
     "F5": {
@@ -40,31 +40,27 @@
   },
   "amplitude_level": "unknown",
   "strongest_mode": "F2",
-  "notes": "F1は7.99Hzで基準よりやや高め (+0.16Hz)。軸目盛りOCR検証つきピクセル解析。",
+  "notes": "F1は8.03Hzで基準よりやや高め (+0.20Hz)。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 2.52,
-    "tomsk_hour": 0.52,
+    "japan_hour": 2.77,
+    "tomsk_hour": 0.77,
     "is_day_japan": false,
     "is_day_tomsk": false
   },
   "data_age_min": {
-    "F1": 21,
-    "F2": 36,
-    "F3": 86,
-    "F4": 21
+    "F1": 16,
+    "F2": 51,
+    "F3": 101,
+    "F4": 16
   },
   "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": -0.0319,
-  "updated_jst": "2026-11-18 02:31 JST",
+  "distance_to_target_hz": 0.0081,
+  "updated_jst": "2026-11-18 02:46 JST",
   "events": [
-    {
-      "type": "f1_above_8.0",
-      "at": "2026-09-20T07:45:39.410953+00:00"
-    },
     {
       "type": "f1_above_8.0",
       "at": "2026-09-24T08:30:53.903210+00:00"
@@ -460,6 +456,10 @@
     {
       "type": "f1_above_8.0",
       "at": "2026-11-17T10:46:16.204641+00:00"
+    },
+    {
+      "type": "f1_above_8.0",
+      "at": "2026-11-17T17:46:11.170639+00:00"
     }
   ],
   "condition": "calm",
