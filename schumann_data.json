@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-20T10:45:46.140957+00:00",
+  "timestamp": "2026-11-20T11:01:26.150005+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -9,11 +9,11 @@
       "hz": 7.91,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 5.71,
-      "q": 5.06
+      "amp": 5.41,
+      "q": 5.14
     },
     "F2": {
-      "hz": 13.88,
+      "hz": 13.86,
       "confidence": 95,
       "calibration": "ocr",
       "amp": 3.99,
@@ -27,11 +27,11 @@
       "q": 6.75
     },
     "F4": {
-      "hz": 25.79,
+      "hz": 25.9,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 2.42,
-      "q": 24.95
+      "amp": 2.16,
+      "q": 24.72
     },
     "F5": {
       "hz": null,
@@ -44,22 +44,22 @@
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 19.75,
-    "tomsk_hour": 17.75,
+    "japan_hour": 20.02,
+    "tomsk_hour": 18.02,
     "is_day_japan": false,
-    "is_day_tomsk": true
+    "is_day_tomsk": false
   },
   "data_age_min": {
     "F1": 21,
-    "F2": 31,
-    "F3": 56,
+    "F2": 26,
+    "F3": 71,
     "F4": 16
   },
   "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
   "distance_to_target_hz": -0.1119,
-  "updated_jst": "2026-11-20 19:45 JST",
+  "updated_jst": "2026-11-20 20:01 JST",
   "events": [
     {
       "type": "f1_above_8.0",
