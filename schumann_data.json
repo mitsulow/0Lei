@@ -1,37 +1,37 @@
 {
-  "timestamp": "2026-11-23T09:47:27.093159+00:00",
+  "timestamp": "2026-11-23T10:00:57.495361+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 7.43,
+      "hz": 7.39,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 3.23,
-      "q": 9.82
+      "amp": 4.11,
+      "q": 8.92
     },
     "F2": {
       "hz": 13.48,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 2.36,
-      "q": 6.62
+      "amp": 2.3,
+      "q": 11.52
     },
     "F3": {
-      "hz": 19.65,
-      "confidence": 85,
-      "calibration": "ocr",
-      "amp": 2.78,
-      "q": 6.71
-    },
-    "F4": {
-      "hz": 25.13,
+      "hz": 19.59,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 0.68,
-      "q": 7.16
+      "amp": 2.78,
+      "q": 5.8
+    },
+    "F4": {
+      "hz": 25.3,
+      "confidence": 95,
+      "calibration": "ocr",
+      "amp": 1.14,
+      "q": 7.45
     },
     "F5": {
       "hz": null,
@@ -40,26 +40,26 @@
   },
   "amplitude_level": "unknown",
   "strongest_mode": "F1",
-  "notes": "F1は7.43Hzで基準よりやや低め (-0.40Hz)。軸目盛りOCR検証つきピクセル解析。",
+  "notes": "F1は7.39Hzで基準よりやや低め (-0.44Hz)。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 18.78,
-    "tomsk_hour": 16.78,
+    "japan_hour": 19.0,
+    "tomsk_hour": 17.0,
     "is_day_japan": false,
     "is_day_tomsk": true
   },
   "data_age_min": {
-    "F1": 18,
-    "F2": 33,
-    "F3": 108,
-    "F4": 28
+    "F1": 16,
+    "F2": 46,
+    "F3": 31,
+    "F4": 16
   },
   "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": -0.5919,
-  "updated_jst": "2026-11-23 18:47 JST",
+  "distance_to_target_hz": -0.6319,
+  "updated_jst": "2026-11-23 19:00 JST",
   "events": [
     {
       "type": "f1_above_8.0",
@@ -464,7 +464,7 @@
   ],
   "condition": "calm",
   "condition_metrics": {
-    "bright_frac": 0.0021,
+    "bright_frac": 0.0042,
     "max_run_px": 1,
     "window_cols": 480
   }
