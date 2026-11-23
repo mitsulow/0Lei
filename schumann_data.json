@@ -1,37 +1,37 @@
 {
-  "timestamp": "2026-11-23T16:16:21.711642+00:00",
+  "timestamp": "2026-11-23T16:31:33.183201+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 7.43,
+      "hz": 7.42,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 6.75,
-      "q": 5.8
+      "amp": 18.25,
+      "q": 5.62
     },
     "F2": {
-      "hz": 13.09,
+      "hz": 13.22,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 14.1,
-      "q": 9.96
+      "amp": 14.17,
+      "q": 9.97
     },
     "F3": {
       "hz": 19.48,
-      "confidence": 45,
+      "confidence": 35,
       "calibration": "ocr",
-      "amp": 9.96,
-      "q": 8.96
+      "amp": 10.66,
+      "q": 9.01
     },
     "F4": {
-      "hz": 25.15,
+      "hz": 24.84,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 4.41,
-      "q": 7.5
+      "amp": 13.92,
+      "q": 6.67
     },
     "F5": {
       "hz": null,
@@ -40,26 +40,26 @@
   },
   "amplitude_level": "unknown",
   "strongest_mode": "F1",
-  "notes": "F1は7.43Hzで基準よりやや低め (-0.40Hz)。F3は2時間以上更新なし。軸目盛りOCR検証つきピクセル解析。",
+  "notes": "F1は7.42Hzで基準よりやや低め (-0.41Hz)。F3は2時間以上更新なし。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 1.27,
-    "tomsk_hour": 23.27,
+    "japan_hour": 1.52,
+    "tomsk_hour": 23.52,
     "is_day_japan": false,
     "is_day_tomsk": false
   },
   "data_age_min": {
-    "F1": 16,
-    "F2": 36,
-    "F3": 236,
-    "F4": 21
+    "F1": 32,
+    "F2": 27,
+    "F3": 252,
+    "F4": 17
   },
   "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": -0.5919,
-  "updated_jst": "2026-11-24 01:16 JST",
+  "distance_to_target_hz": -0.6019,
+  "updated_jst": "2026-11-24 01:31 JST",
   "events": [
     {
       "type": "f1_above_8.0",
@@ -464,7 +464,7 @@
   ],
   "condition": "active",
   "condition_metrics": {
-    "bright_frac": 0.0896,
+    "bright_frac": 0.1,
     "max_run_px": 11,
     "window_cols": 480
   }
