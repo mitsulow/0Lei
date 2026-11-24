@@ -1,19 +1,19 @@
 {
-  "timestamp": "2026-11-24T09:00:59.405411+00:00",
+  "timestamp": "2026-11-24T09:15:49.670816+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 7.45,
+      "hz": 7.58,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 19.71,
-      "q": 7.15
+      "amp": 15.7,
+      "q": 6.07
     },
     "F2": {
-      "hz": 13.13,
+      "hz": 13.24,
       "confidence": 95,
       "calibration": "ocr",
       "amp": 11.7,
@@ -27,11 +27,11 @@
       "q": 12.2
     },
     "F4": {
-      "hz": 24.81,
+      "hz": 25.15,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 6.08,
-      "q": 6.61
+      "amp": 5.44,
+      "q": 7.19
     },
     "F5": {
       "hz": null,
@@ -40,26 +40,26 @@
   },
   "amplitude_level": "unknown",
   "strongest_mode": "F1",
-  "notes": "F1は7.45Hzで基準よりやや低め (-0.38Hz)。軸目盛りOCR検証つきピクセル解析。",
+  "notes": "F1は7.58Hzで基準よりやや低め (-0.25Hz)。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
-    "state": "right",
-    "state_jp": "右回転（昼）",
-    "japan_hour": 18.0,
-    "tomsk_hour": 16.0,
-    "is_day_japan": true,
+    "state": "left",
+    "state_jp": "左回転（夜）",
+    "japan_hour": 18.25,
+    "tomsk_hour": 16.25,
+    "is_day_japan": false,
     "is_day_tomsk": true
   },
   "data_age_min": {
     "F1": 16,
-    "F2": 41,
-    "F3": 46,
-    "F4": 16
+    "F2": 31,
+    "F3": 61,
+    "F4": 21
   },
   "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": -0.5719,
-  "updated_jst": "2026-11-24 18:00 JST",
+  "distance_to_target_hz": -0.4419,
+  "updated_jst": "2026-11-24 18:15 JST",
   "events": [
     {
       "type": "f1_above_8.0",
@@ -464,8 +464,8 @@
   ],
   "condition": "storm",
   "condition_metrics": {
-    "bright_frac": 0.2458,
-    "max_run_px": 22,
+    "bright_frac": 0.2521,
+    "max_run_px": 23,
     "window_cols": 480
   }
 }
