@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-11-25T18:31:00.660199+00:00",
+  "timestamp": "2026-11-25T18:45:48.446094+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 7.98,
+      "hz": 8.01,
       "confidence": 95,
       "calibration": "ocr",
       "amp": 5.08,
@@ -14,14 +14,14 @@
     },
     "F2": {
       "hz": 14.07,
-      "confidence": 75,
+      "confidence": 65,
       "calibration": "ocr",
       "amp": 7.27,
       "q": 6.0
     },
     "F3": {
       "hz": 19.83,
-      "confidence": 35,
+      "confidence": 30,
       "calibration": "ocr",
       "amp": 17.63,
       "q": 14.9
@@ -30,8 +30,8 @@
       "hz": 25.89,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 2.4,
-      "q": 5.92
+      "amp": 2.6,
+      "q": 5.9
     },
     "F5": {
       "hz": null,
@@ -40,31 +40,27 @@
   },
   "amplitude_level": "unknown",
   "strongest_mode": "F2",
-  "notes": "F1は7.98Hzで基準よりやや高め (+0.15Hz)。F2・F3は2時間以上更新なし。軸目盛りOCR検証つきピクセル解析。",
+  "notes": "F1は8.01Hzで基準よりやや高め (+0.18Hz)。F2・F3は2時間以上更新なし。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 3.52,
-    "tomsk_hour": 1.52,
+    "japan_hour": 3.75,
+    "tomsk_hour": 1.75,
     "is_day_japan": false,
     "is_day_tomsk": false
   },
   "data_age_min": {
     "F1": 16,
-    "F2": 141,
-    "F3": 256,
+    "F2": 156,
+    "F3": 271,
     "F4": 16
   },
   "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": -0.0419,
-  "updated_jst": "2026-11-26 03:31 JST",
+  "distance_to_target_hz": -0.0119,
+  "updated_jst": "2026-11-26 03:45 JST",
   "events": [
-    {
-      "type": "f1_above_8.0",
-      "at": "2026-10-07T20:34:57.066036+00:00"
-    },
     {
       "type": "f1_above_8.0",
       "at": "2026-10-09T19:01:07.622485+00:00"
@@ -460,6 +456,10 @@
     {
       "type": "f1_above_8.0",
       "at": "2026-11-25T03:00:59.929703+00:00"
+    },
+    {
+      "type": "f1_above_8.0",
+      "at": "2026-11-25T18:45:48.446094+00:00"
     }
   ],
   "condition": "calm",
