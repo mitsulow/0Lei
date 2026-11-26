@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-26T15:30:55.680168+00:00",
+  "timestamp": "2026-11-26T15:46:14.768548+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
@@ -7,31 +7,31 @@
   "modes": {
     "F1": {
       "hz": 7.96,
-      "confidence": 85,
+      "confidence": 75,
       "calibration": "ocr",
-      "amp": 8.38,
-      "q": 6.25
+      "amp": 11.35,
+      "q": 5.62
     },
     "F2": {
-      "hz": 13.55,
+      "hz": 13.44,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 7.75,
-      "q": 9.72
+      "amp": 28.19,
+      "q": 6.48
     },
     "F3": {
-      "hz": 19.85,
-      "confidence": 50,
+      "hz": 18.85,
+      "confidence": 60,
       "calibration": "static-fallback",
-      "amp": 12.02,
-      "q": 12.2
+      "amp": 24.78,
+      "q": 8.2
     },
     "F4": {
-      "hz": 25.3,
+      "hz": 25.42,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 13.25,
-      "q": 9.68
+      "amp": 19.5,
+      "q": 7.53
     },
     "F5": {
       "hz": null,
@@ -40,26 +40,26 @@
   },
   "amplitude_level": "unknown",
   "strongest_mode": "F1",
-  "notes": "F1は7.96Hzで基準よりやや高め (+0.13Hz)。F3は軸OCR失敗のため参考値。軸目盛りOCR検証つきピクセル解析。",
+  "notes": "F1は7.96Hzで基準よりやや高め (+0.13Hz)。F1は2時間以上更新なし。F3は軸OCR失敗のため参考値。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 0.5,
-    "tomsk_hour": 22.5,
+    "japan_hour": 0.77,
+    "tomsk_hour": 22.77,
     "is_day_japan": false,
     "is_day_tomsk": false
   },
   "data_age_min": {
-    "F1": 116,
-    "F2": 51,
-    "F3": 111,
+    "F1": 131,
+    "F2": 31,
+    "F3": 31,
     "F4": 16
   },
   "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
   "distance_to_target_hz": -0.0619,
-  "updated_jst": "2026-11-27 00:30 JST",
+  "updated_jst": "2026-11-27 00:46 JST",
   "events": [
     {
       "type": "f1_above_8.0",
