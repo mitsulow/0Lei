@@ -1,37 +1,37 @@
 {
-  "timestamp": "2026-11-27T14:16:04.724449+00:00",
+  "timestamp": "2026-11-27T14:31:23.483296+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 7.33,
+      "hz": 7.28,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 6.36,
-      "q": 13.81
+      "amp": 16.74,
+      "q": 13.94
     },
     "F2": {
       "hz": 13.13,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 11.4,
+      "amp": 49.1,
       "q": 11.76
     },
     "F3": {
-      "hz": 19.51,
-      "confidence": 35,
-      "calibration": "ocr",
-      "amp": 38.27,
-      "q": 6.6
-    },
-    "F4": {
-      "hz": 24.98,
+      "hz": 18.75,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 4.06,
-      "q": 10.26
+      "amp": 9.71,
+      "q": 9.6
+    },
+    "F4": {
+      "hz": 24.79,
+      "confidence": 95,
+      "calibration": "ocr",
+      "amp": 5.42,
+      "q": 11.69
     },
     "F5": {
       "hz": null,
@@ -40,26 +40,26 @@
   },
   "amplitude_level": "unknown",
   "strongest_mode": "F1",
-  "notes": "F1は7.33Hzで基準よりやや低め (-0.50Hz)。F3は2時間以上更新なし。軸目盛りOCR検証つきピクセル解析。",
+  "notes": "F1は7.28Hzで基準よりやや低め (-0.55Hz)。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "left",
     "state_jp": "左回転（夜）",
-    "japan_hour": 23.27,
-    "tomsk_hour": 21.27,
+    "japan_hour": 23.52,
+    "tomsk_hour": 21.52,
     "is_day_japan": false,
     "is_day_tomsk": false
   },
   "data_age_min": {
-    "F1": 16,
-    "F2": 56,
-    "F3": 241,
+    "F1": 21,
+    "F2": 71,
+    "F3": 26,
     "F4": 16
   },
   "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": -0.6919,
-  "updated_jst": "2026-11-27 23:16 JST",
+  "distance_to_target_hz": -0.7419,
+  "updated_jst": "2026-11-27 23:31 JST",
   "events": [
     {
       "type": "f1_above_8.0",
