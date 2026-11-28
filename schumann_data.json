@@ -1,27 +1,27 @@
 {
-  "timestamp": "2026-11-28T08:01:00.111055+00:00",
+  "timestamp": "2026-11-28T08:15:42.395673+00:00",
   "status": "ok",
   "source_line": "https://sos70.ru/provider.php?file=srf.jpg",
   "source_spectro": "https://sos70.ru/provider.php?file=shm.jpg",
   "model": "pixel-extraction-v6.1-ocr",
   "modes": {
     "F1": {
-      "hz": 8.06,
+      "hz": 8.12,
       "confidence": 95,
       "calibration": "ocr",
       "amp": 4.83,
-      "q": 5.53
+      "q": 5.96
     },
     "F2": {
-      "hz": 13.72,
+      "hz": 13.69,
       "confidence": 95,
       "calibration": "ocr",
       "amp": 19.08,
-      "q": 8.8
+      "q": 9.42
     },
     "F3": {
       "hz": 19.85,
-      "confidence": 95,
+      "confidence": 85,
       "calibration": "ocr",
       "amp": 9.89,
       "q": 7.6
@@ -30,8 +30,8 @@
       "hz": 24.79,
       "confidence": 95,
       "calibration": "ocr",
-      "amp": 2.8,
-      "q": 7.53
+      "amp": 3.15,
+      "q": 7.79
     },
     "F5": {
       "hz": null,
@@ -40,26 +40,26 @@
   },
   "amplitude_level": "unknown",
   "strongest_mode": "F1",
-  "notes": "F1は8.06Hzで基準よりやや高め (+0.23Hz)。軸目盛りOCR検証つきピクセル解析。",
+  "notes": "F1は8.12Hzで基準よりやや高め (+0.29Hz)。軸目盛りOCR検証つきピクセル解析。",
   "polarization": {
     "state": "right",
     "state_jp": "右回転（昼）",
-    "japan_hour": 17.02,
-    "tomsk_hour": 15.02,
+    "japan_hour": 17.25,
+    "tomsk_hour": 15.25,
     "is_day_japan": true,
     "is_day_tomsk": true
   },
   "data_age_min": {
     "F1": 16,
-    "F2": 31,
-    "F3": 86,
+    "F2": 46,
+    "F3": 101,
     "F4": 21
   },
   "source_unchanged": false,
   "schema_version": "1.0",
   "target_hz": 8.0219032748,
-  "distance_to_target_hz": 0.0381,
-  "updated_jst": "2026-11-28 17:01 JST",
+  "distance_to_target_hz": 0.0981,
+  "updated_jst": "2026-11-28 17:15 JST",
   "events": [
     {
       "type": "f1_above_8.0",
@@ -464,7 +464,7 @@
   ],
   "condition": "calm",
   "condition_metrics": {
-    "bright_frac": 0.0354,
+    "bright_frac": 0.0271,
     "max_run_px": 7,
     "window_cols": 480
   }
